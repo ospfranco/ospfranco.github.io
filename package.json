@@ -1,4 +1,8 @@
 {
+  "scripts": {
+    "deploy": "bundle exec jekyll build & cd _site && git init && git remote add origin https://github.com/ospfranco/ospfranco.github.io && git add . && git commit -m 'deploy' && git push --set-upstream origin master -f",
+    "start": "bundle exec jekyll serve --livereload --drafts --future --port 5000 '$@'"
+  },
   "devDependencies": {
     "autoprefixer": "^9.3.1",
     "postcss-cli": "^6.0.1",
