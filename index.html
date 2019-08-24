@@ -1,0 +1,20 @@
+---
+layout: default
+---
+
+{% for post in site.posts %}
+<div class="p-6">
+  <a href="{{ post.url }}">
+    <div class="flex ">
+      <img src="{{ site.url }}{{ post.image }}" class="h-32 rounded" />
+      <div class="ml-5 ">
+        <div>
+          <span class="font-semibold text-gray-900">{{ post.title }}</span>
+          <span class="font-thin">{{ post.date }}</span>
+        </div>
+        <p class="text-gray-900 font-light">{{ post.description }}</p>
+      </div>
+    </div>
+  </a>
+</div>
+{% endfor %}
