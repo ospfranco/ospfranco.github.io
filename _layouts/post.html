@@ -3,9 +3,15 @@ layout: default
 ---
 
 <img src="{{ site.url }}{{ page.image }}" class="w-full banner object-cover" />
+<div class="flex justify-center text-sm font-light">
+  {{ page.imageAttribution }}
+</div>
 <div class="p-6">
-  <h1 class="flex-1 font-bold text-3xl lg:px-56">{{ page.title }}</h1>
-  <div class="lg:px-56">
+  <h1 class="flex-1 font-bold lg:px-64 text-3xl">{{ page.title }}</h1>
+  <div class="font-thin text-sm text-gray-600 lg:px-64 mb-4">
+    {{ page.date | date: "%-d %B %Y" }}
+  </div>
+  <div class="lg:px-64 markdown">
     {{ content }}
   </div>
 </div>

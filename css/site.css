@@ -12,6 +12,29 @@
   height: 500px;
 }
 
+.markdown p {
+  @apply py-4;
+}
+
+.markdown h1 {
+  @apply text-3xl font-semibold;
+}
+
+.markdown h2 {
+  @apply text-2xl font-semibold;
+}
+
+.markdown h3 {
+  @apply text-xl font-semibold;
+}
+
+.markdown .highlighter-rouge {
+  @apply py-4;
+}
+
+.markdown a {
+  @apply text-blue-500;
+}
 /* Write your styles above this line. */
 
 @tailwind utilities;
