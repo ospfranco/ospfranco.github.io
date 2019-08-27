@@ -35,6 +35,14 @@
 .markdown a {
   @apply text-blue-500;
 }
+
+.markdown ol {
+  @apply list-decimal list-inside;
+}
+
+.markdown li {
+  @apply py-2;
+}
 /* Write your styles above this line. */
 
 @tailwind utilities;
