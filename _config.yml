@@ -18,15 +18,14 @@ plugins:
   - jekyll-purgecss
 
 # jekyll-seo-tag configuration
-author: ""
-url: ""
-title: ""
-description: ""
+author: "Oscar Franco"
+url: "https://ospfranco.github.io"
+title: "Señor developer"
+description: "Blog about programming and general topics"
 twitter:
   username: ""
   card: ""
 logo: "path/to/image"
-
 
 # Exclude from processing.
 # The following items will not be processed, by default. Create a custom list

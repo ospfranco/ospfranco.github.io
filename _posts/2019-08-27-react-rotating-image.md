@@ -30,10 +30,13 @@ Living in the wild west that is the JavaScript world I'm sure somebody else must
 
 The following snippet:
 
-```
+```javascript
 public render() {
-  <ExifOrientationImg src={img} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+  {% raw %}
+  <ExifOrientationImg markdown="span" src={img} style={{ height: '100%', width: '100%', objectFit: 'cover' }} />
+  {% endraw %}
 }
+
 ```
 
 Produces:
@@ -54,7 +57,7 @@ Still some problems, since this is not a React element it kinda escapes all inli
 
 Final code (without base64 conversion)
 
-```
+```javascript
 import * as loadImage from 'blueimp-load-image';
 
 private onPressImage = (myImage) => {
@@ -69,7 +72,9 @@ private onPressImage = (myImage) => {
 }
 
 public render() {
-  <div style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} ref={(ref) => this.imageCanvas = ref} />
+  {% raw %}
+  <div markdown="0" style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} ref={(ref) => this.imageCanvas = ref} />
+  {% endraw %}
 }
 ```
 
@@ -81,7 +86,7 @@ This is all very ugly, but I realized I could generate a base64 string and pass 
 
 Final code with base64 conversion
 
-```
+```javascript
 import * as loadImage from 'blueimp-load-image';
 ...
 private onPressImage = (myImage) => {
@@ -92,7 +97,9 @@ private onPressImage = (myImage) => {
   }, {orientation: true});
 }
 public render() {
+  {% raw %}
   <img style={{maxWidth: '100%', maxHeight: '100%'}} src={this.state.selectedImageBase64}/>
+  {% endraw %}
 }
 ```
 
