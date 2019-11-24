@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Rotate image based on exit data on React
+title: Rotate image based on exif data on React
 description: Web browsers do not automatically rotate images based on their EXIF data, this is sort of a hack around it
 date: 2019-08-27 09:00:00 -04:00
 categories: post
@@ -8,7 +8,7 @@ permalink: /:categories/:year/:month/:day/:title/
 image: /assets/Jannis1.jpeg
 ---
 
-When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data (WTF).
+When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.
 
 ![Jannis twisted]({{site.url}}/assets/Jannis1.jpeg "Jannis twisted")
 
