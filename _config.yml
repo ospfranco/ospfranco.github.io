@@ -20,7 +20,7 @@ plugins:
 # jekyll-seo-tag configuration
 author: "Oscar Franco"
 url: "https://ospfranco.github.io"
-title: "Señor developer"
+title: "Osp Blog"
 description: "Blog about programming and general topics"
 twitter:
   username: ""
