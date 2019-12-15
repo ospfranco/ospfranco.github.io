@@ -27,7 +27,7 @@ bin/setup
 # Install new dependencies
 bin/bootstrap
 
-# Start the server 
+# Start the server
 bin/start
 
 # Create a new post
@@ -54,11 +54,11 @@ bin/new POST_TITLE
 +---_css
     \---site.css // Entry point stylesheet. You can write your styles here or import them from the _includes directory
 +---index.md // Front page. This can be changed to an HTML file if desired.
-+---404.html 
++---404.html
 +---_config.yml // Jekyll configuration
 +---postcss.config.js // PostCSS configuration. All plugins should be registered here.
-+---purgecss.config.js // Purgecss configuration 
-+---netlify.toml // Netlify configuration 
++---purgecss.config.js // Purgecss configuration
++---netlify.toml // Netlify configuration
 ```
 
 ## PostCSS plugins
@@ -66,7 +66,3 @@ bin/new POST_TITLE
 - Tailwind CSS
 - Autoprefixer
 - postcss-import
-
-## Deployment
-
-This setup has been tested on [Netlify](https://www.netlify.com).  The JEKYLL_ENV environment variable must be set to production in order for PurgeCSS to execute. The included netlify.toml file will configure this on Netlify deploys
