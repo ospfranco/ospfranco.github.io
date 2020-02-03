@@ -27,8 +27,8 @@ end
 
 puts "Succesfully created #{file_path}!"
 
-def editor?
-  !(ENV["EDITOR"].nil? || ENV["EDITOR"].empty?)
-end
+# def editor?
+#   !(ENV["EDITOR"].nil? || ENV["EDITOR"].empty?)
+# end
 
-system("$EDITOR #{file_path}") if editor?
+# system("$EDITOR #{file_path}") if editor?

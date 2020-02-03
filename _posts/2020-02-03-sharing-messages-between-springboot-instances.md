@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Star Topology for message passing using redis and sprinboot (sharing messages between springboot instances)
+title: sharing messages between springboot instances
 date: 2020-02-03 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
@@ -36,7 +36,7 @@ So now that your server instance has a client listening for that specific topic,
 
 Here is the code for socket handler, a bit simplified (it might contain some of the old business logic, but you can get the point):
 
-```Kotlin
+```
 package com.foo.common.SocketHandler
 
 import com.fasterxml.jackson.databind.ObjectMapper
