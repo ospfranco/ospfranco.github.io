@@ -7,11 +7,11 @@ permalink: /:categories/:year/:month/:day/:title/
 image: /assets/laugh.jpg
 ---
 
-I took some time from my currently busy schedule (I'm jobless, hire me please!) to recollect funny situations on my years as a professional developer, if you are a friend of mine you might be on this list, please take it lightly, I mean no harm and the purpose is to laugh a bit, god knows that I have made a lot of mistakes with more serious consequences, but maybe I can shine a light on the irrationality of the industry. (my reactions are emojis encapsulated in square brackets)
+I took some time from my currently busy schedule (I'm jobless, [hire me please!](https://www.linkedin.com/in/oscar-franco-bbbb7319b/)) to recollect funny situations on my years as a professional developer, if you are a friend of mine you might be on this list, please take it lightly, I mean no harm and the purpose is to laugh a bit, god knows that I have made a lot of mistakes with more serious consequences, but maybe I can shine a light on the irrationality of the industry. (my reactions are emojis encapsulated in square brackets)
 
 ---
 
-Once I had to handover a project to a Hungarian team, we started introducing ourselves, there were 4 people from the other team, the conversation goes like this:
+Once I had to handover a project/company to a Hungarian team, first conversation went like this:
 
 ```
 1st guy: Hi, I'm Foo, I'm a Software Architect at Bar" [🙂]
@@ -29,13 +29,13 @@ Bonus 2: It took them a year to release an update to the app, I downloaded and i
 
 ---
 
-When I was in college I was deep into competitive programming, after some time you master some techniques like string manipulation and what not, anyways, one day one ex graduate now working in another country comes back into the lab and starts yapping about how he is working with the latest and greatest and pushing new research, etc. [🤔] you could tell he was rubbing it, anyways, another guy in the lab asks him for help with a simple string manipulation problem, they sit down, the guys starts to try to solve the problem, 30 mins go by... they guy is still trying to figure out how to extract characters from a String in Java [😂].
+When I was in college I was deep into competitive programming, after some time you master some techniques like string manipulation and what not, anyways, one day one ex graduate now working in another country comes back into the lab and starts yapping about how he is working with the latest and greatest and pushing new research, etc. [🤔] you could tell he was rubbing it, anyways, another guy in the lab asks him for help with a simple string manipulation problem, they sit down, the guys starts to try to solve the problem, 30 mins go by, they guy is still trying to figure out how to extract characters from a String in Java [😂] he ends up giving up and walks away with: "You only need to extract the characters and then it will be solved".
 
 ---
 
 The first company I worked at was an offshoring company, the CEO/Owner was a guy born in the country but raised in the U.S., that guy alone deserves a book and not because he was a great boss, anyways, the lead tech officer was another guy constantly yapping about performance and claiming he had already built/seen everything... anyways, our project was still on the experimental phases and at some point management decides it is time to put the pedal to the metal, so they put him on the team so he can correct our slowness, the guy comes into our office one morning sits down and starts yapping on how the code looks bad [😢], he clones the repositories and start to try to get the back-end running... when I left the office that day he still did not manage to get a server instance running [😂].
 
-Bonus: the english level of most people was frankly terrible so the american management openly talked on the phone in english, mine was quite good but most didn't know about it, anyways, one time I heard the CEO saying: "The guys here in Bolivia are not very bright, but they are cheap and if you lead them right they can accomplish some stuff", my wishes to that guy shall remain private [🖕] I left the company shortly afterwards.
+Bonus: the english level of most people was frankly terrible so the american management openly talked on the phone in english, mine was quite good but most didn't know about it, anyways, one time I heard the CEO saying: "The guys here in Bolivia are not very bright, but they are cheap and if you lead them right they can accomplish some stuff", my full thoughts to that guy shall remain private [🖕] I left the company shortly afterwards.
 
 ---
 
@@ -55,15 +55,15 @@ I tremble when I imagine what colleges around the world teach their students.
 
 ---
 
-So.Many.Stories.With.Russians/Indians, they can be brutally smart and efficient but they can also be a pain in the neck, like barely reading the task descriptions, start typing immediately to the first thing they understood (it is even worse when they have poor english level) and then leaving the fire for the next guy to deal with, sometimes they would disappear from the projects as the clients got fed up with them... I always joked they were sent to vacations to Tijuana.
+So.Many.Stories.With.Russians/Indians... they are very smart, but they shoot first and ask questions later.
 
 ---
 
 Nobody is born knowing how to run a company, we all have insecurities but sometimes people in charge try to crowd source answers or delegate responsibilities with the most hilarious outcomes:
 
 - put an internal company poll, results: 50% - 50% [😂 I hope they understood that means: nobody has a fucking clue]
-- ask a newbie to take care of JIRA, congratulations you now have 9 swim lanes and playing task tetris [🏊‍♂️]
-- sometimes the process can be so fragmented and ownerless that nobody realizes a fuck up until it is too late, like creating a 3 screen workflow and when the final product is reviewed there are only 2 screens [🤦‍♂️].
+- ask a newbie to take care of tasks, congratulations you now have 9 swim lanes and playing task tetris [🏊‍♂️]
+- Delegate a 3 screen workflow and when the final product is reviewed there are only 2 screens [🤦‍♂️].
 
 ---
 
@@ -75,6 +75,16 @@ By wide and far non technical people present the most frustrating and funny situ
 - yeah, look, when I open a picture the space around the picture is gray
 - that is the background and it has been like this for the last 6 months [😐]
 - ah, I see
+```
+
+or
+
+```
+- I found a bug
+- where?
+- This screen is blank
+- The text is on the top...
+- I did not see that
 ```
 
 ---
@@ -104,11 +114,9 @@ designers:
 - ... I don't think this will work
 - The client already approved the design
 - But seriously! all the screens look the same! all the buttons look non-clickable...
-- No, I like it that way
+- No, I like it that way and it is already approved
 ```
 
-How many apps has the fucking (corporate) client designed? [🤦‍♂️]
-
-Sometimes I wonder... are people not human? most people can clearly recognize good design, a beautiful painting, a well designed machine or a well decorated room, put them in front of a computer... out goes all common sense, you are not designing [INSERT YOUR THING HERE] for a higher being, you are designing your thing for the lowest common denominator of what it is considered a homo sapiens, that includes YOU, jobs was a genius for being able to do this.
+Sometimes I wonder... are people not human? most people can clearly recognize good design, a beautiful painting, a well designed machine or a well decorated room, put them in front of a computer... out goes all common sense, you are not designing [INSERT YOUR THING HERE] for a higher being, you are designing your thing for the lowest common denominator of what it is considered a homo sapiens, that includes YOU, jobs shouldn't have been considered a genius for being able to do this.
 
 I hope one day sit down with colleagues and collect all these and many more stories, I'm sure we have all lived through them in the mean time I will continue to enjoy this beautiful profession I have chosen.
