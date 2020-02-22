@@ -45,7 +45,13 @@
 }
 
 .markdown .highlighter-rouge {
-  @apply text-purple-500;
+  @apply text-gray-400 px-2 bg-gray-800;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.markdown .highlight {
+  @apply text-gray-400 py-2 bg-gray-800;
 }
 /* Write your styles above this line. */
 
