@@ -1,6 +1,7 @@
 ---
 layout: post
 title: On your SaaS software stability
+description: A love letter to my team when they scream at me
 date: 2019-11-23 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

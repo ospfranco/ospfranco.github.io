@@ -1,6 +1,7 @@
 ---
 layout: post
 title: We are all Steve Jobs
+description: Thoughts on modern day Start-Up land
 date: 2019-12-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
