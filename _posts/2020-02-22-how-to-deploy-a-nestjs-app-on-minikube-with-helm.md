@@ -76,6 +76,7 @@ Prerequisites:
     values.yaml: can remain empty for now
     application.yaml:
     ```
+    {% raw %}
     apiVersion: apps/v1
     kind: Deployment
     metadata:
@@ -109,6 +110,7 @@ Prerequisites:
         - port: 8080
         targetPort: 3000
     ```
+    {% endraw %}
 
     - This is pretty much the same info as on the video, however there are some minor differences that bit me in rear, one is the functionality of helm seems to have changed for the fullname, no longer is it `template foo.fullname` but rather `include "foo.fullname" .`, second is, in order to pull our image from the local docker engine the `imagePullPolicy` (under template -> spec -> containers) needs to be set to `IfNotPresent`, otherwise the image does not deploy, also I'm using a `NodePort` service here to route to the container, which is... not what you want to do in production, from what I understand `Ingress` is what you want to use, but I haven't learned to configure it yet, `NodePort` directly exposes the pod, you can also go for `LoadBalancer`, but that might require a slightly different configuration
     - Extra: you can do `helm template .` to check if your template text expansions are working properly, there needs to be no errors on the output
