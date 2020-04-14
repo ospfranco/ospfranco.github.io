@@ -1,6 +1,6 @@
 ---
 layout: post
-title: sharing messages between springboot instances
+title: Sharing state between Springboot instances
 description: Message passing architecture using redis between monolithic springboot instances
 date: 2020-02-03 09:00:00 -04:00
 categories: post

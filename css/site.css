@@ -41,7 +41,7 @@
 }
 
 .markdown ul {
-  @apply list-disc pl-8
+  @apply list-disc pl-8;
 }
 
 .markdown .highlighter-rouge {
@@ -56,3 +56,7 @@
 /* Write your styles above this line. */
 
 @tailwind utilities;
+
+.half-width {
+  width: 50%;
+}

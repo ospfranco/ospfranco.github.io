@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to share code in a monorepository with lerna and typescript
+title: How to share code in a mono repo with Lerna.js and/or Typescript
 description: If you have a large codebase in javascript, this article will help you reduce code duplication
 date: 2019-08-27 09:00:00 -04:00
 categories: post
