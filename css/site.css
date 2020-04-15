@@ -57,6 +57,6 @@
 
 @tailwind utilities;
 
-.half-width {
-  width: 50%;
+html {
+  color: #3A4145;
 }

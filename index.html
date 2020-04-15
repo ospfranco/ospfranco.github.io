@@ -4,22 +4,22 @@ layout: default
 
 {% for post in site.posts %}
 <div
-  class="pt-2 pl-2 flex flex-col justify-center items-center hover:bg-blue-100"
+  class="pt-2 flex flex-col justify-center items-center hover:bg-blue-100"
 >
-  <a href="{{ post.url }}" class="w-full">
+  <a href="{{ post.url }}" class="w-full px-2">
     <div class="flex items-center">
       <img
         src="{{ site.url }}{{ post.image }}"
         class="h-32 w-32 rounded object-cover shadow"
       />
       <div class="ml-5">
-        <div class="font-semibold text-lg text-gray-900">
+        <div class="font-semibold text-lg">
           {{ post.title }}
           <span class="font-thin text-sm text-gray-600">
             - {{ post.date | date: "%-d %b %Y" }}
           </span>
         </div>
-        <div class="text-gray-900 font-light">{{ post.description }}</div>
+        <div>{{ post.description }}</div>
       </div>
     </div>
   </a>
