@@ -53,10 +53,17 @@
 .markdown .highlight {
   @apply text-gray-400 py-2 bg-gray-800;
 }
-/* Write your styles above this line. */
-
-@tailwind utilities;
 
 html {
   color: #3A4145;
 }
+
+code {
+  max-width: 100%;
+  line-break: auto;
+  overflow-wrap: break-word;
+}
+/* Write your styles above this line. */
+
+@tailwind utilities;
+
