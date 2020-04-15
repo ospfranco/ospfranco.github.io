@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why are development teams not full of A players
+title: Why are development teams not full of A-Players
 date: 2020-02-28 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

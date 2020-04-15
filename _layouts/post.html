@@ -6,12 +6,12 @@ layout: default
 <div class="flex justify-center text-sm font-light">
   {{ page.imageAttribution }}
 </div>
-<div class="p-6">
-  <h1 class="flex-1 font-bold lg:px-64 text-3xl">{{ page.title }}</h1>
-  <div class="font-thin text-sm text-gray-600 lg:px-64 mb-4">
+<div class="py-6">
+  <h1 class="flex-1 font-bold text-3xl">{{ page.title }}</h1>
+  <div class="font-thin text-sm text-gray-600 mb-4">
     {{ page.date | date: "%-d %B %Y" }}
   </div>
-  <div class="lg:px-64 markdown">
+  <div class="markdown">
     {{ content }}
   </div>
 </div>
