@@ -12,7 +12,7 @@ title: "Señor Dev"
 twitter:
   username: "ospfranco"
   card: ""
-logo: "path/to/image"
+logo: "assets/taco.png"
 future: true
 
 exclude:
