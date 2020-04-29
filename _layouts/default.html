@@ -8,13 +8,13 @@
 <html>
   <body>
     <nav class="w-full bg-white flex justify-center fixed">
-      <div class="py-4 px-4 md:px-0 flex items-center flex-wrap content fixed" style="backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); background-color: #FFFFFFCC;">
-        <a href="/" class="flex-1 font-semibold text-xl tracking-tight text-gray-900">
+      <div class="py-4 px-4 md:px-0 flex items-center justify-center flex-wrap content fixed" style="backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); background-color: #FFFFFFCC;">
+        <a href="/" class="flex-1 font-semibold text-xl tracking-tight transition duration-500 hover:text-blue-500">
             🌮 Señor Dev
         </a>
 
         <a
-          class="text-sm block ml-4 lg:inline-block lg:mt-0 text-blue-500 hover:text-grey-900 mr-4 font-thin"
+          class="text-sm transition duration-500 hover:text-blue-500"
           href="/aboutMe.html"
         >
           About me
@@ -22,13 +22,13 @@
       </div>
     </nav>
 
-    <div class="overflow-y-scroll flex justify-center pt-16">
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
       <div class="content">
         {{ content }}
       </div>
     </div>
 
-    <footer class="text-xs p-2 fixed bg-white w-full text-gray-600" style="bottom: 0;">
+    <footer class="text-xs p-2 fixed bg-white text-gray-600" style="bottom: 0;">
       Opinions are mine, should probably be yours too.
     </footer>
   </body>

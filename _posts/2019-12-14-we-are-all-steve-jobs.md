@@ -5,6 +5,7 @@ excerpt: Thoughts on modern day Start-Up land
 date: 2019-12-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
+location: Munich
 ---
 
 Throughout the years I've noticed a few problems with the teams I've been working, 1. they have all been doing some sort of agile, 2. In all honesty, we sucked at creating a software product, by sucking I don't mean we did not deliver (some sort of) a product, but rather, the process was so convoluted so full of misunderstandings that the default work mode is discussion and frustration, which for developers takes away from valuable time to focus.

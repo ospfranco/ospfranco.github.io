@@ -5,6 +5,7 @@ date: 2019-08-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 excerpt: A visualization of the craziness of german rental market (2018)
+location: Munich
 ---
 
 This is a small project made from data I collected from a german site called immoscout, although they don't provide an api, I was able to scrap some data, it shows the prices of rents in the federal republic, I still have the code somewhere around and could publish an interactive version if somebody is interested.

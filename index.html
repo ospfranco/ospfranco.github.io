@@ -3,20 +3,18 @@ layout: default
 ---
 
 {% for post in site.posts %}
-<div
-  class="p-4 flex flex-col justify-center items-center hover:bg-gray-300 rounded transition duration-500"
->
-  <a href="{{ post.url }}" class="w-full">
-    <div>
-        <div class="font-bold">
-          {{ post.title }}
-        </div>
-          <div class="font-thin text-x text-gray-600">
-            {{ post.date | date: "%-d %b %Y" }}
-          </div>
-        <div>{{ post.excerpt }}</div>
-      </div>
+
+<a href="{{ post.url }}" class="w-full p-4 flex justify-center items-center hover:bg-gray-200 rounded transition duration-500 relative">
+  <div class=" text-sm text-gray-600 w-24" >
+    {{ post.date | date: "%d.%m.%Y" }}
+  </div>
+  <div class="flex-1 ml-4">
+    <div class="font-semibold">
+      {{ post.title }}
+    </div>
+    <div class=" text-sm">{{ post.excerpt }}</div>
+  </div>
+    
+
   </a>
-  <!-- <div class="border-b w-full mt-2"></div> -->
-</div>
 {% endfor %}

@@ -5,6 +5,7 @@ excerpt: Web browsers do not automatically rotate images based on their EXIF dat
 date: 2019-08-27 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
+location: Munich
 ---
 
 When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.

@@ -7,6 +7,7 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 logo: "/assets/taco.png"
 image: "/assets/taco.png"
+location: Munich
 twitter:
   username: "ospfranco"
   card: "summary"

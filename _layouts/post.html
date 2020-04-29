@@ -2,11 +2,13 @@
 layout: default
 ---
 <div class="py-6 px-4 md:px-0">
-  <h1 class="flex-1 font-bold text-3xl">{{ page.title }}</h1>
-    <div class="font-thin text-sm text-gray-600">
-      {{ page.date | date: "%-d %B %Y" }}
-    </div>
+  <h1 class="font-semibold text-xl">{{ page.title }}</h1>
+  
   <div class="markdown">
     {{ content }}
+  </div>
+
+  <div class="text-gray-600">
+    {{page.location}}, {{ page.date | date: "%d.%m.%Y" }}
   </div>
 </div>

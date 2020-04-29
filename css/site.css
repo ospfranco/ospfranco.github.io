@@ -10,20 +10,21 @@
 /* Write your styles below this line. */
 
 .markdown p {
-  @apply py-4;
-  text-align: justify;
+  @apply py-2;
+  text-indent: 50px;
+  /* text-align: justify; */
 }
 
 .markdown h1 {
-  @apply text-3xl font-semibold;
+  @apply text-xl font-semibold;
 }
 
 .markdown h2 {
-  @apply text-2xl font-semibold;
+  @apply text-lg font-semibold;
 }
 
 .markdown h3 {
-  @apply text-xl font-semibold;
+  @apply font-semibold;
 }
 
 .markdown .highlighter-rouge {
@@ -58,8 +59,7 @@
 
 html {
   color: #333333;
-  font-family: -apple-system, "Helvetica Neue", "Lucida Grande";
-  @apply text-base
+
 }
 
 code {
