@@ -2,7 +2,7 @@ if [ -d _site ]; then
   rm -rdf _site 
 fi
 
-JEKYLL_ENV=production bundle exec jekyll build -b https://ospfranco.github.io 
+JEKYLL_ENV=production bundle exec jekyll build
 
 cd _site 
 git init
