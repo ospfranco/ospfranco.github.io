@@ -11,7 +11,8 @@ url: "https://ospfranco.github.io"
 title: "Señor Dev"
 twitter:
   username: "ospfranco"
-  card: ""
+  card: "Blog about software engineering and life"
+  image: "/assets/taco.png"
 logo: "/assets/taco.png"
 image: 
   path: "/assets/taco.png"
