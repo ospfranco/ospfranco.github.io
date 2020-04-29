@@ -6,13 +6,11 @@
   <link rel="stylesheet" href="/css/site.css" />
 </head>
 <html>
-  <body class="flex flex-col items-center">
-    <nav class="border-b w-full bg-white flex justify-center">
-      <div class="px-6 py-4 flex items-center flex-wrap md:w-2/3 w-full">
-        <a href="/">
-          <span class="font-semibold text-xl tracking-tight text-gray-900">
-            Oscar Franco
-          </span>
+  <body>
+    <nav class="w-full bg-white flex justify-center fixed">
+      <div class="py-4 px-4 md:px-0 flex items-center flex-wrap content fixed" style="backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); background-color: #FFFFFFCC;">
+        <a href="/" class="flex-1 font-semibold text-xl tracking-tight text-gray-900">
+            🌮 Señor Dev
         </a>
 
         <a
@@ -24,14 +22,14 @@
       </div>
     </nav>
 
-    <div class="flex-1 overflow-y-auto flex justify-center w-full px-2">
-      <div class="md:w-2/3 w-full">
+    <div class="overflow-y-scroll flex justify-center pt-12">
+      <div class="content">
         {{ content }}
       </div>
     </div>
 
-    <footer class="text-xs p-4">
-      All opinions here are mine only, hosted by Github Pages. This site contains no analytics.
+    <footer class="text-xs p-2 fixed bg-white w-full" style="bottom: 0;">
+      Opinions are mine, should probably be yours too.
     </footer>
   </body>
 </html>

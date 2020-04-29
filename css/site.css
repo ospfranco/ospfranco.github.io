@@ -8,12 +8,10 @@
 @import "_includes/syntax";
 
 /* Write your styles below this line. */
-.banner {
-  height: 500px;
-}
 
 .markdown p {
   @apply py-4;
+  text-align: justify;
 }
 
 .markdown h1 {
@@ -55,7 +53,9 @@
 }
 
 html {
-  color: #3A4145;
+  color: #333333;
+  font-family: -apple-system, "Helvetica Neue", "Lucida Grande";
+  @apply text-base
 }
 
 code {
@@ -63,7 +63,17 @@ code {
   line-break: auto;
   overflow-wrap: break-word;
 }
-/* Write your styles above this line. */
+
+.content {
+  width: 100%
+}
+
+@media (min-width: 768px) {
+  .content {
+    width: 768px;
+  }
+}
+
 
 @tailwind utilities;
 

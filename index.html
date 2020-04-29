@@ -4,25 +4,19 @@ layout: default
 
 {% for post in site.posts %}
 <div
-  class="pt-2 flex flex-col justify-center items-center hover:bg-blue-100"
+  class="p-4 flex flex-col justify-center items-center hover:bg-gray-300 rounded transition duration-500"
 >
-  <a href="{{ post.url }}" class="w-full px-2">
-    <div class="flex items-center">
-      <img
-        src="{{ site.url }}{{ post.image }}"
-        class="h-32 w-32 rounded object-cover shadow"
-      />
-      <div class="ml-5">
-        <div class="font-semibold text-lg">
+  <a href="{{ post.url }}" class="w-full">
+    <div>
+        <div class="font-bold">
           {{ post.title }}
-          <span class="font-thin text-sm text-gray-600">
-            - {{ post.date | date: "%-d %b %Y" }}
-          </span>
         </div>
+          <div class="font-thin text-x text-gray-600">
+            {{ post.date | date: "%-d %b %Y" }}
+          </div>
         <div>{{ post.description }}</div>
       </div>
-    </div>
   </a>
-  <div class="border-b w-full mt-2"></div>
+  <!-- <div class="border-b w-full mt-2"></div> -->
 </div>
 {% endfor %}
