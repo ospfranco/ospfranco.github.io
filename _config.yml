@@ -7,7 +7,6 @@ plugins:
   - jekyll-purgecss
 
 author: "Oscar Franco"
-url: "https://ospfranco.github.io"
 title: "Señor Dev"
 twitter:
   username: "ospfranco"
