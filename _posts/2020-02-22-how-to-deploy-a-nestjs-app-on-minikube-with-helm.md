@@ -1,11 +1,10 @@
 ---
 layout: post
 title: How to deploy a NestJS app on Minikube
-description: Simple tutorial to get your foot on the door with Kubernetes
+excerpt: Simple tutorial to get your foot on the door with Kubernetes
 date: 2020-02-22 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/boat.jpg
 ---
 
 In order to release the SaaS version of my new product [Strest](www.strest.io), I've decided to use Kubernetes, you keep hearing all the yapping about it and it promises scalability right from the get go, which is what I need, so I'm giving up to the complexity and (finally) learning it, I have run into a lot of problems and I'm still not through with the learning face, but the simple packaging and deployment of a sample app was so painful that I've decided to write something down, not only as a log for me to better retain the knowledge but hopefully also helping anybody struggling to do their first deployment.

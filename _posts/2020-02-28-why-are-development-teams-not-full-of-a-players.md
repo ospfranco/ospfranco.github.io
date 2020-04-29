@@ -1,11 +1,10 @@
 ---
 layout: post
 title: Why are development teams not full of A-Players
-description: Your team is bad and you should feel bad?
+excerpt: Your team is bad and you should feel bad?
 date: 2020-02-28 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/team.jpg
 ---
 
 When I read the Steve Jobs biography one thing stuck with me, which is the quality of the teams, he wanted to work with [A-Players](https://www.youtube.com/watch?v=wTgQ2PBiz-g), during my career at had at best two A-player teams, maybe even one, I'm also reading the zen and the art of motorcycle maintenance, and while I'm not particularly fond of philosophical rhetoric the chapter about quality struck a cord with me, so it got me thinking about this subject and here are some of the thoughts I have formulated regarding quality, teams and software-engineering.

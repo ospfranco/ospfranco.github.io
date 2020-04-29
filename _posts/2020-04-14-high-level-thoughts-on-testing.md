@@ -1,11 +1,10 @@
 ---
 layout: post
 title: High level thoughts on (software) testing
-description: Why are interviewers even asking me
+excerpt: Why are interviewers even asking me about this
 date: 2020-04-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/testing.jpg
 ---
 
 (I got a new keyboard! just putting some randoms thoughts to stretch my fingers a bit, there is nothing new in this article, there are many more qualified people than me to talk about tests and TDD, but there might be one or two interesting anecdotes for veterans)

@@ -1,11 +1,10 @@
 ---
 layout: post
 title: Integrating VSCode in your React Native and web workflow
-description: Supercharge your web and react-native development workflow by using a few plugins
+excerpt: Supercharge your web and react-native development workflow by using a few plugins
 date: 2019-08-30 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/running.jpg
 ---
 
 # Integrating vscode and react-native for faster development

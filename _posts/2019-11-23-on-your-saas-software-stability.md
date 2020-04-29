@@ -1,11 +1,10 @@
 ---
 layout: post
 title: On SaaS stability
-description: A love letter to my team when they scream at me
+excerpt: A love letter to my team when they scream at me
 date: 2019-11-23 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/bee.jpg
 ---
 
 The last couple of weeks at work where chaotic, we suffered from several bugs across our stack, which caused a lot of friction both with the customers and the internal teams, normally I wouldn't go out of my way to write something, but my team is young and new to the industry of software development, so I'm gonna lay down some points I learned through the years.

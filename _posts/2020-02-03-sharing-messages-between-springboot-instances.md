@@ -1,11 +1,10 @@
 ---
 layout: post
 title: Sharing state between Springboot instances
-description: Message passing architecture between monolithic deployments via Redis
+excerpt: Message passing architecture between monolithic deployments via Redis
 date: 2020-02-03 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/connections-1.png
 ---
 
 Here is a post on a neat solution I learned/developed during the WerkerApp days and I haven't gotten around to publish.

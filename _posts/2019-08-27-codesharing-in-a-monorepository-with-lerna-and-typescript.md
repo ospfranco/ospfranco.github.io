@@ -1,11 +1,10 @@
 ---
 layout: post
 title: How to share code in a mono repo with Lerna.js and/or Typescript
-description: Reduce code duplication using some tooling and share code between projects
+excerpt: Reduce code duplication using some tooling and share code between projects
 date: 2019-08-27 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: /assets/Codesharing1.jpeg
 ---
 
 If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them.
