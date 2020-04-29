@@ -1,6 +1,7 @@
 ---
 layout: post
 title: Why are development teams not full of A-Players
+description: Your team is bad and you should feel bad?
 date: 2020-02-28 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

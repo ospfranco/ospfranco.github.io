@@ -42,6 +42,10 @@
   @apply list-disc pl-8;
 }
 
+.markdown li {
+  @apply my-2
+}
+
 .markdown .highlighter-rouge {
   @apply text-gray-400 px-2 bg-gray-800;
   padding-top: 0;

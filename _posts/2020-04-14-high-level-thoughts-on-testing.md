@@ -1,6 +1,7 @@
 ---
 layout: post
 title: High level thoughts on (software) testing
+description: Why are interviewers even asking me
 date: 2020-04-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
