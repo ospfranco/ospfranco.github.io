@@ -1,6 +1,7 @@
 ---
 layout: post
-title: Swift tacit knowledge (Web dev cheat sheet)
+title: Swift tacit knowledge
+excerpt: Web dev to native dev cheat sheet
 date: 2020-04-30 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
@@ -10,6 +11,7 @@ twitter:
   card: "summary_large_image"
   image: "assets/taco.png"
 ---
+
 So, I recently released a new mac os app [Tempomat](https://tempomat.dev) (go check it out, it is awesome) and I was left surprinsgly pleased with the experience, mostly because of Apple's SwiftUI framework, it is declarative and along with the Combine framework it brings a lot of the nicesities of web development into the mac platform, however, while I did have experience with the XCode toolchain (because of all the react native I did over the years), this is the first time I truly did native coding, and there were many many pitfalls, so I thought I would write down some of the hard learned lessons over the last weeks, other may find them useful and I can always check them out in case I need them again.
 
 ## HTTP Networking code is a tool from the stone age
