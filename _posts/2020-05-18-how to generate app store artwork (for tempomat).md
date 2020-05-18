@@ -14,7 +14,7 @@ twitter:
 
 So I recently had a small twitter exchange with Jamie Birch, he wanted to generate some artwork for Lingua Franca, I shortly explained my workflow, and I think it is a interesting topic to explore further, so I'm just going to line-out how I do it, it is by no means the perfect way, it might not be even a good way, but if anyone finds it useful or can show me a better way, then would be more than happy.
 
-So, Tempomat is a small macOS utility to monitor CI pipelines, the requirements are fairly simple:
+So, [Tempomat](https://tempomat.dev) is a small macOS utility to monitor CI pipelines, the requirements are fairly simple:
 
 - I needed to create an app icon, with all the size variations needed to publish an app to the app store (in this case macOS icons)
 - Every once in while I need to add custom icons, I am by no means a designer, so I try to stick to simple shapes/icons I can easily replicate or sometimes use placeholder art from sites like the noun project and then replace them with my own versions.
@@ -52,4 +52,4 @@ I also made a component of this small repeated pattern, so I only have to adjust
 
 
 ## When Prototyping the most important thing is Funtionality
-Form follows function, Dieter Rams said it, so I actually heavily discourage using Figma for prototyping ideas, I loose focus of the important things, I really couldn't care less about paddings and margins, they are important in the final product, but I'm a strong believer of sketching rough ideas on an iPad or a piece of paper (a la shape-up) but then building a ugly but functional code prototype, I can iterate 20 times quicker with hard coded values and interact with real code without having to do some presentation with figma frames (which is possible but I don't like it)
+Form follows function, Dieter Rams said it, so I actually heavily discourage using Figma for prototyping ideas, I loose focus of the important things, I really couldn't care less about paddings and margins, they are important in the final product, but I'm a strong believer of sketching rough ideas on an iPad or a piece of paper (a la [shape-up](https://basecamp.com/shapeup)) but then building a ugly but functional code prototype, I can iterate 20 times quicker with hard coded values and interact with real code without having to do some presentation with figma frames (which is possible but I don't like it)
