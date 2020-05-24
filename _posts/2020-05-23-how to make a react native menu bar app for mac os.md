@@ -143,6 +143,8 @@ BUT, there is catch, right now react-native-macos is so fresh... pretty much non
 "macos:install": "cd node_modules/react-native-vector-icons && mv RNVectorIcons.podspec X && cd ../../macos && pod install && cd ../node_modules/react-native-vector-icons && mv X RNVectorIcons.podspec"
 ```
 
-you also won't have the latest version of react-navigation working, I got the latest version of the v2 working and that is fine for now... so yeah, a lot of compromises, but the future looks bright!
+You also won't have the latest version of react-navigation working, I got the latest version of the v2 working and that is fine for now... so yeah, a lot of compromises, but the future looks bright!
+
+I have also created a ready to go [template](https://github.com/ospfranco/rn-macos-menubar-template) for you to play around, just clone it and hit the run button!
 
 Now that you made it here (and I'm sure you like menu bar apps), check out [Tempomat](https://tempomat.dev), if you work with CIs I'm sure it will make your life easier! also coming to iOS and Android soon!
