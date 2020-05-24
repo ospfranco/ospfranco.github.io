@@ -13,15 +13,18 @@ twitter:
   image: "assets/taco.png"
 ---
 
-So I'm going to write this in a hurry, also with the hope that more people get to see Tempomat and buy a copy! :)
+So I first saw a tweet by [Kaiyes Ansary](https://twitter.com/Kaiyes_Ansary), about creating a Expo-Electron based macOS menu bar apps, which I found the idea interesting, since Tempomat has been on the market for a couple of weeks already but the process of learning and mastering native APIs, swift and SwiftUI was not easy at all, I also saw the microsoft just added macOS support for React native and I thought... I think I can make that work, and I did, so now I'm sharing the joy
 
-So I first saw a tweet by [Kaiyes Ansary](https://twitter.com/Kaiyes_Ansary), about creating a Expo-Electron based macOS menu bar apps, which I found the idea interesting, since Tempomat has been on the market for a couple of weeks already but the process of learning and mastering native APIs, swift and SwiftUI was not easy at all, I also saw the microsoft just added macOS support for React native and I thought... I think I can make that work, so here are the steps to get your own app running as a menu bar app:
+# 1. Create a RN project
 
-1. Create a RN project
+
 ```npx react-native init myApp --template react-native-template-typescript```
+
 A simple rn project, nothing fancy here
 
-2. Add macOS support
+# 2. Add macOS support
+
+
 This is bound to change, you should always follow the instructions on the microsoft react-native-macos site, but for now you can do:
 
 ```
@@ -31,8 +34,10 @@ npx react-native-macos-init
 
 Afterwards you should have a basic RN mac os app, you can try to run it and it will open a normal window
 
-3. Start turning the app into a menu bar app... by removing the obj-c
-Ok, this step is not 100% necessary, but I don't know objective-c, so I had to do it, delete:
+# 3. Start turning the app into a menu bar app... by removing obj-c
+
+
+Ok, this step is not 100% necessary, you could just set up the statusbar button on obj-c but I don't know objective-c, so I had to do it, therefore delete:
 
 ```
 AppDelegate.h
@@ -44,9 +49,9 @@ ViewController.m
 
 And instead create an AppDelegate.swift, Xcode will ask you if you want to create a bridging header, say yes, and that the following contents:
 
-On the bridging header file:
+On the bridging header file
 ```swift
-//
+
 //  Use this file to import your target's public headers that you would like to expose to Swift.
 //
 
@@ -60,8 +65,8 @@ On the bridging header file:
 
 ```
 
-On the AppDelegate.swift:
-```
+On the AppDelegate.swift
+```swift
 //Author: Oscar Franco, created on: 23.05.20
 
 import Foundation
@@ -112,15 +117,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
 ```
 
-Not gonna give away too much of my own code, but that should get you started to have a working status bar item that you can click on
+Not gonna give away too much of my own code, but that should get you started to have a working status bar item that you can click on.
 
-4. Clean up a few other things
-On your info.plist you need to set the value `Application is agent (UIElement)` to true, that means the app will run on the "background" and users cannot alt-tab into it
+**PLEASE DO NOTE** You have to change the module name when registering the root view, in the above snippet it is "tempomat" should be w/e you named your react-native project.
 
-On your `Main.storyboard` file, delete the old references to the ViewController and the window, and make sure the app delegate is pointing to the correct file
+# 4. Clean up a few other things
+
+If you don't want your app to appear on the macOS dock and sit on the background (you won't be able to alt-tab to it): on your info.plist you need to set the value `Application is agent (UIElement)` to `YES`
+
+On your `Main.storyboard` file, delete the old references to the ViewController and the window, and you also have to change the app delegate on the right side attribute panel and give it your macos module, otherwise it won't be picked up, here is a screenshot that should guide you on where to look 👀:
+
+![AppDelegate Module]({{site.url}}/assets/AppDelegateattribute.JPG "AppDelegate Module")
 
 I did run into some weird swift compilation chain error, I think it was because of Flipper support in RN 0.62, make sure that on your target settings DEAD_CODE_STRIPPING is set to `YES` and `Always embed swift libraries` is also set to YES
 
-5. Profit
+# 5. Profit
 
-Enjoy! and please do check out [Tempomat](https://tempomat.dev) sales have not been great and I would really like to continue the project! Cheers!
+Done, you should be able to hit the run button via xcode (or run the app via `npx react-native run-macos`) and should see your RN menu bar running!
+
+![Menubar App]({{site.url}}/assets/RNMENUBARAPP.JPG "Menubar App")
+
+BUT, there is catch, right now react-native-macos is so fresh... pretty much none of the existing libraries are working, and sometimes that will also mess up your `pod install` react native vector icons work fine if you follow the macOS steps, but I ended up creating the following yarn command to being able to run pod install without autolinking messing with it:
+
+```
+"macos:install": "cd node_modules/react-native-vector-icons && mv RNVectorIcons.podspec X && cd ../../macos && pod install && cd ../node_modules/react-native-vector-icons && mv X RNVectorIcons.podspec"
+```
+
+you also won't have the latest version of react-navigation working, I got the latest version of the v2 working and that is fine for now... so yeah, a lot of compromises, but the future looks bright!
+
+Now that you made it here (and I'm sure you like menu bar apps), check out [Tempomat](https://tempomat.dev), if you work with CIs I'm sure it will make your life easier! also coming to iOS and Android soon!
