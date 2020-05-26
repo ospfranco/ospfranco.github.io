@@ -48,13 +48,13 @@
 }
 
 .markdown .highlighter-rouge {
-  @apply text-gray-400 px-2 bg-gray-800;
+  @apply text-white px-2 py-1 bg-gray-900;
   padding-top: 0;
   padding-bottom: 0;
 }
 
 .markdown .highlight {
-  @apply text-gray-400 py-2 bg-gray-800;
+  @apply text-white py-1 bg-gray-900;
 }
 
 html {
@@ -63,9 +63,12 @@ html {
 }
 
 code {
-  max-width: 100%;
-  line-break: strict;
-  overflow-wrap: break-word;
+  font-size: 0.9rem;
+}
+
+.highlighter-rouge {
+  border-radius: 5px;
+  overflow: auto;
 }
 
 .content {

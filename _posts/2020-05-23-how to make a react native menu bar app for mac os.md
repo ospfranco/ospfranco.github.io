@@ -129,7 +129,7 @@ On your `Main.storyboard` file, delete the old references to the ViewController 
 
 ![AppDelegate Module]({{site.url}}/assets/AppDelegateattribute.JPG "AppDelegate Module")
 
-I did run into some weird swift compilation chain error, I think it was because of Flipper support in RN 0.62, make sure that on your target settings DEAD_CODE_STRIPPING is set to `YES` and `Always embed swift libraries` is also set to YES
+I did run into some weird swift compilation chain error, I think it was because of Flipper support in RN 0.62, make sure that on your target settings `DEAD_CODE_STRIPPING` is set to `YES` and `Always embed swift libraries` is also set to `YES`
 
 # 5. Profit
 
