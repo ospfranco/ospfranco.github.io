@@ -6,11 +6,11 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 excerpt: Some people are predetermined to become engineers
 location: Munich
-image: assets/taco.png
+image: assets/marble2.JPG
 twitter:
   username: "ospfranco"
   card: "summary_large_image"
-  image: "assets/taco.png"
+  image: "assets/marble2.JPG"
 ---
 
 I love computers, I love being an engineer, the other day I woke up and suddenly remembered something that happened during my highschool years.
