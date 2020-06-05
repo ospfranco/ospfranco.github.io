@@ -8,7 +8,7 @@
 <html>
   <body>
     <nav class="w-full bg-white flex justify-center fixed">
-      <div class="py-4 md:px-0 flex items-center justify-center flex-wrap content fixed" style="backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); background-color: #FFFFFFCC;">
+      <div class="py-4 md:px-0 flex items-center justify-center flex-wrap content fixed bg-white">
         <img src="{{site.baseurl}}/assets/ekeko.svg" class="h-12 w-12"/>
         <a href="/" class="flex-1 font-semibold text-xl tracking-tight transition duration-500 hover:text-blue-500 pl-4">
           Señor Dev
@@ -26,7 +26,9 @@
     <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
       <div class="content">
         {{ content }}
-        <div>Site icon "Ekeko" created by Coloripop on The Noun Project</div>
+
+        <div class="border-b border-gray-400 my-4" ></div>
+        <div class="flex justify-center text-sm">Site icon "Ekeko" created by Coloripop on The Noun Project</div>
       </div>
 
     </div>
