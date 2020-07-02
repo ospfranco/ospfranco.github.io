@@ -81,7 +81,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     let jsCodeLocation: URL
 
-    jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:nil)
+    #if DEBUG
+      jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:nil)
+    #else
+      jsCodeLocation = Bundle.main.url(forResource: "main", withExtension: "jsbundle")!
+    #endif
     let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "tempomat", initialProperties: nil, launchOptions: nil)
     let rootViewController = NSViewController()
     rootViewController.view = rootView
@@ -148,3 +152,10 @@ You also won't have the latest version of react-navigation working, I got the la
 I have also created a ready to go [template](https://github.com/ospfranco/rn-macos-menubar-template) for you to play around, just clone it and hit the run button!
 
 Now that you made it here (and I'm sure you like menu bar apps), check out [Tempomat](https://tempomat.dev), if you work with CIs I'm sure it will make your life easier! also coming to iOS and Android soon!
+
+# 6. P.D. Fixes
+
+1. After some weeks I discovered a couple of problems, one is, I forgot to load the production bundle when using the app on release mode, I updated the contents of AppDelegate on this article to reflect the change.
+2. Since we are using Swift, the normal flags for the change in (1) won't work so easily, you need to set new Swift flags on the project settings in xcode, go to build settings and search for `other flags` and add -DDEBUG
+
+The template project has been updated to reflect this changes
