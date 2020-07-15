@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why I stopped using redux, mobx and context (mostly), and almost see no use for GraphQL
+title: Why I stopped using redux, mobx and context (mostly)
 date: 2020-07-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
@@ -66,6 +66,8 @@ There are some use cases that will not fit the DB model, transient UI data, one 
 
 Why? I only need 1 (maybe 2) store(s), contains mostly shallow data: some UI flags, some piece of string, etc. this self-prevents from blowing up the architecture, it is not as boilerplate heavy as redux/context, again I don't want to write reducers that only do: `{...state, [some random UI flag]: true}` and if my store is so small and has no crazy architecture... the minimal amount of boilerplate is actually a good thing
 
-## You are probably misusing [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]
+## Closing topics
 
-Sure, maybe, I don't care, this is my experience and what works for me, you do you... also, don't use Sagas, ever.
+I could go on and on about this paradigm, graphQL? meh, if everything the user needs is synced... I don't need it, I can just have one HTTP Rest endpoint, write the rest of the application as normal, no need to insert GraphQL JSX fragments everywhere...
+
+You are now thinking `You are misusing/don't understand [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]` and I mean, sure, maybe, I don't care, this is my experience and what works for me, you do you... also, don't use Sagas, ever.
