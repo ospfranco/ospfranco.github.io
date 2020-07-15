@@ -15,9 +15,10 @@ twitter:
 This has been one of the biggest changes in the way I build apps and I didn't quite realize myself what it meant from the beginning.
 
 ## Why not [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]?
-So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven't tried yet), I won't go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than I can write, so I'm going to go straight into the biggest problem I saw with managing state in my web/mobile apps:
+So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven't tried yet), I won't go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than what I can write, so I'm going to go straight into the biggest problem I saw with managing state in my web/mobile apps:
 
-90% of the code I wrote was to do state management, did just that... **state management**, that is:
+90% of the code I wrote to do state management, did just that... **state management**, that is:
+
 1) Handle user action, set some loading flag, either on state or just on UI
 2) Validate the passed thing, push it or fetch thing from server (via Rest or GraphQL)
 3) Take response, sanitize it, normalize it, break it
