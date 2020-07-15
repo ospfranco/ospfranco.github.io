@@ -19,6 +19,7 @@ So you probably already now the world of state management you have redux, mobx, 
 
 90% of the code I wrote to do state management, did just that... **state management**, that is:
 
+
 1) Handle user action, set some loading flag, either on state or just on UI
 2) Validate the passed thing, push it or fetch thing from server (via Rest or GraphQL)
 3) Take response, sanitize it, normalize it, break it
