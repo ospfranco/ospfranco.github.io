@@ -156,6 +156,6 @@ Now that you made it here (and I'm sure you like menu bar apps), check out [Temp
 # 6. P.D. Fixes
 
 1. After some weeks I discovered a couple of problems, one is, I forgot to load the production bundle when using the app on release mode, I updated the contents of AppDelegate on this article to reflect the change.
-2. Since we are using Swift, the normal flags for the change in (1) won't work so easily, you need to set new Swift flags on the project settings in xcode, go to build settings and search for `other flags` and add -DDEBUG
+2. Since we are using Swift, the normal flags for the change in (1) won't work so easily, you need to set new Swift flags on the project settings in xcode, go to build settings and search for `Other swift flags` on the macOS target and add `-DDEBUG`
 
 The template project has been updated to reflect this changes
