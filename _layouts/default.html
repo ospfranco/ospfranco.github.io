@@ -7,22 +7,6 @@
 </head>
 <html>
   <body>
-    <nav class="w-full bg-white flex justify-center fixed">
-      <div class="py-4 md:px-0 flex items-center justify-center flex-wrap content fixed bg-white">
-        <img src="{{site.baseurl}}/assets/ekeko.svg" class="h-12 w-12"/>
-        <a href="/" class="flex-1 font-semibold text-xl tracking-tight transition duration-500 hover:text-blue-500 pl-4">
-          Señor Dev
-        </a>
-
-        <a
-          class="text-sm transition duration-500 hover:text-blue-500"
-          href="/aboutMe.html"
-        >
-          About me
-        </a>
-      </div>
-    </nav>
-
     <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
       <div class="content">
         {{ content }}
@@ -33,6 +17,21 @@
 
     </div>
 
-    
+    <nav class="header" style="top: 0;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <img src="{{site.baseurl}}/assets/ekeko.svg" class="h-12 w-12 header-image"/>
+        <a href="/" class="flex-1 text-xl transition duration-500 hover:text-blue-500 pl-4">
+          Oscar Franco
+        </a>
+
+        <a
+          class="text-sm transition duration-500 hover:text-blue-500"
+          href="/aboutMe.html"
+        >
+          Me
+        </a>
+      </div>
+    </nav>
+
   </body>
 </html>
