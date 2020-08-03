@@ -10,9 +10,10 @@
 /* Write your styles below this line. */
 
 .markdown p {
-  @apply py-2;
+  @apply py-3;
   /* text-indent: 50px; */
-  /* text-align: justify; */
+  text-align: justify;
+  line-height: 1.5rem;
 }
 
 .markdown h1 {
@@ -59,10 +60,11 @@
 
 html {
   color: #333333;
+  font-family: 'Avenir next', Arial, Helvetica, sans-serif;
 }
 
 code {
-  font-size: 0.9rem;
+  font-size: 1rem;
 }
 
 .highlighter-rouge {
@@ -74,11 +76,6 @@ code {
   width: 100%
 }
 
-.card {
-  border-radius: 10px;
-  background-color: #FFF;
-  box-shadow: 5px 10px 20px #999;
-}
 
 .header {
   @apply w-full flex justify-center fixed bg-white;
@@ -97,12 +94,6 @@ code {
 
   html {
     color: white;
-  }
-
-  .card {
-    border-radius: 10px;
-    background-color: #111;
-    box-shadow: 5px 10px 10px #000;
   }
 
   .header {
