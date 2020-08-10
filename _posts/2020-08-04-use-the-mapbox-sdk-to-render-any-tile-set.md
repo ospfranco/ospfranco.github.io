@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Use the mapbox sdk to render any tile set
+title: Use the mapbox sdk to render any custom tile set
 date: 2020-08-04 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
