@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to build a macOS Menu Bar/Tray app in 2020
+title: How to build a macOS Menu Bar/Tray app with SwiftUI
 date: 2020-05-21 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
