@@ -5,6 +5,7 @@ date: 2020-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 image: assets/taco.png
+location: Munich
 twitter:
   username: "ospfranco"
   card: "summary_large_image"
@@ -17,7 +18,7 @@ First of all, I believe in any system, process or program multiple people collab
 
 What I'm trying to say is: most of your life consists in fighting entropy, entropy in code, entropy is physical things, entropy in relationships and so on, it's not the best possible situation, but it is what we have, so here is my first point **the world is entropy, it might not be what we want, but it's what we have, getting frustrated about it gets you nowhere.**
 
-That being said, you just don't stand there and do nothing, of course we fight entropy and curse and blame all those devil's that do not do a proper job, we waste our time pouring over code and debugging faulty libraries, but... isn't this what we get paid to do anyways? **the very definition of being an engineer is about solving problems, even if yuo don't like some of them**, I get very frustrated having to fight CSS and device dependent errors, Rachel gets frustrated with some low level code, we all have our struggles.
+That being said, you just don't stand there and do nothing, of course we fight entropy and curse and blame all those devil's that do not do a proper job, we waste our time pouring over code and debugging faulty libraries, but... isn't this what we get paid to do anyways? **the very definition of being an engineer is about solving problems, even if you don't like some of them**, I get very frustrated having to fight CSS and device dependent errors, Rachel gets frustrated with some low level code, we all have our struggles.
 
 She does make a good point about the missed opportunities, I agree with her, but on the other hand, another lesson I have learned is: **as long as 80% of working functionality is enough for things to return to a OK state, nobody will care, worst of all a company**, most of the orgs out there are not out to make the world perfect or a better place, they are there to make money (there are some notable exceptions), so that explains that.
 
