@@ -12,7 +12,7 @@ twitter:
   image: "assets/taco.png"
 ---
 
-Apple announced on WWDC home screen widgets yada yada yada, you know why you are here, you want to make a iOS homescreen widget with your react-native app, read on.
+Apple announced on WWDC home screen widgets yada yada, you know why you are here, you want to make a iOS home screen widget with your react-native app, read on.
 
 Disclaimer: I'm not a iOS developer, I barely consider myself a react-native developer, so this might not be the best way of doing things, this is just how I got things working
 
@@ -125,7 +125,7 @@ Basically:
 - Decode into an object
 - Create a timeline of said objects
 
-As a side note and important for you to know, the final objects you put on the `Timeline` struct, need to comply with the `TimelineEntry`, basically it needs to have a date field of type `Date`
+As a side note and important for you to know, the final objects you put on the `Timeline` struct, need to comply with the `TimelineEntry` protocol, basically it needs to have a date field of type `Date` and that is it.
 
 ## Learn SwiftUI, call it a day
 You can then play around with SwiftUI to display your object in whatever way you please, here is some placeholder code:
@@ -161,3 +161,5 @@ struct widgetEntryView : View {
 That gives me:
 
 ![iOS14 widget]({{site.url}}/assets/BodyFastWidget.png "iOS14 widget")
+
+Cheers! you now have a iOS 14 widget for your react-native app, follow me on [twitter](https://twitter.com/ospfranco) or even better buy a copy of [Tempomat](https://tempomat.dev)
