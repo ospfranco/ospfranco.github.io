@@ -5,11 +5,11 @@ date: 2020-08-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 location: Munich
-image: assets/taco.png
+image: assets/BodyFastWidget.png
 twitter:
   username: "ospfranco"
   card: "summary_large_image"
-  image: "assets/taco.png"
+  image: "assets/BodyFastWidget.png"
 ---
 
 Apple announced on WWDC home screen widgets yada yada, you know why you are here, you want to make a iOS home screen widget with your react-native app, read on.
