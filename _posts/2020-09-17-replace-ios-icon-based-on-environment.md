@@ -4,6 +4,11 @@ title: Replace iOS icon based on environment
 date: 2020-09-17 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
+location: Munich
+image: assets/taco.png
+twitter:
+  username: "ospfranco"
+  image: "assets/taco.png"
 ---
 
 When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.
