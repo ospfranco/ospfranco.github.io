@@ -4,7 +4,7 @@ layout: default
 
 {% include projects.html %}
 
-<h2 class="text-2xl font-semibold p-4">Writing</h2>
+<h2 class="text-2xl font-semibold p-4 md:py-4 md:p-0 underline">Blog posts</h2>
 
 {% for post in site.posts %}
 
@@ -13,10 +13,10 @@ layout: default
   class="w-full p-4 flex justify-center items-center hover:bg-black rounded hover:text-white transition duration-500 relative"
 >
   <div class="flex-1">
-    <div class="font-semibold">
+    <div class="text-lg">
       {{ post.title }}
     </div>
-    <div class="text-sm w-24" >
+    <div class="text-sm w-24 text-gray-500" >
       {{ post.date | date: "%d.%m.%Y" }}
     </div>
   </div>    
