@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why I stopped using redux, mobx and context (mostly)
+title: Stop using redux, mobx and/or context
 date: 2020-07-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

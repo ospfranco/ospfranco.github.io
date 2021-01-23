@@ -168,4 +168,4 @@ let tokenRes = badStore.addToken(name: "test", token: "test", provider: CIProvid
 
   waitForExpectations(timeout: 10)
 ```
-There are many more quirks that wasted my team one way or another, but as stated before I really enjoyed developing this native app, I would still like to optmize it like crazy, but a 1.4 mb app that does it job is not bad at all, tempomat is also super helpful for developers with a lot of build jobs that always need to be on top of things.
+There are many more quirks that wasted my time one way or another, but as stated before I really enjoyed developing this native app, I would still like to optmize it like crazy, but a 1.4 mb app that does it job is not bad at all, tempomat is also super helpful for developers with a lot of build jobs that always need to be on top of things.

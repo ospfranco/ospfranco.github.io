@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to share code in a mono repo with Lerna.js and/or Typescript
+title: Monorepo codesharing (with lerna.js and typescript)
 excerpt: Reduce code duplication using some tooling and share code between projects
 date: 2019-08-27 09:00:00 -04:00
 categories: post
@@ -8,30 +8,27 @@ permalink: /:categories/:year/:month/:day/:title/
 location: Munich
 ---
 
-If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them.
+If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.
 
-This is a basic introduction of how to reduce code duplication by sharing code between all this moving parts.
-
-A basic introduction to our stack, we have:
-
-```
-React SPA (redux, typescript)
-React-Native mobile app (redux, typescript)
-Main Springboot Server (Kotlin)
-Backoffice NestJS Server (Typescript)
-```
+The deployments for this example are:
+- React SPA (redux, typescript)
+- React-Native mobile app (redux, typescript)
+- Main Springboot Server (Kotlin)
+- Backoffice NestJS Server (Typescript)
 
 All of them reside within a mono repository, from which individual docker containers are built and deployed to the cloud.
 
-In this particular case:
-
-# We wanted to share our front-end app and mobile app redux code.
+# Share our front-end app and mobile app redux code
 
 ### Using lernajs
 
-Lernajs is designed to work on monorepositories, it handles your package dependencies by hoisting them to the root folder of the repo. Imagine using `ramda` in all of your applications but installing it only once at the root. By hoisting, Lernajs does exactly that and symlinks it to the application `node_modules` folder. Furthermore, it has some nice little utilities that you can use to manage your workflow like adding new packages to applications, running multiple applications in parallel, etc.
+Lernajs is a tool that shares codes within a monorepo, it handles your package dependencies by hoisting them to the root folder of the repo. 
 
-We decided to refactor our application a bit, specifically we separated: redux actions, redux reducers and epics, typescript models and some utility code, We crammed all this code into a `shared` package which is being used by our `frontend` and `mobile` packages, declared as a dependency. So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.
+Imagine using `ramda` in all of your applications but installing it only once at the root. By hoisting, Lernajs does exactly that and symlinks it to the application `node_modules` folder. Furthermore, it has some nice little utilities that you can use to manage your workflow like adding new packages to applications, running multiple applications in parallel, etc.
+
+Specifically what I wanted to share between the deployments: redux actions, redux reducers and epics, typescript models and some utility code, I crammed all this code into a `shared` package which is being used by our `frontend` and `mobile` packages, declared as a dependency. 
+
+So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.
 
 ![Codehsaring1]({{site.url}}/assets/Codesharing2.png "Codehsaring1")
 _Our refactored code, shared contains common code_
@@ -92,7 +89,3 @@ Once that is done, you can import your code by doing:
 `import { Foo } from ‘../shared/Foo’;`
 
 To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.
-
-Bare in mind this feature is very new, and tooling might not be able to fully support it, if you want to try it by yourself here is a minimal repo ready for you to try.
-
-This article was written with the support of Raza Gill.
