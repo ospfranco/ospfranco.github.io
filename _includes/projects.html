@@ -1,16 +1,47 @@
 <div class="my-8">
-  <h2 class="text-2xl font-semibold p-4 md:py-4 md:p-0 underline">Projects</h2>
+  <h2 class="text-2xl uppercase p-4">Projects</h2>
   <div>
     <a href="https://tempomat.dev">
-      <div class="items-center flex flex-col md:flex-row flex-center rounded hover:bg-black hover:text-white transition duration-500 p-4">
+      <div class="items-center flex flex-col md:flex-row flex-center border-b hover:bg-black hover:text-white transition duration-500 py-4">
         <img
           src="{{ site.url }}/assets/Tempomat.webp"
-          class="h-32 w-64 mr-4 object-contain"
+          class="w-64 p-2 object-cover"
         />
-        <div>
-          <div>
-            <b>Tempomat</b> is a macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+        <div class="p-4">
+          <div class="font-semibold">Tempomat</div>
+          <div >
+            macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
             when something is broken
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="items-center flex flex-col md:flex-row flex-center border-b hover:bg-black hover:text-white transition duration-500 py-4">
+        <img
+          src="{{ site.url }}/assets/linkpreview.webp"
+          class="w-64 p-2 object-cover"
+        />
+        <div class="p-4">
+          <div class="font-semibold">Link Preview JS</div>
+          <div >
+            Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="items-center flex flex-col md:flex-row flex-center border-b hover:bg-black hover:text-white transition duration-500 py-4">
+        <img
+          src="{{ site.url }}/assets/gh-jester.png"
+          class="w-64 p-2 object-cover"
+        />
+        <div class="p-4">
+          <div class="font-semibold">Github Jester</div>
+          <div >
+            Github action that posts your jest test results into PRs and commits
           </div>
         </div>
       </div>

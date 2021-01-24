@@ -1,17 +1,22 @@
 ---
 ---
 
-/* Front matter is necessary for Jekyll */
-
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* Write your styles below this line. */
+@font-face {
+  font-family: "Inter";
+  src: url("./assets/fonts/Inter.ttf");
+}
+
+html {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-weight: 300;
+}
 
 .markdown p {
   @apply py-3;
-  /* text-indent: 50px; */
   text-align: justify;
   line-height: 1.5rem;
 }
@@ -61,11 +66,6 @@
 
 .markdown .highlight {
   @apply p-3 rounded text-gray-800 text-xs;
-}
-
-html {
-  color: #333333;
-  font-family: Arial, Helvetica, sans-serif;
 }
 
 code {
