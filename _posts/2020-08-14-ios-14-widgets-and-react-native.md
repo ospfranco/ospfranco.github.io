@@ -12,45 +12,54 @@ twitter:
   image: "assets/BodyFastWidget.png"
 ---
 
-Apple announced on WWDC home screen widgets yada yada, you know why you are here, you want to make a iOS home screen widget with your react-native app, read on.
+So you want to make a iOS home screen widget react-native?
 
-**You will not be able to do a home screen widget with React-native**,  you might try to load an RCTRootView to load react-native into the widget, but this is a bad idea.
+I'm sorry to dissapoint **you will not be able to do a home screen widget with react-native...**, ok, I might be partially lying, you might be able to load an RCTRootView to use react-native into the widget but IMHO this is a bad idea, rather what you want is make a native widget communicate with your rn app.
+
+## About iOS 14 Widgets
 
 Firstly widgets do not constantly run, but are rather are refreshed by the OS at discrete intervals.
 
 Secondly there is a very tight memory limitation, you cannot add more than a few thousand data points into them, once you go over the memory limitation (in my testing 30mbs-40mbs), the widget simply refuses to render.
 
-## Find yourself a iOS 14 widget tutorial
+Trying to cram react-native on top of this limitations is IMO a bad idea, however you can make your widget play nicely with your react-native app.
 
-There is already a couple out there, but basically boils down to:
+# How to make a Widget work in tandem with a rn app
+
+### 1. Follow any iOS 14 widget tutorial
+
 - Get XCode 12
 - Add a new "widget" target to your project
+- Compile and run the app
+- Add the widget to your homescreen
 
 Compile your app first as is to see if works, in my case I got a swift compilation error, as it turns out the widget target build settings was embedding an old version of the swift runtime, it got solved by following [this issue](https://github.com/facebook/react-native/issues/29246), basically remove any swift path from the `libraries search paths` in the extension's target `Build Settings`
 
-## Add the default widget to your home screen
+### 2. How to connect the widget to your app's JS code
 
-I won't go into the details of building the widget itself, there is already enough material out there.
+We will go back to building the UI a bit later, for now let's tackle the main problem, how do you connect your app to the widget.
 
-The problem becomes, to communicate between your App and the widget (you can also try siri intents or whatever, never heard of them, don't want to touch them), you basically want to get data from your app and into the widget in the form of a timeline of data points for the OS to render at the appropriate times, in order to do this, you will need to use an AppGroup.
+> Important point to clarify: iOS widgets work with a timeline of data points, based on a timestamp iOS will run **1** render cycle with the appropiatte data point, save a "snapshot" and that's it, your job is to create the timeline of datapoints and to create the render function which takes one of mentioned datapoints.
 
-An AppGroup is basically a shared (sand-boxed?) environment between multiple apps, you can create one directly from XCode 12, first add the capability in your project build settings for both targets (the main app and the widget extension). 
+The problem becomes, how do you create and share the data point timeline for the widget to consume the answer is: `AppGroups`
 
-**important note** you need to have owner rights in your apple organization in order to create this group on the app store organization
+An AppGroup is basically a shared environment between multiple apps or targets, it allows you to share data between the package, you can create one directly from XCode, first add the `capability` in your `project build settings` for both targets (the main app and the widget extension). 
 
-**Remember to add the capability to BOTH targets**, this will also mean you will need to re-generate your provisioning profiles (and update any CI system you might have)
+> **IMPORTANT** You need to have owner rights in your apple developer portal organization in order to create this group on the app store, this also means you will need to regenerate your provisioning profiles!
 
-Give your group a reasonable name, if you try something funny... don't worry, xcode will prepend `group.` for you, so you should have something like `group.com.yourcompany`
+You can give a custom name to the `AppGroup`, xcode will prepend `group.` for you, so you should have something like `group.com.yourcompany`
 
 You should end-up with something like this:
 
 ![Project Settings]({{site.url}}/assets/BodyFastWidget2.png "Project Settings")
 
-## Writing data from the react-native side
+### 3. Writing data from the react-native side
 
-The next step is to write to this shared group, you will be able to find some swift code out there, but luckily there is already a [react-native-shared-group-preferences](https://github.com/KjellConnelly/react-native-shared-group-preferences/tree/master/ios), you just install it and you can start using it.
+The next step is to write data to this shared group, if you google it you will find swift snippets out there, but luckily there is already a [react-native-shared-group-preferences](https://github.com/KjellConnelly/react-native-shared-group-preferences/tree/master/ios).
 
-**It's worth repeating** widgets are not that powerful, they are basically a view of a single data point, so I suggest you prepare your data accordingly on the RN side, something like:
+> **It's worth repeating** widgets are not that powerful, they are basically a view of a single data point
+
+Here is an example of how you should prepare the timeline data for the widget
 
 ```javascript
 import SharedGroupPreferences from 'react-native-shared-group-preferences'
@@ -67,7 +76,7 @@ let myData = {
 SharedGroupPreferences.setItem('myAppData', myData, appGroupIdentifier)
 ```
 
-## Reading data from your widget
+### 4. Reading data from your widget
 
 Once that is done you can start on the swift side to read the data your app has created.
 
@@ -129,8 +138,11 @@ Basically:
 
 As a side note and important for you to know, the final objects you put on the `Timeline` struct, need to comply with the `TimelineEntry` protocol, basically it needs to have a date field of type `Date` and that is it.
 
-## Learn SwiftUI, call it a day
-Look SwiftUI is not that hard, you are also creating a tiny UI, don't complain and just learn it, here is an example:
+### 5. Rendering your widget
+
+Look SwiftUI is not that hard, I know you want to make your widget in react-native... but the potential effort and troubles are not worth it, you are also creating a tiny UI, you cannot have any animations or any complex behavior, widgets are basically just a few text objects and some icons at most.
+
+Here is an example swiftUI code to give you a rough feeling:
 
 ```swift
 struct widgetEntryView : View {
@@ -164,4 +176,6 @@ That produces the following widget
 
 ![iOS14 widget]({{site.url}}/assets/BodyFastWidget.png "iOS14 widget")
 
-Cheers! you now have a iOS 14 widget for your react-native app.
+Basically, take the data you wrote into the app group and put it in the widget.
+
+Cheers! you now have a iOS 14 widget for your react-native app. If you found this tutorial useful, follow me on [twitter](https://twitter.com/ospfranco), I constantly post react-native and other programming trips and insights.
