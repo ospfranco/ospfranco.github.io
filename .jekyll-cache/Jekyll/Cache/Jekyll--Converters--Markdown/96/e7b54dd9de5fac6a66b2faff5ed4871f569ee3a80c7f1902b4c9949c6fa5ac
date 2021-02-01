@@ -1,0 +1,143 @@
+I"_'<p>In order to release the SaaS version of my new product <a href="www.strest.io">Strest</a>, I’ve decided to use Kubernetes, you keep hearing all the yapping about it and it promises scalability right from the get go, which is what I need, so I’m giving up to the complexity and (finally) learning it, I have run into a lot of problems and I’m still not through with the learning face, but the simple packaging and deployment of a sample app was so painful that I’ve decided to write something down, not only as a log for me to better retain the knowledge but hopefully also helping anybody struggling to do their first deployment.</p>
+
+<p>Prerequisites:</p>
+
+<ul>
+  <li>npm or <a href="volta.sh">volta</a></li>
+  <li><a href="brew.sh">brew</a></li>
+  <li>docker</li>
+  <li>minikube (<code class="language-plaintext highlighter-rouge">brew install minikube</code>): allows to run a local k8s cluster</li>
+  <li>helm (<code class="language-plaintext highlighter-rouge">brew install kubernetes-helm</code>): package manager? it does a lot, hard to describe it</li>
+  <li>nest cli (<code class="language-plaintext highlighter-rouge">npm install -g @nest/cli</code> or <code class="language-plaintext highlighter-rouge">volta install @nestjs/cli</code>): a cli for nest</li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>Basics</strong></p>
+
+    <p>If you are an absolute noob to k8s and need a run down from the very first basic commands go watch this <a href="https://www.youtube.com/watch?v=gpmerrSpbHg">intro video</a> by Level-Up academy, it is fairly long and a bit outdated by 2020 but it is still very good, it gets the concepts across and lays the foundation for later.</p>
+  </li>
+  <li>
+    <p><strong>Set up a Nest project</strong></p>
+
+    <p>Immediately afterwards, I was left with a bunch of questions, it seemed fairly obvious I could just write a bunch of yaml files and start deploying things, but I still decided to look for a specific guide on how to deploy a node application to minikube… what I found was many many outdated articles, a barrage of tools (helm, draft, etc.) and still very complex information, so let’s just start by creating a sample nest application</p>
+
+    <ul>
+      <li>Create a new project: <code class="language-plaintext highlighter-rouge">nest new my-project</code></li>
+      <li>Make sure your project runs: <code class="language-plaintext highlighter-rouge">yarn start</code> and then navigate to your localhost and port (in my case https://localhost:3000)</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Dockerize it</strong></p>
+
+    <p>I had actually done this a couple of times before but I forgot about it, so I’m just gona do a quick run down here</p>
+
+    <ul>
+      <li>Create a Dockerfile on the root of your nest project</li>
+      <li>You can <em>copy&amp;paste</em> this for now:</li>
+    </ul>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>FROM node:12-alpine
+
+WORKDIR /app
+COPY . .
+RUN yarn install
+RUN yarn build
+CMD yarn start:prod
+</code></pre></div>    </div>
+
+    <ul>
+      <li>Won’t go over the semantics of it, docker is a topic on it’s own, open a terminal (if you haven’t already) and move the root of your project</li>
+      <li>Now, you could build the image and push it to docker-hub, but I wanted to get going as fast a possible, we are just going to use the minikube docker environment to build the image, that way there is no need to push it anywhere, if you haven’t started minikube yet, do <code class="language-plaintext highlighter-rouge">minikube start</code> this creates a minikube cluster with a single k8s node, once that is running do: <code class="language-plaintext highlighter-rouge">eval $(minikube docker-env)</code>, with this we have replaced the docker environment of you local machine for the docker environment in the minikube instance (only for the terminal session you just typed it in), that way we can just build an image and it will be available to pull when deploying via helm.</li>
+      <li><code class="language-plaintext highlighter-rouge">docker build -t my-project/server</code> this will build an docker image of your application</li>
+      <li>extra: <code class="language-plaintext highlighter-rouge">docker images</code> should show your image has been correctly created and is ready to be pulled on our deployment, you can ignore all the k8s stuff.</li>
+    </ul>
+  </li>
+  <li>
+    <p><strong>Helm</strong></p>
+
+    <p>This was by far the most difficult part to get a grip on, the abundance of tools and their complexity was honestly surprising, I started with draft… could not get that to work, I then tried pure helm and most of the tutorials on the internet seem outdated (hello <code class="language-plaintext highlighter-rouge">helm init</code>) and even after finding the right command, the complexity of the default created files stunned me for a while, until I finally found a <a href="https://www.youtube.com/watch?v=9cwjtN3gkD4">video</a> that made sense, go watch it, it is 12 mins long but very densely packed with information.</p>
+
+    <p>I’m not going to into the same detail as in the video, but paste the final content of my files here, while also some minor updates because that video is also somewhat outdated and not everything worked out of the box.</p>
+
+    <ul>
+      <li>You can put your nest app in a containing folder (I recommend this), because your deployment might contain more than just your nest server, on that new root folder do <code class="language-plaintext highlighter-rouge">helm create my-project-chart</code>, this will set up a basic file structure for helm.</li>
+      <li>Now the biggest take away from the video, was to realise… most of the stuff created by <code class="language-plaintext highlighter-rouge">helm create</code> is just crap, waaaay to advanced for our purposes, so you just reduce the files to something like this:</li>
+    </ul>
+
+    <p>File structure:</p>
+
+    <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>my-project-chart/
+├── charts/
+├── templates/
+│   ├── _helpers.tpl
+│   └── application.yaml
+├── .helmignore
+├── Chart.yaml
+└── values.yaml
+</code></pre></div>    </div>
+
+    <p>values.yaml: can remain empty for now
+application.yaml:</p>
+
+    <p>```</p>
+
+    <p>apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: {{ include “my-project-chart.fullname” . }}-deployment
+spec:
+replicas: 1
+selector:
+    matchLabels:
+    app: {{ include “my-project-chart.fullname” . }}
+template:
+    metadata:
+    labels:
+        app: {{ include “my-project-chart.fullname” . }}
+    spec:
+    containers:
+        - name: strest-server
+        image: strest/server
+        imagePullPolicy: IfNotPresent</p>
+  </li>
+</ol>
+
+<hr />
+
+<p>apiVersion: v1
+   kind: Service
+   metadata:
+   name: {{ include “my-project-chart.fullname” . }}-service
+   spec:
+   type: NodePort
+   selector:
+       app: {{ include “my-project-chart.fullname” . }}
+   ports:
+       - port: 8080
+       targetPort: 3000
+   ```</p>
+
+<ul>
+  <li>This is pretty much the same info as on the video, however there are some minor differences that bit me in rear, one is the functionality of helm seems to have changed for the fullname, no longer is it <code class="language-plaintext highlighter-rouge">template foo.fullname</code> but rather <code class="language-plaintext highlighter-rouge">include "foo.fullname" .</code>, second is, in order to pull our image from the local docker engine the <code class="language-plaintext highlighter-rouge">imagePullPolicy</code> (under template -&gt; spec -&gt; containers) needs to be set to <code class="language-plaintext highlighter-rouge">IfNotPresent</code>, otherwise the image does not deploy, also I’m using a <code class="language-plaintext highlighter-rouge">NodePort</code> service here to route to the container, which is… not what you want to do in production, from what I understand <code class="language-plaintext highlighter-rouge">Ingress</code> is what you want to use, but I haven’t learned to configure it yet, <code class="language-plaintext highlighter-rouge">NodePort</code> directly exposes the pod, you can also go for <code class="language-plaintext highlighter-rouge">LoadBalancer</code>, but that might require a slightly different configuration</li>
+  <li>Extra: you can do <code class="language-plaintext highlighter-rouge">helm template .</code> to check if your template text expansions are working properly, there needs to be no errors on the output</li>
+  <li>You can now do <code class="language-plaintext highlighter-rouge">helm install . --generate-name</code> (the generate name part is nowadays also necessary)</li>
+</ul>
+
+<ol>
+  <li>
+    <p><strong>Profit</strong></p>
+
+    <ul>
+      <li>You made it! if everything has gone well, your sample app should have now deployed</li>
+      <li><code class="language-plaintext highlighter-rouge">kubectl get pods</code> should show your nest-js pod running</li>
+      <li><code class="language-plaintext highlighter-rouge">minikube service list</code> should show your service running</li>
+      <li><code class="language-plaintext highlighter-rouge">minikube service &lt;name of your service&gt;</code> TADA, browser is open and it is running your application</li>
+    </ul>
+  </li>
+</ol>
+
+<p>Uff… that doesn’t look so bad, but it basically took me a day of muddling through github repos, outdated tutorials, reading a lot of documentation to figure out something as simple as local deployment.</p>
+
+<p>I still haven’t figured out how am I going to deploy a DB for my service (I actually need 2 different ones) and how do cloud providers handle this, of course RDS (AWS) needs to be running but I’m still not sure if it should somehow be specified on my helm chart definition and what not, another question is how do you set up a test environment for CI to run tests on, next article will probably on that topic.</p>
+:ET
