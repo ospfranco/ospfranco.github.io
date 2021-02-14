@@ -1,6 +1,6 @@
-I"�,<p>When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.</p>
+I"�,<p>When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.</p>
 
-<p><img src="https://ospfranco.github.io/assets/Jannis1.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+<p><img src="http://localhost:5000/assets/Jannis1.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
 
 <p>So as it seems every other piece of software correctly reads the image orientation EXIF attribute, except web browsers, chrome team has marked this as won’t do, because it would conflict with the w3c specification, and my guess will is, it will be years until all browsers correctly implement this in one way or another, so here we are stuck with workarounds, in any case here is a solution.</p>
 
@@ -30,7 +30,7 @@
 
 <p>Produces:</p>
 
-<p><img src="https://ospfranco.github.io/assets/Jannis2.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+<p><img src="http://localhost:5000/assets/Jannis2.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
 
 <p>Maybe this is good enough for your use case, somebody replied to me at some point it has to do with transformations being applied after css or something like that, in any case, doesn’t work.</p>
 
@@ -40,7 +40,7 @@
 
 <p>So the problem is you can’t insert a real DOM node in your react virtual DOM, what to do next? Well, let’s just insert it in the real DOM then!</p>
 
-<p><img src="https://ospfranco.github.io/assets/Jannis4.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+<p><img src="http://localhost:5000/assets/Jannis4.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
 
 <p>Still some problems, since this is not a React element it kinda escapes all inline styling you can apply to it, so we need to help from css… ugly, but works</p>
 
@@ -70,7 +70,7 @@
 
 <p>This is all very ugly, but I realized I could generate a base64 string and pass it to the normal <img /> tag, performance with this is (can be? should be?) very slow, if you are dealing with high quantity and high quality images there will be problems, but it does save the hassle of dealing with the DOM.</p>
 
-<p><img src="https://ospfranco.github.io/assets/Jannis3.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+<p><img src="http://localhost:5000/assets/Jannis3.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
 
 <p>Final code with base64 conversion</p>
 

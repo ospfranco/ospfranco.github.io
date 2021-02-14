@@ -1,4 +1,4 @@
-I"Æ-<h1 id="integrating-vscode-and-react-native-for-faster-development">Integrating vscode and react-native for faster development</h1>
+I"À-<h1 id="integrating-vscode-and-react-native-for-faster-development">Integrating vscode and react-native for faster development</h1>
 
 <p>There are some steps I took for integrating react-native development with visual studio code, the main benefit is having a faster development cycle, integrated debugging and above all fast feedback cycles.</p>
 
@@ -62,7 +62,7 @@
 
 <p>The next one is also based on an extension, the <a href="https://code.visualstudio.com/blogs/2018/09/10/introducing-github-pullrequests">github pull requests extension</a>, it is not perfect as it is still in somewhat of a beta phase, be the good thing is that you have all the editor tools at your disposal when reviewing code.</p>
 
-<p><img src="https://ospfranco.github.io/assets/gh-pr.png" alt="GithubPullRequests" title="GithubPullRequests" /></p>
+<p><img src="http://localhost:5000/assets/gh-pr.png" alt="GithubPullRequests" title="GithubPullRequests" /></p>
 
 <p>There are a few bugs here and there, but the review experience is definitely better than using githubs web editor, can only recommend it.</p>
 

@@ -1,4 +1,4 @@
-I"Xb<p>First of all, this would not be possible without <a href="https://hswolff.com/blog/react-native-art-and-d3/">this great post</a> by Harry Wolff.</p>
+I"Rb<p>First of all, this would not be possible without <a href="https://hswolff.com/blog/react-native-art-and-d3/">this great post</a> by Harry Wolff.</p>
 
 <p>So, I’m currently in the middle of developing a Zettelkasten app for macOS, and basically I needed to draw a graph simulation that shows the connections between the notes/links, it’s a fairly straightforward task and I do not need to write any math code, since it is all abstracted via <a href="https://github.com/d3/d3-force">d3 force simulation</a>.</p>
 
@@ -135,7 +135,7 @@
 
 <p>on every tick of the force simulation, the component will be re-rendered and you will get a fluid animation, here is a bit more complete implementation and how it looks like in my app:</p>
 
-<p><img src="https://ospfranco.github.io/assets/ARTGraph.png" alt="ART Graph" title="ART Graph" /></p>
+<p><img src="http://localhost:5000/assets/ARTGraph.png" alt="ART Graph" title="ART Graph" /></p>
 
 <h2 id="handling-updates">Handling updates</h2>
 

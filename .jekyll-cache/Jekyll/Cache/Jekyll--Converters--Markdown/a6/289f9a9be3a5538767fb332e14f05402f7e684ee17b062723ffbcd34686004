@@ -1,4 +1,4 @@
-I"àE<p>So you want to make a iOS home screen widget react-native?</p>
+I"ÔE<p>So you want to make a iOS home screen widget react-native?</p>
 
 <p>Iâ€™m sorry to dissapoint <strong>you will not be able to do a home screen widget with react-nativeâ€¦</strong>, ok, I might be partially lying, you might be able to load an RCTRootView to use react-native into the widget but IMHO this is a bad idea, rather what you want is make a native widget communicate with your rn app.</p>
 
@@ -43,7 +43,7 @@
 
 <p>You should end-up with something like this:</p>
 
-<p><img src="https://ospfranco.github.io/assets/BodyFastWidget2.png" alt="Project Settings" title="Project Settings" /></p>
+<p><img src="http://localhost:5000/assets/BodyFastWidget2.png" alt="Project Settings" title="Project Settings" /></p>
 
 <h3 id="3-writing-data-from-the-react-native-side">3. Writing data from the react-native side</h3>
 
@@ -169,7 +169,7 @@
 
 <p>That produces the following widget</p>
 
-<p><img src="https://ospfranco.github.io/assets/BodyFastWidget.png" alt="iOS14 widget" title="iOS14 widget" /></p>
+<p><img src="http://localhost:5000/assets/BodyFastWidget.png" alt="iOS14 widget" title="iOS14 widget" /></p>
 
 <p>Basically, take the data you wrote into the app group and put it in the widget.</p>
 

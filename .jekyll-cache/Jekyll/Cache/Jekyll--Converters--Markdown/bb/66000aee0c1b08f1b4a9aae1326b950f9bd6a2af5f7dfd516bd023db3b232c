@@ -1,4 +1,4 @@
-I"»<p>If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.</p>
+I"©<p>If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.</p>
 
 <p>The deployments for this example are:</p>
 <ul>
@@ -22,12 +22,12 @@
 
 <p>So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.</p>
 
-<p><img src="https://ospfranco.github.io/assets/Codesharing2.png" alt="Codehsaring1" title="Codehsaring1" />
+<p><img src="http://localhost:5000/assets/Codesharing2.png" alt="Codehsaring1" title="Codehsaring1" />
 <em>Our refactored code, shared contains common code</em></p>
 
 <p>These are then imported in the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages where we create our store (combing all the reducers from <code class="language-plaintext highlighter-rouge">shared</code>) and root epic (combining all the epics from <code class="language-plaintext highlighter-rouge">shared</code>). The reason for creating the store inside the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages rather than in <code class="language-plaintext highlighter-rouge">shared</code> is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.</p>
 
-<p><img src="https://ospfranco.github.io/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" />
+<p><img src="http://localhost:5000/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" />
 <em>Assuming you have a <code class="language-plaintext highlighter-rouge">UserModel</code> class in <code class="language-plaintext highlighter-rouge">shared</code> you would simple import it like so</em></p>
 
 <p>For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the <code class="language-plaintext highlighter-rouge">shared</code> package). You can of course, add more actions inside the <code class="language-plaintext highlighter-rouge">frontend</code>/<code class="language-plaintext highlighter-rouge">mobile</code> packages and supply your own <code class="language-plaintext highlighter-rouge">epic</code> to handle them and itâ€™ll all work seamlesslyâ„¢.
@@ -50,7 +50,7 @@ You can read more about lerna on their website, but here are a couple of steps t
   <li>
     <p>Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:</p>
 
-    <p><img src="https://ospfranco.github.io/assets/Codesharing4.png" alt="Codesharing4" title="Codesharing4" /></p>
+    <p><img src="http://localhost:5000/assets/Codesharing4.png" alt="Codesharing4" title="Codesharing4" /></p>
   </li>
   <li>
     <p>Link your shared folder</p>

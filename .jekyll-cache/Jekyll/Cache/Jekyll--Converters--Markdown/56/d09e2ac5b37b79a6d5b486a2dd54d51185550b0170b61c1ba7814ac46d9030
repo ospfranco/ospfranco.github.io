@@ -1,4 +1,4 @@
-I"ì1<p>Here is a post on a neat solution I learned/developed during the WerkerApp days and I havenâ€™t gotten around to publish.</p>
+I"à1<p>Here is a post on a neat solution I learned/developed during the WerkerApp days and I havenâ€™t gotten around to publish.</p>
 
 <p>Imagine you have multiple instances of your (monolithic) server running somewhere in the cloud, you can have multiple instances because of scalability and/or redundancy, if one fails the others can pick up the task.</p>
 
@@ -6,14 +6,14 @@
 
 <p>Letâ€™s take for example a chat application, the user opens you app and starts a websocket connection to your server so he can start receiving messages in real time, if you only had one instance of your server there is not much work needed at this point, users sends message, you insert it into the database and then redistribute the message to all (pertinent) connected users and/or schedule a wave of push notifications, however, with multiple instances the problem is not easy:</p>
 
-<p><img src="https://ospfranco.github.io/assets/connections.png" alt="Initial Architecture" title="Initial Architecture" /></p>
+<p><img src="http://localhost:5000/assets/connections.png" alt="Initial Architecture" title="Initial Architecture" /></p>
 
 <p>Not all the clients might be connected (via websocket) to the same instance, therefore you need to find a way to distribute the message between the different instances of your service,
 now one option would be to hook up to the database after each transaction, retrieve the message and have each instance notify the subscribed clients, but that is technically fairly complicated.</p>
 
 <p>Another alternative is to use redis, so, in a nutshell you put a redis instance which hooks up to all of your server instances and you use it in pub/sub mode:</p>
 
-<p><img src="https://ospfranco.github.io/assets/connections-1.png" alt="Redis Topology" title="Redis Topology" /></p>
+<p><img src="http://localhost:5000/assets/connections-1.png" alt="Redis Topology" title="Redis Topology" /></p>
 
 <p>You can read more about redis pub/sub mode <a href="https://redis.io/topics/pubsub">here</a>, the set up for redis will vary depending on your servers language, at the time I was using springboot with kotlin, <a href="https://dzone.com/articles/intro-to-redis-with-spring-boot">the set up is fairly complicated but managable</a> it suffers from the typical java OOP pain of having to create many class instances, how you connect to your clients is up to you, but websockets seems like necessary to me.</p>
 

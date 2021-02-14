@@ -1,4 +1,4 @@
-I"T<p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
+I"N<p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
 
 <h2 id="why-leave-bitrise">Why leave Bitrise</h2>
 
@@ -69,7 +69,7 @@
 
 <p>Basically, it will run your jest tests and if the tests are failing it will post a nice resume on the commit itself (which will also appear on the PR), bear in mind, the trigger needs to be [push] for it to correctly post the comment with the info.</p>
 
-<p><img src="https://ospfranco.github.io/assets/gh-jester.png" alt="gh-jester comment" title="gh-jester" /></p>
+<p><img src="http://localhost:5000/assets/gh-jester.png" alt="gh-jester comment" title="gh-jester" /></p>
 
 <p>And that is it! Now all the info for your PR is right on the comment section, enjoy!</p>
 :ET

@@ -1,4 +1,4 @@
-I"ê7<p>So I first saw a tweet about creating a Expo-Electron based macOS menu bar apps, which I found the idea interesting, since Tempomat has been on the market for a couple of weeks already but the process of learning and mastering native APIs, swift and SwiftUI was not easy at all</p>
+I"Þ7<p>So I first saw a tweet about creating a Expo-Electron based macOS menu bar apps, which I found the idea interesting, since Tempomat has been on the market for a couple of weeks already but the process of learning and mastering native APIs, swift and SwiftUI was not easy at all</p>
 
 <p>After sucessfully porting my native SwiftUI app to react-native-macos, here are the steps you can follow too</p>
 <h2 id="1-create-a-rn-project">1. Create a RN project</h2>
@@ -110,7 +110,7 @@ ViewController.m
 
 <p>On your <code class="language-plaintext highlighter-rouge">Main.storyboard</code> file, delete the old references to the ViewController and the window, and you also have to change the app delegate on the right side attribute panel and give it your macos module, otherwise it wonâ€™t be picked up, here is a screenshot that should guide you on where to look ðŸ‘€:</p>
 
-<p><img src="https://ospfranco.github.io/assets/AppDelegateattribute.JPG" alt="AppDelegate Module" title="AppDelegate Module" /></p>
+<p><img src="http://localhost:5000/assets/AppDelegateattribute.JPG" alt="AppDelegate Module" title="AppDelegate Module" /></p>
 
 <p>I did run into some weird swift compilation chain error, I think it was because of Flipper support in RN 0.62, make sure that on your target settings <code class="language-plaintext highlighter-rouge">DEAD_CODE_STRIPPING</code> is set to <code class="language-plaintext highlighter-rouge">YES</code> and <code class="language-plaintext highlighter-rouge">Always embed swift libraries</code> is also set to <code class="language-plaintext highlighter-rouge">YES</code></p>
 
@@ -118,7 +118,7 @@ ViewController.m
 
 <p>Done, you should be able to hit the run button via xcode (or run the app via <code class="language-plaintext highlighter-rouge">npx react-native run-macos</code>) and should see your RN menu bar running!</p>
 
-<p><img src="https://ospfranco.github.io/assets/RNMENUBARAPP.JPG" alt="Menubar App" title="Menubar App" /></p>
+<p><img src="http://localhost:5000/assets/RNMENUBARAPP.JPG" alt="Menubar App" title="Menubar App" /></p>
 
 <blockquote>
   <p>a lot of libraries have added macos support since this article was published, this steps may no longer be necessary, but it is still useful if you need to work around some issue, react-navigation should work fine out of the box now for example</p>

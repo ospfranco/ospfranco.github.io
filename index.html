@@ -4,20 +4,27 @@ layout: default
 
 {% include projects.html %}
 
-<h2 class="text-2xl uppercase p-4">Blog posts</h2>
+<h2 class="font-semibold text-lg p-4">Writing & technical guides</h2>
 
 {% for post in site.posts %}
-  <a 
-    href="{{ post.url }}" 
-    class="w-full px-4 py-3 border-b flex justify-center items-center hover:bg-black hover:text-white transition duration-500 relative"
-  >
-    <div class="flex-1">
-      <div class="text-lg">
-        {{ post.title }}
-      </div>
-      <div class="text-sm w-24 text-gray-500" >
-        {{ post.date | date: "%d.%m.%Y" }}
-      </div>
-    </div>    
-  </a>
+  <div class="transform hover:scale-105 flex w-full items-center h-20 transition duration-200 rounded group px-4">
+    <div class="flex flex-col h-full items-center">
+      <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+      <div class="h-2 w-2 rounded-full bg-gray-400 group-hover:bg-blue-300"></div>
+      <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+    </div>
+    <a 
+      href="{{ post.url }}" 
+      class="px-4 py-3 flex justify-center items-center relative"
+    >
+      <div class="flex-1">
+        <div>
+          {{ post.title }}
+        </div>
+        <div class="text-xs text-gray-500" >
+          {{ post.date | date: "%B %Y" }}
+        </div>
+      </div>    
+    </a>
+  </div>
 {% endfor %}

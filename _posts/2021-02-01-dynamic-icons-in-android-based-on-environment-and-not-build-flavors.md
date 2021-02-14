@@ -6,7 +6,7 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
 
-On a previous [post](/posts/2020-09-17-replace-ios-icon-based-on-environment) I described how replace your mobile application's icon based on environment variables on iOS, now is the turn for android!
+On a previous [post](/post/2020/09/17/replace-ios-icon-based-on-environment/) I described how replace your mobile application's icon based on environment variables on iOS, now is the turn for android!
 
 Unlike many of the tutorials you will find out there, this is not based on `ProductFlavors`, because ProductFlavors force you to use different package names, which means you have to change not only your CI but also your distributables on the play store, etc. If you already have your infra set up, this is way too much work for a simple icon replacement.
 
