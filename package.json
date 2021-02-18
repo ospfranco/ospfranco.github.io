@@ -1,16 +1,17 @@
 {
   "scripts": {
+    "postinstall": "husky install",
     "deploy": "./deploy.sh",
-    "start": "bundle exec jekyll serve --livereload --drafts --future --port 5000 '$@'"
+    "start": "bundle exec jekyll serve --livereload --drafts --future --port 5000 '$@'",
+    "build&stage": "JEKYLL_ENV=production bundle exec jekyll build"
   },
   "devDependencies": {
     "autoprefixer": "^10.2.3",
+    "postcss": "^8.2.4",
     "postcss-cli": "8.3.1",
     "postcss-import": "14.0.0",
-    "postcss": "^8.2.4",
     "purgecss": "4.0.0",
-    "tailwindcss": "2.0.2"
-  },
-  "dependencies": {
+    "tailwindcss": "2.0.2",
+    "husky": "^5.0.9"
   }
 }

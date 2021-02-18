@@ -1,0 +1,75 @@
+I"T<p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
+
+<h2 id="why-leave-bitrise">Why leave Bitrise</h2>
+
+<p>Bitrise is good because the amount of available workflows and steps and how you can chain them to create your CI workflow, however, it is <strong>really slow</strong> and it also <strong>expensive</strong> for faster build machines.</p>
+
+<p>Even though we are already on a medium plan, we started having queueing slow downs, our app takes an hour to compile on iOS (plus Android and Huawei versions) and without paying more money everything slowed down, a simple PR would not get the tests to run for a solid hour  blocking the entire team.</p>
+
+<h2 id="github-actions-are-quite-good-actually">Github Actions are quite good actually</h2>
+
+<p>They are fast, already run on the same platform where the code is, setting them up was a breeze and they are plenty fast</p>
+
+<p>Getting things to run was a breeze, not a fan of yaml, but setting up the first iteration took 5 mins, here is a sample yaml:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">JS Checks</span>
+<span class="na">on</span><span class="pi">:</span> <span class="s">push</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">tests</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node.js 12.x</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2.1.2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">node-version</span><span class="pi">:</span> <span class="s">12.x</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install Dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run tests</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">yarn test</span>
+</code></pre></div></div>
+
+<p>However, I wanted to push things a bit further, I hated having to open the bitrise log page, because loading web pages nowadays is sooo slow, so I wanted to see my failing tests directly on my PR!</p>
+
+<p>A quick google search revealed nothing of use</p>
+
+<h2 id="introducing-gh-jester">Introducing gh-jester</h2>
+
+<p>I forked an old project that claimed to do what I needed, removed the unnecessary parts and added actually the useful output that I was looking for, you can check the <a href="https://github.com/ospfranco/gh-jester">source code</a>, here is a finished YAML you can copy and paste into your github repo:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">JS Checks</span>
+<span class="na">on</span><span class="pi">:</span> <span class="s">push</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">tests</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Cancel Previous Runs</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">styfle/cancel-workflow-action@0.6.0</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">access_token</span><span class="pi">:</span> <span class="s">$</span>
+      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node.js 12.x</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2.1.2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">node-version</span><span class="pi">:</span> <span class="s">12.x</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install Dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run tests</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">ospfranco/gh-jester@v1.0.13</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">post-comment</span><span class="pi">:</span> <span class="no">true</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">GITHUB_TOKEN</span><span class="pi">:</span> <span class="s">${{ secrets.GITHUB_TOKEN }}</span>
+          <span class="na">GITHUB_CONTEXT</span><span class="pi">:</span> <span class="s">${{ toJson(github) }}</span>
+</code></pre></div></div>
+
+<p>Basically, it will run your jest tests and if the tests are failing it will post a nice resume on the commit itself (which will also appear on the PR), bear in mind, the trigger needs to be [push] for it to correctly post the comment with the info.</p>
+
+<p><img src="https://ospfranco.github.io/assets/gh-jester.png" alt="gh-jester comment" title="gh-jester" /></p>
+
+<p>And that is it! Now all the info for your PR is right on the comment section, enjoy!</p>
+:ET
