@@ -1,0 +1,232 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar's Blog" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Monorepo codesharing (with lerna.js and typescript) | Oscar’s Blog</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Monorepo codesharing (with lerna.js and typescript)" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Reduce code duplication using some tooling and share code between projects" />
+<meta property="og:description" content="Reduce code duplication using some tooling and share code between projects" />
+<link rel="canonical" href="https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/" />
+<meta property="og:site_name" content="Oscar’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-27T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Monorepo codesharing (with lerna.js and typescript)" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"Monorepo codesharing (with lerna.js and typescript)","dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","url":"https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"Reduce code duplication using some tooling and share code between projects","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<html>
+  <body>
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
+      <div class="content">
+        <div class="py-12 px-4">
+  <h1 class="font-semibold text-2xl text-center">Monorepo codesharing (with lerna.js and typescript)</h1>
+  <div class="text-gray-500 text-center">
+    August 2019
+  </div>
+  
+  <div class="markdown mt-6">
+    <p>If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.</p>
+
+<p>The deployments for this example are:</p>
+<ul>
+  <li>React SPA (redux, typescript)</li>
+  <li>React-Native mobile app (redux, typescript)</li>
+  <li>Main Springboot Server (Kotlin)</li>
+  <li>Backoffice NestJS Server (Typescript)</li>
+</ul>
+
+<p>All of them reside within a mono repository, from which individual docker containers are built and deployed to the cloud.</p>
+
+<h1 id="share-our-front-end-app-and-mobile-app-redux-code">Share our front-end app and mobile app redux code</h1>
+
+<h3 id="using-lernajs">Using lernajs</h3>
+
+<p>Lernajs is a tool that shares codes within a monorepo, it handles your package dependencies by hoisting them to the root folder of the repo.</p>
+
+<p>Imagine using <code class="language-plaintext highlighter-rouge">ramda</code> in all of your applications but installing it only once at the root. By hoisting, Lernajs does exactly that and symlinks it to the application <code class="language-plaintext highlighter-rouge">node_modules</code> folder. Furthermore, it has some nice little utilities that you can use to manage your workflow like adding new packages to applications, running multiple applications in parallel, etc.</p>
+
+<p>Specifically what I wanted to share between the deployments: redux actions, redux reducers and epics, typescript models and some utility code, I crammed all this code into a <code class="language-plaintext highlighter-rouge">shared</code> package which is being used by our <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages, declared as a dependency.</p>
+
+<p>So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.</p>
+
+<p><img src="https://ospfranco.github.io/assets/Codesharing2.png" alt="Codehsaring1" title="Codehsaring1" />
+<em>Our refactored code, shared contains common code</em></p>
+
+<p>These are then imported in the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages where we create our store (combing all the reducers from <code class="language-plaintext highlighter-rouge">shared</code>) and root epic (combining all the epics from <code class="language-plaintext highlighter-rouge">shared</code>). The reason for creating the store inside the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages rather than in <code class="language-plaintext highlighter-rouge">shared</code> is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.</p>
+
+<p><img src="https://ospfranco.github.io/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" />
+<em>Assuming you have a <code class="language-plaintext highlighter-rouge">UserModel</code> class in <code class="language-plaintext highlighter-rouge">shared</code> you would simple import it like so</em></p>
+
+<p>For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the <code class="language-plaintext highlighter-rouge">shared</code> package). You can of course, add more actions inside the <code class="language-plaintext highlighter-rouge">frontend</code>/<code class="language-plaintext highlighter-rouge">mobile</code> packages and supply your own <code class="language-plaintext highlighter-rouge">epic</code> to handle them and it’ll all work seamlessly™.
+You can read more about lerna on their website, but here are a couple of steps that we followed and should get you halfway there:</p>
+
+<ol>
+  <li>
+    <p>Install lerna</p>
+
+    <p><code class="language-plaintext highlighter-rouge">npm install -g lerna</code></p>
+  </li>
+  <li>
+    <p>Extract your code and place it at the root of your mono repository, you should also add a ‘prepare’ npm script, in our case we do typescript compilation to output to a lib folder</p>
+  </li>
+  <li>
+    <p>Run lerna init in your root folder</p>
+
+    <p><code class="language-plaintext highlighter-rouge">lerna init</code></p>
+  </li>
+  <li>
+    <p>Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:</p>
+
+    <p><img src="https://ospfranco.github.io/assets/Codesharing4.png" alt="Codesharing4" title="Codesharing4" /></p>
+  </li>
+  <li>
+    <p>Link your shared folder</p>
+
+    <p><code class="language-plaintext highlighter-rouge">lerna add wa-core — scope=frontend</code></p>
+
+    <p><code class="language-plaintext highlighter-rouge">lerna add wa-core — scope=mobile</code></p>
+  </li>
+  <li>
+    <p>Run <code class="language-plaintext highlighter-rouge">lerna bootstrap</code></p>
+
+    <p>There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called <code class="language-plaintext highlighter-rouge">nohoist</code>, which would make lerna not hoist them to the root.</p>
+  </li>
+</ol>
+
+<p><br /></p>
+
+<h3 id="using-typescript-3">Using Typescript 3.+</h3>
+
+<p>The latest release of typescript has what they call <code class="language-plaintext highlighter-rouge">project references</code>, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.</p>
+
+<p>After refactoring and extracting the shared code, your shared folder should contain a tsconfig.json folder, now in the package were you want to import this code, you should modify your tsconfig.json to contain the following:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
+…
+"composite": true,
+"declaration": true,
+"references": [
+{ "path": "../shared" }
+],
+}
+</code></pre></div></div>
+
+<p>Once that is done, you can import your code by doing:</p>
+
+<p><code class="language-plaintext highlighter-rouge">import { Foo } from ‘../shared/Foo’;</code></p>
+
+<p>To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.</p>
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200" ></div>
+
+<div class="my-6 px-4">
+  <h2 class="text-lg font-bold py-4">Open source projects</h2>
+  
+  <div>
+    <a href="https://tempomat.dev">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Tempomat</div>
+            <div >
+              macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+              when something is broken
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Link Preview JS</div>
+            <div>
+              Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Github Jester</div>
+            <div >
+              Github action that posts your jest test results into PRs and commits
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+      </div>
+
+    </div>
+
+    <nav class="header" style="top: 0; background-color: black;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <a
+          class="transition duration-500 text-white rounded px-4 flex items-center flex-1"
+          href="/"
+        >
+          <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
+          <span>Oscar Franco</span>
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://twitter.com/ospfranco"
+        >
+          Twitter
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://github.com/ospfranco"
+        >
+          Github
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="/aboutMe"
+        >
+          About
+        </a>
+      </div>
+    </nav>
+
+  </body>
+</html>

@@ -1,0 +1,221 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar's Blog" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Replace iOS icon based on environment | Oscar’s Blog</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Replace iOS icon based on environment" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious." />
+<meta property="og:description" content="When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious." />
+<link rel="canonical" href="https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment/" />
+<meta property="og:site_name" content="Oscar’s Blog" />
+<meta property="og:image" content="https://ospfranco.github.io/assets/taco.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-17T15:00:00+02:00" />
+<meta name="twitter:card" content="Blog about software engineering and life" />
+<meta property="twitter:image" content="https://ospfranco.github.io/assets/taco.png" />
+<meta property="twitter:title" content="Replace iOS icon based on environment" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"Replace iOS icon based on environment","dateModified":"2020-09-17T15:00:00+02:00","datePublished":"2020-09-17T15:00:00+02:00","url":"https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.","image":"https://ospfranco.github.io/assets/taco.png","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<html>
+  <body>
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
+      <div class="content">
+        <div class="py-12 px-4">
+  <h1 class="font-semibold text-2xl text-center">Replace iOS icon based on environment</h1>
+  <div class="text-gray-500 text-center">
+    September 2020
+  </div>
+  
+  <div class="markdown mt-6">
+    <p>When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</p>
+
+<p>This is what happened to us at BodyFast this week and here is just one quick way to prevent it: give your app a different icon based on the configuration, now in the past I’ve done this via app flavors for Android and build configurations for iOS, but that process is technically convoluted and also does not work for our use case, so I needed simpler this time around.</p>
+
+<p>So we are going to highjack the build process of iOS to replace the icons based on some configuration file.</p>
+
+<h2 id="1-get-your-icons-ready">1. Get your icons ready</h2>
+
+<p>Create all the icons you need, usually to do this I would only change the background or icon color and slap a big “Staging” or “debug” text in front to get rid of all ambiguity, you only need to create a 1024x1024 version and there are many scripts out there that do the resizing for you</p>
+
+<h2 id="2-add-a-run-script">2. Add a run script</h2>
+
+<p>Go to xcode -&gt; select your project -&gt; select “Build Phases” -&gt; Add a new “run script”</p>
+
+<p>Here is the content of the script:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>IFS=$'\n'
+
+CONFIG=production
+
+function generateIcon () {
+  BASE_IMAGE_NAME=$1
+  
+  SOURCE_PATH="${SRCROOT}/../storage/app_icons/${CONFIG}/${BASE_IMAGE_NAME}"
+  TARGET_PATH=$(find "${SRCROOT}/BodyFast/Images.xcassets" -name $BASE_IMAGE_NAME)
+  echo "Copying ${SOURCE_PATH} into: ${TARGET_PATH}"
+  cp $SOURCE_PATH $TARGET_PATH
+}
+
+if grep -q development ../.env; then
+  echo "Found debug config"
+  CONFIG=debug
+fi
+
+if grep -q staging ../.env; then
+echo "Found staging config"
+  CONFIG=staging
+fi
+
+echo "Replacing app icons based on configuration"
+
+generateIcon "AppIcon20x20@2x.png"
+generateIcon "AppIcon20x20@2x~ipad.png"
+generateIcon "AppIcon20x20@3x.png"
+generateIcon "AppIcon20x20~ipad.png"
+generateIcon "AppIcon29x29.png"
+generateIcon "AppIcon29x29@2x.png"
+generateIcon "AppIcon29x29@2x~ipad.png"
+generateIcon "AppIcon29x29@3x.png"
+generateIcon "AppIcon29x29~ipad.png"
+generateIcon "AppIcon40x40@2x.png"
+generateIcon "AppIcon40x40@2x~ipad.png"
+generateIcon "AppIcon40x40@3x.png"
+generateIcon "AppIcon40x40~ipad.png"
+generateIcon "AppIcon50x50@2x~ipad.png"
+generateIcon "AppIcon50x50~ipad.png"
+generateIcon "AppIcon57x57.png"
+generateIcon "AppIcon57x57@2x.png"
+generateIcon "AppIcon60x60@2x.png"
+generateIcon "AppIcon60x60@3x.png"
+generateIcon "AppIcon72x72@2x~ipad.png"
+generateIcon "AppIcon72x72~ipad.png"
+generateIcon "AppIcon76x76@2x~ipad.png"
+generateIcon "AppIcon76x76~ipad.png"
+generateIcon "AppIcon83.5x83.5@2x~ipad.png"
+</code></pre></div></div>
+
+<p>let’s break it down:</p>
+<ul>
+  <li>First we need to find out which environment is currently being build, for us is fairly simple, we have a <code class="language-plaintext highlighter-rouge">.env</code> that get’s symlinked at the beginning of our compilation process, a simple GREP inside of the file to search for a keyword does the trick of detecting which “environment” is the app going to tbe connected to</li>
+  <li>Once we now the environment we can start replacing all the icons, the source path as you can imagine is where you have placed the icons for all the different flavors, you will need to replace it with your own value</li>
+  <li>The target path is where we are going to highjack the process, basically we are going to replace the conents of the <code class="language-plaintext highlighter-rouge">.xcassets</code> file via code, now there are some important caveats here; 1. your icons need to have the same name from the moment you generate them to the moment you replace them, in order to make my life easier <a href="https://github.com/ospfranco/ios-icon-generator">I have forked the script I use</a> and just generate all of the files with the final naming xcode uses internally, 2. You might not need all the files I presented, we are using an old xcassets file and depending on which devices you support you might need/want to get rid of some of the lines</li>
+  <li>Once we have all the icons a simple <code class="language-plaintext highlighter-rouge">cp</code> command replaces the contents</li>
+</ul>
+
+<p>and there you have it, you should be able to easily tell your different app environments now, if you couple this with your CI/CD it is even more convenient.</p>
+
+<p>Cheers</p>
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200" ></div>
+
+<div class="my-6 px-4">
+  <h2 class="text-lg font-bold py-4">Open source projects</h2>
+  
+  <div>
+    <a href="https://tempomat.dev">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Tempomat</div>
+            <div >
+              macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+              when something is broken
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Link Preview JS</div>
+            <div>
+              Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Github Jester</div>
+            <div >
+              Github action that posts your jest test results into PRs and commits
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+      </div>
+
+    </div>
+
+    <nav class="header" style="top: 0; background-color: black;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <a
+          class="transition duration-500 text-white rounded px-4 flex items-center flex-1"
+          href="/"
+        >
+          <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
+          <span>Oscar Franco</span>
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://twitter.com/ospfranco"
+        >
+          Twitter
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://github.com/ospfranco"
+        >
+          Github
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="/aboutMe"
+        >
+          About
+        </a>
+      </div>
+    </nav>
+
+  </body>
+</html>

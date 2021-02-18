@@ -1,0 +1,238 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar's Blog" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Rotate image based on exif data on React | Oscar’s Blog</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Rotate image based on exif data on React" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Web browsers do not automatically rotate images based on their EXIF data, hack around it!" />
+<meta property="og:description" content="Web browsers do not automatically rotate images based on their EXIF data, hack around it!" />
+<link rel="canonical" href="https://ospfranco.github.io/post/2019/08/27/react-rotating-image/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2019/08/27/react-rotating-image/" />
+<meta property="og:site_name" content="Oscar’s Blog" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-27T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Rotate image based on exif data on React" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"Rotate image based on exif data on React","dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","url":"https://ospfranco.github.io/post/2019/08/27/react-rotating-image/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2019/08/27/react-rotating-image/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"Web browsers do not automatically rotate images based on their EXIF data, hack around it!","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<html>
+  <body>
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
+      <div class="content">
+        <div class="py-12 px-4">
+  <h1 class="font-semibold text-2xl text-center">Rotate image based on exif data on React</h1>
+  <div class="text-gray-500 text-center">
+    August 2019
+  </div>
+  
+  <div class="markdown mt-6">
+    <p>When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.</p>
+
+<p><img src="https://ospfranco.github.io/assets/Jannis1.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+
+<p>So as it seems every other piece of software correctly reads the image orientation EXIF attribute, except web browsers, chrome team has marked this as won’t do, because it would conflict with the w3c specification, and my guess will is, it will be years until all browsers correctly implement this in one way or another, so here we are stuck with workarounds, in any case here is a solution.</p>
+
+<h2 id="tldr">TL:DR</h2>
+
+<p>You can use this <a href="https://gist.github.com/ospfranco/88e57cbac8e3e6c55e9859f096a85281">snippet</a> with the help of a library</p>
+
+<h3 id="css-no-good">CSS? no good</h3>
+
+<p>After some googling I discovered there is a css property called “image-orientation” but it is currently only supported by the latest chrome versions, no good.</p>
+
+<h3 id="how-about-a-library-well-not-really">How about a library? well… not really</h3>
+
+<p>Living in the wild west that is the JavaScript world I’m sure somebody else must have done it before, so I looked for libraries, there are two options <code class="language-plaintext highlighter-rouge">react-exif-orientation-img</code> which is a drop in component that replaces the img tag and <code class="language-plaintext highlighter-rouge">blueimp-load-image</code>, which you use to load the url (or blob or file) and returns a DOM node.</p>
+
+<p><code class="language-plaintext highlighter-rouge">react-exif-orientation-img</code> works very well and is very easy to use, however the problem came when we tried to fill a parent container with the image, since all it does is a rotate transform, it never swapped the dimensions, so applying 100% width and 100% height caused the image to overflow the parent container.</p>
+
+<p>The following snippet:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">public</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="o">&lt;</span><span class="nx">ExifOrientationImg</span> <span class="nx">markdown</span><span class="o">=</span><span class="dl">"</span><span class="s2">span</span><span class="dl">"</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">img</span><span class="p">}</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">height</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">objectFit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cover</span><span class="dl">'</span> <span class="p">}}</span> <span class="sr">/</span><span class="err">&gt;
+</span>  
+<span class="p">}</span>
+
+</code></pre></div></div>
+
+<p>Produces:</p>
+
+<p><img src="https://ospfranco.github.io/assets/Jannis2.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+
+<p>Maybe this is good enough for your use case, somebody replied to me at some point it has to do with transformations being applied after css or something like that, in any case, doesn’t work.</p>
+
+<p>I gave <code class="language-plaintext highlighter-rouge">blueimp-load-image</code> a go, again getting the image was simple, however the problem came this time with react, since the library is a pure js solution, it doesn’t know anything about react and the virtual DOM, so when I tried to insert it in our component, we got a nice runtime exception.</p>
+
+<h3 id="sorta-works">Sorta works?</h3>
+
+<p>So the problem is you can’t insert a real DOM node in your react virtual DOM, what to do next? Well, let’s just insert it in the real DOM then!</p>
+
+<p><img src="https://ospfranco.github.io/assets/Jannis4.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+
+<p>Still some problems, since this is not a React element it kinda escapes all inline styling you can apply to it, so we need to help from css… ugly, but works</p>
+
+<p>Final code (without base64 conversion)</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">loadImage</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">blueimp-load-image</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="kr">private</span> <span class="nx">onPressImage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">myImage</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">img</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+      <span class="na">imageModalVisible</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">selectedImage</span><span class="p">:</span> <span class="nx">attachment</span><span class="p">,</span>
+    <span class="p">});</span>
+    <span class="nx">img</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">fit_to_parent</span><span class="dl">'</span><span class="p">;</span>
+    <span class="nx">Reactdom</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+  <span class="p">},</span> <span class="p">{</span><span class="na">orientation</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+
+<span class="kr">public</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">markdown</span><span class="o">=</span><span class="dl">"</span><span class="s2">0</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">display</span><span class="p">:</span> <span class="dl">'</span><span class="s1">flex</span><span class="dl">'</span><span class="p">,</span> <span class="na">alignItems</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span> <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">}}</span> <span class="nx">ref</span><span class="o">=</span><span class="p">{(</span><span class="nx">ref</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span>  
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="a-little-improvement">A little improvement</h3>
+
+<p>This is all very ugly, but I realized I could generate a base64 string and pass it to the normal <img /> tag, performance with this is (can be? should be?) very slow, if you are dealing with high quantity and high quality images there will be problems, but it does save the hassle of dealing with the DOM.</p>
+
+<p><img src="https://ospfranco.github.io/assets/Jannis3.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
+
+<p>Final code with base64 conversion</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">loadImage</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">blueimp-load-image</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kr">private</span> <span class="nx">onPressImage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">myImage</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nx">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">canvas</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+    <span class="na">selectedImageBase64</span><span class="p">:</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">toDataURL</span><span class="p">()</span>
+  <span class="p">});</span>
+  <span class="p">},</span> <span class="p">{</span><span class="na">orientation</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+<span class="kr">public</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+  
+  <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="na">maxWidth</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">maxHeight</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">}}</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">selectedImageBase64</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>  
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Now, don’t get me wrong, this is an absolute hack and I hate the browser vendors for making me do this to myself and the world.</p>
+
+<p>Most library processing images on the back-end take care of this automatically, but if you simply store the images coming in from the mobile devices, without any processing pipeline, this one will bite you in the arsch, well at least now you have one solution. Cheers.</p>
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200" ></div>
+
+<div class="my-6 px-4">
+  <h2 class="text-lg font-bold py-4">Open source projects</h2>
+  
+  <div>
+    <a href="https://tempomat.dev">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Tempomat</div>
+            <div >
+              macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+              when something is broken
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Link Preview JS</div>
+            <div>
+              Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Github Jester</div>
+            <div >
+              Github action that posts your jest test results into PRs and commits
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+      </div>
+
+    </div>
+
+    <nav class="header" style="top: 0; background-color: black;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <a
+          class="transition duration-500 text-white rounded px-4 flex items-center flex-1"
+          href="/"
+        >
+          <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
+          <span>Oscar Franco</span>
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://twitter.com/ospfranco"
+        >
+          Twitter
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://github.com/ospfranco"
+        >
+          Github
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="/aboutMe"
+        >
+          About
+        </a>
+      </div>
+    </nav>
+
+  </body>
+</html>

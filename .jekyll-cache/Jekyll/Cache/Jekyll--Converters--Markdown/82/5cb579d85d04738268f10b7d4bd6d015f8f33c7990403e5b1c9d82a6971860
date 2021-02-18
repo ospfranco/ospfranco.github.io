@@ -1,0 +1,43 @@
+I"�<p>Recently a friend send me a link with some react-native <a href="https://blog.soshace.com/performance-optimizations-for-react-native-applications/">performance optimizations</a>, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:</p>
+
+<h2 id="1-inlining-is-more-complex-in-functional-components">1. Inlining is more complex in functional components</h2>
+<p>the article mentions not to pass inline functions and moves the function declaration outside of the jsx, this was true with class components, but functional components are a different game, it doesn’t matter where in your component you declare them they will always get created every time the component renders, if you really one to have a single declared function you need to use a useRef hook:</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">myCallback</span> <span class="o">=</span> <span class="nx">useRef</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// some static function</span>
+<span class="p">}).</span><span class="nx">current</span>
+
+<span class="k">return</span> <span class="p">(...)</span>
+</code></pre></div></div>
+
+<h2 id="2-hermes-has-caveats">2. Hermes… has caveats</h2>
+<p>Don’t get me wrong, hermes will improve the start-up performance of your application, but… it’s a custom engine, will all the caveats of a custom engine, there are some missing parts here and there (at my current company we had to polyfill/patch date/time functions to get our time library luxon to work), it’s up to you to realize if it is worth the tradeoff</p>
+
+<h2 id="3-flatlists-are-okish-until-they-are-not">3. flatlists are okish, until they are not</h2>
+<p>FlatLists are virtualized and that is good, if you have a few hundred elements, once you start talking about thousands, then it breaks down, if you want real performance you need to use a list that re-uses each item component such as <a href="https://github.com/bolan9999/react-native-largelist">large-list</a> or some other variation that recycles views to keep performance to a maximum</p>
+
+<h2 id="4-beware-of-images">4. Beware of images</h2>
+<p>I’ve actually fallen and seen other fall into this trap over and over, just because you set an image to be hidden (doesn’t matter how, height: 0, visibility: ‘hidden’, etc), doesn’t mean there is no processing going on the background, the computer will still load the image into memory, do all the transformations and adjustments and then apply your styling, a lot of processing power is wasted, I really mean a LOT, rule of thumb is: if you don’t need it, exclude the component entirely</p>
+
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="o">!!</span><span class="nx">showImage</span> <span class="o">&amp;&amp;</span> <span class="o">&lt;</span><span class="nx">Image</span> <span class="nx">source</span><span class="o">=</span><span class="p">{</span><span class="nx">myCatImage</span><span class="p">}</span> <span class="sr">/&gt;</span><span class="err">}
+</span></code></pre></div></div>
+
+<h2 id="5-very-interaction-heavy-components-will-never-be-smooth-on-js">5. Very interaction heavy components will never be smooth on JS</h2>
+<p>Check out <a href="https://ospfranco.github.io/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/">How to trick Mapbox to render any tile set</a>, no matter how clever you think you are or how hard the JIT works for you, at some point you will hit a hard barrier, in this cases, instead of building your gesture-handler-monster it is a good idea to take a step back and see if you can integrate a more native solution into your app</p>
+
+<h2 id="6-android-receives-no-love-even-from-google">6. Android receives no love (even from google)</h2>
+<p>This has been actually the hardest hitting point for me in the past 3 years, somethings in android are just WORSE, just one example: the most painful thing I have seen so far is file uploading, let just get this out of the way, if you are trying to build an application that uploads a lot of files in RN, you are going to have a bad time, the moment you try to upload more than 1 - 2 files (or have background uploads), almost all android phones start dying, current standard is <a href="https://github.com/joltup/rn-fetch-blob">react-native-fetch-blob</a> it made the app experience miserable in my previous apps</p>
+
+<p>There are a few other examples here (ex. react-native-camera) and there of how things can impact the performance on android, just know, you will feel the pain if your app is anything more than just lists, texts and images</p>
+
+<h2 id="7-use-reanimated-and-lottie">7. Use Reanimated and lottie</h2>
+<p>If you are doing something with animations [react-native-reanimated] is the best you can aim for, it takes time to wrap your head on how to work with the API and manipulating native values declaratively but the result it’s always buttery smooth.</p>
+
+<p>Same goes for gifs, lower end devices will run hot and kill battery, switching to lottie for static animations has helped me in this cases before</p>
+
+<h2 id="8-react-navigation-has-gotten-better">8. React navigation has gotten better</h2>
+<p>but <a href="https://github.com/wix/react-native-navigation">react-native-navigation</a> by WIX was a lot smoother (at least when I tested it)</p>
+
+<h2 id="9-use-a-lazy-loaded-native-storage-solution">9. Use a lazy loaded native storage solution</h2>
+<p>Redux-persist and mobx-persist do the job, but if you want/need to handle thousands of items in your app and want to squeeze the last drop of performance you need to go native, using things like RxDB, WatermelonDb or Realm.js will be by far the biggest performance improvements if your app handles a lot of individual entities</p>
+:ET

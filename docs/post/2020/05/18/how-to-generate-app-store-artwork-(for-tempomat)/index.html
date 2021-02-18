@@ -1,0 +1,184 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar's Blog" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>How to create assets for your App (Artwork, Icons, etc) | Oscar’s Blog</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="How to create assets for your App (Artwork, Icons, etc)" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A guide for the solo developer to leave designers out of work" />
+<meta property="og:description" content="A guide for the solo developer to leave designers out of work" />
+<link rel="canonical" href="https://ospfranco.github.io/post/2020/05/18/how-to-generate-app-store-artwork-(for-tempomat)/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2020/05/18/how-to-generate-app-store-artwork-(for-tempomat)/" />
+<meta property="og:site_name" content="Oscar’s Blog" />
+<meta property="og:image" content="https://ospfranco.github.io/assets/taco.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-05-18T15:00:00+02:00" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta property="twitter:image" content="https://ospfranco.github.io/assets/taco.png" />
+<meta property="twitter:title" content="How to create assets for your App (Artwork, Icons, etc)" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"How to create assets for your App (Artwork, Icons, etc)","dateModified":"2020-05-18T15:00:00+02:00","datePublished":"2020-05-18T15:00:00+02:00","url":"https://ospfranco.github.io/post/2020/05/18/how-to-generate-app-store-artwork-(for-tempomat)/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2020/05/18/how-to-generate-app-store-artwork-(for-tempomat)/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"A guide for the solo developer to leave designers out of work","image":"https://ospfranco.github.io/assets/taco.png","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<html>
+  <body>
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
+      <div class="content">
+        <div class="py-12 px-4">
+  <h1 class="font-semibold text-2xl text-center">How to create assets for your App (Artwork, Icons, etc)</h1>
+  <div class="text-gray-500 text-center">
+    May 2020
+  </div>
+  
+  <div class="markdown mt-6">
+    <p>So I recently had a small twitter exchange with Jamie Birch, he wanted to generate some artwork for Lingua Franca, I shortly explained my workflow, and I think it is a interesting topic to explore further, so I’m just going to line-out how I do it, it is by no means the perfect way, it might not be even a good way, but if anyone finds it useful or can show me a better way, then would be more than happy.</p>
+
+<p>So, <a href="https://tempomat.dev">Tempomat</a> is a small macOS utility to monitor CI pipelines, the requirements are fairly simple:</p>
+
+<ul>
+  <li>I needed to create an app icon, with all the size variations needed to publish an app to the app store (in this case macOS icons)</li>
+  <li>Every once in while I need to add custom icons, I am by no means a designer, so I try to stick to simple shapes/icons I can easily replicate or sometimes use placeholder art from sites like the noun project and then replace them with my own versions.</li>
+  <li>I also need to generate marketing material and app store artwork, if you constantly update your product generating this can be cumbersome at least</li>
+</ul>
+
+<p>I’m a big believer of the KISS principle, so I basically use 2 tools, Figma and a small script to generate icons, here is a screenshot of current file I have:</p>
+
+<p><img src="https://ospfranco.github.io/assets/tempomat/1.JPG" alt="Tempomat Figma" title="Tempomat figma" /></p>
+
+<p>It is pretty minimal and I already cleaned it up a bit for this article, but I intentionally try to keep it as simple as I can, so let’s go by parts</p>
+
+<h2 id="app-icon">App Icon</h2>
+<p>I won’t show you how many iterations I went through until I reached the current app icon, but Figma is great for this, it is super simple, yet provides you with a way to achieve almost anything you might need for an icon, you could do the same thing in sketch but the benefit of Figma is that it’s free, if you need collaboration then it is also the ultimate tool to run the job!</p>
+
+<p><img src="https://ospfranco.github.io/assets/tempomat/2.JPG" alt="Tempomat Icon" title="Tempomat Icon" /></p>
+
+<p>I create the frame with a 1024x1024 size and just work on top of that, duplicating the frame as I go trying ideas and variations, once I’m happy with the result I right click copy as png and then paste it again so I don’t have to worry about funny scaling issues when resizing the icon in the artwork.</p>
+
+<p>Afterwards I export the full 1024x1024 icon as a PNG and I use the <a href="https://github.com/smallmuou/ios-icon-generator">ios-icon-generator</a> script that I found on github, there are many web tools that can do this for you, but they are all bug fest/ads mess, just point the script to the input file and where you want to drop the generated files and enjoy:</p>
+
+<p><code class="language-plaintext highlighter-rouge">./ios-icon-generator.sh myIcon.png iosIcons/</code></p>
+
+<h2 id="other-icons">Other Icons</h2>
+<p>Tempomat integrates with 3rd party CI systems so I just find a svg representation of the company logo and drop it right into figma, sometimes I might do small modifications to make the icon look nice within the app, then I can quickly modify colors which are used for representing the status of a branch/repo</p>
+
+<p><img src="https://ospfranco.github.io/assets/tempomat/3.JPG" alt="Other Icons" title="Other Icons" /></p>
+
+<h2 id="artwork">Artwork</h2>
+<p>This one is by far the biggest time saver, for the macOS app store art, the resolution is not the same as the macbook (my macbook model?), so at first I fumbled around trying to make screenshots fit the asked resolution, until at some point I just gave up and realized I was just wasting my time, I just create a frame with the necessary resolution (in this case 2880x1800), then I can put the any screenshot I need in there, make it fit, put some promotional text or w/e.</p>
+
+<p>I also made a component of this small repeated pattern, so I only have to adjust it once to generate more artwork for social media, different platforms, etc. it’s pretty handy</p>
+
+<p><img src="https://ospfranco.github.io/assets/tempomat/4.JPG" alt="Artwork" title="Artwork" /></p>
+
+<h2 id="when-prototyping-the-most-important-thing-is-funtionality">When Prototyping the most important thing is Funtionality</h2>
+<p>Form follows function, Dieter Rams said it, so I actually heavily discourage using Figma for prototyping ideas, I loose focus of the important things, I really couldn’t care less about paddings and margins, they are important in the final product, but I’m a strong believer of sketching rough ideas on an iPad or a piece of paper (a la <a href="https://basecamp.com/shapeup">shape-up</a>) but then building a ugly but functional code prototype, I can iterate 20 times quicker with hard coded values and interact with real code without having to do some presentation with figma frames (which is possible but I don’t like it)</p>
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200" ></div>
+
+<div class="my-6 px-4">
+  <h2 class="text-lg font-bold py-4">Open source projects</h2>
+  
+  <div>
+    <a href="https://tempomat.dev">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Tempomat</div>
+            <div >
+              macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+              when something is broken
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Link Preview JS</div>
+            <div>
+              Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Github Jester</div>
+            <div >
+              Github action that posts your jest test results into PRs and commits
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+      </div>
+
+    </div>
+
+    <nav class="header" style="top: 0; background-color: black;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <a
+          class="transition duration-500 text-white rounded px-4 flex items-center flex-1"
+          href="/"
+        >
+          <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
+          <span>Oscar Franco</span>
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://twitter.com/ospfranco"
+        >
+          Twitter
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://github.com/ospfranco"
+        >
+          Github
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="/aboutMe"
+        >
+          About
+        </a>
+      </div>
+    </nav>
+
+  </body>
+</html>

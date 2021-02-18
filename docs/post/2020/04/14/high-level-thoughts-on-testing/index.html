@@ -1,0 +1,176 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar's Blog" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>High level thoughts on (software) testing | Oscar’s Blog</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="High level thoughts on (software) testing" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Why are interviewers even asking me about this" />
+<meta property="og:description" content="Why are interviewers even asking me about this" />
+<link rel="canonical" href="https://ospfranco.github.io/post/2020/04/14/high-level-thoughts-on-testing/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2020/04/14/high-level-thoughts-on-testing/" />
+<meta property="og:site_name" content="Oscar’s Blog" />
+<meta property="og:image" content="https://ospfranco.github.io/assets/taco.png" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-04-14T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.github.io/assets/taco.png" />
+<meta property="twitter:title" content="High level thoughts on (software) testing" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"High level thoughts on (software) testing","dateModified":"2020-04-14T15:00:00+02:00","datePublished":"2020-04-14T15:00:00+02:00","url":"https://ospfranco.github.io/post/2020/04/14/high-level-thoughts-on-testing/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2020/04/14/high-level-thoughts-on-testing/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"Why are interviewers even asking me about this","image":"https://ospfranco.github.io/assets/taco.png","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<html>
+  <body>
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
+      <div class="content">
+        <div class="py-12 px-4">
+  <h1 class="font-semibold text-2xl text-center">High level thoughts on (software) testing</h1>
+  <div class="text-gray-500 text-center">
+    April 2020
+  </div>
+  
+  <div class="markdown mt-6">
+    <p>(I got a new keyboard! just putting some randoms thoughts to stretch my fingers a bit, there is nothing new in this article, there are many more qualified people than me to talk about tests and TDD, but there might be one or two interesting anecdotes for veterans)</p>
+
+<p>So I recently went over a round of interviews in different companies and I noticed one thing, I was being asked in each one of them what is my stance on tests, very particular, I wonder if there is some sort of industry trend here in Germany regarding testing or QA, so here are some thoughts in written form</p>
+
+<h3 id="tests-are-generally-good">Tests are (generally) good</h3>
+
+<p>Of course there is subtlety in the matter, too many tests and refactoring/changing code becomes costly, too little and you might miss valuable edge cases, somewhere in there, there is an optimum, trying to put a number on it though without taking into a account the context is surely the wrong way of doing things.</p>
+
+<p>I remember a particular story, I believe it was Oracle’s database, over the years it has accrued hundreds of thousands of tests, one could argue it is the ultimate example of TDD, but it really sounds a bit nightmarish, every single change or new feature breaks hundreds of tests at the time, so the amount of effort for changing the code is huge, but then again, oracle has been around for a long time, and some very large enterprises continue to use very old deployments, one cannot afford to loose data and create broken migration paths for these these customers, it does sound like the right decision to me to have all this effort every time a new change is introduced (from a business point of view anyways).</p>
+
+<h3 id="back-end-and-integration-tests-are-absolutely-necessary-front-end-tests-on-the-other-hand">Back-end and integration tests are absolutely necessary, front-end tests on the other hand…</h3>
+
+<p>Back-end and unit tests are easy to do (most of the time) and they provide a lot of value, if you are also providing a SaaS (who isn’t these days) integration tests are also very necessary, you don’t know who is consuming which version of your API out there, minor changes can completely break integration for customers or even older version of your apps.</p>
+
+<p>Regarding apps, if you have a mobile app on iOS and/or Android, I have learned that once some version is out there… it will remain out there pretty much forever, it doesn’t matter how much you try to nudge your users into updating, some just won’t, in some regards deploying software has gone back to the pre-internet era, where your packaged application once released was untouchable, my advice is, if you are offering a mobile app, build some in-app mechanism to force your users to upgrade when you need to, it will save you a lot of technical support calls and therefore time, it doesn’t have to be the first thing you build, but once of you start reaching certain maturity level and start changing your API often, it should be pretty high up the list.</p>
+
+<p>When writing integration tests I also suggest you (also/in addition to) do them from your front-end client, your client (webapp/mobileapp/etc) should have the network layer code encapsulated, there are many benefits to this, not the least making sure your current version of the software behaves correctly, it might not be as good as a full suite of e2e tests but they do provide value.</p>
+
+<p>And this brings me to the last point, front-end testing, to be honest here I haven’t had a good experience with front-end testing so far, it is a very clunky and time consuming experience, but alas some subtlety in this point, some components of your front-end code will be very easy to test, they will either be unit tests or close, they pose no problem, however I find the experience of actually trying to mount a large tree of components (in react for example) breaks down completely, or if you are using react native some native components will not mount, I will say that testing your main user paths might provide some value, from my experience I can only say: front-end tests have been so time consuming, require so much effort to implement (hello large component trees), debug (hello looking at text dumps of the DOM) and maintain (hello frequent UI changes), I actually discourage their use in the teams I have worked with.</p>
+
+<h3 id="not-all-tests-are-created-the-same">Not all tests are created the same</h3>
+
+<p>I’ve seen projects with hundreds of tests, and the teams had a sense of security about their changes, but a large portion of them where there to make sure the API was returning the correct HTTP code, only a handful where actually checking hot paths and business logic, so test creation can become endemic, however there might be some other reason to do it, I know that on large corporates there are security audits, and covering every little corner case to make sure the application is not vulnerable is vital of importance. I don’t think they provide the same value though and one can get caught in a loop, where just by having tests that check for 4XX or 5XX cases one gets a false sense of security that the product is behaving correctly, this one is more a slippery slope though, careful consideration should be given to the tests and they should be code reviewed to make sure they actually provide value and they are not just adding to a grand test number.</p>
+
+<h3 id="automated-testing-is-no-replacement-for-a-qa-person">Automated testing is no replacement for a QA person</h3>
+
+<p>Automated testing is good, I will save (a variable amount) of time and effort and testing any hot path in your application is sure to bring benefits to your end users, however it has it’s limits, some might be technical (as mentioned mounting components can be a pain) or some sort of subtle behavior which is not easy to define, but at the end of the day, we build products for other people to use, a pair of human eyes looking at the application will (potentially) provide you with feedback more valuable than automated process could provide you with.</p>
+
+<h3 id="at-the-end-they-are-just-means-to-and-end">At the end they are just means to and end</h3>
+
+<p>Use your own judgment, take into account your context, can you afford a QA person? does it slow down the release process too much? or should quality suffer for a bit while you try to reach certain business goals, they are all valid arguments and no one is in a better position than you to judge how much effort you should put in creating/maintaining your test suite.</p>
+
+<p>So those are some of my high levels thoughts on testing, did not go into technical detail, because I don’t think it matter than much, each programming language will have a different (many) testing frameworks, and some will be easier to do than others and some will not be able to do everything you want, doesn’t matter that much, pick your poison, stick with it, it’s worth it.</p>
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200" ></div>
+
+<div class="my-6 px-4">
+  <h2 class="text-lg font-bold py-4">Open source projects</h2>
+  
+  <div>
+    <a href="https://tempomat.dev">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Tempomat</div>
+            <div >
+              macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+              when something is broken
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Link Preview JS</div>
+            <div>
+              Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="flex flex-col h-full items-center">
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+          <div class="h-2 w-2 bg-gray-400 group-hover:bg-green-400"></div>
+          <div class="group-hover:opacity-0 border-l w-0 flex-1"></div>
+        </div>
+        <div class="transition duration-200 overflow-hidden m-2">
+          <div class="p-3">
+            <div class="font-semibold">Github Jester</div>
+            <div >
+              Github action that posts your jest test results into PRs and commits
+            </div>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+      </div>
+
+    </div>
+
+    <nav class="header" style="top: 0; background-color: black;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <a
+          class="transition duration-500 text-white rounded px-4 flex items-center flex-1"
+          href="/"
+        >
+          <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
+          <span>Oscar Franco</span>
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://twitter.com/ospfranco"
+        >
+          Twitter
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="https://github.com/ospfranco"
+        >
+          Github
+        </a>
+        <a
+          class="transition duration-500 text-white rounded px-4"
+          href="/aboutMe"
+        >
+          About
+        </a>
+      </div>
+    </nav>
+
+  </body>
+</html>
