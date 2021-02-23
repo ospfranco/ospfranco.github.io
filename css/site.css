@@ -5,14 +5,15 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-@font-face {
+/* @font-face {
   font-family: "Inter";
   src: url("./assets/fonts/Inter.ttf");
-}
+} */
 
 html {
-  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
   font-weight: 300;
+  background-color: #FBFBFB;
 }
 
 .markdown p {
@@ -83,7 +84,7 @@ code {
 
 
 .header {
-  @apply w-full flex justify-center fixed bg-white;
+  @apply w-full flex justify-center fixed;
 }
 
 @media (min-width: 768px) {
