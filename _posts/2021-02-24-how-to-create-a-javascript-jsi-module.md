@@ -189,6 +189,8 @@ And that's it, you now have a JSI module, let me know if you have any problems, 
 
 Many many thanks to [Takuya](https://twitter.com/inkdrop_app) for creating his base64 implementation (I basically copied and pasted a lot of his code), you might also want to check [this implementation](https://github.com/react-native-async-storage/async-storage/issues/291) by [Jarred Sumner](https://twitter.com/jarredsumner), which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).
 
-// TODO: Android implementation (will come much later)
-// Right now in order to test this, I build the example app from scratch (delete pods, install pods, full build), which is super slow, if anyone knows an easier way to test this, I would be really thankful.
-// I want to build a SQLite database implementation with JSI bindings, it will start small and stupid (run SQL queries) but the important thing to me is that it syncs to a REST API, if anyone is a c++ guru and has experience with SQLite, I would love to learn from you. please contact me.
+**TODO** Android implementation (will come much later)
+
+**TODO** Right now in order to test this, I build the example app from scratch (delete pods, install pods, full build), which is super slow, if anyone knows an easier way to test this, I would be really thankful.
+
+**TODO** I want to build a SQLite database implementation with JSI bindings, it will start small and stupid (run SQL queries) but the important thing to me is that it syncs to a REST API, if anyone is a c++ guru and has experience with SQLite, I would love to learn from you. please contact me.
