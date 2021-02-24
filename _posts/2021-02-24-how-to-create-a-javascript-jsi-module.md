@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to create a javascript JSI module
+title: How to create a react-native JSI module
 date: 2021-02-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
