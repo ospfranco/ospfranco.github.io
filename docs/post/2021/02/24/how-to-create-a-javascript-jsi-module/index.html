@@ -1,0 +1,310 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar Franco on Github" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>How to create a javascript JSI module | Oscar Franco on Github</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="How to create a javascript JSI module" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
+<meta property="og:description" content="Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
+<link rel="canonical" href="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
+<meta property="og:site_name" content="Oscar Franco on Github" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-02-24T14:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to create a javascript JSI module" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"How to create a javascript JSI module","dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+<html>
+  <body>
+    <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
+      <div class="content">
+        <div class="py-12 px-4">
+  <h1 class="font-semibold text-2xl text-center">How to create a javascript JSI module</h1>
+  <div class="text-gray-500 text-center">
+    February 2021
+  </div>
+  
+  <div class="markdown mt-6">
+    <p>Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.</p>
+
+<p>Basically I will explain how to create a JSI module like you are 5 (or I am 5?). Also, <strong>I do not know obj-c</strong> and I barely know c++, all I did was look at other repos, look at source code and try to understand what is going on, but in the end I got the binding working, so I’m going to share whatever little I know.</p>
+
+<h2 id="creating-the-base-module">Creating the base module</h2>
+
+<p>So, you could do this only for your project if you have some specific functionality, but we are going to create a separate module because scaffolding is easier, we are going to use <a href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a>, builder bob already supports creating cpp modules, via the old bridge.</p>
+
+<p>Just initialize your project:</p>
+
+<p><code class="language-plaintext highlighter-rouge">npx react-native-builder-bob create react-native-awesome-module</code></p>
+
+<p>It will ask you a bunch of questions, at some point it will also ask you which type of project you want, select the c++ option, this won’t create a JSI module, but it will set up the c++ compilation for us.</p>
+
+<h3 id="installing-the-jsi-bindings">Installing the JSI bindings</h3>
+
+<p>Now, we are going to go to the iOS folder and modify the created header file (.h) and obj-c file, wherever you see “react-native-sequel” just replace your package name, on your header file, you should have something like this:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTBridgeModule.h&gt;
+#import "react-native-sequel.h"
+</span>
+<span class="err">@</span><span class="n">interface</span> <span class="n">Sequel</span> <span class="o">:</span> <span class="n">NSObject</span> <span class="o">&lt;</span><span class="n">RCTBridgeModule</span><span class="o">&gt;</span>
+
+<span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">setBridgeOnMainQueue</span><span class="p">;</span>
+
+<span class="err">@</span><span class="n">end</span>
+</code></pre></div></div>
+
+<p>and on the obj-c file (.mm):</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "Sequel.h"
+#import &lt;React/RCTBridge+Private.h&gt;
+#import &lt;React/RCTUtils.h&gt;
+#import "react-native-sequel.h"
+</span>
+<span class="k">@implementation</span> <span class="nc">Sequel</span>
+
+<span class="k">@synthesize</span> <span class="n">bridge</span><span class="o">=</span><span class="n">_bridge</span><span class="p">;</span>
+<span class="k">@synthesize</span> <span class="n">methodQueue</span> <span class="o">=</span> <span class="n">_methodQueue</span><span class="p">;</span>
+
+<span class="n">RCT_EXPORT_MODULE</span><span class="p">()</span>
+
+<span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">requiresMainQueueSetup</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setBridge</span><span class="p">:(</span><span class="n">RCTBridge</span> <span class="o">*</span><span class="p">)</span><span class="nv">bridge</span> <span class="p">{</span>
+  <span class="n">_bridge</span> <span class="o">=</span> <span class="n">bridge</span><span class="p">;</span>
+  <span class="n">_setBridgeOnMainQueue</span> <span class="o">=</span> <span class="n">RCTIsMainQueue</span><span class="p">();</span>
+
+  <span class="n">RCTCxxBridge</span> <span class="o">*</span><span class="n">cxxBridge</span> <span class="o">=</span> <span class="p">(</span><span class="n">RCTCxxBridge</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">bridge</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cxxBridge</span><span class="p">.</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
+
+  <span class="n">installSequel</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">*</span><span class="p">)</span><span class="n">cxxBridge</span><span class="p">.</span><span class="n">runtime</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">invalidate</span> <span class="p">{</span>
+  <span class="n">cleanUpSequel</span><span class="p">();</span>
+<span class="p">}</span>
+
+<span class="k">@end</span>
+</code></pre></div></div>
+
+<p>Important things to notice here:</p>
+<ul>
+  <li>We are importing the React/RCTBridge+Private header file, which is the one that exposes the jsi bindings</li>
+  <li>The important work is done on the setBridge and invalidate functions, you see we get a reference to the <code class="language-plaintext highlighter-rouge">cxxBridge.runtime</code> that is the instance of the JSI bridge running, which we will be using for everything, the <code class="language-plaintext highlighter-rouge">installSequel</code> is a function we will create to expose (install?) our c++ exposed functions.</li>
+</ul>
+
+<h3 id="writing-our-bindings">Writing our bindings</h3>
+
+<p>You can now go to the <code class="language-plaintext highlighter-rouge">cpp</code> folder in the root of the project, there builder-bob should have created some basic c++ for you to use, you can delete it and create a header file (react-native-sequel.h in my case) and it’s implementation (react-native-sequel.cpp).</p>
+
+<p>For our header file:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;jsi/jsilib.h&gt;
+#include &lt;jsi/jsi.h&gt;
+</span>
+<span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">();</span>
+</code></pre></div></div>
+<blockquote>
+  <p>We are basically exposing the two functions we used in the bridging code inside the iOS folder</p>
+</blockquote>
+
+<p>For our implementation:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "react-native-sequel.h"
+</span>
+<span class="cp">#include &lt;iostream&gt;
+#include &lt;sstream&gt;
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">facebook</span><span class="p">;</span>
+
+<span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Initializing react-native-sequel"</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
+
+  <span class="k">auto</span> <span class="n">multiply</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">createFromHostFunction</span><span class="p">(</span>
+    <span class="n">jsiRuntime</span><span class="p">,</span> <span class="c1">// JSI runtime instance</span>
+    <span class="n">jsi</span><span class="o">::</span><span class="n">PropNameID</span><span class="o">::</span><span class="n">forAscii</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">),</span> <span class="c1">// Create function name</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="c1">// Number of arguments in function</span>
+    <span class="p">[](</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">&amp;</span> <span class="n">thisValue</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">*</span> <span class="n">arguments</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="p">{</span> <span class="c1">// callable function</span>
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">isNumber</span><span class="p">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">isNumber</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"Non number arguments passed to sequel"</span><span class="p">);</span>
+      <span class="p">}</span>
+
+      <span class="kt">double</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
+
+  <span class="c1">// Registers the function, not on the global object but as a global function</span>
+  <span class="n">jsiRuntime</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">multiply</span><span class="p">));</span>
+<span class="p">}</span>
+
+<span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// intentionally left blank</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The code comments should clarify what each line does, however there are some blanks that still need some filling, mostly around the API for the JSI, unfortunately, there is <strong>0</strong> documentation for it… You will have to resort reading the <a href="https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp">JSI source code</a> for it (if you are c++ retarded like me, it might be a little difficult)</p>
+
+<p>However, I can explain a few things:</p>
+
+<p><code class="language-plaintext highlighter-rouge">jsi::Value</code> is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an <a href="https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp">example</a>), there are also other methods, in the code I present I’m using <code class="language-plaintext highlighter-rouge">jsi::detail::throwJSError</code> to throw a JS error to the javascript code (note that this code is also sync, so you need try..catch).</p>
+
+<p>There are other convenience methods for dealing with JSIValues such as isNumber, isString, to help you cast from javascript values to C++/obj-c values (do note that javascript numbers are always doubles), you might also need to be proficient with pointers to move stuff like strings/arrays around (which I’m not :D anyone wants to teach me?).</p>
+
+<h3 id="exposing-a-sensible-api">Exposing a sensible API</h3>
+
+<p>Finally, on our index.ts file we can create bindings for this function (I’m not sure if they also get exposed to the wrapper app, for now I created a dumb wrapper), having typescript also allows for type checking on the JS level</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// /src/index.tsx</span>
+<span class="kr">declare</span> <span class="kd">function</span> <span class="nx">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="kd">function</span> <span class="nx">multiplyA</span><span class="p">():</span> <span class="kr">number</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nx">multiply</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>and finally on the react-native app that uses this module:</p>
+
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">import</span> <span class="p">{</span> <span class="nx">StyleSheet</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Text</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">multiplyA</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native-sequel</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">result</span><span class="p">,</span> <span class="nx">setResult</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="o">&lt;</span><span class="kr">number</span> <span class="o">|</span> <span class="kc">undefined</span><span class="o">&gt;</span><span class="p">();</span>
+
+  <span class="nx">React</span><span class="p">.</span><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">setResult</span><span class="p">(</span><span class="nx">multiplyA</span><span class="p">());</span>
+  <span class="p">},</span> <span class="p">[]);</span>
+
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="p">&lt;</span><span class="nc">View</span> <span class="na">style</span><span class="p">=</span><span class="si">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="si">}</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Text</span><span class="p">&gt;</span>Result: <span class="si">{</span><span class="nx">result</span><span class="si">}</span><span class="p">&lt;/</span><span class="nc">Text</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nc">View</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
+
+<span class="kd">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+  <span class="na">container</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">alignItems</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">box</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="na">marginVertical</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>And that’s it, you now have a JSI module, let me know if you have any problems, you can check this exact <a href="https://github.com/ospfranco/react-native-sequel">implementation</a>.</p>
+
+<p>Many many thanks to <a href="https://twitter.com/inkdrop_app">Takuya</a> for creating his base64 implementation (I basically copied and pasted a lot of his code), you might also want to check <a href="https://github.com/react-native-async-storage/async-storage/issues/291">this implementation</a> by <a href="https://twitter.com/jarredsumner">Jarred Sumner</a>, which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).</p>
+
+<p>// TODO: Android implementation (will come much later)
+// Right now in order to test this, I build the example app from scratch (delete pods, install pods, full build), which is super slow, if anyone knows an easier way to test this, I would be really thankful.
+// I want to build a SQLite database implementation with JSI bindings, it will start small and stupid (run SQL queries) but the important thing to me is that it syncs to a REST API, if anyone is a c++ guru and has experience with SQLite, I would love to learn from you. please contact me.</p>
+
+  </div>
+</div>
+
+<div class="border-t border-gray-200" ></div>
+
+<div class="px-4 pt-20">
+  <div class="text-6xl font-medium">I'm Oscar Franco;</div>
+  <div class="text-4xl font-medium text-gray-500 pt-4">I do open source and lead development teams, I live in <span class="text-blue-400">Munich 🥨</span>, feel free to contact me!</div>
+</div>
+
+<div class="my-6 px-4">
+  <h2 class="font-medium text-4xl py-4">Open Source</h2>
+  
+  <div>
+    <a href="https://tempomat.dev">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
+        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
+          <div class="font-normal text-gray-500">Tempomat [⭐️ 6]</div>
+          <div class="font-extralight">
+            macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
+            when something is broken
+          </div>
+        </div>
+      </div>
+    </a>
+    
+    <a href="https://github.com/ospfranco/link-preview-js">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
+          <div class="font-normal text-gray-500">Link Preview JS [⭐️ 228]</div>
+          <div class="font-extralight">
+            Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/gh-jester">
+      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
+        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
+
+            <div class="font-normal text-gray-500">GH Jester</div>
+            <div class="font-extralight">
+              Github action that posts your jest test results into PRs and commits
+            </div>  
+        </div>
+      </div>
+    </a>
+  </div>
+</div>
+
+      </div>
+
+    </div>
+
+    <nav class="header" style="top: 0; background-color: #FBFBFB;">
+      <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
+        <a
+          class="transition duration-500 rounded px-4 flex items-center flex-1"
+          href="/"
+        >
+          <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
+          <span>ospfranco</span>
+        </a>
+        <a
+          class="transition duration-500 rounded px-4"
+          href="https://twitter.com/ospfranco"
+        >
+          Twitter
+        </a>
+        <a
+          class="transition duration-500 rounded px-4"
+          href="https://github.com/ospfranco"
+        >
+          Github
+        </a>
+        <a
+          class="transition duration-500 rounded px-4"
+          href="/aboutMe"
+        >
+          About
+        </a>
+      </div>
+    </nav>
+
+  </body>
+</html>
