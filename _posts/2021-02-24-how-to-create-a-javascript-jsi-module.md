@@ -187,7 +187,7 @@ const styles = StyleSheet.create({
 
 And that's it, you now have a JSI module, let me know if you have any problems, you can check this exact [implementation](https://github.com/ospfranco/react-native-sequel).
 
-Many many thanks to [Takuya](https://twitter.com/inkdrop_app) for creating his base64 implementation (I basically copied and pasted a lot of his code), you might also want to check [this implementation](https://github.com/react-native-async-storage/async-storage/issues/291) by [Jarred Sumner](https://twitter.com/jarredsumner), which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).
+Many many thanks to [Takuya](https://twitter.com/inkdrop_app) for creating his [base64 implementation](https://github.com/craftzdog/react-native-quick-base64) (I basically copied and pasted a lot of his code), you might also want to check [this implementation](https://github.com/react-native-async-storage/async-storage/issues/291) by [Jarred Sumner](https://twitter.com/jarredsumner), which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).
 
 **TODO** Android implementation (will come much later)
 
