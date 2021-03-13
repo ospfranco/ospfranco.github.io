@@ -93,7 +93,7 @@ Add the correct text decoration in Chrome, Edge, and Safari.
 Add the correct font weight in Edge and Safari.
 */
 
-
+b,
 strong {
   font-weight: bolder;
 }
@@ -494,21 +494,6 @@ video {
   }
 }
 
-.bg-gray-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(156, 163, 175, var(--tw-bg-opacity));
-}
-
-.group:hover .group-hover\:bg-green-400 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(52, 211, 153, var(--tw-bg-opacity));
-}
-
-.group:hover .group-hover\:bg-blue-300 {
-  --tw-bg-opacity: 1;
-  background-color: rgba(147, 197, 253, var(--tw-bg-opacity));
-}
-
 .hover\:bg-white:hover {
   --tw-bg-opacity: 1;
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
@@ -535,10 +520,6 @@ video {
   border-top-width: 1px;
 }
 
-.border-l {
-  border-left-width: 1px;
-}
-
 .inline {
   display: inline;
 }
@@ -557,10 +538,6 @@ video {
 
 .hidden {
   display: none;
-}
-
-.flex-col {
-  flex-direction: column;
 }
 
 .flex-wrap {
@@ -595,14 +572,6 @@ video {
   font-weight: 600;
 }
 
-.font-bold {
-  font-weight: 700;
-}
-
-.h-2 {
-  height: 0.5rem;
-}
-
 .h-12 {
   height: 3rem;
 }
@@ -615,18 +584,9 @@ video {
   height: 7rem;
 }
 
-.h-full {
-  height: 100%;
-}
-
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
-}
-
-.text-lg {
-  font-size: 1.125rem;
-  line-height: 1.75rem;
 }
 
 .text-2xl {
@@ -661,10 +621,6 @@ video {
   margin-top: 1.5rem;
 }
 
-.group:hover .group-hover\:opacity-0 {
-  opacity: 0;
-}
-
 .overflow-hidden {
   overflow: hidden;
 }
@@ -673,17 +629,8 @@ video {
   overflow-y: scroll;
 }
 
-.p-3 {
-  padding: 0.75rem;
-}
-
 .p-4 {
   padding: 1rem;
-}
-
-.py-3 {
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
 }
 
 .py-4 {
@@ -739,10 +686,6 @@ video {
   position: absolute;
 }
 
-.relative {
-  position: relative;
-}
-
 * {
   --tw-shadow: 0 0 #0000;
 }
@@ -770,11 +713,6 @@ video {
   text-align: center;
 }
 
-.text-white {
-  --tw-text-opacity: 1;
-  color: rgba(255, 255, 255, var(--tw-text-opacity));
-}
-
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgba(107, 114, 128, var(--tw-text-opacity));
@@ -783,14 +721,6 @@ video {
 .text-blue-400 {
   --tw-text-opacity: 1;
   color: rgba(96, 165, 250, var(--tw-text-opacity));
-}
-
-.w-0 {
-  width: 0px;
-}
-
-.w-2 {
-  width: 0.5rem;
 }
 
 .w-12 {
