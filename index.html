@@ -2,27 +2,25 @@
 layout: default
 ---
 
-<div class="px-4 py-20">
-  <div class="text-6xl font-medium">I'm Oscar Franco;</div>
-  <div class="text-4xl font-medium text-gray-500 pt-4">I do open source and lead development teams, I live in <span class="text-blue-400">Munich 🥨</span>, feel free to contact me!</div>
+<div class="py-12">
+  <div class="text-4xl font-medium">Hey! I'm Oscar.</div>
+  <div class="text-lg text-gray-500 pt-2">I do open source, lead development teams and try to create bootstrapped products.</div>
 </div>
 
 {% include projects.html %}
 
-<h2 class="font-medium text-4xl p-4">Writing & technical guides</h2>
+<h2 class="font-medium text-4xl">Posts</h2>
 
-<div class="px-6">
+<div class="mt-4">
   {% for post in site.posts %}
     <a href="{{ post.url }}" >
-      <div class="transform hover:scale-105 flex w-full items-center h-20 transition duration-200 rounded group p-4 hover:bg-white rounded-xl hover:shadow-lg">
-        <div class="flex-1">
-          <div>
-            {{ post.title }}
-          </div>
-          <div class="text-xs text-gray-500" >
-            {{ post.date | date: "%B %Y" }}
-          </div>
-        </div>    
+      <div class="w-full flex items-center py-3">
+        <div class="flex-1 text-blue-500">
+          {{ post.title }}
+        </div>
+        <div class="text-xs text-gray-500" >
+          {{ post.date | date: "%B %Y" }}
+        </div>
       </div>
     </a>
   {% endfor %}

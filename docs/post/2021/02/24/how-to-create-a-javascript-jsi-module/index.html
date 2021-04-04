@@ -30,7 +30,7 @@
 <html>
   <body>
     <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
-      <div class="content">
+      <div class="content px-3 md:px-0">
         <div class="py-12 px-4">
   <h1 class="font-semibold text-2xl text-center">How to create a react-native JSI module</h1>
   <div class="text-gray-500 text-center">
@@ -219,54 +219,57 @@
 
 <p>Many many thanks to <a href="https://twitter.com/inkdrop_app">Takuya</a> for creating his <a href="https://github.com/craftzdog/react-native-quick-base64">base64 implementation</a> (I basically copied and pasted a lot of his code), you might also want to check <a href="https://github.com/react-native-async-storage/async-storage/issues/291">this implementation</a> by <a href="https://twitter.com/jarredsumner">Jarred Sumner</a>, which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).</p>
 
-<p><strong>TODO</strong> Android implementation (will come much later)</p>
+<p><strong>UPDATE</strong></p>
 
-<p><strong>TODO</strong> Right now in order to test this, I build the example app from scratch (delete pods, install pods, full build), which is super slow, if anyone knows an easier way to test this, I would be really thankful.</p>
-
-<p><strong>TODO</strong> I want to build a SQLite database implementation with JSI bindings, it will start small and stupid (run SQL queries) but the important thing to me is that it syncs to a REST API, if anyone is a c++ guru and has experience with SQLite, I would love to learn from you. please contact me.</p>
+<p>I have taken all the info here and created a new <a href="https://github.com/ospfranco/react-native-quick-sqlite">SQLite react-native library</a>, check it out to learn how to do Android bindings and a lot of other neat things! leave it a star too please!</p>
 
   </div>
 </div>
 
-<div class="border-t border-gray-200" ></div>
+<div class="border-t border-gray-200"></div>
 
-<div class="px-4 pt-20">
-  <div class="text-6xl font-medium">I'm Oscar Franco;</div>
-  <div class="text-4xl font-medium text-gray-500 pt-4">I do open source and lead development teams, I live in <span class="text-blue-400">Munich 🥨</span>, feel free to contact me!</div>
-</div>
-
-<div class="my-6 px-4">
-  <h2 class="font-medium text-4xl py-4">Open Source</h2>
+<div class="my-6">
+  <h2 class="font-medium text-4xl py-4">Apps/Libraries</h2>
   
   <div>
-    <a href="https://tempomat.dev">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
-          <div class="font-normal text-gray-500">Tempomat</div>
-          <div class="font-extralight">
-            macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
-            when something is broken
+    <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">CI Demon</div>
+          <div class="font-extralight text-gray-500">
+            macOS menu bar app, condenses your CI deployments/builds info.
           </div>
         </div>
       </div>
     </a>
     
     <a href="https://github.com/ospfranco/link-preview-js">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
-          <div class="font-normal text-gray-500">Link Preview JS [⭐️ 239]</div>
-          <div class="font-extralight">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">Link Preview JS [⭐️ 243]</div>
+          <div class="font-extralight text-gray-500">
             Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
           </div>
         </div>
       </div>
     </a>
 
+    <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">react-native-sqlite [⭐️ 5]</div>
+          <div class="font-extralight text-gray-500">
+            SQLite for react-native (with JSI bindings), the fastest sqlite library for react-native.
+          </div>
+        </div>
+      </div>
+    </a>
+
     <a href="https://github.com/ospfranco/react-native-macos-menubar-template">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
-          <div class="font-normal text-gray-500">react-native-macos-menubar-template [⭐️ 72]</div>
-          <div class="font-extralight">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">react-native-macos-menubar-template [⭐️ 72]</div>
+          <div class="font-extralight text-gray-500">
             A template to create a macOS menubar app using react-native, companion article is in this blog
           </div>
         </div>
@@ -274,11 +277,11 @@
     </a>
 
     <a href="https://github.com/ospfranco/gh-jester">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
+      <div class="flex w-full items-center">
+        <div class=" overflow-hidden py-3">
 
-            <div class="font-normal text-gray-500">GH Jester</div>
-            <div class="font-extralight">
+            <div class="text-blue-500">GH Jester</div>
+            <div class="font-extralight text-gray-500">
               Github action that posts your jest test results into PRs and commits
             </div>  
         </div>
@@ -291,29 +294,29 @@
 
     </div>
 
-    <nav class="header" style="top: 0; background-color: #FBFBFB;">
+    <nav class="header border-b" style="top: 0; background-color: #FBFBFB;">
       <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
         <a
-          class="transition duration-500 rounded px-4 flex items-center flex-1"
+          class="rounded px-4 flex items-center flex-1"
           href="/"
         >
           <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
-          <span>ospfranco</span>
+          <span class="hidden md:block">ospfranco</span>
         </a>
         <a
-          class="transition duration-500 rounded px-4"
+          class="text-blue-500 rounded px-4"
           href="https://twitter.com/ospfranco"
         >
           Twitter
         </a>
         <a
-          class="transition duration-500 rounded px-4"
+          class="text-blue-500 rounded px-4"
           href="https://github.com/ospfranco"
         >
           Github
         </a>
         <a
-          class="transition duration-500 rounded px-4"
+          class="text-blue-500 rounded px-4"
           href="/aboutMe"
         >
           About

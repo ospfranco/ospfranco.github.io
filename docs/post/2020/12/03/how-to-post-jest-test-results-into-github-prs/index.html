@@ -32,7 +32,7 @@
 <html>
   <body>
     <div class="overflow-y-scroll flex justify-center pt-16 pb-4">
-      <div class="content">
+      <div class="content px-3 md:px-0">
         <div class="py-12 px-4">
   <h1 class="font-semibold text-2xl text-center">How to post Jest results into github PRs</h1>
   <div class="text-gray-500 text-center">
@@ -118,45 +118,50 @@
   </div>
 </div>
 
-<div class="border-t border-gray-200" ></div>
+<div class="border-t border-gray-200"></div>
 
-<div class="px-4 pt-20">
-  <div class="text-6xl font-medium">I'm Oscar Franco;</div>
-  <div class="text-4xl font-medium text-gray-500 pt-4">I do open source and lead development teams, I live in <span class="text-blue-400">Munich 🥨</span>, feel free to contact me!</div>
-</div>
-
-<div class="my-6 px-4">
-  <h2 class="font-medium text-4xl py-4">Open Source</h2>
+<div class="my-6">
+  <h2 class="font-medium text-4xl py-4">Apps/Libraries</h2>
   
   <div>
-    <a href="https://tempomat.dev">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 rounded group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
-          <div class="font-normal text-gray-500">Tempomat</div>
-          <div class="font-extralight">
-            macOS menu bar app that polls your continuous integration system and/or http endpoints and notifies you
-            when something is broken
+    <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">CI Demon</div>
+          <div class="font-extralight text-gray-500">
+            macOS menu bar app, condenses your CI deployments/builds info.
           </div>
         </div>
       </div>
     </a>
     
     <a href="https://github.com/ospfranco/link-preview-js">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
-          <div class="font-normal text-gray-500">Link Preview JS [⭐️ 239]</div>
-          <div class="font-extralight">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">Link Preview JS [⭐️ 243]</div>
+          <div class="font-extralight text-gray-500">
             Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
           </div>
         </div>
       </div>
     </a>
 
+    <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">react-native-sqlite [⭐️ 5]</div>
+          <div class="font-extralight text-gray-500">
+            SQLite for react-native (with JSI bindings), the fastest sqlite library for react-native.
+          </div>
+        </div>
+      </div>
+    </a>
+
     <a href="https://github.com/ospfranco/react-native-macos-menubar-template">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
-          <div class="font-normal text-gray-500">react-native-macos-menubar-template [⭐️ 72]</div>
-          <div class="font-extralight">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500">react-native-macos-menubar-template [⭐️ 72]</div>
+          <div class="font-extralight text-gray-500">
             A template to create a macOS menubar app using react-native, companion article is in this blog
           </div>
         </div>
@@ -164,11 +169,11 @@
     </a>
 
     <a href="https://github.com/ospfranco/gh-jester">
-      <div class="transform hover:scale-105 flex w-full items-center h-28 transition duration-200 group">
-        <div class="transition duration-200 overflow-hidden m-2 p-4 rounded-xl hover:shadow-xl hover:bg-white">
+      <div class="flex w-full items-center">
+        <div class=" overflow-hidden py-3">
 
-            <div class="font-normal text-gray-500">GH Jester</div>
-            <div class="font-extralight">
+            <div class="text-blue-500">GH Jester</div>
+            <div class="font-extralight text-gray-500">
               Github action that posts your jest test results into PRs and commits
             </div>  
         </div>
@@ -181,29 +186,29 @@
 
     </div>
 
-    <nav class="header" style="top: 0; background-color: #FBFBFB;">
+    <nav class="header border-b" style="top: 0; background-color: #FBFBFB;">
       <div class="flex items-center justify-center flex-wrap content py-4 px-4 md:px-0">
         <a
-          class="transition duration-500 rounded px-4 flex items-center flex-1"
+          class="rounded px-4 flex items-center flex-1"
           href="/"
         >
           <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/>
-          <span>ospfranco</span>
+          <span class="hidden md:block">ospfranco</span>
         </a>
         <a
-          class="transition duration-500 rounded px-4"
+          class="text-blue-500 rounded px-4"
           href="https://twitter.com/ospfranco"
         >
           Twitter
         </a>
         <a
-          class="transition duration-500 rounded px-4"
+          class="text-blue-500 rounded px-4"
           href="https://github.com/ospfranco"
         >
           Github
         </a>
         <a
-          class="transition duration-500 rounded px-4"
+          class="text-blue-500 rounded px-4"
           href="/aboutMe"
         >
           About
