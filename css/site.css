@@ -55,7 +55,7 @@ html {
 }
 
 .markdown blockquote {
-  @apply px-4 border-l-2 border-green-500 text-gray-600;
+  @apply px-4 my-2 bg-gray-200 rounded text-gray-800;
 }
 
 .markdown .highlighter-rouge {
