@@ -34,10 +34,6 @@ html {
   @apply font-bold mt-4;
 }
 
-.markdown .highlighter-rouge {
-  @apply py-4;
-}
-
 .markdown a {
   @apply text-blue-500;
 }
@@ -67,19 +63,20 @@ html {
 
 .markdown .highlight {
   @apply p-3 rounded text-gray-800 text-xs;
+  padding: 0!important;
 }
 
-code {
+/* code {
   font-size: 1rem;
-}
+} */
 
 .highlighter-rouge {
-  border-radius: 5px;
+  /* border-radius: 5px; */
   overflow: auto;
 }
 
 .content {
-  width: 100%
+  width: 100%;
 }
 
 
@@ -92,15 +89,3 @@ code {
     width: 768px;
   }
 }
-
-/* .tactical-dot:before {
-  content:"\A";
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background: #b83b3b;
-  display:inline-block;
-  margin-right: 10px;
-} */
-
-
