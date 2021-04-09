@@ -19,8 +19,8 @@
 <meta property="og:title" content="How to create a react-native JSI module" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
-<meta property="og:description" content="Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
+<meta name="description" content="JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
+<meta property="og:description" content="JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
 <link rel="canonical" href="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
 <meta property="og:url" content="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
 <meta property="og:site_name" content="Oscar Franco on Github" />
@@ -31,7 +31,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"headline":"How to create a react-native JSI module","description":"Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.","dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"headline":"How to create a react-native JSI module","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.","dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -46,30 +46,34 @@
     <div class="flex justify-center pt-16 pb-4">
       <div class="w-full lg:w-2/3 xl:w-1/2 px-3">
         <div class="py-12 px-4 lg:px-0">
-  <h1 class="font-semibold text-2xl text-center">How to create a react-native JSI module</h1>
-  <div class="text-gray-500 text-center">
+  <h1 class="font-semibold text-2xl">How to create a react-native JSI module</h1>
+  <div class="text-gray-500">
     February 2021
   </div>
   
   <div class="markdown mt-6">
-    <p>Maybe you have heard about the new react-native architecture, the JSI is a new translation layer between the JS code and the native code, it’s a lot faster than the bridge, etc etc. go watch the talks, I’m here to provide you with a simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.</p>
+    <p>JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.</p>
 
-<p>Basically I will explain how to create a JSI module like you are 5 (or I am 5?). Also, <strong>I do not know obj-c</strong> and I barely know c++, all I did was look at other repos, look at source code and try to understand what is going on, but in the end I got the binding working, so I’m going to share whatever little I know.</p>
+<blockquote>
+  <p>Please note; <strong>I do not know Objective-C</strong> and I barely know C++, all I did was look at other repos, look at source code and try to understand what is going on.</p>
+</blockquote>
 
 <h2 id="creating-the-base-module">Creating the base module</h2>
 
-<p>So, you could do this only for your project if you have some specific functionality, but we are going to create a separate module because scaffolding is easier, we are going to use <a href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a>, builder bob already supports creating cpp modules, via the old bridge.</p>
+<p>We are going to create a separate module because scaffolding is easier, we are going to use <a href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a>, builder-bob already supports creating cpp modules, via the old bridge.</p>
 
-<p>Just initialize your project:</p>
+<p>Start by initializing a new module:</p>
 
-<p><code class="language-plaintext highlighter-rouge">npx react-native-builder-bob create react-native-awesome-module</code></p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx react-native-builder-bob create react-native-awesome-module
+</code></pre></div></div>
 
-<p>It will ask you a bunch of questions, at some point it will also ask you which type of project you want, select the c++ option, this won’t create a JSI module, but it will set up the c++ compilation for us.</p>
+<p>It will ask you a bunch of questions, at some point it will also ask you which type of project you want, select the <strong>C++</strong> option, this won’t create a JSI module, but it will set up the scaffolding necessary for compilation.</p>
 
 <h3 id="installing-the-jsi-bindings">Installing the JSI bindings</h3>
 
-<p>Now, we are going to go to the iOS folder and modify the created header file (.h) and obj-c file, wherever you see “react-native-sequel” just replace your package name, on your header file, you should have something like this:</p>
+<p>Go to the <code class="language-plaintext highlighter-rouge">iOS</code> folder and modify the created <strong>header file</strong> (.h) and <strong>obj-c file</strong> (.mm), wherever you see “react-native-sequel” just replace your package name. You should have something like this:</p>
 
+<p>Header file.</p>
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTBridgeModule.h&gt;
 #import "react-native-sequel.h"
 </span>
@@ -80,8 +84,7 @@
 <span class="err">@</span><span class="n">end</span>
 </code></pre></div></div>
 
-<p>and on the obj-c file (.mm):</p>
-
+<p>Implementation file.</p>
 <div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "Sequel.h"
 #import &lt;React/RCTBridge+Private.h&gt;
 #import &lt;React/RCTUtils.h&gt;
@@ -117,10 +120,10 @@
 <span class="k">@end</span>
 </code></pre></div></div>
 
-<p>Important things to notice here:</p>
+<p>Without going into detail, a couple of things to notice:</p>
 <ul>
-  <li>We are importing the React/RCTBridge+Private header file, which is the one that exposes the jsi bindings</li>
-  <li>The important work is done on the setBridge and invalidate functions, you see we get a reference to the <code class="language-plaintext highlighter-rouge">cxxBridge.runtime</code> that is the instance of the JSI bridge running, which we will be using for everything, the <code class="language-plaintext highlighter-rouge">installSequel</code> is a function we will create to expose (install?) our c++ exposed functions.</li>
+  <li>We are importing the <strong>React/RCTBridge+Private</strong> header file, which is the one that exposes the jsi bindings.</li>
+  <li>The important work is done on the <strong>setBridge</strong> function, here we get a reference to the <code class="language-plaintext highlighter-rouge">cxxBridge.runtime</code>, this is a <strong>runtime</strong> object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a <em>install[YOUR_PROJECT_NAME]</em> function where we will create the JSI functions.</li>
 </ul>
 
 <h3 id="writing-our-bindings">Writing our bindings</h3>
@@ -141,21 +144,27 @@
 
 <p>For our implementation:</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "react-native-sequel.h"
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Import our header file to implement the `installSequel` and `cleanUpSequel` functions</span>
+<span class="cp">#include "react-native-sequel.h"
+</span><span class="c1">// sstream contains functions to manipulate strings in C++</span>
+<span class="cp">#include &lt;sstream&gt;
 </span>
-<span class="cp">#include &lt;iostream&gt;
-#include &lt;sstream&gt;
-</span>
+<span class="c1">// The namespace allows for syntactic sugar around the JSI objects. ex. call: jsi::Function instead of facebook::jsi::Function</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">facebook</span><span class="p">;</span>
 
+<span class="c1">// We get the runtime from the obj-c code and we create our native functions here</span>
 <span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Initializing react-native-sequel"</span> <span class="o">&lt;&lt;</span> <span class="s">"</span><span class="se">\n</span><span class="s">"</span><span class="p">;</span>
-
+  <span class="c1">// jsi::Function::createFromHostFunction will create a JavaScript function based on a "host" (read C++) function</span>
   <span class="k">auto</span> <span class="n">multiply</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">createFromHostFunction</span><span class="p">(</span>
     <span class="n">jsiRuntime</span><span class="p">,</span> <span class="c1">// JSI runtime instance</span>
-    <span class="n">jsi</span><span class="o">::</span><span class="n">PropNameID</span><span class="o">::</span><span class="n">forAscii</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">),</span> <span class="c1">// Create function name</span>
+    <span class="n">jsi</span><span class="o">::</span><span class="n">PropNameID</span><span class="o">::</span><span class="n">forAscii</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">),</span> <span class="c1">// Internal function name</span>
     <span class="mi">1</span><span class="p">,</span> <span class="c1">// Number of arguments in function</span>
-    <span class="p">[](</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">&amp;</span> <span class="n">thisValue</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">*</span> <span class="n">arguments</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="p">{</span> <span class="c1">// callable function</span>
+    <span class="c1">// This is a C++ lambda function, the empty [] at the beginning is used to capture pointer/references so that they don't get de-allocated</span>
+    <span class="c1">// Then you get another instance of the runtime to use inside the function, a "this" value from the javascript world, a pointer to the arguments (you can treat it as an array) and finally a count for the number of arguments</span>
+    <span class="c1">// Finally the function needs to return a jsi::Value (read JavaScript value)</span>
+    <span class="p">[](</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">&amp;</span> <span class="n">thisValue</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">*</span> <span class="n">arguments</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="p">{</span>
+
+      <span class="c1">// the jsi::Value has a lot of helper methods for you to manipulate the data</span>
       <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">isNumber</span><span class="p">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">isNumber</span><span class="p">())</span> <span class="p">{</span>
         <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"Non number arguments passed to sequel"</span><span class="p">);</span>
       <span class="p">}</span>
@@ -165,7 +174,7 @@
     <span class="p">}</span>
   <span class="p">);</span>
 
-  <span class="c1">// Registers the function, not on the global object but as a global function</span>
+  <span class="c1">// Registers the function on the global object</span>
   <span class="n">jsiRuntime</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">multiply</span><span class="p">));</span>
 <span class="p">}</span>
 
@@ -174,13 +183,11 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>The code comments should clarify what each line does, however there are some blanks that still need some filling, mostly around the API for the JSI, unfortunately, there is <strong>0</strong> documentation for it… You will have to resort reading the <a href="https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp">JSI source code</a> for it (if you are c++ retarded like me, it might be a little difficult)</p>
+<p>Unfortunately, there is <strong>0</strong> documentation for the JSI bridge and it’s bindings… You will have to resort reading the <a href="https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp">JSI source code</a>.</p>
 
-<p>However, I can explain a few things:</p>
+<p><code class="language-plaintext highlighter-rouge">jsi::Value</code> is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an <a href="https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp">example</a>). There are also other methods, in the code I present I’m using <code class="language-plaintext highlighter-rouge">jsi::detail::throwJSError</code> to throw a JS error to the javascript code. Note that the function we created is synchronous, and because it can throw an error, you need to wrap it in a try/catch when you call it from the JavaScript side.</p>
 
-<p><code class="language-plaintext highlighter-rouge">jsi::Value</code> is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an <a href="https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp">example</a>), there are also other methods, in the code I present I’m using <code class="language-plaintext highlighter-rouge">jsi::detail::throwJSError</code> to throw a JS error to the javascript code (note that this code is also sync, so you need try..catch).</p>
-
-<p>There are other convenience methods for dealing with JSIValues such as isNumber, isString, to help you cast from javascript values to C++/obj-c values (do note that javascript numbers are always doubles), you might also need to be proficient with pointers to move stuff like strings/arrays around (which I’m not :D anyone wants to teach me?).</p>
+<p>There are other convenience methods for dealing with JSIValues such as <code class="language-plaintext highlighter-rouge">isNumber</code>, <code class="language-plaintext highlighter-rouge">isString</code> (do note that javascript numbers are always doubles). Once you start dealing with objects things get more complicated, you need to be able to move (<code class="language-plaintext highlighter-rouge">std::move</code>) values around, so that they don’t get wiped from memory once your function ends.</p>
 
 <h3 id="exposing-a-sensible-api">Exposing a sensible API</h3>
 
@@ -229,13 +236,15 @@
 <span class="p">});</span>
 </code></pre></div></div>
 
-<p>And that’s it, you now have a JSI module, let me know if you have any problems, you can check this exact <a href="https://github.com/ospfranco/react-native-jsi-template">implementation</a>.</p>
+<h2 id="conclussion">Conclussion</h2>
 
-<p>Many many thanks to <a href="https://twitter.com/inkdrop_app">Takuya</a> for creating his <a href="https://github.com/craftzdog/react-native-quick-base64">base64 implementation</a> (I basically copied and pasted a lot of his code), you might also want to check <a href="https://github.com/react-native-async-storage/async-storage/issues/291">this implementation</a> by <a href="https://twitter.com/jarredsumner">Jarred Sumner</a>, which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).</p>
+<p>The code is on <a href="https://github.com/ospfranco/react-native-jsi-template">github</a> if you want to explore it on your own.</p>
 
-<p><strong>UPDATE</strong></p>
+<p>Many thanks to <a href="https://twitter.com/inkdrop_app">Takuya</a> for creating his <a href="https://github.com/craftzdog/react-native-quick-base64">base64 implementation</a> (I basically copied and pasted a lot of his code)</p>
 
-<p>I have taken all the info here and created a new <a href="https://github.com/ospfranco/react-native-quick-sqlite">SQLite react-native library</a>, check it out to learn how to do Android bindings and a lot of other neat things! leave it a star too please!</p>
+<p>You also want to check <a href="https://github.com/react-native-async-storage/async-storage/issues/291">this sample</a> by <a href="https://twitter.com/jarredsumner">Jarred Sumner</a>, which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).</p>
+
+<p>I created a new <a href="https://github.com/ospfranco/react-native-quick-sqlite">SQLite react-native library</a>, check it out to learn how to do Android bindings and a lot of other neat things! leave it a star too please!</p>
 
   </div>
 </div>
@@ -251,7 +260,7 @@
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
           <div class="text-blue-500">CI Demon</div>
-          <div class="font-extralight text-gray-500">
+          <div class="font-extralight text-gray-700">
             macOS menu bar app, condenses your CI deployments/builds info.
           </div>
         </div>
@@ -262,7 +271,7 @@
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
           <div class="text-blue-500">Link Preview JS [⭐️ 243]</div>
-          <div class="font-extralight text-gray-500">
+          <div class="font-extralight text-gray-700">
             Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
           </div>
         </div>
@@ -273,7 +282,7 @@
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
           <div class="text-blue-500">react-native-sqlite [⭐️ 5]</div>
-          <div class="font-extralight text-gray-500">
+          <div class="font-extralight text-gray-700">
             SQLite for react-native (with JSI bindings), the fastest sqlite library for react-native.
           </div>
         </div>
@@ -284,7 +293,7 @@
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
           <div class="text-blue-500">react-native-macos-menubar-template [⭐️ 72]</div>
-          <div class="font-extralight text-gray-500">
+          <div class="font-extralight text-gray-700">
             A template to create a macOS menubar app using react-native, companion article is in this blog
           </div>
         </div>
@@ -296,8 +305,19 @@
         <div class=" overflow-hidden py-3">
 
             <div class="text-blue-500">GH Jester</div>
-            <div class="font-extralight text-gray-500">
+            <div class="font-extralight text-gray-700">
               Github action that posts your jest test results into PRs and commits
+            </div>  
+        </div>
+      </div>
+    </a>
+
+    <a href="https://apps.apple.com/de/app/tp-latino/id1483823093">
+      <div class="flex w-full items-center">
+        <div class=" overflow-hidden py-3">
+            <div class="text-blue-500">TP Latino</div>
+            <div class="font-extralight text-gray-700">
+              Mobile app to practice for Flight Exams in South-America
             </div>  
         </div>
       </div>
@@ -323,19 +343,13 @@
           class="text-blue-500 rounded px-4"
           href="https://twitter.com/ospfranco"
         >
-          Twitter
+          <img src="/assets/twitter.png" class="h-8">
         </a>
         <a
           class="text-blue-500 rounded px-4"
           href="https://github.com/ospfranco"
         >
-          Github
-        </a>
-        <a
-          class="text-blue-500 rounded px-4"
-          href="/aboutMe"
-        >
-          About
+        <img src="/assets/github.png" class="h-8">
         </a>
       </div>
     </nav>
