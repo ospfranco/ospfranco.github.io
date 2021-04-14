@@ -81,21 +81,24 @@ lerna bootstrap
 
 The latest release of typescript has what they call `project references`, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.
 
-After refactoring and extracting the shared code, your shared folder should contain a tsconfig.json folder, now in the package were you want to import this code, you should modify your tsconfig.json to contain the following:
+After refactoring and extracting the shared code, your shared folder should contain a `tsconfig.json` file, now in the package were you want to import this code, you should modify your `tsconfig.json` to contain the following:
 
-```
+```json
 {
-…
-"composite": true,
-"declaration": true,
-"references": [
-{ "path": "../shared" }
-],
+  …
+  "composite": true,
+  "declaration": true,
+  "references": [
+    { "path": "../shared" }
+  ],
+  …
 }
 ```
 
 Once that is done, you can import your code by doing:
 
-`import { Foo } from ‘../shared/Foo’;`
+```ts
+import { Foo } from ‘../shared/Foo’;
+```
 
 To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.

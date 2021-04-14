@@ -31,7 +31,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"},"url":"https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"headline":"Monorepo codesharing (with lerna.js and typescript)","description":"Reduce code duplication using some tooling and share code between projects","dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"},"url":"https://ospfranco.github.io/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/","headline":"Monorepo codesharing (with lerna.js and typescript)","dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"Reduce code duplication using some tooling and share code between projects","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -141,21 +141,23 @@ lerna add wa-core — scope=mobile
 
 <p>The latest release of typescript has what they call <code class="language-plaintext highlighter-rouge">project references</code>, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.</p>
 
-<p>After refactoring and extracting the shared code, your shared folder should contain a tsconfig.json folder, now in the package were you want to import this code, you should modify your tsconfig.json to contain the following:</p>
+<p>After refactoring and extracting the shared code, your shared folder should contain a <code class="language-plaintext highlighter-rouge">tsconfig.json</code> file, now in the package were you want to import this code, you should modify your <code class="language-plaintext highlighter-rouge">tsconfig.json</code> to contain the following:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>{
-…
-"composite": true,
-"declaration": true,
-"references": [
-{ "path": "../shared" }
-],
-}
-</code></pre></div></div>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="err">…</span><span class="w">
+  </span><span class="nl">"composite"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"declaration"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
+    </span><span class="p">{</span><span class="w"> </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../shared"</span><span class="w"> </span><span class="p">}</span><span class="w">
+  </span><span class="p">],</span><span class="w">
+  </span><span class="err">…</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
 
 <p>Once that is done, you can import your code by doing:</p>
 
-<p><code class="language-plaintext highlighter-rouge">import { Foo } from ‘../shared/Foo’;</code></p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Foo</span> <span class="p">}</span> <span class="k">from</span> <span class="err">‘</span><span class="p">..</span><span class="o">/</span><span class="nx">shared</span><span class="o">/</span><span class="nx">Foo</span><span class="err">’</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.</p>
 
