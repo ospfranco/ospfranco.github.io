@@ -3,7 +3,7 @@
     "postinstall": "husky install",
     "deploy": "./deploy.sh",
     "start": "bundle exec jekyll serve --livereload --drafts --future --port 5000 '$@'",
-    "build": "JEKYLL_ENV=production bundle exec jekyll build -d docs"
+    "build": "JEKYLL_ENV=production bundle exec jekyll build -d docs && git add ."
   },
   "devDependencies": {
     "autoprefixer": "^10.2.3",

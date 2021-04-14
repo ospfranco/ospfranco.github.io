@@ -43,18 +43,19 @@
 
   <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<html>
-  <body>
-    <div class="flex justify-center pt-16 pb-4">
-      <div class="w-full lg:w-2/3 xl:w-1/2 px-3">
-        <div class="py-12 px-4 lg:px-0">
-  <h1 class="font-semibold text-2xl">How to post Jest results into github PRs</h1>
-  <div class="text-gray-500 text-sm">
-    December 2020
-  </div>
-  
-  <div class="markdown mt-6">
-    <p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
+<html class="max-h-full">
+  <body class="max-h-full">
+    <div class="h-full xl:flex justify-center py-4">
+      <div class="w-full xl:overflow-y-scroll xl:w-2/3">
+        <div class="flex-1">
+  <div class="p-4">
+    <h1 class="font-semibold text-2xl">How to post Jest results into github PRs</h1>
+    <div class="text-gray-500 text-sm">
+      December 2020
+    </div>
+    
+    <div class="markdown mt-6">
+      <p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
 
 <h2 id="why-leave-bitrise">Why leave Bitrise</h2>
 
@@ -129,37 +130,45 @@
 
 <p>And that is it! Now all the info for your PR is right on the comment section, enjoy!</p>
 
+    </div>
   </div>
+
 </div>
+      </div>
+      <div class="p-4 w-full xl:w-64 h-full overflow-y-auto">
+        <div>
+  <a
+  class="flex items-center flex-1"
+  href="/"
+  >
+    <h2 class="font-medium text-3xl mt-4">Oscar's Blog</h2>
+  </a>
 
-<div class="border-t border-gray-200"></div>
+  <div class="flex my-2">
+    <a
+      class="pr-4"
+      href="https://twitter.com/ospfranco"
+    >
+      <img src="/assets/twitter.png" class="h-8">
+    </a>
+    <a
+      href="https://github.com/ospfranco"
+    >
+      <img src="/assets/github.png" class="h-8">
+    </a>
+  </div>
 
-<div class="px-4 lg:px-0">
-  <div class="my-6">
-  <h2 class="font-medium text-4xl py-4">Oscar's Blog</h2>
-  <p class="text-gray-600">Hi! Thanks for visiting my blog! I hope the information you find here is useful, in the meantime I would appreciate if you can take a look at my other projects and support me by leaving a star or buying a copy. Thanks!</p>
+  <p class="text-gray-600 mt-8">Hi! Thanks for visiting my blog! Check these out!</p>
+  
   
   <div>
     <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12">
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
-          <div class="flex">
-            <div class="text-blue-500">CI Demon</div>
-            <a href="https://www.producthunt.com/posts/ci-demon?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ci-demon" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290593&theme=light" alt="CI Demon - Continuous integration builds in your desktop. | Product Hunt" style="width: 180px; height: 30px;" width="180" height="30" /></a>
-          </div>
-          <div class="font-extralight text-gray-700">
+          <div class="text-blue-500 text-sm">CI Demon</div>
+          <a href="https://www.producthunt.com/posts/ci-demon?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ci-demon" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290593&theme=light" alt="CI Demon - Continuous integration builds in your desktop. | Product Hunt" style="width: 120px; height: 40px;" width="120" height="40" /></a>
+          <div class="font-extralight text-gray-700 text-sm">
             macOS menu bar app, condenses your CI deployments/builds info.
-          </div>
-        </div>
-      </div>
-    </a>
-    
-    <a href="https://github.com/ospfranco/link-preview-js">
-      <div class="flex w-full items-center">
-        <div class="overflow-hidden py-3">
-          <div class="text-blue-500">Link Preview JS [⭐️ 243]</div>
-          <div class="font-extralight text-gray-700">
-            Typescript library to generate preview of http links (think twitter cards or pasting links into whatsapp)
           </div>
         </div>
       </div>
@@ -168,8 +177,8 @@
     <a href="https://github.com/ospfranco/react-native-quick-sqlite">
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
-          <div class="text-blue-500">react-native-sqlite [⭐️ 5]</div>
-          <div class="font-extralight text-gray-700">
+          <div class="text-blue-500 text-sm">react-native-sqlite [⭐️ 5]</div>
+          <div class="font-extralight text-gray-700 text-sm">
             SQLite for react-native (with JSI bindings), the fastest sqlite library for react-native.
           </div>
         </div>
@@ -179,22 +188,10 @@
     <a href="https://github.com/ospfranco/react-native-macos-menubar-template">
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
-          <div class="text-blue-500">react-native-macos-menubar-template [⭐️ 72]</div>
-          <div class="font-extralight text-gray-700">
+          <div class="text-blue-500 text-sm">react-native-macos-menubar-template [⭐️ 72]</div>
+          <div class="font-extralight text-gray-700 text-sm">
             A template to create a macOS menubar app using react-native, companion article is in this blog
           </div>
-        </div>
-      </div>
-    </a>
-
-    <a href="https://github.com/ospfranco/gh-jester">
-      <div class="flex w-full items-center">
-        <div class=" overflow-hidden py-3">
-
-            <div class="text-blue-500">GH Jester</div>
-            <div class="font-extralight text-gray-700">
-              Github action that posts your jest test results into PRs and commits
-            </div>  
         </div>
       </div>
     </a>
@@ -202,8 +199,8 @@
     <a href="https://apps.apple.com/de/app/tp-latino/id1483823093">
       <div class="flex w-full items-center">
         <div class=" overflow-hidden py-3">
-            <div class="text-blue-500">TP Latino</div>
-            <div class="font-extralight text-gray-700">
+            <div class="text-blue-500 text-sm">TP Latino</div>
+            <div class="font-extralight text-gray-700 text-sm">
               Mobile app to practice for Flight Exams in South-America
             </div>  
         </div>
@@ -212,34 +209,8 @@
   </div>
 </div>
 
-</div>
       </div>
-
     </div>
-
-    <nav class="header border-b bg-white fixed w-full justify-center flex" style="top: 0;">
-      <div class="flex items-center justify-center flex-wrap py-4 w-full lg:w-2/3 xl:w-1/2 px-3">
-        <a
-          class="flex items-center flex-1"
-          href="/"
-        >
-          <!-- <img src="/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/> -->
-          <span class="font-normal">Oscar Franco</span>
-        </a>
-        <a
-          class="text-blue-500 rounded px-4"
-          href="https://twitter.com/ospfranco"
-        >
-          <img src="/assets/twitter.png" class="h-8">
-        </a>
-        <a
-          class="text-blue-500 rounded px-4"
-          href="https://github.com/ospfranco"
-        >
-        <img src="/assets/github.png" class="h-8">
-        </a>
-      </div>
-    </nav>
 
   </body>
 </html>
