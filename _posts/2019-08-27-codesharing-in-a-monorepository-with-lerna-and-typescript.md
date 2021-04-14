@@ -5,22 +5,25 @@ excerpt: Reduce code duplication using some tooling and share code between proje
 date: 2019-08-27 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-location: Munich
 ---
+
+# Update April 2021
+The original article below is fairly old, the community is moving away from Lerna due to the complexity it introduces.
+
+If you need to share code between apps I recommend for you to go with [TypeScript project references](https://www.typescriptlang.org/docs/handbook/project-references.html). [Check this repo](https://github.com/RyanCavanaugh/project-references-demo) by Ryan Cavanaugh for a working example.
+
+# Original Article
 
 If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.
 
 The deployments for this example are:
-- React SPA (redux, typescript)
-- React-Native mobile app (redux, typescript)
-- Main Springboot Server (Kotlin)
-- Backoffice NestJS Server (Typescript)
+- React SPA (Redux, Typescript)
+- React-Native App (Redux, Typescript)
+- NestJS Server (Typescript)
 
-All of them reside within a mono repository, from which individual docker containers are built and deployed to the cloud.
+All of them reside within a single repository, from which individual docker containers are built and deployed to the cloud.
 
-# Share our front-end app and mobile app redux code
-
-### Using lernajs
+## Lernajs
 
 Lernajs is a tool that shares codes within a monorepo, it handles your package dependencies by hoisting them to the root folder of the repo. 
 
@@ -31,43 +34,50 @@ Specifically what I wanted to share between the deployments: redux actions, redu
 So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.
 
 ![Codehsaring1]({{site.url}}/assets/Codesharing2.png "Codehsaring1")
-_Our refactored code, shared contains common code_
+> Our refactored code, shared contains common code
 
 These are then imported in the `frontend` and `mobile` packages where we create our store (combing all the reducers from `shared`) and root epic (combining all the epics from `shared`). The reason for creating the store inside the `frontend` and `mobile` packages rather than in `shared` is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.
 
 ![Codehsaring3]({{site.url}}/assets/Codesharing3.png "Codehsaring3")
-_Assuming you have a `UserModel` class in `shared` you would simple import it like so_
+> Assuming you have a `UserModel` class in `shared` you would simple import it like so_
 
 For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the `shared` package). You can of course, add more actions inside the `frontend`/`mobile` packages and supply your own `epic` to handle them and it’ll all work seamlessly™.
 You can read more about lerna on their website, but here are a couple of steps that we followed and should get you halfway there:
 
-1. Install lerna
+- Install lerna
 
-   `npm install -g lerna`
+```bash
+npm install -g lerna
+```
 
-2. Extract your code and place it at the root of your mono repository, you should also add a ‘prepare’ npm script, in our case we do typescript compilation to output to a lib folder
+- Extract your code and place it at the root of your mono repository, you should also add a ‘prepare’ npm script, in our case we do typescript compilation to output to a lib folder
 
-3. Run lerna init in your root folder
+- Run lerna init in your root folder
 
-   `lerna init`
+```bash
+lerna init
+```
 
-4. Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:
+- Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:
 
-   ![Codesharing4]({{site.url}}/assets/Codesharing4.png "Codesharing4")
+![Codesharing4]({{site.url}}/assets/Codesharing4.png "Codesharing4")
 
-5. Link your shared folder
+- Link your shared folder
 
-   `lerna add wa-core — scope=frontend`
+```
+lerna add wa-core — scope=frontend
+lerna add wa-core — scope=mobile
+```
 
-   `lerna add wa-core — scope=mobile`
+- Bootstrap your project
 
-6. Run `lerna bootstrap`
+```
+lerna bootstrap
+```
 
    There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called `nohoist`, which would make lerna not hoist them to the root.
 
-<br>
-
-### Using Typescript 3.+
+## Typescript (3.+)
 
 The latest release of typescript has what they call `project references`, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.
 

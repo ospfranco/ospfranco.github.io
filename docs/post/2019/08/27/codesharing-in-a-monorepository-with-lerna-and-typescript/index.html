@@ -47,26 +47,30 @@
       <div class="w-full lg:w-2/3 xl:w-1/2 px-3">
         <div class="py-12 px-4 lg:px-0">
   <h1 class="font-semibold text-2xl">Monorepo codesharing (with lerna.js and typescript)</h1>
-  <div class="text-gray-500">
+  <div class="text-gray-500 text-sm">
     August 2019
   </div>
   
   <div class="markdown mt-6">
-    <p>If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.</p>
+    <h1 id="update-april-2021">Update April 2021</h1>
+<p>The original article below is fairly old, the community is moving away from Lerna due to the complexity it introduces.</p>
+
+<p>If you need to share code between apps I recommend for you to go with <a href="https://www.typescriptlang.org/docs/handbook/project-references.html">TypeScript project references</a>. <a href="https://github.com/RyanCavanaugh/project-references-demo">Check this repo</a> by Ryan Cavanaugh for a working example.</p>
+
+<h1 id="original-article">Original Article</h1>
+
+<p>If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.</p>
 
 <p>The deployments for this example are:</p>
 <ul>
-  <li>React SPA (redux, typescript)</li>
-  <li>React-Native mobile app (redux, typescript)</li>
-  <li>Main Springboot Server (Kotlin)</li>
-  <li>Backoffice NestJS Server (Typescript)</li>
+  <li>React SPA (Redux, Typescript)</li>
+  <li>React-Native App (Redux, Typescript)</li>
+  <li>NestJS Server (Typescript)</li>
 </ul>
 
-<p>All of them reside within a mono repository, from which individual docker containers are built and deployed to the cloud.</p>
+<p>All of them reside within a single repository, from which individual docker containers are built and deployed to the cloud.</p>
 
-<h1 id="share-our-front-end-app-and-mobile-app-redux-code">Share our front-end app and mobile app redux code</h1>
-
-<h3 id="using-lernajs">Using lernajs</h3>
+<h2 id="lernajs">Lernajs</h2>
 
 <p>Lernajs is a tool that shares codes within a monorepo, it handles your package dependencies by hoisting them to the root folder of the repo.</p>
 
@@ -76,53 +80,64 @@
 
 <p>So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.</p>
 
-<p><img src="https://ospfranco.github.io/assets/Codesharing2.png" alt="Codehsaring1" title="Codehsaring1" />
-<em>Our refactored code, shared contains common code</em></p>
+<p><img src="https://ospfranco.github.io/assets/Codesharing2.png" alt="Codehsaring1" title="Codehsaring1" /></p>
+<blockquote>
+  <p>Our refactored code, shared contains common code</p>
+</blockquote>
 
 <p>These are then imported in the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages where we create our store (combing all the reducers from <code class="language-plaintext highlighter-rouge">shared</code>) and root epic (combining all the epics from <code class="language-plaintext highlighter-rouge">shared</code>). The reason for creating the store inside the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages rather than in <code class="language-plaintext highlighter-rouge">shared</code> is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.</p>
 
-<p><img src="https://ospfranco.github.io/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" />
-<em>Assuming you have a <code class="language-plaintext highlighter-rouge">UserModel</code> class in <code class="language-plaintext highlighter-rouge">shared</code> you would simple import it like so</em></p>
+<p><img src="https://ospfranco.github.io/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" /></p>
+<blockquote>
+  <p>Assuming you have a <code class="language-plaintext highlighter-rouge">UserModel</code> class in <code class="language-plaintext highlighter-rouge">shared</code> you would simple import it like so_</p>
+</blockquote>
 
 <p>For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the <code class="language-plaintext highlighter-rouge">shared</code> package). You can of course, add more actions inside the <code class="language-plaintext highlighter-rouge">frontend</code>/<code class="language-plaintext highlighter-rouge">mobile</code> packages and supply your own <code class="language-plaintext highlighter-rouge">epic</code> to handle them and it’ll all work seamlessly™.
 You can read more about lerna on their website, but here are a couple of steps that we followed and should get you halfway there:</p>
 
-<ol>
-  <li>
-    <p>Install lerna</p>
+<ul>
+  <li>Install lerna</li>
+</ul>
 
-    <p><code class="language-plaintext highlighter-rouge">npm install -g lerna</code></p>
-  </li>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> lerna
+</code></pre></div></div>
+
+<ul>
   <li>
     <p>Extract your code and place it at the root of your mono repository, you should also add a ‘prepare’ npm script, in our case we do typescript compilation to output to a lib folder</p>
   </li>
   <li>
     <p>Run lerna init in your root folder</p>
-
-    <p><code class="language-plaintext highlighter-rouge">lerna init</code></p>
   </li>
-  <li>
-    <p>Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:</p>
+</ul>
 
-    <p><img src="https://ospfranco.github.io/assets/Codesharing4.png" alt="Codesharing4" title="Codesharing4" /></p>
-  </li>
-  <li>
-    <p>Link your shared folder</p>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lerna init
+</code></pre></div></div>
 
-    <p><code class="language-plaintext highlighter-rouge">lerna add wa-core — scope=frontend</code></p>
+<ul>
+  <li>Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:</li>
+</ul>
 
-    <p><code class="language-plaintext highlighter-rouge">lerna add wa-core — scope=mobile</code></p>
-  </li>
-  <li>
-    <p>Run <code class="language-plaintext highlighter-rouge">lerna bootstrap</code></p>
+<p><img src="https://ospfranco.github.io/assets/Codesharing4.png" alt="Codesharing4" title="Codesharing4" /></p>
 
-    <p>There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called <code class="language-plaintext highlighter-rouge">nohoist</code>, which would make lerna not hoist them to the root.</p>
-  </li>
-</ol>
+<ul>
+  <li>Link your shared folder</li>
+</ul>
 
-<p><br /></p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lerna add wa-core — scope=frontend
+lerna add wa-core — scope=mobile
+</code></pre></div></div>
 
-<h3 id="using-typescript-3">Using Typescript 3.+</h3>
+<ul>
+  <li>Bootstrap your project</li>
+</ul>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lerna bootstrap
+</code></pre></div></div>
+
+<p>There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called <code class="language-plaintext highlighter-rouge">nohoist</code>, which would make lerna not hoist them to the root.</p>
+
+<h2 id="typescript-3">Typescript (3.+)</h2>
 
 <p>The latest release of typescript has what they call <code class="language-plaintext highlighter-rouge">project references</code>, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.</p>
 
@@ -151,7 +166,8 @@ You can read more about lerna on their website, but here are a couple of steps t
 
 <div class="px-4 lg:px-0">
   <div class="my-6">
-  <h2 class="font-medium text-4xl py-4">Apps/Libraries</h2>
+  <h2 class="font-medium text-4xl py-4">Oscar's Blog</h2>
+  <p class="text-gray-600">Hi! Thanks for visiting my blog! I hope the information you find here is useful, in the meantime I would appreciate if you can take a look at my other projects and support me by leaving a star or buying a copy. Thanks!</p>
   
   <div>
     <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12">
