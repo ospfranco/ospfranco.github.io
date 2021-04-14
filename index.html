@@ -2,21 +2,22 @@
 layout: default
 ---
 
-{% include projects.html %}
+<div class="p-4">
 
-<h2 class="font-medium text-4xl">Posts</h2>
-
-<div class="mt-4">
-  {% for post in site.posts %}
-    <a href="{{ post.url }}" >
-      <div class="w-full flex items-center py-3">
-        <div class="flex-1 text-blue-500">
-          {{ post.title }}
+  <h2 class="font-medium text-4xl">Posts</h2>
+  
+  <div class="mt-4">
+    {% for post in site.posts %}
+      <a href="{{ post.url }}" >
+        <div class="w-full items-center py-3">
+          <div class="flex-1 text-blue-500">
+            {{ post.title }}
+          </div>
+          <div class="text-xs text-gray-500" >
+            {{ post.date | date: "%B %Y" }}
+          </div>
         </div>
-        <div class="text-xs text-gray-500" >
-          {{ post.date | date: "%B %Y" }}
-        </div>
-      </div>
-    </a>
-  {% endfor %}
+      </a>
+    {% endfor %}
+  </div>
 </div>

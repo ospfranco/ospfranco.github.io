@@ -12,38 +12,16 @@
 
   <script>hljs.initHighlightingOnLoad();</script>
 </head>
-<html>
-  <body>
-    <div class="flex justify-center pt-16 pb-4">
-      <div class="w-full lg:w-2/3 xl:w-1/2 px-3">
+<html class="max-h-full">
+  <body class="max-h-full">
+    <div class="h-full xl:flex justify-center py-4">
+      <div class="w-full xl:overflow-y-scroll xl:w-2/3">
         {{ content }}
       </div>
-
-    </div>
-
-    <nav class="header border-b bg-white fixed w-full justify-center flex" style="top: 0;">
-      <div class="flex items-center justify-center flex-wrap py-4 w-full lg:w-2/3 xl:w-1/2 px-3">
-        <a
-          class="flex items-center flex-1"
-          href="/"
-        >
-          <!-- <img src="{{site.baseurl}}/assets/profile.webp" class="h-12 w-12 rounded-full mr-3"/> -->
-          <span class="font-normal">Oscar Franco</span>
-        </a>
-        <a
-          class="text-blue-500 rounded px-4"
-          href="https://twitter.com/ospfranco"
-        >
-          <img src="{{site.baseurl}}/assets/twitter.png" class="h-8">
-        </a>
-        <a
-          class="text-blue-500 rounded px-4"
-          href="https://github.com/ospfranco"
-        >
-        <img src="{{site.baseurl}}/assets/github.png" class="h-8">
-        </a>
+      <div class="p-4 w-full xl:w-64 h-full overflow-y-auto">
+        {% include projects.html %}
       </div>
-    </nav>
+    </div>
 
   </body>
 </html>
