@@ -494,30 +494,13 @@ video {
   }
 }
 
-.bg-white {
+.bg-gray-100 {
   --tw-bg-opacity: 1;
-  background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
-}
-
-.border-gray-200 {
-  --tw-border-opacity: 1;
-  border-color: rgba(229, 231, 235, var(--tw-border-opacity));
-}
-
-.rounded {
-  border-radius: 0.25rem;
+  background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
 }
 
 .rounded-full {
   border-radius: 9999px;
-}
-
-.border-t {
-  border-top-width: 1px;
-}
-
-.border-b {
-  border-bottom-width: 1px;
 }
 
 .inline {
@@ -540,8 +523,8 @@ video {
   display: none;
 }
 
-.flex-wrap {
-  flex-wrap: wrap;
+.flex-col {
+  flex-direction: column;
 }
 
 .items-center {
@@ -560,10 +543,6 @@ video {
   font-weight: 200;
 }
 
-.font-normal {
-  font-weight: 400;
-}
-
 .font-medium {
   font-weight: 500;
 }
@@ -576,8 +555,8 @@ video {
   height: 2rem;
 }
 
-.h-12 {
-  height: 3rem;
+.h-32 {
+  height: 8rem;
 }
 
 .h-full {
@@ -614,15 +593,6 @@ video {
   margin-bottom: 0.5rem;
 }
 
-.my-6 {
-  margin-top: 1.5rem;
-  margin-bottom: 1.5rem;
-}
-
-.mr-3 {
-  margin-right: 0.75rem;
-}
-
 .mt-4 {
   margin-top: 1rem;
 }
@@ -633,6 +603,14 @@ video {
 
 .mt-8 {
   margin-top: 2rem;
+}
+
+.mb-8 {
+  margin-bottom: 2rem;
+}
+
+.mt-12 {
+  margin-top: 3rem;
 }
 
 .max-h-full {
@@ -656,48 +634,21 @@ video {
   padding-bottom: 0.75rem;
 }
 
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
-}
-
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
-}
-
-.px-4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
-}
-
-.py-12 {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
 }
 
 .pr-4 {
   padding-right: 1rem;
 }
 
-.pb-4 {
-  padding-bottom: 1rem;
-}
-
 .pt-10 {
   padding-top: 2.5rem;
 }
 
-.pt-16 {
-  padding-top: 4rem;
-}
-
 .static {
   position: static;
-}
-
-.fixed {
-  position: fixed;
 }
 
 .absolute {
@@ -732,13 +683,14 @@ video {
   color: rgba(55, 65, 81, var(--tw-text-opacity));
 }
 
+.text-gray-800 {
+  --tw-text-opacity: 1;
+  color: rgba(31, 41, 55, var(--tw-text-opacity));
+}
+
 .text-blue-500 {
   --tw-text-opacity: 1;
   color: rgba(59, 130, 246, var(--tw-text-opacity));
-}
-
-.w-12 {
-  width: 3rem;
 }
 
 .w-full {
@@ -909,18 +861,6 @@ html {
   }
 }
 
-@media (min-width: 1024px) {
-
-  .lg\:px-0 {
-    padding-left: 0px;
-    padding-right: 0px;
-  }
-
-  .lg\:w-2\/3 {
-    width: 66.666667%;
-  }
-}
-
 @media (min-width: 1280px) {
 
   .xl\:flex {
@@ -933,10 +873,6 @@ html {
 
   .xl\:w-64 {
     width: 16rem;
-  }
-
-  .xl\:w-1\/2 {
-    width: 50%;
   }
 
   .xl\:w-2\/3 {
