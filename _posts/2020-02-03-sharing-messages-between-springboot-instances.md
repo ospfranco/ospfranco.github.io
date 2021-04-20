@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Sharing state between Springboot instances
+title: Sharing state/messages between Springboot servers
 excerpt: Message passing architecture between monolithic deployments via Redis
 date: 2020-02-03 09:00:00 -04:00
 categories: post

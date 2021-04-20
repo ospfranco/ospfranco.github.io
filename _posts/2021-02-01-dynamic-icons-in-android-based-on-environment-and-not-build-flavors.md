@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Dynamic icons in android based on environment and not build flavors (react-native)
+title: Android dynamic icons (Build-time, non-flavor)
 date: 2021-02-01 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

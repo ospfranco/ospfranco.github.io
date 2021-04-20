@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Replace iOS icon based on environment
+title: Dynamic iOS icons (build-time)
 date: 2020-09-17 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

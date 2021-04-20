@@ -1,15 +1,9 @@
 ---
 layout: post
-title: iOS 14 widgets and react-native
+title: React Native iOS 14 widgets
 date: 2020-08-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-location: Munich
-image: assets/BodyFastWidget.png
-twitter:
-  username: "ospfranco"
-  card: "summary_large_image"
-  image: "assets/BodyFastWidget.png"
 ---
 
 So you want to make a iOS home screen widget react-native?

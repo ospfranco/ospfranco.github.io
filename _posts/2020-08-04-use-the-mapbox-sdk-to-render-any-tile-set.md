@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Use the mapbox sdk to render any custom tile set
+title: How to use the Mapbox SDK to render custom tiles
 date: 2020-08-04 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
@@ -12,7 +12,7 @@ twitter:
   image: "assets/taco.png"
 ---
 
-So here is a gem from the past, I won't disclose exactly what it was used for but at a previous job I "hacked" away at the react-native mapbox sdk, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same
+So here is a gem from the past, I won't disclose exactly what it was used for but at a previous job I "hacked" away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.
 
 ## But... why?
 Well, it's not straightforward to see why this might be a good idea, but first of all: **Performance**, even though current mobile devices (smartphones and tablets) are mighty potent, if you have a large enough image, a device will have trouble rendering it, granted the problem might be barely noticeable on a iPad pro, but not everyone has such devices.
@@ -268,5 +268,3 @@ public async componentDidMount() {
 ```
 
 and that is it, you should now have all the pieces necessary to render any tile set on the mapbox SDK, performant with great UX.
-
-I might put a working example in a repo at some point in the future.

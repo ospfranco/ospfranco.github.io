@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to post Jest results into github PRs
+title: Post Jest results into Github PRs
 date: 2020-12-03 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

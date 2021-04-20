@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Rotate image based on exif data on React
+title: Rotate React image based on EXIF
 excerpt: Web browsers do not automatically rotate images based on their EXIF data, hack around it!
 date: 2019-08-27 09:00:00 -04:00
 categories: post

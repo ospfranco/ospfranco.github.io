@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Swift tacit knowledge
+title: Swift tips for JavaScript developers
 excerpt: Web dev to native dev cheat sheet
 date: 2020-04-30 09:00:00 -04:00
 location: Munich

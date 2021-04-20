@@ -1,21 +1,16 @@
 ---
 layout: post
-title: Hardcore react-native performance tips
+title: React Native performance tips
 date: 2020-08-10 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-location: Munich
-image: assets/taco.png
-twitter:
-  username: "ospfranco"
-  card: "summary_large_image"
-  image: "assets/taco.png"
 ---
 
 Recently a friend send me a link with some react-native [performance optimizations](https://blog.soshace.com/performance-optimizations-for-react-native-applications/), while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:
 
 ## 1. Inlining is more complex in functional components
-the article mentions not to pass inline functions and moves the function declaration outside of the jsx, this was true with class components, but functional components are a different game, it doesn't matter where in your component you declare them they will always get created every time the component renders, if you really one to have a single declared function you need to use a useRef hook:
+
+The article mentions not to pass inline functions and moves the function declaration outside of the jsx, this was true with class components, but functional components are a different game, it doesn't matter where in your component you declare them they will always get created every time the component renders, if you really one to have a single declared function you need to use a useRef hook:
 
 ```javascript
 let myCallback = useRef(() => {
@@ -39,12 +34,12 @@ I've actually fallen and seen other fall into this trap over and over, just beca
 ```
 
 ## 5. Very interaction heavy components will never be smooth on JS
-Check out [How to trick Mapbox to render any tile set](https://ospfranco.github.io/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/), no matter how clever you think you are or how hard the JIT works for you, at some point you will hit a hard barrier, in this cases, instead of building your gesture-handler-monster it is a good idea to take a step back and see if you can integrate a more native solution into your app
+Check out [How to trick Mapbox to render any tile set](https://ospfranco.github.io/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/), no matter how clever you think you are or how hard the JIT works for you, at some point you will hit a hard barrier, in this cases, instead of building an entire tool chain in JavaScript it is a good idea to take a step back and see if you can integrate a more native solution into your app.
 
 ## 6. Android receives no love (even from google)
-This has been actually the hardest hitting point for me in the past 3 years, somethings in android are just WORSE, just one example: the most painful thing I have seen so far is file uploading, let just get this out of the way, if you are trying to build an application that uploads a lot of files in RN, you are going to have a bad time, the moment you try to upload more than 1 - 2 files (or have background uploads), almost all android phones start dying, current standard is [react-native-fetch-blob](https://github.com/joltup/rn-fetch-blob) it made the app experience miserable in my previous apps
+This has been actually the hardest hitting point for me in the past 3 years, somethings in android are just WORSE, just one example: the most painful thing I have seen so far is file uploading. Let's just get this out of the way, if you are trying to build an application that uploads a lot of files in RN, you are going to have a bad time, the moment you try to upload more than 1 - 2 files (or have background uploads), almost all android phones start dying. One of the most used libraries to do this is [react-native-fetch-blob](https://github.com/joltup/rn-fetch-blob) it made the app experience miserable in my previous apps.
 
-There are a few other examples here (ex. react-native-camera) and there of how things can impact the performance on android, just know, you will feel the pain if your app is anything more than just lists, texts and images
+There are a few other examples here (ex. react-native-camera) and there of how things can impact the performance on android, just know, you will feel the pain if your app is anything more than just lists, texts and images.
 
 ## 7. Use Reanimated and lottie
 If you are doing something with animations [react-native-reanimated] is the best you can aim for, it takes time to wrap your head on how to work with the API and manipulating native values declaratively but the result it's always buttery smooth.

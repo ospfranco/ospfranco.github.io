@@ -1,16 +1,10 @@
 ---
 layout: post
-title: How to build a React-Native macOS menu bar / tray app
+title: How to build a React-Native macOS menu bar / status bar app
 date: 2020-05-23 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 excerpt: A guide to create your own menu bar app using React Native
-location: Munich
-image: assets/taco.png
-twitter:
-  username: "ospfranco"
-  card: "summary_large_image"
-  image: "assets/taco.png"
 ---
 
 So I first saw a tweet about creating a Expo-Electron based macOS menu bar apps, which I found the idea interesting, since Tempomat has been on the market for a couple of weeks already but the process of learning and mastering native APIs, swift and SwiftUI was not easy at all
