@@ -31,7 +31,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/"},"url":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/","headline":"How does react-i18next trans component work","dateModified":"2021-04-20T15:00:00+02:00","datePublished":"2021-04-20T15:00:00+02:00","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"description":"Recently I had to use the react-i18next trans component, here is the first line of the documentation:","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/"},"url":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"author":{"@type":"Person","name":"Oscar Franco"},"headline":"How does react-i18next trans component work","description":"Recently I had to use the react-i18next trans component, here is the first line of the documentation:","dateModified":"2021-04-20T15:00:00+02:00","datePublished":"2021-04-20T15:00:00+02:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -132,7 +132,7 @@
 <p>Here is a simple example (ignore the <code class="language-plaintext highlighter-rouge">Trans</code> tag for now), I basically have a small text, where I need to bold the email of the user.</p>
 
 <div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nc">Trans</span> <span class="na">i18nKey</span><span class="p">=</span><span class="s">"webOnboarding.signInInstruction3"</span> <span class="p">&gt;</span>
-  Enter your email address <span class="p">&lt;</span><span class="nt">span</span> <span class="na">className</span><span class="p">=</span><span class="s">"font-bold"</span><span class="p">&gt;&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> and password
+  Enter your email address <span class="p">&lt;</span><span class="nt">span</span> <span class="na">className</span><span class="p">=</span><span class="s">"font-bold"</span><span class="p">&gt;</span><span class="si">{</span><span class="p">{</span> <span class="nx">email</span>  <span class="p">}</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">span</span><span class="p">&gt;</span> and password
 <span class="p">&lt;/</span><span class="nc">Trans</span><span class="p">&gt;</span>
 </code></pre></div></div>
 
@@ -140,12 +140,12 @@
 
 <p>So basically the string passed to it, ends up something like this:</p>
 
-<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">0</span><span class="p">&gt;</span>Enter your email address <span class="p">&lt;/</span><span class="nt">0</span><span class="p">&gt;&lt;</span><span class="nt">1</span><span class="p">&gt;&lt;/</span><span class="nt">1</span><span class="p">&gt;&lt;</span><span class="nt">2</span><span class="p">&gt;</span> and password<span class="p">&lt;/</span><span class="nt">2</span><span class="p">&gt;</span>
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nt">0</span><span class="p">&gt;</span>Enter your email address <span class="p">&lt;/</span><span class="nt">0</span><span class="p">&gt;&lt;</span><span class="nt">1</span><span class="p">&gt;</span><span class="si">{</span><span class="p">{</span> <span class="nx">email</span> <span class="p">}</span><span class="si">}</span><span class="p">&lt;/</span><span class="nt">1</span><span class="p">&gt;&lt;</span><span class="nt">2</span><span class="p">&gt;</span> and password<span class="p">&lt;/</span><span class="nt">2</span><span class="p">&gt;</span>
 </code></pre></div></div>
 
 <p>My translated string looks like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"signInInstruction3": "Enter your email address &lt;1&gt;&lt;/1&gt; and password",
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>"signInInstruction3": "Enter your email address &lt;1&gt;{{email}}&lt;/1&gt; and password",
 </code></pre></div></div>
 
 <p>So it will do more or less the same algorithm as it did on the JSX code but you have given it a hand to see what needs to go in the <code class="language-plaintext highlighter-rouge">1</code> tag. Afterwards it can just replace the content and your translation is correctly inserted in your code.</p>

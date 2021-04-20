@@ -18,7 +18,7 @@ Here is a simple example (ignore the `Trans` tag for now), I basically have a sm
 
 ```tsx
 <Trans i18nKey="webOnboarding.signInInstruction3" >
-  Enter your email address <span className="font-bold">{{ email }}</span> and password
+  Enter your email address <span className="font-bold">{{ "{{ email "}} }}</span> and password
 </Trans>
 ```
 
@@ -27,13 +27,13 @@ So how does `Trans` work? it will start with an internal counter at `0`. It will
 So basically the string passed to it, ends up something like this:
 
 ```tsx
-<0>Enter your email address </0><1>{{ email }}</1><2> and password</2>
+<0>Enter your email address </0><1>{{ "{{ email"}} }}</1><2> and password</2>
 ```
 
 My translated string looks like this:
 
 ```
-"signInInstruction3": "Enter your email address <1>{{email}}</1> and password",
+"signInInstruction3": "Enter your email address <1>{{ "{{email"}}}}</1> and password",
 ```
 
 So it will do more or less the same algorithm as it did on the JSX code but you have given it a hand to see what needs to go in the `1` tag. Afterwards it can just replace the content and your translation is correctly inserted in your code.
