@@ -6,9 +6,9 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
 
-Everyone has analytics in place nowadays and ,despite time passing, by Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, why not directly hook up your redux actions to your analytics service?
+Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.
 
-This is a small trick I did during the WerkerApp days. At some point adding analytic data points becomes a burdensome task. For each new feature you need to figure out which data points you need, you need to agree which additional data you need to send to calculate your goals, etc. Instead of doing all this manual work everytime, you can get a complete analytics pipeline for free by directly hooking up your Redux actions to your analytics. You obviously need to be careful about sending sensitive data, but for every new feature you develop, you will have a complete analytics pipeline for free!
+This is a small trick I did during the WerkerApp days. At some point adding analytic data points becomes burdensome. For each new feature you need to figure out which data points you need, you need to agree which additional data you need to send to calculate your goals, etc. Instead of doing all this manual work everytime, you can get a complete analytics pipeline for free by directly hooking up your Redux actions to your analytics. You obviously need to be careful about sending sensitive data, but for every new feature you develop, you will have a complete analytics pipeline for free!
 
 ## Redux middleware
 
