@@ -46,17 +46,16 @@
 <html class="max-h-full">
   <body class="max-h-full">
     <div class="h-full xl:flex justify-center">
-      <div class="p-4 w-full xl:w-64 xl:h-full overflow-y-auto bg-gray-100">
-        <div>
+      <div class="p-8 w-full xl:flex-1 xl:h-full overflow-y-auto bg-gray-800">
   <a
-  class="flex flex-col items-center"
+  class="flex items-center"
   href="/"
   >
-    <img src="/assets/profile.webp" class="rounded-full h-32" />
-    <h2 class="font-medium text-2xl mt-4">Oscar Franco</h2>
+    <img src="/assets/profile.webp" class="rounded-full h-16" />
+    <h2 class="text-white text-3xl ml-2">Oscar Franco</h2>
   </a>
 
-  <div class="flex justify-center my-2">
+  <!-- <div class="flex justify-center my-2">
     <a
       class="pr-4"
       href="https://twitter.com/ospfranco"
@@ -68,17 +67,20 @@
     >
       <img src="/assets/github.png" class="h-8">
     </a>
-  </div>
+  </div> -->
 
-  <p class="text-gray-800 mt-12 mb-8">Bolivian System's Engineer, trying to bootstrap products. Check these out!</p>
+  <p class="text-white mt-4">System's Engineer from Bolivia. I write about technical topics and create developer tools.</p>
+  
+  <p class="text-white mt-6 text-xl pt-2 mb-6 border-t border-gray-400">My Projects</p>
   
   
   <div>
-    <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12">
+    <a href="https://apps.apple.com/de/app/ci-demon/id1560355863?l=en&mt=12" onclick="dataLayer.push({'event': 'cidemon-click'});">
+      <img src="/assets/small_ci_demon.jpg" class="h-64" />
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
           <div class="text-blue-500 text-sm">CI Demon</div>
-          <div class="font-extralight text-gray-700 text-sm">
+          <div class="text-gray-200 text-sm">
             CI/CD on your Dekstop.
           </div>
           <a href="https://www.producthunt.com/posts/ci-demon?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ci-demon" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290593&theme=light" alt="CI Demon - Continuous integration builds in your desktop. | Product Hunt" style="width: 120px; height: 40px;" width="120" height="40" /></a>
@@ -86,22 +88,22 @@
       </div>
     </a>
 
-    <a href="https://apps.apple.com/de/app/tp-latino/id1483823093">
+    <!-- <a href="https://apps.apple.com/de/app/tp-latino/id1483823093">
       <div class="flex w-full items-center">
         <div class=" overflow-hidden py-3">
             <div class="text-blue-500 text-sm">Test Prep Latino</div>
-            <div class="font-extralight text-gray-700 text-sm">
+            <div class="text-gray-200 text-sm">
               Practice for South-American flight pilot exams.
             </div>  
         </div>
       </div>
-    </a>
+    </a> -->
 
     <a href="https://github.com/ospfranco/react-native-quick-sqlite">
       <div class="flex w-full items-center">
         <div class="overflow-hidden py-3">
           <div class="text-blue-500 text-sm">react-native-sqlite</div>
-          <div class="font-extralight text-gray-700 text-sm">
+          <div class="text-gray-200 text-sm">
             SQLite for react-native (with JSI bindings), the fastest sqlite library for react-native.
           </div>
         </div>
@@ -111,8 +113,7 @@
   </div>
 </div>
 
-      </div>
-      <div class="w-full xl:overflow-y-scroll xl:w-2/3">
+      <div class="w-full xl:overflow-y-scroll xl:w-2/3 p-8">
         <div class="flex-1">
   <div class="p-4">
     <h1 class="font-semibold text-2xl">Post Jest results into Github PRs</h1>
