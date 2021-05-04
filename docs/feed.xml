@@ -1,4 +1,228 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-02T21:45:40+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to send Redux actions to analytics/error back-end (Redux analytics middleware)</title><link href="https://ospfranco.github.io/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/" rel="alternate" type="text/html" title="How to send Redux actions to analytics/error back-end (Redux analytics middleware)" /><published>2021-04-28T15:00:00+02:00</published><updated>2021-04-28T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/">&lt;p&gt;Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-04T21:26:54+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">Build react-native app on github actions</title><link href="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/" rel="alternate" type="text/html" title="Build react-native app on github actions" /><published>2021-05-04T15:00:00+02:00</published><updated>2021-05-04T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/">&lt;p&gt;At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.&lt;/p&gt;
+
+&lt;h2 id=&quot;migrating-to-github-actions&quot;&gt;Migrating to Github Actions&lt;/h2&gt;
+
+&lt;p&gt;So, previously I removed our pure JavaScript tests out of Bitrise (again because it is too damn slow) and into Github Actions. The process was simple and since it runs where the code already lives it is pretty sweet to have everything under the Github umbrella. So, after finding out Github actually has macOS machines you can use to build your app, I begged the team to see if we could try to migrate everything to Github. We were already using Fastlane before using Bitrise, so there was a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Fastfile&lt;/code&gt; that I could more or less use after some updates, I just needed to set up the machines and the environments.&lt;/p&gt;
+
+&lt;p&gt;Here is our workflow file for our android build:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Android GMS Staging&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;v*&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;workflow_dispatch&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;inputs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Build&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;description'&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;image&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;docker://fabernovel/android:api-29-v1.1.0&lt;/span&gt;
+
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Checkout&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses &lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Node modules cache&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/cache@v2&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;**/node_modules'&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$-modules-$&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Ruby cache&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/cache@v1.2.0&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vendor/bundle&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$-gems-$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;$-gems-&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Gradle cache&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/cache@v1.2.0&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;/root/.gradle&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$-gradle-$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;restore-keys&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+            &lt;span class=&quot;s&quot;&gt;$-gradle&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Use Node &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;14&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/setup-node@v2&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;node-version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;14'&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install yarn&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;npm install -g yarn&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install firebase CLI&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;npm install -g firebase-tools&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install dependencies&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;yarn&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Decode keystore file&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo -n &quot;$ANDROID_KEYSTORE_FILE&quot; | base64 -d &amp;gt; ./my-release-key.keystore&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;working-directory&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;./android/app&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;ANDROID_KEYSTORE_FILE&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bundle install&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;bundle config path vendor/bundle&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;bundle check || bundle install&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Fastlane&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle exec fastlane android distribute_staging&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MYAPP_RELEASE_STORE_PASSWORD&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MYAPP_RELEASE_KEY_ALIAS&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MYAPP_RELEASE_KEY_PASSWORD&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;FIREBASE_TOKEN&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Nothing too fancy, basically using a pre-built image which already has the android SDK installed, then installing node dependencies, ruby dependencies, etc etc. The keystore file is in our github secrets and gets decoded into the machine. Finally it is just a matter of calling Fastlane, which takes care of all the final build steps, I did not want to put any more logic inside of the workflow, because we should also be able to run fastlane in our machines in case the CI is not an option or we need to do an emergency release for some reason.&lt;/p&gt;
+
+&lt;p&gt;For iOS, is somewhat similar:&lt;/p&gt;
+
+&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;iOS Staging&lt;/span&gt;
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;tags&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;v*&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;workflow_dispatch&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;inputs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Build&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;description'&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;build&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;macOS-latest&lt;/span&gt;
+    &lt;span class=&quot;c1&quot;&gt;# timeout-minutes: 30&lt;/span&gt;
+
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Checkout&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Node modules cache&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/cache@v2&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;**/node_modules'&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$-modules-$&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Ruby cache&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/cache@v2&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;path&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;vendor/bundle&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;key&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$-gems-$&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Use Node &lt;/span&gt;&lt;span class=&quot;m&quot;&gt;14&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/setup-node@v2&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;node-version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;14'&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install yarn&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;npm install -g yarn&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install firebase CLI&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;npm install -g firebase-tools&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install dependencies&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;yarn&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Decode cert file&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo -n &quot;$P12_CODE_SIGNING_CERT_BASE64&quot; | base64 -d &amp;gt; ./cert.p12&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;P12_CODE_SIGNING_CERT_BASE64&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Decode adhoc prov file&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo -n &quot;$MOBILEPROVISION_ADHOC_BASE64&quot; | base64 -d &amp;gt; ./mobileProvisionAdhoc.mobileprovision&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MOBILEPROVISION_ADHOC_BASE64&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+      
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Decode appstore prov file&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo -n &quot;$MOBILEPROVISION_APPSTORE_BASE64&quot; | base64 -d &amp;gt; ./mobileProvisionAppstore.mobileprovision&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MOBILEPROVISION_APPSTORE_BASE64&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+      
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Decode widget adhoc prov file&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo -n &quot;$MOBILEPROVISION_WIDGET_ADHOC_BASE64&quot; | base64 -d &amp;gt; ./mobileProvisionWidgetAdhoc.mobileprovision&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MOBILEPROVISION_WIDGET_ADHOC_BASE64&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+      
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Decode widget appstore prov file&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo -n &quot;$MOBILEPROVISION_WIDGET_APPSTORE_BASE64&quot; | base64 -d &amp;gt; ./mobileProvisionWidgetAppstore.mobileprovision&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;MOBILEPROVISION_WIDGET_APPSTORE_BASE64&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Bundle install&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;|&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;bundle config path vendor/bundle&lt;/span&gt;
+          &lt;span class=&quot;s&quot;&gt;bundle check || bundle install&lt;/span&gt;
+
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Fastlane&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;bundle exec fastlane ios distribute_staging&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+          &lt;span class=&quot;na&quot;&gt;FIREBASE_TOKEN&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;The main difference (besides using a macos machine), is the unpacking and decoding of provisioning profiles and certificate. If you have used fastlane you will see there is some recommendation to use &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;match&lt;/code&gt;, don’t it’s useless, it’s a waste of time to set up and only to automate a task that you will probably do once a year (re-generate the certificate once it expires).&lt;/p&gt;
+
+&lt;p&gt;Another nice thing is the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;workflow_dispatch&lt;/code&gt; trigger, it allows you to trigger a workflow from the github UI (and you can put params, but as you can see I’m not using the description parameter yet).&lt;/p&gt;
+
+&lt;h2 id=&quot;results&quot;&gt;Results&lt;/h2&gt;
+
+&lt;p&gt;The results are super good so far! I’m quite happy with it. Actual numbers:&lt;/p&gt;
+
+&lt;table&gt;
+  &lt;thead&gt;
+    &lt;tr&gt;
+      &lt;th&gt;Target&lt;/th&gt;
+      &lt;th&gt;Bitrise&lt;/th&gt;
+      &lt;th&gt;Github&lt;/th&gt;
+      &lt;th&gt;Reduction&lt;/th&gt;
+    &lt;/tr&gt;
+  &lt;/thead&gt;
+  &lt;tbody&gt;
+    &lt;tr&gt;
+      &lt;td&gt;iOS&lt;/td&gt;
+      &lt;td&gt;~60 mins&lt;/td&gt;
+      &lt;td&gt;~30 mins&lt;/td&gt;
+      &lt;td&gt;50%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Android&lt;/td&gt;
+      &lt;td&gt;~35 mins&lt;/td&gt;
+      &lt;td&gt;~20mins&lt;/td&gt;
+      &lt;td&gt;42%&lt;/td&gt;
+    &lt;/tr&gt;
+    &lt;tr&gt;
+      &lt;td&gt;Huawei&lt;/td&gt;
+      &lt;td&gt;~35 mins&lt;/td&gt;
+      &lt;td&gt;~20mins&lt;/td&gt;
+      &lt;td&gt;42%&lt;/td&gt;
+    &lt;/tr&gt;
+  &lt;/tbody&gt;
+&lt;/table&gt;
+
+&lt;p&gt;We are still not sure about the costs, since Github charges per build time, but we only build our apps maybe once a week so I would be really really surprised if we don’t end up paying less, current gut feeling is we will pay around half of what we pay to Bitrise. However, be warned that if you run everything on mac instances (some UI testing for example), then Github can be way too expensive, so you might want to stay on Bitrise or Appcenter or other provider that does not charge per minute.&lt;/p&gt;
+
+&lt;h2 id=&quot;lessons-learned&quot;&gt;Lessons learned&lt;/h2&gt;
+
+&lt;ul&gt;
+  &lt;li&gt;As stated, skip fastlane’s &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;match&lt;/code&gt;, it’s a waste of your time and your organization time (unless you regenerate certs/profiles every week or so)&lt;/li&gt;
+  &lt;li&gt;Fastlane scripts/plugins have some hidden behavior, do not try to create a new platform, stick to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ios&lt;/code&gt; and &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;android&lt;/code&gt;, we created a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;huawei&lt;/code&gt; platform and wasted a day trying to figure out why the apk was not detected for upload to firebase.&lt;/li&gt;
+  &lt;li&gt;Fastlane works on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.fastlane&lt;/code&gt; directory, github actions on the project root… this can be a pain to debug if you have to point to files directly.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&quot;was-it-worth-it&quot;&gt;Was it worth it?&lt;/h2&gt;
+
+&lt;p&gt;The process was slow (setting up CI is so painfully slow; trigger a build, wait 20 mins, realize var name is wrong 🤮), but it wasn’t painful, being able to use pure bash (via fastlane or github steps) is heaven, even though Bitrise looks powerful with all the plugins, it’s really freaking black-boxy with cryptic errors.&lt;/p&gt;
+
+&lt;p&gt;The speed has me super happy and everything is now integrated with github (our code, our issues and now our CI) which makes my life easier. I’m sure there are a few hairs here and there that need to be trimmed, but so far no complains. Github Actions are not perfect (fucking yaml… why do we keep using yaml?!) but hopefully you will find this guide useful if you are tired of abandonware (appcenter), slow CIs (bitrise), plain confusing (CircleCI).&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.</summary></entry><entry><title type="html">How to send Redux actions to analytics/error back-end (Redux analytics middleware)</title><link href="https://ospfranco.github.io/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/" rel="alternate" type="text/html" title="How to send Redux actions to analytics/error back-end (Redux analytics middleware)" /><published>2021-04-28T15:00:00+02:00</published><updated>2021-04-28T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/">&lt;p&gt;Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.&lt;/p&gt;
 
 &lt;p&gt;This is a small trick I did during the WerkerApp days. At some point adding analytic data points becomes burdensome. For each new feature you need to figure out which data points you need, you need to agree which additional data you need to send to calculate your goals, etc. Instead of doing all this manual work everytime, you can get a complete analytics pipeline for free by directly hooking up your Redux actions to your analytics. You obviously need to be careful about sending sensitive data, but for every new feature you develop, you will have a complete analytics pipeline for free!&lt;/p&gt;
 
@@ -711,46 +935,4 @@ generateIcon &quot;AppIcon83.5x83.5@2x~ipad.png&quot;
 
 &lt;p&gt;Basically, take the data you wrote into the app group and put it in the widget.&lt;/p&gt;
 
-&lt;p&gt;Cheers! you now have a iOS 14 widget for your react-native app. If you found this tutorial useful, follow me on &lt;a href=&quot;https://twitter.com/ospfranco&quot;&gt;twitter&lt;/a&gt;, I constantly post react-native and other programming trips and insights.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">So you want to make a iOS home screen widget react-native?</summary></entry><entry><title type="html">React Native performance tips</title><link href="https://ospfranco.github.io/post/2020/08/10/hardcore-react-native-performance-tips/" rel="alternate" type="text/html" title="React Native performance tips" /><published>2020-08-10T15:00:00+02:00</published><updated>2020-08-10T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2020/08/10/hardcore-react-native-performance-tips</id><content type="html" xml:base="https://ospfranco.github.io/post/2020/08/10/hardcore-react-native-performance-tips/">&lt;p&gt;Recently a friend send me a link with some react-native &lt;a href=&quot;https://blog.soshace.com/performance-optimizations-for-react-native-applications/&quot;&gt;performance optimizations&lt;/a&gt;, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:&lt;/p&gt;
-
-&lt;h2 id=&quot;1-inlining-is-more-complex-in-functional-components&quot;&gt;1. Inlining is more complex in functional components&lt;/h2&gt;
-
-&lt;p&gt;The article mentions not to pass inline functions and moves the function declaration outside of the jsx, this was true with class components, but functional components are a different game, it doesn’t matter where in your component you declare them they will always get created every time the component renders, if you really one to have a single declared function you need to use a useRef hook:&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myCallback&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;useRef&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// some static function&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;current&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(...)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;2-hermes-has-caveats&quot;&gt;2. Hermes… has caveats&lt;/h2&gt;
-&lt;p&gt;Don’t get me wrong, hermes will improve the start-up performance of your application, but… it’s a custom engine, will all the caveats of a custom engine, there are some missing parts here and there (at my current company we had to polyfill/patch date/time functions to get our time library luxon to work), it’s up to you to realize if it is worth the tradeoff&lt;/p&gt;
-
-&lt;h2 id=&quot;3-flatlists-are-okish-until-they-are-not&quot;&gt;3. flatlists are okish, until they are not&lt;/h2&gt;
-&lt;p&gt;FlatLists are virtualized and that is good, if you have a few hundred elements, once you start talking about thousands, then it breaks down, if you want real performance you need to use a list that re-uses each item component such as &lt;a href=&quot;https://github.com/bolan9999/react-native-largelist&quot;&gt;large-list&lt;/a&gt; or some other variation that recycles views to keep performance to a maximum&lt;/p&gt;
-
-&lt;h2 id=&quot;4-beware-of-images&quot;&gt;4. Beware of images&lt;/h2&gt;
-&lt;p&gt;I’ve actually fallen and seen other fall into this trap over and over, just because you set an image to be hidden (doesn’t matter how, height: 0, visibility: ‘hidden’, etc), doesn’t mean there is no processing going on the background, the computer will still load the image into memory, do all the transformations and adjustments and then apply your styling, a lot of processing power is wasted, I really mean a LOT, rule of thumb is: if you don’t need it, exclude the component entirely&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!!&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;showImage&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Image&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;myCatImage&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;sr&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;}
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;5-very-interaction-heavy-components-will-never-be-smooth-on-js&quot;&gt;5. Very interaction heavy components will never be smooth on JS&lt;/h2&gt;
-&lt;p&gt;Check out &lt;a href=&quot;https://ospfranco.github.io/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/&quot;&gt;How to trick Mapbox to render any tile set&lt;/a&gt;, no matter how clever you think you are or how hard the JIT works for you, at some point you will hit a hard barrier, in this cases, instead of building an entire tool chain in JavaScript it is a good idea to take a step back and see if you can integrate a more native solution into your app.&lt;/p&gt;
-
-&lt;h2 id=&quot;6-android-receives-no-love-even-from-google&quot;&gt;6. Android receives no love (even from google)&lt;/h2&gt;
-&lt;p&gt;This has been actually the hardest hitting point for me in the past 3 years, somethings in android are just WORSE, just one example: the most painful thing I have seen so far is file uploading. Let’s just get this out of the way, if you are trying to build an application that uploads a lot of files in RN, you are going to have a bad time, the moment you try to upload more than 1 - 2 files (or have background uploads), almost all android phones start dying. One of the most used libraries to do this is &lt;a href=&quot;https://github.com/joltup/rn-fetch-blob&quot;&gt;react-native-fetch-blob&lt;/a&gt; it made the app experience miserable in my previous apps.&lt;/p&gt;
-
-&lt;p&gt;There are a few other examples here (ex. react-native-camera) and there of how things can impact the performance on android, just know, you will feel the pain if your app is anything more than just lists, texts and images.&lt;/p&gt;
-
-&lt;h2 id=&quot;7-use-reanimated-and-lottie&quot;&gt;7. Use Reanimated and lottie&lt;/h2&gt;
-&lt;p&gt;If you are doing something with animations [react-native-reanimated] is the best you can aim for, it takes time to wrap your head on how to work with the API and manipulating native values declaratively but the result it’s always buttery smooth.&lt;/p&gt;
-
-&lt;p&gt;Same goes for gifs, lower end devices will run hot and kill battery, switching to lottie for static animations has helped me in this cases before&lt;/p&gt;
-
-&lt;h2 id=&quot;8-react-navigation-has-gotten-better&quot;&gt;8. React navigation has gotten better&lt;/h2&gt;
-&lt;p&gt;but &lt;a href=&quot;https://github.com/wix/react-native-navigation&quot;&gt;react-native-navigation&lt;/a&gt; by WIX was a lot smoother (at least when I tested it)&lt;/p&gt;
-
-&lt;h2 id=&quot;9-use-a-lazy-loaded-native-storage-solution&quot;&gt;9. Use a lazy loaded native storage solution&lt;/h2&gt;
-&lt;p&gt;Redux-persist and mobx-persist do the job, but if you want/need to handle thousands of items in your app and want to squeeze the last drop of performance you need to go native, using things like RxDB, WatermelonDb or Realm.js will be by far the biggest performance improvements if your app handles a lot of individual entities&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Recently a friend send me a link with some react-native performance optimizations, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:</summary></entry></feed>
+&lt;p&gt;Cheers! you now have a iOS 14 widget for your react-native app. If you found this tutorial useful, follow me on &lt;a href=&quot;https://twitter.com/ospfranco&quot;&gt;twitter&lt;/a&gt;, I constantly post react-native and other programming trips and insights.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">So you want to make a iOS home screen widget react-native?</summary></entry></feed>

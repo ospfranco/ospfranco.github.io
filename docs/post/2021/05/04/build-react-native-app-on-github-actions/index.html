@@ -1,0 +1,358 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-146785440-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-146785440-1');
+</script>
+
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar Franco on Github" /> 
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Build react-native app on github actions | Oscar Franco on Github</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="Build react-native app on github actions" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste." />
+<meta property="og:description" content="At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste." />
+<link rel="canonical" href="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/" />
+<meta property="og:site_name" content="Oscar Franco on Github" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-04T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Build react-native app on github actions" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/"},"url":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Build react-native app on github actions","dateModified":"2021-05-04T15:00:00+02:00","datePublished":"2021-05-04T15:00:00+02:00","description":"At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/dracula.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<html class="max-h-full">
+  <body class="max-h-full">
+    <div class="h-full xl:flex justify-center">
+      <div class="p-8 w-full xl:flex-1 xl:h-full overflow-y-auto bg-gray-800">
+  <a
+  class="flex items-center"
+  href="/"
+  >
+    <img src="/assets/profile.webp" class="rounded-full h-16" />
+    <h2 class="text-white text-3xl ml-2">Oscar Franco</h2>
+  </a>
+
+  <!-- <div class="flex justify-center my-2">
+    <a
+      class="pr-4"
+      href="https://twitter.com/ospfranco"
+    >
+      <img src="/assets/twitter.png" class="h-8">
+    </a>
+    <a
+      href="https://github.com/ospfranco"
+    >
+      <img src="/assets/github.png" class="h-8">
+    </a>
+  </div> -->
+
+  <p class="text-white mt-4">System's Engineer from Bolivia. I write about technical topics and create developer tools.</p>
+  
+  <p class="text-white mt-6 text-xl pt-2 mb-6 border-t border-gray-400">My Projects</p>
+  
+  
+  <div>
+    <a href="https://ospfranco.github.io/cidemon" onclick="gtag('send', 'event', 'conversion', 'click', 'cidemon-click')">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500 text-sm">CI Demon</div>
+          <img src="/assets/small_ci_demon.jpg" class="h-64 py-2" />
+          <div class="text-gray-200 text-sm">
+            CI/CD on your Dekstop.
+          </div>
+          <a href="https://www.producthunt.com/posts/ci-demon?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ci-demon" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290593&theme=light" alt="CI Demon - Continuous integration builds in your desktop. | Product Hunt" style="width: 120px; height: 40px;" width="120" height="40" /></a>
+        </div>
+      </div>
+    </a>
+
+    <!-- <a href="https://apps.apple.com/de/app/tp-latino/id1483823093">
+      <div class="flex w-full items-center">
+        <div class=" overflow-hidden py-3">
+            <div class="text-blue-500 text-sm">Test Prep Latino</div>
+            <div class="text-gray-200 text-sm">
+              Practice for South-American flight pilot exams.
+            </div>  
+        </div>
+      </div>
+    </a> -->
+
+    <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+      <div class="flex w-full items-center">
+        <div class="overflow-hidden py-3">
+          <div class="text-blue-500 text-sm">react-native-sqlite</div>
+          <div class="text-gray-200 text-sm">
+            SQLite for react-native (with JSI bindings), the fastest sqlite library for react-native.
+          </div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+      <div class="w-full xl:overflow-y-scroll xl:w-2/3 p-8">
+        <div class="flex-1">
+  <div class="p-4">
+    <h1 class="font-semibold text-2xl">Build react-native app on github actions</h1>
+    <div class="text-gray-500 text-sm">
+      May 2021
+    </div>
+    
+    <div class="markdown mt-6">
+      <p>At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.</p>
+
+<h2 id="migrating-to-github-actions">Migrating to Github Actions</h2>
+
+<p>So, previously I removed our pure JavaScript tests out of Bitrise (again because it is too damn slow) and into Github Actions. The process was simple and since it runs where the code already lives it is pretty sweet to have everything under the Github umbrella. So, after finding out Github actually has macOS machines you can use to build your app, I begged the team to see if we could try to migrate everything to Github. We were already using Fastlane before using Bitrise, so there was a <code class="language-plaintext highlighter-rouge">Fastfile</code> that I could more or less use after some updates, I just needed to set up the machines and the environments.</p>
+
+<p>Here is our workflow file for our android build:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Android GMS Staging</span>
+
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">create</span><span class="pi">:</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">v*</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+    <span class="na">inputs</span><span class="pi">:</span>
+      <span class="na">message</span><span class="pi">:</span>
+        <span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Build</span><span class="nv"> </span><span class="s">description'</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+    <span class="na">container</span><span class="pi">:</span>
+      <span class="na">image</span><span class="pi">:</span> <span class="s">docker://fabernovel/android:api-29-v1.1.0</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout</span>
+        <span class="na">uses </span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Node modules cache</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">path</span><span class="pi">:</span> <span class="s1">'</span><span class="s">**/node_modules'</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="s">$-modules-$</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Ruby cache</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1.2.0</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="s">$-gems-$</span>
+          <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
+            <span class="s">$-gems-</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Gradle cache</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1.2.0</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">path</span><span class="pi">:</span> <span class="s">/root/.gradle</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="s">$-gradle-$</span>
+          <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
+            <span class="s">$-gradle</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node </span><span class="m">14</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">node-version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">14'</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install yarn</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g yarn</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install firebase CLI</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g firebase-tools</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode keystore file</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$ANDROID_KEYSTORE_FILE" | base64 -d &gt; ./my-release-key.keystore</span>
+        <span class="na">working-directory</span><span class="pi">:</span> <span class="s">./android/app</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">ANDROID_KEYSTORE_FILE</span><span class="pi">:</span> <span class="s">$</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Bundle install</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">bundle config path vendor/bundle</span>
+          <span class="s">bundle check || bundle install</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Fastlane</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec fastlane android distribute_staging</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">MYAPP_RELEASE_STORE_PASSWORD</span><span class="pi">:</span> <span class="s">$</span>
+          <span class="na">MYAPP_RELEASE_KEY_ALIAS</span><span class="pi">:</span> <span class="s">$</span>
+          <span class="na">MYAPP_RELEASE_KEY_PASSWORD</span><span class="pi">:</span> <span class="s">$</span>
+          <span class="na">FIREBASE_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
+</code></pre></div></div>
+
+<p>Nothing too fancy, basically using a pre-built image which already has the android SDK installed, then installing node dependencies, ruby dependencies, etc etc. The keystore file is in our github secrets and gets decoded into the machine. Finally it is just a matter of calling Fastlane, which takes care of all the final build steps, I did not want to put any more logic inside of the workflow, because we should also be able to run fastlane in our machines in case the CI is not an option or we need to do an emergency release for some reason.</p>
+
+<p>For iOS, is somewhat similar:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">iOS Staging</span>
+<span class="na">on</span><span class="pi">:</span>
+  <span class="na">create</span><span class="pi">:</span>
+    <span class="na">tags</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">v*</span>
+  <span class="na">workflow_dispatch</span><span class="pi">:</span>
+    <span class="na">inputs</span><span class="pi">:</span>
+      <span class="na">message</span><span class="pi">:</span>
+        <span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Build</span><span class="nv"> </span><span class="s">description'</span>
+
+<span class="na">jobs</span><span class="pi">:</span>
+  <span class="na">build</span><span class="pi">:</span>
+    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">macOS-latest</span>
+    <span class="c1"># timeout-minutes: 30</span>
+
+    <span class="na">steps</span><span class="pi">:</span>
+    
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Node modules cache</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">path</span><span class="pi">:</span> <span class="s1">'</span><span class="s">**/node_modules'</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="s">$-modules-$</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Ruby cache</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="s">$-gems-$</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node </span><span class="m">14</span>
+        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2</span>
+        <span class="na">with</span><span class="pi">:</span>
+          <span class="na">node-version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">14'</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install yarn</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g yarn</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install firebase CLI</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g firebase-tools</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode cert file</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$P12_CODE_SIGNING_CERT_BASE64" | base64 -d &gt; ./cert.p12</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">P12_CODE_SIGNING_CERT_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode adhoc prov file</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_ADHOC_BASE64" | base64 -d &gt; ./mobileProvisionAdhoc.mobileprovision</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">MOBILEPROVISION_ADHOC_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode appstore prov file</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_APPSTORE_BASE64" | base64 -d &gt; ./mobileProvisionAppstore.mobileprovision</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">MOBILEPROVISION_APPSTORE_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode widget adhoc prov file</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_WIDGET_ADHOC_BASE64" | base64 -d &gt; ./mobileProvisionWidgetAdhoc.mobileprovision</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">MOBILEPROVISION_WIDGET_ADHOC_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode widget appstore prov file</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_WIDGET_APPSTORE_BASE64" | base64 -d &gt; ./mobileProvisionWidgetAppstore.mobileprovision</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">MOBILEPROVISION_WIDGET_APPSTORE_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Bundle install</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
+          <span class="s">bundle config path vendor/bundle</span>
+          <span class="s">bundle check || bundle install</span>
+
+      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Fastlane</span>
+        <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec fastlane ios distribute_staging</span>
+        <span class="na">env</span><span class="pi">:</span>
+          <span class="na">FIREBASE_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
+</code></pre></div></div>
+
+<p>The main difference (besides using a macos machine), is the unpacking and decoding of provisioning profiles and certificate. If you have used fastlane you will see there is some recommendation to use <code class="language-plaintext highlighter-rouge">match</code>, don’t it’s useless, it’s a waste of time to set up and only to automate a task that you will probably do once a year (re-generate the certificate once it expires).</p>
+
+<p>Another nice thing is the <code class="language-plaintext highlighter-rouge">workflow_dispatch</code> trigger, it allows you to trigger a workflow from the github UI (and you can put params, but as you can see I’m not using the description parameter yet).</p>
+
+<h2 id="results">Results</h2>
+
+<p>The results are super good so far! I’m quite happy with it. Actual numbers:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Target</th>
+      <th>Bitrise</th>
+      <th>Github</th>
+      <th>Reduction</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>iOS</td>
+      <td>~60 mins</td>
+      <td>~30 mins</td>
+      <td>50%</td>
+    </tr>
+    <tr>
+      <td>Android</td>
+      <td>~35 mins</td>
+      <td>~20mins</td>
+      <td>42%</td>
+    </tr>
+    <tr>
+      <td>Huawei</td>
+      <td>~35 mins</td>
+      <td>~20mins</td>
+      <td>42%</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>We are still not sure about the costs, since Github charges per build time, but we only build our apps maybe once a week so I would be really really surprised if we don’t end up paying less, current gut feeling is we will pay around half of what we pay to Bitrise. However, be warned that if you run everything on mac instances (some UI testing for example), then Github can be way too expensive, so you might want to stay on Bitrise or Appcenter or other provider that does not charge per minute.</p>
+
+<h2 id="lessons-learned">Lessons learned</h2>
+
+<ul>
+  <li>As stated, skip fastlane’s <code class="language-plaintext highlighter-rouge">match</code>, it’s a waste of your time and your organization time (unless you regenerate certs/profiles every week or so)</li>
+  <li>Fastlane scripts/plugins have some hidden behavior, do not try to create a new platform, stick to <code class="language-plaintext highlighter-rouge">ios</code> and <code class="language-plaintext highlighter-rouge">android</code>, we created a <code class="language-plaintext highlighter-rouge">huawei</code> platform and wasted a day trying to figure out why the apk was not detected for upload to firebase.</li>
+  <li>Fastlane works on the <code class="language-plaintext highlighter-rouge">.fastlane</code> directory, github actions on the project root… this can be a pain to debug if you have to point to files directly.</li>
+</ul>
+
+<h2 id="was-it-worth-it">Was it worth it?</h2>
+
+<p>The process was slow (setting up CI is so painfully slow; trigger a build, wait 20 mins, realize var name is wrong 🤮), but it wasn’t painful, being able to use pure bash (via fastlane or github steps) is heaven, even though Bitrise looks powerful with all the plugins, it’s really freaking black-boxy with cryptic errors.</p>
+
+<p>The speed has me super happy and everything is now integrated with github (our code, our issues and now our CI) which makes my life easier. I’m sure there are a few hairs here and there that need to be trimmed, but so far no complains. Github Actions are not perfect (fucking yaml… why do we keep using yaml?!) but hopefully you will find this guide useful if you are tired of abandonware (appcenter), slow CIs (bitrise), plain confusing (CircleCI).</p>
+
+
+    </div>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>
