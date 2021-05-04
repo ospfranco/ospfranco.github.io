@@ -92,6 +92,8 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 ```
 
+> You might see some floating `$` there goes a github secret, you can figure those out for your own config
+
 Nothing too fancy, basically using a pre-built image which already has the android SDK installed, then installing node dependencies, ruby dependencies, etc etc. The keystore file is in our github secrets and gets decoded into the machine. Finally it is just a matter of calling Fastlane, which takes care of all the final build steps, I did not want to put any more logic inside of the workflow, because we should also be able to run fastlane in our machines in case the CI is not an option or we need to do an emergency release for some reason.
 
 For iOS, is somewhat similar:

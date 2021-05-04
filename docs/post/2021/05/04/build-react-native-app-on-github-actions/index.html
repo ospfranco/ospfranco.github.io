@@ -31,7 +31,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/"},"url":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Build react-native app on github actions","dateModified":"2021-05-04T15:00:00+02:00","datePublished":"2021-05-04T15:00:00+02:00","description":"At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"Build react-native app on github actions","dateModified":"2021-05-04T15:00:00+02:00","datePublished":"2021-05-04T15:00:00+02:00","url":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/"},"author":{"@type":"Person","name":"Oscar Franco"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"description":"At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -204,6 +204,10 @@
           <span class="na">MYAPP_RELEASE_KEY_PASSWORD</span><span class="pi">:</span> <span class="s">$</span>
           <span class="na">FIREBASE_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
 </code></pre></div></div>
+
+<blockquote>
+  <p>You might see some floating <code class="language-plaintext highlighter-rouge">$</code> there goes a github secret, you can figure those out for your own config</p>
+</blockquote>
 
 <p>Nothing too fancy, basically using a pre-built image which already has the android SDK installed, then installing node dependencies, ruby dependencies, etc etc. The keystore file is in our github secrets and gets decoded into the machine. Finally it is just a matter of calling Fastlane, which takes care of all the final build steps, I did not want to put any more logic inside of the workflow, because we should also be able to run fastlane in our machines in case the CI is not an option or we need to do an emergency release for some reason.</p>
 
