@@ -6,16 +6,11 @@
 @import "tailwindcss/utilities";
 @import url('https://rsms.me/inter/inter.css');
 
-/* @font-face {
-  font-family: "Inter";
-  src: url("./assets/fonts/Inter.ttf");
-} */
-
 html {
   font-family: Inter, Helvetica, Arial, sans-serif;
-  font-weight: 300;
-  font-size: 1.1em;
-  background-color: #FBFBFB;
+  /* font-weight: 300; */
+  /* font-size: 1em; */
+  background-color: #FFF;
 }
 
 .markdown p {
@@ -25,15 +20,15 @@ html {
 }
 
 .markdown h1 {
-  @apply text-xl font-semibold mt-4;
+  @apply text-xl font-semibold mt-4 border-b;
 }
 
 .markdown h2 {
-  @apply text-lg font-semibold mt-4;
+  @apply text-lg font-semibold mt-4 border-b;
 }
 
 .markdown h3 {
-  @apply font-bold mt-4;
+  @apply font-bold mt-4 border-b;
 }
 
 .markdown a {

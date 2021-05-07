@@ -1,12 +1,14 @@
 ---
 layout: post
-title: Build react-native app on github actions (and fastlane)
+title: How to build react-native app on github actions (and fastlane)
 date: 2021-05-04 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
 
-At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past. That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next tier vaguely says that we would pay anywhere from 200 to thousands of bucks, which was too vague for our taste.
+At work we were using Bitrise to build our React-Native app. I have never been a fan of Bitrise, it is super slow compared to any other cloud provider out there and super pricey compared to those I have used in the past.
+
+That being said, it works well and their huge gallery steps probably cover most of the stuff one needs when building a mobile app in the cloud. However we recently started hitting our heads against the ceiling, after migrating to the latest version of React-Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next pricing tier was too vague for us to reasonably pay for it.
 
 ## Migrating to Github Actions
 
