@@ -206,7 +206,7 @@ The speed increase is amazing, not dealing with Bitrise's slow UI is amazing, th
 - Fastlane works on the `.fastlane` directory, github actions on the project root... this can be a pain to debug if you have to point to files directly.
 - If you are going to run macOS machines on every commit/pr, then github actions is probably not the best tool, it's way too expensive
 
-## Conlussions
+## Conclusions
 
 The process was slow (setting up CI is so painfully slow; trigger a build, wait 20 mins, realize var name is wrong 🤮), but it wasn't painful, being able to use pure bash (via fastlane or github steps) is heaven, even though Bitrise looks powerful with all the plugins, it's really freaking black-boxy with cryptic errors.
 
