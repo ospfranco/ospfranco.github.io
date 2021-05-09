@@ -1,4 +1,54 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-08T08:57:22+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to build react-native app on github actions (and fastlane)</title><link href="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/" rel="alternate" type="text/html" title="How to build react-native app on github actions (and fastlane)" /><published>2021-05-04T15:00:00+02:00</published><updated>2021-05-04T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/">&lt;p&gt;At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-09T12:12:58+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to add a github token to CI Demon</title><link href="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" rel="alternate" type="text/html" title="How to add a github token to CI Demon" /><published>2021-05-08T15:00:00+02:00</published><updated>2021-05-08T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/">&lt;p&gt;&lt;a href=&quot;https://ospfranco.github.io/cidemon&quot;&gt;CI Demon&lt;/a&gt; is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.&lt;/p&gt;
+
+&lt;h2 id=&quot;about-ci-demon&quot;&gt;About CI Demon&lt;/h2&gt;
+
+&lt;p&gt;If you haven’t heard about CI Demon, it is a macOS status bar application. Instead of waiting for entire web apps to low to see if your build has passed or failed, it puts the a simple status icon on your macOS status bar. When open it shows you a list of PRs, branches or even endpoints for you to quickly fix/attend to any issues.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/small_ci_demon.jpg&quot; alt=&quot;CI Demon preview&quot; title=&quot;CI demon preview&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;As stated it works based on tokens, the thing is, this tokens never leave your computer, they are all stored on the macOS keychain, so no need for you to worry what I do with your personal information (I don’t do anything because I don’t have access to them).&lt;/p&gt;
+
+&lt;h2 id=&quot;generating-a-github-token&quot;&gt;Generating a Github token&lt;/h2&gt;
+
+&lt;p&gt;The most tight integration is with github and sometimes people have some problems adding their tokens into the app, so let’s walkthrough generating a token.&lt;/p&gt;
+
+&lt;h3 id=&quot;open-githubcom&quot;&gt;Open github.com&lt;/h3&gt;
+
+&lt;p&gt;First you want to open github and go to your account settings.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/CIDemonTut1.png&quot; alt=&quot;CI tut 1&quot; title=&quot;CI tut 1&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;go-to-developer-settings&quot;&gt;Go to Developer settings&lt;/h3&gt;
+
+&lt;p&gt;You then go to developer settings options&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/CIDemonTut2.png&quot; alt=&quot;CI tut 2&quot; title=&quot;CI tut 2&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;select-personal-access-tokens&quot;&gt;Select personal access tokens&lt;/h3&gt;
+
+&lt;p&gt;You should now see a list of your personal tokens, you create a new one clicking in the generate new token button. (You might be prompted to input your password).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/CIDemonTut3.png&quot; alt=&quot;CI tut 3&quot; title=&quot;CI tut 3&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;create-the-token&quot;&gt;Create the token&lt;/h3&gt;
+
+&lt;p&gt;You can put a note in the token, I just put CI Demon in case I one day forget why I created that specific token, on the permissions you want to give it only the necessary permissions. Giving it repo access is enough, unfortunately you cannot give it read-only access, but I promise you the app is strictly read only (with the exception of re-triggering builds).&lt;/p&gt;
+
+&lt;p&gt;Afterwards you will see your token, copy and paste it, this will be your only chance.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/CIDemonTut4.png&quot; alt=&quot;CI tut 4&quot; title=&quot;CI tut 4&quot; /&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;add-it-to-ci-demon&quot;&gt;Add it to CI Demon&lt;/h3&gt;
+
+&lt;p&gt;On CI Demon, on the settings menu, go to github actions and paste your token in there.&lt;/p&gt;
+
+&lt;p&gt;Now there is a small inconvenience here, due to some API limitations, you have to manually specify which repositories you want to watch, so here put your repository &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;slug&lt;/code&gt;. An slug is the username and the name of a repository, e.g. &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ospfranco/link-preview-js&lt;/code&gt;.&lt;/p&gt;
+
+&lt;p&gt;You can also select if you want to see branches and/or PRs.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;/assets/CIDemonTut5.png&quot; alt=&quot;CI tut 5&quot; title=&quot;CI tut 5&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;That’s it, you should now be able to see your CI information right on your Desktop. If you haven’t heard about CI Demon, &lt;a href=&quot;https://ospfranco.github.io/cidemon&quot;&gt;you should check it out now&lt;/a&gt;.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">CI Demon is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.</summary></entry><entry><title type="html">How to build react-native app on github actions (and fastlane)</title><link href="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/" rel="alternate" type="text/html" title="How to build react-native app on github actions (and fastlane)" /><published>2021-05-04T15:00:00+02:00</published><updated>2021-05-04T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/">&lt;p&gt;At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.&lt;/p&gt;
 
 &lt;p&gt;That being said; it works well and their huge gallery steps probably cover 95% of the stuff you need from a mobile CI, however, we recently started hitting our heads against the ceiling. After migrating to the latest version of React Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next pricing tier was too vaguely priced for us to comfortably accept it.&lt;/p&gt;
 
@@ -769,179 +819,4 @@ generateIcon &quot;AppIcon83.5x83.5@2x~ipad.png&quot;
 
 &lt;p&gt;and there you have it, you should be able to easily tell your different app environments now, if you couple this with your CI/CD it is even more convenient.&lt;/p&gt;
 
-&lt;p&gt;Cheers&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/taco.png" /><media:content medium="image" url="https://ospfranco.github.io/assets/taco.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native iOS 14 widgets</title><link href="https://ospfranco.github.io/post/2020/08/14/ios-14-widgets-and-react-native/" rel="alternate" type="text/html" title="React Native iOS 14 widgets" /><published>2020-08-14T15:00:00+02:00</published><updated>2020-08-14T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2020/08/14/ios-14-widgets-and-react-native</id><content type="html" xml:base="https://ospfranco.github.io/post/2020/08/14/ios-14-widgets-and-react-native/">&lt;p&gt;So you want to make a iOS home screen widget react-native?&lt;/p&gt;
-
-&lt;p&gt;I’m sorry to dissapoint &lt;strong&gt;you will not be able to do a home screen widget with react-native…&lt;/strong&gt;, ok, I might be partially lying, you might be able to load an RCTRootView to use react-native into the widget but IMHO this is a bad idea, rather what you want is make a native widget communicate with your rn app.&lt;/p&gt;
-
-&lt;h2 id=&quot;about-ios-14-widgets&quot;&gt;About iOS 14 Widgets&lt;/h2&gt;
-
-&lt;p&gt;Firstly widgets do not constantly run, but are rather are refreshed by the OS at discrete intervals.&lt;/p&gt;
-
-&lt;p&gt;Secondly there is a very tight memory limitation, you cannot add more than a few thousand data points into them, once you go over the memory limitation (in my testing 30mbs-40mbs), the widget simply refuses to render.&lt;/p&gt;
-
-&lt;p&gt;Trying to cram react-native on top of this limitations is IMO a bad idea, however you can make your widget play nicely with your react-native app.&lt;/p&gt;
-
-&lt;h1 id=&quot;how-to-make-a-widget-work-in-tandem-with-a-rn-app&quot;&gt;How to make a Widget work in tandem with a rn app&lt;/h1&gt;
-
-&lt;h3 id=&quot;1-follow-any-ios-14-widget-tutorial&quot;&gt;1. Follow any iOS 14 widget tutorial&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;Get XCode 12&lt;/li&gt;
-  &lt;li&gt;Add a new “widget” target to your project&lt;/li&gt;
-  &lt;li&gt;Compile and run the app&lt;/li&gt;
-  &lt;li&gt;Add the widget to your homescreen&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Compile your app first as is to see if works, in my case I got a swift compilation error, as it turns out the widget target build settings was embedding an old version of the swift runtime, it got solved by following &lt;a href=&quot;https://github.com/facebook/react-native/issues/29246&quot;&gt;this issue&lt;/a&gt;, basically remove any swift path from the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;libraries search paths&lt;/code&gt; in the extension’s target &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Build Settings&lt;/code&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;2-how-to-connect-the-widget-to-your-apps-js-code&quot;&gt;2. How to connect the widget to your app’s JS code&lt;/h3&gt;
-
-&lt;p&gt;We will go back to building the UI a bit later, for now let’s tackle the main problem, how do you connect your app to the widget.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Important point to clarify: iOS widgets work with a timeline of data points, based on a timestamp iOS will run &lt;strong&gt;1&lt;/strong&gt; render cycle with the appropiatte data point, save a “snapshot” and that’s it, your job is to create the timeline of datapoints and to create the render function which takes one of mentioned datapoints.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;The problem becomes, how do you create and share the data point timeline for the widget to consume the answer is: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AppGroups&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;An AppGroup is basically a shared environment between multiple apps or targets, it allows you to share data between the package, you can create one directly from XCode, first add the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;capability&lt;/code&gt; in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;project build settings&lt;/code&gt; for both targets (the main app and the widget extension).&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;IMPORTANT&lt;/strong&gt; You need to have owner rights in your apple developer portal organization in order to create this group on the app store, this also means you will need to regenerate your provisioning profiles!&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;You can give a custom name to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AppGroup&lt;/code&gt;, xcode will prepend &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;group.&lt;/code&gt; for you, so you should have something like &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;group.com.yourcompany&lt;/code&gt;&lt;/p&gt;
-
-&lt;p&gt;You should end-up with something like this:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.github.io/assets/BodyFastWidget2.png&quot; alt=&quot;Project Settings&quot; title=&quot;Project Settings&quot; /&gt;&lt;/p&gt;
-
-&lt;h3 id=&quot;3-writing-data-from-the-react-native-side&quot;&gt;3. Writing data from the react-native side&lt;/h3&gt;
-
-&lt;p&gt;The next step is to write data to this shared group, if you google it you will find swift snippets out there, but luckily there is already a &lt;a href=&quot;https://github.com/KjellConnelly/react-native-shared-group-preferences/tree/master/ios&quot;&gt;react-native-shared-group-preferences&lt;/a&gt;.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;&lt;strong&gt;It’s worth repeating&lt;/strong&gt; widgets are not that powerful, they are basically a view of a single data point&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Here is an example of how you should prepare the timeline data for the widget&lt;/p&gt;
-
-&lt;div class=&quot;language-javascript highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;SharedGroupPreferences&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;react-native-shared-group-preferences&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;appGroupIdentifier&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;group.com.yourcompany&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;datapoints&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;bar&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;baz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;boo&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;2020-10-10T12:00:00z&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// ... more data points come here&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;nx&quot;&gt;SharedGroupPreferences&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setItem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;myAppData&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;myData&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;appGroupIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h3 id=&quot;4-reading-data-from-your-widget&quot;&gt;4. Reading data from your widget&lt;/h3&gt;
-
-&lt;p&gt;Once that is done you can start on the swift side to read the data your app has created.&lt;/p&gt;
-
-&lt;p&gt;If you haven’t changed any of the code XCode generated for you, you should be able to modify the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;getTimeline&lt;/code&gt; function:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;MyObject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Decodable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nv&quot;&gt;datapoints&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DataPoint&lt;/span&gt;
-
-  &lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;DataPoint&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Decodable&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nv&quot;&gt;foo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nv&quot;&gt;baz&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;nv&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;string&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;getTimeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;in&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Context&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;@escaping&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Timeline&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;sharedDefaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UserDefaults&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;init&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;suiteName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;group.com.yourcompany&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;entries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;SimpleEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sharedDefaults&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;aValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;sharedDefaults&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;myData&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as!&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aValue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;decoder&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;JSONDecoder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;data&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;aValue&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;using&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;utf8&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;parsedData&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;try&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;decoder&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;decode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;MyObject&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;from&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;currentDate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-          &lt;span class=&quot;n&quot;&gt;parsedData&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;periods&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forEach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;period&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-            &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;entryDate&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Calendar&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;current&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;byAdding&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hour&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;to&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;currentDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;entries&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;append&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;SimpleEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entryDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;period&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;period&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;))&lt;/span&gt;
-          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;nf&quot;&gt;print&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;Could not parse data&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;timeline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Timeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;entries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;entries&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;policy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;atEnd&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;completion&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;timeline&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;SimpleEntry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;TimelineEntry&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;date&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Date&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;String&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;NOTE: This is not my actual code nor copy and pastable, use your head, you need to parse the ISO date you wrote into your structure, etc.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;Basically:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;Read the UserDefaults object from the shared group we created before&lt;/li&gt;
-  &lt;li&gt;Get the data (which has been encoded in string form)&lt;/li&gt;
-  &lt;li&gt;Decode into an object&lt;/li&gt;
-  &lt;li&gt;Create a timeline of said objects&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;As a side note and important for you to know, the final objects you put on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Timeline&lt;/code&gt; struct, need to comply with the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TimelineEntry&lt;/code&gt; protocol, basically it needs to have a date field of type &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Date&lt;/code&gt; and that is it.&lt;/p&gt;
-
-&lt;h3 id=&quot;5-rendering-your-widget&quot;&gt;5. Rendering your widget&lt;/h3&gt;
-
-&lt;p&gt;Look SwiftUI is not that hard, I know you want to make your widget in react-native… but the potential effort and troubles are not worth it, you are also creating a tiny UI, you cannot have any animations or any complex behavior, widgets are basically just a few text objects and some icons at most.&lt;/p&gt;
-
-&lt;p&gt;Here is an example swiftUI code to give you a rough feeling:&lt;/p&gt;
-
-&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;struct&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;widgetEntryView&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Provider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Entry&lt;/span&gt;
-
-    &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;some&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;kt&quot;&gt;VStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;Spacer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;HStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;kt&quot;&gt;Spacer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-          &lt;span class=&quot;kt&quot;&gt;ZStack&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;white&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;110&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;110&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-            &lt;span class=&quot;kt&quot;&gt;Circle&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;fill&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-              &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;80&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-          &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-          &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;start&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-          &lt;span class=&quot;kt&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;entry&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-          &lt;span class=&quot;kt&quot;&gt;Spacer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;kt&quot;&gt;Spacer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;background&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;Color&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;green&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;That produces the following widget&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.github.io/assets/BodyFastWidget.png&quot; alt=&quot;iOS14 widget&quot; title=&quot;iOS14 widget&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Basically, take the data you wrote into the app group and put it in the widget.&lt;/p&gt;
-
-&lt;p&gt;Cheers! you now have a iOS 14 widget for your react-native app. If you found this tutorial useful, follow me on &lt;a href=&quot;https://twitter.com/ospfranco&quot;&gt;twitter&lt;/a&gt;, I constantly post react-native and other programming trips and insights.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">So you want to make a iOS home screen widget react-native?</summary></entry></feed>
+&lt;p&gt;Cheers&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/taco.png" /><media:content medium="image" url="https://ospfranco.github.io/assets/taco.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

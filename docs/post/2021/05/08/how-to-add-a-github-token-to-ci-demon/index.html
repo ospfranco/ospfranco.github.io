@@ -1,0 +1,167 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-146785440-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-146785440-1');
+</script>
+
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar Franco on Github" /> 
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>How to add a github token to CI Demon | Oscar Franco on Github</title>
+<meta name="generator" content="Jekyll v4.2.0" />
+<meta property="og:title" content="How to add a github token to CI Demon" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="CI Demon is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens." />
+<meta property="og:description" content="CI Demon is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens." />
+<link rel="canonical" href="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" />
+<meta property="og:url" content="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" />
+<meta property="og:site_name" content="Oscar Franco on Github" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-08T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to add a github token to CI Demon" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"headline":"How to add a github token to CI Demon","dateModified":"2021-05-08T15:00:00+02:00","datePublished":"2021-05-08T15:00:00+02:00","url":"https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/"},"author":{"@type":"Person","name":"Oscar Franco"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"description":"CI Demon is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.","@type":"BlogPosting","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+  <script>hljs.initHighlightingOnLoad();</script>
+</head>
+<html class="max-h-full">
+  <body class="max-h-full">
+    <div class="h-full lg:flex justify-center">
+      <div class="p-3 lg:p-8 w-full lg:flex-1 lg:h-full overflow-y-auto border-b lg:border-r">
+  <a class="flex items-center" href="/" >
+    <img src="/assets/profile.jpg" class="rounded-lg h-24" />
+    <h2 class="text-3xl ml-2 font-mono">Oscar Franco</h2>
+  </a>
+  
+  <p class="mt-8 text-sm">Hi! I'm Oscar a bolivian system's engineer, living in Munich, and I work as a tech lead.</p>
+  
+  <p class="mt-4 mb-6 text-sm">Thanks for visiting my blog. I'm trying to become independent, you can support me by checking out my projects.</p>
+  
+  <div>
+    <a href="https://ospfranco.github.io/cidemon">
+      <div class="flex w-full items-center bg-white rounded-lg overflow-hidden shadow-lg hover:shadow-xl">
+        <div class="overflow-hidden">
+          <img src="/assets/small_ci_demon.jpg" class="w-full" />
+          <div class="p-3">
+              <div class="text-blue-500 font-semibold">CI Demon</div>
+              <div class="text-sm">
+                Your CI builds on your desktop, notifications, status checks and more.</br></br>One time purchase, then yours forever.</br>
+              </div>
+
+              <div class="flex items-center">
+                <a href="https://www.producthunt.com/posts/ci-demon?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-ci-demon" target="_blank">
+                  <img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=290593&theme=light" alt="CI Demon - Continuous integration builds in your desktop. | Product Hunt" style="width: 120px; height: 40px;" width="120" height="40" />
+                </a>
+                <img 
+                  src="/assets/macappstore.png"
+                  alt="CI Demon - Continuous integration builds in your desktop. | Product Hunt"
+                  style="width: 110px; height: 28px;" width="110" height="28"
+                  class="ml-2"
+                />
+              </div>
+          </div>
+        </div>
+      </div>
+    </a>
+
+    <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+      <div class="flex w-full items-center bg-white rounded-lg shadow-lg p-3 hover:shadow-xl mt-4">
+        <div class="overflow-hidden">
+          <div class="text-blue-500 font-semibold">react-native-sqlite</div>
+          <div class="text-sm">
+            SQLite implementation for react-native, uses the new JSI, by far the fastest.
+          </div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</div>
+
+      <div class="w-full lg:overflow-y-scroll lg:w-2/3 p-3 lg:p-8">
+        <div class="flex-1">
+  <div class="p-4">
+    <h1 class="font-semibold text-2xl">How to add a github token to CI Demon</h1>
+    <div class="text-gray-500 text-sm">
+      May 2021
+    </div>
+    
+    <div class="markdown mt-6">
+      <p><a href="https://ospfranco.github.io/cidemon">CI Demon</a> is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.</p>
+
+<h2 id="about-ci-demon">About CI Demon</h2>
+
+<p>If you haven’t heard about CI Demon, it is a macOS status bar application. Instead of waiting for entire web apps to low to see if your build has passed or failed, it puts the a simple status icon on your macOS status bar. When open it shows you a list of PRs, branches or even endpoints for you to quickly fix/attend to any issues.</p>
+
+<p><img src="/assets/small_ci_demon.jpg" alt="CI Demon preview" title="CI demon preview" /></p>
+
+<p>As stated it works based on tokens, the thing is, this tokens never leave your computer, they are all stored on the macOS keychain, so no need for you to worry what I do with your personal information (I don’t do anything because I don’t have access to them).</p>
+
+<h2 id="generating-a-github-token">Generating a Github token</h2>
+
+<p>The most tight integration is with github and sometimes people have some problems adding their tokens into the app, so let’s walkthrough generating a token.</p>
+
+<h3 id="open-githubcom">Open github.com</h3>
+
+<p>First you want to open github and go to your account settings.</p>
+
+<p><img src="/assets/CIDemonTut1.png" alt="CI tut 1" title="CI tut 1" /></p>
+
+<h3 id="go-to-developer-settings">Go to Developer settings</h3>
+
+<p>You then go to developer settings options</p>
+
+<p><img src="/assets/CIDemonTut2.png" alt="CI tut 2" title="CI tut 2" /></p>
+
+<h3 id="select-personal-access-tokens">Select personal access tokens</h3>
+
+<p>You should now see a list of your personal tokens, you create a new one clicking in the generate new token button. (You might be prompted to input your password).</p>
+
+<p><img src="/assets/CIDemonTut3.png" alt="CI tut 3" title="CI tut 3" /></p>
+
+<h3 id="create-the-token">Create the token</h3>
+
+<p>You can put a note in the token, I just put CI Demon in case I one day forget why I created that specific token, on the permissions you want to give it only the necessary permissions. Giving it repo access is enough, unfortunately you cannot give it read-only access, but I promise you the app is strictly read only (with the exception of re-triggering builds).</p>
+
+<p>Afterwards you will see your token, copy and paste it, this will be your only chance.</p>
+
+<p><img src="/assets/CIDemonTut4.png" alt="CI tut 4" title="CI tut 4" /></p>
+
+<h3 id="add-it-to-ci-demon">Add it to CI Demon</h3>
+
+<p>On CI Demon, on the settings menu, go to github actions and paste your token in there.</p>
+
+<p>Now there is a small inconvenience here, due to some API limitations, you have to manually specify which repositories you want to watch, so here put your repository <code class="language-plaintext highlighter-rouge">slug</code>. An slug is the username and the name of a repository, e.g. <code class="language-plaintext highlighter-rouge">ospfranco/link-preview-js</code>.</p>
+
+<p>You can also select if you want to see branches and/or PRs.</p>
+
+<p><img src="/assets/CIDemonTut5.png" alt="CI tut 5" title="CI tut 5" /></p>
+
+<p>That’s it, you should now be able to see your CI information right on your Desktop. If you haven’t heard about CI Demon, <a href="https://ospfranco.github.io/cidemon">you should check it out now</a>.</p>
+
+    </div>
+  </div>
+
+</div>
+      </div>
+    </div>
+
+  </body>
+</html>

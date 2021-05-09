@@ -155,6 +155,7 @@ Forms
 */
 
 button,
+input,
 select {
   font-family: inherit; /* 1 */
   font-size: 100%; /* 1 */
@@ -365,6 +366,18 @@ img {
   border-style: solid;
 }
 
+input::-moz-placeholder {
+  color: #9ca3af;
+}
+
+input:-ms-input-placeholder {
+  color: #9ca3af;
+}
+
+input::placeholder {
+  color: #9ca3af;
+}
+
 button {
   cursor: pointer;
 }
@@ -399,6 +412,7 @@ a {
  */
 
 button,
+input,
 select {
   padding: 0;
   line-height: inherit;
