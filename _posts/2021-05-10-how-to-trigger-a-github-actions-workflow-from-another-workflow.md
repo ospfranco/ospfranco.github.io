@@ -4,9 +4,10 @@ title: How to trigger a github actions workflow from another workflow (Github wo
 date: 2021-05-10 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
+image: assets/profile.jpg
 twitter:
   username: "ospfranco"
-  image: "assets/profile.webp"
+  image: "assets/profile.jpg"
 ---
 
 Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.
