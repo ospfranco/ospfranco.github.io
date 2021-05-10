@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-09T12:12:58+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to add a github token to CI Demon</title><link href="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" rel="alternate" type="text/html" title="How to add a github token to CI Demon" /><published>2021-05-08T15:00:00+02:00</published><updated>2021-05-08T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/">&lt;p&gt;&lt;a href=&quot;https://ospfranco.github.io/cidemon&quot;&gt;CI Demon&lt;/a&gt; is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-10T08:53:40+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to trigger a github actions workflow from another workflow (Github workflows chaining)</title><link href="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" rel="alternate" type="text/html" title="How to trigger a github actions workflow from another workflow (Github workflows chaining)" /><published>2021-05-10T15:00:00+02:00</published><updated>2021-05-10T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/">&lt;p&gt;Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately, when migrating to Github Actions it’s not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.&lt;/p&gt;
+
+&lt;p&gt;Github prevented triggering workflows from other workflows to prevent recursive triggers. However at some point they added another trigger, so instead of triggering a workflow from a parent, you declare a dependency on the leaf.&lt;/p&gt;
+
+&lt;p&gt;Here is an example, this will be a parent workflow:&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Fork production builds&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;s&quot;&gt;workflow_dispatch&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;say_hi&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Hi&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;echo &quot;Hi&quot;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+&lt;blockquote&gt;
+  &lt;p&gt;You need to have jobs with a step, otherwise github complains, but this entire things runs in less than a second anyways&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;p&gt;and on the child workflow, you just add it to the triggers&lt;/p&gt;
+
+&lt;div class=&quot;language-yml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Android HMS Production&lt;/span&gt;
+
+&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# Automatic trigger when pushing tags&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;# push:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;#   branches:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;#     - &quot;!*&quot;&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;#   tags:&lt;/span&gt;
+  &lt;span class=&quot;c1&quot;&gt;#     - 'v*'&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Manual trigger from the UI&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;workflow_dispatch&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;inputs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;message&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+        &lt;span class=&quot;na&quot;&gt;description&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Build&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;description'&lt;/span&gt;
+
+  &lt;span class=&quot;c1&quot;&gt;# Dependency to a forking workflow&lt;/span&gt;
+  &lt;span class=&quot;na&quot;&gt;workflow_run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;workflows&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;pi&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;Fork&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;production&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;builds&quot;&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;]&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;That’s it, now when you trigger the “Fork production builds” (from the github UI), the child (or children) process will run.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds.</summary></entry><entry><title type="html">How to add a github token to CI Demon</title><link href="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" rel="alternate" type="text/html" title="How to add a github token to CI Demon" /><published>2021-05-08T15:00:00+02:00</published><updated>2021-05-08T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/">&lt;p&gt;&lt;a href=&quot;https://ospfranco.github.io/cidemon&quot;&gt;CI Demon&lt;/a&gt; is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.&lt;/p&gt;
 
 &lt;h2 id=&quot;about-ci-demon&quot;&gt;About CI Demon&lt;/h2&gt;
 
@@ -742,81 +789,4 @@
 
 &lt;p&gt;&lt;img src=&quot;https://ospfranco.github.io/assets/gh-jester.png&quot; alt=&quot;gh-jester comment&quot; title=&quot;gh-jester&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;And that is it! Now all the info for your PR is right on the comment section, enjoy!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/taco.png" /><media:content medium="image" url="https://ospfranco.github.io/assets/taco.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Dynamic iOS icons (build-time)</title><link href="https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment/" rel="alternate" type="text/html" title="Dynamic iOS icons (build-time)" /><published>2020-09-17T15:00:00+02:00</published><updated>2020-09-17T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment</id><content type="html" xml:base="https://ospfranco.github.io/post/2020/09/17/replace-ios-icon-based-on-environment/">&lt;p&gt;When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.&lt;/p&gt;
-
-&lt;p&gt;This is what happened to us at BodyFast this week and here is just one quick way to prevent it: give your app a different icon based on the configuration, now in the past I’ve done this via app flavors for Android and build configurations for iOS, but that process is technically convoluted and also does not work for our use case, so I needed simpler this time around.&lt;/p&gt;
-
-&lt;p&gt;So we are going to highjack the build process of iOS to replace the icons based on some configuration file.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-get-your-icons-ready&quot;&gt;1. Get your icons ready&lt;/h2&gt;
-
-&lt;p&gt;Create all the icons you need, usually to do this I would only change the background or icon color and slap a big “Staging” or “debug” text in front to get rid of all ambiguity, you only need to create a 1024x1024 version and there are many scripts out there that do the resizing for you&lt;/p&gt;
-
-&lt;h2 id=&quot;2-add-a-run-script&quot;&gt;2. Add a run script&lt;/h2&gt;
-
-&lt;p&gt;Go to xcode -&amp;gt; select your project -&amp;gt; select “Build Phases” -&amp;gt; Add a new “run script”&lt;/p&gt;
-
-&lt;p&gt;Here is the content of the script:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;IFS=$'\n'
-
-CONFIG=production
-
-function generateIcon () {
-  BASE_IMAGE_NAME=$1
-  
-  SOURCE_PATH=&quot;${SRCROOT}/../storage/app_icons/${CONFIG}/${BASE_IMAGE_NAME}&quot;
-  TARGET_PATH=$(find &quot;${SRCROOT}/BodyFast/Images.xcassets&quot; -name $BASE_IMAGE_NAME)
-  echo &quot;Copying ${SOURCE_PATH} into: ${TARGET_PATH}&quot;
-  cp $SOURCE_PATH $TARGET_PATH
-}
-
-if grep -q development ../.env; then
-  echo &quot;Found debug config&quot;
-  CONFIG=debug
-fi
-
-if grep -q staging ../.env; then
-echo &quot;Found staging config&quot;
-  CONFIG=staging
-fi
-
-echo &quot;Replacing app icons based on configuration&quot;
-
-generateIcon &quot;AppIcon20x20@2x.png&quot;
-generateIcon &quot;AppIcon20x20@2x~ipad.png&quot;
-generateIcon &quot;AppIcon20x20@3x.png&quot;
-generateIcon &quot;AppIcon20x20~ipad.png&quot;
-generateIcon &quot;AppIcon29x29.png&quot;
-generateIcon &quot;AppIcon29x29@2x.png&quot;
-generateIcon &quot;AppIcon29x29@2x~ipad.png&quot;
-generateIcon &quot;AppIcon29x29@3x.png&quot;
-generateIcon &quot;AppIcon29x29~ipad.png&quot;
-generateIcon &quot;AppIcon40x40@2x.png&quot;
-generateIcon &quot;AppIcon40x40@2x~ipad.png&quot;
-generateIcon &quot;AppIcon40x40@3x.png&quot;
-generateIcon &quot;AppIcon40x40~ipad.png&quot;
-generateIcon &quot;AppIcon50x50@2x~ipad.png&quot;
-generateIcon &quot;AppIcon50x50~ipad.png&quot;
-generateIcon &quot;AppIcon57x57.png&quot;
-generateIcon &quot;AppIcon57x57@2x.png&quot;
-generateIcon &quot;AppIcon60x60@2x.png&quot;
-generateIcon &quot;AppIcon60x60@3x.png&quot;
-generateIcon &quot;AppIcon72x72@2x~ipad.png&quot;
-generateIcon &quot;AppIcon72x72~ipad.png&quot;
-generateIcon &quot;AppIcon76x76@2x~ipad.png&quot;
-generateIcon &quot;AppIcon76x76~ipad.png&quot;
-generateIcon &quot;AppIcon83.5x83.5@2x~ipad.png&quot;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;let’s break it down:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;First we need to find out which environment is currently being build, for us is fairly simple, we have a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.env&lt;/code&gt; that get’s symlinked at the beginning of our compilation process, a simple GREP inside of the file to search for a keyword does the trick of detecting which “environment” is the app going to tbe connected to&lt;/li&gt;
-  &lt;li&gt;Once we now the environment we can start replacing all the icons, the source path as you can imagine is where you have placed the icons for all the different flavors, you will need to replace it with your own value&lt;/li&gt;
-  &lt;li&gt;The target path is where we are going to highjack the process, basically we are going to replace the conents of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.xcassets&lt;/code&gt; file via code, now there are some important caveats here; 1. your icons need to have the same name from the moment you generate them to the moment you replace them, in order to make my life easier &lt;a href=&quot;https://github.com/ospfranco/ios-icon-generator&quot;&gt;I have forked the script I use&lt;/a&gt; and just generate all of the files with the final naming xcode uses internally, 2. You might not need all the files I presented, we are using an old xcassets file and depending on which devices you support you might need/want to get rid of some of the lines&lt;/li&gt;
-  &lt;li&gt;Once we have all the icons a simple &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cp&lt;/code&gt; command replaces the contents&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;and there you have it, you should be able to easily tell your different app environments now, if you couple this with your CI/CD it is even more convenient.&lt;/p&gt;
-
-&lt;p&gt;Cheers&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/taco.png" /><media:content medium="image" url="https://ospfranco.github.io/assets/taco.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;And that is it! Now all the info for your PR is right on the comment section, enjoy!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/taco.png" /><media:content medium="image" url="https://ospfranco.github.io/assets/taco.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
