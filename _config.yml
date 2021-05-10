@@ -12,9 +12,9 @@ title: "Oscar Franco on Github"
 twitter:
   username: "ospfranco"
   card: "Blog about software engineering and life"
-  image: "/assets/profile.webp"
-logo: "/assets/profile.webp"
-image: "/assets/profile.webp"
+  image: "/assets/profile.jpg"
+logo: "/assets/profile.jpg"
+image: "/assets/profile.jpg"
 future: true
 
 exclude:
