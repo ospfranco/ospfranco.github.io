@@ -4,10 +4,9 @@
 @import "tailwindcss/base";
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
-@import url('https://rsms.me/inter/inter.css');
 
 html {
-  font-family: Inter, Helvetica, Arial, sans-serif;
+  font-family: "Avenir Next", Helvetica, Arial, sans-serif;
   /* font-weight: 300; */
   /* font-size: 1em; */
   background-color: #FFF;
@@ -48,7 +47,7 @@ html {
 }
 
 .markdown blockquote {
-  @apply px-4 my-2 bg-gray-200 rounded text-gray-800;
+  @apply px-4 my-2 bg-blue-100 rounded text-gray-800;
 }
 
 .markdown .highlighter-rouge {

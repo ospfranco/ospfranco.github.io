@@ -19,8 +19,8 @@
 <meta property="og:title" content="How to trigger a github actions workflow from another workflow (Github workflows chaining)" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds." />
-<meta property="og:description" content="Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds." />
+<meta name="description" content="Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click." />
+<meta property="og:description" content="Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click." />
 <link rel="canonical" href="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" />
 <meta property="og:url" content="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" />
 <meta property="og:site_name" content="Oscar Franco on Github" />
@@ -31,11 +31,11 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/"},"url":"https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/","author":{"@type":"Person","name":"Oscar Franco"},"headline":"How to trigger a github actions workflow from another workflow (Github workflows chaining)","dateModified":"2021-05-10T15:00:00+02:00","datePublished":"2021-05-10T15:00:00+02:00","description":"Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"How to trigger a github actions workflow from another workflow (Github workflows chaining)","dateModified":"2021-05-10T15:00:00+02:00","datePublished":"2021-05-10T15:00:00+02:00","url":"https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/"},"author":{"@type":"Person","name":"Oscar Franco"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/profile.webp"},"name":"Oscar Franco"},"description":"Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
@@ -47,12 +47,13 @@
       <div class="p-3 lg:p-8 w-full lg:flex-1 lg:h-full overflow-y-auto border-b lg:border-r">
   <a class="flex items-center" href="/" >
     <img src="/assets/profile.jpg" class="rounded-lg h-24" />
-    <h2 class="text-3xl ml-2 font-mono">Oscar Franco</h2>
+    <div class="ml-2">
+      <h2 class="text-3xl">Oscar Franco</h2>
+      <p class="text-sm">Hi! I'm Oscar, I surf and I work as a tech lead.</p>
+    </div>
   </a>
   
-  <p class="mt-8 text-sm">Hi! I'm Oscar a bolivian system's engineer, living in Munich, and I work as a tech lead.</p>
-  
-  <p class="mt-4 mb-6 text-sm">Thanks for visiting my blog. I'm trying to become independent, you can support me by checking out my projects.</p>
+  <p class="mt-8 mb-6 text-sm">Thanks for visiting my blog. I'm trying to become independent, you can support me by checking out my projects.</p>
   
   <div>
     <a href="https://ospfranco.github.io/cidemon">
@@ -104,13 +105,13 @@
     </div>
     
     <div class="markdown mt-6">
-      <p>Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds.</p>
+      <p>Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.</p>
 
-<p>Unfortunately, when migrating to Github Actions it’s not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.</p>
+<p>Unfortunately, after migrating to Github Actions, it’s not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.</p>
 
-<p>Github prevented triggering workflows from other workflows to prevent recursive triggers. However at some point they added another trigger, so instead of triggering a workflow from a parent, you declare a dependency on the leaf.</p>
+<p>In the past Github prevented triggering workflows from other workflows to prevent recursive triggers. However at some point they added another trigger, so instead of dispatching a build from a parent, you declare a dependency on the child workflow.</p>
 
-<p>Here is an example, this will be a parent workflow:</p>
+<p>Here is an example of a parent workflow:</p>
 
 <div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Fork production builds</span>
 
@@ -125,7 +126,7 @@
         <span class="na">run</span><span class="pi">:</span> <span class="s">echo "Hi"</span>
 </code></pre></div></div>
 <blockquote>
-  <p>You need to have jobs with a step, otherwise github complains, but this entire things runs in less than a second anyways</p>
+  <p>You need to have jobs with a step, otherwise github complains, but this entire workflow runs in less than a second.</p>
 </blockquote>
 
 <p>and on the child workflow, you just add it to the triggers</p>
@@ -149,7 +150,12 @@
   <span class="c1"># Dependency to a forking workflow</span>
   <span class="na">workflow_run</span><span class="pi">:</span>
     <span class="na">workflows</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">Fork</span><span class="nv"> </span><span class="s">production</span><span class="nv"> </span><span class="s">builds"</span><span class="pi">]</span>
+    <span class="na">type</span><span class="pi">:</span>
+      <span class="pi">-</span> <span class="s">complete</span>
 </code></pre></div></div>
+<blockquote>
+  <p>The ‘complete’ type is just so that this workflow triggers after the previous one has been completed.</p>
+</blockquote>
 
 <p>That’s it, now when you trigger the “Fork production builds” (from the github UI), the child (or children) process will run.</p>
 
@@ -161,6 +167,5 @@
 </div>
       </div>
     </div>
-
   </body>
 </html>

@@ -42,23 +42,19 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: [Put a hash key here based on yarn.lock]
 
       - name: Ruby cache
         uses: actions/cache@v1.2.0
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-gems-
+          key: [Put a hash key here based on gemfile.lock]
 
       - name: Gradle cache
         uses: actions/cache@v1.2.0
         with:
           path: /root/.gradle
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle
+          key: [Put a hash key here based on *.gradle]
 
       - name: Use Node 14
         uses: actions/setup-node@v2
@@ -78,7 +74,7 @@ jobs:
         run: echo -n "$ANDROID_KEYSTORE_FILE" | base64 -d > ./my-release-key.keystore
         working-directory: ./android/app
         env:
-          ANDROID_KEYSTORE_FILE: ${{ secrets.ANDROID_KEYSTORE_FILE }}
+          ANDROID_KEYSTORE_FILE: $
 
       - name: Bundle install
         run: |
@@ -88,10 +84,10 @@ jobs:
       - name: Fastlane
         run: bundle exec fastlane android distribute_staging
         env:
-          MYAPP_RELEASE_STORE_PASSWORD: ${{ secrets.MYAPP_RELEASE_STORE_PASSWORD }}
-          MYAPP_RELEASE_KEY_ALIAS: ${{ secrets.MYAPP_RELEASE_KEY_ALIAS }}
-          MYAPP_RELEASE_KEY_PASSWORD: ${{ secrets.MYAPP_RELEASE_KEY_PASSWORD }}
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          MYAPP_RELEASE_STORE_PASSWORD: $
+          MYAPP_RELEASE_KEY_ALIAS: $
+          MYAPP_RELEASE_KEY_PASSWORD: $
+          FIREBASE_TOKEN: $
 ```
 
 > You might see some floating `$` there goes a github secret, you can figure those out for your own config
@@ -125,13 +121,13 @@ jobs:
         uses: actions/cache@v2
         with:
           path: '**/node_modules'
-          key: ${{ runner.os }}-modules-${{ hashFiles('**/yarn.lock') }}
+          key: [Put a hash key here based on yarn.lock]
 
       - name: Ruby cache
         uses: actions/cache@v2
         with:
           path: vendor/bundle
-          key: ${{ runner.os }}-gems-${{ hashFiles('**/Gemfile.lock') }}
+          key: [Put a hash key here based on gemfile.lock]
 
       - name: Use Node 14
         uses: actions/setup-node@v2
@@ -150,27 +146,27 @@ jobs:
       - name: Decode cert file
         run: echo -n "$P12_CODE_SIGNING_CERT_BASE64" | base64 -d > ./cert.p12
         env:
-          P12_CODE_SIGNING_CERT_BASE64: ${{ secrets.P12_CODE_SIGNING_CERT_BASE64 }}
+          P12_CODE_SIGNING_CERT_BASE64: $
 
       - name: Decode adhoc prov file
         run: echo -n "$MOBILEPROVISION_ADHOC_BASE64" | base64 -d > ./mobileProvisionAdhoc.mobileprovision
         env:
-          MOBILEPROVISION_ADHOC_BASE64: ${{ secrets.MOBILEPROVISION_ADHOC_BASE64 }}
+          MOBILEPROVISION_ADHOC_BASE64: $
       
       - name: Decode appstore prov file
         run: echo -n "$MOBILEPROVISION_APPSTORE_BASE64" | base64 -d > ./mobileProvisionAppstore.mobileprovision
         env:
-          MOBILEPROVISION_APPSTORE_BASE64: ${{ secrets.MOBILEPROVISION_APPSTORE_BASE64 }}
+          MOBILEPROVISION_APPSTORE_BASE64: $
       
       - name: Decode widget adhoc prov file
         run: echo -n "$MOBILEPROVISION_WIDGET_ADHOC_BASE64" | base64 -d > ./mobileProvisionWidgetAdhoc.mobileprovision
         env:
-          MOBILEPROVISION_WIDGET_ADHOC_BASE64: ${{ secrets.MOBILEPROVISION_WIDGET_ADHOC_BASE64 }}
+          MOBILEPROVISION_WIDGET_ADHOC_BASE64: $
       
       - name: Decode widget appstore prov file
         run: echo -n "$MOBILEPROVISION_WIDGET_APPSTORE_BASE64" | base64 -d > ./mobileProvisionWidgetAppstore.mobileprovision
         env:
-          MOBILEPROVISION_WIDGET_APPSTORE_BASE64: ${{ secrets.MOBILEPROVISION_WIDGET_APPSTORE_BASE64 }}
+          MOBILEPROVISION_WIDGET_APPSTORE_BASE64: $
 
       - name: Bundle install
         run: |
@@ -180,7 +176,7 @@ jobs:
       - name: Fastlane
         run: bundle exec fastlane ios distribute_staging
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: $
 ```
 
 The main difference is the unpacking and decoding of provisioning profiles and certificate. If you have used fastlane you will see there is some recommendation to use `match`, don't, it's useless, it's a waste of time to set up and only to automate a task that you will probably do once a year (re-generate the certificate once it expires).

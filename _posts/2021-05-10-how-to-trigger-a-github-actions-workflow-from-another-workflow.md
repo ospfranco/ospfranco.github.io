@@ -6,13 +6,13 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
 
-Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger more workflows. This worked well for us to trigger our android, iOS and Huawei builds.
+Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.
 
-Unfortunately, when migrating to Github Actions it's not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.
+Unfortunately, after migrating to Github Actions, it's not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.
 
-Github prevented triggering workflows from other workflows to prevent recursive triggers. However at some point they added another trigger, so instead of triggering a workflow from a parent, you declare a dependency on the leaf.
+In the past Github prevented triggering workflows from other workflows to prevent recursive triggers. However at some point they added another trigger, so instead of dispatching a build from a parent, you declare a dependency on the child workflow.
 
-Here is an example, this will be a parent workflow:
+Here is an example of a parent workflow:
 
 ```yml
 name: Fork production builds
@@ -27,7 +27,7 @@ jobs:
       - name: Hi
         run: echo "Hi"
 ```
-> You need to have jobs with a step, otherwise github complains, but this entire things runs in less than a second anyways
+> You need to have jobs with a step, otherwise github complains, but this entire workflow runs in less than a second.
 
 and on the child workflow, you just add it to the triggers
 
@@ -51,7 +51,10 @@ on:
   # Dependency to a forking workflow
   workflow_run:
     workflows: ["Fork production builds"]
+    type:
+      - complete
 ```
+> The 'complete' type is just so that this workflow triggers after the previous one has been completed.
 
 That's it, now when you trigger the "Fork production builds" (from the github UI), the child (or children) process will run.
 

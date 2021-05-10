@@ -31,11 +31,11 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/"},"url":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/","author":{"@type":"Person","name":"Oscar Franco"},"headline":"How to build react-native app on github actions (and fastlane)","dateModified":"2021-05-04T15:00:00+02:00","datePublished":"2021-05-04T15:00:00+02:00","description":"At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/taco.png"},"name":"Oscar Franco"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"headline":"How to build react-native app on github actions (and fastlane)","dateModified":"2021-05-04T15:00:00+02:00","datePublished":"2021-05-04T15:00:00+02:00","url":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/05/04/build-react-native-app-on-github-actions/"},"author":{"@type":"Person","name":"Oscar Franco"},"publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https://ospfranco.github.io/assets/profile.webp"},"name":"Oscar Franco"},"description":"At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/default.min.css">
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
@@ -47,12 +47,13 @@
       <div class="p-3 lg:p-8 w-full lg:flex-1 lg:h-full overflow-y-auto border-b lg:border-r">
   <a class="flex items-center" href="/" >
     <img src="/assets/profile.jpg" class="rounded-lg h-24" />
-    <h2 class="text-3xl ml-2 font-mono">Oscar Franco</h2>
+    <div class="ml-2">
+      <h2 class="text-3xl">Oscar Franco</h2>
+      <p class="text-sm">Hi! I'm Oscar, I surf and I work as a tech lead.</p>
+    </div>
   </a>
   
-  <p class="mt-8 text-sm">Hi! I'm Oscar a bolivian system's engineer, living in Munich, and I work as a tech lead.</p>
-  
-  <p class="mt-4 mb-6 text-sm">Thanks for visiting my blog. I'm trying to become independent, you can support me by checking out my projects.</p>
+  <p class="mt-8 mb-6 text-sm">Thanks for visiting my blog. I'm trying to become independent, you can support me by checking out my projects.</p>
   
   <div>
     <a href="https://ospfranco.github.io/cidemon">
@@ -139,23 +140,19 @@
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
         <span class="na">with</span><span class="pi">:</span>
           <span class="na">path</span><span class="pi">:</span> <span class="s1">'</span><span class="s">**/node_modules'</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">$-modules-$</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on yarn.lock</span><span class="pi">]</span>
 
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Ruby cache</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1.2.0</span>
         <span class="na">with</span><span class="pi">:</span>
           <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">$-gems-$</span>
-          <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
-            <span class="s">$-gems-</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on gemfile.lock</span><span class="pi">]</span>
 
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Gradle cache</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1.2.0</span>
         <span class="na">with</span><span class="pi">:</span>
           <span class="na">path</span><span class="pi">:</span> <span class="s">/root/.gradle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">$-gradle-$</span>
-          <span class="na">restore-keys</span><span class="pi">:</span> <span class="pi">|</span>
-            <span class="s">$-gradle</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on *.gradle</span><span class="pi">]</span>
 
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node </span><span class="m">14</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2</span>
@@ -223,13 +220,13 @@
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
         <span class="na">with</span><span class="pi">:</span>
           <span class="na">path</span><span class="pi">:</span> <span class="s1">'</span><span class="s">**/node_modules'</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">$-modules-$</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on yarn.lock</span><span class="pi">]</span>
 
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Ruby cache</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
         <span class="na">with</span><span class="pi">:</span>
           <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="s">$-gems-$</span>
+          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on gemfile.lock</span><span class="pi">]</span>
 
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node </span><span class="m">14</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2</span>
@@ -345,6 +342,5 @@
 </div>
       </div>
     </div>
-
   </body>
 </html>
