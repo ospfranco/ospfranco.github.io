@@ -8,7 +8,7 @@ location: Munich
 image: assets/taco.png
 twitter:
   username: "ospfranco"
-  image: "assets/taco.png"
+  image: "assets/profile.webp"
 ---
 
 At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions
