@@ -54,3 +54,5 @@ on:
 ```
 
 That's it, now when you trigger the "Fork production builds" (from the github UI), the child (or children) process will run.
+
+If you want even more details about your CI builds and workflows on github, you should check [CI Demon](https://ospfranco.github.io/cidemon), it's an app that I made that puts your builds right on your mac Desktop.
