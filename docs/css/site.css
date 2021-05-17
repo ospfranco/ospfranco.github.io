@@ -438,7 +438,6 @@ code {
  */
 
 img,
-svg,
 video,
 canvas,
 embed,
@@ -502,10 +501,6 @@ video {
 .bg-gray-100 {
   --tw-bg-opacity: 1;
   background-color: rgba(243, 244, 246, var(--tw-bg-opacity));
-}
-
-.rounded-lg {
-  border-radius: 0.5rem;
 }
 
 .rounded-r-xl {
@@ -593,11 +588,6 @@ video {
   line-height: 2rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
 .mx-3 {
   margin-left: 0.75rem;
   margin-right: 0.75rem;
@@ -605,10 +595,6 @@ video {
 
 .mt-2 {
   margin-top: 0.5rem;
-}
-
-.ml-2 {
-  margin-left: 0.5rem;
 }
 
 .mt-4 {
@@ -890,10 +876,6 @@ html {
 
   .lg\:overflow-y-scroll {
     overflow-y: scroll;
-  }
-
-  .lg\:p-6 {
-    padding: 1.5rem;
   }
 
   .lg\:p-8 {
