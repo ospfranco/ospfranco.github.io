@@ -1,4 +1,24 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-17T09:42:22+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to trigger a github actions workflow from another workflow (Github workflows chaining)</title><link href="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" rel="alternate" type="text/html" title="How to trigger a github actions workflow from another workflow (Github workflows chaining)" /><published>2021-05-10T15:00:00+02:00</published><updated>2021-05-10T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/">&lt;p&gt;Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-20T22:10:49+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">Problems reading data from Binary store, all of the sudden my react-native app does not compile</title><link href="https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" rel="alternate" type="text/html" title="Problems reading data from Binary store, all of the sudden my react-native app does not compile" /><published>2021-05-20T15:00:00+02:00</published><updated>2021-05-20T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/">&lt;p&gt;If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).&lt;/p&gt;
+
+&lt;p&gt;Whenever I tried to compile the app for android, I would face a very random error:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;* What went wrong:
+Execution failed for task ':app:processGmsDebugResources'.
+&amp;gt; Problems reading data from Binary store in /private/var/folders/qn/vyvn49j90jv9_77vq77wzvw00000gn/T/gradle7617438234756331878.bin offset 0 exists? true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;It is particularly frustrating because there was absolutely no change from my side. I still haven’t been able to figure out the root cause, but after reading some of the github issues (1)[https://github.com/gradle/gradle/issues/8489] (2)[https://github.com/zo0r/react-native-push-notification/issues/1999#issuecomment-840235222] the cause seems to be Google pushing an update to their libraries messaging and breaking our precious compilation.&lt;/p&gt;
+
+&lt;p&gt;So in order to save you some time here is the solution, update the following dependencies:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;project app-level build.gradle file:
+com.google.firebase:firebase-analytics:17.2.2 to com.google.firebase:firebase-analytics:18.0.2
+
+Project-level build.gradle file:
+com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;If you are using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;react-native-push-notification&lt;/code&gt; (actually seems to be the root of this problem), you also need to update that library to the latest version (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;7.3.1&lt;/code&gt; as of this writing). Bare in mind this might be a major version change, so the API might have changed, in our case we were using a 6.X.X version and we had to update the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;removeAllDeliveredNotifications&lt;/code&gt; method.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).</summary></entry><entry><title type="html">How to trigger a github actions workflow from another workflow (Github workflows chaining)</title><link href="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" rel="alternate" type="text/html" title="How to trigger a github actions workflow from another workflow (Github workflows chaining)" /><published>2021-05-10T15:00:00+02:00</published><updated>2021-05-10T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/">&lt;p&gt;Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.&lt;/p&gt;
 
 &lt;p&gt;Unfortunately, after migrating to Github Actions, it’s not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.&lt;/p&gt;
 
@@ -719,77 +739,4 @@
     &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;And voila, now your android apps should be reflecting the environment it is running against (according to your own definition 😉)&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">On a previous post I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</summary></entry><entry><title type="html">Post Jest results into Github PRs</title><link href="https://ospfranco.github.io/post/2020/12/03/how-to-post-jest-test-results-into-github-prs/" rel="alternate" type="text/html" title="Post Jest results into Github PRs" /><published>2020-12-03T14:00:00+01:00</published><updated>2020-12-03T14:00:00+01:00</updated><id>https://ospfranco.github.io/post/2020/12/03/how-to-post-jest-test-results-into-github-prs</id><content type="html" xml:base="https://ospfranco.github.io/post/2020/12/03/how-to-post-jest-test-results-into-github-prs/">&lt;p&gt;At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions&lt;/p&gt;
-
-&lt;h2 id=&quot;why-leave-bitrise&quot;&gt;Why leave Bitrise&lt;/h2&gt;
-
-&lt;p&gt;Bitrise is good because the amount of available workflows and steps and how you can chain them to create your CI workflow, however, it is &lt;strong&gt;really slow&lt;/strong&gt; and it also &lt;strong&gt;expensive&lt;/strong&gt; for faster build machines.&lt;/p&gt;
-
-&lt;p&gt;Even though we are already on a medium plan, we started having queueing slow downs, our app takes an hour to compile on iOS (plus Android and Huawei versions) and without paying more money everything slowed down, a simple PR would not get the tests to run for a solid hour  blocking the entire team.&lt;/p&gt;
-
-&lt;h2 id=&quot;github-actions-are-quite-good-actually&quot;&gt;Github Actions are quite good actually&lt;/h2&gt;
-
-&lt;p&gt;They are fast, already run on the same platform where the code is, setting them up was a breeze and they are plenty fast&lt;/p&gt;
-
-&lt;p&gt;Getting things to run was a breeze, not a fan of yaml, but setting up the first iteration took 5 mins, here is a sample yaml:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;JS Checks&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;push&lt;/span&gt;
-
-&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;tests&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
-
-    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Use Node.js 12.x&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/setup-node@v2.1.2&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;node-version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;12.x&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install Dependencies&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;yarn&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Run tests&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;yarn test&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;However, I wanted to push things a bit further, I hated having to open the bitrise log page, because loading web pages nowadays is sooo slow, so I wanted to see my failing tests directly on my PR!&lt;/p&gt;
-
-&lt;p&gt;A quick google search revealed nothing of use&lt;/p&gt;
-
-&lt;h2 id=&quot;introducing-gh-jester&quot;&gt;Introducing gh-jester&lt;/h2&gt;
-
-&lt;p&gt;I forked an old project that claimed to do what I needed, removed the unnecessary parts and added actually the useful output that I was looking for, you can check the &lt;a href=&quot;https://github.com/ospfranco/gh-jester&quot;&gt;source code&lt;/a&gt;, here is a finished YAML you can copy and paste into your github repo:&lt;/p&gt;
-
-&lt;div class=&quot;language-yaml highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;JS Checks&lt;/span&gt;
-&lt;span class=&quot;na&quot;&gt;on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;push&lt;/span&gt;
-
-&lt;span class=&quot;na&quot;&gt;jobs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;tests&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;runs-on&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ubuntu-latest&lt;/span&gt;
-
-    &lt;span class=&quot;na&quot;&gt;steps&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Cancel Previous Runs&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;styfle/cancel-workflow-action@0.6.0&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;access_token&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;$&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/checkout@v2&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Use Node.js 12.x&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;actions/setup-node@v2.1.2&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;node-version&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;12.x&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Install Dependencies&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;run&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;yarn&lt;/span&gt;
-      &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Run tests&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;uses&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;ospfranco/gh-jester@v1.0.13&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;with&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;post-comment&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;env&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;GITHUB_TOKEN&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ secrets.GITHUB_TOKEN }}&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;GITHUB_CONTEXT&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;${{ toJson(github) }}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Basically, it will run your jest tests and if the tests are failing it will post a nice resume on the commit itself (which will also appear on the PR), bear in mind, the trigger needs to be [push] for it to correctly post the comment with the info.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.github.io/assets/gh-jester.png&quot; alt=&quot;gh-jester comment&quot; title=&quot;gh-jester&quot; /&gt;&lt;/p&gt;
-
-&lt;p&gt;And that is it! Now all the info for your PR is right on the comment section, enjoy!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/taco.png" /><media:content medium="image" url="https://ospfranco.github.io/assets/taco.png" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;And voila, now your android apps should be reflecting the environment it is running against (according to your own definition 😉)&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">On a previous post I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</summary></entry></feed>
