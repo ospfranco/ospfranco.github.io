@@ -12,7 +12,7 @@ title: "Oscar Franco on Github"
 twitter:
   username: "ospfranco"
   card: "summary"
-  image: "assets/profile.jpeg"
+  image: "/assets/profile.jpeg"
 logo: "/assets/profile.jpeg"
 image: "/assets/profile.jpeg"
 future: true
