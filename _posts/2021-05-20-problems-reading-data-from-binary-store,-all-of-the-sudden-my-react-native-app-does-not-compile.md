@@ -6,7 +6,7 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 twitter:
   username: "ospfranco"
-  image: "assets/profile.webp"
+  image: "assets/profile.jpeg"
 ---
 
 If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).

@@ -1,4 +1,136 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-20T22:14:33+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">Problems reading data from Binary store, all of the sudden my react-native app does not compile</title><link href="https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" rel="alternate" type="text/html" title="Problems reading data from Binary store, all of the sudden my react-native app does not compile" /><published>2021-05-20T15:00:00+02:00</published><updated>2021-05-20T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/">&lt;p&gt;If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-05-24T19:57:28+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco on Github</title><author><name>Oscar Franco</name></author><entry><title type="html">How to get the WiFi password on macOS (for devs)</title><link href="https://ospfranco.github.io/post/2021/05/24/how-to-get-the-wifi-password-on-macos/" rel="alternate" type="text/html" title="How to get the WiFi password on macOS (for devs)" /><published>2021-05-24T15:00:00+02:00</published><updated>2021-05-24T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/24/how-to-get-the-wifi-password-on-macos</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/24/how-to-get-the-wifi-password-on-macos/">&lt;p&gt;If you are a non-dev I cannot really help you, if you can follow the instructions below then you are in luck.&lt;/p&gt;
+
+&lt;p&gt;A lot of the online articles say that if you need to get your WiFi network password you need to go into the Keychain app, but that trick stopped working long ago, WiFi passwords on macOS are now encrypted and going into the Keychain does nothing for you.&lt;/p&gt;
+
+&lt;p&gt;Unfortunately there is visual app (that I know of) that can extract the password for you, but you can run a simple script that will prompt you for your password and then output the current network WiFi password.&lt;/p&gt;
+
+&lt;h2 id=&quot;wifi-password-script&quot;&gt;WiFi password script&lt;/h2&gt;
+
+&lt;p&gt;So, the first that you can do to get a WiFi password is use the following script by Guillermo Rauch:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Required parameters:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.schemaVersion 1&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.title Show WiFi Password&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.mode silent&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Optional parameters:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.icon 📶&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.packageName Show WiFi Password&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# Documentation:&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.author Oscar&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# @raycast.authorURL https://github.com/ospfranco&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# The script is originally from Guillermo Rauch, all credit goes to him, all I did was add the Raycast headers&lt;/span&gt;
+&lt;span class=&quot;c&quot;&gt;# https://github.com/rauchg/wifi-password&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;0.1.0&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# locate airport(1)&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;airport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$airport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Can't find &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;airport&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; CLI program at &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$airport&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.&quot;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# by default we are verbose (unless non-tty)&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; 1 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
+&lt;span class=&quot;k&quot;&gt;else
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# usage info&lt;/span&gt;
+usage&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
+  Usage: wifi-password [options] [ssid]
+  Options:
+    -q, --quiet      Only output the password.
+    -V, --version    Output version
+    -h, --help       This message.
+    --               End of options
+&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
+&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# parse options&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ ^- &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;--&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
+  case&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-V&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$version&lt;/span&gt;
+      &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--quiet&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      &lt;span class=&quot;nv&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+    &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--help&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+      usage
+      &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
+      &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;esac&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;shift
+&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;done
+if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;--&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# merge args for SSIDs with spaces&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# check for user-provided ssid &lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$args&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ssid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
+  &lt;span class=&quot;c&quot;&gt;# get current ssid&lt;/span&gt;
+  &lt;span class=&quot;nv&quot;&gt;ssid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$airport&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/ SSID/ {print substr($0, index($0, $2))}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Could not retrieve current SSID. Are you connected?&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp;2
+    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
+  &lt;span class=&quot;k&quot;&gt;fi
+fi&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# warn user about keychain dialog&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$verbose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[90m … getting password for &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;. &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[39m&quot;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[90m … keychain prompt incoming. &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[39m&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi
+
+&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sleep &lt;/span&gt;2
+
+&lt;span class=&quot;c&quot;&gt;# source: http://blog.macromates.com/2006/keychain-access-from-shell/&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;security find-generic-password &lt;span class=&quot;nt&quot;&gt;-D&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'AirPort network password'&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ga&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt; 2&amp;gt;&amp;amp;1 &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/dev/null&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;could&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Could not find SSID &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp;2
+  &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# clean up password&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;s/^.*&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.*&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\)\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Could not get password. Did you enter your Keychain credentials?&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp;2
+  &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+
+&lt;span class=&quot;c&quot;&gt;# print&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$verbose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[96m ✓ &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[39m&quot;&lt;/span&gt;
+  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;else
+  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;
+&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You can put this somewhere in your terminal configuration and call it everytime you need to share the password with a third party.&lt;/p&gt;
+
+&lt;h2 id=&quot;using-it-with-the-raycast-app&quot;&gt;Using it with the Raycast app&lt;/h2&gt;
+
+&lt;p&gt;But actually, there is a better way, you should download &lt;a href=&quot;https://raycast.com&quot;&gt;Raycast&lt;/a&gt;, it’s an awesome app and allows you to directly call scripts. Once you have Raycast installed, you can directly call this script from it (put it in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;documents&lt;/code&gt; folder), it will immediately output the WiFi password ready for you to paste.&lt;/p&gt;
+
+&lt;p&gt;Here is an example of the script in action:&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ospfranco.github.io/assets/raycast_password.gif&quot; alt=&quot;Raycast demo&quot; title=&quot;Raycast demo&quot; /&gt;&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">If you are a non-dev I cannot really help you, if you can follow the instructions below then you are in luck.</summary></entry><entry><title type="html">Problems reading data from Binary store, all of the sudden my react-native app does not compile</title><link href="https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" rel="alternate" type="text/html" title="Problems reading data from Binary store, all of the sudden my react-native app does not compile" /><published>2021-05-20T15:00:00+02:00</published><updated>2021-05-20T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/">&lt;p&gt;If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).&lt;/p&gt;
 
 &lt;p&gt;Whenever I tried to compile the app for android, I would face a very random error:&lt;/p&gt;
 
@@ -641,104 +773,4 @@ com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
 
 &lt;p&gt;&lt;img src=&quot;https://ospfranco.github.io/assets/SkypackDemo.png&quot; alt=&quot;Dynamic import&quot; title=&quot;SkypackDemo&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Very useful for quick testing&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Yesterday Guillermo Rauch discovered the date-fns page has their library exposed on their documentation page for you to try it directly</summary></entry><entry><title type="html">Android dynamic icons (Build-time, non-flavor)</title><link href="https://ospfranco.github.io/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/" rel="alternate" type="text/html" title="Android dynamic icons (Build-time, non-flavor)" /><published>2021-02-01T14:00:00+01:00</published><updated>2021-02-01T14:00:00+01:00</updated><id>https://ospfranco.github.io/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/">&lt;p&gt;On a previous &lt;a href=&quot;/post/2020/09/17/replace-ios-icon-based-on-environment/&quot;&gt;post&lt;/a&gt; I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!&lt;/p&gt;
-
-&lt;p&gt;Unlike many of the tutorials you will find out there, this is not based on &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ProductFlavors&lt;/code&gt;, because ProductFlavors force you to use different package names, which means you have to change not only your CI but also your distributables on the play store, etc. If you already have your infra set up, this is way too much work for a simple icon replacement.&lt;/p&gt;
-
-&lt;h2 id=&quot;gradle&quot;&gt;Gradle…&lt;/h2&gt;
-
-&lt;p&gt;So, I stumbled my way with Gradle, short rant: who the hell thought Gradle was a good idea? it’s like a language without a strict syntax, it’s is mega obscure, because there is so many commands and definitions and… jesus, the amount/quality of questions and answers on StackOverflow, anyways I’ll save you the work if you are not a seasoned android developer of fumbling through obscure documentation Gradle docs.&lt;/p&gt;
-
-&lt;p&gt;We are going to hook into two points in time, pre build phase, where we will replace our icons and then hook up into the last part of the install phase (on the android device) to clean up our mess.&lt;/p&gt;
-
-&lt;h2 id=&quot;1-create-the-icon-sets&quot;&gt;1. Create the icon sets&lt;/h2&gt;
-
-&lt;p&gt;So for this all I did was take the contents of &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;android/app/main/res&lt;/code&gt; and create 2 copies in the root folder, one for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;production&lt;/code&gt; (unedited icons, copied as is) and one for &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;staging&lt;/code&gt; (change the colors, add a text, use whatever image editing tool you want).&lt;/p&gt;
-
-&lt;p&gt;We will use these icon sets to dumb replace and restore the app icons&lt;/p&gt;
-
-&lt;h2 id=&quot;2-create-a-replace-script-and-a-restore-script&quot;&gt;2. Create a replace script and a restore script&lt;/h2&gt;
-
-&lt;p&gt;So here are the contents of my scripts&lt;/p&gt;
-
-&lt;h3 id=&quot;replace-script&quot;&gt;Replace script&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ENVFILE&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;.env.staging&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SOURCE_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;../storage/app_icons/android/staging/.&quot;&lt;/span&gt;
-  &lt;span class=&quot;nv&quot;&gt;TARGET_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;../android/app/src/main/res&quot;&lt;/span&gt;
-
-  &lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SOURCE_PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TARGET_PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-  &lt;span class=&quot;c&quot;&gt;# You have to emit a string at the end for gradle to continue building the app&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Replaced STAGING icons on android app&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;So, like all the posts I write, you have to use your head a bit, in my case, the “flavor” of my app is determined by which env file is being used, in you case it could be something else entirely, adjust the scripts as you must&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;restore-script&quot;&gt;Restore script&lt;/h3&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;SOURCE_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;../storage/app_icons/android/production/.&quot;&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;TARGET_PATH&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;../android/app/src/main/res&quot;&lt;/span&gt;
-
-&lt;span class=&quot;nb&quot;&gt;cp&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-a&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;SOURCE_PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;TARGET_PATH&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# You have to emit a string at the end for gradle to continue building the app&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;Restored PRODUCTION icons on android app&quot;&lt;/span&gt;
-
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;So done, if you run this files in your own and then build your app you can see clearly it is just dumbly replacing the icon of your app before building the final artifact and the other one will be restoring the original icons&lt;/p&gt;
-
-&lt;h3 id=&quot;hookin-into-gradle&quot;&gt;Hookin’ into Gradle&lt;/h3&gt;
-
-&lt;p&gt;Now comes the most fun part if you are not an android dev or know nothing of Gradle (or want to… I sincerely don’t want to learn more of it), we just have to hook up our scripts at the correct points&lt;/p&gt;
-
-&lt;p&gt;so in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app/build.gradle&lt;/code&gt; file, add the following tasks:&lt;/p&gt;
-
-&lt;div class=&quot;language-gradle highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Custom tasks for icon replacement&lt;/span&gt;
-&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iconReplacement&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;doLast&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;proc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projectDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/../../scripts/androidIconEnvReplace.sh&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;waitForProcessOutput&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;task&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iconRestore&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;doLast&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;kt&quot;&gt;def&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;proc&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;projectDir&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;getPath&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;/../../scripts/androidIconRestore.sh&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;execute&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;proc&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;waitForProcessOutput&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;out&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;System&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;)&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;You can add them anywhere (top of the file, outside of the android main body)&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Don’t ask me why you need the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;doLast&lt;/code&gt; thing, if you don’t the task automatically runs (why in the name of god…), there is a bunch of weird sintax flowing in the internet (some of it has to do with Groovy? wtf?), just don’t worry about it and use them as is&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;And then within the body of the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;android {&lt;/code&gt; thingy, add this:&lt;/p&gt;
-
-&lt;div class=&quot;language-gradle highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;    &lt;span class=&quot;c1&quot;&gt;// preBuild seems to be a pure Gradle step, no android stuff, we just replace the icons&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;preBuild&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;dependsOn&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;iconReplacement&lt;/span&gt;
-
-    &lt;span class=&quot;c1&quot;&gt;// For some unholy reason, the android gradle tasks are dynamic (if you used flavors or signing configs you know this)&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// So basically we have to hook up to the lifecycle methods after they have been created&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;tasks&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;whenTaskAdded&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-      &lt;span class=&quot;n&quot;&gt;addedTask&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// if you have a install task means you are running this on your local machine and we need to discard our changes (restore icons)&lt;/span&gt;
-        &lt;span class=&quot;c1&quot;&gt;// otherwise Git gets dirty, on the cloud builds we don't care, the build folder gets discarded anyways&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;addedTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;contains&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'install'&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;))&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;n&quot;&gt;addedTask&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;finalizedBy&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-            &lt;span class=&quot;n&quot;&gt;iconRestore&lt;/span&gt;
-          &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-        &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;And voila, now your android apps should be reflecting the environment it is running against (according to your own definition 😉)&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">On a previous post I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</summary></entry></feed>
+&lt;p&gt;Very useful for quick testing&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Yesterday Guillermo Rauch discovered the date-fns page has their library exposed on their documentation page for you to try it directly</summary></entry></feed>
