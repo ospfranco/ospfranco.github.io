@@ -9,6 +9,8 @@ twitter:
   image: "assets/profile.jpeg"
 ---
 
+Learn how to get a decrypted WiFi password on macOS (for devs).
+
 If you are a non-dev I cannot really help you, if you can follow the instructions below then you are in luck.
 
 A lot of the online articles say that if you need to get your WiFi network password you need to go into the Keychain app, but that trick stopped working long ago, WiFi passwords on macOS are now encrypted and going into the Keychain does nothing for you.
