@@ -4,9 +4,7 @@ title: How to get the WiFi password on macOS (for devs)
 date: 2021-05-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-twitter:
-  username: "ospfranco"
-  image: "{{ site.url }}/assets/profile.jpeg"
+image: assets/profile.jpeg
 ---
 
 Learn how to get a decrypted WiFi password on macOS (for devs).
