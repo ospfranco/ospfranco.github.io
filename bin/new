@@ -20,7 +20,7 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 twitter:
   username: "ospfranco"
-  image: "assets/profile.jpeg"
+  image: "/assets/profile.jpeg"
 ---
 FRONTMATTER
 

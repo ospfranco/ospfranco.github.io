@@ -7,7 +7,7 @@ permalink: /:categories/:year/:month/:day/:title/
 image: assets/profile.jpg
 twitter:
   username: "ospfranco"
-  image: "assets/profile.jpg"
+  image: "{{ site.url }}/assets/profile.jpeg"
 ---
 
 Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.
