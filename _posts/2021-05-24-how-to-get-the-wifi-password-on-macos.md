@@ -6,7 +6,7 @@ categories: post
 permalink: /:categories/:year/:month/:day/:title/
 twitter:
   username: "ospfranco"
-  image: "assets/profile.jpeg"
+  image: "/assets/profile.jpeg"
 ---
 
 Learn how to get a decrypted WiFi password on macOS (for devs).
