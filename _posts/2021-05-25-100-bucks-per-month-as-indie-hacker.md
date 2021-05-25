@@ -19,4 +19,4 @@ That is incredibly dumb, and here is why; 100€ per month is *1200€* a year *
 
 All I can say, it makes me super happy, I got to create something, which is fun for me, it also generates side-income without spending any time whatsoever.
 
-Wake up people, the chances of you becoming a billionaire are slim to none, it's much better to be happy and having enough.
+Wake up people, the chances of you becoming a billionaire are slim to none, it's much better to be happy and having enough instead of chasing money every waking hour.
