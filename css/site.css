@@ -6,16 +6,18 @@
 @import "tailwindcss/utilities";
 
 html {
-  font-family: "Avenir Next", Helvetica, Arial, sans-serif;
-  /* font-weight: 300; */
-  /* font-size: 1em; */
+  font-family: Helvetica, Arial, sans-serif;
   background-color: #FFF;
 }
 
+body {
+  @apply text-gray-800 leading-5 font-light;
+}
+
 .markdown p {
-  @apply py-3;
-  text-align: justify;
-  line-height: 1.5rem;
+  @apply py-3 leading-7 font-light;
+  /* text-align: justify; */
+  /* line-height: 1.8rem; */
 }
 
 .markdown h1 {

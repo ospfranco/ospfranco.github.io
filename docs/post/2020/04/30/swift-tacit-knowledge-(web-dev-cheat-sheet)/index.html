@@ -33,89 +33,202 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"url":"https://ospfranco.github.io/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/","image":"https://ospfranco.github.io/assets/taco.png","headline":"Swift tips for JavaScript developers","dateModified":"2020-04-30T15:00:00+02:00","datePublished":"2020-04-30T15:00:00+02:00","author":{"@type":"Person","name":"Oscar Franco"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"},"description":"Web dev to native dev cheat sheet","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"},"url":"https://ospfranco.github.io/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/","author":{"@type":"Person","name":"Oscar Franco"},"image":"https://ospfranco.github.io/assets/taco.png","description":"Web dev to native dev cheat sheet","headline":"Swift tips for JavaScript developers","dateModified":"2020-04-30T15:00:00+02:00","datePublished":"2020-04-30T15:00:00+02:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
 </head>
 <html class="max-h-full">
   <body class="max-h-full">
-    <div class="h-full lg:flex justify-center">
-      <div class="w-full lg:flex-1 lg:h-full overflow-y-auto border-b lg:border-r" style="background-image: url('/assets/sidebar.png');">
-  <a class="flex" href="/" >
-    <img src="/assets/profile.jpeg" class="rounded-br-3xl h-32" />
-    <div class="pt-2 mx-3">
-      <h2 class="text-2xl font-bold">Oscar Franco</h2>
-      <p class="text-sm text-gray-600">I surf and I work as a tech lead.</p>
-      <p class="text-sm mt-2 text-gray-600">I'm trying to become independent, you can support me by checking out my projects.</p>
-    </div>
+    <div class="h-full lg:flex w-full">
+      <div class="lg:hidden p-4 border-b">
+  <a href="/" >
+    <h2 class="text-xl font-bold">Ospfranco</h2>
+    <h2 class="text-gray-500 text-sm">Indie Hacker / Web Dev</h2>
   </a>
-  
-  
-  
-  <div class="py-3 pr-3 lg:py-6 lg:pr-6">
-    <a href="https://ospfranco.github.io/cidemon">
-      <div class="flex w-full items-center bg-white rounded-r-xl overflow-hidden shadow-lg hover:shadow-xl">
-        <div class="overflow-hidden">
-          <img src="/assets/small_ci_demon.webp" class="w-full" />
-          <div class="p-4">
-              <div class="text-blue-500 font-semibold">CI Demon</div>
-              <div class="text-sm text-gray-600">
-                CI builds on your desktop, notifications, status checks and more.</br>One time purchase, then yours forever.</br>
-              </div>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <!-- <a href="https://github.com/ospfranco/react-native-quick-sqlite">
-      <div class="flex w-full items-center bg-white rounded-r-xl shadow-lg p-4 hover:shadow-xl mt-4">
-        <div class="overflow-hidden">
-          <div class="text-blue-500 font-semibold">react-native-sqlite</div>
-          <div class="text-sm text-gray-600">
-            SQLite implementation for react-native, uses the new JSI, by far the fastest.
-          </div>
-        </div>
-      </div>
-    </a> -->
-
-    <a href="https://scripthunt.sh">
-      <div class="flex w-full items-center bg-white rounded-r-xl overflow-hidden shadow-lg hover:shadow-xl mt-4">
-        <div class="overflow-hidden">
-          <img src="/assets/scripthunt.png" class="w-full" />
-          <div class="p-4">
-            <div class="text-blue-500 font-semibold">Scripthunt</div>
-            <div class="text-sm text-gray-600">
-              Scripthunt is a script database, save yourself hours by download pre-made scripts.
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
-
-
-  <div class="flex justify-center">
+  <div class="flex mt-2">
     <a href="https://twitter.com/ospfranco">
-      <img src="/assets/twitter.png" class="h-8"/>
+      <img src="/assets/twitter.png" class="h-6"/>
     </a>
     <a href="https://github.com/ospfranco">
-      <img src="/assets/github.png" class="h-8 pl-4"/>
+      <img src="/assets/github.png" class="h-6 pl-4"/>
     </a>
-
   </div>
+    
 </div>
 
-      <div class="w-full lg:overflow-y-scroll lg:w-2/3 p-3 lg:p-8">
-        <div class="flex-1">
-  <div class="p-4">
-    <h1 class="font-semibold text-2xl">Swift tips for JavaScript developers</h1>
-    <div class="text-gray-500 text-sm">
+<div class="hidden lg:block overflow-y-auto lg:border-r p-4 w-96">
+  <a href="/" >
+    <h2 class="text-xl font-bold">Ospfranco</h2>
+    <h2 class="text-gray-500 text-sm">Indie Hacker / Web Dev</h2>
+  </a>
+
+  <div class="flex mt-2">
+    <a href="https://twitter.com/ospfranco">
+      <img src="/assets/twitter.png" class="h-6"/>
+    </a>
+    <a href="https://github.com/ospfranco">
+      <img src="/assets/github.png" class="h-6 pl-4"/>
+    </a>
+  </div>
+    
+  <div class="mt-6 font-bold text-lg">Projects</div>
+  
+  <a href="https://ospfranco.github.io/cidemon">
+    <div class="text-sm mt-2 text-gray-600">
+      💶 CI Demon
+    </div>
+    </a>
+
+  <a href="https://scripthunt.sh">
+    <div class="text-sm mt-2 text-gray-600">
+      💶 Scripthunt
+    </div>
+    </a>
+  
+  <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+    <div class="flex text-sm mt-2 text-gray-600 items-center">
+      <img src="/assets/github.png" class="h-3 mr-1"/>
+      <div>RN quick sqlite</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/ospfranco/link-preview-js">
+    <div class="flex text-sm mt-2 text-gray-600 items-center">
+      <img src="/assets/github.png" class="h-3 mr-1"/>
+      <div>Link preview JS</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/ospfranco/react-native-macos-menubar-template">
+    <div class="flex text-sm mt-2 text-gray-600 items-center">
+      <img src="/assets/github.png" class="h-3 mr-1"/>
+      <div>RN macOS menubar template</div>
+    </div>
+  </a>
+
+  <div class="mt-6 font-bold text-lg">Latest</div>
+  
+    
+    
+    <a href="/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" >
+        <div class="mt-2 text-sm">
+            📘 100€/month as an Indie Hacker
+        </div>
+      </a>
+    
+    
+    
+    
+    <a href="/post/2021/05/24/how-to-get-the-wifi-password-on-macos/" >
+        <div class="mt-2 text-sm">
+            📘 How to get the WiFi password on macOS (for devs)
+        </div>
+      </a>
+    
+    
+    
+    
+    <a href="/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" >
+        <div class="mt-2 text-sm">
+            📘 Problems reading data from Binary store, all of the sudden my react-native app does not compile
+        </div>
+      </a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+</div>
+
+      <div class="w-full overflow-y-scroll p-4">
+        <div class="flex-1 flex flex-col items-center">
+  <img src="/assets/profile.jpeg" class="rounded-full h-24 w-24 object-cover" />
+
+  <div class="md:w-600 text-center my-10">
+    <h1 class="font-semibold text-xl leading-7">Swift tips for JavaScript developers</h1>
+    <div class="text-gray-600">
       April 2020
     </div>
-    
-    <div class="markdown mt-6">
-      <p>So, I recently released a new mac os app <a href="https://tempomat.dev">Tempomat</a> (go check it out, it is awesome) and I was left surprinsgly pleased with the experience, mostly because of Apple’s SwiftUI framework, it is declarative and along with the Combine framework it brings a lot of the nicesities of web development into the mac platform, however, while I did have experience with the XCode toolchain (because of all the react native I did over the years), this is the first time I truly did native coding, and there were many many pitfalls, so I thought I would write down some of the hard learned lessons over the last weeks, other may find them useful and I can always check them out in case I need them again.</p>
+  </div>
+  
+  <div
+    class="markdown md:w-600"
+  >
+    <p>So, I recently released a new mac os app <a href="https://tempomat.dev">Tempomat</a> (go check it out, it is awesome) and I was left surprinsgly pleased with the experience, mostly because of Apple’s SwiftUI framework, it is declarative and along with the Combine framework it brings a lot of the nicesities of web development into the mac platform, however, while I did have experience with the XCode toolchain (because of all the react native I did over the years), this is the first time I truly did native coding, and there were many many pitfalls, so I thought I would write down some of the hard learned lessons over the last weeks, other may find them useful and I can always check them out in case I need them again.</p>
 
 <h2 id="http-networking-code-is-a-tool-from-the-stone-age">HTTP Networking code is a tool from the stone age</h2>
 <p>So this is more a problem in older languages (i.e. Java) where doing stuff like a “simple” http request takes a myriad of objects and configurations and so on, from a web development perspective it feels archaic, in Swift there are some network libraries that can help with it (i.e. AlamoFire) but I did not want to learn more than absolutely necessary, on Swift one creates several objects, first a URL object, which parses the String you pass on it (and can fail), then if you need to send anything but a simple GET request, you need to create a Request Object, finally you wrap everything into a data task… I’m not sure why or if it is the only way to do things, but that is how I got it working, now unfortunately the data task only works with callbacks, and a lesson Javascript learned years ago is the pain of callback hell, how to fix this then? I went for a middle of the road approach and used PromiseKit (it is from the same guy that created Brew), having promises massively simplifies this task, though be aware they are not quite the same as JS Promises, because the type system is a lot more strict on Swift, there are many caveats with them, here is a code snippet of how the code looks:</p>
@@ -265,9 +378,7 @@
 </code></pre></div></div>
 <p>There are many more quirks that wasted my time one way or another, but as stated before I really enjoyed developing this native app, I would still like to optmize it like crazy, but a 1.4 mb app that does it job is not bad at all, tempomat is also super helpful for developers with a lot of build jobs that always need to be on top of things.</p>
 
-    </div>
   </div>
-
 </div>
       </div>
     </div>

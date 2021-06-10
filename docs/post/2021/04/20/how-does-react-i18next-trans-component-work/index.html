@@ -31,89 +31,202 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"url":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/","headline":"How does react-i18next trans component work","dateModified":"2021-04-20T15:00:00+02:00","datePublished":"2021-04-20T15:00:00+02:00","author":{"@type":"Person","name":"Oscar Franco"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/"},"description":"Recently I had to use the react-i18next trans component, here is the first line of the documentation:","@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/"},"url":"https://ospfranco.github.io/post/2021/04/20/how-does-react-i18next-trans-component-work/","author":{"@type":"Person","name":"Oscar Franco"},"description":"Recently I had to use the react-i18next trans component, here is the first line of the documentation:","headline":"How does react-i18next trans component work","dateModified":"2021-04-20T15:00:00+02:00","datePublished":"2021-04-20T15:00:00+02:00","@type":"BlogPosting","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
 </head>
 <html class="max-h-full">
   <body class="max-h-full">
-    <div class="h-full lg:flex justify-center">
-      <div class="w-full lg:flex-1 lg:h-full overflow-y-auto border-b lg:border-r" style="background-image: url('/assets/sidebar.png');">
-  <a class="flex" href="/" >
-    <img src="/assets/profile.jpeg" class="rounded-br-3xl h-32" />
-    <div class="pt-2 mx-3">
-      <h2 class="text-2xl font-bold">Oscar Franco</h2>
-      <p class="text-sm text-gray-600">I surf and I work as a tech lead.</p>
-      <p class="text-sm mt-2 text-gray-600">I'm trying to become independent, you can support me by checking out my projects.</p>
-    </div>
+    <div class="h-full lg:flex w-full">
+      <div class="lg:hidden p-4 border-b">
+  <a href="/" >
+    <h2 class="text-xl font-bold">Ospfranco</h2>
+    <h2 class="text-gray-500 text-sm">Indie Hacker / Web Dev</h2>
   </a>
-  
-  
-  
-  <div class="py-3 pr-3 lg:py-6 lg:pr-6">
-    <a href="https://ospfranco.github.io/cidemon">
-      <div class="flex w-full items-center bg-white rounded-r-xl overflow-hidden shadow-lg hover:shadow-xl">
-        <div class="overflow-hidden">
-          <img src="/assets/small_ci_demon.webp" class="w-full" />
-          <div class="p-4">
-              <div class="text-blue-500 font-semibold">CI Demon</div>
-              <div class="text-sm text-gray-600">
-                CI builds on your desktop, notifications, status checks and more.</br>One time purchase, then yours forever.</br>
-              </div>
-          </div>
-        </div>
-      </div>
-    </a>
-
-    <!-- <a href="https://github.com/ospfranco/react-native-quick-sqlite">
-      <div class="flex w-full items-center bg-white rounded-r-xl shadow-lg p-4 hover:shadow-xl mt-4">
-        <div class="overflow-hidden">
-          <div class="text-blue-500 font-semibold">react-native-sqlite</div>
-          <div class="text-sm text-gray-600">
-            SQLite implementation for react-native, uses the new JSI, by far the fastest.
-          </div>
-        </div>
-      </div>
-    </a> -->
-
-    <a href="https://scripthunt.sh">
-      <div class="flex w-full items-center bg-white rounded-r-xl overflow-hidden shadow-lg hover:shadow-xl mt-4">
-        <div class="overflow-hidden">
-          <img src="/assets/scripthunt.png" class="w-full" />
-          <div class="p-4">
-            <div class="text-blue-500 font-semibold">Scripthunt</div>
-            <div class="text-sm text-gray-600">
-              Scripthunt is a script database, save yourself hours by download pre-made scripts.
-            </div>
-          </div>
-        </div>
-      </div>
-    </a>
-  </div>
-
-
-  <div class="flex justify-center">
+  <div class="flex mt-2">
     <a href="https://twitter.com/ospfranco">
-      <img src="/assets/twitter.png" class="h-8"/>
+      <img src="/assets/twitter.png" class="h-6"/>
     </a>
     <a href="https://github.com/ospfranco">
-      <img src="/assets/github.png" class="h-8 pl-4"/>
+      <img src="/assets/github.png" class="h-6 pl-4"/>
     </a>
-
   </div>
+    
 </div>
 
-      <div class="w-full lg:overflow-y-scroll lg:w-2/3 p-3 lg:p-8">
-        <div class="flex-1">
-  <div class="p-4">
-    <h1 class="font-semibold text-2xl">How does react-i18next trans component work</h1>
-    <div class="text-gray-500 text-sm">
+<div class="hidden lg:block overflow-y-auto lg:border-r p-4 w-96">
+  <a href="/" >
+    <h2 class="text-xl font-bold">Ospfranco</h2>
+    <h2 class="text-gray-500 text-sm">Indie Hacker / Web Dev</h2>
+  </a>
+
+  <div class="flex mt-2">
+    <a href="https://twitter.com/ospfranco">
+      <img src="/assets/twitter.png" class="h-6"/>
+    </a>
+    <a href="https://github.com/ospfranco">
+      <img src="/assets/github.png" class="h-6 pl-4"/>
+    </a>
+  </div>
+    
+  <div class="mt-6 font-bold text-lg">Projects</div>
+  
+  <a href="https://ospfranco.github.io/cidemon">
+    <div class="text-sm mt-2 text-gray-600">
+      💶 CI Demon
+    </div>
+    </a>
+
+  <a href="https://scripthunt.sh">
+    <div class="text-sm mt-2 text-gray-600">
+      💶 Scripthunt
+    </div>
+    </a>
+  
+  <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+    <div class="flex text-sm mt-2 text-gray-600 items-center">
+      <img src="/assets/github.png" class="h-3 mr-1"/>
+      <div>RN quick sqlite</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/ospfranco/link-preview-js">
+    <div class="flex text-sm mt-2 text-gray-600 items-center">
+      <img src="/assets/github.png" class="h-3 mr-1"/>
+      <div>Link preview JS</div>
+    </div>
+  </a>
+
+  <a href="https://github.com/ospfranco/react-native-macos-menubar-template">
+    <div class="flex text-sm mt-2 text-gray-600 items-center">
+      <img src="/assets/github.png" class="h-3 mr-1"/>
+      <div>RN macOS menubar template</div>
+    </div>
+  </a>
+
+  <div class="mt-6 font-bold text-lg">Latest</div>
+  
+    
+    
+    <a href="/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" >
+        <div class="mt-2 text-sm">
+            📘 100€/month as an Indie Hacker
+        </div>
+      </a>
+    
+    
+    
+    
+    <a href="/post/2021/05/24/how-to-get-the-wifi-password-on-macos/" >
+        <div class="mt-2 text-sm">
+            📘 How to get the WiFi password on macOS (for devs)
+        </div>
+      </a>
+    
+    
+    
+    
+    <a href="/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" >
+        <div class="mt-2 text-sm">
+            📘 Problems reading data from Binary store, all of the sudden my react-native app does not compile
+        </div>
+      </a>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+</div>
+
+      <div class="w-full overflow-y-scroll p-4">
+        <div class="flex-1 flex flex-col items-center">
+  <img src="/assets/profile.jpeg" class="rounded-full h-24 w-24 object-cover" />
+
+  <div class="md:w-600 text-center my-10">
+    <h1 class="font-semibold text-xl leading-7">How does react-i18next trans component work</h1>
+    <div class="text-gray-600">
       April 2021
     </div>
-    
-    <div class="markdown mt-6">
-      <p>Recently I had to use the react-i18next <a href="https://react.i18next.com/latest/trans-component">trans component</a>, here is the first line of the documentation:</p>
+  </div>
+  
+  <div
+    class="markdown md:w-600"
+  >
+    <p>Recently I had to use the react-i18next <a href="https://react.i18next.com/latest/trans-component">trans component</a>, here is the first line of the documentation:</p>
 
 <blockquote>
   <p>While the Trans component gives you a lot of power by letting you interpolate or translate complex react elements - the truth is - in most cases you won’t need it.</p>
@@ -144,9 +257,7 @@
 
 <p>So it will do more or less the same algorithm as it did on the JSX code but you have given it a hand to see what needs to go in the <code class="language-plaintext highlighter-rouge">1</code> tag. Afterwards it can just replace the content and your translation is correctly inserted in your code.</p>
 
-    </div>
   </div>
-
 </div>
       </div>
     </div>

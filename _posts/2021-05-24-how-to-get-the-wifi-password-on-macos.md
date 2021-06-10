@@ -7,17 +7,17 @@ permalink: /:categories/:year/:month/:day/:title/
 image: assets/profile.jpeg
 ---
 
-Learn how to get a decrypted WiFi password on macOS (for devs).
+Learn how to get a decrypted WiFi password on macOS.
 
-If you are a non-dev I cannot really help you, if you can follow the instructions below then you are in luck.
+A lot of online say you need to open the Keychain app to get the WiFi password, but that trick stopped working long ago. 
 
-A lot of the online articles say that if you need to get your WiFi network password you need to go into the Keychain app, but that trick stopped working long ago, WiFi passwords on macOS are now encrypted and going into the Keychain does nothing for you.
+WiFi passwords on macOS are now encrypted and going into the Keychain does nothing for you.
 
-Unfortunately there is visual app (that I know of) that can extract the password for you, but you can run a simple script that will prompt you for your password and then output the current network WiFi password.
+Unfortunately there is no visual app (that I know of) that can extract the password for you, but you can run a simple script that will prompt you for your user password and then output the current network password.
 
 ## WiFi password script
 
-So, the first that you can do to get a WiFi password is use the following script by Guillermo Rauch:
+So, the first that you can do to get a WiFi password is download and save this script:
 
 ```bash
 #!/bin/bash
@@ -134,7 +134,7 @@ else
 fi
 ```
 
-You can put this somewhere in your terminal configuration and call it everytime you need to share the password with a third party.
+Call it from a terminal, you need to share the password with a third party.
 
 ## Using it with the Raycast app
 

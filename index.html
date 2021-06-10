@@ -2,14 +2,11 @@
 layout: default
 ---
 
-<div class="px-4">
-  <h2 class="font-medium text-xl">Writing</h2>
-  <p class="text-gray-500 text-sm">I write a lot about technical topics, mostly stuff I do at work. Lots of <span class="bg-gray-100">JavaScript/TypeScript</span> and <span class="bg-gray-100">React Native</span>, mostly on nuances and advanced topics.</p>
-  <div class="mt">
+  <div>
     {% for post in site.posts %}
       <a href="{{ post.url }}" >
         <div class="w-full items-center py-3">
-          <div class="flex-1 text-blue-500">
+          <div class="flex-1 font-semibold">
             {{ post.title }}
           </div>
           <div class="text-xs text-gray-500" >
@@ -19,4 +16,3 @@ layout: default
       </a>
     {% endfor %}
   </div>
-</div>
