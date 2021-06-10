@@ -443,6 +443,7 @@ code {
  */
 
 img,
+svg,
 video,
 canvas,
 embed,
@@ -540,6 +541,10 @@ video {
 
 .flex-1 {
   flex: 1 1 0%;
+}
+
+.font-normal {
+  font-weight: 400;
 }
 
 .font-semibold {
@@ -662,6 +667,10 @@ video {
   text-align: center;
 }
 
+.text-justify {
+  text-align: justify;
+}
+
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgba(107, 114, 128, var(--tw-text-opacity));
@@ -678,10 +687,6 @@ video {
 
 .w-80 {
   width: 20rem;
-}
-
-.w-96 {
-  width: 24rem;
 }
 
 .w-full {
