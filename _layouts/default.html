@@ -7,11 +7,12 @@
   {% seo %}
   <link rel="stylesheet" href="/css/site.css" />
 </head>
+
 <html class="max-h-full">
-  <body class="max-h-full">
-    <div class="h-full w-full lg:flex justify-center ">
+  <body class="max-h-full bg-coolGray-50">
+    <div class="h-full w-full lg:flex justify-center">
       {% include projects.html %}
-      <div class="overflow-y-scroll p-4">
+      <div class="overflow-y-auto py-4 px-8 scrollbar-hide bg-white flex-1">
         {{ content }}
       </div>
     </div>

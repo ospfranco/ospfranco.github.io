@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Problems reading data from Binary store, all of the sudden my react-native app does not compile
+title: Problems reading data from Binary store - crashing RN
 date: 2021-05-20 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

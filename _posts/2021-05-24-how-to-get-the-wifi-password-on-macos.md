@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to get the WiFi password on macOS (for devs)
+title: Retrieve macOS WiFi password
 date: 2021-05-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

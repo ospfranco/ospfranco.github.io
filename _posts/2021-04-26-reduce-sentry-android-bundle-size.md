@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Reduce Sentry android bundle size
+title: Reducing Sentry's android app bundle size
 date: 2021-04-26 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

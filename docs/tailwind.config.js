@@ -6,6 +6,9 @@ module.exports = {
   ],
   darkMode: 'class',
   theme: {
+    colors: {
+      ...require('tailwindcss/colors')
+    },
     extend: {
       borderRadius: {
         xl: '2rem'
@@ -16,5 +19,7 @@ module.exports = {
     },
   },
   variants: {},
-  plugins: [],
+  plugins: [
+    require('tailwind-scrollbar-hide')
+  ],
 }

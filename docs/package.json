@@ -15,5 +15,8 @@
     "postcss-import": "14.0.0",
     "purgecss": "4.0.0",
     "tailwindcss": "2.1.4"
+  },
+  "dependencies": {
+    "tailwind-scrollbar-hide": "^1.0.3"
   }
 }

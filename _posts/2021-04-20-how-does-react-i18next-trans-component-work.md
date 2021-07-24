@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How does react-i18next trans component work
+title: React-i18next trans component explained
 date: 2021-04-20 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

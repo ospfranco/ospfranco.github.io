@@ -1,6 +1,6 @@
 ---
 layout: post
-title: 100€/month as an Indie Hacker
+title: 100€ MRR as an Indie Hacker
 date: 2021-05-25 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

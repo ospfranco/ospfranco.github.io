@@ -1,18 +1,20 @@
 ---
 layout: default
 ---
-
-  <div>
-    {% for post in site.posts %}
-      <a href="{{ post.url }}" >
-        <div class="w-full items-center py-3">
-          <div class="flex-1 font-normal">
-            {{ post.title }}
-          </div>
-          <div class="text-xs text-gray-500" >
-            {{ post.date | date: "%B %Y" }}
-          </div>
-        </div>
-      </a>
-    {% endfor %}
+<div class="py-20 flex items-center">
+  <img src="{{site.baseurl}}/assets/profile.jpg" class="h-32 w-32 rounded-full object-cover" />
+  <div class="pl-12">
+    <div class="text-coolGray-900 text-4xl font-bold">Hi, my name is Oscar.</div>
+    <div class="text-coolGray-500 text-lg leading-10">Full stack with lots of experience, also an Indie Hacker.<br/>I write about software.<br>Support me by following me!</div>
   </div>
+</div>
+
+<div class="pl-44">
+  {% for post in site.posts %}
+    <a href="{{ post.url }}" >
+      <div class="w-full py-2 text-coolGray-700 hover:text-coolGray-900">
+        <span class="text-lg">{{ post.title }}</span> - {{ post.date | date: "%B %Y" }}
+      </div>
+    </a>
+  {% endfor %}
+</div>

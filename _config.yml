@@ -8,11 +8,11 @@ plugins:
 
 author: "Oscar Franco"
 url: "https://ospfranco.github.io"
-title: "Oscar Franco on Github"
+title: "Oscar Franco's Blog"
 twitter:
   username: "ospfranco"
   card: "summary"
-image: "assets/profile.jpeg"
+image: "assets/profile.jpg"
 future: true
 
 exclude:

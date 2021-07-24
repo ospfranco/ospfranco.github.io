@@ -1,6 +1,6 @@
 ---
 layout: post
-title: React Native iOS 14 widgets
+title: React Native iOS 14 widgets guide
 date: 2020-08-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

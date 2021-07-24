@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to build react-native app on github actions (and fastlane)
+title: Building a react-native app on github actions
 date: 2021-05-04 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/

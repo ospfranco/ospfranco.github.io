@@ -1,6 +1,6 @@
 ---
 layout: post
-title: How to quickly test any JavaScript library in the browser console
+title: Test any JavaScript library in the console
 date: 2021-02-18 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
