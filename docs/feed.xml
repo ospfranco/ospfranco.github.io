@@ -1,4 +1,46 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-07-24T13:22:30+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco’s Blog</title><author><name>Oscar Franco</name></author><entry><title type="html">100€ MRR as an Indie Hacker</title><link href="https://ospfranco.github.io/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" rel="alternate" type="text/html" title="100€ MRR as an Indie Hacker" /><published>2021-05-25T15:00:00+02:00</published><updated>2021-05-25T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/25/100-bucks-per-month-as-indie-hacker</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/25/100-bucks-per-month-as-indie-hacker/">&lt;p&gt;I am a (painfully) average developer. I do not make millions. I have not created complex trading algorithms, programs or businesses. I have a good yet average paying job. My group of friends are (in the nicest way possible) as average as I am, none of us has reached massive success, some might have stocks, but &lt;strong&gt;we work for a living.&lt;/strong&gt;&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.github.io/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.github.io/" rel="alternate" type="text/html" /><updated>2021-07-24T19:01:02+02:00</updated><id>https://ospfranco.github.io/feed.xml</id><title type="html">Oscar Franco’s Blog</title><author><name>Oscar Franco</name></author><entry><title type="html">Reviewing Github’s Copilot</title><link href="https://ospfranco.github.io/post/2021/07/24/reviewing-githubs-copilot/" rel="alternate" type="text/html" title="Reviewing Github’s Copilot" /><published>2021-07-24T15:00:00+02:00</published><updated>2021-07-24T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/07/24/reviewing-githubs-copilot</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/07/24/reviewing-githubs-copilot/">&lt;p&gt;Is github copilot even worth it?&lt;/p&gt;
+
+&lt;p&gt;Github’s Copilot is an AI assistant, trained on github’s vast codebase (including repos with disparate OSS licenses), it aims to fill the gaps by throwing code at your face while you go about your day.&lt;/p&gt;
+
+&lt;p&gt;I’m not going to go into technical details, all I can give is my impressions after trying it a couple of days&lt;/p&gt;
+
+&lt;h2 id=&quot;first-it-amazed-me&quot;&gt;First it amazed me&lt;/h2&gt;
+
+&lt;p&gt;As I installed the extension and carried on with my day, I paid a lot of attention to it. I also gave it a lot of slack, I knew even though it was trained with a huge codebase mistakes would be the name of the game.&lt;/p&gt;
+
+&lt;p&gt;So I as I went coding my tasks, I would stop and pay attention to the code that was being offered to me, sometimes it would shorten small boilerplate statements, create this variable, autocomplete a hook, it was fun despite failing on the real logic heavy stuff.&lt;/p&gt;
+
+&lt;p&gt;The highlight came when I had to write a regular expression, I dislike regular expressions, which means I’m not skilled enough to write them with ease. I struggled to create a first version of the regex I needed, and when I moved to another file and I had to re-use it, Copilot dropped a valid regex on my lap. I won’t lie, my jaw dropped, it was more complete that the one I had written, later I modified the code a bit and it spit out a new regex that reflected those changes. Amazing.&lt;/p&gt;
+
+&lt;h2 id=&quot;but-is-it-actually-correct&quot;&gt;But is it actually correct?&lt;/h2&gt;
+
+&lt;p&gt;I immediately took the regex that was suggested, assuming it was correct, only to realize later, that the functionality I was coding was broken. I started the debugging the code and realized the problem was in the regex given by Copilot.&lt;/p&gt;
+
+&lt;p&gt;In all my disliking for regexes I accepted the suggestion without a second thought. I ended up going back to my original regex and slowly creating the correct version. And here is one of the dangers.&lt;/p&gt;
+
+&lt;h2 id=&quot;i-believe-there-is-no-substitute-for-the-human-brain&quot;&gt;I believe there is no substitute for the human brain&lt;/h2&gt;
+
+&lt;p&gt;Copilot, despite being the amazing fact we are able to create it, is still a &lt;strong&gt;dumb&lt;/strong&gt; machine. &lt;strong&gt;It doesn’t understand where you want to go, only where where it has been&lt;/strong&gt;.&lt;/p&gt;
+
+&lt;p&gt;I fear that bug production will be automated, since we are tempted to always take the path of less resistance and accept the suggestions without thorough checking. Not that humans are perfect at this, the real question is if Copilot can do better.&lt;/p&gt;
+
+&lt;h2 id=&quot;and-then-it-got-annoying&quot;&gt;And then it got annoying&lt;/h2&gt;
+
+&lt;p&gt;So after my excitement died down and I tried to continue to do my work, things got bad.&lt;/p&gt;
+
+&lt;p&gt;As I tried to focus in order to write complex pieces of code, Copilot keep throwing code at me whenever I took a brief pause to gather my thoughts, this completely broke my flow state.&lt;/p&gt;
+
+&lt;p&gt;All of the sudden I was looking at code that most of the time was: a) wrong, b) wrong but hard to notice why it was wrong or c) hot garbage because it did something completely different. This got tiring fast, instead of focusing the problem at hand I was focusing on correcting errors already.&lt;/p&gt;
+
+&lt;p&gt;After half a day, it felt like having a junior dev next to me, constantly interrupting and throwing code at my face… almost there code, but still wrong.&lt;/p&gt;
+
+&lt;h2 id=&quot;so-now-what&quot;&gt;So… now what?&lt;/h2&gt;
+
+&lt;p&gt;I’m sure it will get better, the question is… how much better can it get? I don’t know&lt;/p&gt;
+
+&lt;p&gt;Is it useful sometimes, sure, at least to me it saved me a couple of keystrokes every once in a while&lt;/p&gt;
+
+&lt;p&gt;But the constant distraction is 100% not worth it to me, I have now removed the extension. I can only wish the Copilot’s team good luck and await for the next iteration!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Is github copilot even worth it?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.github.io/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.github.io/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">100€ MRR as an Indie Hacker</title><link href="https://ospfranco.github.io/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" rel="alternate" type="text/html" title="100€ MRR as an Indie Hacker" /><published>2021-05-25T15:00:00+02:00</published><updated>2021-05-25T15:00:00+02:00</updated><id>https://ospfranco.github.io/post/2021/05/25/100-bucks-per-month-as-indie-hacker</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/05/25/100-bucks-per-month-as-indie-hacker/">&lt;p&gt;I am a (painfully) average developer. I do not make millions. I have not created complex trading algorithms, programs or businesses. I have a good yet average paying job. My group of friends are (in the nicest way possible) as average as I am, none of us has reached massive success, some might have stocks, but &lt;strong&gt;we work for a living.&lt;/strong&gt;&lt;/p&gt;
 
 &lt;p&gt;My clique is however heavily skewed towards tech people; developers, managers, product-designers and it blows my mind how inflated our dreams and egos are. We sit in high-towers where most of us are not happy with our high salaries and comfortable lifestyle. We chase the latest news to invest in the stock market, we jump companies every couple of years trying to become millionaires. The market and the tech ecosystem has ruined us.&lt;/p&gt;
 
@@ -590,196 +632,4 @@ com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
 &lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;signInInstruction3&quot;: &quot;Enter your email address &amp;lt;1&amp;gt;{{email}}&amp;lt;/1&amp;gt; and password&quot;,
 &lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;So it will do more or less the same algorithm as it did on the JSX code but you have given it a hand to see what needs to go in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; tag. Afterwards it can just replace the content and your translation is correctly inserted in your code.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Recently I had to use the react-i18next trans component, here is the first line of the documentation:</summary></entry><entry><title type="html">How to create a react-native JSI module</title><link href="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" rel="alternate" type="text/html" title="How to create a react-native JSI module" /><published>2021-02-24T14:00:00+01:00</published><updated>2021-02-24T14:00:00+01:00</updated><id>https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module</id><content type="html" xml:base="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/">&lt;p&gt;JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Please note; &lt;strong&gt;I do not know Objective-C&lt;/strong&gt; and I barely know C++, all I did was look at other repos, look at source code and try to understand what is going on.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;creating-the-base-module&quot;&gt;Creating the base module&lt;/h2&gt;
-
-&lt;p&gt;We are going to create a separate module because scaffolding is easier, we are going to use &lt;a href=&quot;https://github.com/callstack/react-native-builder-bob&quot;&gt;react-native-builder-bob&lt;/a&gt;, builder-bob already supports creating cpp modules, via the old bridge.&lt;/p&gt;
-
-&lt;p&gt;Start by initializing a new module:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;npx react-native-builder-bob create react-native-awesome-module
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;It will ask you a bunch of questions, at some point it will also ask you which type of project you want, select the &lt;strong&gt;C++&lt;/strong&gt; option, this won’t create a JSI module, but it will set up the scaffolding necessary for compilation.&lt;/p&gt;
-
-&lt;h3 id=&quot;installing-the-jsi-bindings&quot;&gt;Installing the JSI bindings&lt;/h3&gt;
-
-&lt;p&gt;Go to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;iOS&lt;/code&gt; folder and modify the created &lt;strong&gt;header file&lt;/strong&gt; (.h) and &lt;strong&gt;obj-c file&lt;/strong&gt; (.mm), wherever you see “react-native-sequel” just replace your package name. You should have something like this:&lt;/p&gt;
-
-&lt;p&gt;Header file.&lt;/p&gt;
-&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTBridgeModule.h&amp;gt;
-#import &quot;react-native-sequel.h&quot;
-&lt;/span&gt;
-&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;interface&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Sequel&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;NSObject&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RCTBridgeModule&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-
-&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;property&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;nonatomic&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;assign&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;setBridgeOnMainQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;err&quot;&gt;@&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Implementation file.&lt;/p&gt;
-&lt;div class=&quot;language-obj-c highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#import &quot;Sequel.h&quot;
-#import &amp;lt;React/RCTBridge+Private.h&amp;gt;
-#import &amp;lt;React/RCTUtils.h&amp;gt;
-#import &quot;react-native-sequel.h&quot;
-&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;@implementation&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;Sequel&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;@synthesize&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;methodQueue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;_methodQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;n&quot;&gt;RCT_EXPORT_MODULE&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;BOOL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;requiresMainQueueSetup&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;YES&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setBridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RCTBridge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bridge&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_bridge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;_setBridgeOnMainQueue&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;RCTIsMainQueue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;RCTCxxBridge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cxxBridge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;RCTCxxBridge&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cxxBridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-  &lt;span class=&quot;n&quot;&gt;installSequel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;facebook&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Runtime&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;cxxBridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;invalidate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;cleanUpSequel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;@end&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Without going into detail, a couple of things to notice:&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;We are importing the &lt;strong&gt;React/RCTBridge+Private&lt;/strong&gt; header file, which is the one that exposes the jsi bindings.&lt;/li&gt;
-  &lt;li&gt;The important work is done on the &lt;strong&gt;setBridge&lt;/strong&gt; function, here we get a reference to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cxxBridge.runtime&lt;/code&gt;, this is a &lt;strong&gt;runtime&lt;/strong&gt; object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a &lt;em&gt;install[YOUR_PROJECT_NAME]&lt;/em&gt; function where we will create the JSI functions.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;writing-our-bindings&quot;&gt;Writing our bindings&lt;/h3&gt;
-
-&lt;p&gt;You can now go to the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;cpp&lt;/code&gt; folder in the root of the project, there builder-bob should have created some basic c++ for you to use, you can delete it and create a header file (react-native-sequel.h in my case) and it’s implementation (react-native-sequel.cpp).&lt;/p&gt;
-
-&lt;p&gt;For our header file:&lt;/p&gt;
-
-&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;jsi/jsilib.h&amp;gt;
-#include &amp;lt;jsi/jsi.h&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;installSequel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;facebook&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsiRuntime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cleanUpSequel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-&lt;blockquote&gt;
-  &lt;p&gt;We are basically exposing the two functions we used in the bridging code inside the iOS folder&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;For our implementation:&lt;/p&gt;
-
-&lt;div class=&quot;language-c++ highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// Import our header file to implement the `installSequel` and `cleanUpSequel` functions&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &quot;react-native-sequel.h&quot;
-&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// sstream contains functions to manipulate strings in C++&lt;/span&gt;
-&lt;span class=&quot;cp&quot;&gt;#include &amp;lt;sstream&amp;gt;
-&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// The namespace allows for syntactic sugar around the JSI objects. ex. call: jsi::Function instead of facebook::jsi::Function&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;using&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;facebook&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;c1&quot;&gt;// We get the runtime from the obj-c code and we create our native functions here&lt;/span&gt;
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;installSequel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsiRuntime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// jsi::Function::createFromHostFunction will create a JavaScript function based on a &quot;host&quot; (read C++) function&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;auto&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;multiply&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Function&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;createFromHostFunction&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;jsiRuntime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// JSI runtime instance&lt;/span&gt;
-    &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;PropNameID&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;forAscii&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jsiRuntime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;multiply&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Internal function name&lt;/span&gt;
-    &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;c1&quot;&gt;// Number of arguments in function&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// This is a C++ lambda function, the empty [] at the beginning is used to capture pointer/references so that they don't get de-allocated&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Then you get another instance of the runtime to use inside the function, a &quot;this&quot; value from the javascript world, a pointer to the arguments (you can treat it as an array) and finally a count for the number of arguments&lt;/span&gt;
-    &lt;span class=&quot;c1&quot;&gt;// Finally the function needs to return a jsi::Value (read JavaScript value)&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;[](&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Runtime&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;amp;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;thisValue&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;size_t&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;count&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-
-      &lt;span class=&quot;c1&quot;&gt;// the jsi::Value has a lot of helper methods for you to manipulate the data&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;||&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;arguments&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;].&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;isNumber&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;())&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;detail&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;throwJSError&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;runtime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;Non number arguments passed to sequel&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-      &lt;span class=&quot;kt&quot;&gt;double&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;res&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;42&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-      &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsi&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Value&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;res&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-
-  &lt;span class=&quot;c1&quot;&gt;// Registers the function on the global object&lt;/span&gt;
-  &lt;span class=&quot;n&quot;&gt;jsiRuntime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;global&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;().&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;setProperty&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;jsiRuntime&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;multiply&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;std&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;move&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kt&quot;&gt;void&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;cleanUpSequel&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// intentionally left blank&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Unfortunately, there is &lt;strong&gt;0&lt;/strong&gt; documentation for the JSI bridge and it’s bindings… You will have to resort reading the &lt;a href=&quot;https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp&quot;&gt;JSI source code&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jsi::Value&lt;/code&gt; is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an &lt;a href=&quot;https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp&quot;&gt;example&lt;/a&gt;). There are also other methods, in the code I present I’m using &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;jsi::detail::throwJSError&lt;/code&gt; to throw a JS error to the javascript code. Note that the function we created is synchronous, and because it can throw an error, you need to wrap it in a try/catch when you call it from the JavaScript side.&lt;/p&gt;
-
-&lt;p&gt;There are other convenience methods for dealing with JSIValues such as &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;isNumber&lt;/code&gt;, &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;isString&lt;/code&gt; (do note that javascript numbers are always doubles). Once you start dealing with objects things get more complicated, you need to be able to move (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;std::move&lt;/code&gt;) values around, so that they don’t get wiped from memory once your function ends.&lt;/p&gt;
-
-&lt;h3 id=&quot;exposing-a-sensible-api&quot;&gt;Exposing a sensible API&lt;/h3&gt;
-
-&lt;p&gt;Finally, on our index.ts file we can create bindings for this function (I’m not sure if they also get exposed to the wrapper app, for now I created a dumb wrapper), having typescript also allows for type checking on the JS level&lt;/p&gt;
-
-&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// /src/index.tsx&lt;/span&gt;
-&lt;span class=&quot;kr&quot;&gt;declare&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;b&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multiplyA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;():&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multiply&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;and finally on the react-native app that uses this module:&lt;/p&gt;
-
-&lt;div class=&quot;language-tsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;*&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;react&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;StyleSheet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;Text&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;react-native&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;multiplyA&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;react-native-sequel&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;App&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;setResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;useState&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;number&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;undefined&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
-
-  &lt;span class=&quot;nx&quot;&gt;React&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;useEffect&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;setResult&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;multiplyA&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;());&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[]);&lt;/span&gt;
-
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;View&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;style&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;styles&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;Result: &lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;result&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Text&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;View&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;styles&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;StyleSheet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;create&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;({&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;container&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;flex&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;alignItems&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;justifyContent&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;center&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-  &lt;span class=&quot;na&quot;&gt;box&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;width&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;height&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;60&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-    &lt;span class=&quot;na&quot;&gt;marginVertical&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;conclussion&quot;&gt;Conclussion&lt;/h2&gt;
-
-&lt;p&gt;The code is on &lt;a href=&quot;https://github.com/ospfranco/react-native-jsi-template&quot;&gt;github&lt;/a&gt; if you want to explore it on your own.&lt;/p&gt;
-
-&lt;p&gt;Many thanks to &lt;a href=&quot;https://twitter.com/inkdrop_app&quot;&gt;Takuya&lt;/a&gt; for creating his &lt;a href=&quot;https://github.com/craftzdog/react-native-quick-base64&quot;&gt;base64 implementation&lt;/a&gt; (I basically copied and pasted a lot of his code)&lt;/p&gt;
-
-&lt;p&gt;You also want to check &lt;a href=&quot;https://github.com/react-native-async-storage/async-storage/issues/291&quot;&gt;this sample&lt;/a&gt; by &lt;a href=&quot;https://twitter.com/jarredsumner&quot;&gt;Jarred Sumner&lt;/a&gt;, which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).&lt;/p&gt;
-
-&lt;p&gt;I created a new &lt;a href=&quot;https://github.com/ospfranco/react-native-quick-sqlite&quot;&gt;SQLite react-native library&lt;/a&gt;, check it out to learn how to do Android bindings and a lot of other neat things! leave it a star too please!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.</summary></entry></feed>
+&lt;p&gt;So it will do more or less the same algorithm as it did on the JSX code but you have given it a hand to see what needs to go in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; tag. Afterwards it can just replace the content and your translation is correctly inserted in your code.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Recently I had to use the react-i18next trans component, here is the first line of the documentation:</summary></entry></feed>
