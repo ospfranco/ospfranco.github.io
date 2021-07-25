@@ -1,19 +1,37 @@
 ---
 layout: default
 ---
-<div class="py-20 flex items-center">
-  <img src="{{site.baseurl}}/assets/profile.jpg" class="h-32 w-32 rounded-full object-cover" />
-  <div class="pl-12">
-    <div class="text-coolGray-900 text-4xl font-bold">Hi, my name is Oscar.</div>
-    <div class="text-coolGray-500 text-lg leading-10">Full stack with lots of experience, also an Indie Hacker.<br/>I write about software.<br>Support me by following me!</div>
+<div class="mt-20 pl-10 flex items-center">
+  <img src="{{site.baseurl}}/assets/profile.jpg" class="h-36 w-36 rounded-full object-cover" />
+  <div class="pl-8">
+    <div class="text-coolGray-900 text-8xl font-semibold">Hi, my name is Oscar</div>
+    <div class="text-coolGray-500 leading-10 mt-4 text-xl">Full stack dev with lots of experience, also an Indie Hacker.<br>Writing about software, trying to launch a SaaS service.</div>
   </div>
 </div>
 
-<div class="pl-44">
+<div class="pl-52 py-20">
+  <div class="text-coolGray-900 text-6xl font-semibold mb-10">My projects</div>
+  <a href="https://numbra.io">
+    <img src="{{site.baseurl}}/assets/numbra.jpg" class="w-full object-cover transform duration-150 hover:scale-110 hover:z-10" />
+  </a>
+  <a class="https://ospfranco.github.io/cidemon">
+    <img src="{{site.baseurl}}/assets/cidemon.jpg" class="w-full object-cover transform duration-150 hover:scale-110 hover:z-10" />
+  </a>
+  <a class="https://www.newline.co/courses/building-react-native-apps-for-mac">
+    <img src="{{site.baseurl}}/assets/buildingapps.jpg" class="w-full object-cover transform duration-150 hover:scale-110 hover:z-10" />
+  </a>
+</div>
+
+<div class="pl-52 pt-20">
+  <div class="text-coolGray-900 text-6xl font-semibold mb-10">My writing</div>
+</div>
+
+<div class="pl-20">
   {% for post in site.posts %}
     <a href="{{ post.url }}" >
-      <div class="w-full py-2 text-coolGray-700 hover:text-coolGray-900">
-        <span class="text-lg">{{ post.title }}</span> - {{ post.date | date: "%B %Y" }}
+      <div class="w-full py-2 flex items-center">
+        <div class="text-gray-500 text-sm w-32 text-right mr-2">{{ post.date | date: "%B %Y" }}</div>
+        <div class="text-lg text-coolGray-600 hover:text-black">{{ post.title }}</div>
       </div>
     </a>
   {% endfor %}
