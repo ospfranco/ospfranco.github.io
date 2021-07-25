@@ -2,7 +2,7 @@ module.exports = {
   purge: [
     './src/**.html'
   ],
-  darkMode: 'class',
+  darkMode: 'media',
   theme: {
     colors: {
       ...require('tailwindcss/colors')

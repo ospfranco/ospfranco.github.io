@@ -1,38 +1,42 @@
 ---
 layout: default
 ---
-<div class="mt-20 pl-10 flex items-center w-full md:w-768">
-  <img src="{{site.baseurl}}/assets/profile.jpg" class="h-36 w-36 rounded-full object-cover" />
-  <div class="pl-8">
-    <div class="text-coolGray-900 text-8xl font-semibold">Hi, my name is Oscar</div>
-    <div class="text-coolGray-500 leading-10 mt-4 text-xl">Full stack dev with lots of experience, also an Indie Hacker.<br>Writing about software, trying to launch a SaaS service.</div>
+<div class="w-full md:w-768">
+  <div class="flex h-screen items-center">
+    <div class="w-52">
+      <img src="{{site.baseurl}}/assets/profile.jpg" class="h-36 w-36 rounded-full object-cover" />
+    </div>
+    <div class="pl-8">
+      <div class="text-coolGray-900 dark:text-white text-8xl font-semibold">Hi, my name is Oscar</div>
+      <div class="text-coolGray-500 dark:text-coolGray-100 leading-10 mt-4 text-xl">Full stack dev with lots of experience, also an Indie Hacker.<br>Writing about software, scroll down to learn more.</div>
+    </div>
   </div>
-</div>
-
-<div class="pl-52 py-20 w-full md:w-768">
-  <div class="text-coolGray-900 text-6xl font-semibold mb-10">My projects</div>
-  <a href="https://numbra.io">
-    <img src="{{site.baseurl}}/assets/numbra.jpg" class="w-full object-cover transform duration-150 hover:scale-110 hover:z-10" />
-  </a>
-  <a class="https://ospfranco.github.io/cidemon">
-    <img src="{{site.baseurl}}/assets/cidemon.jpg" class="w-full object-cover transform duration-150 hover:scale-110 hover:z-10" />
-  </a>
-  <a class="https://www.newline.co/courses/building-react-native-apps-for-mac">
-    <img src="{{site.baseurl}}/assets/buildingapps.jpg" class="w-full object-cover transform duration-150 hover:scale-110 hover:z-10" />
-  </a>
-</div>
-
-<div class="pl-52 pt-20">
-  <div class="text-coolGray-900 text-6xl font-semibold mb-10">My writing</div>
-</div>
-
-<div class="pl-20">
-  {% for post in site.posts %}
-    <a href="{{ post.url }}" >
-      <div class="w-full py-2 flex items-center">
-        <div class="text-gray-500 text-sm w-32 text-right mr-2">{{ post.date | date: "%B %Y" }}</div>
-        <div class="text-lg text-coolGray-600 hover:text-black">{{ post.title }}</div>
-      </div>
+  
+  <div class="pl-44 py-20">
+    <div class="text-coolGray-900 dark:text-white text-6xl font-semibold mb-10">My projects</div>
+    <a href="https://numbra.io">
+      <img src="{{site.baseurl}}/assets/numbra.jpg" class="w-full object-cover hover:opacity-70" />
     </a>
-  {% endfor %}
+    <a href="https://ospfranco.github.io/cidemon">
+      <img src="{{site.baseurl}}/assets/cidemon.jpg" class="w-full object-cover hover:opacity-70" />
+    </a>
+    <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">
+      <img src="{{site.baseurl}}/assets/buildingapps.jpg" class="w-full object-cover hover:opacity-70" />
+    </a>
+  </div>
+  
+  <div class="pl-44 pt-20 pb-10">
+    <div class="text-coolGray-900 dark:text-white text-6xl font-semibold">My writing</div>
+  </div>
+  
+  <div class="pl-10 pb-40">
+    {% for post in site.posts %}
+      <a href="{{ post.url }}" >
+        <div class="w-full py-2 flex items-center">
+          <div class="text-gray-500 text-sm w-32 text-right mr-2">{{ post.date | date: "%B %Y" }}</div>
+          <div class="text-lg text-coolGray-600 dark:text-coolGray-400 hover:text-black dark:hover:text-white">{{ post.title }}</div>
+        </div>
+      </a>
+    {% endfor %}
+  </div>
 </div>
