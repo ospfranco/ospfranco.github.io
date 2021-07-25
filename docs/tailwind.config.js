@@ -12,7 +12,8 @@ module.exports = {
         xl: '2rem'
       },
       width: {
-        600: '600px'
+        600: '600px',
+        768: '768px',
       },
     },
   },
