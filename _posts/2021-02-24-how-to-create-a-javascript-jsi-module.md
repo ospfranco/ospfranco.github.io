@@ -25,7 +25,7 @@ We are going to use [react-native-builder-bob](https://github.com/callstack/reac
 Start by initializing:
 
 ```bash
-npx react-native-builder-bob create react-native-awesome-module
+npx react-native-builder-bob create react-native-sequel
 ```
 
 After a bunch of questions, it will also ask you which type of project you want, select the **C++** option, this won't create a JSI module, but it will set up the necessary compilation for C++.
