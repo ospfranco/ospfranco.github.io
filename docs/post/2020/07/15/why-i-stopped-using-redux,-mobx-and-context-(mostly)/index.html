@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Stop writing state management code","image":"https://ospfranco.com/assets/marble2.JPG","headline":"Stop using redux, mobx and/or context","dateModified":"2020-07-15T15:00:00+02:00","datePublished":"2020-07-15T15:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/"},"url":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"Stop writing state management code","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Stop using redux, mobx and/or context","datePublished":"2020-07-15T15:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/"},"image":"https://ospfranco.com/assets/marble2.JPG","url":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/","dateModified":"2020-07-15T15:00:00+02:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -75,8 +75,8 @@
     </div>
   </nav>
   <body class="max-h-full flex flex-col items-center">
-    <div class="flex-1 flex flex-col items-center lg:mx-36">
-  <div class="md:w-600 text-center my-10 flex flex-col items-center">
+    <div class="flex-1 flex flex-col items-center w-full lg:mx-36">
+  <div class="w-full md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Stop using redux, mobx and/or context</h1>
     <img
       src="/assets/profile.jpeg"
@@ -87,7 +87,7 @@
     </div>
   </div>
 
-  <div class="markdown md:w-600 pb-44"><p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
+  <div class="markdown w-full px-8 md:px-0 md:w-600 pb-44"><p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
 
 <h2 id="why-not-mobxreduxrecoilcontextreduxsagasusereducer">Why not [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]?</h2>
 <p>So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven’t tried yet), I won’t go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than what I can write, so I’m going to go straight into the biggest problem I saw with managing state in my web/mobile apps:</p>

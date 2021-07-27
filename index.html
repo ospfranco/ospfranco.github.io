@@ -3,7 +3,17 @@ layout: default
 ---
 
 <div class="w-full md:w-768">
-  <div class="flex h-screen items-center">
+  <div
+    class="
+      flex flex-col
+      md:flex-row
+      h-screen
+      items-center
+      justify-center
+      px-8
+      md:px-0
+    "
+  >
     <div class="w-52">
       <img
         src="{{site.baseurl}}/assets/profile.jpeg"
@@ -11,7 +21,15 @@ layout: default
       />
     </div>
     <div class="pl-8">
-      <div class="text-coolGray-900 dark:text-white text-8xl font-semibold">
+      <div
+        class="
+          text-coolGray-900
+          dark:text-white
+          text-6xl
+          md:text-8xl
+          font-semibold
+        "
+      >
         Hi, my name is Oscar
       </div>
       <div
@@ -23,8 +41,17 @@ layout: default
     </div>
   </div>
 
-  <div class="pl-44 py-20">
-    <div class="text-coolGray-900 dark:text-white text-6xl font-semibold mb-10">
+  <div class="pl-8 md:px-0 md:pl-44 py-20">
+    <div
+      class="
+        text-coolGray-900
+        dark:text-white
+        text-4xl
+        md:text-6xl
+        font-semibold
+        mb-10
+      "
+    >
       My projects
     </div>
     <a href="https://numbra.io">
@@ -47,17 +74,17 @@ layout: default
     </a>
   </div>
 
-  <div class="pl-44 pt-20 pb-10">
+  <div class="pl-8 md:pl-44 pt-20 pb-10">
     <div class="text-coolGray-900 dark:text-white text-6xl font-semibold">
       My writing
     </div>
   </div>
 
-  <div class="pl-10 pb-40">
+  <div class="md:pl-10 pb-40">
     {% for post in site.posts %}
     <a href="{{ post.url }}">
       <div class="w-full py-2 flex items-center">
-        <div class="text-gray-500 text-sm w-32 text-right mr-2">
+        <div class="text-gray-500 text-sm w-32 flex-shrink-0 text-right mr-2">
           {{ post.date | date: "%B %Y" }}
         </div>
         <div
