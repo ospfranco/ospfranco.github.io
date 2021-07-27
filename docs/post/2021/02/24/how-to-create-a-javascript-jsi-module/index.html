@@ -14,24 +14,24 @@
 
   <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar Franco" /> 
   <!-- Begin Jekyll SEO tag v2.7.1 -->
-<title>How to create a react-native JSI module | Oscar Franco</title>
+<title>React-native JSI module tutorial | Oscar Franco</title>
 <meta name="generator" content="Jekyll v4.2.0" />
-<meta property="og:title" content="How to create a react-native JSI module" />
+<meta property="og:title" content="React-native JSI module tutorial" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
-<meta property="og:description" content="JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do." />
+<meta name="description" content="Before you start" />
+<meta property="og:description" content="Before you start" />
 <link rel="canonical" href="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
 <meta property="og:url" content="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2021-02-24T14:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:title" content="How to create a react-native JSI module" />
+<meta property="twitter:title" content="React-native JSI module tutorial" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.","author":{"@type":"Person","name":"Oscar Franco"},"headline":"How to create a react-native JSI module","datePublished":"2021-02-24T14:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","dateModified":"2021-02-24T14:00:00+01:00","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"Before you start","author":{"@type":"Person","name":"Oscar Franco"},"headline":"React-native JSI module tutorial","datePublished":"2021-02-24T14:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","dateModified":"2021-02-24T14:00:00+01:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -58,7 +58,7 @@
   <body class="max-h-full flex flex-col items-center">
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
-    <h1 class="font-semibold text-6xl dark:text-white">How to create a react-native JSI module</h1>
+    <h1 class="font-semibold text-6xl dark:text-white">React-native JSI module tutorial</h1>
     <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       February 2021
@@ -68,28 +68,39 @@
   <div
     class="markdown md:w-600 pb-44"
   >
-    <p>JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JavaScript engine itself and it’s a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.</p>
+    <h1 id="before-you-start">Before you start</h1>
 
-<blockquote>
-  <p>Please note; <strong>I do not know Objective-C</strong> and I barely know C++, all I did was look at other repos, look at source code and try to understand what is going on.</p>
-</blockquote>
+<p>I created a <a href="https://github.com/ospfranco/react-native-quick-sqlite">SQLite react-native library</a> it’s super fast and the reason I could write this article, it would be great if you can leave a star on it!</p>
+
+<p>If you are interested in other react-native content, check out my course of <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">react-native for macOS</a>, it really helps me to put great content if you buy it!</p>
+
+<h1 id="jsi">JSI</h1>
+
+<p>JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.</p>
 
 <h2 id="creating-the-base-module">Creating the base module</h2>
 
-<p>We are going to create a separate module because scaffolding is easier, we are going to use <a href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a>, builder-bob already supports creating cpp modules, via the old bridge.</p>
+<p>We are going to use <a href="https://github.com/callstack/react-native-builder-bob">react-native-builder-bob</a>, to scaffold a new (separate) module, builder-bob already supports creating cpp modules, via the old bridge.</p>
 
-<p>Start by initializing a new module:</p>
+<p>Start by initializing:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx react-native-builder-bob create react-native-awesome-module
 </code></pre></div></div>
 
-<p>It will ask you a bunch of questions, at some point it will also ask you which type of project you want, select the <strong>C++</strong> option, this won’t create a JSI module, but it will set up the scaffolding necessary for compilation.</p>
+<p>After a bunch of questions, it will also ask you which type of project you want, select the <strong>C++</strong> option, this won’t create a JSI module, but it will set up the necessary compilation for C++.</p>
 
-<h3 id="installing-the-jsi-bindings">Installing the JSI bindings</h3>
+<h1 id="start-with-ios">Start with iOS</h1>
 
-<p>Go to the <code class="language-plaintext highlighter-rouge">iOS</code> folder and modify the created <strong>header file</strong> (.h) and <strong>obj-c file</strong> (.mm), wherever you see “react-native-sequel” just replace your package name. You should have something like this:</p>
+<p>Go to the <code class="language-plaintext highlighter-rouge">iOS</code> folder and modify the created <strong>header file</strong> (.h) and <strong>obj-c file</strong> (.mm).</p>
 
-<p>Header file.</p>
+<blockquote>
+  <p>Note: Wherever you see “react-native-sequel” just replace your package name.</p>
+</blockquote>
+
+<p>You should have something like this:</p>
+
+<p>Header file, <code class="language-plaintext highlighter-rouge">react-native-sequel.h</code>:</p>
+
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTBridgeModule.h&gt;
 #import "react-native-sequel.h"
 </span>
@@ -100,7 +111,8 @@
 <span class="err">@</span><span class="n">end</span>
 </code></pre></div></div>
 
-<p>Implementation file.</p>
+<p>Implementation file, <code class="language-plaintext highlighter-rouge">react-native-sequel.mm</code>:</p>
+
 <div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "Sequel.h"
 #import &lt;React/RCTBridge+Private.h&gt;
 #import &lt;React/RCTUtils.h&gt;
@@ -137,12 +149,13 @@
 </code></pre></div></div>
 
 <p>Without going into detail, a couple of things to notice:</p>
+
 <ul>
   <li>We are importing the <strong>React/RCTBridge+Private</strong> header file, which is the one that exposes the jsi bindings.</li>
-  <li>The important work is done on the <strong>setBridge</strong> function, here we get a reference to the <code class="language-plaintext highlighter-rouge">cxxBridge.runtime</code>, this is a <strong>runtime</strong> object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a <em>install[YOUR_PROJECT_NAME]</em> function where we will create the JSI functions.</li>
+  <li>The important work is done on the <strong>setBridge</strong> function, here we get a reference to the <code class="language-plaintext highlighter-rouge">cxxBridge.runtime</code>, this is a <strong>runtime</strong> object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a <code class="language-plaintext highlighter-rouge">installSequel</code> (you can rename it later) function where we will create the JSI bindings.</li>
 </ul>
 
-<h3 id="writing-our-bindings">Writing our bindings</h3>
+<h3 id="actual-bindings">Actual bindings</h3>
 
 <p>You can now go to the <code class="language-plaintext highlighter-rouge">cpp</code> folder in the root of the project, there builder-bob should have created some basic c++ for you to use, you can delete it and create a header file (react-native-sequel.h in my case) and it’s implementation (react-native-sequel.cpp).</p>
 
@@ -154,6 +167,7 @@
 <span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">();</span>
 </code></pre></div></div>
+
 <blockquote>
   <p>We are basically exposing the two functions we used in the bridging code inside the iOS folder</p>
 </blockquote>
@@ -199,9 +213,17 @@
 <span class="p">}</span>
 </code></pre></div></div>
 
-<p>Unfortunately, there is <strong>0</strong> documentation for the JSI bridge and it’s bindings… You will have to resort reading the <a href="https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp">JSI source code</a>.</p>
+<p>As of this writing there is little documentation for the JSI bridge and it’s bindings, the <a href="https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp">JSI source code</a> is the best source of information, but some descriptions:</p>
 
-<p><code class="language-plaintext highlighter-rouge">jsi::Value</code> is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an <a href="https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp">example</a>). There are also other methods, in the code I present I’m using <code class="language-plaintext highlighter-rouge">jsi::detail::throwJSError</code> to throw a JS error to the javascript code. Note that the function we created is synchronous, and because it can throw an error, you need to wrap it in a try/catch when you call it from the JavaScript side.</p>
+<h3 id="jsivalue">jsi::Value</h3>
+
+<p>Is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an <a href="https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp">example</a>)</p>
+
+<h3 id="jsidetailthrowjserror">jsi::detail::throwJSError</h3>
+
+<p>To throw a JS error to the javascript code. Note that the function we created is synchronous, and because it can throw an error, you need to wrap it in a try/catch when you call it from the JavaScript side.</p>
+
+<h3 id="careful-with-c-and-memory-management">Careful with C++ and memory management</h3>
 
 <p>There are other convenience methods for dealing with JSIValues such as <code class="language-plaintext highlighter-rouge">isNumber</code>, <code class="language-plaintext highlighter-rouge">isString</code> (do note that javascript numbers are always doubles). Once you start dealing with objects things get more complicated, you need to be able to move (<code class="language-plaintext highlighter-rouge">std::move</code>) values around, so that they don’t get wiped from memory once your function ends.</p>
 
@@ -219,10 +241,10 @@
 
 <p>and finally on the react-native app that uses this module:</p>
 
-<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react</span><span class="dl">'</span><span class="p">;</span>
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
 
-<span class="k">import</span> <span class="p">{</span> <span class="nx">StyleSheet</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Text</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native</span><span class="dl">'</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">multiplyA</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native-sequel</span><span class="dl">'</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">StyleSheet</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Text</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">multiplyA</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-sequel</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="p">[</span><span class="nx">result</span><span class="p">,</span> <span class="nx">setResult</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="o">&lt;</span><span class="kr">number</span> <span class="o">|</span> <span class="kc">undefined</span><span class="o">&gt;</span><span class="p">();</span>
@@ -241,8 +263,8 @@
 <span class="kd">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
   <span class="na">container</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-    <span class="na">alignItems</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">alignItems</span><span class="p">:</span> <span class="dl">"</span><span class="s2">center</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">"</span><span class="s2">center</span><span class="dl">"</span><span class="p">,</span>
   <span class="p">},</span>
   <span class="na">box</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">width</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
@@ -252,15 +274,157 @@
 <span class="p">});</span>
 </code></pre></div></div>
 
-<h2 id="conclussion">Conclussion</h2>
+<h1 id="android-side">Android side</h1>
 
-<p>The code is on <a href="https://github.com/ospfranco/react-native-jsi-template">github</a> if you want to explore it on your own.</p>
+<p>Now that we have a working iOS implementation, we can take a look into android.</p>
 
-<p>Many thanks to <a href="https://twitter.com/inkdrop_app">Takuya</a> for creating his <a href="https://github.com/craftzdog/react-native-quick-base64">base64 implementation</a> (I basically copied and pasted a lot of his code)</p>
+<p>We are going to start by modifying the file inside <code class="language-plaintext highlighter-rouge">android/CMakeLists.txt</code>, this file tells the android compilation process which c++ files to compile, you should have something like this:</p>
 
-<p>You also want to check <a href="https://github.com/react-native-async-storage/async-storage/issues/291">this sample</a> by <a href="https://twitter.com/jarredsumner">Jarred Sumner</a>, which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).</p>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake_minimum_required(VERSION 3.4.1)
 
-<p>I created a new <a href="https://github.com/ospfranco/react-native-quick-sqlite">SQLite react-native library</a>, check it out to learn how to do Android bindings and a lot of other neat things! leave it a star too please!</p>
+set (CMAKE_VERBOSE_MAKEFILE ON)
+set (CMAKE_CXX_STANDARD 11)
+
+include_directories(
+            ../cpp
+            ../../../node_modules/react-native/React
+            ../../../node_modules/react-native/React/Base
+            ../../../node_modules/react-native/ReactCommon/jsi
+)
+
+add_library(sequel
+  SHARED
+  ../../../node_modules/react-native/ReactCommon/jsi/jsi/jsi.cpp
+  ../cpp/sequel.cpp
+  ../cpp/sequel.h
+  ../cpp/react-native-sequel.cpp
+  ../cpp/react-native-sequel.h
+  cpp-adapter.cpp
+)
+
+target_link_libraries(sequel)
+</code></pre></div></div>
+
+<blockquote>
+  <p>Basically, I upgraded C++ to version 14, the include directories needs to contain the folder where your .cpp files are, then declare a ‘library’ with the exact files that need to be compiled and finally, link that library.</p>
+</blockquote>
+
+<p>Then we can move on to the <code class="language-plaintext highlighter-rouge">android/cpp-adapter.cpp</code> file, this is similar to <code class="language-plaintext highlighter-rouge">react-native-sequel.mm</code> file we created for iOS, it’s the entry point to register the bindings. Modify it to include the <code class="language-plaintext highlighter-rouge">react-native-sequel.h</code> header file (or whatever you will call your package), and you should have something like this:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;jni.h&gt;
+#include "react-native-quick-sqlite.h"
+</span>
+<span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
+<span class="nf">Java_com_reactnativesequel_SequelModule_initialize</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">jsiPtr</span><span class="p">,</span> <span class="n">jstring</span> <span class="n">docPath</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">jboolean</span> <span class="n">isCopy</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">docPathString</span> <span class="o">=</span> <span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStringUTFChars</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">isCopy</span><span class="p">);</span> <span class="c1">// This is might not be necessary, but my library moves files in the android file system, so this is just how to pass an android variable to the C++ size</span>
+
+  <span class="n">installSequel</span><span class="p">(</span><span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">jsiPtr</span><span class="p">),</span> <span class="n">docPathString</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
+<span class="nf">Java_com_reactnativesequel_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">cleanUpSequel</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>You can see we get an instance of the JSI bridge and again we have two functions that install and clean up the bindings, I won’t bore you with the details, the only detail you need to be careful is that the functions names will be converted into the Java package name to be imported later on (Java_com_reactnativesequel_SequelModule_initialize -&gt; com.reactnativesequel)</p>
+</blockquote>
+
+<h3 id="initialize-the-c">Initialize the C++</h3>
+
+<p>The previous file initializes the C++ as a callable Java module, but unlike on iOS, it’s not automatically registered, create a new file <code class="language-plaintext highlighter-rouge">android/src/main/java/com/reactnativesequel/SequelModule.java</code> and put this inside of it:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.reactnativesequel</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">androidx.annotation.NonNull</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactContextBaseJavaModule</span><span class="o">;</span>
+
+<span class="kd">class</span> <span class="nc">SequelModule</span> <span class="kd">extends</span> <span class="nc">ReactContextBaseJavaModule</span> <span class="o">{</span>
+  <span class="kd">static</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">loadLibrary</span><span class="o">(</span><span class="s">"sequel"</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="kt">long</span> <span class="n">jsiPtr</span><span class="o">,</span> <span class="nc">String</span> <span class="n">docDir</span><span class="o">);</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">destruct</span><span class="o">();</span>
+
+  <span class="kd">public</span> <span class="nf">SequelModule</span><span class="o">(</span><span class="nc">ReactApplicationContext</span> <span class="n">reactContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">reactContext</span><span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"Sequel"</span><span class="o">;</span>
+  <span class="o">}</span>
+
+
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
+
+    <span class="nc">SequelModule</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">().</span><span class="na">getJavaScriptContextHolder</span><span class="o">().</span><span class="na">get</span><span class="o">(),</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">().</span><span class="na">getFilesDir</span><span class="o">().</span><span class="na">getAbsolutePath</span><span class="o">()</span>
+    <span class="o">);</span>
+  <span class="o">}</span>
+
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCatalystInstanceDestroy</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">SequelModule</span><span class="o">.</span><span class="na">destruct</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p>builder-bob probably created a kotlin version of this file, you can delete that one (or make it work if you like kotlin)</p>
+</blockquote>
+
+<p>Android being android will also require an additional <code class="language-plaintext highlighter-rouge">Package</code> file, <code class="language-plaintext highlighter-rouge">android/src/main/java/com/reactnativesequel/SequelPackage.java</code>:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.reactnativesequel</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">androidx.annotation.NonNull</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">com.facebook.react.ReactPackage</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.NativeModule</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.uimanager.ViewManager</span><span class="o">;</span>
+
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Collections</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
+
+
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SequelPackage</span> <span class="kd">implements</span> <span class="nc">ReactPackage</span> <span class="o">{</span>
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">NativeModule</span><span class="o">&gt;</span> <span class="nf">createNativeModules</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="nc">ReactApplicationContext</span> <span class="n">reactContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.&lt;</span><span class="nc">NativeModule</span><span class="o">&gt;</span><span class="n">asList</span><span class="o">(</span><span class="k">new</span> <span class="nc">SequelModule</span><span class="o">(</span><span class="n">reactContext</span><span class="o">));</span>
+  <span class="o">}</span>
+
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ViewManager</span><span class="o">&gt;</span> <span class="nf">createViewManagers</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="nc">ReactApplicationContext</span> <span class="n">reactContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">emptyList</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="and-voila">And voila!</h2>
+
+<p>Done, both iOS and Android bindings should now be working!</p>
+
+<p>Partial code (only iOS) <a href="https://github.com/ospfranco/react-native-jsi-template">github</a> if you want to explore it on your own.</p>
+
+<p>Many thanks to <a href="https://twitter.com/inkdrop_app">Takuya</a> for creating his <a href="https://github.com/craftzdog/react-native-quick-base64">base64 implementation</a></p>
+
+<p>You also want to check <a href="https://github.com/react-native-async-storage/async-storage/issues/291">this snippet</a> by <a href="https://twitter.com/jarredsumner">Jarred Sumner</a>, which also contains a lot usage about the JSI methods.</p>
 
   </div>
 

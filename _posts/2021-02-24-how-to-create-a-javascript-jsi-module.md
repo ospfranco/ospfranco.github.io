@@ -1,32 +1,43 @@
 ---
 layout: post
-title: How to create a react-native JSI module
+title: React-native JSI module tutorial
 date: 2021-02-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
 
-JSI is a new translation layer between the JavaScript and C++, it's implemented on the JavaScript engine itself and it's a lot faster than the React-Native bridge. This is simple guide to creating your own JSI module, there are some tutorials out there and many repos, but they all do a poor job at explaining what is actually going on and what you need to do.
+# Before you start
 
-> Please note; **I do not know Objective-C** and I barely know C++, all I did was look at other repos, look at source code and try to understand what is going on.
+I created a [SQLite react-native library](https://github.com/ospfranco/react-native-quick-sqlite) it's super fast and the reason I could write this article, it would be great if you can leave a star on it!
+
+If you are interested in other react-native content, check out my course of [react-native for macOS](https://www.newline.co/courses/building-react-native-apps-for-mac), it really helps me to put great content if you buy it!
+
+# JSI
+
+JSI is a new translation layer between the JavaScript and C++, it's implemented on the JS engine itself and it's a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.
 
 ## Creating the base module
 
-We are going to create a separate module because scaffolding is easier, we are going to use [react-native-builder-bob](https://github.com/callstack/react-native-builder-bob), builder-bob already supports creating cpp modules, via the old bridge.
+We are going to use [react-native-builder-bob](https://github.com/callstack/react-native-builder-bob), to scaffold a new (separate) module, builder-bob already supports creating cpp modules, via the old bridge.
 
-Start by initializing a new module:
+Start by initializing:
 
 ```bash
 npx react-native-builder-bob create react-native-awesome-module
 ```
 
-It will ask you a bunch of questions, at some point it will also ask you which type of project you want, select the **C++** option, this won't create a JSI module, but it will set up the scaffolding necessary for compilation.
+After a bunch of questions, it will also ask you which type of project you want, select the **C++** option, this won't create a JSI module, but it will set up the necessary compilation for C++.
 
-### Installing the JSI bindings
+# Start with iOS
 
-Go to the `iOS` folder and modify the created **header file** (.h) and **obj-c file** (.mm), wherever you see "react-native-sequel" just replace your package name. You should have something like this:
+Go to the `iOS` folder and modify the created **header file** (.h) and **obj-c file** (.mm).
 
-Header file.
+> Note: Wherever you see "react-native-sequel" just replace your package name.
+
+You should have something like this:
+
+Header file, `react-native-sequel.h`:
+
 ```c++
 #import <React/RCTBridgeModule.h>
 #import "react-native-sequel.h"
@@ -38,7 +49,8 @@ Header file.
 @end
 ```
 
-Implementation file.
+Implementation file, `react-native-sequel.mm`:
+
 ```obj-c
 #import "Sequel.h"
 #import <React/RCTBridge+Private.h>
@@ -76,10 +88,11 @@ RCT_EXPORT_MODULE()
 ```
 
 Without going into detail, a couple of things to notice:
-- We are importing the **React/RCTBridge+Private** header file, which is the one that exposes the jsi bindings.
-- The important work is done on the **setBridge** function, here we get a reference to the `cxxBridge.runtime`, this is a **runtime** object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a *install\[YOUR_PROJECT_NAME]* function where we will create the JSI functions.
 
-### Writing our bindings
+- We are importing the **React/RCTBridge+Private** header file, which is the one that exposes the jsi bindings.
+- The important work is done on the **setBridge** function, here we get a reference to the `cxxBridge.runtime`, this is a **runtime** object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a `installSequel` (you can rename it later) function where we will create the JSI bindings.
+
+### Actual bindings
 
 You can now go to the `cpp` folder in the root of the project, there builder-bob should have created some basic c++ for you to use, you can delete it and create a header file (react-native-sequel.h in my case) and it's implementation (react-native-sequel.cpp).
 
@@ -92,6 +105,7 @@ For our header file:
 void installSequel(facebook::jsi::Runtime& jsiRuntime);
 void cleanUpSequel();
 ```
+
 > We are basically exposing the two functions we used in the bridging code inside the iOS folder
 
 For our implementation:
@@ -136,9 +150,17 @@ void cleanUpSequel() {
 }
 ```
 
-Unfortunately, there is **0** documentation for the JSI bridge and it's bindings... You will have to resort reading the [JSI source code](https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp).
+As of this writing there is little documentation for the JSI bridge and it's bindings, the [JSI source code](https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp) is the best source of information, but some descriptions:
 
-`jsi::Value` is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an [example](https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp)). There are also other methods, in the code I present I'm using `jsi::detail::throwJSError` to throw a JS error to the javascript code. Note that the function we created is synchronous, and because it can throw an error, you need to wrap it in a try/catch when you call it from the JavaScript side.
+### jsi::Value
+
+Is a wrapper for javascript values, there are some values you can create directly by just calling it, for example booleans and numbers, other stuff like strings are a bit more complex, they require encoding (ex. UTF8) to decode/encode (here is an [example](https://github.com/craftzdog/react-native-quick-base64/blob/master/cpp/react-native-quick-base64.cpp))
+
+### jsi::detail::throwJSError
+
+To throw a JS error to the javascript code. Note that the function we created is synchronous, and because it can throw an error, you need to wrap it in a try/catch when you call it from the JavaScript side.
+
+### Careful with C++ and memory management
 
 There are other convenience methods for dealing with JSIValues such as `isNumber`, `isString` (do note that javascript numbers are always doubles). Once you start dealing with objects things get more complicated, you need to be able to move (`std::move`) values around, so that they don't get wiped from memory once your function ends.
 
@@ -158,10 +180,10 @@ export function multiplyA(): number {
 and finally on the react-native app that uses this module:
 
 ```tsx
-import * as React from 'react';
+import * as React from "react";
 
-import { StyleSheet, View, Text } from 'react-native';
-import { multiplyA } from 'react-native-sequel';
+import { StyleSheet, View, Text } from "react-native";
+import { multiplyA } from "react-native-sequel";
 
 export default function App() {
   const [result, setResult] = React.useState<number | undefined>();
@@ -180,8 +202,8 @@ export default function App() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
+    alignItems: "center",
+    justifyContent: "center",
   },
   box: {
     width: 60,
@@ -191,12 +213,152 @@ const styles = StyleSheet.create({
 });
 ```
 
-## Conclussion
+# Android side
 
-The code is on [github](https://github.com/ospfranco/react-native-jsi-template) if you want to explore it on your own.
+Now that we have a working iOS implementation, we can take a look into android.
 
-Many thanks to [Takuya](https://twitter.com/inkdrop_app) for creating his [base64 implementation](https://github.com/craftzdog/react-native-quick-base64) (I basically copied and pasted a lot of his code)
+We are going to start by modifying the file inside `android/CMakeLists.txt`, this file tells the android compilation process which c++ files to compile, you should have something like this:
 
-You also want to check [this sample](https://github.com/react-native-async-storage/async-storage/issues/291) by [Jarred Sumner](https://twitter.com/jarredsumner), which also contains a lot usage about the JSI methods (looking at that taught me how to cast JS numbers to/from JSIValues).
+```
+cmake_minimum_required(VERSION 3.4.1)
 
-I created a new [SQLite react-native library](https://github.com/ospfranco/react-native-quick-sqlite), check it out to learn how to do Android bindings and a lot of other neat things! leave it a star too please!
+set (CMAKE_VERBOSE_MAKEFILE ON)
+set (CMAKE_CXX_STANDARD 11)
+
+include_directories(
+            ../cpp
+            ../../../node_modules/react-native/React
+            ../../../node_modules/react-native/React/Base
+            ../../../node_modules/react-native/ReactCommon/jsi
+)
+
+add_library(sequel
+  SHARED
+  ../../../node_modules/react-native/ReactCommon/jsi/jsi/jsi.cpp
+  ../cpp/sequel.cpp
+  ../cpp/sequel.h
+  ../cpp/react-native-sequel.cpp
+  ../cpp/react-native-sequel.h
+  cpp-adapter.cpp
+)
+
+target_link_libraries(sequel)
+```
+
+> Basically, I upgraded C++ to version 14, the include directories needs to contain the folder where your .cpp files are, then declare a 'library' with the exact files that need to be compiled and finally, link that library.
+
+Then we can move on to the `android/cpp-adapter.cpp` file, this is similar to `react-native-sequel.mm` file we created for iOS, it's the entry point to register the bindings. Modify it to include the `react-native-sequel.h` header file (or whatever you will call your package), and you should have something like this:
+
+```cpp
+#include <jni.h>
+#include "react-native-quick-sqlite.h"
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_reactnativesequel_SequelModule_initialize(JNIEnv *env, jclass clazz, jlong jsiPtr, jstring docPath)
+{
+  jboolean isCopy;
+  const char *docPathString = (env)->GetStringUTFChars(docPath, &isCopy); // This is might not be necessary, but my library moves files in the android file system, so this is just how to pass an android variable to the C++ size
+
+  installSequel(*reinterpret_cast<facebook::jsi::Runtime *>(jsiPtr), docPathString);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_reactnativesequel_SequelModule_destruct(JNIEnv *env, jclass clazz)
+{
+  cleanUpSequel();
+}
+```
+
+> You can see we get an instance of the JSI bridge and again we have two functions that install and clean up the bindings, I won't bore you with the details, the only detail you need to be careful is that the functions names will be converted into the Java package name to be imported later on (Java_com_reactnativesequel_SequelModule_initialize -> com.reactnativesequel)
+
+### Initialize the C++
+
+The previous file initializes the C++ as a callable Java module, but unlike on iOS, it's not automatically registered, create a new file `android/src/main/java/com/reactnativesequel/SequelModule.java` and put this inside of it:
+
+```java
+package com.reactnativesequel;
+
+import androidx.annotation.NonNull;
+
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+
+class SequelModule extends ReactContextBaseJavaModule {
+  static {
+    System.loadLibrary("sequel");
+  }
+
+  private static native void initialize(long jsiPtr, String docDir);
+  private static native void destruct();
+
+  public SequelModule(ReactApplicationContext reactContext) {
+    super(reactContext);
+  }
+
+  @NonNull
+  @Override
+  public String getName() {
+    return "Sequel";
+  }
+
+
+  @NonNull
+  @Override
+  public void initialize() {
+    super.initialize();
+
+    SequelModule.initialize(
+      this.getReactApplicationContext().getJavaScriptContextHolder().get(),
+      this.getReactApplicationContext().getFilesDir().getAbsolutePath()
+    );
+  }
+
+  @Override
+  public void onCatalystInstanceDestroy() {
+    SequelModule.destruct();
+  }
+}
+```
+
+> builder-bob probably created a kotlin version of this file, you can delete that one (or make it work if you like kotlin)
+
+Android being android will also require an additional `Package` file, `android/src/main/java/com/reactnativesequel/SequelPackage.java`:
+
+```java
+package com.reactnativesequel;
+
+import androidx.annotation.NonNull;
+
+import com.facebook.react.ReactPackage;
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.uimanager.ViewManager;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
+
+public class SequelPackage implements ReactPackage {
+  @NonNull
+  @Override
+  public List<NativeModule> createNativeModules(@NonNull ReactApplicationContext reactContext) {
+    return Arrays.<NativeModule>asList(new SequelModule(reactContext));
+  }
+
+  @NonNull
+  @Override
+  public List<ViewManager> createViewManagers(@NonNull ReactApplicationContext reactContext) {
+    return Collections.emptyList();
+  }
+```
+
+## And voila!
+
+Done, both iOS and Android bindings should now be working!
+
+Partial code (only iOS) [github](https://github.com/ospfranco/react-native-jsi-template) if you want to explore it on your own.
+
+Many thanks to [Takuya](https://twitter.com/inkdrop_app) for creating his [base64 implementation](https://github.com/craftzdog/react-native-quick-base64)
+
+You also want to check [this snippet](https://github.com/react-native-async-storage/async-storage/issues/291) by [Jarred Sumner](https://twitter.com/jarredsumner), which also contains a lot usage about the JSI methods.
