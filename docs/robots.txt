@@ -1,1 +1,1 @@
-Sitemap: https://ospfranco.github.io/sitemap.xml
+Sitemap: https://ospfranco.com/sitemap.xml

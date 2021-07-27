@@ -1,36 +1,67 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="utf-8" />
-  <link rel="shortcut icon" type="image/x-icon" href="{{site.baseurl}}/assets/favicon.ico"/>
-  {% include analytics.html %}
-  {% feed_meta %} 
-  {% seo %}
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="{{site.baseurl}}/assets/favicon.ico"
+  />
+  {% feed_meta %} {% seo %}
   <link rel="stylesheet" href="/css/site.css" />
 </head>
 
 <html class="max-h-full bg-white dark:bg-black">
-  <nav class="flex w-full py-3 px-8 sticky top-0 bg-white dark:bg-black items-center">
+  <nav
+    class="
+      flex
+      w-full
+      py-3
+      px-8
+      sticky
+      top-0
+      bg-white
+      dark:bg-black
+      items-center
+    "
+  >
     <a href="/">
-      <div class="font-bold text-2xl text-coolGray-700 dark:text-white border-b-4 border-red-500 hover:text-red-500 transition duration-200">Ospfranco</div> 
+      <div
+        class="
+          font-bold
+          text-2xl text-coolGray-700
+          dark:text-white
+          border-b-4 border-red-500
+          hover:text-red-500
+          transition
+          duration-200
+        "
+      >
+        Ospfranco
+      </div>
     </a>
     <div class="flex-1"></div>
     <div class="flex">
       <a href="https://twitter.com/ospfranco">
-        <img src="{{site.baseurl}}/assets/twitter.png" class="h-6"/>
+        <img src="{{site.baseurl}}/assets/twitter.png" class="h-6" />
       </a>
       <a href="https://github.com/ospfranco">
-        <img src="{{site.baseurl}}/assets/github.png" class="h-6 pl-4"/>
+        <img src="{{site.baseurl}}/assets/github.png" class="h-6 pl-4" />
       </a>
       <a href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q">
-        <img src="{{site.baseurl}}/assets/youtube.png" class="h-6 pl-4"/>
+        <img src="{{site.baseurl}}/assets/youtube.png" class="h-6 pl-4" />
       </a>
     </div>
   </nav>
   <body class="max-h-full flex flex-col items-center">
     {{ content }}
   </body>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
+  <link
+    rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css"
+  />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <script>hljs.initHighlightingOnLoad();</script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
 </html>

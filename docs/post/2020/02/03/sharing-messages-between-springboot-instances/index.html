@@ -1,19 +1,12 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta charset="utf-8" />
-  <link rel="shortcut icon" type="image/x-icon" href="/assets/favicon.ico"/>
-  <!-- Global site tag (gtag.js) - Google Analytics -->
-<!-- <script async src="https://www.googletagmanager.com/gtag/js?id=UA-146785440-1"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'UA-146785440-1');
-</script> -->
-
-  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.github.io/feed.xml" title="Oscar Franco" /> 
-  <!-- Begin Jekyll SEO tag v2.7.1 -->
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <link type="application/atom+xml" rel="alternate" href="https://ospfranco.com/feed.xml" title="Oscar Franco" /> <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Sharing state/messages between Springboot servers | Oscar Franco</title>
 <meta name="generator" content="Jekyll v4.2.0" />
 <meta property="og:title" content="Sharing state/messages between Springboot servers" />
@@ -21,8 +14,8 @@
 <meta property="og:locale" content="en_US" />
 <meta name="description" content="Message passing architecture between monolithic deployments via Redis" />
 <meta property="og:description" content="Message passing architecture between monolithic deployments via Redis" />
-<link rel="canonical" href="https://ospfranco.github.io/post/2020/02/03/sharing-messages-between-springboot-instances/" />
-<meta property="og:url" content="https://ospfranco.github.io/post/2020/02/03/sharing-messages-between-springboot-instances/" />
+<link rel="canonical" href="https://ospfranco.com/post/2020/02/03/sharing-messages-between-springboot-instances/" />
+<meta property="og:url" content="https://ospfranco.com/post/2020/02/03/sharing-messages-between-springboot-instances/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-02-03T14:00:00+01:00" />
@@ -31,27 +24,51 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Message passing architecture between monolithic deployments via Redis","headline":"Sharing state/messages between Springboot servers","dateModified":"2020-02-03T14:00:00+01:00","datePublished":"2020-02-03T14:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2020/02/03/sharing-messages-between-springboot-instances/"},"url":"https://ospfranco.github.io/post/2020/02/03/sharing-messages-between-springboot-instances/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"Message passing architecture between monolithic deployments via Redis","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Sharing state/messages between Springboot servers","datePublished":"2020-02-03T14:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/02/03/sharing-messages-between-springboot-instances/"},"url":"https://ospfranco.com/post/2020/02/03/sharing-messages-between-springboot-instances/","dateModified":"2020-02-03T14:00:00+01:00","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
 </head>
 
 <html class="max-h-full bg-white dark:bg-black">
-  <nav class="flex w-full py-3 px-8 sticky top-0 bg-white dark:bg-black items-center">
+  <nav
+    class="
+      flex
+      w-full
+      py-3
+      px-8
+      sticky
+      top-0
+      bg-white
+      dark:bg-black
+      items-center
+    "
+  >
     <a href="/">
-      <div class="font-bold text-2xl text-coolGray-700 dark:text-white border-b-4 border-red-500 hover:text-red-500 transition duration-200">Ospfranco</div> 
+      <div
+        class="
+          font-bold
+          text-2xl text-coolGray-700
+          dark:text-white
+          border-b-4 border-red-500
+          hover:text-red-500
+          transition
+          duration-200
+        "
+      >
+        Ospfranco
+      </div>
     </a>
     <div class="flex-1"></div>
     <div class="flex">
       <a href="https://twitter.com/ospfranco">
-        <img src="/assets/twitter.png" class="h-6"/>
+        <img src="/assets/twitter.png" class="h-6" />
       </a>
       <a href="https://github.com/ospfranco">
-        <img src="/assets/github.png" class="h-6 pl-4"/>
+        <img src="/assets/github.png" class="h-6 pl-4" />
       </a>
       <a href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q">
-        <img src="/assets/youtube.png" class="h-6 pl-4"/>
+        <img src="/assets/youtube.png" class="h-6 pl-4" />
       </a>
     </div>
   </nav>
@@ -76,14 +93,14 @@
 
 <p>Let’s take for example a chat application, the user opens you app and starts a websocket connection to your server so he can start receiving messages in real time, if you only had one instance of your server there is not much work needed at this point, users sends message, you insert it into the database and then redistribute the message to all (pertinent) connected users and/or schedule a wave of push notifications, however, with multiple instances the problem is not easy:</p>
 
-<p><img src="https://ospfranco.github.io/assets/connections.png" alt="Initial Architecture" title="Initial Architecture" /></p>
+<p><img src="https://ospfranco.com/assets/connections.png" alt="Initial Architecture" title="Initial Architecture" /></p>
 
 <p>Not all the clients might be connected (via websocket) to the same instance, therefore you need to find a way to distribute the message between the different instances of your service,
 now one option would be to hook up to the database after each transaction, retrieve the message and have each instance notify the subscribed clients, but that is technically fairly complicated.</p>
 
 <p>Another alternative is to use redis, so, in a nutshell you put a redis instance which hooks up to all of your server instances and you use it in pub/sub mode:</p>
 
-<p><img src="https://ospfranco.github.io/assets/connections-1.png" alt="Redis Topology" title="Redis Topology" /></p>
+<p><img src="https://ospfranco.com/assets/connections-1.png" alt="Redis Topology" title="Redis Topology" /></p>
 
 <p>You can read more about redis pub/sub mode <a href="https://redis.io/topics/pubsub">here</a>, the set up for redis will vary depending on your servers language, at the time I was using springboot with kotlin, <a href="https://dzone.com/articles/intro-to-redis-with-spring-boot">the set up is fairly complicated but managable</a> it suffers from the typical java OOP pain of having to create many class instances, how you connect to your clients is up to you, but websockets seems like necessary to me.</p>
 
@@ -290,8 +307,13 @@ class SocketHandlerServiceImpl : SocketHandlerService() {
 </div>
 
   </body>
-  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
+  <link
+    rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css"
+  />
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <script>hljs.initHighlightingOnLoad();</script>
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
 </html>
