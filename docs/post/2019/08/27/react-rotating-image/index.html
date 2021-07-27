@@ -59,16 +59,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Rotate React image based on EXIF</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       August 2019
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.</p>
+
+  <div class="markdown md:w-600 pb-44"><p>When I was working at WerkerApp, I found a bug with images taken on a mobile but displayed in a web browser, for some reason in the year 2018 (at the time) browsers did not automatically rotate images based on their EXIF data.</p>
 
 <p><img src="https://ospfranco.github.io/assets/Jannis1.jpeg" alt="Jannis twisted" title="Jannis twisted" /></p>
 
@@ -165,10 +165,9 @@
 <p>Now, don’t get me wrong, this is an absolute hack and I hate the browser vendors for making me do this to myself and the world.</p>
 
 <p>Most library processing images on the back-end take care of this automatically, but if you simply store the images coming in from the mobile devices, without any processing pipeline, this one will bite you in the arsch, well at least now you have one solution. Cheers.</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

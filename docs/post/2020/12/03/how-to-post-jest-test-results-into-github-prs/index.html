@@ -61,22 +61,22 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Post Jest results into Github PRs</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       December 2020
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
+
+  <div class="markdown md:w-600 pb-44"><p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
 
 <h2 id="why-leave-bitrise">Why leave Bitrise</h2>
 
 <p>Bitrise is good because the amount of available workflows and steps and how you can chain them to create your CI workflow, however, it is <strong>really slow</strong> and it also <strong>expensive</strong> for faster build machines.</p>
 
-<p>Even though we are already on a medium plan, we started having queueing slow downs, our app takes an hour to compile on iOS (plus Android and Huawei versions) and without paying more money everything slowed down, a simple PR would not get the tests to run for a solid hour  blocking the entire team.</p>
+<p>Even though we are already on a medium plan, we started having queueing slow downs, our app takes an hour to compile on iOS (plus Android and Huawei versions) and without paying more money everything slowed down, a simple PR would not get the tests to run for a solid hour blocking the entire team.</p>
 
 <h2 id="github-actions-are-quite-good-actually">Github Actions are quite good actually</h2>
 
@@ -144,10 +144,9 @@
 <p><img src="https://ospfranco.github.io/assets/gh-jester.png" alt="gh-jester comment" title="gh-jester" /></p>
 
 <p>And that is it! Now all the info for your PR is right on the comment section, enjoy!</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

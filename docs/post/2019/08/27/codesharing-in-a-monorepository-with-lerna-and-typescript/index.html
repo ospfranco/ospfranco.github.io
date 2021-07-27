@@ -59,16 +59,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Monorepo codesharing (with lerna.js and typescript)</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       August 2019
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <h1 id="update-april-2021">Update April 2021</h1>
+
+  <div class="markdown md:w-600 pb-44"><h1 id="update-april-2021">Update April 2021</h1>
 <p>The original article below is fairly old, the community is moving away from Lerna due to the complexity it introduces.</p>
 
 <p>If you need to share code between apps I recommend for you to go with <a href="https://www.typescriptlang.org/docs/handbook/project-references.html">TypeScript project references</a>. <a href="https://github.com/RyanCavanaugh/project-references-demo">Check this repo</a> by Ryan Cavanaugh for a working example.</p>
@@ -176,10 +176,9 @@ lerna add wa-core — scope=mobile
 </code></pre></div></div>
 
 <p>To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

@@ -8,7 +8,7 @@ location: Munich
 image: assets/taco.png
 twitter:
   username: "ospfranco"
-  image: "assets/profile.jpg"
+  image: "assets/profile.jpeg"
 ---
 
 At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions
@@ -17,7 +17,7 @@ At BodyFast we recently decided to migrate out of Bitrise for our javascript tes
 
 Bitrise is good because the amount of available workflows and steps and how you can chain them to create your CI workflow, however, it is **really slow** and it also **expensive** for faster build machines.
 
-Even though we are already on a medium plan, we started having queueing slow downs, our app takes an hour to compile on iOS (plus Android and Huawei versions) and without paying more money everything slowed down, a simple PR would not get the tests to run for a solid hour  blocking the entire team.
+Even though we are already on a medium plan, we started having queueing slow downs, our app takes an hour to compile on iOS (plus Android and Huawei versions) and without paying more money everything slowed down, a simple PR would not get the tests to run for a solid hour blocking the entire team.
 
 ## Github Actions are quite good actually
 

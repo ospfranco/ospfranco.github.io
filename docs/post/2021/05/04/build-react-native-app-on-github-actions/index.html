@@ -59,16 +59,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Building a react-native app on github actions</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       May 2021
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.</p>
+
+  <div class="markdown md:w-600 pb-44"><p>At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.</p>
 
 <p>That being said; it works well and their huge gallery steps probably cover 95% of the stuff you need from a mobile CI, however, we recently started hitting our heads against the ceiling. After migrating to the latest version of React Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next pricing tier was too vaguely priced for us to comfortably accept it.</p>
 
@@ -298,10 +298,9 @@
 <p>The speed has me super happy and everything is now integrated with github (our code, our issues and now our CI) which makes my life easier. I’m sure there are a few hairs here and there that need to be trimmed, but so far no complains. Github Actions are not perfect (fucking yaml… why do we keep using yaml?!) but hopefully you will find this guide useful if you are tired of abandonware (appcenter), slow CIs (bitrise), plain confusing (CircleCI).</p>
 
 <p>Having the Github building your app is amazing, but sometimes you might want to take it a step further and receive notifications once your app is built, if so, you should definitely check <a href="https://ospfranco.github.io/cidemon/">CI Demon</a>, it’s an app that I made that helps you keep track of your CI.</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

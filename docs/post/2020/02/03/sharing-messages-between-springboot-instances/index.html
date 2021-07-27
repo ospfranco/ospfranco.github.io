@@ -59,16 +59,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Sharing state/messages between Springboot servers</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       February 2020
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>Here is a post on a neat solution I learned/developed during the WerkerApp days and I haven’t gotten around to publish.</p>
+
+  <div class="markdown md:w-600 pb-44"><p>Here is a post on a neat solution I learned/developed during the WerkerApp days and I haven’t gotten around to publish.</p>
 
 <p>Imagine you have multiple instances of your (monolithic) server running somewhere in the cloud, you can have multiple instances because of scalability and/or redundancy, if one fails the others can pick up the task.</p>
 
@@ -286,10 +286,9 @@ class SocketHandlerServiceImpl : SocketHandlerService() {
 <p>You might hit bottle neck on your database, but that is not the fault of this architecture, you will reach it anyways and that point you might want to split specific table into it’s own database, this pattern should remain the same, even further scale might need for you to switch into a microservice architecture.</p>
 
 <p>If you are using a microservice architecture this might or might not be useful to you, however if you are having a monolithic architecture and you need some solution to pass messages between your instances then this will definitely help you, enjoy!</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

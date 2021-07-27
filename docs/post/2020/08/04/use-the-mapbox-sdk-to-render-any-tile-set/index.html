@@ -61,16 +61,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">How to use the Mapbox SDK to render custom tiles</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       August 2020
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>So here is a gem from the past, I won’t disclose exactly what it was used for but at a previous job I “hacked” away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.</p>
+
+  <div class="markdown md:w-600 pb-44"><p>So here is a gem from the past, I won’t disclose exactly what it was used for but at a previous job I “hacked” away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.</p>
 
 <h2 id="but-why">But… why?</h2>
 <p>Well, it’s not straightforward to see why this might be a good idea, but first of all: <strong>Performance</strong>, even though current mobile devices (smartphones and tablets) are mighty potent, if you have a large enough image, a device will have trouble rendering it, granted the problem might be barely noticeable on a iPad pro, but not everyone has such devices.</p>
@@ -319,10 +319,9 @@
 </code></pre></div></div>
 
 <p>and that is it, you should now have all the pieces necessary to render any tile set on the mapbox SDK, performant with great UX.</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

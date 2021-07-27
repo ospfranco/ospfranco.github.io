@@ -61,16 +61,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">Dynamic iOS icons (build-time)</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       September 2020
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</p>
+
+  <div class="markdown md:w-600 pb-44"><p>When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</p>
 
 <p>This is what happened to us at BodyFast this week and here is just one quick way to prevent it: give your app a different icon based on the configuration, now in the past I’ve done this via app flavors for Android and build configurations for iOS, but that process is technically convoluted and also does not work for our use case, so I needed simpler this time around.</p>
 
@@ -148,10 +148,9 @@ generateIcon "AppIcon83.5x83.5@2x~ipad.png"
 <p>and there you have it, you should be able to easily tell your different app environments now, if you couple this with your CI/CD it is even more convenient.</p>
 
 <p>Cheers</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>

@@ -59,16 +59,16 @@
     <div class="flex-1 flex flex-col items-center lg:mx-36">
   <div class="md:w-600 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-6xl dark:text-white">React Native performance tips</h1>
-    <img src="/assets/profile.jpg" class="rounded-full h-24 w-24 object-cover my-8" />
+    <img
+      src="/assets/profile.jpeg"
+      class="rounded-full h-24 w-24 object-cover my-8"
+    />
     <div class="text-gray-600 mt-2 dark:text-coolGray-300">
       August 2020
     </div>
   </div>
-  
-  <div
-    class="markdown md:w-600 pb-44"
-  >
-    <p>Recently a friend send me a link with some react-native <a href="https://blog.soshace.com/performance-optimizations-for-react-native-applications/">performance optimizations</a>, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:</p>
+
+  <div class="markdown md:w-600 pb-44"><p>Recently a friend send me a link with some react-native <a href="https://blog.soshace.com/performance-optimizations-for-react-native-applications/">performance optimizations</a>, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:</p>
 
 <h2 id="1-inlining-is-more-complex-in-functional-components">1. Inlining is more complex in functional components</h2>
 
@@ -111,10 +111,9 @@
 
 <h2 id="9-use-a-lazy-loaded-native-storage-solution">9. Use a lazy loaded native storage solution</h2>
 <p>Redux-persist and mobx-persist do the job, but if you want/need to handle thousands of items in your app and want to squeeze the last drop of performance you need to go native, using things like RxDB, WatermelonDb or Realm.js will be by far the biggest performance improvements if your app handles a lot of individual entities</p>
-
-  </div>
-
 </div>
+</div>
+
   </body>
   <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/github.min.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
