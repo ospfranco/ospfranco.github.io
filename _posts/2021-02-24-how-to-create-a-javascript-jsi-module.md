@@ -4,6 +4,10 @@ title: React-native JSI module tutorial
 date: 2021-02-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
+image: assets/profile.jpeg
+twitter:
+  username: "ospfranco"
+  image: "assets/profile.jpeg"
 ---
 
 # Before you start
