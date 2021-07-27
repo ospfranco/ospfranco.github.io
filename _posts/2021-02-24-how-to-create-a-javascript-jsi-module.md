@@ -10,15 +10,13 @@ twitter:
   image: "assets/profile.jpeg"
 ---
 
+JSI is a new translation layer between the JavaScript and C++, it's implemented on the JS engine itself and it's a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.
+
 # Before you start
 
 I created a [SQLite react-native library](https://github.com/ospfranco/react-native-quick-sqlite) it's super fast and the reason I could write this article, it would be great if you can leave a star on it!
 
 If you are interested in other react-native content, check out my course of [react-native for macOS](https://www.newline.co/courses/building-react-native-apps-for-mac), it really helps me to put great content if you buy it!
-
-# JSI
-
-JSI is a new translation layer between the JavaScript and C++, it's implemented on the JS engine itself and it's a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.
 
 ## Creating the base module
 

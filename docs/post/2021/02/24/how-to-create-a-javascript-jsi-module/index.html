@@ -19,8 +19,8 @@
 <meta property="og:title" content="React-native JSI module tutorial" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="Before you start" />
-<meta property="og:description" content="Before you start" />
+<meta name="description" content="JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module." />
+<meta property="og:description" content="JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module." />
 <link rel="canonical" href="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
 <meta property="og:url" content="https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -33,7 +33,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Before you start","image":"https://ospfranco.github.io/assets/profile.jpeg","headline":"React-native JSI module tutorial","dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.","image":"https://ospfranco.github.io/assets/profile.jpeg","headline":"React-native JSI module tutorial","dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.github.io/post/2021/02/24/how-to-create-a-javascript-jsi-module/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -70,15 +70,13 @@
     </div>
   </div>
 
-  <div class="markdown md:w-600 pb-44"><h1 id="before-you-start">Before you start</h1>
+  <div class="markdown md:w-600 pb-44"><p>JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.</p>
+
+<h1 id="before-you-start">Before you start</h1>
 
 <p>I created a <a href="https://github.com/ospfranco/react-native-quick-sqlite">SQLite react-native library</a> it’s super fast and the reason I could write this article, it would be great if you can leave a star on it!</p>
 
 <p>If you are interested in other react-native content, check out my course of <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">react-native for macOS</a>, it really helps me to put great content if you buy it!</p>
-
-<h1 id="jsi">JSI</h1>
-
-<p>JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.</p>
 
 <h2 id="creating-the-base-module">Creating the base module</h2>
 
