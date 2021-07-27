@@ -957,12 +957,22 @@ html {
 
 .markdown li {
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem
+  margin-bottom: 0.5rem;
 }
 
 .markdown blockquote {
   --tw-bg-opacity: 1;
   background-color: rgba(219, 234, 254, var(--tw-bg-opacity));
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown blockquote {
+    --tw-bg-opacity: 1;
+    background-color: rgba(30, 64, 175, var(--tw-bg-opacity));
+  }
+}
+
+.markdown blockquote {
   border-radius: 0.25rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -972,15 +982,29 @@ html {
   color: rgba(39, 39, 42, var(--tw-text-opacity));
 }
 
+@media (prefers-color-scheme: dark) {
+  .markdown blockquote {
+    --tw-text-opacity: 1;
+    color: rgba(255, 255, 255, var(--tw-text-opacity));
+  }
+}
+
 .markdown .highlighter-rouge {
   --tw-bg-opacity: 1;
   background-color: rgba(244, 244, 245, var(--tw-bg-opacity));
-  --tw-border-opacity: 1;
-  border-color: rgba(228, 228, 231, var(--tw-border-opacity));
+}
+
+@media (prefers-color-scheme: dark) {
+  .markdown .highlighter-rouge {
+    --tw-bg-opacity: 1;
+    background-color: rgba(39, 39, 42, var(--tw-bg-opacity));
+  }
+}
+
+.markdown .highlighter-rouge {
   border-radius: 0.25rem;
-  border-width: 1px;
-  padding-left: 0.25rem;
-  padding-right: 0.25rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
   --tw-text-opacity: 1;
   color: rgba(239, 68, 68, var(--tw-text-opacity));
   font-family: Tahoma;
@@ -995,7 +1019,7 @@ html {
   padding: 0.75rem;
   --tw-text-opacity: 1;
   color: rgba(39, 39, 42, var(--tw-text-opacity));
-  padding: 0!important;
+  padding: 0 !important;
 }
 
 /* code {

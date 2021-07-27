@@ -42,15 +42,15 @@ html {
 }
 
 .markdown li {
-  @apply my-2
+  @apply my-2;
 }
 
 .markdown blockquote {
-  @apply px-4 my-2 bg-blue-100 rounded text-gray-800;
+  @apply px-4 my-2 bg-blue-100 dark:bg-blue-800 dark:text-white rounded text-gray-800;
 }
 
 .markdown .highlighter-rouge {
-  @apply text-red-500 border border-gray-200 rounded bg-gray-100 px-1;
+  @apply text-red-500 px-2 rounded bg-gray-100 dark:bg-gray-800;
   font-family: Tahoma;
   padding-top: 0;
   padding-bottom: 0;
@@ -58,7 +58,7 @@ html {
 
 .markdown .highlight {
   @apply p-3 rounded text-gray-800 text-xs;
-  padding: 0!important;
+  padding: 0 !important;
 }
 
 /* code {
