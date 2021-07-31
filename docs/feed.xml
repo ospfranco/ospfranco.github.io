@@ -1,4 +1,82 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-07-27T21:33:52+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Reviewing Github’s Copilot</title><link href="https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot/" rel="alternate" type="text/html" title="Reviewing Github’s Copilot" /><published>2021-07-24T15:00:00+02:00</published><updated>2021-07-24T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot</id><content type="html" xml:base="https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot/">&lt;p&gt;Is github copilot even worth it?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-07-31T13:06:01+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Migrate RN AppDelegate to Swift</title><link href="https://ospfranco.com/post/2021/07/31/migrate-rn-appdelegate-to-swift/" rel="alternate" type="text/html" title="Migrate RN AppDelegate to Swift" /><published>2021-07-31T15:00:00+02:00</published><updated>2021-07-31T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/07/31/migrate%20rn%20appdelegate%20to%20swift</id><content type="html" xml:base="https://ospfranco.com/post/2021/07/31/migrate-rn-appdelegate-to-swift/">&lt;p&gt;It’s no secret that JS developers run away from Objective-C, why not migrate the entry point of your app to Swift?&lt;/p&gt;
+
+&lt;p&gt;Just bare in mind, this won’t make your app completely run on Swift, just the entry point, but at least it should be easier to understand at least the basic methods and entry points of other libraries/functionalities.&lt;/p&gt;
+
+&lt;p&gt;This tutorial was created with RN 0.64&lt;/p&gt;
+
+&lt;h1 id=&quot;1-delete-appdelegateh-appdelegatem-and-mainm&quot;&gt;1. Delete AppDelegate.h, AppDelegate.m and main.m&lt;/h1&gt;
+
+&lt;p&gt;Just delete this files, we won’t need them. There is one caveat here though, as time passes the code inside of the original AppDelegate might change to what is on this post, so pay attention on your own to see if any changes are necessary.&lt;/p&gt;
+
+&lt;h1 id=&quot;2-create-an-appdelegateswift&quot;&gt;2. Create an AppDelegate.swift&lt;/h1&gt;
+
+&lt;p&gt;Right-click the base folder -&amp;gt; New file… -&amp;gt; Swift file -&amp;gt; AppDelegate.swift, after you create it XCode should ask you if you want to create a Bridging header file, click on yes.&lt;/p&gt;
+
+&lt;p&gt;The content of the new &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;AppDelegate.swift&lt;/code&gt; file:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Foundation&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIKit&lt;/span&gt;
+
+&lt;span class=&quot;kd&quot;&gt;@UIApplicationMain&lt;/span&gt;
+&lt;span class=&quot;kd&quot;&gt;class&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;AppDelegate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIResponder&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplicationDelegate&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIWindow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;
+  &lt;span class=&quot;k&quot;&gt;var&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;bridge&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RCTBridge&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;!&lt;/span&gt;
+
+  &lt;span class=&quot;kd&quot;&gt;func&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;_&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;application&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;didFinishLaunchingWithOptions&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;UIApplication&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;kt&quot;&gt;LaunchOptionsKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Any&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]?)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;Bool&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;jsCodeLocation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;URL&lt;/span&gt;
+
+    &lt;span class=&quot;n&quot;&gt;jsCodeLocation&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RCTBundleURLProvider&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;sharedSettings&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;jsBundleURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;forBundleRoot&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;index&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;fallbackResource&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt;&lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rootView&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;RCTRootView&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;bundleURL&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;jsCodeLocation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;moduleName&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&quot;YOUR_PROJECT_NAME&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;initialProperties&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;nil&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;launchOptions&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;rootViewController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIViewController&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+    &lt;span class=&quot;n&quot;&gt;rootViewController&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;view&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rootView&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIWindow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;frame&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kt&quot;&gt;UIScreen&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;main&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;bounds&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;rootViewController&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;rootViewController&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;self&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;window&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;?&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;makeKeyAndVisible&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;()&lt;/span&gt;
+
+    &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;kc&quot;&gt;true&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;3-fill-the-bridging-header&quot;&gt;3. Fill the bridging header&lt;/h1&gt;
+
+&lt;p&gt;On your bridging header put the following content:&lt;/p&gt;
+
+&lt;div class=&quot;language-swift highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTBridgeModule.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTBridge.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTEventDispatcher.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTRootView.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTUtils.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTConvert.h&amp;gt;&lt;/span&gt;
+&lt;span class=&quot;cp&quot;&gt;#import &amp;lt;React/RCTBundleURLProvider.h&amp;gt;&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h1 id=&quot;4-fix-swift-compilation&quot;&gt;4. Fix swift compilation&lt;/h1&gt;
+
+&lt;p&gt;If you try to build the application you will get some errors regarding missing swift dependencies, I can’t really explain why this is happening, but in order to solve it go to your project build setting’s and change the library search paths as follows:&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;On the project wide settings&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/swift_project_settings.jpg&quot; alt=&quot;Project settings&quot; title=&quot;Project settings&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Delete the old entries and replace them with a single entry looking for the swift-5.2 libraries&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;On the target settings&lt;/strong&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/swift_target_settings.jpg&quot; alt=&quot;Target settings&quot; title=&quot;Target settings&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Add a new entry just like the one you left at the project level settings&lt;/p&gt;
+
+&lt;h1 id=&quot;5-profit&quot;&gt;5. Profit&lt;/h1&gt;
+
+&lt;p&gt;You should now be able to compile your React Native application!&lt;/p&gt;
+
+&lt;p&gt;As stated this doesn’t mean that your app is now running on Swift, but might make it easier for you to add functionality on the native side of things. I started this work because I’m looking into turbo modules and objective-c is just too damn hard to understand to the untrained eye, so I’m expecting it will help me solve the mysteries of enabling Turbo Modules.&lt;/p&gt;
+
+&lt;p&gt;I haven’t used technique in production, so integrating other libraries in an open question for me. The lifecycle methods should be easy enough for you to figure out, but importing and calling obj-c libraries might require a bit of work.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;This technique was inspired by the work I did on my React Native for macOS online course, &lt;a href=&quot;https://www.newline.co/courses/building-react-native-apps-for-mac&quot;&gt;check it out&lt;/a&gt;!&lt;/strong&gt;&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">It’s no secret that JS developers run away from Objective-C, why not migrate the entry point of your app to Swift?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reviewing Github’s Copilot</title><link href="https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot/" rel="alternate" type="text/html" title="Reviewing Github’s Copilot" /><published>2021-07-24T15:00:00+02:00</published><updated>2021-07-24T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot</id><content type="html" xml:base="https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot/">&lt;p&gt;Is github copilot even worth it?&lt;/p&gt;
 
 &lt;p&gt;Github’s Copilot is an AI assistant, trained on github’s vast codebase (including repos with disparate OSS licenses), it aims to fill the gaps by throwing code at your face while you go about your day.&lt;/p&gt;
 
@@ -603,33 +681,4 @@ com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
 
 &lt;p&gt;The documentation directly mentions that if you don’t need NDK support, you can switch your dependency from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android-core&lt;/code&gt;. So I opened to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node_modules/@sentry/react-native/android/build.gradle&lt;/code&gt; and changed the dependency there from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android-core&lt;/code&gt;. Then saved a patch with &lt;a href=&quot;https://github.com/ds300/patch-package&quot;&gt;patch-package&lt;/a&gt;.&lt;/p&gt;
 
-&lt;p&gt;Afterwards I simply built the app again (if you are doing local builds, you might want to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./gradlew clean&lt;/code&gt; on your android folder to get rid of any caches), and &lt;strong&gt;it removes ~1.2 megabytes of the size of the app&lt;/strong&gt;.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At work I convinced my team to switch from Crashlytics to Sentry. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</summary></entry><entry><title type="html">React-i18next trans component explained</title><link href="https://ospfranco.com/post/2021/04/20/how-does-react-i18next-trans-component-work/" rel="alternate" type="text/html" title="React-i18next trans component explained" /><published>2021-04-20T15:00:00+02:00</published><updated>2021-04-20T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/04/20/how-does-react-i18next-trans-component-work</id><content type="html" xml:base="https://ospfranco.com/post/2021/04/20/how-does-react-i18next-trans-component-work/">&lt;p&gt;Recently I had to use the react-i18next &lt;a href=&quot;https://react.i18next.com/latest/trans-component&quot;&gt;trans component&lt;/a&gt;, here is the first line of the documentation:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;While the Trans component gives you a lot of power by letting you interpolate or translate complex react elements - the truth is - in most cases you won’t need it.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;p&gt;And then it goes on and on about other minutia, but it never explains how it actually works and all the other info I could find is terrible. Nobody actually explains how it works.&lt;/p&gt;
-
-&lt;h1 id=&quot;the-30-second-pitch&quot;&gt;The 30 second pitch&lt;/h1&gt;
-
-&lt;p&gt;Here is a simple example (ignore the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Trans&lt;/code&gt; tag for now), I basically have a small text, where I need to bold the email of the user.&lt;/p&gt;
-
-&lt;div class=&quot;language-tsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Trans&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;i18nKey&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;webOnboarding.signInInstruction3&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-  Enter your email address &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;span&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;className&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&quot;font-bold&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;span&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; and password
-&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Trans&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;So how does &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Trans&lt;/code&gt; work? it will start with an internal counter at &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0&lt;/code&gt;. It will walk until it finds a sub-component (in our case the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;span&lt;/code&gt; tag), then increase the counter, when the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;span&lt;/code&gt; closes it will increase the counter again.&lt;/p&gt;
-
-&lt;p&gt;So basically the string passed to it, ends up something like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-tsx highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;Enter your email address &lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;email&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;1&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; and password&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;2&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;My translated string looks like this:&lt;/p&gt;
-
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&quot;signInInstruction3&quot;: &quot;Enter your email address &amp;lt;1&amp;gt;{{email}}&amp;lt;/1&amp;gt; and password&quot;,
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;So it will do more or less the same algorithm as it did on the JSX code but you have given it a hand to see what needs to go in the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;1&lt;/code&gt; tag. Afterwards it can just replace the content and your translation is correctly inserted in your code.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Recently I had to use the react-i18next trans component, here is the first line of the documentation:</summary></entry></feed>
+&lt;p&gt;Afterwards I simply built the app again (if you are doing local builds, you might want to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./gradlew clean&lt;/code&gt; on your android folder to get rid of any caches), and &lt;strong&gt;it removes ~1.2 megabytes of the size of the app&lt;/strong&gt;.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At work I convinced my team to switch from Crashlytics to Sentry. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</summary></entry></feed>

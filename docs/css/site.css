@@ -617,11 +617,6 @@ video {
   line-height: 1;
 }
 
-.text-8xl {
-  font-size: 6rem;
-  line-height: 1;
-}
-
 .leading-10 {
   line-height: 2.5rem;
 }
@@ -697,10 +692,6 @@ video {
   padding-bottom: 2.5rem;
 }
 
-.pl-10 {
-  padding-left: 2.5rem;
-}
-
 .pt-20 {
   padding-top: 5rem;
 }
@@ -711,10 +702,6 @@ video {
 
 .pb-44 {
   padding-bottom: 11rem;
-}
-
-.pl-44 {
-  padding-left: 11rem;
 }
 
 .static {
