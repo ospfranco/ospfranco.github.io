@@ -12,9 +12,10 @@ layout: default
       justify-center
       px-8
       md:px-0
+      pb-16
     "
   >
-    <div class="w-52">
+    <div class="md:w-52">
       <img
         src="{{site.baseurl}}/assets/profile.jpeg"
         class="h-36 w-36 rounded-full object-cover"
@@ -25,7 +26,7 @@ layout: default
         class="
           text-coolGray-900
           dark:text-white
-          text-6xl
+          text-5xl
           md:text-8xl
           font-semibold
         "
@@ -33,12 +34,31 @@ layout: default
         Hi, my name is Oscar
       </div>
       <div
-        class="text-coolGray-500 dark:text-coolGray-100 leading-10 mt-4 text-xl"
+        class="
+          text-coolGray-500
+          dark:text-coolGray-300
+          leading-10
+          mt-4
+          text-lg
+          md:text-xl
+        "
       >
-        Full stack dev with lots of experience, also an Indie Hacker.<br />Writing
-        about software, scroll down to learn more.
+        Full stack dev with lots of experience, also an Indie Hacker.
+      </div>
+      <div
+        class="
+          text-coolGray-500
+          dark:text-coolGray-300
+          leading-10
+          mt-4
+          text-lg
+          md:text-xl
+        "
+      >
+        Write about software.
       </div>
     </div>
+    <div class="text-red-500 leading-10 mt-4 text-7xl md:hidden">ˬ</div>
   </div>
 
   <div class="pl-8 md:px-0 md:pl-44 py-20">
@@ -75,7 +95,15 @@ layout: default
   </div>
 
   <div class="pl-8 md:pl-44 pt-20 pb-10">
-    <div class="text-coolGray-900 dark:text-white text-6xl font-semibold">
+    <div
+      class="
+        text-coolGray-900
+        dark:text-white
+        text-4xl
+        md:text-6xl
+        font-semibold
+      "
+    >
       My writing
     </div>
   </div>
@@ -83,8 +111,18 @@ layout: default
   <div class="md:pl-10 pb-40">
     {% for post in site.posts %}
     <a href="{{ post.url }}">
-      <div class="w-full py-2 flex items-center">
-        <div class="text-gray-500 text-sm w-32 flex-shrink-0 text-right mr-2">
+      <div class="w-full py-2 flex md:items-center">
+        <div
+          class="
+            text-gray-500 text-sm
+            w-32
+            flex-shrink-0
+            text-right
+            mr-2
+            pt-1
+            md:pt-0
+          "
+        >
           {{ post.date | date: "%B %Y" }}
         </div>
         <div
