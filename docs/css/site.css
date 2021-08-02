@@ -503,24 +503,30 @@ video {
   background-color: rgba(255, 255, 255, var(--tw-bg-opacity));
 }
 
+.bg-coolGray-50 {
+  --tw-bg-opacity: 1;
+  background-color: rgba(249, 250, 251, var(--tw-bg-opacity));
+}
+
+.hover\:bg-gray-800:hover {
+  --tw-bg-opacity: 1;
+  background-color: rgba(39, 39, 42, var(--tw-bg-opacity));
+}
+
 @media (prefers-color-scheme: dark) {
   .dark\:bg-black {
     --tw-bg-opacity: 1;
     background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
   }
-}
 
-.border-red-500 {
-  --tw-border-opacity: 1;
-  border-color: rgba(239, 68, 68, var(--tw-border-opacity));
+  .dark\:bg-bgGray {
+    --tw-bg-opacity: 1;
+    background-color: rgba(11, 11, 12, var(--tw-bg-opacity));
+  }
 }
 
 .rounded-full {
   border-radius: 9999px;
-}
-
-.border-b-4 {
-  border-bottom-width: 4px;
 }
 
 .inline {
@@ -602,11 +608,6 @@ video {
   line-height: 1.75rem;
 }
 
-.text-2xl {
-  font-size: 1.5rem;
-  line-height: 2rem;
-}
-
 .text-4xl {
   font-size: 2.25rem;
   line-height: 2.5rem;
@@ -677,6 +678,11 @@ video {
 .py-3 {
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
+}
+
+.px-5 {
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .px-8 {
@@ -788,11 +794,6 @@ video {
   color: rgba(75, 85, 99, var(--tw-text-opacity));
 }
 
-.text-coolGray-700 {
-  --tw-text-opacity: 1;
-  color: rgba(55, 65, 81, var(--tw-text-opacity));
-}
-
 .text-coolGray-900 {
   --tw-text-opacity: 1;
   color: rgba(17, 24, 39, var(--tw-text-opacity));
@@ -801,11 +802,6 @@ video {
 .hover\:text-black:hover {
   --tw-text-opacity: 1;
   color: rgba(0, 0, 0, var(--tw-text-opacity));
-}
-
-.hover\:text-red-500:hover {
-  --tw-text-opacity: 1;
-  color: rgba(239, 68, 68, var(--tw-text-opacity));
 }
 
 @media (prefers-color-scheme: dark) {
@@ -871,8 +867,8 @@ video {
   transition-duration: 150ms;
 }
 
-.duration-200 {
-  transition-duration: 200ms;
+.duration-500 {
+  transition-duration: 500ms;
 }
 
 @-webkit-keyframes spin {
@@ -1080,11 +1076,6 @@ html {
 
   .md\:text-lg {
     font-size: 1.125rem;
-    line-height: 1.75rem;
-  }
-
-  .md\:text-xl {
-    font-size: 1.25rem;
     line-height: 1.75rem;
   }
 
