@@ -3,58 +3,37 @@ layout: default
 ---
 
 <div class="w-full md:w-768">
-  <div
-    class="
-      flex flex-col
-      md:flex-row
-      h-screen
-      items-center
-      justify-center
-      px-8
-      md:px-0
-      pb-16
-    "
-  >
-    <div class="md:w-52">
+  <div class="flex flex-col h-screen items-start justify-center pb-16">
+    <div class="md:w-52 mb-4">
       <img
         src="{{site.baseurl}}/assets/profile.jpeg"
         class="h-36 w-36 rounded-full object-cover"
       />
     </div>
-    <div class="pl-8">
-      <div
-        class="
-          text-coolGray-900
-          dark:text-white
-          text-5xl
-          md:text-8xl
-          font-semibold
-        "
-      >
-        Hi, my name is Oscar
-      </div>
-      <div
-        class="
-          text-coolGray-500
-          dark:text-coolGray-300
-          leading-10
-          mt-4
-          md:text-lg
-        "
-      >
-        Scroll down to learn more
-      </div>
-    </div>
-    <div class="text-red-500 leading-10 mt-4 text-7xl md:hidden">ˬ</div>
-  </div>
 
-  <div class="pl-8 md:px-0 md:pl-44 py-20">
     <div
       class="
         text-coolGray-900
         dark:text-white
-        text-4xl
-        md:text-6xl
+        text-5xl
+        md:text-8xl
+        font-semibold
+      "
+    >
+      Hi, my name is Oscar
+    </div>
+    <div class="text-coolGray-500 dark:text-coolGray-300">
+      Scroll down to learn more
+    </div>
+  </div>
+
+  <div class="">
+    <div
+      class="
+        text-coolGray-900
+        dark:text-white
+        text-3xl
+        md:text-5xl
         font-semibold
         mb-10
       "
@@ -81,13 +60,13 @@ layout: default
     </a>
   </div>
 
-  <div class="pl-8 md:pl-44 pt-20 pb-10">
+  <div class="pt-32 pb-10">
     <div
       class="
         text-coolGray-900
         dark:text-white
-        text-4xl
-        md:text-6xl
+        text-3xl
+        md:text-5xl
         font-semibold
       "
     >
@@ -95,10 +74,10 @@ layout: default
     </div>
   </div>
 
-  <div class="md:pl-10 pb-40">
+  <div>
     {% for post in site.posts %}
     <a href="{{ post.url }}">
-      <div class="w-full py-2 flex md:items-center">
+      <div class="py-2 flex md:items-center">
         <div
           class="
             text-gray-500 text-sm
@@ -127,42 +106,42 @@ layout: default
     {% endfor %}
   </div>
 
-  <div class="pl-8 md:pl-44 pt-20 pb-10">
+  <div class="pt-32 pb-20">
     <div
       class="
         text-coolGray-900
         dark:text-white
-        text-4xl
-        md:text-6xl
+        text-3xl
+        md:text-5xl
         font-semibold
       "
     >
       About me
     </div>
 
-    <div class="text-lg text-coolGray-600 dark:text-coolGray-400">
+    <div class="text-lg text-coolGray-500 dark:text-coolGray-400">
       (The most boring part of this blog)
     </div>
-    <p class="text-coolGray-500 dark:text-coolGray-200 mt-3">
+    <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
       Come from Bolivia, love thinking about problems, like minimalism,
       architecture and all sorts of engineering, but code and computers are the
       love of my life.
     </p>
-    <p class="text-coolGray-500 dark:text-coolGray-200 mt-3">
-      I also like playing the guitar and doing sports (lot's of sports!),
-      starting to get into surfing nowadays, if you are in the Munich area and
-      want to surf hit me up!
+    <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
+      I also like playing the guitar and doing sports (lots of sports!),
+      starting to get into surfing nowadays, looking for a surf teacher in the
+      Munich area!
     </p>
-    <p class="text-coolGray-500 dark:text-coolGray-200 mt-3">
+    <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
       I've been in a bunch of companies and tried to create software for (too)
-      many industries. I also do a bit of open source, do I have mixed feelings
-      about free work for internet strangers.
+      many industries. I also do a bit of open source, though I have mixed
+      feelings about free work for internet strangers.
     </p>
-    <p class="text-coolGray-500 dark:text-coolGray-200 mt-3">
+    <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
       My dream is to bootstrap my own company/product, something I can have
       complete control over and can make a living out of.
     </p>
-    <p class="text-coolGray-500 dark:text-coolGray-200 mt-3">
+    <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
       If you have made it this far and you are still interested:
       ospfranco@protonmail.com. Even just a nice chat would brighten my day.
     </p>

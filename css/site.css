@@ -6,7 +6,15 @@
 @import "tailwindcss/utilities";
 
 html {
-  font-family: Arial;
+}
+
+body {
+  font-family: BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
+    "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+  text-rendering: optimizeLegibility;
+  letter-spacing: 0;
+  -moz-osx-font-smoothing: grayscale;
+  font-weight: 400;
 }
 
 .markdown {
@@ -68,14 +76,4 @@ html {
 .highlighter-rouge {
   /* border-radius: 5px; */
   overflow: auto;
-}
-
-.content {
-  width: 100%;
-}
-
-@media (min-width: 768px) {
-  .content {
-    width: 768px;
-  }
 }
