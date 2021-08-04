@@ -513,11 +513,6 @@ video {
   background-color: rgba(228, 228, 231, var(--tw-bg-opacity));
 }
 
-.hover\:bg-gray-800:hover {
-  --tw-bg-opacity: 1;
-  background-color: rgba(39, 39, 42, var(--tw-bg-opacity));
-}
-
 @media (prefers-color-scheme: dark) {
   .dark\:bg-black {
     --tw-bg-opacity: 1;
@@ -618,27 +613,13 @@ video {
   line-height: 2.25rem;
 }
 
-.text-4xl {
-  font-size: 2.25rem;
-  line-height: 2.5rem;
-}
-
 .text-5xl {
   font-size: 3rem;
   line-height: 1;
 }
 
-.text-7xl {
-  font-size: 4.5rem;
-  line-height: 1;
-}
-
 .leading-7 {
   line-height: 1.75rem;
-}
-
-.leading-10 {
-  line-height: 2.5rem;
 }
 
 .my-8 {
@@ -651,10 +632,6 @@ video {
   margin-bottom: 2.5rem;
 }
 
-.mt-2 {
-  margin-top: 0.5rem;
-}
-
 .mr-2 {
   margin-right: 0.5rem;
 }
@@ -663,12 +640,12 @@ video {
   margin-top: 0.75rem;
 }
 
-.mt-4 {
-  margin-top: 1rem;
-}
-
 .mb-4 {
   margin-bottom: 1rem;
+}
+
+.mt-8 {
+  margin-top: 2rem;
 }
 
 .mb-10 {
@@ -703,22 +680,18 @@ video {
   padding-right: 1.25rem;
 }
 
+.px-6 {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
 .px-8 {
   padding-left: 2rem;
   padding-right: 2rem;
 }
 
-.py-20 {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
-}
-
 .pt-1 {
   padding-top: 0.25rem;
-}
-
-.pl-8 {
-  padding-left: 2rem;
 }
 
 .pb-10 {
@@ -729,20 +702,12 @@ video {
   padding-bottom: 4rem;
 }
 
-.pt-20 {
-  padding-top: 5rem;
-}
-
 .pb-20 {
   padding-bottom: 5rem;
 }
 
 .pt-32 {
   padding-top: 8rem;
-}
-
-.pb-40 {
-  padding-bottom: 10rem;
 }
 
 .pb-44 {
@@ -791,19 +756,9 @@ video {
   color: rgba(0, 0, 0, var(--tw-text-opacity));
 }
 
-.text-red-500 {
-  --tw-text-opacity: 1;
-  color: rgba(239, 68, 68, var(--tw-text-opacity));
-}
-
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgba(113, 113, 122, var(--tw-text-opacity));
-}
-
-.text-gray-600 {
-  --tw-text-opacity: 1;
-  color: rgba(82, 82, 91, var(--tw-text-opacity));
 }
 
 .text-coolGray-500 {
@@ -1087,30 +1042,16 @@ body {
 
 @media (min-width: 768px) {
 
-  .md\:hidden {
-    display: none;
-  }
-
-  .md\:flex-row {
-    flex-direction: row;
-  }
-
   .md\:items-center {
     align-items: center;
   }
 
-  .md\:text-lg {
-    font-size: 1.125rem;
-    line-height: 1.75rem;
+  .md\:h-36 {
+    height: 9rem;
   }
 
   .md\:text-5xl {
     font-size: 3rem;
-    line-height: 1;
-  }
-
-  .md\:text-6xl {
-    font-size: 3.75rem;
     line-height: 1;
   }
 
@@ -1128,12 +1069,8 @@ body {
     padding-top: 0px;
   }
 
-  .md\:pl-10 {
-    padding-left: 2.5rem;
-  }
-
-  .md\:pl-44 {
-    padding-left: 11rem;
+  .md\:w-36 {
+    width: 9rem;
   }
 
   .md\:w-52 {
