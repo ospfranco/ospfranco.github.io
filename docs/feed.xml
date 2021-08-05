@@ -1,4 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-08-04T19:10:01+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Migrate React Native’s AppDelegate to Swift</title><link href="https://ospfranco.com/post/2021/07/31/migrate-rn-appdelegate-to-swift/" rel="alternate" type="text/html" title="Migrate React Native’s AppDelegate to Swift" /><published>2021-07-31T15:00:00+02:00</published><updated>2021-07-31T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/07/31/migrate%20rn%20appdelegate%20to%20swift</id><content type="html" xml:base="https://ospfranco.com/post/2021/07/31/migrate-rn-appdelegate-to-swift/">&lt;p&gt;It’s no secret that JS developers run away from Objective-C, why not migrate the entry point of your app to Swift?&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.0">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-08-05T08:25:42+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Fix slow terminal start (hanging xcodebuild)</title><link href="https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/" rel="alternate" type="text/html" title="Fix slow terminal start (hanging xcodebuild)" /><published>2021-08-05T15:00:00+02:00</published><updated>2021-08-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/08/05/fix%20slow%20terminal%20start%20(hanging%20xcodebuild)</id><content type="html" xml:base="https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/">&lt;p&gt;Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.&lt;/p&gt;
+
+&lt;p&gt;There are some people who have found some solutions, I tried all of them until it &lt;strong&gt;something&lt;/strong&gt; worked, so here is a compilation for you to try as well.&lt;/p&gt;
+
+&lt;h2 id=&quot;xcode-tools&quot;&gt;Xcode tools&lt;/h2&gt;
+
+&lt;p&gt;For some the problem seemed to be they did not accept the license:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;xcodebuild &lt;span class=&quot;nt&quot;&gt;-license&lt;/span&gt; accept
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;Related to this, could be that the command line tools are not properly installed:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;In the interest of time this is what seemed to have worked for me&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /Library/Developer/CommandLineTools
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;xcode-select &lt;span class=&quot;nt&quot;&gt;--install&lt;/span&gt;
+&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;xcode-select &lt;span class=&quot;nt&quot;&gt;-switch&lt;/span&gt; /Library/Developer/CommandLineTools
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;install-git-via-brew&quot;&gt;Install git via brew&lt;/h2&gt;
+
+&lt;p&gt;For some the problem seems to be the integrated git version, replace it via brew:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;install-zsh-via-brew&quot;&gt;Install zsh via brew&lt;/h2&gt;
+
+&lt;p&gt;Others report that the zsh version that comes with mac is old, replace it with:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;zsh
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;h2 id=&quot;try-messing-with-nvm&quot;&gt;Try messing with NVM&lt;/h2&gt;
+
+&lt;p&gt;One user reports having a nvm default alias caused the issue for him:&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Tried all Google results and nothing works. Eventually, I found it was caused by setting Node.js v8.x as default in nvm, alias default to system will resolve the issue. Although I don’t know why nvm need to run xcodebuild for Node.js v8.x.&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;debug-your-zshrc-or-zprofile-script&quot;&gt;Debug your .zshrc (or .zprofile) script&lt;/h2&gt;
+
+&lt;p&gt;Sometimes the slowdown could be caused by some extra step, I had a different problem with one of the apps I use, you can see what happens when you start a zsh session with:&lt;/p&gt;
+
+&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;zsh &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;I ended up trying a bunch of things here, disabling some plugins, nvm, trying to lazy load components&lt;/p&gt;
+
+&lt;h2 id=&quot;check-the-multiple-files-that-zsh-loads&quot;&gt;Check the multiple files that zsh loads&lt;/h2&gt;
+
+&lt;p&gt;Zsh loads a lot of files for configuration, it could be possible (not in my case), that some of this is poorly configured, worth a try if you already tried everything above:&lt;/p&gt;
+
+&lt;p&gt;https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/&lt;/p&gt;
+
+&lt;p&gt;Hopefully this will solve your problem, mine was fixed somewhere between installing zsh via brew and re-installing the xcode-tools&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Migrate React Native’s AppDelegate to Swift</title><link href="https://ospfranco.com/post/2021/07/31/migrate-rn-appdelegate-to-swift/" rel="alternate" type="text/html" title="Migrate React Native’s AppDelegate to Swift" /><published>2021-07-31T15:00:00+02:00</published><updated>2021-07-31T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/07/31/migrate%20rn%20appdelegate%20to%20swift</id><content type="html" xml:base="https://ospfranco.com/post/2021/07/31/migrate-rn-appdelegate-to-swift/">&lt;p&gt;It’s no secret that JS developers run away from Objective-C, why not migrate the entry point of your app to Swift?&lt;/p&gt;
 
 &lt;p&gt;Just bare in mind, this won’t make your app completely run on Swift, just the entry point, but at least it should be easier to understand at least the basic methods and entry points of other libraries/functionalities.&lt;/p&gt;
 
@@ -675,10 +734,4 @@ com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
 
 &lt;p&gt;The code is super simple, but the concept is truly powerful, it could save you a lot of time by not manually having to add data points and also retroactively collect data from the moment you develop a new feature.&lt;/p&gt;
 
-&lt;p&gt;Cheers!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.</summary></entry><entry><title type="html">Reducing Sentry’s android app bundle size</title><link href="https://ospfranco.com/post/2021/04/26/reduce-sentry-android-bundle-size/" rel="alternate" type="text/html" title="Reducing Sentry’s android app bundle size" /><published>2021-04-26T15:00:00+02:00</published><updated>2021-04-26T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/04/26/reduce-sentry-android-bundle-size</id><content type="html" xml:base="https://ospfranco.com/post/2021/04/26/reduce-sentry-android-bundle-size/">&lt;p&gt;At work I convinced my team to switch from Crashlytics to &lt;a href=&quot;sentry.io&quot;&gt;Sentry&lt;/a&gt;. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.&lt;/p&gt;
-
-&lt;p&gt;So I spent a bit of time trying to see if there was anything that could be done about it. Eventually reading the issues on the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android&lt;/code&gt; repo (which is a direct dependency of the react-native version of the Sentry library), some people mentioned that NDK support (the framework to write C/C++ in android) seems to add a lot of unnecessary files.&lt;/p&gt;
-
-&lt;p&gt;The documentation directly mentions that if you don’t need NDK support, you can switch your dependency from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android-core&lt;/code&gt;. So I opened to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;node_modules/@sentry/react-native/android/build.gradle&lt;/code&gt; and changed the dependency there from &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android&lt;/code&gt; to &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sentry-android-core&lt;/code&gt;. Then saved a patch with &lt;a href=&quot;https://github.com/ds300/patch-package&quot;&gt;patch-package&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Afterwards I simply built the app again (if you are doing local builds, you might want to run &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;./gradlew clean&lt;/code&gt; on your android folder to get rid of any caches), and &lt;strong&gt;it removes ~1.2 megabytes of the size of the app&lt;/strong&gt;.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">At work I convinced my team to switch from Crashlytics to Sentry. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</summary></entry></feed>
+&lt;p&gt;Cheers!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.</summary></entry></feed>
