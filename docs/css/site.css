@@ -514,6 +514,7 @@ video {
 }
 
 @media (prefers-color-scheme: dark) {
+
   .dark\:bg-black {
     --tw-bg-opacity: 1;
     background-color: rgba(0, 0, 0, var(--tw-bg-opacity));
@@ -564,6 +565,10 @@ video {
 
 .items-center {
   align-items: center;
+}
+
+.self-center {
+  align-self: center;
 }
 
 .justify-center {
@@ -885,6 +890,24 @@ video {
     transform: none;
     -webkit-animation-timing-function: cubic-bezier(0,0,0.2,1);
             animation-timing-function: cubic-bezier(0,0,0.2,1);
+  }
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+
+  .motion-safe\:animate-fadeIn {
+    -webkit-animation: fadeIn 2s ease-in forwards;
+            animation: fadeIn 2s ease-in forwards;
   }
 }
 

@@ -2,13 +2,22 @@ module.exports = {
   purge: ["./src/**.html"],
   darkMode: "media",
   theme: {
-    colors: {
-      ...require("tailwindcss/colors"),
-      bgGray: {
-        DEFAULT: "#0b0b0c",
-      },
-    },
     extend: {
+      animation: {
+        fadeIn: "fadeIn 2s ease-in forwards",
+      },
+      keyframes: {
+        fadeIn: {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+      },
+      colors: {
+        ...require("tailwindcss/colors"),
+        bgGray: {
+          DEFAULT: "#0b0b0c",
+        },
+      },
       borderRadius: {
         xl: "2rem",
       },
@@ -18,6 +27,8 @@ module.exports = {
       },
     },
   },
-  variants: {},
+  variants: {
+    animation: ({ after }) => after(["motion-safe"]),
+  },
   plugins: [require("tailwind-scrollbar-hide")],
 };
