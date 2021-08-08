@@ -646,10 +646,6 @@ video {
   margin-top: 0.75rem;
 }
 
-.mb-4 {
-  margin-bottom: 1rem;
-}
-
 .mt-8 {
   margin-top: 2rem;
 }
@@ -1090,10 +1086,6 @@ body {
 
   .md\:w-36 {
     width: 9rem;
-  }
-
-  .md\:w-52 {
-    width: 13rem;
   }
 
   .md\:w-768 {
