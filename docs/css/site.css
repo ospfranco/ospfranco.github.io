@@ -531,6 +531,10 @@ video {
   }
 }
 
+.rounded-xl {
+  border-radius: 2rem;
+}
+
 .rounded-full {
   border-radius: 9999px;
 }
