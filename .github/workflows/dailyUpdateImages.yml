@@ -18,7 +18,7 @@ jobs:
           fetch-depth: "0"
       - uses: ruby/setup-ruby@v1
         with:
-          ruby-version: 2.6 # Not needed with a .ruby-version file
+          ruby-version: 2.7 # Not needed with a .ruby-version file
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
       - name: Node modules cache
         uses: actions/cache@v2
@@ -35,7 +35,7 @@ jobs:
         run: npm run refreshImages
       - uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
         with:
-          add: "."
+          add: "assets"
 
           # The name of the user that will be displayed as the author of the commit
           # Default: depends on the default_author input
