@@ -20,7 +20,6 @@ jobs:
         with:
           ruby-version: 2.6 # Not needed with a .ruby-version file
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
-      - run: bundle install
       - name: Node modules cache
         uses: actions/cache@v2
         with:
@@ -71,7 +70,7 @@ jobs:
 
           # Whether to push the commit and, if any, its tags to the repo. It can also be used to set the git push arguments (see the paragraph below for more info)
           # Default: true
-          push: false
+          push: true
 
           # The arguments for the `git rm` command (see the paragraph below for more info)
           # Default: ''
