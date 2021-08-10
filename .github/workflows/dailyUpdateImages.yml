@@ -33,9 +33,10 @@ jobs:
         run: npm i
       - name: Run update images script
         run: npm run refreshImages
+      - run: npm build
       - uses: EndBug/add-and-commit@v7 # You can change this to use a specific version
         with:
-          add: "assets"
+          add: "."
 
           # The name of the user that will be displayed as the author of the commit
           # Default: depends on the default_author input
