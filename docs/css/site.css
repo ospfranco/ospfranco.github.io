@@ -646,6 +646,10 @@ video {
   margin-top: 0.75rem;
 }
 
+.mb-4 {
+  margin-bottom: 1rem;
+}
+
 .mt-8 {
   margin-top: 2rem;
 }
@@ -724,6 +728,7 @@ video {
 }
 
 .sticky {
+  position: -webkit-sticky;
   position: sticky;
 }
 
@@ -807,6 +812,11 @@ video {
   .dark\:text-coolGray-400 {
     --tw-text-opacity: 1;
     color: rgba(156, 163, 175, var(--tw-text-opacity));
+  }
+
+  .dark\:text-coolGray-500 {
+    --tw-text-opacity: 1;
+    color: rgba(107, 114, 128, var(--tw-text-opacity));
   }
 
   .dark\:hover\:text-white:hover {
