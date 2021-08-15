@@ -361,6 +361,10 @@ Done, both iOS and Android bindings should now be working!
 
 Partial code (only iOS) [github](https://github.com/ospfranco/react-native-jsi-template) if you want to explore it on your own.
 
-Many thanks to [Takuya](https://twitter.com/inkdrop_app) for creating his [base64 implementation](https://github.com/craftzdog/react-native-quick-base64)
+### JSI Cheat sheet
 
-You also want to check [this snippet](https://github.com/react-native-async-storage/async-storage/issues/291) by [Jarred Sumner](https://twitter.com/jarredsumner), which also contains a lot usage about the JSI methods.
+I have created a new cheat sheet for JSI/C++, if you are interested in developing your own JSI code you can dm on twitter and for a small fee I'll share the document (and all my RN notes) with you.
+
+It includes the 20% of C++ that will allow you to master 80% of the problems, along with extensive references to the JSI api, so you don't have to learn all the source code to create your own JSI module.
+
+<blockquote class="twitter-tweet"><p lang="en" dir="ltr">The JSI/C++ cheatsheet/guide for JS devs is complete!<br><br>Part I: C++ for JS devs<br>Part II: Tooling (CMake, Android JNI, XCode, etc)<br>Part III: JSI reference (how to use the JSI)<br><br>DM me and for a fee you get access + all my other RN notes <a href="https://t.co/NYvFllED09">pic.twitter.com/NYvFllED09</a></p>&mdash; Oscar (@ospfranco) <a href="https://twitter.com/ospfranco/status/1426890002106130435?ref_src=twsrc%5Etfw">August 15, 2021</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>

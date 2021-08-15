@@ -908,14 +908,6 @@ video {
   }
 }
 
-@media (prefers-reduced-motion: no-preference) {
-
-  .motion-safe\:animate-fadeIn {
-    -webkit-animation: fadeIn 2s ease-in forwards;
-            animation: fadeIn 2s ease-in forwards;
-  }
-}
-
 .filter {
   --tw-blur: var(--tw-empty,/*!*/ /*!*/);
   --tw-brightness: var(--tw-empty,/*!*/ /*!*/);
