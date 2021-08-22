@@ -17,5 +17,6 @@
     "tailwindcss": "2.1.4",
     "link-preview-js": "^2.1.8",
     "tailwind-scrollbar-hide": "^1.0.3"
-  }
+  },
+  "dependencies": {}
 }
