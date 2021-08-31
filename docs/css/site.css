@@ -821,6 +821,14 @@ video {
   }
 }
 
+.visible {
+  visibility: visible;
+}
+
+.invisible {
+  visibility: hidden;
+}
+
 .w-24 {
   width: 6rem;
 }
@@ -929,9 +937,7 @@ body {
   font-family: BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen", "Ubuntu",
     "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   text-rendering: optimizeLegibility;
-  letter-spacing: 0;
   -moz-osx-font-smoothing: grayscale;
-  font-weight: 400;
 }
 
 @media (prefers-color-scheme: dark) {
