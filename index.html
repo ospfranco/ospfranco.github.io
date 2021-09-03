@@ -22,8 +22,23 @@ layout: default
     >
       OSCAR FRANCO
     </div>
-    <div class="text-coolGray-500 dark:text-coolGray-500 self-center text-sm">
-      Scroll down...
+    <a
+      class="py-2 self-center"
+      href="https://github.com/ospfranco?tab=followers"
+    >
+      <img
+        src="https://img.shields.io/github/followers/ospfranco?label=ospfranco&style=for-the-badge&logo=github"
+      />
+    </a>
+    <a class="py-2 self-center" href="https://twitter.com/ospfranco">
+      <img
+        src="https://img.shields.io/twitter/follow/ospfranco?label=ospfranco&style=for-the-badge&logo=twitter"
+      />
+    </a>
+    <div
+      class="text-coolGray-500 dark:text-coolGray-500 self-center text-sm py-2"
+    >
+      ▽
     </div>
   </div>
 
@@ -61,9 +76,18 @@ layout: default
       </div>
       <img
         src="{{site.baseurl}}/assets/cidemon.webp"
-        class="w-full object-cover hover:opacity-70 my-4"
+        class="
+          w-full
+          object-cover
+          transform
+          transition
+          hover:scale-95
+          mt-4
+          mb-12
+        "
       />
     </a>
+
     <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">
       <div class="text-coolGray-900 dark:text-white text-xl font-bold">
         React Native for macOS class
@@ -73,10 +97,41 @@ layout: default
       </div>
       <img
         src="{{site.baseurl}}/assets/buildingapps.webp"
-        class="w-full object-cover hover:opacity-70 my-4"
+        class="
+          w-full
+          object-cover
+          mt-4
+          mb-12
+          transform
+          transition
+          hover:scale-95
+        "
       />
     </a>
-    <a href="https://github.com/ospfranco/link-preview-js">
+
+    <a href="https://ospfranco.gumroad.com/l/IeeIvl">
+      <div class="text-coolGray-900 dark:text-white text-xl font-bold">
+        C++/JSI Development cheatsheet
+      </div>
+      <div class="text-coolGray-900 dark:text-white">
+        The ultimate guide to building JSI modules: C++ guide, API reference and
+        more
+      </div>
+      <img
+        src="{{site.baseurl}}/assets/JSI.webp"
+        class="
+          w-full
+          object-cover
+          mt-4
+          mb-12
+          transform
+          transition
+          hover:scale-95
+          rounded-xl
+        "
+      />
+    </a>
+    <!-- <a href="https://github.com/ospfranco/link-preview-js">
       <div class="text-coolGray-900 dark:text-white text-xl font-bold">
         Link Preview JS
       </div>
@@ -99,37 +154,10 @@ layout: default
         src="{{site.baseurl}}/assets/quicksqlite.png"
         class="w-full object-cover hover:opacity-70 my-4 rounded-xl"
       />
-    </a>
-    <a href="https://twitter.com/ospfranco">
-      <div class="text-coolGray-900 dark:text-white text-xl font-bold">
-        JSI/C++ Cheatsheet for JS devs
-      </div>
-      <div class="text-coolGray-900 dark:text-white">
-        The only guide you will need to develop JSI modules
-      </div>
-      <blockquote class="twitter-tweet">
-        <p lang="en" dir="ltr">
-          The JSI/C++ cheatsheet/guide for JS devs is complete!<br /><br />Part
-          I: C++ for JS devs<br />Part II: Tooling (CMake, Android JNI, XCode,
-          etc)<br />Part III: JSI reference (how to use the JSI)<br /><br />DM
-          me and for a fee you get access + all my other RN notes
-          <a href="https://t.co/NYvFllED09">pic.twitter.com/NYvFllED09</a>
-        </p>
-        &mdash; Oscar (@ospfranco)
-        <a
-          href="https://twitter.com/ospfranco/status/1426890002106130435?ref_src=twsrc%5Etfw"
-          >August 15, 2021</a
-        >
-      </blockquote>
-      <script
-        async
-        src="https://platform.twitter.com/widgets.js"
-        charset="utf-8"
-      ></script>
-    </a>
+    </a> -->
   </div>
 
-  <div class="pt-32 pb-10">
+  <div class="pt-12 pb-10">
     <div
       class="
         text-coolGray-900
@@ -175,7 +203,7 @@ layout: default
     {% endfor %}
   </div>
 
-  <div class="pt-32 pb-20">
+  <div class="pt-12 pb-20">
     <div
       class="
         text-coolGray-900

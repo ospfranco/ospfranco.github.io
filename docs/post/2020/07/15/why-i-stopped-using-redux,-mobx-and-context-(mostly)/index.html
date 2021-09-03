@@ -19,14 +19,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/marble2.JPG" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-07-15T13:00:00+00:00" />
+<meta property="article:published_time" content="2020-07-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/marble2.JPG" />
 <meta property="twitter:title" content="Stop using redux, mobx and/or context" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Oscar Franco"},"description":"Stop writing state management code","image":"https://ospfranco.com/assets/marble2.JPG","url":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/","headline":"Stop using redux, mobx and/or context","dateModified":"2020-07-15T13:00:00+00:00","datePublished":"2020-07-15T13:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/"},"@type":"BlogPosting","description":"Stop writing state management code","author":{"@type":"Person","name":"Oscar Franco"},"image":"https://ospfranco.com/assets/marble2.JPG","headline":"Stop using redux, mobx and/or context","dateModified":"2020-07-15T15:00:00+02:00","datePublished":"2020-07-15T15:00:00+02:00","url":"https://ospfranco.com/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -34,87 +34,25 @@
 
 <!-- <html class="max-h-full bg-coolGray-50 dark:bg-bgGray"> -->
 <html class="max-h-full bg-white dark:bg-black">
-  <nav
-    class="
-      flex
-      w-full
-      sticky
-      top-0
-      bg-white
-      dark:bg-black
-      items-center
-      justify-center
-      z-10
-    "
-  >
-    <a href="/">
-      <div
-        class="
-          text-black
-          dark:text-white
-          px-5
-          py-3
-          text-sm
-          font-semibold
-          hover:bg-gray-200
-          dark:hover:bg-gray-800
-          transition
-          duration-500
-        "
-      >
-        Home
-      </div>
-    </a>
-
-    <a href="https://twitter.com/ospfranco">
-      <div
-        class="
-          text-black
-          dark:text-white
-          px-5
-          py-3
-          text-sm
-          font-semibold
-          hover:bg-gray-200
-          dark:hover:bg-gray-800
-          transition
-          duration-500
-        "
-      >
-        Twitter
-      </div>
-    </a>
-    <a href="https://github.com/ospfranco">
-      <div
-        class="
-          text-black
-          dark:text-white
-          px-5
-          py-3
-          text-sm
-          font-semibold
-          hover:bg-gray-200
-          dark:hover:bg-gray-800
-          transition
-          duration-500
-        "
-      >
-        Github
-      </div>
-    </a>
-    <!-- <a href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q">
-      <div class="text-black dark:text-white px-5 text-sm hover:font-bold">
-        YouTube
-      </div>
-    </a> -->
-  </nav>
   <body class="max-h-full flex flex-col items-center">
     <div class="flex-1 flex flex-col items-center w-full lg:mx-36">
   <img
     src="/assets/profile.jpeg"
     class="rounded-full h-24 w-24 object-cover my-8"
   />
-  <div class="text-gray-500 dark:text-white font-bold">OSCAR FRANCO</div>
+  <!-- <div class="text-gray-500 dark:text-gray-200 font-bold mb-4">
+    OSCAR FRANCO
+  </div> -->
+  <a class="py-2 self-center" href="https://github.com/ospfranco?tab=followers">
+    <img
+      src="https://img.shields.io/github/followers/ospfranco?label=ospfranco&style=for-the-badge&logo=github"
+    />
+  </a>
+  <a class="py-2 self-center" href="https://twitter.com/ospfranco">
+    <img
+      src="https://img.shields.io/twitter/follow/ospfranco?label=ospfranco&style=for-the-badge&logo=twitter"
+    />
+  </a>
   <div class="w-full md:w-768 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-3xl md:text-5xl dark:text-white">
       Stop using redux, mobx and/or context
@@ -124,7 +62,7 @@
     </div>
   </div>
 
-  <div class="markdown w-full px-6 md:px-0 md:w-768 pb-44"><p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
+  <div class="markdown w-full px-6 md:px-0 md:w-768"><p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
 
 <h2 id="why-not-mobxreduxrecoilcontextreduxsagasusereducer">Why not [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]?</h2>
 <p>So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven’t tried yet), I won’t go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than what I can write, so I’m going to go straight into the biggest problem I saw with managing state in my web/mobile apps:</p>
@@ -191,6 +129,14 @@
 
 <p>You are now thinking <code class="language-plaintext highlighter-rouge">You are misusing/don't understand [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]</code> and I mean, sure, maybe, I don’t care, this is my experience and what works for me, you do you… also, don’t use Sagas, ever.</p>
 </div>
+
+  <a href="/">
+    <button
+      class="rounded-xl bg-blue-500 text-white mt-12 mb-44 py-3 px-6 font-bold"
+    >
+      HOMEPAGE
+    </button>
+  </a>
 </div>
 
   </body>

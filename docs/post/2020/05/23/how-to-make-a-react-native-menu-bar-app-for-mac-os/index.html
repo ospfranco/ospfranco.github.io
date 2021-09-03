@@ -18,13 +18,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-05-23T13:00:00+00:00" />
+<meta property="article:published_time" content="2020-05-23T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="How to build a React-Native macOS menu bar app" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"author":{"@type":"Person","name":"Oscar Franco"},"description":"A guide to create your own menu bar app using React Native","url":"https://ospfranco.com/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/","headline":"How to build a React-Native macOS menu bar app","dateModified":"2020-05-23T13:00:00+00:00","datePublished":"2020-05-23T13:00:00+00:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/"},"@type":"BlogPosting","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/"},"@type":"BlogPosting","description":"A guide to create your own menu bar app using React Native","author":{"@type":"Person","name":"Oscar Franco"},"headline":"How to build a React-Native macOS menu bar app","dateModified":"2020-05-23T15:00:00+02:00","datePublished":"2020-05-23T15:00:00+02:00","url":"https://ospfranco.com/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -32,87 +32,25 @@
 
 <!-- <html class="max-h-full bg-coolGray-50 dark:bg-bgGray"> -->
 <html class="max-h-full bg-white dark:bg-black">
-  <nav
-    class="
-      flex
-      w-full
-      sticky
-      top-0
-      bg-white
-      dark:bg-black
-      items-center
-      justify-center
-      z-10
-    "
-  >
-    <a href="/">
-      <div
-        class="
-          text-black
-          dark:text-white
-          px-5
-          py-3
-          text-sm
-          font-semibold
-          hover:bg-gray-200
-          dark:hover:bg-gray-800
-          transition
-          duration-500
-        "
-      >
-        Home
-      </div>
-    </a>
-
-    <a href="https://twitter.com/ospfranco">
-      <div
-        class="
-          text-black
-          dark:text-white
-          px-5
-          py-3
-          text-sm
-          font-semibold
-          hover:bg-gray-200
-          dark:hover:bg-gray-800
-          transition
-          duration-500
-        "
-      >
-        Twitter
-      </div>
-    </a>
-    <a href="https://github.com/ospfranco">
-      <div
-        class="
-          text-black
-          dark:text-white
-          px-5
-          py-3
-          text-sm
-          font-semibold
-          hover:bg-gray-200
-          dark:hover:bg-gray-800
-          transition
-          duration-500
-        "
-      >
-        Github
-      </div>
-    </a>
-    <!-- <a href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q">
-      <div class="text-black dark:text-white px-5 text-sm hover:font-bold">
-        YouTube
-      </div>
-    </a> -->
-  </nav>
   <body class="max-h-full flex flex-col items-center">
     <div class="flex-1 flex flex-col items-center w-full lg:mx-36">
   <img
     src="/assets/profile.jpeg"
     class="rounded-full h-24 w-24 object-cover my-8"
   />
-  <div class="text-gray-500 dark:text-white font-bold">OSCAR FRANCO</div>
+  <!-- <div class="text-gray-500 dark:text-gray-200 font-bold mb-4">
+    OSCAR FRANCO
+  </div> -->
+  <a class="py-2 self-center" href="https://github.com/ospfranco?tab=followers">
+    <img
+      src="https://img.shields.io/github/followers/ospfranco?label=ospfranco&style=for-the-badge&logo=github"
+    />
+  </a>
+  <a class="py-2 self-center" href="https://twitter.com/ospfranco">
+    <img
+      src="https://img.shields.io/twitter/follow/ospfranco?label=ospfranco&style=for-the-badge&logo=twitter"
+    />
+  </a>
   <div class="w-full md:w-768 text-center my-10 flex flex-col items-center">
     <h1 class="font-semibold text-3xl md:text-5xl dark:text-white">
       How to build a React-Native macOS menu bar app
@@ -122,7 +60,7 @@
     </div>
   </div>
 
-  <div class="markdown w-full px-6 md:px-0 md:w-768 pb-44"><p><strong>UPDATE</strong>
+  <div class="markdown w-full px-6 md:px-0 md:w-768"><p><strong>UPDATE</strong>
 I have now launched an online class on how to make macOS apps using react-native, this article is only a tiny part of all the knowledge in the course, <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">sign up now!</a>.</p>
 
 <hr />
@@ -263,6 +201,14 @@ ViewController.m
 <p>Here is a <a href="https://github.com/ospfranco/rn-macos-menubar-template">template repository</a> with all the changes in this article, surely you will find it useful, you can also check out <a href="https://github.com/ospfranco/tempomat">Tempomat</a> for more advanced code.</p>
 
 </div>
+
+  <a href="/">
+    <button
+      class="rounded-xl bg-blue-500 text-white mt-12 mb-44 py-3 px-6 font-bold"
+    >
+      HOMEPAGE
+    </button>
+  </a>
 </div>
 
   </body>
