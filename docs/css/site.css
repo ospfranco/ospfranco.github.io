@@ -584,6 +584,10 @@ video {
   flex-shrink: 0;
 }
 
+.font-light {
+  font-weight: 300;
+}
+
 .font-semibold {
   font-weight: 600;
 }
@@ -666,8 +670,8 @@ video {
      object-fit: cover;
 }
 
-.hover\:opacity-70:hover {
-  opacity: 0.7;
+.p-12 {
+  padding: 3rem;
 }
 
 .py-2 {
@@ -685,6 +689,11 @@ video {
   padding-right: 1.5rem;
 }
 
+.px-10 {
+  padding-left: 2.5rem;
+  padding-right: 2.5rem;
+}
+
 .pt-1 {
   padding-top: 0.25rem;
 }
@@ -695,6 +704,10 @@ video {
 
 .pt-12 {
   padding-top: 3rem;
+}
+
+.pb-12 {
+  padding-bottom: 3rem;
 }
 
 .pb-16 {
@@ -715,6 +728,10 @@ video {
 
 .absolute {
   position: absolute;
+}
+
+.resize {
+  resize: both;
 }
 
 * {
@@ -742,6 +759,11 @@ video {
 .text-gray-500 {
   --tw-text-opacity: 1;
   color: rgba(113, 113, 122, var(--tw-text-opacity));
+}
+
+.text-blue-500 {
+  --tw-text-opacity: 1;
+  color: rgba(59, 130, 246, var(--tw-text-opacity));
 }
 
 .text-coolGray-500 {
