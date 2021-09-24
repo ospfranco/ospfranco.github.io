@@ -29,6 +29,10 @@ module.exports = {
   },
   variants: {
     animation: ({ after }) => after(["motion-safe"]),
+    extend: {
+      display: ["dark"],
+      visibility: ["dark"],
+    },
   },
   plugins: [require("tailwind-scrollbar-hide")],
 };
