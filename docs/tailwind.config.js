@@ -25,6 +25,9 @@ module.exports = {
         600: "600px",
         768: "768px",
       },
+      boxShadow: {
+        red: "0 4px 25px 0 rgba(128, 128, 128, 0.50)",
+      },
     },
   },
   variants: {
