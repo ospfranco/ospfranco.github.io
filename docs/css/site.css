@@ -606,6 +606,10 @@ video {
   flex-shrink: 0;
 }
 
+.font-thin {
+  font-weight: 100;
+}
+
 .font-light {
   font-weight: 300;
 }
@@ -992,6 +996,7 @@ body {
     sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
+  font-weight: 300;
 }
 
 @media (prefers-color-scheme: dark) {
