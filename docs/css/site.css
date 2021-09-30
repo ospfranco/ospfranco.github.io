@@ -795,11 +795,6 @@ video {
   --tw-shadow: 0 0 #0000;
 }
 
-.shadow-red {
-  --tw-shadow: 0 4px 25px 0 rgba(128, 128, 128, 0.50);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
-}
-
 * {
   --tw-ring-inset: var(--tw-empty,/*!*/ /*!*/);
   --tw-ring-offset-width: 0px;
