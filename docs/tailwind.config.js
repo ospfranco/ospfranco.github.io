@@ -1,5 +1,14 @@
+var colors = require("tailwindcss/colors");
+
+delete colors.lightBlue;
+
 module.exports = {
-  purge: ["./src/**.html"],
+  purge: [
+    "./_includes/**/*.html",
+    "./_layouts/**/*.html",
+    "./_posts/*.md",
+    "./*.html",
+  ],
   darkMode: "media",
   theme: {
     extend: {
@@ -12,12 +21,7 @@ module.exports = {
           "100%": { opacity: 1 },
         },
       },
-      colors: {
-        ...require("tailwindcss/colors"),
-        bgGray: {
-          DEFAULT: "#0b0b0c",
-        },
-      },
+      colors,
       borderRadius: {
         xl: "2rem",
       },

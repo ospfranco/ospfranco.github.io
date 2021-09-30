@@ -4,19 +4,17 @@
     "postinstall": "husky install",
     "refreshImages": "node bin/refreshImages.js",
     "dev": "bundle exec jekyll serve --livereload --drafts --future --port 3000 '$@'",
-    "build": "JEKYLL_ENV=production bundle exec jekyll build -d docs && git add ."
+    "build": "JEKYLL_ENV=production NODE_ENV=production bundle exec jekyll build -d docs && git add ."
   },
   "devDependencies": {
-    "autoprefixer": "^10.2.3",
-    "cssnano": "^5.0.5",
+    "autoprefixer": "^10.3.6",
+    "cssnano": "^5.0.8",
     "husky": "^5.0.9",
-    "postcss": "^8.2.10",
+    "postcss": "^8.3.8",
     "postcss-cli": "8.3.1",
-    "postcss-import": "14.0.0",
-    "purgecss": "4.0.0",
-    "tailwindcss": "2.1.4",
-    "link-preview-js": "^2.1.8",
-    "tailwind-scrollbar-hide": "^1.0.3"
+    "postcss-import": "^14.0.2",
+    "tailwind-scrollbar-hide": "^1.0.3",
+    "tailwindcss": "^2.2.16"
   },
   "dependencies": {}
 }
