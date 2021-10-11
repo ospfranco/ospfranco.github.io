@@ -9,9 +9,10 @@ html {
 }
 
 body {
+  font-family: Inter, Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  @apply dark:text-white font-light;
+  @apply dark:text-white;
 }
 
 .markdown {
