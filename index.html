@@ -14,7 +14,8 @@ layout: default
         dark:text-white
         text-xl
         self-center
-        tracking-widest
+        tracking-wide
+        font-medium
         pt-4
       "
     >
@@ -69,42 +70,38 @@ layout: default
     </div>
   </div>
 
-  <div>
-    <div class="pt-12 pb-20">
-      <p class="text-coolGray-700 dark:text-coolGray-200 mt-4 leading-7">
-        I'm a systems engineer from Bolivia, living in Munich. I love building
-        (software) stuff.
-      </p>
-      <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
-        I worked on all sorts of companies; from off-shore to start-ups (usually
-        as a team lead), I have developed products and apps from scratch to
-        hundreds of thousands of users. Frontend, backend, devops, analytics,
-        etc. I have done it all.
-      </p>
-      <p class="text-coolGray-700 dark:text-coolGray-200 mt-3 leading-7">
-        Nowadays I'm trying to make it on my own, either by launching small
-        products or freelancing.
-        <a href="mailto://ospfranco@protonmail.com" class="text-blue-500"
-          >Reach me via email</a
-        >
-        if you need consulting or a very experienced dev.
-      </p>
+  <div class="pb-72">
+    <p class="mt-4">
+      Hi, I'm Oscar! A full-stack dev with lots of experience in different
+      industries and companies, from corporate to start-ups, also an indie
+      hacker at heart.
+    </p>
+    <p class="mt-3">
+      Simplicity is the ultimate hack in life, software and beyond, therefore I strive for excelence and minimalism in
+      everything that I do.
+    </p>
+    <p class="mt-3">
+      Master of C++, JS, TS, Java, Scala, Swift, Lua, etc. warlock of dev-ops,
+      conqueror of AWS and its hundred of confusing services. I'm a none of
+      those, and at the end doesn't really matter, all I care about is solving
+      problems. Checkout my
+      <a href="https://github.com/ospfranco" class="text-blue-500">github</a> and the projects down below,
+      I'm sure you will find something useful there.
+    </p>
+    <p class="mt-3">
+      I did however lead development teams in the past and learned one thing;
+      people are the most valuable asset, endless source of creativity and
+      potential.
+    </p>
+    <p class="mt-3">
+      I'm available for freelance/consulting work, reach me via
+      <a href="mailto://ospfranco@protonmail.com" class="text-blue-500"
+        >email.</a
+      >
+    </p>
     </div>
 
-    <div
-      class="
-        text-coolGray-900
-        dark:text-white
-        text-xl
-        md:text-3xl
-        pb-4
-        font-thin
-      "
-    >
-      Projects
-    </div>
-
-    <div class="flex flex-wrap justify-around">
+    <div class="flex flex-wrap justify-around mb-48">
       <div class="w-96 h-80 p-4">
         <a href="https://cidemon.com">
           <div class="p-3 rounded">
@@ -112,7 +109,7 @@ layout: default
               src="{{site.baseurl}}/assets/cidemon.webp"
               class="object-cover rounded h-48 w-full"
             />
-            <div class="font-light text-xl pt-2">CI Demon</div>
+            <div class="text-xl pt-2">CI Demon</div>
             <div>Menu bar app to monitor CI jobs and deployments</div>
           </div>
         </a>
@@ -125,7 +122,7 @@ layout: default
               src="{{site.baseurl}}/assets/messer.webp"
               class="object-cover rounded h-48 w-full"
             />
-            <div class="font-light text-xl pt-2">Messer</div>
+            <div class="text-xl pt-2">Messer</div>
             <div>
               Menu bar app to resize & convert images by dragging & dropping
             </div>
@@ -142,7 +139,7 @@ layout: default
               src="{{site.baseurl}}/assets/buildingapps.webp"
               class="object-cover rounded h-48 w-full"
             />
-            <div class="font-light text-xl pt-2">RN MacOS Couse</div>
+            <div class="text-xl pt-2">RN MacOS Couse</div>
             <div>Learn to build macOS apps with React Native</div>
           </div>
         </a>
@@ -157,7 +154,7 @@ layout: default
               src="{{site.baseurl}}/assets/cxx.webp"
               class="object-cover rounded h-48 w-full"
             />
-            <div class="font-light text-xl pt-2">C++ for JS Developers</div>
+            <div class="text-xl pt-2">C++ for JS Developers</div>
             <div>Learn about the important parts of C++ in record time</div>
           </div>
         </a>
@@ -172,7 +169,7 @@ layout: default
               src="{{site.baseurl}}/assets/jsi_explained.webp"
               class="object-cover rounded h-48 w-full"
             />
-            <div class="font-light text-xl pt-2">JSI Explained</div>
+            <div class="text-xl pt-2">JSI Explained</div>
             <div>Learn about the new RN architecture</div>
           </div>
         </a>
@@ -187,37 +184,26 @@ layout: default
               src="{{site.baseurl}}/assets/tplatino.webp"
               class="object-cover rounded h-48 w-full"
             />
-            <div class="font-light text-xl pt-2">TP Latino</div>
+            <div class="text-xl pt-2">TP Latino</div>
             <div>Mobile App to train south american pilots</div>
           </div>
         </a>
       </div>
     </div>
 
-    <div class="pt-12 pb-4">
-      <div
-        class="text-coolGray-900 dark:text-white text-xl md:text-3xl font-thin"
-      >
-        Blog
-      </div>
-    </div>
 
+    <p class="py-3">
+      Every once in a while I write some short essays and guides
+    </p>
     <div>
       {% for post in site.posts %}
       <a href="{{ post.url }}">
-        <div class="py-1">
-          <div
-            class="
-              text-coolGray-600
-              dark:text-coolGray-200
-              hover:text-black
-              dark:hover:text-white
-            "
-          >
-            {{ post.title }}
-          </div>
-          <div class="text-gray-500 flex-shrink-0 mr-2 pt-1 md:pt-0 text-xs">
+        <div class="py-1 flex items-center">
+          <div class="text-gray-500 flex-shrink-0 mr-2 pt-1 md:pt-0 w-20 text-right">
             {{ post.date | date: "%b %Y" }}
+          </div>
+          <div class="text-blue-500">
+            {{ post.title }}
           </div>
         </div>
       </a>

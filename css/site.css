@@ -12,6 +12,7 @@ body {
   font-family: Inter, Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
+  font-size: 14;
   @apply dark:text-white;
 }
 
@@ -20,7 +21,7 @@ body {
 }
 
 .markdown p {
-  @apply py-3 leading-7;
+  @apply py-3;
 }
 
 .markdown h1 {

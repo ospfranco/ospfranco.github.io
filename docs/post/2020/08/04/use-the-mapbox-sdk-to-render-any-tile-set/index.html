@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"So here is a gem from the past, I won’t disclose exactly what it was used for but at a previous job I “hacked” away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.","image":"https://ospfranco.com/assets/taco.png","headline":"How to use the Mapbox SDK to render custom tiles","dateModified":"2020-08-04T09:00:00-04:00","datePublished":"2020-08-04T09:00:00-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/"},"url":"https://ospfranco.com/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"So here is a gem from the past, I won’t disclose exactly what it was used for but at a previous job I “hacked” away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/"},"image":"https://ospfranco.com/assets/taco.png","headline":"How to use the Mapbox SDK to render custom tiles","dateModified":"2020-08-04T09:00:00-04:00","datePublished":"2020-08-04T09:00:00-04:00","url":"https://ospfranco.com/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -36,74 +36,26 @@
 <html class="max-h-full bg-white dark:bg-black">
   <body class="max-h-full flex flex-col items-center">
     <div class="flex-1 flex flex-col items-center w-full lg:mx-36">
+  <img
+    src="/assets/profile.webp"
+    class="rounded-full h-24 w-24 object-cover mt-20"
+  />
   <div
     class="
       text-coolGray-800
       dark:text-white
       text-xl
       self-center
-      tracking-widest
+      tracking-wide
+      font-medium
       pb-4
-      pt-20
     "
   >
     OSCAR FRANCO
   </div>
-  <img
-    src="/assets/profile.webp"
-    class="rounded-full h-24 w-24 object-cover"
-  />
-
-  <div class="flex self-center p-4 dark:hidden">
-    <a
-      class="p-2 self-center"
-      href="https://github.com/ospfranco?tab=followers"
-    >
-      <img
-        src="https://img.shields.io/github/followers/ospfranco?label= &style=flat-square&logo=github&color=fff&logoColor=000"
-      />
-    </a>
-    <a class="p-2 self-center" href="https://twitter.com/ospfranco">
-      <img
-        src="https://img.shields.io/twitter/follow/ospfranco?label= &style=flat-square&logo=twitter&color=fff"
-      />
-    </a>
-    <a
-      class="p-2 self-center"
-      href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q"
-    >
-      <img
-        src="https://img.shields.io/youtube/channel/subscribers/UCHxMuqeVlkDgKG5cs99FH2Q?label= &style=flat-square&logo=youtube&color=fff&logoColor=FF0000"
-      />
-    </a>
-  </div>
-
-  <div class="invisible self-center p-4 dark:visible flex">
-    <a
-      class="p-2 self-center"
-      href="https://github.com/ospfranco?tab=followers"
-    >
-      <img
-        src="https://img.shields.io/github/followers/ospfranco?label= &style=flat-square&logo=github&color=000"
-      />
-    </a>
-    <a class="p-2 self-center" href="https://twitter.com/ospfranco">
-      <img
-        src="https://img.shields.io/twitter/follow/ospfranco?label= &style=flat-square&logo=twitter&color=000"
-      />
-    </a>
-    <a
-      class="p-2 self-center"
-      href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q"
-    >
-      <img
-        src="https://img.shields.io/youtube/channel/subscribers/UCHxMuqeVlkDgKG5cs99FH2Q?label= &style=flat-square&logo=youtube&color=000"
-      />
-    </a>
-  </div>
 
   <div class="w-full md:w-768 text-center my-10 flex flex-col items-center">
-    <h1 class="font-semibold text-3xl md:text-5xl dark:text-white">
+    <h1 class="font-semibold text-3xl md:text-4xl dark:text-white">
       How to use the Mapbox SDK to render custom tiles
     </h1>
     <div class="text-gray-500 dark:text-coolGray-300">
@@ -376,7 +328,7 @@
     <button
       class="rounded-xl bg-blue-500 text-white mt-12 mb-44 py-3 px-6 font-bold"
     >
-      HOMEPAGE
+      See more
     </button>
   </a>
 </div>
