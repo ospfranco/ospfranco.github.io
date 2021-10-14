@@ -1,213 +1,147 @@
 ---
 layout: default
 ---
+<div class="flex flex-col h-screen items-start justify-center">
+  {% include mahFace.html %}
+</div>
 
-<div class="w-full md:w-768 px-6 md:px-0 pb-20">
-  <div class="flex flex-col h-screen items-start justify-center pb-16">
-    <img
-      src="{{site.baseurl}}/assets/profile.webp"
-      class="h-24 w-24 md:h-36 md:w-36 rounded-full object-cover self-center"
-    />
-    <div
-      class="
-        text-coolGray-800
-        dark:text-white
-        text-xl
-        self-center
-        tracking-wide
-        font-medium
-        pt-4
-      "
+<div class="pb-20 w-full md:w-768 px-6 md:px-0 flex flex-col items-center">
+  <p class="py-3 font-medium text-lg">
+    About
+  </p>
+  <p>
+    <span class="font-medium">I'm Oscar</span>, a full-stack dev with lots of experience in different
+    industries and companies, from corporate to start-ups, also an indie
+    hacker at heart.
+    <br>
+    <br>
+    Simplicity is the ultimate hack in life, software and beyond, therefore I strive for excelence and minimalism in
+    everything that I do.
+    <br><br>
+    Master of C++, JS, TS, Java, Scala, Swift, Lua, etc. warlock of dev-ops,
+    conqueror of AWS... I'm a none of
+    those, and it doesn't really matter, all I care about is solving
+    problems. Checkout my
+    <a href="https://github.com/ospfranco" class="text-blue-500">github</a> and the projects down below,
+    I'm sure you will find something useful there.
+    <br><br>
+    I'm available for freelance/consulting work, reach me via
+    <a href="mailto://ospfranco@protonmail.com" class="text-blue-500"
+      >email.</a
     >
-      OSCAR FRANCO
-    </div>
-    <div class="flex self-center dark:hidden">
-      <a
-        class="p-2 self-center"
-        href="https://github.com/ospfranco?tab=followers"
-      >
-        <img
-          src="https://img.shields.io/github/followers/ospfranco?label= &style=flat-square&logo=github&color=fff&logoColor=000"
-        />
-      </a>
-      <a class="p-2 self-center" href="https://twitter.com/ospfranco">
-        <img
-          src="https://img.shields.io/twitter/follow/ospfranco?label= &style=flat-square&logo=twitter&color=fff"
-        />
-      </a>
-      <a
-        class="p-2 self-center"
-        href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q"
-      >
-        <img
-          src="https://img.shields.io/youtube/channel/subscribers/UCHxMuqeVlkDgKG5cs99FH2Q?label= &style=flat-square&logo=youtube&color=fff&logoColor=FF0000"
-        />
-      </a>
-    </div>
+  </p>
+</div>
 
-    <div class="invisible self-center dark:visible flex">
-      <a
-        class="p-2 self-center"
-        href="https://github.com/ospfranco?tab=followers"
-      >
+<p class="py-3 font-medium text-lg">
+  Projects
+</p>
+<div class="flex w-full overflow-x-scroll scrollbar-hide pb-20">
+  <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
+    <a href="https://cidemon.com">
+      <div class="p-3 rounded">
         <img
-          src="https://img.shields.io/github/followers/ospfranco?label= &style=flat-square&logo=github&color=000"
+          src="{{site.baseurl}}/assets/cidemon.webp"
+          class="object-cover rounded h-48 w-full"
         />
-      </a>
-      <a class="p-2 self-center" href="https://twitter.com/ospfranco">
-        <img
-          src="https://img.shields.io/twitter/follow/ospfranco?label= &style=flat-square&logo=twitter&color=000"
-        />
-      </a>
-      <a
-        class="p-2 self-center"
-        href="https://www.youtube.com/channel/UCHxMuqeVlkDgKG5cs99FH2Q"
-      >
-        <img
-          src="https://img.shields.io/youtube/channel/subscribers/UCHxMuqeVlkDgKG5cs99FH2Q?label= &style=flat-square&logo=youtube&color=000&logoColor=FF0000"
-        />
-      </a>
-    </div>
+        <div class="font-semibold pt-2">CI Demon</div>
+        <div>Menu bar app to monitor CI jobs and deployments</div>
+      </div>
+    </a>
   </div>
 
-  <div class="pb-72">
-    <p class="mt-4">
-      Hi, I'm Oscar! A full-stack dev with lots of experience in different
-      industries and companies, from corporate to start-ups, also an indie
-      hacker at heart.
-    </p>
-    <p class="mt-3">
-      Simplicity is the ultimate hack in life, software and beyond, therefore I strive for excelence and minimalism in
-      everything that I do.
-    </p>
-    <p class="mt-3">
-      Master of C++, JS, TS, Java, Scala, Swift, Lua, etc. warlock of dev-ops,
-      conqueror of AWS and its hundred of confusing services. I'm a none of
-      those, and at the end doesn't really matter, all I care about is solving
-      problems. Checkout my
-      <a href="https://github.com/ospfranco" class="text-blue-500">github</a> and the projects down below,
-      I'm sure you will find something useful there.
-    </p>
-    <p class="mt-3">
-      I did however lead development teams in the past and learned one thing;
-      people are the most valuable asset, endless source of creativity and
-      potential.
-    </p>
-    <p class="mt-3">
-      I'm available for freelance/consulting work, reach me via
-      <a href="mailto://ospfranco@protonmail.com" class="text-blue-500"
-        >email.</a
-      >
-    </p>
-    </div>
-
-    <div class="flex flex-wrap justify-around mb-48">
-      <div class="w-96 h-80 p-4">
-        <a href="https://cidemon.com">
-          <div class="p-3 rounded">
-            <img
-              src="{{site.baseurl}}/assets/cidemon.webp"
-              class="object-cover rounded h-48 w-full"
-            />
-            <div class="text-xl pt-2">CI Demon</div>
-            <div>Menu bar app to monitor CI jobs and deployments</div>
-          </div>
-        </a>
-      </div>
-
-      <div class="w-96 h-80 p-4">
-        <a href="https://messerapp.cc">
-          <div class="p-3 rounded">
-            <img
-              src="{{site.baseurl}}/assets/messer.webp"
-              class="object-cover rounded h-48 w-full"
-            />
-            <div class="text-xl pt-2">Messer</div>
-            <div>
-              Menu bar app to resize & convert images by dragging & dropping
-            </div>
-          </div>
-        </a>
-      </div>
-
-      <div class="w-96 h-80 p-4">
-        <a
-          href="https://www.newline.co/courses/building-react-native-apps-for-mac"
-        >
-          <div class="p-3 rounded">
-            <img
-              src="{{site.baseurl}}/assets/buildingapps.webp"
-              class="object-cover rounded h-48 w-full"
-            />
-            <div class="text-xl pt-2">RN MacOS Couse</div>
-            <div>Learn to build macOS apps with React Native</div>
-          </div>
-        </a>
-      </div>
-
-      <div class="w-96 h-80 p-4">
-        <a
-          href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
-        >
-          <div class="p-3 rounded">
-            <img
-              src="{{site.baseurl}}/assets/cxx.webp"
-              class="object-cover rounded h-48 w-full"
-            />
-            <div class="text-xl pt-2">C++ for JS Developers</div>
-            <div>Learn about the important parts of C++ in record time</div>
-          </div>
-        </a>
-      </div>
-
-      <div class="w-96 h-80 p-4">
-        <a
-          href="https://www.youtube.com/playlist?list=PLanS_SVm5swimC_m5zWfly0EPJTk7Tsp8"
-        >
-          <div class="p-3 rounded">
-            <img
-              src="{{site.baseurl}}/assets/jsi_explained.webp"
-              class="object-cover rounded h-48 w-full"
-            />
-            <div class="text-xl pt-2">JSI Explained</div>
-            <div>Learn about the new RN architecture</div>
-          </div>
-        </a>
-      </div>
-
-      <div class="w-96 h-80 p-4">
-        <a
-          href="https://apps.apple.com/tt/app/tp-latino/id1483823093?ign-mpt=uo%3D2"
-        >
-          <div class="p-3 rounded">
-            <img
-              src="{{site.baseurl}}/assets/tplatino.webp"
-              class="object-cover rounded h-48 w-full"
-            />
-            <div class="text-xl pt-2">TP Latino</div>
-            <div>Mobile App to train south american pilots</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-
-    <p class="py-3">
-      Every once in a while I write some short essays and guides
-    </p>
-    <div>
-      {% for post in site.posts %}
-      <a href="{{ post.url }}">
-        <div class="py-1 flex items-center">
-          <div class="text-gray-500 flex-shrink-0 mr-2 pt-1 md:pt-0 w-20 text-right">
-            {{ post.date | date: "%b %Y" }}
-          </div>
-          <div class="text-blue-500">
-            {{ post.title }}
-          </div>
+  <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
+    <a href="https://messerapp.cc">
+      <div class="p-3 rounded">
+        <img
+          src="{{site.baseurl}}/assets/messer.webp"
+          class="object-cover rounded h-48 w-full"
+        />
+        <div class="font-semibold pt-2">Messer</div>
+        <div>
+          Image manipulation in the MenuBar
         </div>
-      </a>
-      {% endfor %}
-    </div>
+      </div>
+    </a>
+  </div>
+
+  <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
+    <a
+      href="https://www.newline.co/courses/building-react-native-apps-for-mac"
+    >
+      <div class="p-3 rounded">
+        <img
+          src="{{site.baseurl}}/assets/buildingapps.webp"
+          class="object-cover rounded h-48 w-full"
+        />
+        <div class="font-semibold pt-2">RN MacOS Couse</div>
+        <div>Learn to build macOS apps with React Native</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
+    <a
+      href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
+    >
+      <div class="p-3 rounded">
+        <img
+          src="{{site.baseurl}}/assets/cxx.webp"
+          class="object-cover rounded h-48 w-full"
+        />
+        <div class="font-semibold pt-2">C++ for JS Developers</div>
+        <div>Learn C++ in record time</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
+    <a
+      href="https://www.youtube.com/playlist?list=PLanS_SVm5swimC_m5zWfly0EPJTk7Tsp8"
+    >
+      <div class="p-3 rounded">
+        <img
+          src="{{site.baseurl}}/assets/jsi_explained.webp"
+          class="object-cover rounded h-48 w-full"
+        />
+        <div class="font-semibold pt-2">JSI Explained</div>
+        <div>Learn about the new RN architecture</div>
+      </div>
+    </a>
+  </div>
+
+  <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
+    <a
+      href="https://apps.apple.com/tt/app/tp-latino/id1483823093?ign-mpt=uo%3D2"
+    >
+      <div class="p-3 rounded">
+        <img
+          src="{{site.baseurl}}/assets/tplatino.webp"
+          class="object-cover rounded h-48 w-full"
+        />
+        <div class="font-semibold pt-2">TP Latino</div>
+        <div>Mobile App to train south american pilots</div>
+      </div>
+    </a>
   </div>
 </div>
+
+
+  <p class="py-3 font-medium text-lg">
+    Essays
+  </p>
+  <div>
+    {% for post in site.posts %}
+    <a href="{{ post.url }}">
+      <div class="py-1 flex items-center">
+        <div class="text-gray-500 flex-shrink-0 mr-2 pt-1 md:pt-0 w-20 text-right">
+          {{ post.date | date: "%b %Y" }}
+        </div>
+        <div class="text-blue-500">
+          {{ post.title }}
+        </div>
+      </div>
+    </a>
+    {% endfor %}
+  </div>
+</div>
+

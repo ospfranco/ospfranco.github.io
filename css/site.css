@@ -6,6 +6,7 @@
 @import "tailwindcss/utilities";
 
 html {
+  @apply dark:bg-black;
 }
 
 body {
