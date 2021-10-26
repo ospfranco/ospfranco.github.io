@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"At work we use FlowType on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.","image":"https://ospfranco.com/assets/preview.jpg","headline":"How to visualize Flowtype dependency tree","dateModified":"2021-08-25T09:00:00-04:00","datePublished":"2021-08-25T09:00:00-04:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/"},"url":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"At work we use FlowType on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/"},"image":"https://ospfranco.com/assets/preview.jpg","headline":"How to visualize Flowtype dependency tree","dateModified":"2021-08-25T09:00:00-04:00","datePublished":"2021-08-25T09:00:00-04:00","url":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -198,7 +198,18 @@ dot <span class="nt">-Tsvg</span> output <span class="nt">-o</span> graph.svg
 </div>
 
   </body>
-  <footer class="w-full border-t py-3 mt-20 flex justify-center items-center">
+  <footer
+  class="
+    w-full
+    border-t
+    dark:border-trueGray-600
+    py-3
+    mt-20
+    flex
+    justify-center
+    items-center
+  "
+>
   <div class="md:w-768 px-6 md:px-0 flex flex-col items-center">
     <div class="font-medium py-1">Oscar Franco</div>
     <div class="flex">
