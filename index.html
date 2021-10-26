@@ -1,41 +1,46 @@
 ---
 layout: default
 ---
+
 <div class="flex flex-col h-screen items-start justify-center">
   {% include mahFace.html %}
 </div>
 
-<div class="pb-20 w-full md:w-768 px-6 md:px-0 flex flex-col items-center">
-  <p class="py-3 font-medium text-lg">
+<div class="pb-20 w-full md:w-700 px-6 md:px-0 flex flex-col items-center">
+  <!-- <p class="py-3 font-medium text-lg">
     About
-  </p>
+  </p> -->
   <p>
-    <span class="font-medium">I'm Oscar</span>, a full-stack dev with lots of experience in different
-    industries and companies, from corporate to start-ups, also an indie
-    hacker at heart.
-    <br>
-    <br>
-    Simplicity is the ultimate hack in life, software and beyond, therefore I strive for excelence and minimalism in
+    <span class="font-bold">I'm Oscar</span>, a full-stack dev with lots of
+    experience in different industries and companies, from corporate to
+    start-ups, also an indie hacker at heart.
+    <br />
+    <br />
+    <span class="font-medium">Simplicity</span> is the ultimate hack in life,
+    software and beyond, therefore I strive for excelence and minimalism in
     everything that I do.
-    <br><br>
+    <br />
+    <br />
+    I also play <span class="font-medium">meta-games</span>, long term planning,
+    good relationships while minimising things like career building or money
+    making, the objective: a life well lived. <br /><br />
     Master of C++, JS, TS, Java, Scala, Swift, Lua, etc. warlock of dev-ops,
-    conqueror of AWS... I'm a none of
-    those, and it doesn't really matter, all I care about is solving
-    problems. Checkout my
-    <a href="https://github.com/ospfranco" class="text-blue-500">github</a> and the projects down below,
-    I'm sure you will find something useful there.
-    <br><br>
-    I'm available for freelance/consulting work, reach me via
-    <a href="mailto://ospfranco@protonmail.com" class="text-blue-500"
-      >email.</a
-    >
+    conqueror of AWS... I'm not any of those, even though I have coded in all of
+    them, but at the end the only thing that matters is solving problems.
+    Checkout my
+    <a href="https://github.com/ospfranco" class="text-blue-500">github</a> and
+    the projects down below, I'm sure you will find something useful there.
+    <br /><br />
+    <span class="font-semibold">
+      I'm available for freelance/consulting work, reach me via
+      <a href="mailto://ospfranco@protonmail.com" class="text-blue-500"
+        >email.</a
+      >
+    </span>
   </p>
 </div>
 
-<p class="py-3 font-medium text-lg">
-  Projects
-</p>
-<div class="flex w-full overflow-x-scroll scrollbar-hide pb-20">
+<div class="flex w-full overflow-x-scroll scrollbar-hide md:pl-32">
   <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
     <a href="https://cidemon.com">
       <div class="p-3 rounded">
@@ -57,17 +62,13 @@ layout: default
           class="object-cover rounded h-48 w-full"
         />
         <div class="font-semibold pt-2">Messer</div>
-        <div>
-          Image manipulation in the MenuBar
-        </div>
+        <div>Image manipulation in the MenuBar</div>
       </div>
     </a>
   </div>
 
   <div class="flex-shrink-0 w-96 mx-4 p-1 bg-coolGray-100 rounded-lg border">
-    <a
-      href="https://www.newline.co/courses/building-react-native-apps-for-mac"
-    >
+    <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">
       <div class="p-3 rounded">
         <img
           src="{{site.baseurl}}/assets/buildingapps.webp"
@@ -125,23 +126,19 @@ layout: default
   </div>
 </div>
 
+<p class="py-3 text-gray-500 pb-20">Check out all my projects</p>
 
-  <p class="py-3 font-medium text-lg">
-    Essays
-  </p>
-  <div>
-    {% for post in site.posts %}
-    <a href="{{ post.url }}">
-      <div class="py-1 flex items-center">
-        <div class="text-gray-500 flex-shrink-0 mr-2 pt-1 md:pt-0 w-20 text-right">
-          {{ post.date | date: "%b %Y" }}
-        </div>
-        <div class="text-blue-500">
-          {{ post.title }}
-        </div>
+<div class="w-700 border-t pt-12">
+  {% for post in site.posts %}
+  <a href="{{ post.url }}">
+    <div class="py-1 flex items-center">
+      <div
+        class="text-gray-500 flex-shrink-0 mr-2 pt-1 md:pt-0 w-20 text-right"
+      >
+        {{ post.date | date: "%b %Y" }}
       </div>
-    </a>
-    {% endfor %}
-  </div>
+      <div class="text-blue-500">{{ post.title }}</div>
+    </div>
+  </a>
+  {% endfor %}
 </div>
-

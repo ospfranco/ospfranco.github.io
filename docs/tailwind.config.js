@@ -27,6 +27,7 @@ module.exports = {
       },
       width: {
         600: "600px",
+        700: "700px",
         768: "768px",
       },
       boxShadow: {
