@@ -2,14 +2,10 @@
 layout: default
 ---
 
-<div class="flex-1 flex flex-col items-center w-full lg:mx-36 pt-20">
-  {% include mahFace.html %}
-
-  <div class="w-full md:w-768 text-center my-10 flex flex-col items-center">
-    <h1 class="font-semibold text-3xl md:text-4xl dark:text-white">
-      {{ page.title }}
-    </h1>
-    <div class="text-gray-500 dark:text-coolGray-300">
+<div class="flex-1 w-full pt-20">
+  <div class="w-full md:w-768 my-10 flex flex-col px-6 md:px-0">
+    <h1 class="font-semibold text-xl md:text-2xl">{{ page.title }}</h1>
+    <div class="text-gray-500 dark:text-coolGray-400 text-sm">
       {{ page.date | date: "%B %Y" }}
     </div>
   </div>
@@ -26,9 +22,9 @@ layout: default
     hljs.initHighlightingOnLoad();
   </script>
 
-  <a href="/">
-    <button class="rounded-xl bg-blue-500 text-white mt-12 py-3 px-6 font-bold">
-      See more
-    </button>
-  </a>
+  <div class="mt-20">
+    <a href="/" class="tracking-wide font-medium text-sm px-6 md:px-0">
+      ← Homepage
+    </a>
+  </div>
 </div>

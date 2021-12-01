@@ -6,19 +6,23 @@
 @import "tailwindcss/utilities";
 
 html {
-  @apply dark:bg-black;
+  @apply dark:bg-trueGray-900;
 }
 
 body {
   font-family: Inter, Arial, Helvetica, sans-serif;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
+  /* text-rendering: optimizeLegibility; */
+  /* -moz-osx-font-smoothing: grayscale; */
   font-size: 14;
-  @apply dark:text-white;
+  @apply dark:text-gray-200;
+}
+
+a {
+  @apply hover:text-gray-400 cursor-default;
 }
 
 .markdown {
-  @apply dark:text-white;
+  @apply dark:text-gray-200;
 }
 
 .markdown p {
@@ -26,11 +30,11 @@ body {
 }
 
 .markdown h1 {
-  @apply text-2xl font-semibold mt-4;
+  @apply text-xl font-semibold mt-4;
 }
 
 .markdown h2 {
-  @apply text-xl font-semibold mt-4;
+  @apply text-lg font-semibold mt-4;
 }
 
 .markdown h3 {
@@ -38,7 +42,7 @@ body {
 }
 
 .markdown a {
-  @apply text-blue-500;
+  @apply text-blue-500 hover:text-blue-300;
 }
 
 .markdown ol {
@@ -54,26 +58,23 @@ body {
 }
 
 .markdown blockquote {
-  @apply px-4 my-2 bg-blue-100 dark:bg-coolGray-700 dark:text-white rounded text-gray-800 border-l-4 border-gray-500;
+  @apply px-4 my-2 bg-blueGray-100 dark:bg-blueGray-900 dark:text-white rounded text-gray-800;
 }
 
 .markdown .highlighter-rouge {
-  @apply text-red-500 px-2 rounded bg-gray-100 dark:bg-gray-800;
-  font-family: Tahoma;
-  padding-top: 0;
-  padding-bottom: 0;
+  @apply text-amber-600 font-medium bg-transparent pt-0 pb-0;
+  font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
 .markdown .highlight {
-  @apply p-3 rounded text-gray-800 text-xs;
+  @apply rounded-lg text-gray-800 text-xs;
   padding: 0 !important;
 }
 
-/* code {
-  font-size: 1rem;
-} */
+code {
+  @apply my-8;
+}
 
 .highlighter-rouge {
-  /* border-radius: 5px; */
   overflow: auto;
 }
