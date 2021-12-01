@@ -30,15 +30,15 @@ a {
 }
 
 .markdown h1 {
-  @apply text-xl font-semibold mt-4;
+  @apply text-xl font-semibold mt-8;
 }
 
 .markdown h2 {
-  @apply text-lg font-semibold mt-4;
+  @apply text-lg font-semibold mt-8;
 }
 
 .markdown h3 {
-  @apply font-bold mt-4;
+  @apply font-bold mt-8;
 }
 
 .markdown a {
@@ -50,7 +50,7 @@ a {
 }
 
 .markdown ul {
-  @apply list-disc pl-8;
+  @apply list-disc pl-5;
 }
 
 .markdown li {

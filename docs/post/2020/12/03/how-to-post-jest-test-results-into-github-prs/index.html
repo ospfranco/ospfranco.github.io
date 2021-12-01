@@ -34,11 +34,6 @@
 </head>
 
 <html class="w-full">
-  <header class="pt-8 px-6 md:px-0">
-    <a href="/" class="font-medium text-sm tracking-wide">
-      Oscar Pedro Franco
-    </a>
-  </header>
   <body class="w-full md:pl-96">
     <div class="flex-1 w-full pt-20">
   <div class="w-full md:w-768 my-10 flex flex-col px-6 md:px-0">
@@ -48,7 +43,7 @@
     </div>
   </div>
 
-  <div class="markdown w-full px-6 md:px-0 md:w-700"><p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
+  <div class="markdown w-full px-6 md:px-0 md:w-600"><p>At BodyFast we recently decided to migrate out of Bitrise for our javascript tests, that means, we continue to use Bitrise for building our react-native app but all other tests (jest, lint, flow, tsc) are now running on github actions</p>
 
 <h2 id="why-leave-bitrise">Why leave Bitrise</h2>
 
@@ -142,19 +137,38 @@
 </div>
 
   </body>
+  <header
+    class="
+      pt-8
+      pb-4
+      px-6
+      md:px-0 md:pl-96
+      fixed
+      top-0
+      right-0
+      left-0
+      dark:bg-trueGray-900
+    "
+  >
+    <div class="w-full md:w-700">
+      <a href="/" class="font-medium text-sm tracking-wide z-20">
+        Oscar Pedro Franco
+      </a>
+    </div>
+  </header>
   <footer class="w-full dark:border-trueGray-600 py-3 flex items-center">
   <div
-    class="px-6 md:px-0 flex flex-col items-center tracking-wide text-sm pb-20"
+    class="px-6 md:px-0 flex flex-col items-center tracking-wide text-xs pb-20"
   >
-    <div class="flex">
-      <a class="py-1" href="mailto:ospfranco@protonmail.com">Email</a>
-      <a class="py-1 pl-4" href="https://github.com/ospfranco">Github</a>
-      <a class="py-1 pl-4" href="https://twitter.com/ospfranco">Twitter</a>
-      <a class="py-1 pl-4" href="https://youtube.com/ospfranco">Youtube</a>
+    <div class="flex gap-4">
+      <a class="py-1" href="mailto:ospfranco@protonmail.com">· Email</a>
+      <a class="py-1" href="https://github.com/ospfranco">· Github</a>
+      <a class="py-1" href="https://twitter.com/ospfranco">· Twitter</a>
+      <a class="py-1" href="https://youtube.com/ospfranco">·Youtube</a>
       <a
-        class="py-1 pl-4"
+        class="py-1"
         href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
-        >LinkedIn</a
+        >· LinkedIn</a
       >
     </div>
   </div>
