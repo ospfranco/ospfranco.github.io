@@ -5,11 +5,11 @@ layout: default
 <div class="w-full md:w-600 px-6 md:px-0">
   <img
     src="{{site.baseurl}}/assets/profile.jpeg"
-    class="h-32 w-32 rounded-full object-cover mt-44 mb-12"
+    class="h-56 w-full object-cover mt-20 mb-12 rounded-lg"
   />
 </div>
 
-<div class="pb-20 w-full md:w-600 px-6 md:px-0 flex flex-col items-center">
+<div class="w-full md:w-600 px-6 md:px-0 flex flex-col items-center">
   <p>
     I'm <span class="font-medium tracking-wide">Oscar Franco</span>, System's
     Engineer in Munich with lots of experience in different industries and
@@ -20,37 +20,36 @@ layout: default
     excellence and minimalism.
     <br />
     <br />
-    I play meta-games: long term, prioritizing good relationships while
-    minimizing things like career building or money making, with the objective
-    of a life well lived.
-    <br />
-    <br />
     My current stack is React Native, AWS CDK, Blitz.js, but at the end the only
     thing that matters is solving problems, no matter the technology. Checkout
     my
-    <a
-      href="https://github.com/ospfranco"
-      class="text-blue-500 hover:text-blue-400"
-      >github</a
-    >
+    <a href="https://github.com/ospfranco">github</a>
     and the projects down below, I'm sure you will find something useful there.
     <br /><br />
     I'm available for freelance/consulting work, reach me via
-    <a
-      href="mailto://ospfranco@protonmail.com"
-      class="text-blue-500 hover:text-blue-400"
-      >email.</a
-    >
+    <a href="mailto://ospfranco@protonmail.com">email.</a>
   </p>
 </div>
-
-<div class="flex overflow-x-scroll scrollbar-hide px-6 md:px-0 py-20 w-full">
-  <div class="flex-shrink-0 w-96 mr-4 duration transform hover:scale-105">
+<h2 class="font-medium tracking-wide dark:text-white pt-10 pb-4 px-6 md:px-0">
+  Projects
+</h2>
+<div class="flex overflow-x-scroll scrollbar-hide px-6 md:px-0 w-full py-2">
+  <div
+    class="
+      flex-shrink-0
+      w-96
+      mr-4
+      transition
+      duration
+      transform
+      hover:scale-105
+    "
+  >
     <a href="https://www.raycast.com/ospfranco/translate">
       <div class="">
         <img
           src="{{site.baseurl}}/assets/google_raycast.jpeg"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">Raycast Google Translate</div>
       </div>
@@ -72,7 +71,7 @@ layout: default
       <div class="">
         <img
           src="{{site.baseurl}}/assets/cidemon.webp"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">CI Demon, menu bar CI monitor</div>
       </div>
@@ -94,7 +93,7 @@ layout: default
       <div class="">
         <img
           src="{{site.baseurl}}/assets/messer.webp"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">
           Messer, menu bar image manipulation
@@ -118,7 +117,7 @@ layout: default
       <div class="">
         <img
           src="{{site.baseurl}}/assets/buildingapps.webp"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">RN MacOS Couse</div>
       </div>
@@ -142,7 +141,7 @@ layout: default
       <div class="">
         <img
           src="{{site.baseurl}}/assets/cxx.webp"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">C++ for JS Developers</div>
       </div>
@@ -166,7 +165,7 @@ layout: default
       <div class="">
         <img
           src="{{site.baseurl}}/assets/jsi_explained.webp"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">RN JSI Explained</div>
       </div>
@@ -190,7 +189,7 @@ layout: default
       <div class="">
         <img
           src="{{site.baseurl}}/assets/tplatino.webp"
-          class="object-cover h-48 w-full"
+          class="object-cover h-48 w-full rounded-lg"
         />
         <div class="tracking-wide pt-2">TP Latino, south america pilot app</div>
       </div>
@@ -200,21 +199,24 @@ layout: default
   <div class="w-1/2 flex-shrink-0"></div>
 </div>
 
-<div class="w-full md:w-600 px-6 md:px-0 my-12">
-  <!-- <p class="py-4">
-    Every once in a while I also write small articles, some are technical, some
-    more abstract.
-  </p> -->
-  {% for post in site.posts %}
-  <a href="{{ post.url }}">
-    <div class="py-1 flex items-center">
-      <div
-        class="text-gray-500 dark:text-gray-300 flex-shrink-0 mr-2 w-16 text-xs"
-      >
-        {{ post.date | date: "%b %Y" }}
-      </div>
-      <div class="text-blue-500 hover:text-blue-400">{{ post.title }}</div>
+<h2 class="font-medium tracking-wide dark:text-white pt-10 pb-4 px-6 md:px-0">
+  Notes
+</h2>
+
+<div class="w-full md:w-600 px-6 md:px-0">
+  {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
+  date: '%b %Y'" %} {% for month in postsByMonthYear %}
+  <div class="py-2 flex gap-4">
+    <div
+      class="text-gray-500 dark:text-gray-300 flex-shrink-0 w-16 text-xs pt-2"
+    >
+      {{ month.name }}
     </div>
-  </a>
+    <div>
+      {% for post in month.items %}
+      <div class="py-1"><a href="{{ post.url }}">{{ post.title }}</a></div>
+      {% endfor %}
+    </div>
+  </div>
   {% endfor %}
 </div>
