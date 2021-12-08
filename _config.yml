@@ -10,7 +10,7 @@ url: "https://ospfranco.com"
 title: "Oscar Franco"
 twitter:
   username: "ospfranco"
-  card: "summary_large_image"
+  card: "summary"
 image: "assets/preview.jpg"
 future: true # Publish posts with future dates
 
