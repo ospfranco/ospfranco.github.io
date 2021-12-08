@@ -13,6 +13,6 @@ I believe the moment you have typed your code, it's already becoming obsolete an
 
 My approach: do OK code when solving the problem for the first time, fast, kinda dirty, see how it performs, see if it solves the problem, with a bit of time and patience you will see patterns solidify. The catch is: you have to clean it up, with the same energy and fervour you wrote it the first time.
 
-I find this technique so invigorating though, instead of sloshing through endless discussions, I get the satisfaction of solving the problem first, instead of wasting my time on an unproven solution. Afterwards, I get the pleasure of polishing the solution to a shiny state.
+I find this technique so invigorating though, instead of sloshing through endless discussions, I get the satisfaction of solving the problem first, instead of wasting my time on a potential dead-end. Afterwards, I get the pleasure of polishing the solution to a shiny state.
 
 Now if I could only convince my team to see it that way...
