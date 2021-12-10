@@ -5,10 +5,6 @@ date: 2020-09-17 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 location: Munich
-image: assets/taco.png
-twitter:
-  username: "ospfranco"
-  image: "assets/taco.png"
 ---
 
 When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.
@@ -34,7 +30,7 @@ CONFIG=production
 
 function generateIcon () {
   BASE_IMAGE_NAME=$1
-  
+
   SOURCE_PATH="${SRCROOT}/../storage/app_icons/${CONFIG}/${BASE_IMAGE_NAME}"
   TARGET_PATH=$(find "${SRCROOT}/BodyFast/Images.xcassets" -name $BASE_IMAGE_NAME)
   echo "Copying ${SOURCE_PATH} into: ${TARGET_PATH}"
@@ -80,6 +76,7 @@ generateIcon "AppIcon83.5x83.5@2x~ipad.png"
 ```
 
 let's break it down:
+
 - First we need to find out which environment is currently being build, for us is fairly simple, we have a `.env` that get's symlinked at the beginning of our compilation process, a simple GREP inside of the file to search for a keyword does the trick of detecting which "environment" is the app going to tbe connected to
 - Once we now the environment we can start replacing all the icons, the source path as you can imagine is where you have placed the icons for all the different flavors, you will need to replace it with your own value
 - The target path is where we are going to highjack the process, basically we are going to replace the conents of the `.xcassets` file via code, now there are some important caveats here; 1. your icons need to have the same name from the moment you generate them to the moment you replace them, in order to make my life easier [I have forked the script I use](https://github.com/ospfranco/ios-icon-generator) and just generate all of the files with the final naming xcode uses internally, 2. You might not need all the files I presented, we are using an old xcassets file and depending on which devices you support you might need/want to get rid of some of the lines

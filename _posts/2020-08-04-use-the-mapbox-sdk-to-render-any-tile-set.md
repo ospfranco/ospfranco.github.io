@@ -5,16 +5,12 @@ date: 2020-08-04 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 location: Munich
-image: assets/taco.png
-twitter:
-  username: "ospfranco"
-  card: "summary_large_image"
-  image: "assets/taco.png"
 ---
 
 So here is a gem from the past, I won't disclose exactly what it was used for but at a previous job I "hacked" away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.
 
 ## But... why?
+
 Well, it's not straightforward to see why this might be a good idea, but first of all: **Performance**, even though current mobile devices (smartphones and tablets) are mighty potent, if you have a large enough image, a device will have trouble rendering it, granted the problem might be barely noticeable on a iPad pro, but not everyone has such devices.
 
 Second is UX, you could very easily write your own component that displays a tile set, wire it together with gesture handlers, as a matter of fact, this was how this component got first implemented, but there are several downsides to this approach, first: you will probably write it in javascript which means it will be slow no matter how clever you are, and second of all, it is particularly difficult to get the UX right, gestures can be finicky, touch tracking can get de-synced
@@ -40,46 +36,46 @@ Now, here comes the fun part, once you have your tile set and the sdk integrated
 So once you have your tile set in your device, you will create a url for it:
 
 ```javascript
-  let tilesUrl = '';
-  if (localDirectory) {
-    // We assume that the file has been unpacked to a local directory
-    tilesUrl = `file://${localDirectory}/{z}-{x}-{y}.png`;
-  } else {
-    // Dispatching the download job in the background
-    FileCacheInstance.fetch([plan.tileUrl]);
-    tilesUrl = `file//${downloadsFolder}/{z}-{x}-{y}.png`;
-  }
+let tilesUrl = "";
+if (localDirectory) {
+  // We assume that the file has been unpacked to a local directory
+  tilesUrl = `file://${localDirectory}/{z}-{x}-{y}.png`;
+} else {
+  // Dispatching the download job in the background
+  FileCacheInstance.fetch([plan.tileUrl]);
+  tilesUrl = `file//${downloadsFolder}/{z}-{x}-{y}.png`;
+}
 ```
 
 this is just a snippet you will have to make sure you create it properly depending on the OS, filesystem and library you are using, once that is done, here is where the real magic happens, we create a [mapbox config JSON](https://docs.mapbox.com/mapbox-gl-js/style-spec/):
 
 ```javascript
 const styleJSON = {
-    version: 8,
-    name: 'MyStyleJSON',
-    sources: {
-      mapbox: {
-        type: 'raster',
-        tiles: [tilesUrl],
-        tileSize: 256, // can also be 512, depending on the size of your tiles
-      },
+  version: 8,
+  name: "MyStyleJSON",
+  sources: {
+    mapbox: {
+      type: "raster",
+      tiles: [tilesUrl],
+      tileSize: 256, // can also be 512, depending on the size of your tiles
     },
-    layers: [
-      {
-        id: 'plan',
-        type: 'raster',
-        source: 'mapbox',
-      },
-    ],
-    glyphs: 'mapbox://fonts/mapbox/{fontstack}/{range}.pbf', // necessary to output text
-  };
+  },
+  layers: [
+    {
+      id: "plan",
+      type: "raster",
+      source: "mapbox",
+    },
+  ],
+  glyphs: "mapbox://fonts/mapbox/{fontstack}/{range}.pbf", // necessary to output text
+};
 
-  // Write json file to device storage
-  await RNFS.writeFile(
-    `${RNFS.DocumentDirectoryPath}/${plan.id}-style.json`,
-    JSON.stringify(styleJSON),
-    'utf8',
-  );
+// Write json file to device storage
+await RNFS.writeFile(
+  `${RNFS.DocumentDirectoryPath}/${plan.id}-style.json`,
+  JSON.stringify(styleJSON),
+  "utf8"
+);
 ```
 
 You will see I have written the JSON into a file in the filesystem, this seems to be some idiosincracy of the native SDKs implementation, this also means whenever you want to display a different tile set, you will either have to re-write this file or create a new one.
@@ -105,7 +101,6 @@ Finally we can just tell the Mapview to render based on the JSON we created
 Now, here is where you can see mabox was not designed to show any random tile set, but specifically geo located tile sets, and that brings a problem if you are displaying some other information, you see, the `onPress` or `onLongPress` handlers will return you longitude, latitude coordinates (in that order, don't ask me why mapbox decided to revert them), but more than likely you will just want pixel coordinates, so I scoured around the internet until I finally found some of the code google maps uses in it's implementation
 
 ```javascript
-
 /**
  * Degrees to radians
  * @param degrees
@@ -244,13 +239,13 @@ export function limitMapboxBounds(cameraRef: React.RefObject<MapboxGL.Camera>) {
       const visibleWidth = Math.abs(ne[0] - sw[0]);
       cameraRef.current?.fitBounds(
         [minSw[0], sw[1]],
-        [minSw[0] + visibleWidth, ne[1]],
+        [minSw[0] + visibleWidth, ne[1]]
       );
     } else if (ne[0] > maxNe[0] && ne[0] < 300) {
       const visibleWidth = Math.abs(ne[0] - sw[0]);
       cameraRef.current?.fitBounds(
         [maxNe[0], sw[1]],
-        [maxNe[0] - visibleWidth, ne[1]],
+        [maxNe[0] - visibleWidth, ne[1]]
       );
     }
   };

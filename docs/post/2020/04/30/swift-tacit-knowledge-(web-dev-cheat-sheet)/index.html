@@ -17,16 +17,14 @@
 <link rel="canonical" href="https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/" />
 <meta property="og:url" content="https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/" />
 <meta property="og:site_name" content="Oscar Franco" />
-<meta property="og:image" content="https://ospfranco.com/assets/taco.png" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2020-04-30T15:00:00+02:00" />
-<meta name="twitter:card" content="summary_large_image" />
-<meta property="twitter:image" content="https://ospfranco.com/assets/taco.png" />
+<meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Swift tips for JavaScript developers" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"},"@type":"BlogPosting","description":"Web dev to native dev cheat sheet","author":{"@type":"Person","name":"Oscar Franco"},"image":"https://ospfranco.com/assets/taco.png","headline":"Swift tips for JavaScript developers","dateModified":"2020-04-30T15:00:00+02:00","datePublished":"2020-04-30T15:00:00+02:00","url":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/","@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"},"@type":"BlogPosting","description":"Web dev to native dev cheat sheet","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Swift tips for JavaScript developers","dateModified":"2020-04-30T15:00:00+02:00","datePublished":"2020-04-30T15:00:00+02:00","url":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -53,6 +51,7 @@
   <div class="markdown w-full px-6 md:px-0 md:w-[600px]"><p>So, I recently released a new mac os app <a href="https://tempomat.dev">Tempomat</a> (go check it out, it is awesome) and I was left surprinsgly pleased with the experience, mostly because of Apple’s SwiftUI framework, it is declarative and along with the Combine framework it brings a lot of the nicesities of web development into the mac platform, however, while I did have experience with the XCode toolchain (because of all the react native I did over the years), this is the first time I truly did native coding, and there were many many pitfalls, so I thought I would write down some of the hard learned lessons over the last weeks, other may find them useful and I can always check them out in case I need them again.</p>
 
 <h2 id="http-networking-code-is-a-tool-from-the-stone-age">HTTP Networking code is a tool from the stone age</h2>
+
 <p>So this is more a problem in older languages (i.e. Java) where doing stuff like a “simple” http request takes a myriad of objects and configurations and so on, from a web development perspective it feels archaic, in Swift there are some network libraries that can help with it (i.e. AlamoFire) but I did not want to learn more than absolutely necessary, on Swift one creates several objects, first a URL object, which parses the String you pass on it (and can fail), then if you need to send anything but a simple GET request, you need to create a Request Object, finally you wrap everything into a data task… I’m not sure why or if it is the only way to do things, but that is how I got it working, now unfortunately the data task only works with callbacks, and a lesson Javascript learned years ago is the pain of callback hell, how to fix this then? I went for a middle of the road approach and used PromiseKit (it is from the same guy that created Brew), having promises massively simplifies this task, though be aware they are not quite the same as JS Promises, because the type system is a lot more strict on Swift, there are many caveats with them, here is a code snippet of how the code looks:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">fetchRepos</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="kt">Token</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Repo</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">{</span>
@@ -106,6 +105,7 @@
 <p>Not too pretty to look at, but it does achieve a few things, it has chained requests and correctly encompases the ugly dataTask code so higher levels of the application don’t have to deal with it.</p>
 
 <h2 id="swift-is-good-but-also-full-of-quirks">Swift is good, but also full of quirks</h2>
+
 <p>Some edge cases I found along the way, after firing a request that gets offloaded to a different thread, you cannot just update certain variables, you need to dispatch the queues from the Main thread:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="n">firstly</span> <span class="p">{</span>
@@ -152,6 +152,7 @@
 <p>and 20 more enums all over the app</p>
 
 <h2 id="swift-ui-is-good-but-also-very-quirky">Swift UI is good, but also very quirky</h2>
+
 <p>Here there are many good things, but one can also tell, the time of swiftUI applications is not quite here, for example, there is no way to handle <code class="language-plaintext highlighter-rouge">Enter</code> key presses when you are focused on a textfield, or when there is an error deep in some swiftUI code, the compiler kinda throws it hands in the air simply says that it cannot infer the correct types, this has lead me to wasting minutes reading the component code line by line trying to see where the error is because some variable changed.</p>
 
 <p>Also the list component is utterly broken, if you have some animation in there, it completely jumps all over the place, one cannot add a background to it, because it has layers and layers of rendering components behind it, at the end in order to get a working list implementation I had to use a scrollView with a forEach inside of it, I don’t really know how good is performance with this though:</p>
@@ -170,16 +171,20 @@
 <p>This also has many quirks, indexes? you can forget about them, you can create an iterator but you are only making your life harder.</p>
 
 <h2 id="icons-well-maybe-on-ios">Icons… well, maybe on iOS</h2>
+
 <p>You can tell not a lot of love has been placed in the macOS version of swiftUI, while on iOS you can use the system icons for free, they straight up don’t work on macOS, either you create your own icon sets by hand OR you scour the internet for ours, until you find <a href="https://hetima.github.io/fucking_nsimage_syntax/">Fucking nsimage syntax</a>, a generated list of system icons you can use in your application, I later found a more official looking <a href="https://developer.apple.com/design/human-interface-guidelines/macos/icons-and-images/system-icons/">documentation page</a>, still… waste of time:</p>
 
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">Image</span><span class="p">(</span><span class="nv">nsImage</span><span class="p">:</span> <span class="kt">NSImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="kt">NSImage</span><span class="o">.</span><span class="n">pathTemplateName</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
 </code></pre></div></div>
 
 <h2 id="i-was-wrong-about-cocoapods">I was wrong about cocoapods</h2>
+
 <p>For the last few years I thought cocoapods was a plague unleashed specifically designed to torture me, I did not want to learn the xcode toolchain, but now that I’ve used I can definitely see the value in it, here is one quirky thing that never got mentioned though, my bundle size kinda exploted after adding a couple of libraries, mind you this is still a 2mb app compared to the monsters apps are nowadays, but still, I did not like this explotion, mostly because my app is really simple, however removing the <code class="language-plaintext highlighter-rouge">use_frameworks!</code> from the podfile, linked the libraries statically and reduced my app size by over a 1mb (~50% or so).</p>
 
 <h2 id="for-unit-tests-expectations">For unit tests, expectations</h2>
+
 <p>One aspect were thing really fall short is unit testing, jest is just such a pleasurable experience that I don’t believe it is easily matched, on swift/xcode on the other hand… things get complicated, there is no straightforward way for you tests to return a promise and halt execution until all async code has finished so you have to resort to expectations:</p>
+
 <div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">tokenRes</span> <span class="o">=</span> <span class="n">badStore</span><span class="o">.</span><span class="nf">addToken</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"test"</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="s">"test"</span><span class="p">,</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt">CIProvider</span><span class="o">.</span><span class="n">circleci</span><span class="p">)</span>
   <span class="k">switch</span> <span class="n">tokenRes</span> <span class="p">{</span>
   <span class="k">case</span> <span class="o">.</span><span class="nv">failure</span><span class="p">:</span>
@@ -198,6 +203,7 @@
 
   <span class="nf">waitForExpectations</span><span class="p">(</span><span class="nv">timeout</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span>
 </code></pre></div></div>
+
 <p>There are many more quirks that wasted my time one way or another, but as stated before I really enjoyed developing this native app, I would still like to optmize it like crazy, but a 1.4 mb app that does it job is not bad at all, tempomat is also super helpful for developers with a lot of build jobs that always need to be on top of things.</p>
 </div>
 

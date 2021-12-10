@@ -5,14 +5,6 @@ excerpt: Why are interviewers even asking me about this
 date: 2020-04-14 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-logo: "/assets/taco.png"
-image: "/assets/taco.png"
-location: Munich
-twitter:
-  username: "ospfranco"
-  card: "summary"
-  description: "Interviewer infused writting"
-  image: "/assets/taco.png"
 ---
 
 (I got a new keyboard! just putting some randoms thoughts to stretch my fingers a bit, there is nothing new in this article, there are many more qualified people than me to talk about tests and TDD, but there might be one or two interesting anecdotes for veterans)

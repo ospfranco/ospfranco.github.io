@@ -5,7 +5,6 @@ date: 2020-12-03 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 location: Munich
-image: assets/taco.png
 twitter:
   username: "ospfranco"
   image: "assets/profile.jpeg"
