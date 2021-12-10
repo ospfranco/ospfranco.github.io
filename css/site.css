@@ -6,7 +6,7 @@
 @import "tailwindcss/utilities";
 
 html {
-  @apply dark:bg-trueGray-900;
+  @apply dark:bg-neutral-900;
 }
 
 body {
@@ -18,7 +18,7 @@ body {
 }
 
 a {
-  @apply hover:text-gray-400 cursor-default font-medium;
+  @apply font-medium cursor-default hover:text-gray-400;
 }
 
 .markdown {
@@ -30,27 +30,27 @@ a {
 }
 
 .markdown h1 {
-  @apply text-xl font-semibold mt-8;
+  @apply mt-8 text-xl font-semibold;
 }
 
 .markdown h2 {
-  @apply text-lg font-semibold mt-8;
+  @apply mt-8 text-lg font-semibold;
 }
 
 .markdown h3 {
-  @apply font-bold mt-8;
+  @apply mt-8 font-bold;
 }
 
 .markdown a {
-  @apply text-blue-500 hover:text-blue-300;
+  @apply font-normal text-blue-400 underline hover:opacity-75;
 }
 
 .markdown ol {
-  @apply list-decimal pl-4;
+  @apply pl-4 list-decimal;
 }
 
 .markdown ul {
-  @apply list-disc pl-5;
+  @apply pl-5 list-disc;
 }
 
 .markdown li {
@@ -58,16 +58,16 @@ a {
 }
 
 .markdown blockquote {
-  @apply px-4 my-2 bg-blueGray-100 dark:bg-blueGray-900 dark:text-white rounded text-gray-800;
+  @apply pl-4 italic border-l-2;
 }
 
 .markdown .highlighter-rouge {
-  @apply text-amber-600 font-medium bg-transparent pt-0 pb-0;
+  @apply pt-0 pb-0 font-medium bg-transparent text-amber-600;
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
 .markdown .highlight {
-  @apply rounded-lg text-gray-800 text-xs;
+  @apply text-xs text-gray-800 rounded-lg;
   padding: 0 !important;
 }
 

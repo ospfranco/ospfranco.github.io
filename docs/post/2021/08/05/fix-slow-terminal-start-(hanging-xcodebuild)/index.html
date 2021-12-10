@@ -8,7 +8,7 @@
   />
   <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Fix slow terminal start (hanging xcodebuild) | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.2.0" />
+<meta name="generator" content="Jekyll v4.2.1" />
 <meta property="og:title" content="Fix slow terminal start (hanging xcodebuild)" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/"},"image":"https://ospfranco.com/assets/preview.jpg","headline":"Fix slow terminal start (hanging xcodebuild)","dateModified":"2021-08-05T15:00:00+02:00","datePublished":"2021-08-05T15:00:00+02:00","url":"https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/"},"@type":"BlogPosting","description":"Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.","author":{"@type":"Person","name":"Oscar Franco"},"image":"https://ospfranco.com/assets/preview.jpg","headline":"Fix slow terminal start (hanging xcodebuild)","dateModified":"2021-08-05T15:00:00+02:00","datePublished":"2021-08-05T15:00:00+02:00","url":"https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -35,7 +35,7 @@
 
 <html class="w-full">
   <body class="w-full md:px-0 md:pl-32 lg:pl-96">
-    <div class="w-full md:w-600 px-6 md:px-0">
+    <div class="w-full md:w-[600px] px-6 md:px-0">
   <img
     src="/assets/profile.jpeg"
     class="h-56 w-full object-cover mt-20 mb-12 rounded-lg"
@@ -50,7 +50,7 @@
     </div>
   </div>
 
-  <div class="markdown w-full px-6 md:px-0 md:w-600"><p>Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.</p>
+  <div class="markdown w-full px-6 md:px-0 md:w-[600px]"><p>Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.</p>
 
 <p>There are some people who have found some solutions, I tried all of them until it <strong>something</strong> worked, so here is a compilation for you to try as well.</p>
 
@@ -131,23 +131,12 @@
 
   </body>
   <header
-    class="
-      pt-8
-      pb-4
-      px-6
-      md:px-0 md:pl-32
-      lg:pl-96
-      fixed
-      top-0
-      right-0
-      left-0
-      dark:bg-trueGray-900
-    "
+    class="fixed top-0 left-0 right-0 px-6 pt-8 pb-4  md:px-0 md:pl-32 lg:pl-96 dark:bg-neutral-900"
   >
     <div class="w-full md:w-700">
       <a
         href="/"
-        class="font-medium tracking-wide dark:text-white no-underline"
+        class="font-medium tracking-wide no-underline dark:text-white"
       >
         Oscar Pedro Franco
       </a>

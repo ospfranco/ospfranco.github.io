@@ -27,3 +27,6 @@ exclude:
 webrick:
   headers:
     Cache-Control: max-age=31536000
+
+postcss:
+  cache: false

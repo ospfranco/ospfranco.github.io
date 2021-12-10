@@ -8,7 +8,7 @@
   />
   <!-- Begin Jekyll SEO tag v2.7.1 -->
 <title>Monorepo codesharing (with lerna.js and typescript) | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.2.0" />
+<meta name="generator" content="Jekyll v4.2.1" />
 <meta property="og:title" content="Monorepo codesharing (with lerna.js and typescript)" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -24,7 +24,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"BlogPosting","description":"Reduce code duplication using some tooling and share code between projects","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"},"headline":"Monorepo codesharing (with lerna.js and typescript)","dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","url":"https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"},"@type":"BlogPosting","description":"Reduce code duplication using some tooling and share code between projects","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Monorepo codesharing (with lerna.js and typescript)","dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","url":"https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -33,7 +33,7 @@
 
 <html class="w-full">
   <body class="w-full md:px-0 md:pl-32 lg:pl-96">
-    <div class="w-full md:w-600 px-6 md:px-0">
+    <div class="w-full md:w-[600px] px-6 md:px-0">
   <img
     src="/assets/profile.jpeg"
     class="h-56 w-full object-cover mt-20 mb-12 rounded-lg"
@@ -48,7 +48,7 @@
     </div>
   </div>
 
-  <div class="markdown w-full px-6 md:px-0 md:w-600"><h1 id="update-april-2021">Update April 2021</h1>
+  <div class="markdown w-full px-6 md:px-0 md:w-[600px]"><h1 id="update-april-2021">Update April 2021</h1>
 <p>The original article below is fairly old, the community is moving away from Lerna due to the complexity it introduces.</p>
 
 <p>If you need to share code between apps I recommend for you to go with <a href="https://www.typescriptlang.org/docs/handbook/project-references.html">TypeScript project references</a>. <a href="https://github.com/RyanCavanaugh/project-references-demo">Check this repo</a> by Ryan Cavanaugh for a working example.</p>
@@ -177,23 +177,12 @@ lerna add wa-core — scope=mobile
 
   </body>
   <header
-    class="
-      pt-8
-      pb-4
-      px-6
-      md:px-0 md:pl-32
-      lg:pl-96
-      fixed
-      top-0
-      right-0
-      left-0
-      dark:bg-trueGray-900
-    "
+    class="fixed top-0 left-0 right-0 px-6 pt-8 pb-4  md:px-0 md:pl-32 lg:pl-96 dark:bg-neutral-900"
   >
     <div class="w-full md:w-700">
       <a
         href="/"
-        class="font-medium tracking-wide dark:text-white no-underline"
+        class="font-medium tracking-wide no-underline dark:text-white"
       >
         Oscar Pedro Franco
       </a>
