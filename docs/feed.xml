@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-12-10T18:23:33+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Beauty on code iterations</title><link href="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/" rel="alternate" type="text/html" title="Beauty on code iterations" /><published>2021-12-08T14:00:00+01:00</published><updated>2021-12-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/08/beauty%20on%20code%20iterations</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/">&lt;p&gt;A perfect model of your problem exists, you will just never be able to find it and that &lt;strong&gt;should&lt;/strong&gt; be OK.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-12-11T15:31:52+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">How to install M1 (arm) compatible JDK</title><link href="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" rel="alternate" type="text/html" title="How to install M1 (arm) compatible JDK" /><published>2021-12-11T14:00:00+01:00</published><updated>2021-12-11T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/11/how%20to%20install%20m1%20(arm)%20compatible%20jdk</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/">&lt;p&gt;Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.&lt;/p&gt;
+
+&lt;p&gt;You can directly do it via Android Studio (or intellij IDEA), just go into the preferences and on the build tools &amp;gt; gradle menu, you can select which version of the JDK you want to use, if you open the dropdown you will see there is also an option to download a JDK.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/androidStudio1.png&quot; alt=&quot;Android Studio 1&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Click on it and you will get a small dialog were you can select the flavor of JDK you want, I know for certain that the Azul versions are arm compatible.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/androidStudio2.png&quot; alt=&quot;Android Studio 2&quot; /&gt;&lt;/p&gt;
+
+&lt;p&gt;(BTW I’m using the Android Studio Preview to get native arm android images)&lt;/p&gt;
+
+&lt;p&gt;Very convenient!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beauty on code iterations</title><link href="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/" rel="alternate" type="text/html" title="Beauty on code iterations" /><published>2021-12-08T14:00:00+01:00</published><updated>2021-12-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/08/beauty%20on%20code%20iterations</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/">&lt;p&gt;A perfect model of your problem exists, you will just never be able to find it and that &lt;strong&gt;should&lt;/strong&gt; be OK.&lt;/p&gt;
 
 &lt;p&gt;I believe the moment you have typed your code, it’s already becoming obsolete and it’s already wrong, because of your understanding of the problem will only expand with time, and since every problem is an ocean of complexity, you are pretty much hopeless in trying to code your way to enlightenment.&lt;/p&gt;
 
@@ -418,138 +430,4 @@ dot &lt;span class=&quot;nt&quot;&gt;-Tsvg&lt;/span&gt; output &lt;span class=&q
 
 &lt;p&gt;All I can say, it makes me super happy, I get to create something, which is fun for me, it also generates side-income with very little time spent.&lt;/p&gt;
 
-&lt;p&gt;Wake up people, the chances of you becoming a billionaire are slim to none, it’s much better to be happy and having enough instead of chasing money every waking hour.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">I am a (painfully) average developer. I do not make millions. I have not created complex trading algorithms, programs or businesses. I have a good yet average paying job. My group of friends are (in the nicest way possible) as average as I am, none of us has reached massive success, some might have stocks, but we work for a living.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Retrieve macOS WiFi password</title><link href="https://ospfranco.com/post/2021/05/24/how-to-get-the-wifi-password-on-macos/" rel="alternate" type="text/html" title="Retrieve macOS WiFi password" /><published>2021-05-24T15:00:00+02:00</published><updated>2021-05-24T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/05/24/how-to-get-the-wifi-password-on-macos</id><content type="html" xml:base="https://ospfranco.com/post/2021/05/24/how-to-get-the-wifi-password-on-macos/">&lt;p&gt;Learn how to get a decrypted WiFi password on macOS.&lt;/p&gt;
-
-&lt;p&gt;A lot of online say you need to open the Keychain app to get the WiFi password, but that trick stopped working long ago.&lt;/p&gt;
-
-&lt;p&gt;WiFi passwords on macOS are now encrypted and going into the Keychain does nothing for you.&lt;/p&gt;
-
-&lt;p&gt;Unfortunately there is no visual app (that I know of) that can extract the password for you, but you can run a simple script that will prompt you for your user password and then output the current network password.&lt;/p&gt;
-
-&lt;h2 id=&quot;wifi-password-script&quot;&gt;WiFi password script&lt;/h2&gt;
-
-&lt;p&gt;So, the first that you can do to get a WiFi password is download and save this script:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c&quot;&gt;#!/bin/bash&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Required parameters:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.schemaVersion 1&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.title Show WiFi Password&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.mode silent&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Optional parameters:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.icon 📶&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.packageName Show WiFi Password&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# Documentation:&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.author Oscar&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# @raycast.authorURL https://github.com/ospfranco&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# The script is originally from Guillermo Rauch, all credit goes to him, all I did was add the Raycast headers&lt;/span&gt;
-&lt;span class=&quot;c&quot;&gt;# https://github.com/rauchg/wifi-password&lt;/span&gt;
-
-&lt;span class=&quot;nv&quot;&gt;version&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;0.1.0&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# locate airport(1)&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;airport&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/System/Library/PrivateFrameworks/Apple80211.framework/Versions/Current/Resources/airport&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-f&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$airport&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Can't find &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;airport&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; CLI program at &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$airport&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.&quot;&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# by default we are verbose (unless non-tty)&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-t&lt;/span&gt; 1 &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;else
-  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# usage info&lt;/span&gt;
-usage&lt;span class=&quot;o&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;cat&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;lt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF&lt;/span&gt;&lt;span class=&quot;sh&quot;&gt;
-  Usage: wifi-password [options] [ssid]
-  Options:
-    -q, --quiet      Only output the password.
-    -V, --version    Output version
-    -h, --help       This message.
-    --               End of options
-&lt;/span&gt;&lt;span class=&quot;no&quot;&gt;EOF
-&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;}&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# parse options&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;while&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ ^- &lt;span class=&quot;o&quot;&gt;&amp;amp;&amp;amp;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;--&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;do
-  case&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;in&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;-V&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--version&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$version&lt;/span&gt;
-      &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;-q&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--quiet&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      &lt;span class=&quot;nv&quot;&gt;verbose&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
-    &lt;span class=&quot;nt&quot;&gt;-h&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;|&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;--help&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;)&lt;/span&gt;
-      usage
-      &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;;;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;esac&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;shift
-&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;done
-if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;--&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;shift&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# merge args for SSIDs with spaces&lt;/span&gt;
-&lt;span class=&quot;nv&quot;&gt;args&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# check for user-provided ssid &lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;!=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$args&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;ssid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$@&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;else&lt;/span&gt;
-  &lt;span class=&quot;c&quot;&gt;# get current ssid&lt;/span&gt;
-  &lt;span class=&quot;nv&quot;&gt;ssid&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$airport&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-I&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;awk&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'/ SSID/ {print substr($0, index($0, $2))}'&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-    &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Could not retrieve current SSID. Are you connected?&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp;2
-    &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-  &lt;span class=&quot;k&quot;&gt;fi
-fi&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# warn user about keychain dialog&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$verbose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[90m … getting password for &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;. &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[39m&quot;&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[90m … keychain prompt incoming. &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[39m&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi
-
-&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;sleep &lt;/span&gt;2
-
-&lt;span class=&quot;c&quot;&gt;# source: http://blog.macromates.com/2006/keychain-access-from-shell/&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;security find-generic-password &lt;span class=&quot;nt&quot;&gt;-D&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'AirPort network password'&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-ga&lt;/span&gt; &lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt; 2&amp;gt;&amp;amp;1 &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;/dev/null&lt;span class=&quot;sb&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;~ &lt;span class=&quot;s2&quot;&gt;&quot;could&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Could not find SSID &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ssid&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp;2
-  &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# clean up password&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;pwd&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;$(&lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; | &lt;span class=&quot;nb&quot;&gt;sed&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-e&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;s/^.*&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;\(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.*&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\)\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;.*&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$/&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\1&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;/&quot;&lt;/span&gt;&lt;span class=&quot;si&quot;&gt;)&lt;/span&gt;
-
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;ERROR: Could not get password. Did you enter your Keychain credentials?&quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&amp;amp;2
-  &lt;span class=&quot;nb&quot;&gt;exit &lt;/span&gt;1
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-
-&lt;span class=&quot;c&quot;&gt;# print&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;[&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$verbose&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;]&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;then
-  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[96m ✓ &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\0&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;33[39m&quot;&lt;/span&gt;
-  &lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&quot;&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;else
-  &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;echo&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$pwd&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;fi&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Call it from a terminal, you need to share the password with a third party.&lt;/p&gt;
-
-&lt;h2 id=&quot;using-it-with-the-raycast-app&quot;&gt;Using it with the Raycast app&lt;/h2&gt;
-
-&lt;p&gt;But actually, there is a better way, you should download &lt;a href=&quot;https://raycast.com&quot;&gt;Raycast&lt;/a&gt;, it’s an awesome app and allows you to directly call scripts. Once you have Raycast installed, you can directly call this script from it (put it in your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;documents&lt;/code&gt; folder), it will immediately output the WiFi password ready for you to paste.&lt;/p&gt;
-
-&lt;p&gt;Here is an example of the script in action:&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/raycast_password.gif&quot; alt=&quot;Raycast demo&quot; title=&quot;Raycast demo&quot; /&gt;&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Learn how to get a decrypted WiFi password on macOS.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;Wake up people, the chances of you becoming a billionaire are slim to none, it’s much better to be happy and having enough instead of chasing money every waking hour.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">I am a (painfully) average developer. I do not make millions. I have not created complex trading algorithms, programs or businesses. I have a good yet average paying job. My group of friends are (in the nicest way possible) as average as I am, none of us has reached massive success, some might have stocks, but we work for a living.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
