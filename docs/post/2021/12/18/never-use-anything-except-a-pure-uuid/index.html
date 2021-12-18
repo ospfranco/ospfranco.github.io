@@ -1,0 +1,135 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.7.1 -->
+<title>Never use anything except a pure UUID (Anti REGEX argument) | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.2.1" />
+<meta property="og:title" content="Never use anything except a pure UUID (Anti REGEX argument)" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Browsing my notes found this small gem" />
+<meta property="og:description" content="Browsing my notes found this small gem" />
+<link rel="canonical" href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" />
+<meta property="og:url" content="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/preview.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-12-18T14:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/preview.jpg" />
+<meta property="twitter:title" content="Never use anything except a pure UUID (Anti REGEX argument)" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/"},"@type":"BlogPosting","description":"Browsing my notes found this small gem","author":{"@type":"Person","name":"Oscar Franco"},"image":"https://ospfranco.com/assets/preview.jpg","headline":"Never use anything except a pure UUID (Anti REGEX argument)","dateModified":"2021-12-18T14:00:00+01:00","datePublished":"2021-12-18T14:00:00+01:00","url":"https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/inter.css" />
+</head>
+
+<html class="w-full">
+  <body class="w-full md:px-0 md:pl-32 lg:pl-96">
+    <div class="w-full md:w-[600px] px-6 md:px-0">
+  <img
+    src="/assets/profile.jpeg"
+    class="object-cover w-full h-56 mt-20 mb-12 rounded-lg"
+  />
+</div>
+
+<div class="flex-1 w-full md:w-[600px]">
+  <div class="flex flex-col w-full px-6 my-10 md:w-768 md:px-0">
+    <div class="text-sm text-gray-500 dark:text-coolGray-400">
+      December 2021
+    </div>
+    <h1 class="text-xl font-semibold md:text-2xl">Never use anything except a pure UUID (Anti REGEX argument)</h1>
+  </div>
+
+  <div class="markdown w-full px-6 md:px-0 md:w-[600px]"><p>Browsing my notes found this small gem</p>
+
+<blockquote>
+  <p>Use UUIDs for id-ing your entities. Period.</p>
+
+  <p>Do not use anything else, don’t try to be clever, it just creates embedded logic and soon you will find yourself regexing your ids like a chump</p>
+</blockquote>
+
+<h2 id="lesson-never-learned">Lesson never learned</h2>
+
+<p>I first came into this idea many years ago, my college professor was in charge of designing and leading the team responsible for the student system (assignments, class schedules, notes, etc), they bought an Israeli system and then adapted it for our university.</p>
+
+<p>At the time, my professor thought it would be a great idea to make the user ids contain some extra information, so that one could at first glance tell the enrollment year and the student age, so each student id would be something like:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[enrollment_year]_[birth_year]_[id_number]
+</code></pre></div></div>
+
+<p>This is great in theory, whoemever is in charge already gets some information without needing to type the id into the system.</p>
+
+<h2 id="embedded-logic">Embedded logic</h2>
+
+<p>In real life, this created a slew of problems, one of them was that the students id were easily guessable, this created a lot of problems with phishing attempts, this had serious consequences.</p>
+
+<p>But another more subtle was the consequence for the project code itself, since some of the information now did not need a query to the database, then came the REGEXES, to parse and extract this meta information from the IDs.</p>
+
+<p>This generates a lot implicit and embedded logic, what if the ID needs to be changed? then entire parts of the system didn’t work properly anymore.</p>
+
+<h2 id="regexes-are-fine-on-5-of-the-cases">REGEXES are fine on 5% of the cases</h2>
+
+<p>Regexes definitely have their use cases, especially when extracting information from a third-party data source, where you have no control over the data you are getting.</p>
+
+<p>But please, don’t ever try to embed data in your systems.</p>
+</div>
+
+  <link
+    rel="stylesheet"
+    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+  />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+  <script>
+    hljs.initHighlightingOnLoad();
+  </script>
+
+  <div class="mt-20">
+    <a href="/" class="px-6 text-sm font-medium tracking-wide md:px-0">
+      ← Homepage
+    </a>
+  </div>
+</div>
+
+  </body>
+  <header
+    class="fixed top-0 left-0 right-0 px-6 pt-8 pb-4 bg-white  md:px-0 md:pl-32 lg:pl-96 dark:bg-neutral-900"
+  >
+    <div class="w-full md:w-700">
+      <a
+        href="/"
+        class="font-medium tracking-wide no-underline dark:text-white"
+      >
+        Oscar Pedro Franco
+      </a>
+    </div>
+  </header>
+  <footer class="w-full px-6 pt-10 pb-4 md:px-0">
+  <!-- <h2 class="px-6 pt-10 pb-2 font-medium tracking-wide dark:text-white md:px-0">
+    Contact
+  </h2> -->
+
+  <div class="flex gap-4 text-sm dark:text-gray-400">
+    <a class="font-normal" href="mailto:ospfranco@protonmail.com">Email</a>
+    <a class="font-normal" href="https://github.com/ospfranco">Github</a>
+    <a class="font-normal" href="https://twitter.com/ospfranco">Twitter</a>
+    <a class="font-normal" href="https://youtube.com/ospfranco">Youtube</a>
+    <a
+      class="font-normal"
+      href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
+      >LinkedIn</a
+    >
+  </div>
+</footer>
+
+</html>

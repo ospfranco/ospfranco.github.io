@@ -1,4 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-12-18T15:12:31+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">How to install M1 (arm) compatible JDK</title><link href="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" rel="alternate" type="text/html" title="How to install M1 (arm) compatible JDK" /><published>2021-12-11T14:00:00+01:00</published><updated>2021-12-11T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/11/how%20to%20install%20m1%20(arm)%20compatible%20jdk</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/">&lt;p&gt;Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-12-18T15:32:19+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Never use anything except a pure UUID (Anti REGEX argument)</title><link href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" rel="alternate" type="text/html" title="Never use anything except a pure UUID (Anti REGEX argument)" /><published>2021-12-18T14:00:00+01:00</published><updated>2021-12-18T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/18/never%20use%20anything%20except%20a%20pure%20uuid</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/">&lt;p&gt;Browsing my notes found this small gem&lt;/p&gt;
+
+&lt;blockquote&gt;
+  &lt;p&gt;Use UUIDs for id-ing your entities. Period.&lt;/p&gt;
+
+  &lt;p&gt;Do not use anything else, don’t try to be clever, it just creates embedded logic and soon you will find yourself regexing your ids like a chump&lt;/p&gt;
+&lt;/blockquote&gt;
+
+&lt;h2 id=&quot;lesson-never-learned&quot;&gt;Lesson never learned&lt;/h2&gt;
+
+&lt;p&gt;I first came into this idea many years ago, my college professor was in charge of designing and leading the team responsible for the student system (assignments, class schedules, notes, etc), they bought an Israeli system and then adapted it for our university.&lt;/p&gt;
+
+&lt;p&gt;At the time, my professor thought it would be a great idea to make the user ids contain some extra information, so that one could at first glance tell the enrollment year and the student age, so each student id would be something like:&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[enrollment_year]_[birth_year]_[id_number]
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;This is great in theory, whoemever is in charge already gets some information without needing to type the id into the system.&lt;/p&gt;
+
+&lt;h2 id=&quot;embedded-logic&quot;&gt;Embedded logic&lt;/h2&gt;
+
+&lt;p&gt;In real life, this created a slew of problems, one of them was that the students id were easily guessable, this created a lot of problems with phishing attempts, this had serious consequences.&lt;/p&gt;
+
+&lt;p&gt;But another more subtle was the consequence for the project code itself, since some of the information now did not need a query to the database, then came the REGEXES, to parse and extract this meta information from the IDs.&lt;/p&gt;
+
+&lt;p&gt;This generates a lot implicit and embedded logic, what if the ID needs to be changed? then entire parts of the system didn’t work properly anymore.&lt;/p&gt;
+
+&lt;h2 id=&quot;regexes-are-fine-on-5-of-the-cases&quot;&gt;REGEXES are fine on 5% of the cases&lt;/h2&gt;
+
+&lt;p&gt;Regexes definitely have their use cases, especially when extracting information from a third-party data source, where you have no control over the data you are getting.&lt;/p&gt;
+
+&lt;p&gt;But please, don’t ever try to embed data in your systems.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Browsing my notes found this small gem</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to install M1 (arm) compatible JDK</title><link href="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" rel="alternate" type="text/html" title="How to install M1 (arm) compatible JDK" /><published>2021-12-11T14:00:00+01:00</published><updated>2021-12-11T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/11/how%20to%20install%20m1%20(arm)%20compatible%20jdk</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/">&lt;p&gt;Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.&lt;/p&gt;
 
 &lt;p&gt;You can directly do it via Android Studio (or intellij IDEA), just go into the preferences and on the build tools &amp;gt; gradle menu, you can select which version of the JDK you want to use, if you open the dropdown you will see there is also an option to download a JDK.&lt;/p&gt;
 
@@ -412,22 +443,4 @@ dot &lt;span class=&quot;nt&quot;&gt;-Tsvg&lt;/span&gt; output &lt;span class=&q
 
 &lt;p&gt;Is it useful sometimes, sure, at least to me it saved me a couple of keystrokes every once in a while&lt;/p&gt;
 
-&lt;p&gt;But the constant distraction is 100% not worth it to me, I have now removed the extension. I can only wish the Copilot’s team good luck and await for the next iteration!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Is github copilot even worth it?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">100€ MRR as an Indie Hacker</title><link href="https://ospfranco.com/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" rel="alternate" type="text/html" title="100€ MRR as an Indie Hacker" /><published>2021-05-25T15:00:00+02:00</published><updated>2021-05-25T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/05/25/100-bucks-per-month-as-indie-hacker</id><content type="html" xml:base="https://ospfranco.com/post/2021/05/25/100-bucks-per-month-as-indie-hacker/">&lt;p&gt;I am a (painfully) average developer. I do not make millions. I have not created complex trading algorithms, programs or businesses. I have a good yet average paying job. My group of friends are (in the nicest way possible) as average as I am, none of us has reached massive success, some might have stocks, but &lt;strong&gt;we work for a living.&lt;/strong&gt;&lt;/p&gt;
-
-&lt;p&gt;My clique is however heavily skewed towards tech people; developers, managers, product-designers and it blows my mind how inflated our dreams and egos are. We sit in high-towers where most of us are not happy with our high salaries and comfortable lifestyle. We chase the latest news to invest in the stock market, we jump companies every couple of years trying to become millionaires. The market and the tech ecosystem has ruined us.&lt;/p&gt;
-
-&lt;p&gt;Last year I launched &lt;a href=&quot;https://ospfranco.github.io/cidemon&quot;&gt;CI Demon&lt;/a&gt; and whenever I tell my tech friends I make 100€ per month they literally laugh about it. You can tell they are like “thats funny, you need to market it! you need to sell more!”. However when I tell my non-tech friends the reaction is completely different: “wow! that’s amazing!” or “that’s great and you don’t have to work much to make that!”.&lt;/p&gt;
-
-&lt;p&gt;What does 100€ per month mean to non-tech people, nothing, because they have been brain-washed into looking at computers as a million dollar business. The crazy thing is: they cash a normal salary like me, yet they only consider businesses with returns of multiple zeroes as something worth chasing.&lt;/p&gt;
-
-&lt;p&gt;That is incredibly dumb, and here is why; 100€/month is &lt;strong&gt;1200€/year that goes straight into my pocket&lt;/strong&gt;.&lt;/p&gt;
-&lt;ul&gt;
-  &lt;li&gt;It means a great vacation&lt;/li&gt;
-  &lt;li&gt;It means visit my family in my homecountry&lt;/li&gt;
-  &lt;li&gt;1200€ for non-tech people is a good salary bump, for which many still have to work 40+ hours weeks.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;Even for tech workers&lt;/strong&gt; 1200€ is still a salary bump you need to ask your boss for&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;All I can say, it makes me super happy, I get to create something, which is fun for me, it also generates side-income with very little time spent.&lt;/p&gt;
-
-&lt;p&gt;Wake up people, the chances of you becoming a billionaire are slim to none, it’s much better to be happy and having enough instead of chasing money every waking hour.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">I am a (painfully) average developer. I do not make millions. I have not created complex trading algorithms, programs or businesses. I have a good yet average paying job. My group of friends are (in the nicest way possible) as average as I am, none of us has reached massive success, some might have stocks, but we work for a living.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;But the constant distraction is 100% not worth it to me, I have now removed the extension. I can only wish the Copilot’s team good luck and await for the next iteration!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Is github copilot even worth it?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

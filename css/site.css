@@ -58,7 +58,7 @@ a {
 }
 
 .markdown blockquote {
-  @apply pl-4 italic border-l-2;
+  @apply pl-4 italic border-l-2 dark:border-neutral-600;
 }
 
 .markdown .highlighter-rouge {
