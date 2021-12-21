@@ -1,4 +1,9 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-12-18T15:32:19+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Never use anything except a pure UUID (Anti REGEX argument)</title><link href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" rel="alternate" type="text/html" title="Never use anything except a pure UUID (Anti REGEX argument)" /><published>2021-12-18T14:00:00+01:00</published><updated>2021-12-18T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/18/never%20use%20anything%20except%20a%20pure%20uuid</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/">&lt;p&gt;Browsing my notes found this small gem&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2021-12-21T14:58:52+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Reset NVRAM on m1 mac</title><link href="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/" rel="alternate" type="text/html" title="Reset NVRAM on m1 mac" /><published>2021-12-21T14:00:00+01:00</published><updated>2021-12-21T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/21/reset%20nvram%20on%20m1%20mac</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/">&lt;p&gt;I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling&lt;/p&gt;
+
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nvram -c
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+
+&lt;p&gt;You might see some errors regarding some services that cannot be restarted (fmm-mobileme and fmm-computer-name), but you can ignore those, afterwards restart your computer and it should be fine&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Never use anything except a pure UUID (Anti REGEX argument)</title><link href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" rel="alternate" type="text/html" title="Never use anything except a pure UUID (Anti REGEX argument)" /><published>2021-12-18T14:00:00+01:00</published><updated>2021-12-18T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/18/never%20use%20anything%20except%20a%20pure%20uuid</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/">&lt;p&gt;Browsing my notes found this small gem&lt;/p&gt;
 
 &lt;blockquote&gt;
   &lt;p&gt;Use UUIDs for id-ing your entities. Period.&lt;/p&gt;
@@ -401,46 +406,4 @@ dot &lt;span class=&quot;nt&quot;&gt;-Tsvg&lt;/span&gt; output &lt;span class=&q
 
 &lt;p&gt;I haven’t used technique in production, so integrating other libraries in an open question for me. The lifecycle methods should be easy enough for you to figure out, but importing and calling obj-c libraries might require a bit of work.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;This technique was inspired by the work I did on my React Native for macOS online course, &lt;a href=&quot;https://www.newline.co/courses/building-react-native-apps-for-mac&quot;&gt;check it out&lt;/a&gt;!&lt;/strong&gt;&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">It’s no secret that JS developers run away from Objective-C, why not migrate the entry point of your app to Swift?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reviewing Github’s Copilot</title><link href="https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot/" rel="alternate" type="text/html" title="Reviewing Github’s Copilot" /><published>2021-07-24T15:00:00+02:00</published><updated>2021-07-24T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot</id><content type="html" xml:base="https://ospfranco.com/post/2021/07/24/reviewing-githubs-copilot/">&lt;p&gt;Is github copilot even worth it?&lt;/p&gt;
-
-&lt;p&gt;Github’s Copilot is an AI assistant, trained on github’s vast codebase (including repos with disparate OSS licenses), it aims to fill the gaps by throwing code at your face while you go about your day.&lt;/p&gt;
-
-&lt;p&gt;I’m not going to go into technical details, all I can give is my impressions after trying it a couple of days&lt;/p&gt;
-
-&lt;h2 id=&quot;first-it-amazed-me&quot;&gt;First it amazed me&lt;/h2&gt;
-
-&lt;p&gt;As I installed the extension and carried on with my day, I paid a lot of attention to it. I also gave it a lot of slack, I knew even though it was trained with a huge codebase mistakes would be the name of the game.&lt;/p&gt;
-
-&lt;p&gt;So I as I went coding my tasks, I would stop and pay attention to the code that was being offered to me, sometimes it would shorten small boilerplate statements, create this variable, autocomplete a hook, it was fun despite failing on the real logic heavy stuff.&lt;/p&gt;
-
-&lt;p&gt;The highlight came when I had to write a regular expression, I dislike regular expressions, which means I’m not skilled enough to write them with ease. I struggled to create a first version of the regex I needed, and when I moved to another file and I had to re-use it, Copilot dropped a valid regex on my lap. I won’t lie, my jaw dropped, it was more complete that the one I had written, later I modified the code a bit and it spit out a new regex that reflected those changes. Amazing.&lt;/p&gt;
-
-&lt;h2 id=&quot;but-is-it-actually-correct&quot;&gt;But is it actually correct?&lt;/h2&gt;
-
-&lt;p&gt;I immediately took the regex that was suggested, assuming it was correct, only to realize later, that the functionality I was coding was broken. I started the debugging the code and realized the problem was in the regex given by Copilot.&lt;/p&gt;
-
-&lt;p&gt;In all my disliking for regexes I accepted the suggestion without a second thought. I ended up going back to my original regex and slowly creating the correct version. And here is one of the dangers.&lt;/p&gt;
-
-&lt;h2 id=&quot;i-believe-there-is-no-substitute-for-the-human-brain&quot;&gt;I believe there is no substitute for the human brain&lt;/h2&gt;
-
-&lt;p&gt;Copilot, despite being the amazing fact we are able to create it, is still a &lt;strong&gt;dumb&lt;/strong&gt; machine. &lt;strong&gt;It doesn’t understand where you want to go, only where where it has been&lt;/strong&gt;.&lt;/p&gt;
-
-&lt;p&gt;I fear that bug production will be automated, since we are tempted to always take the path of less resistance and accept the suggestions without thorough checking. Not that humans are perfect at this, the real question is if Copilot can do better.&lt;/p&gt;
-
-&lt;h2 id=&quot;and-then-it-got-annoying&quot;&gt;And then it got annoying&lt;/h2&gt;
-
-&lt;p&gt;So after my excitement died down and I tried to continue to do my work, things got bad.&lt;/p&gt;
-
-&lt;p&gt;As I tried to focus in order to write complex pieces of code, Copilot keep throwing code at me whenever I took a brief pause to gather my thoughts, this completely broke my flow state.&lt;/p&gt;
-
-&lt;p&gt;All of the sudden I was looking at code that most of the time was: a) wrong, b) wrong but hard to notice why it was wrong or c) hot garbage because it did something completely different. This got tiring fast, instead of focusing the problem at hand I was focusing on correcting errors already.&lt;/p&gt;
-
-&lt;p&gt;After half a day, it felt like having a junior dev next to me, constantly interrupting and throwing code at my face… almost there code, but still wrong.&lt;/p&gt;
-
-&lt;h2 id=&quot;so-now-what&quot;&gt;So… now what?&lt;/h2&gt;
-
-&lt;p&gt;I’m sure it will get better, the question is… how much better can it get? I don’t know&lt;/p&gt;
-
-&lt;p&gt;Is it useful sometimes, sure, at least to me it saved me a couple of keystrokes every once in a while&lt;/p&gt;
-
-&lt;p&gt;But the constant distraction is 100% not worth it to me, I have now removed the extension. I can only wish the Copilot’s team good luck and await for the next iteration!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Is github copilot even worth it?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.jpeg" /><media:content medium="image" url="https://ospfranco.com/assets/profile.jpeg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;&lt;strong&gt;This technique was inspired by the work I did on my React Native for macOS online course, &lt;a href=&quot;https://www.newline.co/courses/building-react-native-apps-for-mac&quot;&gt;check it out&lt;/a&gt;!&lt;/strong&gt;&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">It’s no secret that JS developers run away from Objective-C, why not migrate the entry point of your app to Swift?</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
