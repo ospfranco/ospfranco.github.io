@@ -39,7 +39,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Reducing Sentry's android app bundle size</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -47,7 +47,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>At work I convinced my team to switch from Crashlytics to <a href="sentry.io">Sentry</a>. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>At work I convinced my team to switch from Crashlytics to <a href="sentry.io">Sentry</a>. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</p>
 
 <p>So I spent a bit of time trying to see if there was anything that could be done about it. Eventually reading the issues on the <code class="language-plaintext highlighter-rouge">sentry-android</code> repo (which is a direct dependency of the react-native version of the Sentry library), some people mentioned that NDK support (the framework to write C/C++ in android) seems to add a lot of unnecessary files.</p>
 
@@ -55,7 +56,8 @@
 
 <p>Afterwards I simply built the app again (if you are doing local builds, you might want to run <code class="language-plaintext highlighter-rouge">./gradlew clean</code> on your android folder to get rid of any caches), and <strong>it removes ~1.2 megabytes of the size of the app</strong>.</p>
 
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

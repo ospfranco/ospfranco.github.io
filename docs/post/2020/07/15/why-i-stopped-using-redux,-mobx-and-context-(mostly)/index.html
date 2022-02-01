@@ -41,7 +41,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Stop using redux, mobx and/or context</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -49,7 +49,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
 
 <h2 id="why-not-mobxreduxrecoilcontextreduxsagasusereducer">Why not [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]?</h2>
 <p>So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven’t tried yet), I won’t go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than what I can write, so I’m going to go straight into the biggest problem I saw with managing state in my web/mobile apps:</p>
@@ -115,7 +116,8 @@
 <p>I could go on and on about this paradigm, graphQL? meh, if everything the user needs is synced… I don’t need it, I can just have one HTTP Rest endpoint, write the rest of the application as normal, no need to insert GraphQL JSX fragments everywhere…</p>
 
 <p>You are now thinking <code class="language-plaintext highlighter-rouge">You are misusing/don't understand [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]</code> and I mean, sure, maybe, I don’t care, this is my experience and what works for me, you do you… also, don’t use Sagas, ever.</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

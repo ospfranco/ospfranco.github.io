@@ -39,7 +39,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">React Native iOS 14 widgets guide</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -47,7 +47,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>So you want to make a iOS home screen widget react-native?</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>So you want to make a iOS home screen widget react-native?</p>
 
 <p>I’m sorry to dissapoint <strong>you will not be able to do a home screen widget with react-native…</strong>, ok, I might be partially lying, you might be able to load an RCTRootView to use react-native into the widget but IMHO this is a bad idea, rather what you want is make a native widget communicate with your rn app.</p>
 
@@ -223,7 +224,8 @@
 <p>Basically, take the data you wrote into the app group and put it in the widget.</p>
 
 <p>Cheers! you now have a iOS 14 widget for your react-native app. If you found this tutorial useful, follow me on <a href="https://twitter.com/ospfranco">twitter</a>, I constantly post react-native and other programming trips and insights.</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

@@ -39,7 +39,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">React Native performance tips</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -47,7 +47,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>Recently a friend send me a link with some react-native <a href="https://blog.soshace.com/performance-optimizations-for-react-native-applications/">performance optimizations</a>, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>Recently a friend send me a link with some react-native <a href="https://blog.soshace.com/performance-optimizations-for-react-native-applications/">performance optimizations</a>, while valuable, there was nothing new in there that I did not see before, and I actually have some cases that might complement them:</p>
 
 <h2 id="1-inlining-is-more-complex-in-functional-components">1. Inlining is more complex in functional components</h2>
 
@@ -90,7 +91,8 @@
 
 <h2 id="9-use-a-lazy-loaded-native-storage-solution">9. Use a lazy loaded native storage solution</h2>
 <p>Redux-persist and mobx-persist do the job, but if you want/need to handle thousands of items in your app and want to squeeze the last drop of performance you need to go native, using things like RxDB, WatermelonDb or Realm.js will be by far the biggest performance improvements if your app handles a lot of individual entities</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

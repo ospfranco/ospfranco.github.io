@@ -41,7 +41,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Reset NVRAM on m1 mac</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -49,13 +49,15 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling</p>
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nvram -c
 </code></pre></div></div>
 
 <p>You might see some errors regarding some services that cannot be restarted (fmm-mobileme and fmm-computer-name), but you can ignore those, afterwards restart your computer and it should be fine</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

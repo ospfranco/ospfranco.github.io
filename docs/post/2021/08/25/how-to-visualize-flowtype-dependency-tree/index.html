@@ -41,7 +41,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">How to visualize Flowtype dependency tree</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -49,7 +49,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>At work we use <a href="https://flow.org">FlowType</a> on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>At work we use <a href="https://flow.org">FlowType</a> on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.</p>
 
 <p>However, when I joined the company I was surprised on how slow Flow was in our project. The project is large but not extremely large. Facebook codebase is orders of magnitude bigger, yet this is the performance I see sometimes</p>
 
@@ -123,7 +124,8 @@ dot <span class="nt">-Tsvg</span> output <span class="nt">-o</span> graph.svg
   <li>The moment you start seeing a performance degradation in your type checking, is the time to figure out why, pushing the can down the road will lead to trouble.</li>
   <li>Come up with a sane import architecture, minimizing the dependencies between separate files. I think I will write about this in the future.</li>
 </ul>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

@@ -39,7 +39,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Android dynamic icons (Build-time, non-flavor)</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -47,7 +47,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>On a previous <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/">post</a> I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>On a previous <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/">post</a> I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</p>
 
 <p>Unlike many of the tutorials you will find out there, this is not based on <code class="language-plaintext highlighter-rouge">ProductFlavors</code>, because ProductFlavors force you to use different package names, which means you have to change not only your CI but also your distributables on the play store, etc. If you already have your infra set up, this is way too much work for a simple icon replacement.</p>
 
@@ -148,7 +149,8 @@
 </code></pre></div></div>
 
 <p>And voila, now your android apps should be reflecting the environment it is running against (according to your own definition 😉)</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

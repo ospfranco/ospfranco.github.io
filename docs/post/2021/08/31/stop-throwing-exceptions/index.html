@@ -41,7 +41,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Stop throwing exceptions</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -49,7 +49,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>Throwing exceptions completely breaks the control flow of programs and turns them unpredictable. Let’s explore their side-effects.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>Throwing exceptions completely breaks the control flow of programs and turns them unpredictable. Let’s explore their side-effects.</p>
 
 <p>I’m going to use TypeScript/JavaScript, so some of these points will apply to JavaScript alone.</p>
 
@@ -154,7 +155,8 @@
 <p>Although I tweeted about this issue before, it was only after reading <a href="https://humanlytyped.hashnode.dev/away-from-exceptions-errors-as-values">Barise’s article</a> that I decided to write my own. And there are many more articles on the topic: <a href="https://mattwarren.org/2016/12/20/Why-Exceptions-should-be-Exceptional/">some against exceptions</a> some <a href="https://blog.plan99.net/what-s-wrong-with-exceptions-nothing-cee2ed0616">for them</a>.</p>
 
 <p>I believe some of the claims <strong>for</strong> exceptions are quite missguided, such as: fast prototyping! Stack traces! etc. Exceptions are definitely useful and as stated some of this mechanisms are golden for real exceptional situations, but hurt so much when used freely and carelessly.</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

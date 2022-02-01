@@ -39,7 +39,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">How to use the Mapbox SDK to render custom tiles</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -47,7 +47,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>So here is a gem from the past, I won’t disclose exactly what it was used for but at a previous job I “hacked” away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>So here is a gem from the past, I won’t disclose exactly what it was used for but at a previous job I “hacked” away at the React Native Mapbox SDK, allowing it to render an arbitrary tile set, so here is a small guide for you to do the same.</p>
 
 <h2 id="but-why">But… why?</h2>
 
@@ -296,7 +297,8 @@
 </code></pre></div></div>
 
 <p>and that is it, you should now have all the pieces necessary to render any tile set on the mapbox SDK, performant with great UX.</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

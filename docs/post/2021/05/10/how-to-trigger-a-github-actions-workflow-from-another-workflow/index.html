@@ -41,7 +41,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Github workflows chaining</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -49,7 +49,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.</p>
 
 <p>Unfortunately, after migrating to Github Actions, it’s not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.</p>
 
@@ -104,7 +105,8 @@
 <p>That’s it, now when you trigger the “Fork production builds” (from the github UI), the child (or children) process will run.</p>
 
 <p>If you want even more details about your CI builds and workflows on github, you should check <a href="https://ospfranco.github.io/cidemon">CI Demon</a>, it’s an app that I made that puts your builds right on your mac Desktop.</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

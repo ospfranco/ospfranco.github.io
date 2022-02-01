@@ -13,7 +13,7 @@ body {
   font-family: Inter, Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  @apply dark:text-gray-200 dark:bg-neutral-900;
+  @apply max-w-full dark:text-gray-200 dark:bg-neutral-800;
 }
 
 a {
@@ -61,17 +61,17 @@ a {
 }
 
 .markdown .highlighter-rouge {
-  @apply pt-0 pb-0 font-medium bg-transparent text-amber-600;
+  @apply max-w-full pt-0 pb-0 font-medium bg-transparent text-amber-600;
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
 .markdown .highlight {
-  @apply text-xs text-gray-800 rounded-lg;
+  @apply max-w-full text-xs text-gray-800 rounded-lg;
   padding: 0 !important;
 }
 
 code {
-  @apply my-8;
+  @apply max-w-full my-8;
 }
 
 .highlighter-rouge {

@@ -41,7 +41,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Fix slow terminal start (hanging xcodebuild)</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -49,7 +49,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.</p>
 
 <p>There are some people who have found some solutions, I tried all of them until it <strong>something</strong> worked, so here is a compilation for you to try as well.</p>
 
@@ -109,7 +110,8 @@
 <p>https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/</p>
 
 <p>Hopefully this will solve your problem, mine was fixed somewhere between installing zsh via brew and re-installing the xcode-tools</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"

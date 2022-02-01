@@ -39,7 +39,7 @@
   />
 </div> -->
 
-<div class="flex-1 mt-20 w-full md:w-[700px]">
+<div class="mt-20 w-full md:w-[700px] max-w-full">
   <div class="flex flex-col w-full px-6 mt-10 mb-4 md:w-768 md:px-0">
     <h1 class="text-xl font-semibold md:text-2xl">Problems reading data from Binary store - crashing RN</h1>
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
@@ -47,7 +47,8 @@
     </div>
   </div>
 
-  <div class="w-full px-6 markdown md:px-0"><p>If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).</p>
+  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
+    <p>If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).</p>
 
 <p>Whenever I tried to compile the app for android, I would face a very random error:</p>
 
@@ -70,7 +71,8 @@ com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
 <p>If you are using <code class="language-plaintext highlighter-rouge">react-native-push-notification</code> (actually seems to be the root of this problem), you also need to update that library to the latest version (<code class="language-plaintext highlighter-rouge">7.3.1</code> as of this writing). Bare in mind this might be a major version change, so the API might have changed, in our case we were using a 6.X.X version and we had to update the <code class="language-plaintext highlighter-rouge">removeAllDeliveredNotifications</code> method.</p>
 
 <p>Afterwards your app should hopefully compile.</p>
-</div>
+
+  </div>
 
   <link
     rel="stylesheet"
