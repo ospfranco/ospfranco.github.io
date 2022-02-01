@@ -18,7 +18,7 @@ body {
 }
 
 a {
-  @apply font-medium cursor-default hover:text-gray-400;
+  @apply font-medium underline cursor-default hover:text-gray-400;
 }
 
 .markdown {
