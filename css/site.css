@@ -13,7 +13,6 @@ body {
   font-family: Inter, Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
-  font-size: 14;
   @apply dark:text-gray-200 dark:bg-neutral-900;
 }
 
