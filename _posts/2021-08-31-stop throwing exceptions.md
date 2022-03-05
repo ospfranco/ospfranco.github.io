@@ -7,23 +7,13 @@ permalink: /:categories/:year/:month/:day/:title/
 image: assets/preview.jpg
 ---
 
-Throwing exceptions makes programms unpredictable by breaking the control flow.
-
-# Exceptions can leak memory
-
-![errorStack]({{site.url}}/assets/errorStack.png "errorStack")
-
-> The error keeps the function frames around until it the stack string is created or it is garbage collected
-
-It's a bit of an edge case, but given a large enough application it's bound to happen.
-
-# Exceptions stab you in the back
+Throwing exceptions makes programms unpredictable by breaking the normal control flow.
 
 A simple axiom: **unexpected things happen all the time**.
 
-Some unexpected things are fairly common: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. Yet some other unexpected things cannot be recovered from: disks get full, dll is missing, program is missconfigured, etc. Today's ecosystem treats every exception as equal.
+Some unexpected things are common: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, other unexpected things cannot be recovered from: disks get full, dll is missing, program is missconfigured, etc. Today's ecosystem treats every exception as equal.
 
-The problem comes when we forget to handle these exceptions. For example: user inputs weird character, passes our top-level naive validation yet fails in a dependency of the dependency, which we did not know could throw.
+The real problem comes when we forget to handle these exceptions or we don't know the code we are calling can throw exceptions.
 
 ```js
 // oops forgot to sanitize my input
@@ -35,23 +25,25 @@ let date = originalDate.setDay(userInput).toISO();
 // it might not even be thrown by the date library, but some second level dependency...
 ```
 
-A lot of times they are completely implicit and invisible to the application developer. The path the exception has taken back is also completely implicit, did the error generate in some deeply nested function? It has bulldozed its way to your code and if unhandled will promptly crash your application.
+A lot of times this code is implicit and invisible to the application developer. The exception simply bulldozes and bubbles until it is catched or crashes the programm.
 
-**How do I know which function can throw? do I have to try...catch every single line of code I have not written myself?**
+There lies one of the biggest problems: **how do I know which function can throw?** do I have to try/catch every line of code I have not written myself?
 
-# Some exceptions are real exceptions
+# Kernel errors
 
 If exceptions are so disruptive to the flow of a program, why do we use them?
 
-We need to go back history a bit, in the earlier days of computing, programs were not as brittle as they are nowadays, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would end with a 0 integer and anything else meant a unsuccessful execution. Besides C, this is still visible in shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed.
+In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today's shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed.
 
-Inspired by this kernel exceptions the developer community thought: "that's a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!". Other words: short-term convenience.
+Inspired by this kernel exceptions the developer community seems to have thought: "that's a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!". Other words: short-term convenience.
 
-But if we adopt the philosphy of "exceptions are meant for true panic calls" we can adopt a far better coding styling, one that would bring back the stability of the software of the previous decades.
+But this short-term convenience carried a price, **it added implicit behavior to ALL code**, you could no longer read the calling code and understand what was going on without understanding the whole.
+
+I believe user code without exceptions makes for a easier pattern to understand, debug and maintain.
 
 # Error carrying monads
 
-Forget the fancy title for a bit, we can basically skip all the ceremony and adopt the following coding style:
+What if every function not only returned the output but any error it produces.
 
 ```ts
 let userInput = "10a";
@@ -72,7 +64,7 @@ This brings multiple benefits:
 - Errors are part of the normal flow of a program
 - Easily readable and the intention of the code is clear
 
-Many of the new languages, like Rust or Swift, have now used composite types that carry this information, which will even force you to handle code that can fail.
+Many of the new languages, like Rust or Swift, have now used composite types that carry this information, which will even force you to handle code that can fail. For example in Rust:
 
 ```rust
 enum Result<T, E> {
@@ -85,12 +77,20 @@ This is what is called an `Error Monad`. This struct is not available in JavaScr
 
 # Use exceptions for real panics
 
-So now you can let real "exceptions" be what they were meant from... exceptional stuff. Things a program cannot recover from (full disk, wrong params, corrupted data, etc.), and therefore should crash the application. Whereas the rest of your code can communicate intent better, be more readable, explicit and easier to debug.
+So now you can let real "exceptions" be what they were meant from... exceptional stuff. Things a program cannot recover from (full disk, wrong params, corrupted data, etc.), and therefore should crash the application. Whereas the rest of your code be just better.
 
-As a matter of fact there are several libraries that already follow this pattern: joi is one of them, as well as some API libraries like Stripe I believe.
+I have encountered some libraries that follow this pattern, joi for example, as well as some API libraries like Stripe.
 
 # References
 
 Although I tweeted about this issue before, it was only after reading [Barise's article](https://humanlytyped.hashnode.dev/away-from-exceptions-errors-as-values) that I decided to write my own. And there are many more articles on the topic: [some against exceptions](https://mattwarren.org/2016/12/20/Why-Exceptions-should-be-Exceptional/) some [for them](https://blog.plan99.net/what-s-wrong-with-exceptions-nothing-cee2ed0616).
 
 I believe some of the claims **for** exceptions are quite missguided, such as: fast prototyping! Stack traces! etc. Exceptions are definitely useful and as stated some of this mechanisms are golden for real exceptional situations, but hurt so much when used freely and carelessly.
+
+# Bonus: JS exceptions can leak memory
+
+![errorStack]({{site.url}}/assets/errorStack.png "errorStack")
+
+> The error keeps the function frames around until it the stack string is created or it is garbage collected
+
+It's a bit of an edge case, but given a large enough application it's bound to happen.
