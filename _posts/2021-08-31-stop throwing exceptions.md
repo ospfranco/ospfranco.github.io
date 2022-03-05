@@ -77,7 +77,7 @@ This is what is called an `Error Monad`. This struct is not available in JavaScr
 
 # Use exceptions for real panics
 
-So now you can let real "exceptions" be what they were meant from... exceptional stuff. Things a program cannot recover from (full disk, wrong params, corrupted data, etc.), and therefore should crash the application. Whereas the rest of your code be just better.
+So now you can let real "exceptions" be what they were meant for **unrecoverable program state** and therefore should crash the application. Whereas the rest of your code will just be better.
 
 I have encountered some libraries that follow this pattern, joi for example, as well as some API libraries like Stripe.
 
