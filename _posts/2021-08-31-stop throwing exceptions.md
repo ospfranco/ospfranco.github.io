@@ -7,9 +7,7 @@ permalink: /:categories/:year/:month/:day/:title/
 image: assets/preview.jpg
 ---
 
-Throwing exceptions completely breaks the control flow of programs and turns them unpredictable. Let's explore their side-effects.
-
-I'm going to use TypeScript/JavaScript, so some of these points will apply to JavaScript alone.
+Throwing exceptions makes programms unpredictable by breaking the control flow.
 
 # Exceptions can leak memory
 
@@ -17,13 +15,15 @@ I'm going to use TypeScript/JavaScript, so some of these points will apply to Ja
 
 > The error keeps the function frames around until it the stack string is created or it is garbage collected
 
-It's a bit of an edge case, but given a large enough application this make your app run out of memory.
+It's a bit of an edge case, but given a large enough application it's bound to happen.
 
 # Exceptions stab you in the back
 
-Let start with simple axiom: **unexpected things happen all the time**. Some unexpected things are fairly common: users input weird characters, things get deleted, libraries have nested behaviors we are not aware of, etc. Yet some other unexpected things are more serious and cannot be recovered from: disks get full, some dll is missing, program is missconfigured, etc. The way the ecosystem today works is by throwing exceptions whenever unexpected things happen.
+A simple axiom: **unexpected things happen all the time**.
 
-The problem comes when we forget to handle these exceptions. For example: user inputs weird character that fails to parse as an int in some dependency of the dependency, **OOPS!**
+Some unexpected things are fairly common: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. Yet some other unexpected things cannot be recovered from: disks get full, dll is missing, program is missconfigured, etc. Today's ecosystem treats every exception as equal.
+
+The problem comes when we forget to handle these exceptions. For example: user inputs weird character, passes our top-level naive validation yet fails in a dependency of the dependency, which we did not know could throw.
 
 ```js
 // oops forgot to sanitize my input
@@ -35,19 +35,19 @@ let date = originalDate.setDay(userInput).toISO();
 // it might not even be thrown by the date library, but some second level dependency...
 ```
 
-The problem with this kind of exceptions is that a lot of times they are completely implicit and invisible to the final user of the code. The path the exception has taken back is also completely implicit, did the error generate in some deeply nested function? It has bulldozed its way to your code and if unhandled will promptly crash your application.
+A lot of times they are completely implicit and invisible to the application developer. The path the exception has taken back is also completely implicit, did the error generate in some deeply nested function? It has bulldozed its way to your code and if unhandled will promptly crash your application.
 
 **How do I know which function can throw? do I have to try...catch every single line of code I have not written myself?**
 
 # Some exceptions are real exceptions
 
-So if exceptions are so disruptive to the flow of a program, why do we use them?
+If exceptions are so disruptive to the flow of a program, why do we use them?
 
-So let's go back in history a bit, in the earlier days of computing, programs were not as brittle as they are nowadays, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would end with a 0 integer and anything else meant a unsuccessful execution. Besides C, this is still visible in shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed.
+We need to go back history a bit, in the earlier days of computing, programs were not as brittle as they are nowadays, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would end with a 0 integer and anything else meant a unsuccessful execution. Besides C, this is still visible in shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed.
 
-Why did we start using exceptions? Well, seems like somebody looked at them and went something like "that's a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!". Other than that there is no good reason to use them in our user code.
+Inspired by this kernel exceptions the developer community thought: "that's a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!". Other words: short-term convenience.
 
-But if we adopt the philosphy of "exceptions are meant for true panic calls" we can adopt a far better coding styling, one that would bring back the stability of the software of the 70s.
+But if we adopt the philosphy of "exceptions are meant for true panic calls" we can adopt a far better coding styling, one that would bring back the stability of the software of the previous decades.
 
 # Error carrying monads
 
@@ -81,25 +81,7 @@ enum Result<T, E> {
 }
 ```
 
-Using this on the JavaScript world would maybe look something like this:
-
-```ts
-let userInput = "10a";
-
-let dateResult = originalDate.setDay(userInput).toISO();
-
-switch (dateResult) {
-  case Ok:
-    // do my thing dateResult.value
-    break;
-
-  case Err:
-    console.log("Could not parse date!", dateResult.err);
-    break;
-}
-```
-
-That my friend, is an `Error Monad`. Now you know a bit of functional programming too! This struct is not available in JavaScript yet, but you can return tuples or objects and the result is just as good!
+This is what is called an `Error Monad`. This struct is not available in JavaScript yet, but you can return tuples or objects and the result is just as good!
 
 # Use exceptions for real panics
 
