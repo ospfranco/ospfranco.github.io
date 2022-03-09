@@ -2,55 +2,102 @@
 layout: default
 ---
 
-<p class="w-full px-6 md:w-[700px] md:px-0 pt-48">
-  Software Wizard, Co-Founder Productlane. Reach me via
-  <a href="mailto://ospfranco@protonmail.com">email.</a>
+<img
+  src="{{site.baseurl}}/assets/preview.jpg"
+  class="mt-48 mb-8 h-32 w-32 rounded-full object-contain"
+/>
+
+<p class="w-full px-6 md:w-[700px] md:px-0">
+  Hey! I'm a freelance software developer, I do open source, lead development
+  teams and dable in product design.
+</p>
+<p class="w-full px-6 md:w-[700px] md:px-0 pt-2">
+  Currently trying to build a off-shoring company with colleagues in my home
+  country, if you are interested in working with me and my team
+  <a href="mailto://ospfranco@protonmail.com">send me an email.</a>
 </p>
 <!-- <h2 class="px-6 pt-10 pb-4 font-medium tracking-wide dark:text-white md:px-0">
   Projects
 </h2> -->
 <div class="flex flex-wrap w-full px-6 py-8 my-6 md:w-[700px] md:px-0">
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
-    <a href="https://productlane.io">Productlane</a>
-    <p class="">
-      Gather and manage customer feedback. Beautifully designed, fast,
-      integrates with Linear.
-    </p>
-  </div>
-
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
+    >
+      <img
+        src="{{site.baseurl}}/assets/messer.webp"
+        class="h-full object-contain rounded-lg"
+      />
+    </div>
     <a href="https://messerapp.cc">Messer</a>
     <p class="">
       Native macOS app for simple image manipulations right from the menu bar.
     </p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
+    >
+      <img
+        src="{{site.baseurl}}/assets/sol.webp"
+        class="h-full object-contain rounded-lg"
+      />
+    </div>
     <a href="https://github.com/ospfranco/sol">Sol</a>
     <p class="">An open source version of Raycast/Alfred.</p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
+    >
+      <img
+        src="{{site.baseurl}}/assets/cidemon.webp"
+        class="h-full object-contain rounded-lg"
+      />
+    </div>
     <a href="https://cidemon.com">CI Demon</a>
     <p class="">
       Native macOS app to check your CI workflows from the menu bar.
     </p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center"
+    >
+      React Native for macOS Class
+    </div>
     <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">
       RN macOS online class</a
     >
     <p class="">Learn how to create native macOS apps using React-Native.</p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
+    >
+      C++ for JS Devs
+    </div>
     <a
       href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
     >
       C++ for JS Devs
     </a>
     <p class="">Learn C++ from a JS Developer perspective.</p>
+  </div>
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
+    >
+      JSI SQLite for RN
+    </div>
+    <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+      React-native-quick-sqlite
+    </a>
+    <p class="">The fastest SQLite implementation for React Native.</p>
   </div>
 </div>
 
@@ -68,7 +115,9 @@ layout: default
     <ul class="flex flex-col gap-2">
       {% for post in month.items %}
       <li>
-        <a href="{{ post.url }}" class="no-underline">{{ post.title }}</a>
+        <a href="{{ post.url }}" class="dark:text-white text-black"
+          >{{ post.title }}</a
+        >
       </li>
       {% endfor %}
     </ul>

@@ -6,6 +6,7 @@
 @import "tailwindcss/utilities";
 
 body {
+  font-size: 15px;
   font-family: Inter, Arial, Helvetica, sans-serif;
   text-rendering: optimizeLegibility;
   -moz-osx-font-smoothing: grayscale;
@@ -13,7 +14,12 @@ body {
 }
 
 a {
-  @apply font-medium underline cursor-default hover:text-gray-400;
+  @apply cursor-default text-neutral-500 dark:text-neutral-400 hover:text-gray-400 dark:hover:text-white dark:hover:underline transition;
+}
+
+a[target="_blank"]:after {
+  content: "↗";
+  margin-left: 0.1rem;
 }
 
 .markdown {
@@ -34,10 +40,6 @@ a {
 
 .markdown h3 {
   @apply mt-8 font-bold;
-}
-
-.markdown a {
-  @apply font-normal text-blue-400 underline hover:opacity-75;
 }
 
 .markdown ol {
@@ -67,7 +69,7 @@ a {
 }
 
 code {
-  @apply max-w-full my-8;
+  @apply max-w-full my-8 rounded-lg;
 }
 
 .highlighter-rouge {

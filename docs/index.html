@@ -20,7 +20,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@type":"WebSite","headline":"Oscar Franco","url":"https://ospfranco.com/","name":"Oscar Franco","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
+{"@type":"WebSite","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Oscar Franco","url":"https://ospfranco.com/","name":"Oscar Franco","@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -28,55 +28,102 @@
 </head>
 
 <html class="flex flex-col items-center w-full">
-  <p class="w-full px-6 md:w-[700px] md:px-0 pt-48">
-  Software Wizard, Co-Founder Productlane. Reach me via
-  <a href="mailto://ospfranco@protonmail.com">email.</a>
+  <img
+  src="/assets/preview.jpg"
+  class="mt-48 mb-8 h-32 w-32 rounded-full object-contain"
+/>
+
+<p class="w-full px-6 md:w-[700px] md:px-0">
+  Hey! I'm a freelance software developer, I do open source, lead development
+  teams and dable in product design.
+</p>
+<p class="w-full px-6 md:w-[700px] md:px-0 pt-2">
+  Currently trying to build a off-shoring company with colleagues in my home
+  country, if you are interested in working with me and my team
+  <a href="mailto://ospfranco@protonmail.com">send me an email.</a>
 </p>
 <!-- <h2 class="px-6 pt-10 pb-4 font-medium tracking-wide dark:text-white md:px-0">
   Projects
 </h2> -->
 <div class="flex flex-wrap w-full px-6 py-8 my-6 md:w-[700px] md:px-0">
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
-    <a href="https://productlane.io">Productlane</a>
-    <p class="">
-      Gather and manage customer feedback. Beautifully designed, fast,
-      integrates with Linear.
-    </p>
-  </div>
-
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
+    >
+      <img
+        src="/assets/messer.webp"
+        class="h-full object-contain rounded-lg"
+      />
+    </div>
     <a href="https://messerapp.cc">Messer</a>
     <p class="">
       Native macOS app for simple image manipulations right from the menu bar.
     </p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
+    >
+      <img
+        src="/assets/sol.webp"
+        class="h-full object-contain rounded-lg"
+      />
+    </div>
     <a href="https://github.com/ospfranco/sol">Sol</a>
     <p class="">An open source version of Raycast/Alfred.</p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
+    >
+      <img
+        src="/assets/cidemon.webp"
+        class="h-full object-contain rounded-lg"
+      />
+    </div>
     <a href="https://cidemon.com">CI Demon</a>
     <p class="">
       Native macOS app to check your CI workflows from the menu bar.
     </p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center"
+    >
+      React Native for macOS Class
+    </div>
     <a href="https://www.newline.co/courses/building-react-native-apps-for-mac">
       RN macOS online class</a
     >
     <p class="">Learn how to create native macOS apps using React-Native.</p>
   </div>
 
-  <div class="flex-auto w-full h-32 pr-2 md:w-1/2">
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
+    >
+      C++ for JS Devs
+    </div>
     <a
       href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
     >
       C++ for JS Devs
     </a>
     <p class="">Learn C++ from a JS Developer perspective.</p>
+  </div>
+  <div class="flex-auto w-full h-64 pr-2 md:w-1/2">
+    <div
+      class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
+    >
+      JSI SQLite for RN
+    </div>
+    <a href="https://github.com/ospfranco/react-native-quick-sqlite">
+      React-native-quick-sqlite
+    </a>
+    <p class="">The fastest SQLite implementation for React Native.</p>
   </div>
 </div>
 
@@ -93,7 +140,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2022/01/08/email-templates-with-react-and-tailwind/" class="no-underline">Email templates with React and Tailwind</a>
+        <a href="/post/2022/01/08/email-templates-with-react-and-tailwind/" class="dark:text-white text-black"
+          >Email templates with React and Tailwind</a
+        >
       </li>
       
     </ul>
@@ -106,19 +155,27 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/12/21/reset-nvram-on-m1-mac/" class="no-underline">Reset NVRAM on m1 mac</a>
+        <a href="/post/2021/12/21/reset-nvram-on-m1-mac/" class="dark:text-white text-black"
+          >Reset NVRAM on m1 mac</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/12/18/never-use-anything-except-a-pure-uuid/" class="no-underline">Never use anything except a pure UUID (Anti REGEX argument)</a>
+        <a href="/post/2021/12/18/never-use-anything-except-a-pure-uuid/" class="dark:text-white text-black"
+          >Never use anything except a pure UUID (Anti REGEX argument)</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" class="no-underline">How to install M1 (arm) compatible JDK</a>
+        <a href="/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" class="dark:text-white text-black"
+          >How to install M1 (arm) compatible JDK</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/12/08/beauty-on-code-iterations/" class="no-underline">Beauty on code iterations</a>
+        <a href="/post/2021/12/08/beauty-on-code-iterations/" class="dark:text-white text-black"
+          >Beauty on code iterations</a
+        >
       </li>
       
     </ul>
@@ -131,7 +188,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/11/04/startups-latinoamerica/" class="no-underline">Startups Latinoamerica</a>
+        <a href="/post/2021/11/04/startups-latinoamerica/" class="dark:text-white text-black"
+          >Startups Latinoamerica</a
+        >
       </li>
       
     </ul>
@@ -144,19 +203,27 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/08/31/stop-throwing-exceptions/" class="no-underline">Stop throwing exceptions</a>
+        <a href="/post/2021/08/31/stop-throwing-exceptions/" class="dark:text-white text-black"
+          >Stop throwing exceptions</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/" class="no-underline">How to visualize Flowtype dependency tree</a>
+        <a href="/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/" class="dark:text-white text-black"
+          >How to visualize Flowtype dependency tree</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/08/22/unhappy-for-years,-until-i-switched-to-working-3-days-a-week/" class="no-underline">Unhappy for years, until I switched to working 3 days a week</a>
+        <a href="/post/2021/08/22/unhappy-for-years,-until-i-switched-to-working-3-days-a-week/" class="dark:text-white text-black"
+          >Unhappy for years, until I switched to working 3 days a week</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/" class="no-underline">Fix slow terminal start (hanging xcodebuild)</a>
+        <a href="/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/" class="dark:text-white text-black"
+          >Fix slow terminal start (hanging xcodebuild)</a
+        >
       </li>
       
     </ul>
@@ -169,11 +236,15 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/07/31/migrate-rn-appdelegate-to-swift/" class="no-underline">Migrate React Native's AppDelegate to Swift</a>
+        <a href="/post/2021/07/31/migrate-rn-appdelegate-to-swift/" class="dark:text-white text-black"
+          >Migrate React Native's AppDelegate to Swift</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/07/24/reviewing-githubs-copilot/" class="no-underline">Reviewing Github's Copilot</a>
+        <a href="/post/2021/07/24/reviewing-githubs-copilot/" class="dark:text-white text-black"
+          >Reviewing Github's Copilot</a
+        >
       </li>
       
     </ul>
@@ -186,27 +257,39 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" class="no-underline">100€ MRR as an Indie Hacker</a>
+        <a href="/post/2021/05/25/100-bucks-per-month-as-indie-hacker/" class="dark:text-white text-black"
+          >100€ MRR as an Indie Hacker</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/05/24/how-to-get-the-wifi-password-on-macos/" class="no-underline">Retrieve macOS WiFi password</a>
+        <a href="/post/2021/05/24/how-to-get-the-wifi-password-on-macos/" class="dark:text-white text-black"
+          >Retrieve macOS WiFi password</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" class="no-underline">Problems reading data from Binary store - crashing RN</a>
+        <a href="/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" class="dark:text-white text-black"
+          >Problems reading data from Binary store - crashing RN</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" class="no-underline">Github workflows chaining</a>
+        <a href="/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" class="dark:text-white text-black"
+          >Github workflows chaining</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" class="no-underline">How to add a github token to CI Demon</a>
+        <a href="/post/2021/05/08/how-to-add-a-github-token-to-ci-demon/" class="dark:text-white text-black"
+          >How to add a github token to CI Demon</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/05/04/build-react-native-app-on-github-actions/" class="no-underline">Building a react-native app on github actions</a>
+        <a href="/post/2021/05/04/build-react-native-app-on-github-actions/" class="dark:text-white text-black"
+          >Building a react-native app on github actions</a
+        >
       </li>
       
     </ul>
@@ -219,15 +302,21 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/" class="no-underline">Redux as analytics middleware</a>
+        <a href="/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/" class="dark:text-white text-black"
+          >Redux as analytics middleware</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/04/26/reduce-sentry-android-bundle-size/" class="no-underline">Reducing Sentry's android app bundle size</a>
+        <a href="/post/2021/04/26/reduce-sentry-android-bundle-size/" class="dark:text-white text-black"
+          >Reducing Sentry's android app bundle size</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/04/20/how-does-react-i18next-trans-component-work/" class="no-underline">React-i18next trans component explained</a>
+        <a href="/post/2021/04/20/how-does-react-i18next-trans-component-work/" class="dark:text-white text-black"
+          >React-i18next trans component explained</a
+        >
       </li>
       
     </ul>
@@ -240,15 +329,21 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2021/02/24/how-to-create-a-javascript-jsi-module/" class="no-underline">React-native JSI module tutorial</a>
+        <a href="/post/2021/02/24/how-to-create-a-javascript-jsi-module/" class="dark:text-white text-black"
+          >React-native JSI module tutorial</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/02/18/quick-test-a-javascript-library-in-the-browser-console/" class="no-underline">Test any JavaScript library in the console</a>
+        <a href="/post/2021/02/18/quick-test-a-javascript-library-in-the-browser-console/" class="dark:text-white text-black"
+          >Test any JavaScript library in the console</a
+        >
       </li>
       
       <li>
-        <a href="/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/" class="no-underline">Android dynamic icons (Build-time, non-flavor)</a>
+        <a href="/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/" class="dark:text-white text-black"
+          >Android dynamic icons (Build-time, non-flavor)</a
+        >
       </li>
       
     </ul>
@@ -261,7 +356,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/12/03/how-to-post-jest-test-results-into-github-prs/" class="no-underline">Post Jest results into Github PRs</a>
+        <a href="/post/2020/12/03/how-to-post-jest-test-results-into-github-prs/" class="dark:text-white text-black"
+          >Post Jest results into Github PRs</a
+        >
       </li>
       
     </ul>
@@ -274,7 +371,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/" class="no-underline">Dynamic iOS icons (build-time)</a>
+        <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/" class="dark:text-white text-black"
+          >Dynamic iOS icons (build-time)</a
+        >
       </li>
       
     </ul>
@@ -287,15 +386,21 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/08/14/ios-14-widgets-and-react-native/" class="no-underline">React Native iOS 14 widgets guide</a>
+        <a href="/post/2020/08/14/ios-14-widgets-and-react-native/" class="dark:text-white text-black"
+          >React Native iOS 14 widgets guide</a
+        >
       </li>
       
       <li>
-        <a href="/post/2020/08/10/hardcore-react-native-performance-tips/" class="no-underline">React Native performance tips</a>
+        <a href="/post/2020/08/10/hardcore-react-native-performance-tips/" class="dark:text-white text-black"
+          >React Native performance tips</a
+        >
       </li>
       
       <li>
-        <a href="/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/" class="no-underline">How to use the Mapbox SDK to render custom tiles</a>
+        <a href="/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/" class="dark:text-white text-black"
+          >How to use the Mapbox SDK to render custom tiles</a
+        >
       </li>
       
     </ul>
@@ -308,7 +413,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/" class="no-underline">Stop using redux, mobx and/or context</a>
+        <a href="/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/" class="dark:text-white text-black"
+          >Stop using redux, mobx and/or context</a
+        >
       </li>
       
     </ul>
@@ -321,7 +428,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/06/05/personality-and-engineering/" class="no-underline">Personality and Engineering</a>
+        <a href="/post/2020/06/05/personality-and-engineering/" class="dark:text-white text-black"
+          >Personality and Engineering</a
+        >
       </li>
       
     </ul>
@@ -334,7 +443,9 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/" class="no-underline">How to build a React-Native macOS menu bar app</a>
+        <a href="/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/" class="dark:text-white text-black"
+          >How to build a React-Native macOS menu bar app</a
+        >
       </li>
       
     </ul>
@@ -347,11 +458,15 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/" class="no-underline">Swift tips for JavaScript developers</a>
+        <a href="/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/" class="dark:text-white text-black"
+          >Swift tips for JavaScript developers</a
+        >
       </li>
       
       <li>
-        <a href="/post/2020/04/14/high-level-thoughts-on-testing/" class="no-underline">High level thoughts on (software) testing</a>
+        <a href="/post/2020/04/14/high-level-thoughts-on-testing/" class="dark:text-white text-black"
+          >High level thoughts on (software) testing</a
+        >
       </li>
       
     </ul>
@@ -364,11 +479,15 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2020/02/22/how-to-deploy-a-nestjs-app-on-minikube-with-helm/" class="no-underline">How to deploy a NestJS app on Minikube</a>
+        <a href="/post/2020/02/22/how-to-deploy-a-nestjs-app-on-minikube-with-helm/" class="dark:text-white text-black"
+          >How to deploy a NestJS app on Minikube</a
+        >
       </li>
       
       <li>
-        <a href="/post/2020/02/03/sharing-messages-between-springboot-instances/" class="no-underline">Sharing state/messages between Springboot servers</a>
+        <a href="/post/2020/02/03/sharing-messages-between-springboot-instances/" class="dark:text-white text-black"
+          >Sharing state/messages between Springboot servers</a
+        >
       </li>
       
     </ul>
@@ -381,19 +500,27 @@
     <ul class="flex flex-col gap-2">
       
       <li>
-        <a href="/post/2019/08/30/integrating-vscode-in-your-react-native-and-web-workflow/" class="no-underline">Better debugging experience with VSCode and React Native</a>
+        <a href="/post/2019/08/30/integrating-vscode-in-your-react-native-and-web-workflow/" class="dark:text-white text-black"
+          >Better debugging experience with VSCode and React Native</a
+        >
       </li>
       
       <li>
-        <a href="/post/2019/08/27/react-rotating-image/" class="no-underline">Rotate React image based on EXIF</a>
+        <a href="/post/2019/08/27/react-rotating-image/" class="dark:text-white text-black"
+          >Rotate React image based on EXIF</a
+        >
       </li>
       
       <li>
-        <a href="/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/" class="no-underline">Monorepo codesharing (with lerna.js and typescript)</a>
+        <a href="/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/" class="dark:text-white text-black"
+          >Monorepo codesharing (with lerna.js and typescript)</a
+        >
       </li>
       
       <li>
-        <a href="/post/2019/08/24/germany-and-europe-data-analysis/" class="no-underline">Germany rental market price visualization</a>
+        <a href="/post/2019/08/24/germany-and-europe-data-analysis/" class="dark:text-white text-black"
+          >Germany rental market price visualization</a
+        >
       </li>
       
     </ul>
@@ -402,39 +529,44 @@
 </div>
 
   <header
-    class="fixed top-0 left-0 right-0 flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
+    class="fixed top-0 left-0 right-0 flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-neutral-900"
   >
-    <a href="/" class="font-medium tracking-wide no-underline dark:text-white">
-      Oscar Pedro Franco
-    </a>
+    <div class="w-full px-6 md:w-[700px] md:px-0">
+      <a
+        href="/"
+        class="font-medium tracking-wide no-underline text-black dark:text-white"
+      >
+        OSPFRANCO
+      </a>
+    </div>
   </header>
-  <footer class="flex justify-around w-full px-6 pt-10 pb-4 md:px-0">
+  <footer class="flex gap-3 w-full px-6 pt-10 pb-4 md:px-0">
   <!-- <h2 class="px-6 pt-10 pb-2 font-medium tracking-wide dark:text-white md:px-0">
     Contact
   </h2> -->
 
   <a
-    class="text-sm text-gray-600 no-underline"
+    class="text-sm font-normal no-underline"
     href="mailto:ospfranco@protonmail.com"
     >Email</a
   >
   <a
-    class="text-sm text-gray-600 no-underline"
+    class="text-sm font-normal no-underline"
     href="https://github.com/ospfranco"
     >Github</a
   >
   <a
-    class="text-sm text-gray-600 no-underline"
+    class="text-sm font-normal no-underline"
     href="https://twitter.com/ospfranco"
     >Twitter</a
   >
   <a
-    class="text-sm text-gray-600 no-underline"
+    class="text-sm font-normal no-underline"
     href="https://youtube.com/ospfranco"
     >Youtube</a
   >
   <a
-    class="text-sm text-gray-600 no-underline"
+    class="text-sm font-normal no-underline"
     href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
     >LinkedIn</a
   >
