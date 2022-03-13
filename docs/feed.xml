@@ -1,4 +1,16 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-03-13T13:21:34+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Email templates with React and Tailwind</title><link href="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" rel="alternate" type="text/html" title="Email templates with React and Tailwind" /><published>2022-01-08T14:00:00+01:00</published><updated>2022-01-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/01/08/email%20templates%20with%20react%20and%20tailwind</id><content type="html" xml:base="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/">&lt;p&gt;Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-03-13T17:58:03+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Frames of reference</title><link href="https://ospfranco.com/post/2022/03/13/frames-of-reference/" rel="alternate" type="text/html" title="Frames of reference" /><published>2022-03-13T14:00:00+01:00</published><updated>2022-03-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/03/13/frames%20of%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2022/03/13/frames-of-reference/">&lt;p&gt;Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:&lt;/p&gt;
+
+&lt;iframe width=&quot;560&quot; height=&quot;315&quot; src=&quot;https://www.youtube.com/embed/H0VfPPzZoYw&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Recently I had a discussion with a girl I dated and I still care about. I wasn’t a fight, but our points of view differed diametrically. It was a though dicussion, but I realized we were both rambling about what we &lt;strong&gt;didn’t&lt;/strong&gt; want. Our communication, via our indirection and our fear of confrontation, was mudled.&lt;/p&gt;
+
+&lt;p&gt;At some point we did manage to tell each other some version of what we &lt;strong&gt;do&lt;/strong&gt; want. Or at least I thought we did… now I have had a couple of days to try to understand what we both said, the truth is I still have no clue what it means. Behind every emotion there is an ocean of complexity. In our internal logic is choke full of contradictions, this applies to every single one of us.&lt;/p&gt;
+
+&lt;p&gt;This is what made this little lecture so damn interesting. I started to explain her arguments to myself (as well as I can remember it). What an eye opening exercise. I think I’m still far away from grasping the full implications of what was said, but at least I think I’m now managing to pull the minimal thread of understanding. Am I happy with the message? not really, but it’s better to live life with eyes open.&lt;/p&gt;
+
+&lt;p&gt;Forget now about my relationship troubles, there is a gem of wisdom here to learn: it all boils down to frames of reference, even though the words might be the same, their meaning changes depending on our feelings and moods. To have a recipe to adopt somebody else’s frame of reference is nothing short of a super power.&lt;/p&gt;
+
+&lt;p&gt;Extrapolate this to most of the interactions you have on a day to day basis. What a complex and chaotic interaction, on which we (try to) communicate at the velocity of speech. Almost overwhelming, but damn interesting if you ask me.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Email templates with React and Tailwind</title><link href="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" rel="alternate" type="text/html" title="Email templates with React and Tailwind" /><published>2022-01-08T14:00:00+01:00</published><updated>2022-01-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/01/08/email%20templates%20with%20react%20and%20tailwind</id><content type="html" xml:base="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/">&lt;p&gt;Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.&lt;/p&gt;
 
 &lt;p&gt;I didn’t want to go down that path one more time, so I spend some time trying to answer one question: can I create a email template using only React and Tailwind (with my existing configuration) and the answer is: YES! well, mostly…&lt;/p&gt;
 
@@ -323,63 +335,4 @@ dot &lt;span class=&quot;nt&quot;&gt;-Tsvg&lt;/span&gt; output &lt;span class=&q
 
 &lt;p&gt;There are some very real downsides: I took a significant pay cut. A company reached out to me a few weeks ago, they offered me a salary bump and stocks over my current position, but I had to go back to full time job… I couldn’t bring myself to do it. If you live in the developed world maybe you understand my position. A 10/20k salary increase does not change my life at all, buying an apartment/house is still hopelessly impossible, I don’t have a car (nor I want to) and my free time consists of almost free activities (being outdoors is IMHO is the best thing you can do for your life).&lt;/p&gt;
 
-&lt;p&gt;Turns out, the secret to my happiness was not to chase money down the beaten path whilst enduring a work-life that made me miserable, but rather to get rid of this way (or at least reduce it to it’s minimum while still reaping most/some of the benefits).&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">The other day I posted a twitter thread about how my quality of life massively improved after I started working only 3 days per week, but twitter is a poor medium and I feel like I still have a couple of things to say.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fix slow terminal start (hanging xcodebuild)</title><link href="https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/" rel="alternate" type="text/html" title="Fix slow terminal start (hanging xcodebuild)" /><published>2021-08-05T15:00:00+02:00</published><updated>2021-08-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/08/05/fix%20slow%20terminal%20start%20(hanging%20xcodebuild)</id><content type="html" xml:base="https://ospfranco.com/post/2021/08/05/fix-slow-terminal-start-(hanging-xcodebuild)/">&lt;p&gt;Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.&lt;/p&gt;
-
-&lt;p&gt;There are some people who have found some solutions, I tried all of them until it &lt;strong&gt;something&lt;/strong&gt; worked, so here is a compilation for you to try as well.&lt;/p&gt;
-
-&lt;h2 id=&quot;xcode-tools&quot;&gt;Xcode tools&lt;/h2&gt;
-
-&lt;p&gt;For some the problem seemed to be they did not accept the license:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;xcodebuild &lt;span class=&quot;nt&quot;&gt;-license&lt;/span&gt; accept
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;Related to this, could be that the command line tools are not properly installed:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;In the interest of time this is what seemed to have worked for me&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;nb&quot;&gt;sudo rm&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-rf&lt;/span&gt; /Library/Developer/CommandLineTools
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;xcode-select &lt;span class=&quot;nt&quot;&gt;--install&lt;/span&gt;
-&lt;span class=&quot;nb&quot;&gt;sudo &lt;/span&gt;xcode-select &lt;span class=&quot;nt&quot;&gt;-switch&lt;/span&gt; /Library/Developer/CommandLineTools
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;install-git-via-brew&quot;&gt;Install git via brew&lt;/h2&gt;
-
-&lt;p&gt;For some the problem seems to be the integrated git version, replace it via brew:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;git
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;install-zsh-via-brew&quot;&gt;Install zsh via brew&lt;/h2&gt;
-
-&lt;p&gt;Others report that the zsh version that comes with mac is old, replace it with:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;brew &lt;span class=&quot;nb&quot;&gt;install &lt;/span&gt;zsh
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;h2 id=&quot;try-messing-with-nvm&quot;&gt;Try messing with NVM&lt;/h2&gt;
-
-&lt;p&gt;One user reports having a nvm default alias caused the issue for him:&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;Tried all Google results and nothing works. Eventually, I found it was caused by setting Node.js v8.x as default in nvm, alias default to system will resolve the issue. Although I don’t know why nvm need to run xcodebuild for Node.js v8.x.&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h2 id=&quot;debug-your-zshrc-or-zprofile-script&quot;&gt;Debug your .zshrc (or .zprofile) script&lt;/h2&gt;
-
-&lt;p&gt;Sometimes the slowdown could be caused by some extra step, I had a different problem with one of the apps I use, you can see what happens when you start a zsh session with:&lt;/p&gt;
-
-&lt;div class=&quot;language-bash highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;zsh &lt;span class=&quot;nt&quot;&gt;-i&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-c&lt;/span&gt; &lt;span class=&quot;nt&quot;&gt;-x&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;exit&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
-
-&lt;p&gt;I ended up trying a bunch of things here, disabling some plugins, nvm, trying to lazy load components&lt;/p&gt;
-
-&lt;h2 id=&quot;check-the-multiple-files-that-zsh-loads&quot;&gt;Check the multiple files that zsh loads&lt;/h2&gt;
-
-&lt;p&gt;Zsh loads a lot of files for configuration, it could be possible (not in my case), that some of this is poorly configured, worth a try if you already tried everything above:&lt;/p&gt;
-
-&lt;p&gt;https://shreevatsa.wordpress.com/2008/03/30/zshbash-startup-files-loading-order-bashrc-zshrc-etc/&lt;/p&gt;
-
-&lt;p&gt;Hopefully this will solve your problem, mine was fixed somewhere between installing zsh via brew and re-installing the xcode-tools&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+&lt;p&gt;Turns out, the secret to my happiness was not to chase money down the beaten path whilst enduring a work-life that made me miserable, but rather to get rid of this way (or at least reduce it to it’s minimum while still reaping most/some of the benefits).&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">The other day I posted a twitter thread about how my quality of life massively improved after I started working only 3 days per week, but twitter is a poor medium and I feel like I still have a couple of things to say.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
