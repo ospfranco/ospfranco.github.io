@@ -9,7 +9,7 @@ image: assets/preview.jpg
 
 Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/H0VfPPzZoYw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe class="w-full my-10" src="https://www.youtube.com/embed/H0VfPPzZoYw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 Recently I had a discussion with a girl I dated and I still care about. I wasn't a fight, but our points of view differed diametrically. It was a though dicussion, but I realized we were both rambling about what we **didn't** want. Our communication, via our indirection and our fear of confrontation, was mudled.
 
