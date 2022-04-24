@@ -6,20 +6,15 @@
 @import "tailwindcss/utilities";
 
 body {
-  font-size: 14px;
-  font-family: Inter, Arial, Helvetica, sans-serif;
-  text-rendering: optimizeLegibility;
-  -moz-osx-font-smoothing: grayscale;
-  @apply max-w-full text-gray-600 dark:text-gray-400 dark:bg-[#0f0f0f];
+  /* font-size: 15px; */
+  /* font-family: Inter, Arial, Helvetica, sans-serif; */
+  /* text-rendering: optimizeLegibility; */
+  /* -moz-osx-font-smoothing: grayscale; */
+  @apply max-w-full dark:text-white font-light;
 }
 
 a {
-  @apply text-black dark:text-white hover:text-gray-400 dark:hover:text-white dark:hover:underline transition;
-}
-
-a[target="_blank"]:after {
-  content: "↗";
-  margin-left: 0.1rem;
+  @apply hover:underline;
 }
 
 .markdown {

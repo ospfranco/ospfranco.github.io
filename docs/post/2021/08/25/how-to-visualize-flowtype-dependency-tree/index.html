@@ -33,26 +33,28 @@
   <link rel="stylesheet" href="/css/inter.css" />
 </head>
 
-<html class="flex flex-col items-center w-full">
-  <!-- <div class="w-full md:w-[600px] px-6 md:px-0">
-  <img
-    src="/assets/profile.jpeg"
-    class="object-cover w-full h-56 mt-20 mb-12 rounded-lg"
-  />
-</div> -->
-
-<div class="mt-20 w-full md:w-[700px] max-w-full">
-  <div class="flex flex-col w-full px-6 pt-48 mb-4 md:w-768 md:px-0">
-    <h1 class="text-black dark:text-white text-xl font-semibold sm:text-4xl">
+<html>
+  <header
+    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
+  >
+    <div class="w-full md:w-[700px] flex items-center justify-center">
+      <a href="/" class="tracking-widest text-black dark:text-white text-xs">
+        OSCAR FRANCO
+      </a>
+    </div>
+  </header>
+  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
+  <div class="max-w-2xl mx-auto flex flex-col">
+    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
       How to visualize Flowtype dependency tree
     </h1>
+    
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
       August 2021
     </div>
-  </div>
-
-  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
-    <p>At work we use <a href="https://flow.org">FlowType</a> on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.</p>
+    
+    <div class="pt-12 markdown">
+      <p>At work we use <a href="https://flow.org">FlowType</a> on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.</p>
 
 <p>However, when I joined the company I was surprised on how slow Flow was in our project. The project is large but not extremely large. Facebook codebase is orders of magnitude bigger, yet this is the performance I see sometimes</p>
 
@@ -127,6 +129,7 @@ dot <span class="nt">-Tsvg</span> output <span class="nt">-o</span> graph.svg
   <li>Come up with a sane import architecture, minimizing the dependencies between separate files. I think I will write about this in the future.</li>
 </ul>
 
+    </div>
   </div>
 
   <link
@@ -139,27 +142,10 @@ dot <span class="nt">-Tsvg</span> output <span class="nt">-o</span> graph.svg
     hljs.initHighlightingOnLoad();
   </script>
 
-  <div class="my-20">
-    <a href="/" class="px-6 text-sm font-medium tracking-wide md:px-0">
-      ← Homepage
-    </a>
-  </div>
 </div>
 
-  <header
-    class="fixed top-0 left-0 right-0 flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-[#0f0f0f]"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="font-medium tracking-w text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <footer class="flex gap-3 w-full px-6 pt-10 pb-4 md:px-0 justify-center">
-  <!-- <h2 class="px-6 pt-10 pb-2 font-medium tracking-wide dark:text-white md:px-0">
-    Contact
-  </h2> -->
 
+  <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
   <a
     class="text-xs font-normal no-underline"
     href="mailto:ospfranco@protonmail.com"

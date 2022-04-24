@@ -31,26 +31,28 @@
   <link rel="stylesheet" href="/css/inter.css" />
 </head>
 
-<html class="flex flex-col items-center w-full">
-  <!-- <div class="w-full md:w-[600px] px-6 md:px-0">
-  <img
-    src="/assets/profile.jpeg"
-    class="object-cover w-full h-56 mt-20 mb-12 rounded-lg"
-  />
-</div> -->
-
-<div class="mt-20 w-full md:w-[700px] max-w-full">
-  <div class="flex flex-col w-full px-6 pt-48 mb-4 md:w-768 md:px-0">
-    <h1 class="text-black dark:text-white text-xl font-semibold sm:text-4xl">
+<html>
+  <header
+    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
+  >
+    <div class="w-full md:w-[700px] flex items-center justify-center">
+      <a href="/" class="tracking-widest text-black dark:text-white text-xs">
+        OSCAR FRANCO
+      </a>
+    </div>
+  </header>
+  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
+  <div class="max-w-2xl mx-auto flex flex-col">
+    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
       Swift tips for JavaScript developers
     </h1>
+    
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
       April 2020
     </div>
-  </div>
-
-  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
-    <p>So, I recently released a new mac os app <a href="https://tempomat.dev">Tempomat</a> (go check it out, it is awesome) and I was left surprinsgly pleased with the experience, mostly because of Apple’s SwiftUI framework, it is declarative and along with the Combine framework it brings a lot of the nicesities of web development into the mac platform, however, while I did have experience with the XCode toolchain (because of all the react native I did over the years), this is the first time I truly did native coding, and there were many many pitfalls, so I thought I would write down some of the hard learned lessons over the last weeks, other may find them useful and I can always check them out in case I need them again.</p>
+    
+    <div class="pt-12 markdown">
+      <p>So, I recently released a new mac os app <a href="https://tempomat.dev">Tempomat</a> (go check it out, it is awesome) and I was left surprinsgly pleased with the experience, mostly because of Apple’s SwiftUI framework, it is declarative and along with the Combine framework it brings a lot of the nicesities of web development into the mac platform, however, while I did have experience with the XCode toolchain (because of all the react native I did over the years), this is the first time I truly did native coding, and there were many many pitfalls, so I thought I would write down some of the hard learned lessons over the last weeks, other may find them useful and I can always check them out in case I need them again.</p>
 
 <h2 id="http-networking-code-is-a-tool-from-the-stone-age">HTTP Networking code is a tool from the stone age</h2>
 
@@ -208,6 +210,7 @@
 
 <p>There are many more quirks that wasted my time one way or another, but as stated before I really enjoyed developing this native app, I would still like to optmize it like crazy, but a 1.4 mb app that does it job is not bad at all, tempomat is also super helpful for developers with a lot of build jobs that always need to be on top of things.</p>
 
+    </div>
   </div>
 
   <link
@@ -220,27 +223,10 @@
     hljs.initHighlightingOnLoad();
   </script>
 
-  <div class="my-20">
-    <a href="/" class="px-6 text-sm font-medium tracking-wide md:px-0">
-      ← Homepage
-    </a>
-  </div>
 </div>
 
-  <header
-    class="fixed top-0 left-0 right-0 flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-[#0f0f0f]"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="font-medium tracking-w text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <footer class="flex gap-3 w-full px-6 pt-10 pb-4 md:px-0 justify-center">
-  <!-- <h2 class="px-6 pt-10 pb-2 font-medium tracking-wide dark:text-white md:px-0">
-    Contact
-  </h2> -->
 
+  <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
   <a
     class="text-xs font-normal no-underline"
     href="mailto:ospfranco@protonmail.com"

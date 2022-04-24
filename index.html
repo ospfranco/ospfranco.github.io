@@ -2,215 +2,128 @@
 layout: default
 ---
 
-<div
-  class="w-full px-6 md:w-[700px] md:px-0 mt-40 mb-8 flex flex-col items-center justify-center"
->
+<div class="dark:bg-zinc-900 h-screen flex flex-col items-center justify-center px-6">
   <img
     src="{{site.baseurl}}/assets/preview.jpg"
-    class="h-52 w-5h-52 rounded-full object-cover"
+    class="h-64 w-64 rounded-full object-cover mx-auto"
   />
-  <p class="text-black dark:text-white text-2xl font-semibold pt-3">
-    Oscar Franco
-  </p>
-  <p class="text-lg">Freelance software developer</p>
-</div>
-
-<div class="w-full px-6 md:w-[700px] mt-8 md:px-0">
-  <p class="pt-20">
-    I've built SaaS products from scratch, lead development teams, I do C++ for
-    React-Native apps, also developed native macOS apps, built online courses,
-    done competitive programming. If it consists of bit and bytes I love it.
-  </p>
-  <p class="pt-4">
-    <span class="text-black font-medium dark:text-white"
-      >Relationships, people and enjoying life</span
-    >
-    are however far more important than wealth and work.
-  </p>
-  <p class="pt-4">
-    Based in Munich, if you are interested in working with me
-    <a
-      href="mailto:ospfranco@protonmail.com?subject=Contact"
-      class="font-medium underline"
-      >email me.</a
-    >
+  <p class="pt-20 max-w-2xl">
+    <span class="text-xl font-light">
+      Freelance dev, former team lead/CTO.
+    </span>
+    
+    <br>
+    <br>
+    I build what I need and share how I did it. People, learning and enjoying life are far more important than wealth and work. Munich based.
+    <br>
+    <br>
+    <a href="mailto:ospfranco@protonmail.com" class="text-sky-500">Get in touch</a>
   </p>
 </div>
 
-<!-- <div class="w-full px-6 md:w-[700px] md:px-0 pt-2 mt-24">
-  <p class="text-black dark:text-white">Previous experience</p>
-  <p>
-    Some of these I worked as team lead, some as freelancer, some as full-time
-    employee.
-  </p>
-
-  <div class="flex flex-row flex-wrap gap-3 pt-6">
-    <div class="w-40 h-12 bg-black rounded items-center justify-center flex">
-      <img
-        src="{{site.baseUrl}}/assets/companies/mantro.svg"
-        class="w-20 h-12"
-      />
-    </div>
-    <div class="w-40 h-12 bg-white rounded items-center justify-center flex">
-      <img
-        src="{{site.baseUrl}}/assets/companies/capmo.svg"
-        class="w-20 h-12"
-      />
-    </div>
-    <div
-      class="w-40 h-12 bg-yellow-500 rounded items-center justify-center flex"
-    >
-      <img src="{{site.baseUrl}}/assets/companies/reev.svg" class="w-20 h-6" />
-    </div>
-    <div class="w-40 h-12 bg-white rounded items-center justify-center flex">
-      <img src="{{site.baseUrl}}/assets/companies/db.svg" class="w-20 h-4" />
-    </div>
-    <div class="w-40 h-12 bg-white rounded items-center justify-center flex">
-      <img src="{{site.baseUrl}}/assets/companies/linde.svg" class="w-20 h-6" />
-    </div>
-    <div class="w-40 h-12 bg-white rounded items-center justify-center flex">
-      <img src="{{site.baseUrl}}/assets/companies/bf.png" class="w-20 h-5" />
-    </div>
-    <div class="w-40 h-12 bg-white rounded flex items-center justify-center">
-      <img
-        src="{{site.baseUrl}}/assets/companies/werkerapp.svg"
-        class="w-20 h-5"
-      />
-    </div>
-    <div class="w-40 h-12 bg-white rounded flex items-center justify-center">
-      <p class="text-black font-medium">
-        Code<span class="text-red-500">Road</span>
-      </p>
-    </div>
-  </div>
-</div> -->
-
-<div class="w-full px-6 md:w-[700px] md:px-0 pt-2 mt-24">
-  <p class="text-black dark:text-white font-medium">Personal Projects</p>
-  <p>I build my own tools and share as much knowledge as I can.</p>
-  <div class="flex flex-wrap pt-6">
-    <div class="flex-auto w-full h-72 md:pr-3 md:w-1/2">
-      <a href="https://messerapp.cc">
-        <div
-          class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
-        >
+<div class="px-6 py-32 bg-[#e5e5e5]">
+  <div class="max-w-2xl text-black mx-auto flex flex-col gap-44">
+    <a class="text-black hover:no-underline" href="https://messerapp.cc">
+      <div class="flex gap-8 items-center">
+        <div class="flex-[2]">
           <img
             src="{{site.baseurl}}/assets/messer.webp"
-            class="h-full object-contain rounded"
+            class="object-contain rounded-lg shadow-xl"
           />
         </div>
-        <p class="pt-3 font-medium">Messer</p>
-      </a>
-      <p class="">
-        macOS app for simple image manipulations from the menu bar.
-      </p>
-    </div>
+        <div class="flex-1">
+          <p class="text-2xl md:text-4xl">Messer</p>
+          <p>
+            macOS app for simple image manipulations from the menu bar.
+          </p>
+        </div>
+      </div>
+    </a>
 
-    <div class="flex-auto w-full h-72 md:pl-3 md:w-1/2">
-      <a href="https://github.com/ospfranco/sol">
-        <div
-          class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
-        >
+    <a class="text-black hover:no-underline" href="https://github.com/ospfranco/sol">
+      <div class="flex gap-8 items-center">
+        <div class="flex-[2]">
           <img
-            src="{{site.baseurl}}/assets/sol.webp"
-            class="h-full object-contain rounded"
+           src="{{site.baseurl}}/assets/sol.webp"
+            class="object-contain rounded-lg shadow-xl"
           />
         </div>
-        <p class="pt-3 font-medium">Sol</p>
-      </a>
-      <p class="">Open source macOS launcher & command palette.</p>
-    </div>
+        <div class="flex-1">
+          <p class="text-2xl md:text-4xl">S O L</p>
+          <p>
+            Open source launcher & command palette.
+          </p>
+        </div>
+      </div>
+    </a>
 
-    <div class="flex-auto w-full h-72 md:pr-3 md:w-1/2">
-      <a href="https://cidemon.com">
-        <div
-          class="h-40 bg-gradient-to-tr from-blue-500 to-cyan-500 rounded-lg text-white font-medium flex items-center justify-center p-2"
-        >
+    <a class="text-black hover:no-underline" href="https://cidemon.com">
+      <div class="flex gap-8 items-center">
+        <div class="flex-[2]">
           <img
-            src="{{site.baseurl}}/assets/cidemon.webp"
-            class="h-full object-contain rounded"
+           src="{{site.baseurl}}/assets/cidemon.webp"
+            class="object-contain rounded-lg shadow-xl"
           />
         </div>
-        <p class="pt-3 font-medium">CI Demon</p></a
-      >
-      <p class="">Continuous Integration monitoring from the menu bar.</p>
-    </div>
+        <div class="flex-1">
+          <p class="text-2xl md:text-4xl">CI Demon</p>
+          <p>
+            Continuous Integration monitoring from the menu bar.
+          </p>
+        </div>
+      </div>
+    </a>
 
-    <div class="flex-auto w-full h-72 md:pl-3 md:w-1/2">
-      <a
-        href="https://www.newline.co/courses/building-react-native-apps-for-mac"
-      >
-        <div
-          class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
-        >
-          React Native for macOS Class
-        </div>
-        <p class="pt-3 font-medium">RN macOS online class</p>
-      </a>
-      <p class="">Learn how to create native macOS apps using React-Native.</p>
-    </div>
-
-    <div class="flex-auto w-full h-72 md:pr-3 md:w-1/2">
-      <a
-        href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
-      >
-        <div
-          class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
-        >
-          C++ Youtube Series
-        </div>
-        <p class="pt-3 font-medium">C++ Video Course</p>
-      </a>
-      <p class="">Learn C++ from a JS Developer perspective.</p>
-    </div>
-    <div class="flex-auto w-full h-72 md:pl-3 md:w-1/2">
-      <a href="https://github.com/ospfranco/react-native-quick-sqlite">
-        <div
-          class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
-        >
-          SQLite for React Native
-        </div>
-        <p class="pt-3 font-medium">React-native-quick-sqlite</p>
-      </a>
-      <p class="">The fastest SQLite implementation for React Native.</p>
-    </div>
-    <div class="flex-auto w-full h-72 md:w-1/2">
-      <a href="https://github.com/ospfranco/react-native-quick-sqlite">
-        <div
-          class="h-40 bg-gradient-to-tr from-red-500 to-amber-500 rounded-lg text-white font-medium flex items-center justify-center"
-        >
-          JSI/C++ Cheatsheet
-        </div>
-        <p class="pt-3 font-medium">JSI/C++ Cheatsheet</p>
-      </a>
-      <p class="">
-        A reference cheatsheet for all things React-Native JSI and C++
+    <a class="text-black hover:no-underline" href="https://www.newline.co/courses/building-react-native-apps-for-mac">
+      <p class="text-2xl md:text-4xl">React Native Apps for Mac Online Class</p>
+      <p>
+        Learn how to create native macOS apps using React-Native.
       </p>
-    </div>
+    </a>
+
+    <a class="text-black hover:no-underline" href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB">
+      <p class="text-2xl md:text-4xl">C++ for JavaScript Devs Youtube Series</p>
+      <p>
+        Learn the 20% of C++ that will give you 80% of the results.
+      </p>
+    </a>
+
+    <a class="text-black hover:no-underline" href="https://github.com/ospfranco/react-native-quick-sqlite">
+      <p class="text-2xl md:text-4xl">SQLite for React Native (JSI)</p>
+      <p>
+        The fastest embedded SQLite implementation for React Native.
+      </p>
+    </a>
+
+    <a class="text-black hover:no-underline" href="https://ospfranco.gumroad.com/l/jsi_guide">
+      <p class="text-2xl md:text-4xl">JSI and C++ Cheatsheet</p>
+      <p>
+        A reference cheatsheet for JSI recipes and C++.
+      </p>
+    </a>
   </div>
 </div>
 
-<div class="w-full px-6 md:w-[700px] md:px-0 pt-2 mt-24">
-  <p class="text-black dark:text-white font-medium">Guides & Essays</p>
-  <p>Written thoughts, from plain tutorials to my life perspective.</p>
-
-  <div class="w-full pt-2">
-    {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
-    date: '%b %Y'" %} {% for month in postsByMonthYear %}
-    <div class="flex gap-4 py-3">
-      <div class="flex-shrink-0 w-20 text-neutral-400 dark:text-neutral-500">
-        {{ month.name }}
+<div class="px-6 py-32 bg-white">
+  <div class="max-w-2xl text-black mx-auto flex flex-col gap-44">
+    <div class="w-full pt-2">
+      {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
+      date: '%b %Y'" %} {% for month in postsByMonthYear %}
+      <div class="flex gap-4 py-3">
+        <div class="flex-shrink-0 w-20 text-neutral-400 dark:text-neutral-500">
+          {{ month.name }}
+        </div>
+        <ul class="flex flex-col gap-2">
+          {% for post in month.items %}
+          <li>
+            <a href="{{ post.url }}" class=""
+              >{{ post.title }}</a
+            >
+          </li>
+          {% endfor %}
+        </ul>
       </div>
-      <ul class="flex flex-col gap-2">
-        {% for post in month.items %}
-        <li>
-          <a href="{{ post.url }}" class="dark:text-white text-black"
-            >{{ post.title }}</a
-          >
-        </li>
-        {% endfor %}
-      </ul>
+      {% endfor %}
     </div>
-    {% endfor %}
   </div>
 </div>

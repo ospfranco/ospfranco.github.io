@@ -33,26 +33,28 @@
   <link rel="stylesheet" href="/css/inter.css" />
 </head>
 
-<html class="flex flex-col items-center w-full">
-  <!-- <div class="w-full md:w-[600px] px-6 md:px-0">
-  <img
-    src="/assets/profile.jpeg"
-    class="object-cover w-full h-56 mt-20 mb-12 rounded-lg"
-  />
-</div> -->
-
-<div class="mt-20 w-full md:w-[700px] max-w-full">
-  <div class="flex flex-col w-full px-6 pt-48 mb-4 md:w-768 md:px-0">
-    <h1 class="text-black dark:text-white text-xl font-semibold sm:text-4xl">
+<html>
+  <header
+    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
+  >
+    <div class="w-full md:w-[700px] flex items-center justify-center">
+      <a href="/" class="tracking-widest text-black dark:text-white text-xs">
+        OSCAR FRANCO
+      </a>
+    </div>
+  </header>
+  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
+  <div class="max-w-2xl mx-auto flex flex-col">
+    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
       Stop using redux, mobx and/or context
     </h1>
+    
     <div class="text-sm text-gray-500 dark:text-coolGray-400">
       July 2020
     </div>
-  </div>
-
-  <div class="w-full max-w-full px-6 markdown md:w-[700px] md:px-0">
-    <p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
+    
+    <div class="pt-12 markdown">
+      <p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
 
 <h2 id="why-not-mobxreduxrecoilcontextreduxsagasusereducer">Why not [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]?</h2>
 <p>So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven’t tried yet), I won’t go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than what I can write, so I’m going to go straight into the biggest problem I saw with managing state in my web/mobile apps:</p>
@@ -119,6 +121,7 @@
 
 <p>You are now thinking <code class="language-plaintext highlighter-rouge">You are misusing/don't understand [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]</code> and I mean, sure, maybe, I don’t care, this is my experience and what works for me, you do you… also, don’t use Sagas, ever.</p>
 
+    </div>
   </div>
 
   <link
@@ -131,27 +134,10 @@
     hljs.initHighlightingOnLoad();
   </script>
 
-  <div class="my-20">
-    <a href="/" class="px-6 text-sm font-medium tracking-wide md:px-0">
-      ← Homepage
-    </a>
-  </div>
 </div>
 
-  <header
-    class="fixed top-0 left-0 right-0 flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-[#0f0f0f]"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="font-medium tracking-w text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <footer class="flex gap-3 w-full px-6 pt-10 pb-4 md:px-0 justify-center">
-  <!-- <h2 class="px-6 pt-10 pb-2 font-medium tracking-wide dark:text-white md:px-0">
-    Contact
-  </h2> -->
 
+  <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
   <a
     class="text-xs font-normal no-underline"
     href="mailto:ospfranco@protonmail.com"
