@@ -33,26 +33,53 @@
 
 <html>
   <header
-    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="tracking-widest text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
-  <div class="max-w-2xl mx-auto flex flex-col">
-    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
-      How to deploy a NestJS app on Minikube
-    </h1>
-    
-    <div class="text-sm text-gray-500 dark:text-coolGray-400">
-      February 2020
-    </div>
-    
-    <div class="pt-12 markdown">
-      <p>In order to release the SaaS version of my new product <a href="www.strest.io">Strest</a>, I’ve decided to use Kubernetes, you keep hearing all the yapping about it and it promises scalability right from the get go, which is what I need, so I’m giving up to the complexity and (finally) learning it, I have run into a lot of problems and I’m still not through with the learning face, but the simple packaging and deployment of a sample app was so painful that I’ve decided to write something down, not only as a log for me to better retain the knowledge but hopefully also helping anybody struggling to do their first deployment.</p>
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-2xl flex items-center gap-4">
+    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="mailto:ospfranco@protonmail.com"
+      target="_blank"
+      >Email</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://github.com/ospfranco"
+      target="_blank"
+      >Github</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://twitter.com/ospfranco"
+      target="_blank"
+      >Twitter</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://youtube.com/ospfranco"
+      target="_blank"
+      >Youtube</a
+    >
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-6 py-32 min-h-screen">
+    <div class="max-w-2xl mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl">
+        How to deploy a NestJS app on Minikube
+      </h1>
+
+      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+        February 2020
+      </div>
+
+      <div class="pt-12 markdown"><p>In order to release the SaaS version of my new product <a href="www.strest.io">Strest</a>, I’ve decided to use Kubernetes, you keep hearing all the yapping about it and it promises scalability right from the get go, which is what I need, so I’m giving up to the complexity and (finally) learning it, I have run into a lot of problems and I’m still not through with the learning face, but the simple packaging and deployment of a sample app was so painful that I’ve decided to write something down, not only as a log for me to better retain the knowledge but hopefully also helping anybody struggling to do their first deployment.</p>
 
 <p>Prerequisites:</p>
 
@@ -194,57 +221,19 @@ template:
 <p>Uff… that doesn’t look so bad, but it basically took me a day of muddling through github repos, outdated tutorials, reading a lot of documentation to figure out something as simple as local deployment.</p>
 
 <p>I still haven’t figured out how am I going to deploy a DB for my service (I actually need 2 different ones) and how do cloud providers handle this, of course RDS (AWS) needs to be running but I’m still not sure if it should somehow be specified on my helm chart definition and what not, another question is how do you set up a test environment for CI to run tests on, next article will probably on that topic.</p>
-
-    </div>
-  </div>
-
-  <link
-    rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
-  />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-
 </div>
+    </div>
 
- <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
-  <a
-    class="text-xs font-normal no-underline"
-    href="mailto:ospfranco@protonmail.com"
-    target="_blank"
-    >Email</a
-  >
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://github.com/ospfranco"
-    target="_blank"
-    >Github</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://twitter.com/ospfranco"
-    target="_blank"
-    >Twitter</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://youtube.com/ospfranco"
-    target="_blank"
-    >Youtube</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
-    target="_blank"
-    >LinkedIn</a
-  >
-</footer>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
 
 </html>

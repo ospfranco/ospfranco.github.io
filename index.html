@@ -2,129 +2,158 @@
 layout: default
 ---
 
-<div
-  class="dark:bg-zinc-900 h-screen flex flex-col items-center justify-center px-6"
+<header
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
 >
-  <img
-    src="{{site.baseurl}}/assets/preview.jpg"
-    class="h-64 w-64 rounded-full object-cover mx-auto"
-  />
-  <p class="pt-20 max-w-2xl">
-    Freelance software engineer, former tech lead.
-    <br />
-    <br />
-    I build the tools I need and share how I built them. I believe people and
-    learning are above all. Munich based.
-    <br />
-    <br />
-    <a href="mailto:ospfranco@protonmail.com" class="text-sky-500"
-      >Contact me</a
-    >
-  </p>
-</div>
-
-<div class="px-6 py-32 bg-[#e5e5e5]">
-  <div class="max-w-2xl text-black mx-auto flex flex-col gap-44">
-    <a class="text-black hover:no-underline" href="https://messerapp.cc">
-      <div class="flex gap-8 items-center">
-        <div class="flex-[2]">
-          <img
-            src="{{site.baseurl}}/assets/messer.webp"
-            class="object-contain rounded-lg shadow-xl"
-          />
-        </div>
-        <div class="flex-1">
-          <p class="text-2xl md:text-4xl">Messer</p>
-          <p>macOS app for simple image manipulations from the menu bar.</p>
-        </div>
-      </div>
-    </a>
+  <div class="w-full max-w-2xl flex items-center gap-4">
+    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
 
     <a
-      class="text-black hover:no-underline"
-      href="https://github.com/ospfranco/sol"
+      class="dark:text-gray-400 text-gray-500"
+      href="mailto:ospfranco@protonmail.com"
+      target="_blank"
+      >Email</a
     >
-      <div class="flex gap-8 items-center">
-        <div class="flex-[2]">
-          <img
-            src="{{site.baseurl}}/assets/sol.webp"
-            class="object-contain rounded-lg shadow-xl"
-          />
-        </div>
-        <div class="flex-1">
-          <p class="text-2xl md:text-4xl">S O L</p>
-          <p>Open source launcher & command palette.</p>
-        </div>
-      </div>
-    </a>
-
-    <a class="text-black hover:no-underline" href="https://cidemon.com">
-      <div class="flex gap-8 items-center">
-        <div class="flex-[2]">
-          <img
-            src="{{site.baseurl}}/assets/cidemon.webp"
-            class="object-contain rounded-lg shadow-xl"
-          />
-        </div>
-        <div class="flex-1">
-          <p class="text-2xl md:text-4xl">CI Demon</p>
-          <p>Continuous Integration monitoring from the menu bar.</p>
-        </div>
-      </div>
-    </a>
 
     <a
-      class="text-black hover:no-underline"
-      href="https://www.newline.co/courses/building-react-native-apps-for-mac"
+      class="dark:text-gray-400 text-gray-500"
+      href="https://github.com/ospfranco"
+      target="_blank"
+      >Github</a
     >
-      <p class="text-2xl md:text-4xl">React Native Apps for Mac Online Class</p>
-      <p>Learn how to create native macOS apps using React-Native.</p>
-    </a>
 
     <a
-      class="text-black hover:no-underline"
-      href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
+      class="dark:text-gray-400 text-gray-500"
+      href="https://twitter.com/ospfranco"
+      target="_blank"
+      >Twitter</a
     >
-      <p class="text-2xl md:text-4xl">C++ for JavaScript Devs Youtube Series</p>
-      <p>Learn the 20% of C++ that will give you 80% of the results.</p>
-    </a>
 
     <a
-      class="text-black hover:no-underline"
-      href="https://github.com/ospfranco/react-native-quick-sqlite"
+      class="dark:text-gray-400 text-gray-500"
+      href="https://youtube.com/ospfranco"
+      target="_blank"
+      >Youtube</a
     >
-      <p class="text-2xl md:text-4xl">SQLite for React Native (JSI)</p>
-      <p>The fastest embedded SQLite implementation for React Native.</p>
-    </a>
-
-    <a
-      class="text-black hover:no-underline"
-      href="https://ospfranco.gumroad.com/l/jsi_guide"
-    >
-      <p class="text-2xl md:text-4xl">JSI and C++ Cheatsheet</p>
-      <p>A reference cheatsheet for JSI recipes and C++.</p>
-    </a>
   </div>
-</div>
+</header>
 
-<div class="px-6 py-32 bg-white">
-  <div class="max-w-2xl text-black mx-auto flex flex-col gap-44">
-    <div class="w-full pt-2">
-      {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date
-      | date: '%b %Y'" %} {% for month in postsByMonthYear %}
-      <div class="flex gap-4 py-3">
-        <div class="flex-shrink-0 w-20 text-neutral-400 dark:text-neutral-500">
-          {{ month.name }}
+<body class="flex flex-col items-center">
+  <img
+    src="{{site.baseurl}}/assets/profile.jpeg"
+    class="w-48 h-48 rounded-full object-cover my-20"
+  />
+  <p>Freelance software engineer, former tech lead</p>
+  <p class="pt-4">I build the tools I need</p>
+  <p class="pt-4">Munich based</p>
+
+  <div class="border-b w-full max-w-2xl mt-20 dark:border-neutral-800"></div>
+
+  <div class="px-6 py-32 max-w-2xl">
+    <div class="mx-auto flex flex-col gap-20">
+      <a class="hover:no-underline" href="https://messerapp.cc">
+        <div class="flex gap-8 items-center">
+          <div class="flex-[2]">
+            <img
+              src="{{site.baseurl}}/assets/messer.webp"
+              class="object-contain shadow-xl"
+            />
+          </div>
+          <div class="flex-1">
+            <p class="font-bold text-lg">Messer</p>
+            <p class="dark:text-gray-400">
+              Floating macOS app for simple image manipulations
+            </p>
+          </div>
         </div>
-        <ul class="flex flex-col gap-2">
-          {% for post in month.items %}
-          <li>
-            <a href="{{ post.url }}" class="">{{ post.title }}</a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
-      {% endfor %}
+      </a>
+
+      <a class="hover:no-underline" href="https://github.com/ospfranco/sol">
+        <div class="flex gap-8 items-center">
+          <div class="flex-[2]">
+            <img
+              src="{{site.baseurl}}/assets/sol.webp"
+              class="object-contain rounded-lg shadow-xl"
+            />
+          </div>
+          <div class="flex-1">
+            <p class="text-lg font-bold">Sol</p>
+            <p class="dark:text-gray-400">Open source macOS launcher</p>
+          </div>
+        </div>
+      </a>
+
+      <a class="hover:no-underline" href="https://cidemon.com">
+        <div class="flex gap-8 items-center">
+          <div class="flex-[2]">
+            <img
+              src="{{site.baseurl}}/assets/cidemon.webp"
+              class="object-contain rounded-lg shadow-xl"
+            />
+          </div>
+          <div class="flex-1">
+            <p class="text-lg font-bold">CI Demon</p>
+            <p class="dark:text-gray-400">
+              Continuous Integration monitoring from the menu bar
+            </p>
+          </div>
+        </div>
+      </a>
+
+      <a
+        class="hover:no-underline"
+        href="https://www.newline.co/courses/building-react-native-apps-for-mac"
+      >
+        <p class="text-lg font-bold">React Native Apps for Mac Online Class</p>
+        <p>Learn how to create native macOS apps using React-Native.</p>
+      </a>
+
+      <a
+        class="hover:no-underline"
+        href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB"
+      >
+        <p class="text-lg font-bold">C++ for JavaScript Devs Youtube Series</p>
+        <p>Learn the 20% of C++ that will give you 80% of the results.</p>
+      </a>
+
+      <a
+        class="hover:no-underline"
+        href="https://github.com/ospfranco/react-native-quick-sqlite"
+      >
+        <p class="text-lg font-bold">SQLite for React Native (JSI)</p>
+        <p>The fastest embedded SQLite implementation for React Native.</p>
+      </a>
+
+      <a
+        class="hover:no-underline"
+        href="https://ospfranco.gumroad.com/l/jsi_guide"
+      >
+        <p class="text-lg font-bold">React Native's Hitchhickers Guide</p>
+        <p>
+          Notion workspace with all my RN knowledge (JSI, C++, TurboModules,
+          etc).
+        </p>
+      </a>
     </div>
   </div>
-</div>
+
+  <div class="border-b w-full max-w-2xl mt-20 dark:border-neutral-800"></div>
+
+  <div class="py-20 w-full max-w-2xl">
+    {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
+    date: '%b %Y'" %} {% for month in postsByMonthYear %}
+    <div class="flex gap-4 py-3">
+      <div class="flex-shrink-0 w-20 text-neutral-400 dark:text-neutral-500">
+        {{ month.name }}
+      </div>
+      <ul class="flex flex-col gap-2">
+        {% for post in month.items %}
+        <li>
+          <a href="{{ post.url }}" class="">{{ post.title }}</a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+    {% endfor %}
+  </div>
+</body>

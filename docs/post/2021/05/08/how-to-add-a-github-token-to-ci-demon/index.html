@@ -33,26 +33,53 @@
 
 <html>
   <header
-    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="tracking-widest text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
-  <div class="max-w-2xl mx-auto flex flex-col">
-    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
-      How to add a github token to CI Demon
-    </h1>
-    
-    <div class="text-sm text-gray-500 dark:text-coolGray-400">
-      May 2021
-    </div>
-    
-    <div class="pt-12 markdown">
-      <p><a href="https://ospfranco.github.io/cidemon">CI Demon</a> is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.</p>
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-2xl flex items-center gap-4">
+    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="mailto:ospfranco@protonmail.com"
+      target="_blank"
+      >Email</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://github.com/ospfranco"
+      target="_blank"
+      >Github</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://twitter.com/ospfranco"
+      target="_blank"
+      >Twitter</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://youtube.com/ospfranco"
+      target="_blank"
+      >Youtube</a
+    >
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-6 py-32 min-h-screen">
+    <div class="max-w-2xl mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl">
+        How to add a github token to CI Demon
+      </h1>
+
+      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+        May 2021
+      </div>
+
+      <div class="pt-12 markdown"><p><a href="https://ospfranco.github.io/cidemon">CI Demon</a> is an app I created to monitor my CI builds and deployments from my macOS desktop. It works based on tokens to authenticate with the CI providers APIs. Sometimes to generate this tokens is not quite straightforward, so here is a simple guide for github tokens.</p>
 
 <h2 id="about-ci-demon">About CI Demon</h2>
 
@@ -103,57 +130,19 @@
 <p><img src="/assets/CIDemonTut5.png" alt="CI tut 5" title="CI tut 5" /></p>
 
 <p>That’s it, you should now be able to see your CI information right on your Desktop. If you haven’t heard about CI Demon, <a href="https://ospfranco.github.io/cidemon">you should check it out now</a>.</p>
-
-    </div>
-  </div>
-
-  <link
-    rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
-  />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-
 </div>
+    </div>
 
- <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
-  <a
-    class="text-xs font-normal no-underline"
-    href="mailto:ospfranco@protonmail.com"
-    target="_blank"
-    >Email</a
-  >
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://github.com/ospfranco"
-    target="_blank"
-    >Github</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://twitter.com/ospfranco"
-    target="_blank"
-    >Twitter</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://youtube.com/ospfranco"
-    target="_blank"
-    >Youtube</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
-    target="_blank"
-    >LinkedIn</a
-  >
-</footer>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
 
 </html>

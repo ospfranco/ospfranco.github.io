@@ -35,26 +35,53 @@
 
 <html>
   <header
-    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="tracking-widest text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
-  <div class="max-w-2xl mx-auto flex flex-col">
-    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
-      Stop using redux, mobx and/or context
-    </h1>
-    
-    <div class="text-sm text-gray-500 dark:text-coolGray-400">
-      July 2020
-    </div>
-    
-    <div class="pt-12 markdown">
-      <p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-2xl flex items-center gap-4">
+    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="mailto:ospfranco@protonmail.com"
+      target="_blank"
+      >Email</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://github.com/ospfranco"
+      target="_blank"
+      >Github</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://twitter.com/ospfranco"
+      target="_blank"
+      >Twitter</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://youtube.com/ospfranco"
+      target="_blank"
+      >Youtube</a
+    >
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-6 py-32 min-h-screen">
+    <div class="max-w-2xl mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl">
+        Stop using redux, mobx and/or context
+      </h1>
+
+      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+        July 2020
+      </div>
+
+      <div class="pt-12 markdown"><p>This has been one of the biggest changes in the way I build apps and I didn’t quite realize myself what it meant from the beginning.</p>
 
 <h2 id="why-not-mobxreduxrecoilcontextreduxsagasusereducer">Why not [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]?</h2>
 <p>So you probably already now the world of state management you have redux, mobx, context and new stuff like recoil (which I haven’t tried yet), I won’t go into the pros/cons of each, there are a lot of resources on the web you can read that are far better than what I can write, so I’m going to go straight into the biggest problem I saw with managing state in my web/mobile apps:</p>
@@ -120,57 +147,19 @@
 <p>I could go on and on about this paradigm, graphQL? meh, if everything the user needs is synced… I don’t need it, I can just have one HTTP Rest endpoint, write the rest of the application as normal, no need to insert GraphQL JSX fragments everywhere…</p>
 
 <p>You are now thinking <code class="language-plaintext highlighter-rouge">You are misusing/don't understand [MobX|Redux|Recoil|Context|ReduxSagas|UseReducer]</code> and I mean, sure, maybe, I don’t care, this is my experience and what works for me, you do you… also, don’t use Sagas, ever.</p>
-
-    </div>
-  </div>
-
-  <link
-    rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
-  />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-
 </div>
+    </div>
 
- <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
-  <a
-    class="text-xs font-normal no-underline"
-    href="mailto:ospfranco@protonmail.com"
-    target="_blank"
-    >Email</a
-  >
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://github.com/ospfranco"
-    target="_blank"
-    >Github</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://twitter.com/ospfranco"
-    target="_blank"
-    >Twitter</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://youtube.com/ospfranco"
-    target="_blank"
-    >Youtube</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
-    target="_blank"
-    >LinkedIn</a
-  >
-</footer>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
 
 </html>

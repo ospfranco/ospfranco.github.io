@@ -35,26 +35,53 @@
 
 <html>
   <header
-    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="tracking-widest text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
-  <div class="max-w-2xl mx-auto flex flex-col">
-    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
-      Email templates with React and Tailwind
-    </h1>
-    
-    <div class="text-sm text-gray-500 dark:text-coolGray-400">
-      January 2022
-    </div>
-    
-    <div class="pt-12 markdown">
-      <p>Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.</p>
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-2xl flex items-center gap-4">
+    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="mailto:ospfranco@protonmail.com"
+      target="_blank"
+      >Email</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://github.com/ospfranco"
+      target="_blank"
+      >Github</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://twitter.com/ospfranco"
+      target="_blank"
+      >Twitter</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://youtube.com/ospfranco"
+      target="_blank"
+      >Youtube</a
+    >
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-6 py-32 min-h-screen">
+    <div class="max-w-2xl mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl">
+        Email templates with React and Tailwind
+      </h1>
+
+      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+        January 2022
+      </div>
+
+      <div class="pt-12 markdown"><p>Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.</p>
 
 <p>I didn’t want to go down that path one more time, so I spend some time trying to answer one question: can I create a email template using only React and Tailwind (with my existing configuration) and the answer is: YES! well, mostly…</p>
 
@@ -126,57 +153,19 @@
 <p>Now there is one small caveat here, which is the mailwind.css file, it’s not going to be your application styles, some of the changes are good, for example everything being based on px styles, but you might need your own colors, or paddings, etc.</p>
 
 <p>TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your <code class="language-plaintext highlighter-rouge">tailwind.config.js</code> and spit out a <code class="language-plaintext highlighter-rouge">.css</code> file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.</p>
-
-    </div>
-  </div>
-
-  <link
-    rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
-  />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-
 </div>
+    </div>
 
- <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
-  <a
-    class="text-xs font-normal no-underline"
-    href="mailto:ospfranco@protonmail.com"
-    target="_blank"
-    >Email</a
-  >
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://github.com/ospfranco"
-    target="_blank"
-    >Github</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://twitter.com/ospfranco"
-    target="_blank"
-    >Twitter</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://youtube.com/ospfranco"
-    target="_blank"
-    >Youtube</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
-    target="_blank"
-    >LinkedIn</a
-  >
-</footer>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
 
 </html>

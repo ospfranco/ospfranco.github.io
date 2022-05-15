@@ -33,26 +33,53 @@
 
 <html>
   <header
-    class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black"
-  >
-    <div class="w-full md:w-[700px] flex items-center justify-center">
-      <a href="/" class="tracking-widest text-black dark:text-white">
-        OSCAR FRANCO
-      </a>
-    </div>
-  </header>
-  <div class="px-6 py-32 bg-white dark:bg-zinc-900 min-h-screen">
-  <div class="max-w-2xl mx-auto flex flex-col">
-    <h1 class="text-black dark:text-white text-xl sm:text-4xl">
-      Problems reading data from Binary store - crashing RN
-    </h1>
-    
-    <div class="text-sm text-gray-500 dark:text-coolGray-400">
-      May 2021
-    </div>
-    
-    <div class="pt-12 markdown">
-      <p>If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).</p>
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-2xl flex items-center gap-4">
+    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="mailto:ospfranco@protonmail.com"
+      target="_blank"
+      >Email</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://github.com/ospfranco"
+      target="_blank"
+      >Github</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://twitter.com/ospfranco"
+      target="_blank"
+      >Twitter</a
+    >
+
+    <a
+      class="dark:text-gray-400 text-gray-500"
+      href="https://youtube.com/ospfranco"
+      target="_blank"
+      >Youtube</a
+    >
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-6 py-32 min-h-screen">
+    <div class="max-w-2xl mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl">
+        Problems reading data from Binary store - crashing RN
+      </h1>
+
+      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+        May 2021
+      </div>
+
+      <div class="pt-12 markdown"><p>If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).</p>
 
 <p>Whenever I tried to compile the app for android, I would face a very random error:</p>
 
@@ -75,57 +102,19 @@ com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
 <p>If you are using <code class="language-plaintext highlighter-rouge">react-native-push-notification</code> (actually seems to be the root of this problem), you also need to update that library to the latest version (<code class="language-plaintext highlighter-rouge">7.3.1</code> as of this writing). Bare in mind this might be a major version change, so the API might have changed, in our case we were using a 6.X.X version and we had to update the <code class="language-plaintext highlighter-rouge">removeAllDeliveredNotifications</code> method.</p>
 
 <p>Afterwards your app should hopefully compile.</p>
-
-    </div>
-  </div>
-
-  <link
-    rel="stylesheet"
-    href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
-  />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
-
-  <script>
-    hljs.initHighlightingOnLoad();
-  </script>
-
 </div>
+    </div>
 
- <footer class="flex gap-12 w-full p-6 justify-center bg-black text-white">
-  <a
-    class="text-xs font-normal no-underline"
-    href="mailto:ospfranco@protonmail.com"
-    target="_blank"
-    >Email</a
-  >
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
 
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://github.com/ospfranco"
-    target="_blank"
-    >Github</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://twitter.com/ospfranco"
-    target="_blank"
-    >Twitter</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://youtube.com/ospfranco"
-    target="_blank"
-    >Youtube</a
-  >
-
-  <a
-    class="text-xs font-normal no-underline"
-    href="https://www.linkedin.com/in/⚡%EF%B8%8F-oscar-franco-bbbb7319b/"
-    target="_blank"
-    >LinkedIn</a
-  >
-</footer>
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
 
 </html>

@@ -6,11 +6,11 @@
 @import "tailwindcss/utilities";
 
 body {
-  /* font-size: 15px; */
-  /* font-family: Inter, Arial, Helvetica, sans-serif; */
-  /* text-rendering: optimizeLegibility; */
-  /* -moz-osx-font-smoothing: grayscale; */
-  @apply max-w-full dark:text-white font-light;
+  font-size: 14px;
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  text-rendering: optimizeLegibility;
+  -moz-osx-font-smoothing: grayscale;
+  @apply max-w-full dark:text-white dark:bg-neutral-900;
 }
 
 a {
