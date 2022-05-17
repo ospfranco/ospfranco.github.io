@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"dateModified":"2021-08-31T15:00:00+02:00","datePublished":"2021-08-31T15:00:00+02:00","@type":"BlogPosting","description":"Throwing exceptions makes programms unpredictable by breaking the normal control flow.","author":{"@type":"Person","name":"Oscar Franco"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/"},"image":"https://ospfranco.com/assets/preview.jpg","url":"https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/","headline":"Stop throwing exceptions","@context":"https://schema.org"}</script>
+{"@type":"BlogPosting","description":"Throwing exceptions makes programms unpredictable by breaking the normal control flow.","image":"https://ospfranco.com/assets/preview.jpg","headline":"Stop throwing exceptions","dateModified":"2021-08-31T15:00:00+02:00","datePublished":"2021-08-31T15:00:00+02:00","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/"},"url":"https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/","author":{"@type":"Person","name":"Oscar Franco"},"@context":"https://schema.org"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -35,7 +35,7 @@
 
 <html>
   <header
-  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-lg bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
+  class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
 >
   <div class="w-full max-w-2xl flex items-center gap-4">
     <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
@@ -83,9 +83,9 @@
 
       <div class="pt-12 markdown"><p>Throwing exceptions makes programms unpredictable by breaking the normal control flow.</p>
 
-<p>A simple axiom: <strong>unexpected things happen all the time</strong>.</p>
+<p>Consider a simple axiom: <strong>unexpected things happen all the time</strong>.</p>
 
-<p>Some unexpected things are common: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, other unexpected things cannot be recovered from: disks get full, dll is missing, program is missconfigured, etc. Today’s ecosystem treats every exception as equal.</p>
+<p>Some unexpected things are “common”: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, there are other kind of unexpected things, things cannot be recovered from: disks get full, dynamic library is missing, program is missconfigured, etc. Today’s ecosystem treats every exception as equal by throwing exceptions.</p>
 
 <p>The real problem comes when we forget to handle these exceptions or we don’t know the code we are calling can throw exceptions.</p>
 
@@ -106,7 +106,7 @@
 
 <p>If exceptions are so disruptive to the flow of a program, why do we use them?</p>
 
-<p>In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today’s shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed.</p>
+<p>In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today’s shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed. Exceptions where reserved for Kernel panics, exactly those I mentioned (full disk, missing dll, etc.) and were meant to completely halt a program (or even the computer!)</p>
 
 <p>Inspired by this kernel exceptions the developer community seems to have thought: “that’s a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!”. Other words: short-term convenience.</p>
 

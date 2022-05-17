@@ -9,9 +9,9 @@ image: assets/preview.jpg
 
 Throwing exceptions makes programms unpredictable by breaking the normal control flow.
 
-A simple axiom: **unexpected things happen all the time**.
+Consider a simple axiom: **unexpected things happen all the time**.
 
-Some unexpected things are common: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, other unexpected things cannot be recovered from: disks get full, dll is missing, program is missconfigured, etc. Today's ecosystem treats every exception as equal.
+Some unexpected things are "common": users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, there are other kind of unexpected things, things cannot be recovered from: disks get full, dynamic library is missing, program is missconfigured, etc. Today's ecosystem treats every exception as equal by throwing exceptions.
 
 The real problem comes when we forget to handle these exceptions or we don't know the code we are calling can throw exceptions.
 
@@ -33,7 +33,7 @@ There lies one of the biggest problems: **how do I know which function can throw
 
 If exceptions are so disruptive to the flow of a program, why do we use them?
 
-In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today's shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed.
+In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today's shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed. Exceptions where reserved for Kernel panics, exactly those I mentioned (full disk, missing dll, etc.) and were meant to completely halt a program (or even the computer!)
 
 Inspired by this kernel exceptions the developer community seems to have thought: "that's a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!". Other words: short-term convenience.
 
