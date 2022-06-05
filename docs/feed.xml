@@ -1,12 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-06-05T08:33:06+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native JSI/TurboModules pitfalls</title><link href="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/" rel="alternate" type="text/html" title="React Native JSI/TurboModules pitfalls" /><published>2022-06-05T15:00:00+02:00</published><updated>2022-06-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/06/05/jsi%20pitfalls</id><content type="html" xml:base="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/">&lt;p&gt;Here is an information dump of me playing around with React Native’s JSI.&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-06-05T15:55:52+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native JSI/TurboModules pitfalls</title><link href="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/" rel="alternate" type="text/html" title="React Native JSI/TurboModules pitfalls" /><published>2022-06-05T15:00:00+02:00</published><updated>2022-06-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/06/05/jsi%20pitfalls</id><content type="html" xml:base="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/">&lt;p&gt;Here is the latest information dump my findings with React Native’s JSI.&lt;/p&gt;
 
 &lt;h1 id=&quot;speed-is-relative&quot;&gt;Speed is relative&lt;/h1&gt;
 
-&lt;p&gt;C++ is the fastest but Swift is fast, Java ByteCode is also fast… using JSI/TurboModules won’t necessarily make your module faster. &lt;strong&gt;The JSI is a communication layer&lt;/strong&gt;, therefore it will excel in situations where you &lt;strong&gt;transfer&lt;/strong&gt; a lot of data between native and JavaScript.&lt;/p&gt;
+&lt;p&gt;C++ is the fastest but Swift is fast, Java ByteCode is also fast. Using JSI/TurboModules won’t necessarily make your module faster. &lt;strong&gt;The JSI is a communication layer&lt;/strong&gt;, therefore it excels in situations where you &lt;strong&gt;transfer&lt;/strong&gt; a lot of data between native and JavaScript.&lt;/p&gt;
 
-&lt;p&gt;If you need to transfer a few bytes once (or a few times), the old APIs are easier to work with and the performance penalty might be so small that you might be better off sticking to them. Reading a small piece of data from AsyncStorage takes 5ms on release mode, so this extrapolates to any package that does a lot of calculation on the native side and then only returns a small chunk of data to JavaScript.&lt;/p&gt;
+&lt;p&gt;If you need to pass a few bytes once (or a few times), the old APIs are easier to work with and the performance penalty might be small enough that you might be better off skipping the JSI. Reading a small piece of data from AsyncStorage takes 5ms on release mode, so this extrapolates to any package that does a lot of calculation on the native side and then only returns a small chunk of data to JavaScript.&lt;/p&gt;
 
-&lt;p&gt;Reading a small string, one time (release mode -O2 optimized):&lt;/p&gt;
+&lt;p&gt;Here is a comparison, reading a small string (“hello”), one time (release mode -O2 optimized):&lt;/p&gt;
 
 &lt;table&gt;
   &lt;thead&gt;
@@ -37,15 +37,15 @@
 
 &lt;p&gt;Artificial benchmarks testing reading the same value or calculating something thousands of times are… disingenuous.&lt;/p&gt;
 
-&lt;p&gt;Most frameworks have caches implemented to them, reading anything more than once results in testing if the cache is there. Other important details cannot be ignored, MMKV is a key/value storage, whereas QuickSQLite and WatermelonDB are relational databases on top of SQLite, comparing them is comparing apples to oranges.&lt;/p&gt;
+&lt;p&gt;Most frameworks have caches implemented to them, reading anything more than once results in testing if the cache is there. Other important details cannot be ignored: MMKV is a key/value storage, whereas Quick SQLite and WatermelonDB are relational databases on top of SQLite, comparing them is comparing apples to oranges.&lt;/p&gt;
 
 &lt;p&gt;Calculating data thousands of times will also mix JSI performance with C++/Swift/Kotlin performance, hard to tell when one ends and the other begins.&lt;/p&gt;
 
-&lt;p&gt;IMO a better test is &lt;strong&gt;transferring a large amount of data&lt;/strong&gt;. However, it is hard to find a test that actually makes sense, because, minutia can kill the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have to allocate memory every time.&lt;/p&gt;
+&lt;p&gt;IMO it is better to test &lt;strong&gt;transferring a large amount of data&lt;/strong&gt;. However, it is hard to find a test that actually makes sense, because, minutia can affect the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly to JavaScript, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have to allocate memory every time.&lt;/p&gt;
 
 &lt;p&gt;But I can share some anecdotic experience of some people using Quick SQLite. &lt;a href=&quot;https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej&quot;&gt;Takuya experienced 2x to 5x speed boost&lt;/a&gt; when switching from the old bridge SQLite driver, user @sallar experienced 2x - 2.5x speed improvement, query time reduced from 600ms to ~250ms, with large SQLite queries. The larger your SQL results the better will Quick SQLite perform for you.&lt;/p&gt;
 
-&lt;p&gt;&lt;strong&gt;JSI does cuts the overhead of communication&lt;/strong&gt;, transferring a few bytes once is just not the best use of it. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;JSI does cuts the overhead of communication&lt;/strong&gt;, transferring a few bytes once is just not the best use-case. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.&lt;/p&gt;
 
 &lt;h1 id=&quot;i-want-to-use-insert-your-favorite-language&quot;&gt;I want to use [insert your favorite language]&lt;/h1&gt;
 
@@ -58,14 +58,14 @@
   &lt;li&gt;The JSI is C++.&lt;/li&gt;
   &lt;li&gt;TurboModules generates C++ headers (meant to be used with ObjC++ and JNI C++).&lt;/li&gt;
   &lt;li&gt;For now you can only implement the generated headers with ObjC++ and JNI C++ with TurboModules.&lt;/li&gt;
-  &lt;li&gt;YOU CAN USE ANY LANGUAGE YOU LIKE BUT NOT DIRECTLY. If you can compile your code (and link it as a static library if necessary), you can use w/e want. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety.&lt;/li&gt;
+  &lt;li&gt;&lt;strong&gt;You can use any language you want, if you can call it from the native mobile languages&lt;/strong&gt;. If you can compile your code (and link it as a static library if necessary), you can use it. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety.&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;So, yes, use Swift if you want to… heck you can even go for Rust… there is not that much of a point to use TurboModules for this, you will still have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).&lt;/p&gt;
+&lt;p&gt;So, yes, use Swift if you want to… heck you can even go for Rust… you will still have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).&lt;/p&gt;
 
 &lt;h1 id=&quot;its-so-complex-flutter-is-easy&quot;&gt;It’s so complex! Flutter is easy&lt;/h1&gt;
 
-&lt;p&gt;Don’t drink this cool-aid, all these frameworks are abstracting the heavy-lifting for you. Even if you would write your app in native there would be times where you will have to deal with some complexity.Iif not on the language level, it would be on the API level, on some integration, on some framework model. etc. Believe me, I have written a fair amount of native code at this point and I can promise you it doesn’t get any easier.&lt;/p&gt;
+&lt;p&gt;Don’t drink this cool-aid, all frameworks abstract the heavy-lifting for you. Even if you would write your app in native there would be times where you will have to deal with some complexity.Iif not on the language level, it would be on the API level, on some integration, on some framework model. etc. Believe me, I have written a fair amount of native code at this point and I can promise you it doesn’t get any easier.&lt;/p&gt;
 
 &lt;p&gt;I have already seen tweets from flutter devs complaining they are writing dart/swift/kotlin/c++ code at the same time. If you are interested in this topic you are going deep into the inner working of the frameworks, this is usually what it takes to build software at this level.&lt;/p&gt;
 
@@ -73,12 +73,12 @@
 
 &lt;ul&gt;
   &lt;li&gt;Wait and hope someone solves your problem&lt;/li&gt;
-  &lt;li&gt;Create your own framework (With time you will hit the C++/Swift/Kotlin problem anyways, welcome to the mobile world)&lt;/li&gt;
+  &lt;li&gt;Create your own framework (With time you will hit the C++/Swift/Kotlin problem anyways)&lt;/li&gt;
   &lt;li&gt;Pay someone to solve the problem for you&lt;/li&gt;
   &lt;li&gt;DIY and enjoy the process&lt;/li&gt;
 &lt;/ul&gt;
 
-&lt;p&gt;That’s it for now, &lt;a href=&quot;mailto:ospfranco@protonmail.com&quot;&gt;you can always pay me to do some JSI for you&lt;/a&gt;. Hope you enjoyed it and please do send feedback.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Here is an information dump of me playing around with React Native’s JSI.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Frames of reference</title><link href="https://ospfranco.com/post/2022/03/13/frames-of-reference/" rel="alternate" type="text/html" title="Frames of reference" /><published>2022-03-13T14:00:00+01:00</published><updated>2022-03-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/03/13/frames%20of%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2022/03/13/frames-of-reference/">&lt;p&gt;Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:&lt;/p&gt;
+&lt;p&gt;That’s it for now, &lt;a href=&quot;mailto:ospfranco@protonmail.com&quot;&gt;you can always pay me to do some JSI for you&lt;/a&gt;. Hope you enjoyed it and please do send feedback.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Here is the latest information dump my findings with React Native’s JSI.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Frames of reference</title><link href="https://ospfranco.com/post/2022/03/13/frames-of-reference/" rel="alternate" type="text/html" title="Frames of reference" /><published>2022-03-13T14:00:00+01:00</published><updated>2022-03-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/03/13/frames%20of%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2022/03/13/frames-of-reference/">&lt;p&gt;Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:&lt;/p&gt;
 
 &lt;iframe class=&quot;w-full my-10 h-96&quot; src=&quot;https://www.youtube.com/embed/H0VfPPzZoYw&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
 
