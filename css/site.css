@@ -21,6 +21,10 @@ a {
   @apply dark:text-gray-200;
 }
 
+.markdown a {
+  @apply underline;
+}
+
 .markdown p {
   @apply py-3;
 }
