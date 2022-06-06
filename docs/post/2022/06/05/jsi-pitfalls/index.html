@@ -124,13 +124,13 @@
 
 <p>Calculating data thousands of times will also mix JSI performance with C++/Swift/Kotlin performance, hard to tell when one ends and the other begins.</p>
 
-<p>IMO it is better to test <strong>transferring a large amount of data</strong>. However, it is hard to find a test that actually makes sense, because, minutia can affect the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly to JavaScript, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have to allocate memory every time.</p>
+<p>IMO it is better to test <strong>transferring a large amount of data</strong>. However, it is hard to find a test that actually makes sense, because details can affect the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly to JavaScript, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have allocate memory multiple times.</p>
 
-<p>But I can share some anecdotic experience of some people using Quick SQLite. <a href="https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej">Takuya experienced 2x to 5x speed boost</a> when switching from the old bridge SQLite driver, user @sallar experienced 2x - 2.5x speed improvement, query time reduced from 600ms to ~250ms, with large SQLite queries. The larger your SQL results the better will Quick SQLite perform for you.</p>
+<p>I can share some anecdotic experience of some people using Quick SQLite. <a href="https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej">Takuya experienced 2x to 5x speed boost</a> when switching from the old bridge SQLite driver, user <a href="https://twitter.com/sallar">@sallar</a> experienced 2x - 2.5x speed improvement, query time reduced from 600ms to ~250ms, with large SQLite queries. The larger your SQL results the better will Quick SQLite perform for you.</p>
 
-<p><strong>JSI does cuts the overhead of communication</strong>, transferring a few bytes once is just not the best use-case. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.</p>
+<p>Just to be clear <strong>JSI does cuts the overhead of communication</strong>, transferring a few bytes once is just not the best use-case. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.</p>
 
-<h1 id="i-want-to-use-insert-your-favorite-language">I want to use [insert your favorite language]</h1>
+<h1 id="i-want-to-use-xyz-programming-language">I want to use XYZ programming language</h1>
 
 <p>Among the questions that get repeated over and over is “how can I use my favorite language?”. I even made a video about it, <a href="https://www.youtube.com/watch?v=_I6bH5_rO2k&amp;t=178s">go watch it</a>.</p>
 
@@ -140,15 +140,15 @@
   <li>Everything is based on the JSI.</li>
   <li>The JSI is C++.</li>
   <li>TurboModules generates C++ headers (meant to be used with ObjC++ and JNI C++).</li>
-  <li>For now you can only implement the generated headers with ObjC++ and JNI C++ with TurboModules.</li>
-  <li><strong>You can use any language you want, if you can call it from the native mobile languages</strong>. If you can compile your code (and link it as a static library if necessary), you can use it. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety.</li>
+  <li>TurboModules currently only allow to use implement the generated headers with ObjC++ and JNI C++.</li>
+  <li><strong>You can use any language you want, if you can call it from the native mobile languages</strong>. If you can compile your code (and link it as a static library if necessary), you can just call it. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety. Your compilation process might also become complex (e.g. using Rust)</li>
 </ul>
 
-<p>So, yes, use Swift if you want to… heck you can even go for Rust… you will still have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).</p>
+<p>You can use w/e you want, it’s just that you will have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).</p>
 
 <h1 id="its-so-complex-flutter-is-easy">It’s so complex! Flutter is easy</h1>
 
-<p>Don’t drink this cool-aid, all frameworks abstract the heavy-lifting for you. Even if you would write your app in native there would be times where you will have to deal with some complexity.Iif not on the language level, it would be on the API level, on some integration, on some framework model. etc. Believe me, I have written a fair amount of native code at this point and I can promise you it doesn’t get any easier.</p>
+<p>Don’t drink this cool-aid, all frameworks abstract the heavy-lifting for you. Even if you would write your app in native there would be occasions where you will have to deal with some complexity. If not on the language level, it would be on the API level, on some integration, on some framework model. etc. I have written a fair amount of native code at this point and I it doesn’t get any easier.</p>
 
 <p>I have already seen tweets from flutter devs complaining they are writing dart/swift/kotlin/c++ code at the same time. If you are interested in this topic you are going deep into the inner working of the frameworks, this is usually what it takes to build software at this level.</p>
 
