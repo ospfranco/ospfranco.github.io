@@ -14,4 +14,4 @@ Since the data was not officially accessible by immoscout, I'm not sure if I sho
 
 You can clearly see major cities and their prices are quite high, and also the clear difference between east/west germany, you can find plenty of material online on why there is such a big economy disparity and the consequences on the german political system.
 
-![Germany rent map]({{site.url}}{{page.image}} "Germany rent map")
+![Germany rent map]({{site.url}}/assets/rent_map.png "Germany rent map")
