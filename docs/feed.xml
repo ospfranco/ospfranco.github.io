@@ -1,324 +1,324 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-08-10T07:14:44+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Sustainable Open Source Manifesto</title><link href="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/" rel="alternate" type="text/html" title="Sustainable Open Source Manifesto" /><published>2022-07-27T15:00:00+02:00</published><updated>2022-07-27T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/07/27/sustainable%20open%20source%20manifesto</id><content type="html" xml:base="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/">&lt;p&gt;OSS (Open Source Software) has won the battle. Every aspect of modern life is at least partly powered by it. OSS is also unsustainable. Organizations and individuals benefit from it, yet little is given in return. OSS is also hard. A considerable amount of time and effort is required to maintain code and deal with demanding strangers. I would like to continue doing Open Source but I do not enjoy the current status quo, therefore I am from here on now going to use a different model. Here are some of the core tenets:&lt;/p&gt;
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-09-02T06:38:53+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Sustainable Open Source Manifesto</title><link href="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/" rel="alternate" type="text/html" title="Sustainable Open Source Manifesto" /><published>2022-07-27T15:00:00+02:00</published><updated>2022-07-27T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/07/27/sustainable%20open%20source%20manifesto</id><content type="html" xml:base="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/"><![CDATA[<p>OSS (Open Source Software) has won the battle. Every aspect of modern life is at least partly powered by it. OSS is also unsustainable. Organizations and individuals benefit from it, yet little is given in return. OSS is also hard. A considerable amount of time and effort is required to maintain code and deal with demanding strangers. I would like to continue doing Open Source but I do not enjoy the current status quo, therefore I am from here on now going to use a different model. Here are some of the core tenets:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;Libraries I develop will still be MIT with all its stipulations; free, distributable, etc.&lt;/li&gt;
-  &lt;li&gt;I do not owe you (user of my library) absolutely anything except the respect and decency I would give any other person. My goodwill ends at me providing my code to you.&lt;/li&gt;
-  &lt;li&gt;If you open a ticket and it is not a problem with my code but a layer 8 problem, I will just close the issue and point you to Stack Overflow.&lt;/li&gt;
-  &lt;li&gt;If you want me to spend time &lt;strong&gt;helping you&lt;/strong&gt;: giving hints, teaching you how to do something, fixing your code, &lt;strong&gt;from now on you will have to donate&lt;/strong&gt; (I have enabled Github Sponsors).&lt;/li&gt;
-  &lt;li&gt;If you open a ticket and I determine it is a bug, you have taken the time to explore the causes or provide a reproducible example, I appreciate it greatly and might fix the issue in a promptly manner. However I might just consider the bug trivial or not worth my time. You can change this by donating.&lt;/li&gt;
-  &lt;li&gt;If you have a disagreement or a different opinion how the package is built, its API or any other aspect that functionally does not prevent the package from working, you will be required to donate for me to take time to evaluate/patch/update the package.&lt;/li&gt;
-  &lt;li&gt;Contributors are mostly exempt from donating. You are giving something back, I appreciate that! However some changes might require too much work/effort on my part. I will evaluate this on a per-case basis.&lt;/li&gt;
-  &lt;li&gt;There is nothing I can do to stop large organizations from greatly benefiting from my OSS work. I can only plead to good conscience, however I would expect a sponsorship as a must. Even for trivial bugs and PRs. It’s only fair.&lt;/li&gt;
-&lt;/ul&gt;
+<ul>
+  <li>Libraries I develop will still be MIT with all its stipulations; free, distributable, etc.</li>
+  <li>I do not owe you (user of my library) absolutely anything except the respect and decency I would give any other person. My goodwill ends at me providing my code to you.</li>
+  <li>If you open a ticket and it is not a problem with my code but a layer 8 problem, I will just close the issue and point you to Stack Overflow.</li>
+  <li>If you want me to spend time <strong>helping you</strong>: giving hints, teaching you how to do something, fixing your code, <strong>from now on you will have to donate</strong> (I have enabled Github Sponsors).</li>
+  <li>If you open a ticket and I determine it is a bug, you have taken the time to explore the causes or provide a reproducible example, I appreciate it greatly and might fix the issue in a promptly manner. However I might just consider the bug trivial or not worth my time. You can change this by donating.</li>
+  <li>If you have a disagreement or a different opinion how the package is built, its API or any other aspect that functionally does not prevent the package from working, you will be required to donate for me to take time to evaluate/patch/update the package.</li>
+  <li>Contributors are mostly exempt from donating. You are giving something back, I appreciate that! However some changes might require too much work/effort on my part. I will evaluate this on a per-case basis.</li>
+  <li>There is nothing I can do to stop large organizations from greatly benefiting from my OSS work. I can only plead to good conscience, however I would expect a sponsorship as a must. Even for trivial bugs and PRs. It’s only fair.</li>
+</ul>
 
-&lt;p&gt;Basically it all comes down to: Doing OSS is hard and leads to burn outs, I don’t want to burn. I already gave you my code (which is a proxy for my time and years of knowledge) to you for free. You give me money, I spend my time (which I personally value very highly) helping you. Sounds like a fair deal to me.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">OSS (Open Source Software) has won the battle. Every aspect of modern life is at least partly powered by it. OSS is also unsustainable. Organizations and individuals benefit from it, yet little is given in return. OSS is also hard. A considerable amount of time and effort is required to maintain code and deal with demanding strangers. I would like to continue doing Open Source but I do not enjoy the current status quo, therefore I am from here on now going to use a different model. Here are some of the core tenets:</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native JSI/TurboModules pitfalls</title><link href="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/" rel="alternate" type="text/html" title="React Native JSI/TurboModules pitfalls" /><published>2022-06-05T15:00:00+02:00</published><updated>2022-06-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/06/05/jsi%20pitfalls</id><content type="html" xml:base="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/">&lt;p&gt;Here is the latest information dump my findings with React Native’s JSI.&lt;/p&gt;
+<p>Basically it all comes down to: Doing OSS is hard and leads to burn outs, I don’t want to burn. I already gave you my code (which is a proxy for my time and years of knowledge) to you for free. You give me money, I spend my time (which I personally value very highly) helping you. Sounds like a fair deal to me.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[OSS (Open Source Software) has won the battle. Every aspect of modern life is at least partly powered by it. OSS is also unsustainable. Organizations and individuals benefit from it, yet little is given in return. OSS is also hard. A considerable amount of time and effort is required to maintain code and deal with demanding strangers. I would like to continue doing Open Source but I do not enjoy the current status quo, therefore I am from here on now going to use a different model. Here are some of the core tenets:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native JSI/TurboModules pitfalls</title><link href="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/" rel="alternate" type="text/html" title="React Native JSI/TurboModules pitfalls" /><published>2022-06-05T15:00:00+02:00</published><updated>2022-06-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/06/05/jsi%20pitfalls</id><content type="html" xml:base="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/"><![CDATA[<p>Here is the latest information dump my findings with React Native’s JSI.</p>
 
-&lt;h1 id=&quot;speed-is-relative&quot;&gt;Speed is relative&lt;/h1&gt;
+<h1 id="speed-is-relative">Speed is relative</h1>
 
-&lt;p&gt;C++ is the fastest but Swift is fast, Java ByteCode is also fast. Using JSI/TurboModules won’t necessarily make your module faster. &lt;strong&gt;The JSI is a communication layer&lt;/strong&gt;, therefore it excels in situations where you &lt;strong&gt;transfer&lt;/strong&gt; a lot of data between native and JavaScript.&lt;/p&gt;
+<p>C++ is the fastest but Swift is fast, Java ByteCode is also fast. Using JSI/TurboModules won’t necessarily make your module faster. <strong>The JSI is a communication layer</strong>, therefore it excels in situations where you <strong>transfer</strong> a lot of data between native and JavaScript.</p>
 
-&lt;p&gt;If you need to pass a few bytes once (or a few times), the old APIs are easier to work with and the performance penalty might be small enough that you might be better off skipping the JSI. Reading a small piece of data from AsyncStorage takes 5ms on release mode, so this extrapolates to any package that does a lot of calculation on the native side and then only returns a small chunk of data to JavaScript.&lt;/p&gt;
+<p>If you need to pass a few bytes once (or a few times), the old APIs are easier to work with and the performance penalty might be small enough that you might be better off skipping the JSI. Reading a small piece of data from AsyncStorage takes 5ms on release mode, so this extrapolates to any package that does a lot of calculation on the native side and then only returns a small chunk of data to JavaScript.</p>
 
-&lt;p&gt;Here is a comparison, reading a small string (“hello”), one time (release mode -O2 optimized):&lt;/p&gt;
+<p>Here is a comparison, reading a small string (“hello”), one time (release mode -O2 optimized):</p>
 
-&lt;table&gt;
-  &lt;thead&gt;
-    &lt;tr&gt;
-      &lt;th&gt;Framework&lt;/th&gt;
-      &lt;th&gt;Time&lt;/th&gt;
-    &lt;/tr&gt;
-  &lt;/thead&gt;
-  &lt;tbody&gt;
-    &lt;tr&gt;
-      &lt;td&gt;MMKV&lt;/td&gt;
-      &lt;td&gt;&amp;gt; 0ms&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Quick SQLite&lt;/td&gt;
-      &lt;td&gt;&amp;gt; 0ms&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;WatermelonDB&lt;/td&gt;
-      &lt;td&gt;&amp;gt; 8ms&lt;/td&gt;
-    &lt;/tr&gt;
-    &lt;tr&gt;
-      &lt;td&gt;Async Storage&lt;/td&gt;
-      &lt;td&gt;&amp;gt; 5ms&lt;/td&gt;
-    &lt;/tr&gt;
-  &lt;/tbody&gt;
-&lt;/table&gt;
+<table>
+  <thead>
+    <tr>
+      <th>Framework</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>MMKV</td>
+      <td>&gt; 0ms</td>
+    </tr>
+    <tr>
+      <td>Quick SQLite</td>
+      <td>&gt; 0ms</td>
+    </tr>
+    <tr>
+      <td>WatermelonDB</td>
+      <td>&gt; 8ms</td>
+    </tr>
+    <tr>
+      <td>Async Storage</td>
+      <td>&gt; 5ms</td>
+    </tr>
+  </tbody>
+</table>
 
-&lt;p&gt;Artificial benchmarks testing reading the same value or calculating something thousands of times are… disingenuous.&lt;/p&gt;
+<p>Artificial benchmarks testing reading the same value or calculating something thousands of times are… disingenuous.</p>
 
-&lt;p&gt;Most frameworks have caches implemented to them, reading anything more than once results in testing if the cache is there. Other important details cannot be ignored: MMKV is a key/value storage, whereas Quick SQLite and WatermelonDB are relational databases on top of SQLite, comparing them is comparing apples to oranges.&lt;/p&gt;
+<p>Most frameworks have caches implemented to them, reading anything more than once results in testing if the cache is there. Other important details cannot be ignored: MMKV is a key/value storage, whereas Quick SQLite and WatermelonDB are relational databases on top of SQLite, comparing them is comparing apples to oranges.</p>
 
-&lt;p&gt;Calculating data thousands of times will also mix JSI performance with C++/Swift/Kotlin performance, hard to tell when one ends and the other begins.&lt;/p&gt;
+<p>Calculating data thousands of times will also mix JSI performance with C++/Swift/Kotlin performance, hard to tell when one ends and the other begins.</p>
 
-&lt;p&gt;IMO it is better to test &lt;strong&gt;transferring a large amount of data&lt;/strong&gt;. However, it is hard to find a test that actually makes sense, because details can affect the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly to JavaScript, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have allocate memory multiple times.&lt;/p&gt;
+<p>IMO it is better to test <strong>transferring a large amount of data</strong>. However, it is hard to find a test that actually makes sense, because details can affect the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly to JavaScript, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have allocate memory multiple times.</p>
 
-&lt;p&gt;I can share some anecdotic experience of some people using Quick SQLite. &lt;a href=&quot;https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej&quot;&gt;Takuya experienced 2x to 5x speed boost&lt;/a&gt; when switching from the old bridge SQLite driver, user &lt;a href=&quot;https://twitter.com/sallar&quot;&gt;@sallar&lt;/a&gt; experienced 2x - 2.5x speed improvement, query time reduced from 600ms to ~250ms, with large SQLite queries. The larger your SQL results the better will Quick SQLite perform for you.&lt;/p&gt;
+<p>I can share some anecdotic experience of some people using Quick SQLite. <a href="https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej">Takuya experienced 2x to 5x speed boost</a> when switching from the old bridge SQLite driver, user <a href="https://twitter.com/sallar">@sallar</a> experienced 2x - 2.5x speed improvement, query time reduced from 600ms to ~250ms, with large SQLite queries. The larger your SQL results the better will Quick SQLite perform for you.</p>
 
-&lt;p&gt;Just to be clear &lt;strong&gt;JSI does cuts the overhead of communication&lt;/strong&gt;, transferring a few bytes once is just not the best use-case. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.&lt;/p&gt;
+<p>Just to be clear <strong>JSI does cuts the overhead of communication</strong>, transferring a few bytes once is just not the best use-case. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.</p>
 
-&lt;h1 id=&quot;i-want-to-use-xyz-programming-language&quot;&gt;I want to use XYZ programming language&lt;/h1&gt;
+<h1 id="i-want-to-use-xyz-programming-language">I want to use XYZ programming language</h1>
 
-&lt;p&gt;Among the questions that get repeated over and over is “how can I use my favorite language?”. I even made a video about it, &lt;a href=&quot;https://www.youtube.com/watch?v=_I6bH5_rO2k&amp;amp;t=178s&quot;&gt;go watch it&lt;/a&gt;.&lt;/p&gt;
+<p>Among the questions that get repeated over and over is “how can I use my favorite language?”. I even made a video about it, <a href="https://www.youtube.com/watch?v=_I6bH5_rO2k&amp;t=178s">go watch it</a>.</p>
 
-&lt;p&gt;In the video I made a mistake, I made it sound like there is no possibility to use any other language, which is not technically correct. So here it is explained in a list so hopefully it will be clearer for everyone:&lt;/p&gt;
+<p>In the video I made a mistake, I made it sound like there is no possibility to use any other language, which is not technically correct. So here it is explained in a list so hopefully it will be clearer for everyone:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;Everything is based on the JSI.&lt;/li&gt;
-  &lt;li&gt;The JSI is C++.&lt;/li&gt;
-  &lt;li&gt;TurboModules generates C++ headers (meant to be used with ObjC++ and JNI C++).&lt;/li&gt;
-  &lt;li&gt;TurboModules currently only allow to use implement the generated headers with ObjC++ and JNI C++.&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;You can use any language you want, if you can call it from the native mobile languages&lt;/strong&gt;. If you can compile your code (and link it as a static library if necessary), you can just call it. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety. Your compilation process might also become complex (e.g. using Rust)&lt;/li&gt;
-&lt;/ul&gt;
+<ul>
+  <li>Everything is based on the JSI.</li>
+  <li>The JSI is C++.</li>
+  <li>TurboModules generates C++ headers (meant to be used with ObjC++ and JNI C++).</li>
+  <li>TurboModules currently only allow to use implement the generated headers with ObjC++ and JNI C++.</li>
+  <li><strong>You can use any language you want, if you can call it from the native mobile languages</strong>. If you can compile your code (and link it as a static library if necessary), you can just call it. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety. Your compilation process might also become complex (e.g. using Rust)</li>
+</ul>
 
-&lt;p&gt;You can use w/e you want, it’s just that you will have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).&lt;/p&gt;
+<p>You can use w/e you want, it’s just that you will have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).</p>
 
-&lt;h1 id=&quot;its-so-complex-flutter-is-easy&quot;&gt;It’s so complex! Flutter is easy&lt;/h1&gt;
+<h1 id="its-so-complex-flutter-is-easy">It’s so complex! Flutter is easy</h1>
 
-&lt;p&gt;Don’t drink this cool-aid, all frameworks abstract the heavy-lifting for you. Even if you would write your app in native there would be occasions where you will have to deal with some complexity. If not on the language level, it would be on the API level, on some integration, on some framework model. etc. I have written a fair amount of native code at this point and I it doesn’t get any easier.&lt;/p&gt;
+<p>Don’t drink this cool-aid, all frameworks abstract the heavy-lifting for you. Even if you would write your app in native there would be occasions where you will have to deal with some complexity. If not on the language level, it would be on the API level, on some integration, on some framework model. etc. I have written a fair amount of native code at this point and I it doesn’t get any easier.</p>
 
-&lt;p&gt;I have already seen tweets from flutter devs complaining they are writing dart/swift/kotlin/c++ code at the same time. If you are interested in this topic you are going deep into the inner working of the frameworks, this is usually what it takes to build software at this level.&lt;/p&gt;
+<p>I have already seen tweets from flutter devs complaining they are writing dart/swift/kotlin/c++ code at the same time. If you are interested in this topic you are going deep into the inner working of the frameworks, this is usually what it takes to build software at this level.</p>
 
-&lt;p&gt;As far as I can see here are the options:&lt;/p&gt;
+<p>As far as I can see here are the options:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;Wait and hope someone solves your problem&lt;/li&gt;
-  &lt;li&gt;Create your own framework (With time you will hit the C++/Swift/Kotlin problem anyways)&lt;/li&gt;
-  &lt;li&gt;Pay someone to solve the problem for you&lt;/li&gt;
-  &lt;li&gt;DIY and enjoy the process&lt;/li&gt;
-&lt;/ul&gt;
+<ul>
+  <li>Wait and hope someone solves your problem</li>
+  <li>Create your own framework (With time you will hit the C++/Swift/Kotlin problem anyways)</li>
+  <li>Pay someone to solve the problem for you</li>
+  <li>DIY and enjoy the process</li>
+</ul>
 
-&lt;p&gt;That’s it for now, &lt;a href=&quot;mailto:ospfranco@protonmail.com&quot;&gt;you can always pay me to do some JSI for you&lt;/a&gt;. Hope you enjoyed it and please do send feedback.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Here is the latest information dump my findings with React Native’s JSI.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Frames of reference</title><link href="https://ospfranco.com/post/2022/03/13/frames-of-reference/" rel="alternate" type="text/html" title="Frames of reference" /><published>2022-03-13T14:00:00+01:00</published><updated>2022-03-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/03/13/frames%20of%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2022/03/13/frames-of-reference/">&lt;p&gt;Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:&lt;/p&gt;
+<p>That’s it for now, <a href="mailto:ospfranco@protonmail.com">you can always pay me to do some JSI for you</a>. Hope you enjoyed it and please do send feedback.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Here is the latest information dump my findings with React Native’s JSI.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Frames of reference</title><link href="https://ospfranco.com/post/2022/03/13/frames-of-reference/" rel="alternate" type="text/html" title="Frames of reference" /><published>2022-03-13T14:00:00+01:00</published><updated>2022-03-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/03/13/frames%20of%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2022/03/13/frames-of-reference/"><![CDATA[<p>Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:</p>
 
-&lt;iframe class=&quot;w-full my-10 h-96&quot; src=&quot;https://www.youtube.com/embed/H0VfPPzZoYw&quot; title=&quot;YouTube video player&quot; frameborder=&quot;0&quot; allow=&quot;accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture&quot; allowfullscreen=&quot;&quot;&gt;&lt;/iframe&gt;
+<iframe class="w-full my-10 h-96" src="https://www.youtube.com/embed/H0VfPPzZoYw" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen=""></iframe>
 
-&lt;p&gt;Recently I had a discussion with a girl I dated and I still care about. I wasn’t a fight, but our points of view differed diametrically. It was a though dicussion, but I realized we were both rambling about what we &lt;strong&gt;didn’t&lt;/strong&gt; want. Our communication, via our indirection and our fear of confrontation, was mudled.&lt;/p&gt;
+<p>Recently I had a discussion with a girl I dated and I still care about. I wasn’t a fight, but our points of view differed diametrically. It was a though dicussion, but I realized we were both rambling about what we <strong>didn’t</strong> want. Our communication, via our indirection and our fear of confrontation, was mudled.</p>
 
-&lt;p&gt;At some point we did manage to tell each other some version of what we &lt;strong&gt;do&lt;/strong&gt; want. Or at least I thought we did… now I have had a couple of days to try to understand what we both said, the truth is I still have no clue what it means. Behind every emotion there is an ocean of complexity. In our internal logic is choke full of contradictions, this applies to every single one of us.&lt;/p&gt;
+<p>At some point we did manage to tell each other some version of what we <strong>do</strong> want. Or at least I thought we did… now I have had a couple of days to try to understand what we both said, the truth is I still have no clue what it means. Behind every emotion there is an ocean of complexity. In our internal logic is choke full of contradictions, this applies to every single one of us.</p>
 
-&lt;p&gt;This is what made this little lecture so damn interesting. I started to explain her arguments to myself (as well as I can remember it). What an eye opening exercise. I think I’m still far away from grasping the full implications of what was said, but at least I think I’m now managing to pull the minimal thread of understanding. Am I happy with the message? not really, but it’s better to live life with eyes open.&lt;/p&gt;
+<p>This is what made this little lecture so damn interesting. I started to explain her arguments to myself (as well as I can remember it). What an eye opening exercise. I think I’m still far away from grasping the full implications of what was said, but at least I think I’m now managing to pull the minimal thread of understanding. Am I happy with the message? not really, but it’s better to live life with eyes open.</p>
 
-&lt;p&gt;Forget now about my relationship troubles, there is a gem of wisdom here to learn: it all boils down to frames of reference, even though the words might be the same, their meaning changes depending on our feelings and moods. To have a recipe to adopt somebody else’s frame of reference is nothing short of a super power.&lt;/p&gt;
+<p>Forget now about my relationship troubles, there is a gem of wisdom here to learn: it all boils down to frames of reference, even though the words might be the same, their meaning changes depending on our feelings and moods. To have a recipe to adopt somebody else’s frame of reference is nothing short of a super power.</p>
 
-&lt;p&gt;Extrapolate this to most of the interactions you have on a day to day basis. What a complex and chaotic interaction, on which we (try to) communicate at the velocity of speech. Almost overwhelming, but damn interesting if you ask me.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Email templates with React and Tailwind</title><link href="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" rel="alternate" type="text/html" title="Email templates with React and Tailwind" /><published>2022-01-08T14:00:00+01:00</published><updated>2022-01-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/01/08/email%20templates%20with%20react%20and%20tailwind</id><content type="html" xml:base="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/">&lt;p&gt;Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.&lt;/p&gt;
+<p>Extrapolate this to most of the interactions you have on a day to day basis. What a complex and chaotic interaction, on which we (try to) communicate at the velocity of speech. Almost overwhelming, but damn interesting if you ask me.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Every couple of weeks I randomly watch one of Jordan Peterson lecture videos, they are so cool. Today I stumbled upon this one:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Email templates with React and Tailwind</title><link href="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" rel="alternate" type="text/html" title="Email templates with React and Tailwind" /><published>2022-01-08T14:00:00+01:00</published><updated>2022-01-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/01/08/email%20templates%20with%20react%20and%20tailwind</id><content type="html" xml:base="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"><![CDATA[<p>Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.</p>
 
-&lt;p&gt;I didn’t want to go down that path one more time, so I spend some time trying to answer one question: can I create a email template using only React and Tailwind (with my existing configuration) and the answer is: YES! well, mostly…&lt;/p&gt;
+<p>I didn’t want to go down that path one more time, so I spend some time trying to answer one question: can I create a email template using only React and Tailwind (with my existing configuration) and the answer is: YES! well, mostly…</p>
 
-&lt;h2 id=&quot;render-a-react-component-to-plain-html-markup&quot;&gt;Render a React component to plain HTML Markup&lt;/h2&gt;
+<h2 id="render-a-react-component-to-plain-html-markup">Render a React component to plain HTML Markup</h2>
 
-&lt;p&gt;The first part of this question was the easiest to answer, how to turn a React component into raw html string:&lt;/p&gt;
+<p>The first part of this question was the easiest to answer, how to turn a React component into raw html string:</p>
 
-&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// unfortunately no type information for this module&lt;/span&gt;
-&lt;span class=&quot;c1&quot;&gt;// @ts-ignore&lt;/span&gt;
-&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ReactDOMServer&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;react-dom/server&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// unfortunately no type information for this module</span>
+<span class="c1">// @ts-ignore</span>
+<span class="k">import</span> <span class="nx">ReactDOMServer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-dom/server</span><span class="dl">"</span><span class="p">;</span>
 
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;TestMail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;()&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;c1&quot;&gt;// important to keep the color scheme on some email clients&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* &amp;lt;meta name=&quot;color-scheme&quot; content=&quot;only&quot;&amp;gt;&amp;lt;/meta&amp;gt; */&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// We will use this later&amp;lt;/head&amp;gt;&lt;/span&gt;
-      &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;div&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;className&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;py-3&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;Hi&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;I&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;am&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;a&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;react&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;component&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/div&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
-&lt;/span&gt;    &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/html&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
-&lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;};&lt;/span&gt;
+<span class="kd">const</span> <span class="nx">TestMail</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+      <span class="c1">// important to keep the color scheme on some email clients</span>
+      <span class="p">{</span><span class="cm">/* &lt;meta name="color-scheme" content="only"&gt;&lt;/meta&gt; */</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span><span class="c1">// We will use this later&lt;/head&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">py-3</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">Hi</span> <span class="nx">I</span> <span class="nx">am</span> <span class="nx">a</span> <span class="nx">react</span> <span class="nx">component</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/html</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">};</span>
 
-&lt;span class=&quot;kd&quot;&gt;const&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;emailHtml&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;ReactDOMServer&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;renderToStaticMarkup&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;TestMail&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="kd">const</span> <span class="nx">emailHtml</span> <span class="o">=</span> <span class="nx">ReactDOMServer</span><span class="p">.</span><span class="nx">renderToStaticMarkup</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">TestMail</span> <span class="o">/&gt;</span><span class="p">);</span>
+</code></pre></div></div>
 
-&lt;p&gt;This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;py-3&lt;/code&gt;, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.&lt;/p&gt;
+<p>This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there <code class="language-plaintext highlighter-rouge">py-3</code>, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.</p>
 
-&lt;p&gt;This was the tricky part, there are some frameworks that try to solve this exact problem, like maizzle for example, but just by reading the home page I already see an ocean of complexity, so early in my googling I stumbled upon &lt;a href=&quot;https://github.com/soheilpro/mailwind&quot;&gt;Mailwind&lt;/a&gt;, the instructions were scant, but it was exactly what I wanted, it works based on &lt;a href=&quot;https://github.com/Automattic/juice&quot;&gt;Juice&lt;/a&gt;, not going to bore you with the details, here is the snippet that makes it work:&lt;/p&gt;
+<p>This was the tricky part, there are some frameworks that try to solve this exact problem, like maizzle for example, but just by reading the home page I already see an ocean of complexity, so early in my googling I stumbled upon <a href="https://github.com/soheilpro/mailwind">Mailwind</a>, the instructions were scant, but it was exactly what I wanted, it works based on <a href="https://github.com/Automattic/juice">Juice</a>, not going to bore you with the details, here is the snippet that makes it work:</p>
 
-&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;import&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;juice&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;from&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;juice&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">juice</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">juice</span><span class="dl">"</span><span class="p">;</span>
 
-&lt;span class=&quot;k&quot;&gt;export&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;async&lt;/span&gt; &lt;span class=&quot;kd&quot;&gt;function&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;juicify&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;kr&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;):&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;kr&quot;&gt;string&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Promise&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;((&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nx&quot;&gt;juice&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;juiceResources&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;
-      &lt;span class=&quot;nx&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;na&quot;&gt;webResources&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;na&quot;&gt;relativeTo&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;public/&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;},&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;processed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-        &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-          &lt;span class=&quot;nx&quot;&gt;reject&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nb&quot;&gt;Error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`Could not juice email&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;${&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;`&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;));&lt;/span&gt;
-        &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nx">juicify</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">juice</span><span class="p">.</span><span class="nx">juiceResources</span><span class="p">(</span>
+      <span class="nx">html</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="na">webResources</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">relativeTo</span><span class="p">:</span> <span class="dl">"</span><span class="s2">public/</span><span class="dl">"</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+      <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">processed</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">`Could not juice email</span><span class="p">${</span><span class="nx">err</span><span class="p">}</span><span class="s2">`</span><span class="p">));</span>
+        <span class="p">}</span>
 
-        &lt;span class=&quot;nx&quot;&gt;resolve&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;processed&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-      &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-    &lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;});&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+        <span class="nx">resolve</span><span class="p">(</span><span class="nx">processed</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-&lt;p&gt;You also need to update the email component to include a stylesheet in the head tag:&lt;/p&gt;
+<p>You also need to update the email component to include a stylesheet in the head tag:</p>
 
-&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt;
-  &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;cm&quot;&gt;/* eslint-disable-next-line @next/next/no-css-tags */&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-  &lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;link&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;href&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;mailwind.css&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;rel&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;stylesheet&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;data&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;inline&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;/&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;sr&quot;&gt;/head&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;&amp;gt;
-&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+  <span class="p">{</span><span class="cm">/* eslint-disable-next-line @next/next/no-css-tags */</span><span class="p">}</span>
+  <span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">mailwind.css</span><span class="dl">"</span> <span class="nx">rel</span><span class="o">=</span><span class="dl">"</span><span class="s2">stylesheet</span><span class="dl">"</span> <span class="nx">data</span><span class="o">-</span><span class="nx">inline</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;
+</span></code></pre></div></div>
 
-&lt;blockquote&gt;
-  &lt;p&gt;You can already see that you need to import mailwind.css file and make it accessible somewhere in your project, on the juicify function the &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;relativeTo&lt;/code&gt; path, will allow juice to correctly determine where to fetch the .css file&lt;/p&gt;
-&lt;/blockquote&gt;
+<blockquote>
+  <p>You can already see that you need to import mailwind.css file and make it accessible somewhere in your project, on the juicify function the <code class="language-plaintext highlighter-rouge">relativeTo</code> path, will allow juice to correctly determine where to fetch the .css file</p>
+</blockquote>
 
-&lt;p&gt;And TA-DA you have working email templates with React and Tailwind, no need for complex framework, configuration files, etc. The juicify function will output a raw string, which you can send to your email distributor and it should work just fine.&lt;/p&gt;
+<p>And TA-DA you have working email templates with React and Tailwind, no need for complex framework, configuration files, etc. The juicify function will output a raw string, which you can send to your email distributor and it should work just fine.</p>
 
-&lt;h2 id=&quot;the-caveat&quot;&gt;The caveat&lt;/h2&gt;
+<h2 id="the-caveat">The caveat</h2>
 
-&lt;p&gt;Now there is one small caveat here, which is the mailwind.css file, it’s not going to be your application styles, some of the changes are good, for example everything being based on px styles, but you might need your own colors, or paddings, etc.&lt;/p&gt;
+<p>Now there is one small caveat here, which is the mailwind.css file, it’s not going to be your application styles, some of the changes are good, for example everything being based on px styles, but you might need your own colors, or paddings, etc.</p>
 
-&lt;p&gt;TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tailwind.config.js&lt;/code&gt; and spit out a &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;.css&lt;/code&gt; file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reset NVRAM on m1 mac</title><link href="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/" rel="alternate" type="text/html" title="Reset NVRAM on m1 mac" /><published>2021-12-21T14:00:00+01:00</published><updated>2021-12-21T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/21/reset%20nvram%20on%20m1%20mac</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/">&lt;p&gt;I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling&lt;/p&gt;
+<p>TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your <code class="language-plaintext highlighter-rouge">tailwind.config.js</code> and spit out a <code class="language-plaintext highlighter-rouge">.css</code> file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reset NVRAM on m1 mac</title><link href="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/" rel="alternate" type="text/html" title="Reset NVRAM on m1 mac" /><published>2021-12-21T14:00:00+01:00</published><updated>2021-12-21T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/21/reset%20nvram%20on%20m1%20mac</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/"><![CDATA[<p>I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling</p>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;sudo nvram -c
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nvram -c
+</code></pre></div></div>
 
-&lt;p&gt;You might see some errors regarding some services that cannot be restarted (fmm-mobileme and fmm-computer-name), but you can ignore those, afterwards restart your computer and it should be fine&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Never use anything except a pure UUID (Anti REGEX argument)</title><link href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" rel="alternate" type="text/html" title="Never use anything except a pure UUID (Anti REGEX argument)" /><published>2021-12-18T14:00:00+01:00</published><updated>2021-12-18T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/18/never%20use%20anything%20except%20a%20pure%20uuid</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/">&lt;p&gt;Browsing my notes found this small gem&lt;/p&gt;
+<p>You might see some errors regarding some services that cannot be restarted (fmm-mobileme and fmm-computer-name), but you can ignore those, afterwards restart your computer and it should be fine</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Never use anything except a pure UUID (Anti REGEX argument)</title><link href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" rel="alternate" type="text/html" title="Never use anything except a pure UUID (Anti REGEX argument)" /><published>2021-12-18T14:00:00+01:00</published><updated>2021-12-18T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/18/never%20use%20anything%20except%20a%20pure%20uuid</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/"><![CDATA[<p>Browsing my notes found this small gem</p>
 
-&lt;blockquote&gt;
-  &lt;p&gt;Use UUIDs for id-ing your entities. Period.&lt;/p&gt;
+<blockquote>
+  <p>Use UUIDs for id-ing your entities. Period.</p>
 
-  &lt;p&gt;Do not use anything else, don’t try to be clever, it just creates embedded logic and soon you will find yourself regexing your ids like a chump&lt;/p&gt;
-&lt;/blockquote&gt;
+  <p>Do not use anything else, don’t try to be clever, it just creates embedded logic and soon you will find yourself regexing your ids like a chump</p>
+</blockquote>
 
-&lt;h2 id=&quot;lesson-never-learned&quot;&gt;Lesson never learned&lt;/h2&gt;
+<h2 id="lesson-never-learned">Lesson never learned</h2>
 
-&lt;p&gt;I first came into this idea many years ago, my college professor was in charge of designing and leading the team responsible for the student system (assignments, class schedules, notes, etc), they bought an Israeli system and then adapted it for our university.&lt;/p&gt;
+<p>I first came into this idea many years ago, my college professor was in charge of designing and leading the team responsible for the student system (assignments, class schedules, notes, etc), they bought an Israeli system and then adapted it for our university.</p>
 
-&lt;p&gt;At the time, my professor thought it would be a great idea to make the user ids contain some extra information, so that one could at first glance tell the enrollment year and the student age, so each student id would be something like:&lt;/p&gt;
+<p>At the time, my professor thought it would be a great idea to make the user ids contain some extra information, so that one could at first glance tell the enrollment year and the student age, so each student id would be something like:</p>
 
-&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;[enrollment_year]_[birth_year]_[id_number]
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[enrollment_year]_[birth_year]_[id_number]
+</code></pre></div></div>
 
-&lt;p&gt;This is great in theory, whoemever is in charge already gets some information without needing to type the id into the system.&lt;/p&gt;
+<p>This is great in theory, whoemever is in charge already gets some information without needing to type the id into the system.</p>
 
-&lt;h2 id=&quot;embedded-logic&quot;&gt;Embedded logic&lt;/h2&gt;
+<h2 id="embedded-logic">Embedded logic</h2>
 
-&lt;p&gt;In real life, this created a slew of problems, one of them was that the students id were easily guessable, this created a lot of problems with phishing attempts, this had serious consequences.&lt;/p&gt;
+<p>In real life, this created a slew of problems, one of them was that the students id were easily guessable, this created a lot of problems with phishing attempts, this had serious consequences.</p>
 
-&lt;p&gt;But another more subtle was the consequence for the project code itself, since some of the information now did not need a query to the database, then came the REGEXES, to parse and extract this meta information from the IDs.&lt;/p&gt;
+<p>But another more subtle was the consequence for the project code itself, since some of the information now did not need a query to the database, then came the REGEXES, to parse and extract this meta information from the IDs.</p>
 
-&lt;p&gt;This generates a lot implicit and embedded logic, what if the ID needs to be changed? then entire parts of the system didn’t work properly anymore.&lt;/p&gt;
+<p>This generates a lot implicit and embedded logic, what if the ID needs to be changed? then entire parts of the system didn’t work properly anymore.</p>
 
-&lt;h2 id=&quot;regexes-are-fine-on-5-of-the-cases&quot;&gt;REGEXES are fine on 5% of the cases&lt;/h2&gt;
+<h2 id="regexes-are-fine-on-5-of-the-cases">REGEXES are fine on 5% of the cases</h2>
 
-&lt;p&gt;Regexes definitely have their use cases, especially when extracting information from a third-party data source, where you have no control over the data you are getting.&lt;/p&gt;
+<p>Regexes definitely have their use cases, especially when extracting information from a third-party data source, where you have no control over the data you are getting.</p>
 
-&lt;p&gt;But please, don’t ever try to embed data in your systems.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Browsing my notes found this small gem</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to install M1 (arm) compatible JDK</title><link href="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" rel="alternate" type="text/html" title="How to install M1 (arm) compatible JDK" /><published>2021-12-11T14:00:00+01:00</published><updated>2021-12-11T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/11/how%20to%20install%20m1%20(arm)%20compatible%20jdk</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/">&lt;p&gt;Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.&lt;/p&gt;
+<p>But please, don’t ever try to embed data in your systems.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Browsing my notes found this small gem]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to install M1 (arm) compatible JDK</title><link href="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" rel="alternate" type="text/html" title="How to install M1 (arm) compatible JDK" /><published>2021-12-11T14:00:00+01:00</published><updated>2021-12-11T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/11/how%20to%20install%20m1%20(arm)%20compatible%20jdk</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/"><![CDATA[<p>Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.</p>
 
-&lt;p&gt;You can directly do it via Android Studio (or intellij IDEA), just go into the preferences and on the build tools &amp;gt; gradle menu, you can select which version of the JDK you want to use, if you open the dropdown you will see there is also an option to download a JDK.&lt;/p&gt;
+<p>You can directly do it via Android Studio (or intellij IDEA), just go into the preferences and on the build tools &gt; gradle menu, you can select which version of the JDK you want to use, if you open the dropdown you will see there is also an option to download a JDK.</p>
 
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/androidStudio1.png&quot; alt=&quot;Android Studio 1&quot; /&gt;&lt;/p&gt;
+<p><img src="https://ospfranco.com/assets/androidStudio1.png" alt="Android Studio 1" /></p>
 
-&lt;p&gt;Click on it and you will get a small dialog were you can select the flavor of JDK you want, I know for certain that the Azul versions are arm compatible.&lt;/p&gt;
+<p>Click on it and you will get a small dialog were you can select the flavor of JDK you want, I know for certain that the Azul versions are arm compatible.</p>
 
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/androidStudio2.png&quot; alt=&quot;Android Studio 2&quot; /&gt;&lt;/p&gt;
+<p><img src="https://ospfranco.com/assets/androidStudio2.png" alt="Android Studio 2" /></p>
 
-&lt;p&gt;(BTW I’m using the Android Studio Preview to get native arm android images)&lt;/p&gt;
+<p>(BTW I’m using the Android Studio Preview to get native arm android images)</p>
 
-&lt;p&gt;Very convenient!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beauty on code iterations</title><link href="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/" rel="alternate" type="text/html" title="Beauty on code iterations" /><published>2021-12-08T14:00:00+01:00</published><updated>2021-12-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/08/beauty%20on%20code%20iterations</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/">&lt;p&gt;A perfect model of your problem exists, you will just never be able to find it and that &lt;strong&gt;should&lt;/strong&gt; be OK.&lt;/p&gt;
+<p>Very convenient!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Beauty on code iterations</title><link href="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/" rel="alternate" type="text/html" title="Beauty on code iterations" /><published>2021-12-08T14:00:00+01:00</published><updated>2021-12-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/08/beauty%20on%20code%20iterations</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/08/beauty-on-code-iterations/"><![CDATA[<p>A perfect model of your problem exists, you will just never be able to find it and that <strong>should</strong> be OK.</p>
 
-&lt;p&gt;I believe the moment you have typed your code, it’s already becoming obsolete and it’s already wrong, because of your understanding of the problem will only expand with time, and since every problem is an ocean of complexity, you are pretty much hopeless in trying to code your way to enlightenment.&lt;/p&gt;
+<p>I believe the moment you have typed your code, it’s already becoming obsolete and it’s already wrong, because of your understanding of the problem will only expand with time, and since every problem is an ocean of complexity, you are pretty much hopeless in trying to code your way to enlightenment.</p>
 
-&lt;p&gt;My approach: do OK code when solving the problem for the first time, fast, kinda dirty, see how it performs, see if it solves the problem, with a bit of time and patience you will see patterns solidify. The catch is: you have to clean it up, with the same energy and fervour you wrote it the first time.&lt;/p&gt;
+<p>My approach: do OK code when solving the problem for the first time, fast, kinda dirty, see how it performs, see if it solves the problem, with a bit of time and patience you will see patterns solidify. The catch is: you have to clean it up, with the same energy and fervour you wrote it the first time.</p>
 
-&lt;p&gt;I find this technique so invigorating though, instead of sloshing through endless discussions, I get the satisfaction of solving the problem first, instead of wasting my time on a potential dead-end. Afterwards, I get the pleasure of polishing the solution to a shiny state.&lt;/p&gt;
+<p>I find this technique so invigorating though, instead of sloshing through endless discussions, I get the satisfaction of solving the problem first, instead of wasting my time on a potential dead-end. Afterwards, I get the pleasure of polishing the solution to a shiny state.</p>
 
-&lt;p&gt;Now if I could only convince my team to see it that way…&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">A perfect model of your problem exists, you will just never be able to find it and that should be OK.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Startups Latinoamerica</title><link href="https://ospfranco.com/post/2021/11/04/startups-latinoamerica/" rel="alternate" type="text/html" title="Startups Latinoamerica" /><published>2021-11-04T14:00:00+01:00</published><updated>2021-11-04T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/11/04/startups%20latinoamerica</id><content type="html" xml:base="https://ospfranco.com/post/2021/11/04/startups-latinoamerica/">&lt;p&gt;Aquí les dejo la presentanción de la charla sobre Startups en Latinoamérica:&lt;/p&gt;
+<p>Now if I could only convince my team to see it that way…</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[A perfect model of your problem exists, you will just never be able to find it and that should be OK.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Startups Latinoamerica</title><link href="https://ospfranco.com/post/2021/11/04/startups-latinoamerica/" rel="alternate" type="text/html" title="Startups Latinoamerica" /><published>2021-11-04T14:00:00+01:00</published><updated>2021-11-04T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/11/04/startups%20latinoamerica</id><content type="html" xml:base="https://ospfranco.com/post/2021/11/04/startups-latinoamerica/"><![CDATA[<p>Aquí les dejo la presentanción de la charla sobre Startups en Latinoamérica:</p>
 
-&lt;p&gt;&lt;a href=&quot;https://ospfranco.com/assets/StartUpsLatinoamerica.key&quot;&gt;Presentación&lt;/a&gt;&lt;/p&gt;
+<p><a href="https://ospfranco.com/assets/StartUpsLatinoamerica.key">Presentación</a></p>
 
-&lt;p&gt;Espero ver alguna Startup Boliviana en algunos años! Si necesitan apoyo no duden en contactarme!&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Aquí les dejo la presentanción de la charla sobre Startups en Latinoamérica:</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Stop throwing exceptions</title><link href="https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/" rel="alternate" type="text/html" title="Stop throwing exceptions" /><published>2021-08-31T15:00:00+02:00</published><updated>2021-08-31T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/08/31/stop%20throwing%20exceptions</id><content type="html" xml:base="https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/">&lt;p&gt;Throwing exceptions makes programms unpredictable by breaking the normal control flow.&lt;/p&gt;
+<p>Espero ver alguna Startup Boliviana en algunos años! Si necesitan apoyo no duden en contactarme!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Aquí les dejo la presentanción de la charla sobre Startups en Latinoamérica:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Stop throwing exceptions</title><link href="https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/" rel="alternate" type="text/html" title="Stop throwing exceptions" /><published>2021-08-31T15:00:00+02:00</published><updated>2021-08-31T15:00:00+02:00</updated><id>https://ospfranco.com/post/2021/08/31/stop%20throwing%20exceptions</id><content type="html" xml:base="https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/"><![CDATA[<p>Throwing exceptions makes programms unpredictable by breaking the normal control flow.</p>
 
-&lt;p&gt;Consider a simple axiom: &lt;strong&gt;unexpected things happen all the time&lt;/strong&gt;.&lt;/p&gt;
+<p>Consider a simple axiom: <strong>unexpected things happen all the time</strong>.</p>
 
-&lt;p&gt;Some unexpected things are “common”: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, there are other kind of unexpected things, things cannot be recovered from: disks get full, dynamic library is missing, program is missconfigured, etc. Today’s ecosystem treats every exception as equal by throwing exceptions.&lt;/p&gt;
+<p>Some unexpected things are “common”: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, there are other kind of unexpected things, things cannot be recovered from: disks get full, dynamic library is missing, program is missconfigured, etc. Today’s ecosystem treats every exception as equal by throwing exceptions.</p>
 
-&lt;p&gt;The real problem comes when we forget to handle these exceptions or we don’t know the code we are calling can throw exceptions.&lt;/p&gt;
+<p>The real problem comes when we forget to handle these exceptions or we don’t know the code we are calling can throw exceptions.</p>
 
-&lt;div class=&quot;language-js highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;c1&quot;&gt;// oops forgot to sanitize my input&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;userInput&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;10a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// oops forgot to sanitize my input</span>
+<span class="kd">let</span> <span class="nx">userInput</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">10a</span><span class="dl">"</span><span class="p">;</span>
 
-&lt;span class=&quot;c1&quot;&gt;// APPLICATION CRASH! 10a cannot be parsed as a int!&lt;/span&gt;
-&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;date&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;originalDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setDay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;userInput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toISO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+<span class="c1">// APPLICATION CRASH! 10a cannot be parsed as a int!</span>
+<span class="kd">let</span> <span class="nx">date</span> <span class="o">=</span> <span class="nx">originalDate</span><span class="p">.</span><span class="nx">setDay</span><span class="p">(</span><span class="nx">userInput</span><span class="p">).</span><span class="nx">toISO</span><span class="p">();</span>
 
-&lt;span class=&quot;c1&quot;&gt;// it might not even be thrown by the date library, but some second level dependency...&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="c1">// it might not even be thrown by the date library, but some second level dependency...</span>
+</code></pre></div></div>
 
-&lt;p&gt;A lot of times this code is implicit and invisible to the application developer. The exception simply bulldozes and bubbles until it is catched or crashes the programm.&lt;/p&gt;
+<p>A lot of times this code is implicit and invisible to the application developer. The exception simply bulldozes and bubbles until it is catched or crashes the programm.</p>
 
-&lt;p&gt;There lies one of the biggest problems: &lt;strong&gt;how do I know which function can throw?&lt;/strong&gt; do I have to try/catch every line of code I have not written myself?&lt;/p&gt;
+<p>There lies one of the biggest problems: <strong>how do I know which function can throw?</strong> do I have to try/catch every line of code I have not written myself?</p>
 
-&lt;h1 id=&quot;kernel-errors&quot;&gt;Kernel errors&lt;/h1&gt;
+<h1 id="kernel-errors">Kernel errors</h1>
 
-&lt;p&gt;If exceptions are so disruptive to the flow of a program, why do we use them?&lt;/p&gt;
+<p>If exceptions are so disruptive to the flow of a program, why do we use them?</p>
 
-&lt;p&gt;In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today’s shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed. Exceptions where reserved for Kernel panics, exactly those I mentioned (full disk, missing dll, etc.) and were meant to completely halt a program (or even the computer!)&lt;/p&gt;
+<p>In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today’s shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed. Exceptions where reserved for Kernel panics, exactly those I mentioned (full disk, missing dll, etc.) and were meant to completely halt a program (or even the computer!)</p>
 
-&lt;p&gt;Inspired by this kernel exceptions the developer community seems to have thought: “that’s a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!”. Other words: short-term convenience.&lt;/p&gt;
+<p>Inspired by this kernel exceptions the developer community seems to have thought: “that’s a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!”. Other words: short-term convenience.</p>
 
-&lt;p&gt;But this short-term convenience carried a price, &lt;strong&gt;it added implicit behavior to ALL code&lt;/strong&gt;, you could no longer read the calling code and understand what was going on without understanding the whole.&lt;/p&gt;
+<p>But this short-term convenience carried a price, <strong>it added implicit behavior to ALL code</strong>, you could no longer read the calling code and understand what was going on without understanding the whole.</p>
 
-&lt;p&gt;I believe user code without exceptions makes for a easier pattern to understand, debug and maintain.&lt;/p&gt;
+<p>I believe user code without exceptions makes for a easier pattern to understand, debug and maintain.</p>
 
-&lt;h1 id=&quot;error-carrying-monads&quot;&gt;Error carrying monads&lt;/h1&gt;
+<h1 id="error-carrying-monads">Error carrying monads</h1>
 
-&lt;p&gt;What if every function not only returned the output but any error it produces.&lt;/p&gt;
+<p>What if every function not only returned the output but any error it produces.</p>
 
-&lt;div class=&quot;language-ts highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;userInput&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;10a&lt;/span&gt;&lt;span class=&quot;dl&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">userInput</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">10a</span><span class="dl">"</span><span class="p">;</span>
 
-&lt;span class=&quot;kd&quot;&gt;let&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;date&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;originalDate&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;setDay&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;userInput&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;).&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;toISO&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;();&lt;/span&gt;
+<span class="kd">let</span> <span class="p">{</span> <span class="nx">error</span><span class="p">,</span> <span class="nx">date</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">originalDate</span><span class="p">.</span><span class="nx">setDay</span><span class="p">(</span><span class="nx">userInput</span><span class="p">).</span><span class="nx">toISO</span><span class="p">();</span>
 
-&lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nx&quot;&gt;error&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-  &lt;span class=&quot;c1&quot;&gt;// handle the error gracefully&lt;/span&gt;
-  &lt;span class=&quot;k&quot;&gt;return&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+<span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// handle the error gracefully</span>
+  <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
 
-&lt;span class=&quot;c1&quot;&gt;// do my thing&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<span class="c1">// do my thing</span>
+</code></pre></div></div>
 
-&lt;p&gt;This brings multiple benefits:&lt;/p&gt;
+<p>This brings multiple benefits:</p>
 
-&lt;ul&gt;
-  &lt;li&gt;Code that can fail becomes explicit (even better with TypeScript)&lt;/li&gt;
-  &lt;li&gt;Errors are part of the normal flow of a program&lt;/li&gt;
-  &lt;li&gt;Easily readable and the intention of the code is clear&lt;/li&gt;
-&lt;/ul&gt;
+<ul>
+  <li>Code that can fail becomes explicit (even better with TypeScript)</li>
+  <li>Errors are part of the normal flow of a program</li>
+  <li>Easily readable and the intention of the code is clear</li>
+</ul>
 
-&lt;p&gt;Many of the new languages, like Rust or Swift, have now used composite types that carry this information, which will even force you to handle code that can fail. For example in Rust:&lt;/p&gt;
+<p>Many of the new languages, like Rust or Swift, have now used composite types that carry this information, which will even force you to handle code that can fail. For example in Rust:</p>
 
-&lt;div class=&quot;language-rust highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;&lt;span class=&quot;k&quot;&gt;enum&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;Result&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;Ok&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;T&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-    &lt;span class=&quot;nf&quot;&gt;Err&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;E&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;),&lt;/span&gt;
-&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">enum</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">E</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="nf">Ok</span><span class="p">(</span><span class="n">T</span><span class="p">),</span>
+    <span class="nf">Err</span><span class="p">(</span><span class="n">E</span><span class="p">),</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-&lt;p&gt;This is what is called an &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Error Monad&lt;/code&gt;. This struct is not available in JavaScript yet, but you can return tuples or objects and the result is just as good!&lt;/p&gt;
+<p>This is what is called an <code class="language-plaintext highlighter-rouge">Error Monad</code>. This struct is not available in JavaScript yet, but you can return tuples or objects and the result is just as good!</p>
 
-&lt;h1 id=&quot;use-exceptions-for-real-panics&quot;&gt;Use exceptions for real panics&lt;/h1&gt;
+<h1 id="use-exceptions-for-real-panics">Use exceptions for real panics</h1>
 
-&lt;p&gt;So now you can let real “exceptions” be what they were meant for &lt;strong&gt;unrecoverable program state&lt;/strong&gt; and therefore should crash the application. Whereas the rest of your code will just be better.&lt;/p&gt;
+<p>So now you can let real “exceptions” be what they were meant for <strong>unrecoverable program state</strong> and therefore should crash the application. Whereas the rest of your code will just be better.</p>
 
-&lt;p&gt;I have encountered some libraries that follow this pattern, joi for example, as well as some API libraries like Stripe.&lt;/p&gt;
+<p>I have encountered some libraries that follow this pattern, joi for example, as well as some API libraries like Stripe.</p>
 
-&lt;h1 id=&quot;references&quot;&gt;References&lt;/h1&gt;
+<h1 id="references">References</h1>
 
-&lt;p&gt;Although I tweeted about this issue before, it was only after reading &lt;a href=&quot;https://humanlytyped.hashnode.dev/away-from-exceptions-errors-as-values&quot;&gt;Barise’s article&lt;/a&gt; that I decided to write my own. And there are many more articles on the topic: &lt;a href=&quot;https://mattwarren.org/2016/12/20/Why-Exceptions-should-be-Exceptional/&quot;&gt;some against exceptions&lt;/a&gt; some &lt;a href=&quot;https://blog.plan99.net/what-s-wrong-with-exceptions-nothing-cee2ed0616&quot;&gt;for them&lt;/a&gt;.&lt;/p&gt;
+<p>Although I tweeted about this issue before, it was only after reading <a href="https://humanlytyped.hashnode.dev/away-from-exceptions-errors-as-values">Barise’s article</a> that I decided to write my own. And there are many more articles on the topic: <a href="https://mattwarren.org/2016/12/20/Why-Exceptions-should-be-Exceptional/">some against exceptions</a> some <a href="https://blog.plan99.net/what-s-wrong-with-exceptions-nothing-cee2ed0616">for them</a>.</p>
 
-&lt;p&gt;I believe some of the claims &lt;strong&gt;for&lt;/strong&gt; exceptions are quite missguided, such as: fast prototyping! Stack traces! etc. Exceptions are definitely useful and as stated some of this mechanisms are golden for real exceptional situations, but hurt so much when used freely and carelessly.&lt;/p&gt;
+<p>I believe some of the claims <strong>for</strong> exceptions are quite missguided, such as: fast prototyping! Stack traces! etc. Exceptions are definitely useful and as stated some of this mechanisms are golden for real exceptional situations, but hurt so much when used freely and carelessly.</p>
 
-&lt;h1 id=&quot;bonus-js-exceptions-can-leak-memory&quot;&gt;Bonus: JS exceptions can leak memory&lt;/h1&gt;
+<h1 id="bonus-js-exceptions-can-leak-memory">Bonus: JS exceptions can leak memory</h1>
 
-&lt;p&gt;&lt;img src=&quot;https://ospfranco.com/assets/errorStack.png&quot; alt=&quot;errorStack&quot; title=&quot;errorStack&quot; /&gt;&lt;/p&gt;
+<p><img src="https://ospfranco.com/assets/errorStack.png" alt="errorStack" title="errorStack" /></p>
 
-&lt;blockquote&gt;
-  &lt;p&gt;The error keeps the function frames around until it the stack string is created or it is garbage collected&lt;/p&gt;
-&lt;/blockquote&gt;
+<blockquote>
+  <p>The error keeps the function frames around until it the stack string is created or it is garbage collected</p>
+</blockquote>
 
-&lt;p&gt;It’s a bit of an edge case, but given a large enough application it’s bound to happen.&lt;/p&gt;</content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html">Throwing exceptions makes programms unpredictable by breaking the normal control flow.</summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>It’s a bit of an edge case, but given a large enough application it’s bound to happen.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Throwing exceptions makes programms unpredictable by breaking the normal control flow.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

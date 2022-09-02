@@ -70,7 +70,3 @@ a {
 code {
   @apply max-w-full my-8 rounded-lg;
 }
-
-.highlighter-rouge {
-  overflow: auto;
-}

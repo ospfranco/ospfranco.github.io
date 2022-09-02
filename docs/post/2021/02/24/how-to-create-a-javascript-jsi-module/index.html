@@ -6,9 +6,9 @@
     type="image/x-icon"
     href="/assets/favicon.ico"
   />
-  <!-- Begin Jekyll SEO tag v2.7.1 -->
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>React-native JSI module tutorial | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.2.1" />
+<meta name="generator" content="Jekyll v4.2.2" />
 <meta property="og:title" content="React-native JSI module tutorial" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","@type":"BlogPosting","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.","author":{"@type":"Person","name":"Oscar Franco"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"image":"https://ospfranco.com/assets/profile.jpeg","url":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/","headline":"React-native JSI module tutorial","@context":"https://schema.org"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.","headline":"React-native JSI module tutorial","image":"https://ospfranco.com/assets/profile.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -38,7 +38,7 @@
   class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-60 dark:bg-opacity-40 sticky top-0 border-b border-gray-100 dark:border-neutral-800"
 >
   <div class="w-full max-w-2xl flex items-center gap-4">
-    <a href="/" class="font-bold flex-1"> OSCAR FRANCO </a>
+    <a href="/" class="font-bold flex-1">OSP</a>
 
     <a
       class="dark:text-gray-400 text-gray-500"
@@ -71,8 +71,8 @@
 </header>
 
 <body class="flex flex-col items-center">
-  <div class="px-6 py-32 min-h-screen">
-    <div class="max-w-2xl mx-auto flex flex-col">
+  <div class="px-6 py-32 min-h-screen xl:max-w-2xl w-full">
+    <div class="xl:mx-auto flex flex-col">
       <h1 class="text-black dark:text-white text-xl sm:text-4xl font-bold">
         React-native JSI module tutorial
       </h1>
@@ -172,8 +172,8 @@
 
 <p>For our header file:</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;jsi/jsilib.h&gt;
-#include &lt;jsi/jsi.h&gt;
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;jsi/jsilib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;jsi/jsi.h&gt;</span><span class="cp">
 </span>
 <span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">);</span>
 <span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">();</span>
@@ -186,9 +186,9 @@
 <p>For our implementation:</p>
 
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Import our header file to implement the `installSequel` and `cleanUpSequel` functions</span>
-<span class="cp">#include "react-native-sequel.h"
+<span class="cp">#include</span> <span class="cpf">"react-native-sequel.h"</span><span class="cp">
 </span><span class="c1">// sstream contains functions to manipulate strings in C++</span>
-<span class="cp">#include &lt;sstream&gt;
+<span class="cp">#include</span> <span class="cpf">&lt;sstream&gt;</span><span class="cp">
 </span>
 <span class="c1">// The namespace allows for syntactic sugar around the JSI objects. ex. call: jsi::Function instead of facebook::jsi::Function</span>
 <span class="k">using</span> <span class="k">namespace</span> <span class="n">facebook</span><span class="p">;</span>
@@ -219,7 +219,7 @@
   <span class="n">jsiRuntime</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">multiply</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="n">cleanUpSequel</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// intentionally left blank</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -322,8 +322,8 @@ target_link_libraries(sequel)
 
 <p>Then we can move on to the <code class="language-plaintext highlighter-rouge">android/cpp-adapter.cpp</code> file, this is similar to <code class="language-plaintext highlighter-rouge">react-native-sequel.mm</code> file we created for iOS, it’s the entry point to register the bindings. Modify it to include the <code class="language-plaintext highlighter-rouge">react-native-sequel.h</code> header file (or whatever you will call your package), and you should have something like this:</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;jni.h&gt;
-#include "react-native-quick-sqlite.h"
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">"react-native-quick-sqlite.h"</span><span class="cp">
 </span>
 <span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
 <span class="nf">Java_com_reactnativesequel_SequelModule_initialize</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">jsiPtr</span><span class="p">,</span> <span class="n">jstring</span> <span class="n">docPath</span><span class="p">)</span>
@@ -335,7 +335,7 @@ target_link_libraries(sequel)
 <span class="p">}</span>
 
 <span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
-<span class="nf">Java_com_reactnativesequel_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
+<span class="n">Java_com_reactnativesequel_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">cleanUpSequel</span><span class="p">();</span>
 <span class="p">}</span>
