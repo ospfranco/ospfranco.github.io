@@ -4,13 +4,12 @@ module.exports = {
     "./_layouts/**/*.html",
     "./_posts/*.md",
     "./*.html",
+    "./css/site.css",
   ],
   theme: {
     extend: {
       colors: {
-        neutral: {
-          900: "#0d0d0d",
-        },
+        bg: "#131313",
       },
       animation: {
         fadeIn: "fadeIn 2s ease-in forwards",
