@@ -1,4 +1,12 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-09-10T07:55:12-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Sustainable Open Source Manifesto</title><link href="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/" rel="alternate" type="text/html" title="Sustainable Open Source Manifesto" /><published>2022-07-27T09:00:00-04:00</published><updated>2022-07-27T09:00:00-04:00</updated><id>https://ospfranco.com/post/2022/07/27/sustainable%20open%20source%20manifesto</id><content type="html" xml:base="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/"><![CDATA[<p>OSS (Open Source Software) has won the battle. Every aspect of modern life is at least partly powered by it. OSS is also unsustainable. Organizations and individuals benefit from it, yet little is given in return. OSS is also hard. A considerable amount of time and effort is required to maintain code and deal with demanding strangers. I would like to continue doing Open Source but I do not enjoy the current status quo, therefore I am from here on now going to use a different model. Here are some of the core tenets:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2022-10-05T08:05:54-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">State of the software industry</title><link href="https://ospfranco.com/post/2022/10/05/state-of-the-software-industry/" rel="alternate" type="text/html" title="State of the software industry" /><published>2022-10-05T09:00:00-04:00</published><updated>2022-10-05T09:00:00-04:00</updated><id>https://ospfranco.com/post/2022/10/05/state%20of%20the%20software%20industry</id><content type="html" xml:base="https://ospfranco.com/post/2022/10/05/state-of-the-software-industry/"><![CDATA[<p>A few days ago I had the joy of interacting with a python utility use serial port to communicate with a hardware device. This piece of software although very useful has one quirk that drove me absolutely insane. I does not respond to Ctrl + C to quit itself, instead relying on a non-standard Ctrl + ]. I bashed my keyboard for a couple of minutes in frustration trying to exit this program.</p>
+
+<p>I feel the software world is too much of a wild west. Unlike other engineering branches the current software landscape is too devoid of standards, certifications and conventions. This impacts us all even if we don’t like it. From supply chain vunerabilities and lack of security practices (due to incompetence or just pure missunderstanding) to more simple stuff like non-standard keyboard shortcuts.</p>
+
+<p>You could argue this lack of regulation does promote a faster evolution of software programs, but would you trust driving over a bridge that hasn’t been built to a certain quality and security standard? Because that is what we do every single day we use software.</p>
+
+<p>The closest to a standard and regulation I can think of is Apple with it’s draconian app store guidelines. This however is a for-profit corpo and we are slowly starting to see it plays to benefit itself (clamping down on user tracking for third parties but happily allowing within it’s own apps). That more people are not outraged about this is a hard to swallow pill.</p>
+
+<p>I’m greatful for this amazing free pieces of software on which we all rely day in and day out, but I wish we had our own Software Engineering Association and some certification process. We as an industry need to move forward together.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[A few days ago I had the joy of interacting with a python utility use serial port to communicate with a hardware device. This piece of software although very useful has one quirk that drove me absolutely insane. I does not respond to Ctrl + C to quit itself, instead relying on a non-standard Ctrl + ]. I bashed my keyboard for a couple of minutes in frustration trying to exit this program.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Sustainable Open Source Manifesto</title><link href="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/" rel="alternate" type="text/html" title="Sustainable Open Source Manifesto" /><published>2022-07-27T09:00:00-04:00</published><updated>2022-07-27T09:00:00-04:00</updated><id>https://ospfranco.com/post/2022/07/27/sustainable%20open%20source%20manifesto</id><content type="html" xml:base="https://ospfranco.com/post/2022/07/27/sustainable-open-source-manifesto/"><![CDATA[<p>OSS (Open Source Software) has won the battle. Every aspect of modern life is at least partly powered by it. OSS is also unsustainable. Organizations and individuals benefit from it, yet little is given in return. OSS is also hard. A considerable amount of time and effort is required to maintain code and deal with demanding strangers. I would like to continue doing Open Source but I do not enjoy the current status quo, therefore I am from here on now going to use a different model. Here are some of the core tenets:</p>
 
 <ul>
   <li>Libraries I develop will still be MIT with all its stipulations; free, distributable, etc.</li>
@@ -234,91 +242,4 @@
 
 <p><a href="https://ospfranco.com/assets/StartUpsLatinoamerica.key">Presentación</a></p>
 
-<p>Espero ver alguna Startup Boliviana en algunos años! Si necesitan apoyo no duden en contactarme!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Aquí les dejo la presentanción de la charla sobre Startups en Latinoamérica:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Stop throwing exceptions</title><link href="https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/" rel="alternate" type="text/html" title="Stop throwing exceptions" /><published>2021-08-31T09:00:00-04:00</published><updated>2021-08-31T09:00:00-04:00</updated><id>https://ospfranco.com/post/2021/08/31/stop%20throwing%20exceptions</id><content type="html" xml:base="https://ospfranco.com/post/2021/08/31/stop-throwing-exceptions/"><![CDATA[<p>Throwing exceptions makes programms unpredictable by breaking the normal control flow.</p>
-
-<p>Consider a simple axiom: <strong>unexpected things happen all the time</strong>.</p>
-
-<p>Some unexpected things are “common”: users input weird characters, things get deleted, libraries have unexpected behaviors, etc. However, there are other kind of unexpected things, things cannot be recovered from: disks get full, dynamic library is missing, program is missconfigured, etc. Today’s ecosystem treats every exception as equal by throwing exceptions.</p>
-
-<p>The real problem comes when we forget to handle these exceptions or we don’t know the code we are calling can throw exceptions.</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// oops forgot to sanitize my input</span>
-<span class="kd">let</span> <span class="nx">userInput</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">10a</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="c1">// APPLICATION CRASH! 10a cannot be parsed as a int!</span>
-<span class="kd">let</span> <span class="nx">date</span> <span class="o">=</span> <span class="nx">originalDate</span><span class="p">.</span><span class="nx">setDay</span><span class="p">(</span><span class="nx">userInput</span><span class="p">).</span><span class="nx">toISO</span><span class="p">();</span>
-
-<span class="c1">// it might not even be thrown by the date library, but some second level dependency...</span>
-</code></pre></div></div>
-
-<p>A lot of times this code is implicit and invisible to the application developer. The exception simply bulldozes and bubbles until it is catched or crashes the programm.</p>
-
-<p>There lies one of the biggest problems: <strong>how do I know which function can throw?</strong> do I have to try/catch every line of code I have not written myself?</p>
-
-<h1 id="kernel-errors">Kernel errors</h1>
-
-<p>If exceptions are so disruptive to the flow of a program, why do we use them?</p>
-
-<p>In the earlier days of computing, programs were not as brittle, that is because exceptions were reserved for kernel panic calls. If your program succesfully executed its task it would terminate with a 0 integer and anything else meant a unsuccessful execution. This is still visible in today’s shell scripts, where if a command fails with a non-zero exit code, it means it has not succesfully completed. Exceptions where reserved for Kernel panics, exactly those I mentioned (full disk, missing dll, etc.) and were meant to completely halt a program (or even the computer!)</p>
-
-<p>Inspired by this kernel exceptions the developer community seems to have thought: “that’s a neat trick! I can just throw an exception here and catch it somewhere above my stack! It even unwinds the call stack for me!”. Other words: short-term convenience.</p>
-
-<p>But this short-term convenience carried a price, <strong>it added implicit behavior to ALL code</strong>, you could no longer read the calling code and understand what was going on without understanding the whole.</p>
-
-<p>I believe user code without exceptions makes for a easier pattern to understand, debug and maintain.</p>
-
-<h1 id="error-carrying-monads">Error carrying monads</h1>
-
-<p>What if every function not only returned the output but any error it produces.</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">userInput</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">10a</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="kd">let</span> <span class="p">{</span> <span class="nx">error</span><span class="p">,</span> <span class="nx">date</span> <span class="p">}</span> <span class="o">=</span> <span class="nx">originalDate</span><span class="p">.</span><span class="nx">setDay</span><span class="p">(</span><span class="nx">userInput</span><span class="p">).</span><span class="nx">toISO</span><span class="p">();</span>
-
-<span class="k">if</span> <span class="p">(</span><span class="nx">error</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// handle the error gracefully</span>
-  <span class="k">return</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// do my thing</span>
-</code></pre></div></div>
-
-<p>This brings multiple benefits:</p>
-
-<ul>
-  <li>Code that can fail becomes explicit (even better with TypeScript)</li>
-  <li>Errors are part of the normal flow of a program</li>
-  <li>Easily readable and the intention of the code is clear</li>
-</ul>
-
-<p>Many of the new languages, like Rust or Swift, have now used composite types that carry this information, which will even force you to handle code that can fail. For example in Rust:</p>
-
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">enum</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span> <span class="n">E</span><span class="o">&gt;</span> <span class="p">{</span>
-    <span class="nf">Ok</span><span class="p">(</span><span class="n">T</span><span class="p">),</span>
-    <span class="nf">Err</span><span class="p">(</span><span class="n">E</span><span class="p">),</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>This is what is called an <code class="language-plaintext highlighter-rouge">Error Monad</code>. This struct is not available in JavaScript yet, but you can return tuples or objects and the result is just as good!</p>
-
-<h1 id="use-exceptions-for-real-panics">Use exceptions for real panics</h1>
-
-<p>So now you can let real “exceptions” be what they were meant for <strong>unrecoverable program state</strong> and therefore should crash the application. Whereas the rest of your code will just be better.</p>
-
-<p>I have encountered some libraries that follow this pattern, joi for example, as well as some API libraries like Stripe.</p>
-
-<h1 id="references">References</h1>
-
-<p>Although I tweeted about this issue before, it was only after reading <a href="https://humanlytyped.hashnode.dev/away-from-exceptions-errors-as-values">Barise’s article</a> that I decided to write my own. And there are many more articles on the topic: <a href="https://mattwarren.org/2016/12/20/Why-Exceptions-should-be-Exceptional/">some against exceptions</a> some <a href="https://blog.plan99.net/what-s-wrong-with-exceptions-nothing-cee2ed0616">for them</a>.</p>
-
-<p>I believe some of the claims <strong>for</strong> exceptions are quite missguided, such as: fast prototyping! Stack traces! etc. Exceptions are definitely useful and as stated some of this mechanisms are golden for real exceptional situations, but hurt so much when used freely and carelessly.</p>
-
-<h1 id="bonus-js-exceptions-can-leak-memory">Bonus: JS exceptions can leak memory</h1>
-
-<p><img src="https://ospfranco.com/assets/errorStack.png" alt="errorStack" title="errorStack" /></p>
-
-<blockquote>
-  <p>The error keeps the function frames around until it the stack string is created or it is garbage collected</p>
-</blockquote>
-
-<p>It’s a bit of an edge case, but given a large enough application it’s bound to happen.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Throwing exceptions makes programms unpredictable by breaking the normal control flow.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>Espero ver alguna Startup Boliviana en algunos años! Si necesitan apoyo no duden en contactarme!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Aquí les dejo la presentanción de la charla sobre Startups en Latinoamérica:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/preview.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/preview.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
