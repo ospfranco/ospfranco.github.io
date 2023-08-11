@@ -4,7 +4,7 @@ title: Fix slow terminal start (hanging xcodebuild)
 date: 2021-08-05 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/preview.jpg
+image: assets/profile.JPG
 ---
 
 Starting somewhere last year, something happened to the terminal on bigsur, on every clean start up it would hang for many seconds until the prompt was there.

@@ -4,7 +4,7 @@ title: React Native hot module hooks
 date: 2023-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/preview.jpg
+image: assets/profile.JPG
 ---
 
 In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:

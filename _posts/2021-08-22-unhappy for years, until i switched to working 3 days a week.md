@@ -4,7 +4,7 @@ title: Unhappy for years, until I switched to working 3 days a week
 date: 2021-08-22 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/preview.jpg
+image: assets/profile.JPG
 ---
 
 The other day I posted a twitter thread about how my quality of life massively improved after I started working only 3 days per week, but twitter is a poor medium and I feel like I still have a couple of things to say.

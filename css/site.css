@@ -54,7 +54,7 @@ a {
 }
 
 .markdown blockquote {
-  @apply pl-4 italic border-l-2 dark:border-neutral-600;
+  @apply pl-4 italic border-l-2 dark:border-neutral-600 my-2;
 }
 
 .markdown .highlighter-rouge {
@@ -62,11 +62,7 @@ a {
   font-family: Inter, Arial, Helvetica, sans-serif;
 }
 
-.markdown .highlight {
-  @apply max-w-full text-xs text-gray-800 rounded-lg;
-  padding: 0 !important;
-}
-
-code {
-  @apply max-w-full my-8 rounded-lg;
+.hljs {
+  @apply rounded-lg;
+  padding: 0.8rem 1rem!important;
 }

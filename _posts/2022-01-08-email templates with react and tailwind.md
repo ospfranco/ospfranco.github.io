@@ -4,7 +4,7 @@ title: Email templates with React and Tailwind
 date: 2022-01-08 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/preview.jpg
+image: assets/profile.JPG
 ---
 
 Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.

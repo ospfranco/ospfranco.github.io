@@ -4,7 +4,7 @@ title: Beauty on code iterations
 date: 2021-12-08 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/preview.jpg
+image: assets/profile.JPG
 ---
 
 A perfect model of your problem exists, you will just never be able to find it and that **should** be OK.

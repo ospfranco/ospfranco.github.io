@@ -4,7 +4,7 @@ title: React Native JSI/TurboModules pitfalls
 date: 2022-06-05 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/preview.jpg
+image: assets/profile.JPG
 ---
 
 Here is the latest information dump my findings with React Native's JSI.
@@ -63,4 +63,4 @@ As far as I can see here are the options:
 - Pay someone to solve the problem for you
 - DIY and enjoy the process
 
-That's it for now, [you can always pay me to do some JSI for you](mailto:ospfranco@protonmail.com). Hope you enjoyed it and please do send feedback.
+[Get in touch if you need help with the JSI](mailto:ospfranco@gmail.com).
