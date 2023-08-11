@@ -71,15 +71,15 @@
 <body class="flex flex-col items-center">
   <div class="px-6 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-bold">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
         Building a react-native app on github actions
       </h1>
 
-      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+      <p class="text-gray-500 dark:text-coolGray-400 mt-4">
         May 2021
-      </div>
+      </p>
 
-      <div class="pt-12 markdown"><p>At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.</p>
+      <div class="pt-4 markdown"><p>At work we were using Bitrise to build our React Native app. I have never been a fan of Bitrise, it’s slow and pricy compared other CI providers.</p>
 
 <p>That being said; it works well and their huge gallery steps probably cover 95% of the stuff you need from a mobile CI, however, we recently started hitting our heads against the ceiling. After migrating to the latest version of React Native, removing the checked pods and enabling Hermes, our iOS build simply did not fit inside a single workflow. The next pricing tier was too vaguely priced for us to comfortably accept it.</p>
 

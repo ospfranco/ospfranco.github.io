@@ -71,15 +71,15 @@
 <body class="flex flex-col items-center">
   <div class="px-6 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-bold">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
         Android dynamic icons (Build-time, non-flavor)
       </h1>
 
-      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+      <p class="text-gray-500 dark:text-coolGray-400 mt-4">
         February 2021
-      </div>
+      </p>
 
-      <div class="pt-12 markdown"><p>On a previous <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/">post</a> I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</p>
+      <div class="pt-4 markdown"><p>On a previous <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/">post</a> I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</p>
 
 <p>Unlike many of the tutorials you will find out there, this is not based on <code class="language-plaintext highlighter-rouge">ProductFlavors</code>, because ProductFlavors force you to use different package names, which means you have to change not only your CI but also your distributables on the play store, etc. If you already have your infra set up, this is way too much work for a simple icon replacement.</p>
 

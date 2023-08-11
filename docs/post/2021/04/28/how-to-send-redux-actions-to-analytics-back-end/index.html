@@ -71,15 +71,15 @@
 <body class="flex flex-col items-center">
   <div class="px-6 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-bold">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
         Redux as analytics middleware
       </h1>
 
-      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+      <p class="text-gray-500 dark:text-coolGray-400 mt-4">
         April 2021
-      </div>
+      </p>
 
-      <div class="pt-12 markdown"><p>Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.</p>
+      <div class="pt-4 markdown"><p>Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.</p>
 
 <p>This is a small trick I did during the WerkerApp days. At some point adding analytic data points becomes burdensome. For each new feature you need to figure out which data points you need, you need to agree which additional data you need to send to calculate your goals, etc. Instead of doing all this manual work everytime, you can get a complete analytics pipeline for free by directly hooking up your Redux actions to your analytics. You obviously need to be careful about sending sensitive data, but for every new feature you develop, you will have a complete analytics pipeline for free!</p>
 

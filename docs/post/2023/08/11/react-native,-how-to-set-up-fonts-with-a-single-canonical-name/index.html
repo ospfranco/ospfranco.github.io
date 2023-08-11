@@ -73,15 +73,15 @@
 <body class="flex flex-col items-center">
   <div class="px-6 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-bold">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
         React Native, how to set up fonts with a single canonical name
       </h1>
 
-      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+      <p class="text-gray-500 dark:text-coolGray-400 mt-4">
         August 2023
-      </div>
+      </p>
 
-      <div class="pt-12 markdown"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code class="language-plaintext highlighter-rouge">&lt;Text&gt;</code> component in some custom component that sets the <code class="language-plaintext highlighter-rouge">fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
+      <div class="pt-4 markdown"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code class="language-plaintext highlighter-rouge">&lt;Text&gt;</code> component in some custom component that sets the <code class="language-plaintext highlighter-rouge">fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
 
 <div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nc">Text</span>
 	<span class="na">style</span><span class="p">=</span><span class="si">{</span> <span class="p">{</span>

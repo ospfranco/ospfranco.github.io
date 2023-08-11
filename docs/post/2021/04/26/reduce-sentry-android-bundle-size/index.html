@@ -71,15 +71,15 @@
 <body class="flex flex-col items-center">
   <div class="px-6 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-bold">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
         Reducing Sentry's android app bundle size
       </h1>
 
-      <div class="text-sm text-gray-500 dark:text-coolGray-400">
+      <p class="text-gray-500 dark:text-coolGray-400 mt-4">
         April 2021
-      </div>
+      </p>
 
-      <div class="pt-12 markdown"><p>At work I convinced my team to switch from Crashlytics to <a href="sentry.io">Sentry</a>. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</p>
+      <div class="pt-4 markdown"><p>At work I convinced my team to switch from Crashlytics to <a href="sentry.io">Sentry</a>. Sentry is just a far more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, which is a step prize for us.</p>
 
 <p>So I spent a bit of time trying to see if there was anything that could be done about it. Eventually reading the issues on the <code class="language-plaintext highlighter-rouge">sentry-android</code> repo (which is a direct dependency of the react-native version of the Sentry library), some people mentioned that NDK support (the framework to write C/C++ in android) seems to add a lot of unnecessary files.</p>
 
