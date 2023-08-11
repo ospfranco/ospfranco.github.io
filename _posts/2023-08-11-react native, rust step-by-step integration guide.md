@@ -11,7 +11,7 @@ There are many talks and tutorials that go over the more advanced topics once pe
 
 Here is a more step by step tutorial, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.
 
-<iframe class="w-full my-10 h-96" src="https://www.youtube.com/watch?v=PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 > I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, send me an email at ospfranco@gmail.com
 

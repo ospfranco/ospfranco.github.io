@@ -13,7 +13,7 @@ body {
 }
 
 a {
-  @apply hover:underline;
+  @apply hover:underline text-blue-500;
 }
 
 .markdown {
@@ -21,7 +21,7 @@ a {
 }
 
 .markdown a {
-  @apply underline;
+  /* @apply underline text-blue-500; */
 }
 
 .markdown p {
