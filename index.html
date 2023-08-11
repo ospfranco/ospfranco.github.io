@@ -5,7 +5,7 @@ layout: default
 <header
   class="w-full flex justify-center px-6 pt-4 pb-4 bg-white dark:bg-black bg-clip-padding backdrop-filter backdrop-blur-sm bg-opacity-60 dark:bg-opacity-40 fixed top-0 border-b border-gray-100 dark:border-neutral-800"
 >
-  <div class="w-full max-w-2xl flex items-center gap-4">
+  <div class="w-full max-w-3xl flex items-center gap-4">
     <a href="/" class="font-bold flex-1">Oscar Franco</a>
 
     <a
@@ -39,24 +39,24 @@ layout: default
 </header>
 
 <body class="flex flex-col items-center">
-  <div class="max-w-2xl">
+  <div class="max-w-3xl">
     <img
       src="{{site.baseurl}}/assets/profile.JPG"
       class="w-72 h-72 rounded-full object-cover mb-12 mt-24 mx-auto"
     />
-    <p class="max-w-2xl p-4">
+    <p class="max-w-3xl p-4">
       I'm a bolivian freelance software engineer, currently living in Munich. I specialize in React Native and the web, but also have experience with C++, Java, Kotlin and many other languages.
     </p>
-    <p class="max-w-2xl p-4">
+    <p class="max-w-3xl p-4">
       I have been a team lead as well of CTOs of a couple of startups, and I'm currently working on my own projects.
     </p>
-    <p class="max-w-2xl p-4" href="mailto:ospfranco@gmail.com"
+    <p class="max-w-3xl p-4" href="mailto:ospfranco@gmail.com"
     target="_blank">
       Send me an <a href="mailto:ospfranco@gmail.com"
       target="_blank" class="dark:text-gray-400 text-gray-500">email</a> if you want to work with me, or just to say hi!
     </p>
   
-    <div class="px-4 py-20 max-w-2xl">
+    <div class="px-4 py-20 max-w-3xl">
       <div class="mx-auto flex flex-col gap-5">
         <a class="hover:no-underline" href="https://sol.ospfranco.com">
           <div class="flex gap-8 items-center">
@@ -129,9 +129,9 @@ layout: default
       </div>
     </div>
   
-    <div class="border-b w-full max-w-2xl dark:border-neutral-800"></div>
+    <div class="border-b w-full max-w-3xl dark:border-neutral-800"></div>
   
-    <div class="py-20 w-full max-w-2xl">
+    <div class="py-20 w-full max-w-3xl">
       {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
       date: '%b %Y'" %} {% for month in postsByMonthYear %}
       <div class="flex gap-4 p-3">
