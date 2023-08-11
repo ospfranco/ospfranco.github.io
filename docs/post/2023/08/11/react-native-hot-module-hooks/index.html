@@ -12,8 +12,8 @@
 <meta property="og:title" content="React Native hot module hooks" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="On some cases you might want to clear listeners or some state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module." />
-<meta property="og:description" content="On some cases you might want to clear listeners or some state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module." />
+<meta name="description" content="In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:" />
+<meta property="og:description" content="In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:" />
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"On some cases you might want to clear listeners or some state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module.","headline":"React Native hot module hooks","image":"https://ospfranco.com/assets/preview.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/"},"url":"https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:","headline":"React Native hot module hooks","image":"https://ospfranco.com/assets/preview.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/"},"url":"https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -81,21 +81,21 @@
         August 2023
       </div>
 
-      <div class="pt-12 markdown"><p>On some cases you might want to clear listeners or some state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module.</p>
+      <div class="pt-12 markdown"><p>In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:</p>
 
 <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nx">accept</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
 	<span class="nx">store</span><span class="p">.</span><span class="nx">cleanUp</span><span class="p">()</span>
 <span class="p">})</span>
 </code></pre></div></div>
 
-<p>This will only be called once the new module is trying to be called, but it also means any reference the previous in-memory module had, will not be there, sometimes you really need a reference to an old object. You can use the counter part <code class="language-plaintext highlighter-rouge">dispose</code>`:</p>
+<p>This will only be called once the new module is mounted, this means any reference the previous in-memory module had, will not be there. Sometimes you really need a reference to an old object to clean it, you can use the counter part <code class="language-plaintext highlighter-rouge">dispose</code>:</p>
 
 <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nx">dispose</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
 	<span class="nx">myVarThatHoldsARef</span><span class="p">.</span><span class="nx">reset</span><span class="p">()</span>	
 <span class="p">});</span>
 </code></pre></div></div>
 
-<p>Take note of the optional chaining operator, when compiling the app on production the <code class="language-plaintext highlighter-rouge">hot</code> module will not be there, so if you try to call it your app will crash.</p>
+<p>Take note of the optional chaining operator, when compiling the app on production the <code class="language-plaintext highlighter-rouge">hot</code> module will not be there, causing a crash if trying to be called.</p>
 </div>
     </div>
 
