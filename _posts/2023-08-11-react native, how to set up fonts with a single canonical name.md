@@ -184,7 +184,9 @@ npx react-native-asset
 
 You can remove assets for android generated with this command, since we are using the XML Font method. Otherwise, they would be included twice in the app bundle!
 
-`rm -rf android/app/src/main/assets/fonts`
+```bash
+rm -rf android/app/src/main/assets/fonts
+```
 
 # Setting a default global font
 
