@@ -37,7 +37,7 @@
   <header
   class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
 >
-  <div class="w-full max-w-3xl flex items-center gap-2 px-6">
+  <div class="w-full max-w-3xl flex items-center gap-2 px-4">
     <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
 
     <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
@@ -63,16 +63,16 @@
 
 <p>Here is a more step by step tutorial, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
 
 <blockquote>
-  <p>I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, send me an email at ospfranco@gmail.com</p>
+  <p>I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, <a href="mailto://ospfranco@gmail.com">send me an email</a>.</p>
 </blockquote>
 
 <h1 id="basic-setup-and-ios">Basic Setup and iOS</h1>
 
 <ul>
-  <li>Set up Rust compiler</li>
+  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website.</li>
   <li>Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
     <ul>
       <li>32bit targets have been deprecated by the rust team, no longer available on the stable channel</li>
@@ -358,14 +358,11 @@ cargo build <span class="nt">--target</span> <span class="nv">$TARGET</span> <sp
   </li>
 </ul>
 
-<aside>
-💡 Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
-
-[https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt](https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt)
-
-However loading .so libraries is a common practice in the Android world, so I think both are fine.
-
-</aside>
+<blockquote>
+  <p>Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
+<a href="https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt">https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt</a>
+However loading .so libraries is a common practice in the Android world, so I think both are fine.</p>
+</blockquote>
 
 <ul>
   <li>

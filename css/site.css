@@ -59,6 +59,7 @@ a {
 .markdown .highlighter-rouge {
   @apply max-w-full pt-0 pb-0 font-medium bg-transparent text-amber-600;
   font-family: Inter, Arial, Helvetica, sans-serif;
+  word-break: break-all
 }
 
 .hljs {

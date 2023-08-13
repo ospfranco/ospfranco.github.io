@@ -1,17 +1,17 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-11T14:18:37+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native, Rust step-by-step integration guide</title><link href="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/" rel="alternate" type="text/html" title="React Native, Rust step-by-step integration guide" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native,%20rust%20step-by-step%20integration%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"><![CDATA[<p>There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-13T21:17:10+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native, Rust step-by-step integration guide</title><link href="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/" rel="alternate" type="text/html" title="React Native, Rust step-by-step integration guide" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native,%20rust%20step-by-step%20integration%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"><![CDATA[<p>There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.</p>
 
 <p>Here is a more step by step tutorial, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
+<iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
 
 <blockquote>
-  <p>I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, send me an email at ospfranco@gmail.com</p>
+  <p>I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, <a href="mailto://ospfranco@gmail.com">send me an email</a>.</p>
 </blockquote>
 
 <h1 id="basic-setup-and-ios">Basic Setup and iOS</h1>
 
 <ul>
-  <li>Set up Rust compiler</li>
+  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website.</li>
   <li>Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
     <ul>
       <li>32bit targets have been deprecated by the rust team, no longer available on the stable channel</li>
@@ -297,14 +297,11 @@ cargo build <span class="nt">--target</span> <span class="nv">$TARGET</span> <sp
   </li>
 </ul>
 
-<aside>
-💡 Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
-
-[https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt](https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt)
-
-However loading .so libraries is a common practice in the Android world, so I think both are fine.
-
-</aside>
+<blockquote>
+  <p>Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
+<a href="https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt">https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt</a>
+However loading .so libraries is a common practice in the Android world, so I think both are fine.</p>
+</blockquote>
 
 <ul>
   <li>

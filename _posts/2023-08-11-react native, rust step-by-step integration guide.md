@@ -11,13 +11,13 @@ There are many talks and tutorials that go over the more advanced topics once pe
 
 Here is a more step by step tutorial, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-> I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, send me an email at ospfranco@gmail.com
+> I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, [send me an email](mailto://ospfranco@gmail.com).
 
 # Basic Setup and iOS
 
-- Set up Rust compiler
+- Set up Rust compiler on your computer, just follow the instructions on the Rust website.
 - Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
     - 32bit targets have been deprecated by the rust team, no longer available on the stable channel
     
@@ -290,14 +290,11 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   echo "Dynamic libraries copied!"
   ```
 
-<aside>
-💡 Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
 
-[https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt](https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt)
+> Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
+> [https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt](https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt)
+> However loading .so libraries is a common practice in the Android world, so I think both are fine.
 
-However loading .so libraries is a common practice in the Android world, so I think both are fine.
-
-</aside>
 
 - We can now create a RN Module (or JSI module) and simply load the library and call it (via JNI of course)
 
