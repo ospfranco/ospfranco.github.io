@@ -55,11 +55,11 @@
         React Native, hot module hooks
       </h1>
 
-      <p class="text-gray-500 dark:text-coolGray-400 mt-4">
+      <p class="mt-2 font-semibold">
         August 2023
       </p>
 
-      <div class="pt-4 markdown"><p>In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:</p>
+      <div class="pt-4 pb-20 markdown"><p>In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:</p>
 
 <div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nx">accept</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
 	<span class="nx">store</span><span class="p">.</span><span class="nx">cleanUp</span><span class="p">()</span>

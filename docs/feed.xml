@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-15T08:39:24+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">ZSH configuration files load order</title><link href="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/" rel="alternate" type="text/html" title="ZSH configuration files load order" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/zsh%20configuration%20files%20load%20order</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/"><![CDATA[<p>The order of files being loaded by ZSH is the following:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-15T08:46:06+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">ZSH configuration files load order</title><link href="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/" rel="alternate" type="text/html" title="ZSH configuration files load order" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/zsh%20configuration%20files%20load%20order</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/"><![CDATA[<p>The order of files being loaded by ZSH is the following:</p>
 
 <ol>
   <li><code class="language-plaintext highlighter-rouge">.zshenv</code></li>
@@ -286,7 +286,72 @@ D = double</p>
 <span class="kt">FetchContent_MakeAvailable</span><span class="p">(</span><span class="n">cpr</span><span class="p">)</span>
 <span class="c1">// Link target with cpr</span>
 <span class="nf">target_link_libraries</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PRIVATE</span> <span class="nv">cpr</span><span class="p">::</span><span class="n">cpr</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[CMake is a meta build system, can automate everything including running tests and taking screenshots.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[CMake is a meta build system, can automate everything including running tests and taking screenshots.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">C++ and XCode notes</title><link href="https://ospfranco.com/post/2023/08/15/c++-and-xcode-notes/" rel="alternate" type="text/html" title="C++ and XCode notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/c++%20and%20xcode%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/c++-and-xcode-notes/"><![CDATA[<p>Random notes I go making as I get to compile C++ with XCode</p>
+
+<h1 id="header-paths">Header paths</h1>
+
+<p>Xcode settings show two different path variables for headers:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">User Header Search Paths</code> are the paths searched when you use <code class="language-plaintext highlighter-rouge">#include "..."</code></li>
+  <li><code class="language-plaintext highlighter-rouge">Header Search Paths</code> are the paths searched when you use <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code></li>
+</ul>
+
+<p>The option <code class="language-plaintext highlighter-rouge">Always Search User Paths</code> will force <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code> to search in the <code class="language-plaintext highlighter-rouge">User Header Search Paths</code>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I go making as I get to compile C++ with XCode]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">C++ and Android notes</title><link href="https://ospfranco.com/post/2023/08/15/c++-and-android-notes/" rel="alternate" type="text/html" title="C++ and Android notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/c++%20and%20android%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/c++-and-android-notes/"><![CDATA[<p>Random notes I take as I write C++ for Android</p>
+
+<h1 id="standard-template-library-stl">Standard Template Library (STL)</h1>
+
+<p>The Standard Template Library (STL) is a set of C++ template classes to provide common programming data structures and functions such as lists, stacks, arrays, etc. It is a library of container classes, algorithms, and iterators. It is a generalized library and so, its components are parameterized.</p>
+
+<p>To use the STL, one would have to depend on a “shared library” (for simplicity, we’ll call it <code class="language-plaintext highlighter-rouge">libc++.so</code>) in the system one is executing the binary in. There are two ways to link this “shared library”, either statically or dynamically.</p>
+
+<h2 id="static-vs-dynamic-linking">Static vs Dynamic Linking</h2>
+
+<p>Statically means that the C++ runtime will be bundled with the C++ binary.</p>
+
+<p>Dynamically means that the C++ binary will <em>not</em> include C++ runtime, but will utilize the system’s dynamic linker in order to find the necessary STL methods.</p>
+
+<h1 id="one-stl-per-app">One STL per-app</h1>
+
+<p>Quoting from the relevant pages in <a href="https://developer.android.com/ndk/guides/cpp-support#one_stl_per_app">developer.android.com</a>:</p>
+
+<blockquote>
+  <p>An application should not use more than one C++ runtime. The various STLs are not compatible with one another.</p>
+</blockquote>
+
+<h3 id="nuclear-explosion-example">Nuclear explosion example</h3>
+
+<ul>
+  <li>You try to compile your app with <code class="language-plaintext highlighter-rouge">ANDROID_STL=gnustl_static</code></li>
+  <li>3rd-party library foo has <code class="language-plaintext highlighter-rouge">ANDROID_STL=c++_shared</code></li>
+</ul>
+
+<p>Two STLs, GNU’s and LLVM’s, will exist in one app. Both STLs have functions and structures that will go through different <a href="https://www.ibm.com/support/knowledgecenter/en/ssw_ibm_i_72/rzarg/name_mangling.htm">name mangling</a> processes which would produce unique function names. So for example, <code class="language-plaintext highlighter-rouge">std::to_string</code> could exist with the mangled name of <code class="language-plaintext highlighter-rouge">_ZN9to7string6E</code> in LLVM’s STL and <code class="language-plaintext highlighter-rouge">_AX8to2string5D</code> in GNU’s STL. This is actually good. When calling one <code class="language-plaintext highlighter-rouge">std::to_string</code> from a native function that is expecting GNU’s mangled name, it will get GNU’s version of <code class="language-plaintext highlighter-rouge">std::to_string</code> and vice versa.</p>
+
+<p>The issues occur when both STLs produce <strong>the same</strong> mangled name, which is very much the case in <code class="language-plaintext highlighter-rouge">std::exception</code>, for example. Or another issue occurs when <code class="language-plaintext highlighter-rouge">[std::to_string</code> exists in one STL and does not exist at all in another STL](https://stackoverflow.com/questions/22774009/android-ndk-stdto-string-support).</p>
+
+<h3 id="not-so-nuclear-example">Not so nuclear example</h3>
+
+<ul>
+  <li>
+    <p>App has <code class="language-plaintext highlighter-rouge">ANDROID_STL=gnustl_static</code> </p>
+  </li>
+  <li>
+    <p>3rd-party library foo has <code class="language-plaintext highlighter-rouge">ANDROID_STL=c++_static</code></p>
+  </li>
+</ul>
+
+<p>This situation differs from Case #1 since there is no dynamic linking neither in the app nor in the 3rd-party library foo. This is gonna cause two STLs to exist in the same app space where all global data, static constructors and imported functions to also exit in the app space, but that still should not cause any linkage issues <strong>only as long as</strong> the two runtimes have zero communication between each other.</p>
+
+<p>To note, <a href="https://github.com/facebook/yoga/">Facebook’s Yoga</a> builds two shared libraries natively, <code class="language-plaintext highlighter-rouge">libfb.so</code> and <code class="language-plaintext highlighter-rouge">libyoga.so</code>, both of which are built with, as of the time of writing, <code class="language-plaintext highlighter-rouge">c++_static</code>, which is LLVM’s C++ static runtime variant. This means that they don’t have to worry about the app developer including GNU’s STL or some other STL in the mix. More on this issue <a href="https://github.com/facebook/yoga/issues/813">here</a></p>
+
+<h1 id="android-header-libraries">Android header libraries</h1>
+
+<p>The NDK exposes some libraries out of convenience, but unfortunately not all of them (curl, sqlite, etc are not available)</p>
+
+<p>https://developer.android.com/studio/projects/configure-cmake</p>
+
+<p>After much trial and error I found no easy-to-break way of linking against the OS libsqlite. It’s just not worth it also because each vendor can potentially modify them and also on older OS versions you are using outdated versions.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I take as I write C++ for Android]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
 
 <p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code class="language-plaintext highlighter-rouge">Arguments</code> tab, there you will see a <code class="language-plaintext highlighter-rouge">OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
 
@@ -863,28 +928,4 @@ cp /tmp/raleway/*.ttf assets/fonts
 
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hw.audioInput = no
 hw.audioOutput = no
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[When the Android emulator starts it causes microphones to start recording, if you are using Bluetooth headphones, this causes a significant drop in quality.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, hot module hooks</title><link href="https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/" rel="alternate" type="text/html" title="React Native, hot module hooks" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native%20hot%20module%20hooks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native-hot-module-hooks/"><![CDATA[<p>In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:</p>
-
-<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nx">accept</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-	<span class="nx">store</span><span class="p">.</span><span class="nx">cleanUp</span><span class="p">()</span>
-<span class="p">})</span>
-</code></pre></div></div>
-
-<p>This will only be called once the new module is mounted, this means any reference the previous in-memory module had, will not be there. Sometimes you really need a reference to an old object to clean it, you can use the counter part <code class="language-plaintext highlighter-rouge">dispose</code>:</p>
-
-<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nx">dispose</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-	<span class="nx">myVarThatHoldsARef</span><span class="p">.</span><span class="nx">reset</span><span class="p">()</span>	
-<span class="p">});</span>
-</code></pre></div></div>
-
-<p>Take note of the optional chaining operator, when compiling the app on production the <code class="language-plaintext highlighter-rouge">hot</code> module will not be there, causing a crash if trying to be called.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, reduce Sentry’s bundle size on Android</title><link href="https://ospfranco.com/post/2023/08/11/react-native,-reduce-sentry's-bundle-size-on-android/" rel="alternate" type="text/html" title="React Native, reduce Sentry’s bundle size on Android" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native,%20reduce%20sentry&apos;s%20bundle%20size%20on%20android</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native,-reduce-sentry&apos;s-bundle-size-on-android/"><![CDATA[<p>I convinced my team to switch from Crashlytics to <code class="language-plaintext highlighter-rouge">Sentry</code>. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that’s just too much.</p>
-
-<p>I spent a bit of time trying to see if there was anything that could be done about it. Eventually reading the issues on the <code class="language-plaintext highlighter-rouge">sentry-android</code> repo (which is a direct dependency of the react-native version of the Sentry library), some people mentioned that NDK support (the framework to write C/C++ in android) seems to add a lot of unnecessary files.</p>
-
-<p>The documentation directly mentions that if you don’t need NDK support, you can switch your dependency from <code class="language-plaintext highlighter-rouge">sentry-android</code> to <code class="language-plaintext highlighter-rouge">sentry-android-core</code>.</p>
-
-<p>So I opened to <code class="language-plaintext highlighter-rouge">node_modules/@sentry/react-native/android/build.gradle</code> and changed the dependency there from <code class="language-plaintext highlighter-rouge">sentry-android</code> to <code class="language-plaintext highlighter-rouge">sentry-android-core</code>.</p>
-
-<p>Then save a patch with <a href="https://github.com/ds300/patch-package">patch-package</a>.</p>
-
-<p>Building the app again (if you are doing local builds, you might want to run <code class="language-plaintext highlighter-rouge">./gradlew clean</code> on your android folder to get rid of any caches), <strong>yields a ~1.2 megabytes of the size of the app</strong>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I convinced my team to switch from Crashlytics to Sentry. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that’s just too much.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[When the Android emulator starts it causes microphones to start recording, if you are using Bluetooth headphones, this causes a significant drop in quality.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
