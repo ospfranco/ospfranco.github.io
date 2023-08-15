@@ -1,0 +1,250 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Objective C cheatsheet | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Objective C cheatsheet" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Quick reference guide when you need to do some objective C" />
+<meta property="og:description" content="Quick reference guide when you need to do some objective C" />
+<link rel="canonical" href="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:title" content="Objective C cheatsheet" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"Quick reference guide when you need to do some objective C","headline":"Objective C cheatsheet","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"},"url":"https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/inter.css" />
+</head>
+
+<html>
+  <header
+  class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-3xl flex items-center gap-2 px-4">
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
+
+    <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a>
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+        Objective C cheatsheet
+      </h1>
+
+      <p class="mt-2 font-semibold">
+        August 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown"><p>Quick reference guide when you need to do some objective C</p>
+
+<h1 id="what-is-objective-c">What is Objective-C</h1>
+
+<p>Objective-C aims to add <strong>Objects</strong> to the C language, they did this by adding SmallTalk-like message passing to C.</p>
+
+<p>On practical terms and in our day and age: this means funny syntax when declaring classes and instead of calling methods you send messages.</p>
+
+<p>I suggest you learn some C (or C++) first. A lot of the knowledge (pointers, pass-by-value, pass-by-reference) is shared.</p>
+
+<h1 id="ns-fu"><code class="language-plaintext highlighter-rouge">NS-</code>Fu</h1>
+
+<p>All the NS classes where created by the NeXT team and are the base objects which are used to interact with the base API of the language. They all come from the <code class="language-plaintext highlighter-rouge">Foundation</code> framework.</p>
+
+<p>Some of them are: <code class="language-plaintext highlighter-rouge">NSLog</code>, <code class="language-plaintext highlighter-rouge">NSString</code>, <code class="language-plaintext highlighter-rouge">NSDictionary</code>, <code class="language-plaintext highlighter-rouge">NSArray</code> and so on. That is why you will always end up importing the <code class="language-plaintext highlighter-rouge">Foundation.h</code> header file at the top of your obj-c code.</p>
+
+<h1 id="pass-by-reference">Pass by reference</h1>
+
+<p>You will notice everytime you pass around a object you will need to pass it as a pointer. Sometimes this means you will loose typesafety and will need to internally cast the pointer to a more specific type</p>
+
+<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Untyped (int? object?) array</span>
+<span class="o">*</span><span class="n">NSArray</span> <span class="n">doSomething</span> <span class="p">{</span>
+	<span class="n">NSArray</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="p">@[...];</span>
+	<span class="k">return</span> <span class="n">myArray</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="-macro">@ Macro</h1>
+
+<p>The “<strong>@</strong>” is a special macro (read text expansion) to instantiate certain classes, e.g. NSString</p>
+
+<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"I'm a string"</span><span class="p">);</span>
+
+	<span class="n">NSDictionary</span> <span class="o">*</span><span class="n">myDict</span> <span class="o">=</span> <span class="p">@{</span> <span class="s">@"Who am I"</span><span class="o">:</span> <span class="s">@"A dictionary"</span><span class="p">};</span>
+
+	<span class="k">return</span> <span class="mi">0</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="classes">Classes</h1>
+
+<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span><span class="nc">NSObject</span>
+<span class="c1">// Methods and properties declarations</span>
+<span class="k">@end</span>
+
+<span class="k">@implementation</span> <span class="nc">MyObj</span>
+<span class="c1">// Actual definition</span>
+<span class="k">@end</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// Instatiation = Allocation + Constructor</span>
+	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>The definition of methods and properties goes inside the <code class="language-plaintext highlighter-rouge">@interface</code> block. The actual implementation inside the <code class="language-plaintext highlighter-rouge">@implementation</code> block.  It is also necessary to inherit from <code class="language-plaintext highlighter-rouge">NSObject</code> which the base class for any object.</p>
+
+<h2 id="class-properties">Class properties</h2>
+
+<p>Adding class properties you can actually interact with from code outside the class</p>
+
+<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
+<span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="kt">int</span> <span class="n">age</span><span class="p">;</span> <span class="c1">// writable instance property</span>
+
+<span class="k">@end</span>
+
+<span class="c1">// declaration</span>
+<span class="k">@implementation</span> <span class="nc">MyObj</span>
+
+<span class="k">@end</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+	<span class="n">obj</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
+	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"Age %d"</span><span class="p">,</span> <span class="n">obj</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="class-methods">Class methods</h2>
+
+<p>You should be able to read the language like you read a normal english sentence, IMO that idea that has aged poorly.</p>
+
+<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
+<span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
+<span class="o">+</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswerStatic</span><span class="p">;</span>
+<span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswer</span>
+<span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">setAnswer</span><span class="o">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">num</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="kt">int</span> <span class="n">answer</span><span class="p">;</span> <span class="c1">// writable instance property</span>
+
+<span class="k">@end</span>
+
+<span class="c1">// declaration</span>
+<span class="k">@implementation</span> <span class="nc">MyObj</span>
+	<span class="k">+</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswerStatic</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswer</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">answer</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">setAnswer</span><span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">num</span> <span class="p">{</span>
+		<span class="n">self</span><span class="p">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
+	<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswerStatic</span><span class="p">]);</span> <span class="c1">// 42</span>
+
+	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
+	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswer</span><span class="p">]);</span> <span class="c1">// 0</span>
+
+	<span class="p">[</span><span class="n">MyObj</span> <span class="n">setAnswer</span> <span class="nf">num</span><span class="p">:</span><span class="mi">52</span><span class="p">];</span>
+	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswer</span><span class="p">]);</span> <span class="c1">// 52</span>
+
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Important to note the <code class="language-plaintext highlighter-rouge">+</code> and <code class="language-plaintext highlighter-rouge">-</code> prefixes. <code class="language-plaintext highlighter-rouge">+</code> means static method (class level) and <code class="language-plaintext highlighter-rouge">-</code> means instance method (object level).</p>
+
+<h2 id="constructors">Constructors</h2>
+
+<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
+<span class="k">@interface</span> <span class="nc">Person</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
+	<span class="n">NSString</span> <span class="o">*</span><span class="n">name</span>
+	<span class="n">NSInteger</span> <span class="n">age</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">andAge</span><span class="p">:(</span><span class="n">NSInteger</span> <span class="o">*</span><span class="p">)</span><span class="nv">age</span><span class="p">;</span>
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">print</span><span class="p">;</span>
+
+<span class="k">@end</span>
+
+<span class="c1">// declaration</span>
+<span class="k">@implementation</span> <span class="nc">Person</span>
+	<span class="k">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">andAge</span><span class="p">:(</span><span class="n">NSInteger</span> <span class="o">*</span><span class="p">)</span><span class="nv">age</span> <span class="p">{</span>
+		<span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
+		<span class="n">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span><span class="p">;</span>
+		<span class="k">return</span> <span class="n">self</span><span class="p">;</span>
+	<span class="p">}</span>
+
+	<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">print</span> <span class="p">{</span>
+		<span class="n">NSLog</span><span class="p">(</span><span class="s">@"Person instance. name: %@, age: %@"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
+	<span class="p">}</span>
+<span class="k">@end</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithName</span><span class="p">:</span> <span class="s">@"Oscar"</span> <span class="nf">andAge</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
+	<span class="p">[</span><span class="n">person</span> <span class="nf">print</span><span class="p">];</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h1 id="obj-c">Obj-C++</h1>
+
+<p>If you change the extension of you file from <code class="language-plaintext highlighter-rouge">.m</code> to <code class="language-plaintext highlighter-rouge">.mm</code> you will change the language to Obj-C++. It is basically C++ and Obj-C mixed together.</p>
+
+<p>There will be a lot of caveats when you using it: You cannot call Obj-C methods using C++ syntax and so forth. But, it does allow to use and mix C++ classes and syntax inside Obj-C code. Very useful to re-use already existing modules.</p>
+
+<p>Here is an example of a JSI function (C++) calling a Obj-C API:</p>
+</div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
+
+</html>

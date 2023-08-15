@@ -15,7 +15,7 @@ image: assets/profile.JPG
 
 ## Printf
 
-`printf` is legacy C, fairly type unsafe, `cout` seems to be accepted but android logging does not use it.
+`printf` is legacy C, type unsafe, meaning you should REALLY NOT USE IT. `cout` seems to be accepted but android logging does not use it.
 
 ![Screenshot 000064.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8f53b05-b015-4ada-b275-db5407f1b41c/Screenshot_000064.png)
 
@@ -37,7 +37,7 @@ const int T = 100;
 
 **THEY ARE BAD PRACTICE IN C++**
 
-because all macros (which are what `#define`s define) are in a single namespace and they take effect everywhere. Variables, including `const`-qualified variables, can be encapsulated in classes and namespaces.
+Because all macros (which are what `#define`s define) are in a single namespace and they take effect everywhere. Variables, including `const`-qualified variables, can be encapsulated in classes and namespaces.
 
 Macros are used in C because in C, a `const`-qualified variable is not actually a constant, it is just a variable that cannot be modified. A `const`-qualified variable cannot appear in a constant expression, so it can't be used as an array size, for example.
 
