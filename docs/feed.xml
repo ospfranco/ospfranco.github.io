@@ -1,4 +1,312 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-13T21:17:10+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native, Rust step-by-step integration guide</title><link href="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/" rel="alternate" type="text/html" title="React Native, Rust step-by-step integration guide" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native,%20rust%20step-by-step%20integration%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"><![CDATA[<p>There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-15T08:39:24+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">ZSH configuration files load order</title><link href="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/" rel="alternate" type="text/html" title="ZSH configuration files load order" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/zsh%20configuration%20files%20load%20order</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/"><![CDATA[<p>The order of files being loaded by ZSH is the following:</p>
+
+<ol>
+  <li><code class="language-plaintext highlighter-rouge">.zshenv</code></li>
+  <li><code class="language-plaintext highlighter-rouge">.zprofile</code> if login</li>
+  <li><code class="language-plaintext highlighter-rouge">.zshrc</code> if interactive</li>
+  <li><code class="language-plaintext highlighter-rouge">.zlogin</code> if login</li>
+  <li><code class="language-plaintext highlighter-rouge">.zlogout</code>sometimes</li>
+</ol>
+
+<p>Why? sometimes variables might be replaced by subsequent files or some other configuration that you don’t desire might be applied.</p>
+
+<p>Be careful when setting things on <code class="language-plaintext highlighter-rouge">.zshenv</code> since it can be overriden by subsequent scripts. Also, only <code class="language-plaintext highlighter-rouge">.zshrc</code> should be used for things like prompt colors and user scripts.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[The order of files being loaded by ZSH is the following:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, change metro default terminal</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-change-metro-default-terminal/" rel="alternate" type="text/html" title="React Native, change metro default terminal" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20change%20metro%20default%20terminal</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-change-metro-default-terminal/"><![CDATA[<p>Metro will open a new Terminal window everytime you start your RN app. If you are using other terminal app this is however very annoying. You can change the terminal used to run the initial script:</p>
+
+<ol>
+  <li>Open finder window and navigate to <code class="language-plaintext highlighter-rouge">&lt;your_project/node_modules/react-native/scripts</code></li>
+  <li>Locate <code class="language-plaintext highlighter-rouge">launchPackager.command</code>, right click the file, select <code class="language-plaintext highlighter-rouge">Get info</code> and then change the <code class="language-plaintext highlighter-rouge">Open with:</code> value to your terminal, then click on <code class="language-plaintext highlighter-rouge">Change All</code></li>
+</ol>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Metro will open a new Terminal window everytime you start your RN app. If you are using other terminal app this is however very annoying. You can change the terminal used to run the initial script:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Javas JNI quirks and notes</title><link href="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/" rel="alternate" type="text/html" title="Javas JNI quirks and notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/javas%20jni%20quirks%20and%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"><![CDATA[<p>The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check.</p>
+
+<h1 id="type-conversions">Type conversions</h1>
+
+<p>When declaring a Java JNI function you need to declare the types with single characters that will be mapped to C types. The conversion is as follows:</p>
+
+<p>Z = boolean
+B = byte
+C = char
+I = short
+J = long
+F = float
+D = double</p>
+
+<p>Non scalar types need to be declared by their corresponding package:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Will be passed to the C side as a JString</span>
+<span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
+</code></pre></div></div>
+
+<h1 id="extern-c">Extern C</h1>
+
+<p>C++ code needs to be within a <code class="language-plaintext highlighter-rouge">extern "C"</code> to prevent name mangling by the compiler and allow the JNI to call the function blindly.</p>
+
+<h1 id="jniexport--jnicall">JNIEXPORT &amp; JNICALL</h1>
+
+<p><code class="language-plaintext highlighter-rouge">JNIEXPORT</code> ensures function is visible on the symbols table
+<code class="language-plaintext highlighter-rouge">JNICALL</code> ensures function uses the correct calling convention. On Android JNICALL has a different value based on the architecture where it is running.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CMake notes</title><link href="https://ospfranco.com/post/2023/08/15/cmake-notes/" rel="alternate" type="text/html" title="CMake notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/cmake%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/cmake-notes/"><![CDATA[<p>CMake is a meta build system, can automate everything including running tests and taking screenshots.</p>
+
+<p>It has 3 stages:</p>
+
+<ul>
+  <li>Configuration</li>
+  <li>Generation</li>
+  <li>Building</li>
+</ul>
+
+<h1 id="configuration">Configuration</h1>
+
+<p>CMake will read project details in the <em>source tree</em> directory and preparing the output directory, called <em>build tree,</em> for the generation stage. It collects info about the env (compilers, linkers, variables, etc) into a CMakeCache.txt.</p>
+
+<h1 id="generation">Generation</h1>
+
+<p>After reading the configuration a <em>build system</em> is generated. Since CMake is a meta build system, the output is a cut-to-size configuration for other build tools (make, ninja, IDE files for Visual Studio or Xcode).</p>
+
+<h1 id="building">Building</h1>
+
+<p>To produce the final artifacts, the build tool needs to run. The beauty lies in the ability to produce buildsystem on demand for every platform with a single configuration.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="c1">// CMake does not build anything, but the platform build tool does</span>
+</code></pre></div></div>
+
+<h1 id="useful-flags">Useful flags</h1>
+
+<p><code class="language-plaintext highlighter-rouge">-S</code> Source tree target directory</p>
+
+<p><code class="language-plaintext highlighter-rouge">-B</code> Build tree target directory</p>
+
+<p><code class="language-plaintext highlighter-rouge">-G</code> Generator to use (cmake –help outputs the list of available generators)</p>
+
+<p><code class="language-plaintext highlighter-rouge">-D CMAKE_BUILD_TYPE=Release</code> Important flag to compile for the right level</p>
+
+<blockquote>
+  <p>💡 Some generators are able to generate debug AND release builds at the same time (Xcode and Visual Studio)</p>
+</blockquote>
+
+<blockquote>
+  <p>💻 Cmake can run certain commands in a platform independent way:
+<em>capablities, cat, chdir, compare_files, copy, copy_directory, copy_if_different, echo, echo_append, env, environment, make_directory, md5sum, sha1sum, sha224sum, sha256sum, create_symlink, etc</em></p>
+</blockquote>
+
+<blockquote>
+  <p>📂 Cmake supports sub directories which can have their own compilation process:</p>
+
+  <p><code class="language-plaintext highlighter-rouge">add_subdirectory(api)</code></p>
+</blockquote>
+
+<h1 id="variables">Variables</h1>
+
+<p>CMake performs recursive variable expansion. Setting is done via function.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">set</span><span class="p">(</span><span class="kt">MyString1</span> <span class="s">"Text1"</span><span class="p">)</span>
+<span class="nf">set</span><span class="p">([[</span><span class="kt">My</span> <span class="kt">String2</span><span class="p">]]</span> <span class="s">"Text2"</span><span class="p">)</span>
+<span class="nf">set</span><span class="p">(</span><span class="s">"My String 3"</span> <span class="s">"Text3"</span><span class="p">)</span>
+<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">MyString1</span><span class="p">})</span>
+<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">My</span><span class="p">\</span> <span class="kt">String2</span><span class="p">})</span>
+<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">My</span><span class="p">\</span> <span class="kt">String</span><span class="p">\</span> <span class="mi">3</span><span class="p">})</span>
+</code></pre></div></div>
+
+<p>Depending on the type of variable, they get accessed differently</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">${}</code> syntax is used to reference normal or cache variables</li>
+  <li><code class="language-plaintext highlighter-rouge">$ENV{}</code> syntax is used to reference environment variables</li>
+  <li><code class="language-plaintext highlighter-rouge">$CACHE{}</code> syntax is used to reference cache variables</li>
+</ul>
+
+<h1 id="commands">Commands</h1>
+
+<h2 id="include">include</h2>
+
+<p>Will try to read a cmake file and execute it</p>
+
+<h2 id="file">file</h2>
+
+<p>Set of file manipulations</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">file</span><span class="p">(</span><span class="kt">READ</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">out</span><span class="o">-</span><span class="kd">var</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">...</span><span class="p">])</span>
+<span class="nf">file</span><span class="p">({</span><span class="kt">WRITE</span> <span class="o">|</span> <span class="kt">APPEND</span><span class="p">}</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">content</span><span class="o">&gt;...</span><span class="p">)</span>
+<span class="nf">file</span><span class="p">(</span><span class="kt">DOWNLOAD</span> <span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">...</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="execute_process">execute_process</h2>
+
+<p>Allows to execute an external process. TIMEOUT can be used. RESULT_VARIABLE allows to collect the exit status code.</p>
+
+<h2 id="option">option</h2>
+
+<p>Provide a variable that the user can overwrite:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">option</span><span class="p">(</span><span class="kt">BUILD_SHARED_LIBS</span> <span class="s">"Build libraries as shared libraries"</span> <span class="kt">ON</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="sub-directories">Sub directories</h1>
+
+<p>Allow for the natural inclusion of a file structure.</p>
+
+<h2 id="add_subdirectory">add_subdirectory</h2>
+
+<p>Will simply execute any nested cmakelists.txt found in the passed directory. This does not imply automatic linking.</p>
+
+<h2 id="target_link_libraries">target_link_libraries</h2>
+
+<p>It’s used to link the artifacts generated to the target. Root <code class="language-plaintext highlighter-rouge">cmakelists.txt</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">cmake_minimum_required</span><span class="p">(</span><span class="kt">VERSION</span> <span class="mf">3.20</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
+<span class="nf">project</span><span class="p">(</span><span class="kt">Rental</span> <span class="kt">CXX</span><span class="p">)</span>
+
+<span class="nf">add_executable</span><span class="p">(</span><span class="kt">Rental</span> <span class="n">main</span><span class="o">.</span><span class="n">cpp</span><span class="p">)</span>
+
+<span class="nf">add_subdirectory</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
+<span class="nf">target_link_libraries</span><span class="p">(</span><span class="kt">Rental</span> <span class="kt">PRIVATE</span> <span class="n">cars</span><span class="p">)</span>
+</code></pre></div></div>
+
+<p>Child <code class="language-plaintext highlighter-rouge">cmakelists.txt</code>:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="n">cards</span> <span class="kt">OBJECT</span>
+	<span class="n">car</span><span class="o">.</span><span class="n">cpp</span>
+<span class="cp"># car_maintenance.cpp</span>
+<span class="p">)</span>
+
+<span class="nf">target_include_directories</span><span class="p">(</span><span class="n">cars</span> <span class="kt">PUBLIC</span> <span class="o">.</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="add_library">add_library</h2>
+
+<p>Produces a globally visible target <code class="language-plaintext highlighter-rouge">cars</code> (basically: will link the symbols). By using the <strong>OBJECT</strong> keyword, only the object files will generated (not a library).</p>
+
+<h2 id="target_include_directories">target_include_directories</h2>
+
+<p>Will allow cpp code to include the headers (without providing a relative path. e.g. <code class="language-plaintext highlighter-rouge">#include “myheader.h”</code>)</p>
+
+<h1 id="cross-compilation">Cross-compilation</h1>
+
+<p>Compiling code on one machine-art to be run in another is called <strong>cross-compilation</strong>. The <strong>host</strong> system information variables always have <em>HOST</em> in their name.</p>
+
+<h2 id="64-bits">64 bits</h2>
+
+<p>CMake uses the pointer size to gather information about the target machine.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="kt">CMAKE_SIZEOF_VOID_P</span> <span class="kt">EQUAL</span> <span class="mi">8</span><span class="p">)</span>
+	<span class="nf">message</span><span class="p">(</span><span class="kt">STATUS</span> <span class="s">"Target is 64 bits"</span><span class="p">)</span>
+<span class="nf">endif</span><span class="p">()</span>
+</code></pre></div></div>
+
+<h1 id="cxx-standard">Cxx standard</h1>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Pick C++ (11, 14, 17, 20, 23) version</span>
+<span class="nf">set_property</span><span class="p">(</span><span class="kt">TARGET</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PROPERTY</span> <span class="kt">CXX</span> <span class="o">&lt;</span><span class="n">standard</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">set</span><span class="p">(</span><span class="kt">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="kt">ON</span><span class="p">)</span> <span class="c1">// Forces CMake to check the compiler supports the standard</span>
+</code></pre></div></div>
+
+<h2 id="try_run">try_run</h2>
+
+<p>Command that allows to quickly run an artifact to check after compilation it runs without runtime errors.</p>
+
+<h1 id="targets">Targets</h1>
+
+<p>It’s a recipe that a buildsystem uses to compile a list of files into another file. CMake can create three targets:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">add_executable()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">add_library()</code></li>
+  <li><code class="language-plaintext highlighter-rouge">add_custom_target()</code> → doesn’t necessarily produce an output file</li>
+</ul>
+
+<p>Targets have properties that work similar way to fields of c++ objects.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">get_target_property</span><span class="p">(</span><span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">property</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">set_target_properties</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target1</span><span class="o">&gt;</span> <span class="o">...</span> <span class="kt">PROPERTIES</span> <span class="o">&lt;</span><span class="n">prop1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value1</span><span class="o">&gt;</span> <span class="o">...</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h2 id="aliases">Aliases</h2>
+
+<p>Useful if some specific target requires a specific name.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_executable</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">ALIAS</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span><span class="p">)</span>
+<span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">ALIAS</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="building-1">Building</h1>
+
+<p>Including header files</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;path-spec&gt; // Will check standard include directories, including system directories</span>
+<span class="cp">#include "path-spec" // Will start searching for the included file in the directory of the current file and then check directories for the angle-bracket form</span>
+</code></pre></div></div>
+
+<p>Cmake provides a command to manipulate paths being searched for included files</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">target_include_directories</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="p">[</span><span class="kt">SYSTEM</span><span class="p">]</span> <span class="p">[</span><span class="kt">AFTER</span><span class="o">|</span><span class="kt">BEFORE</span><span class="p">]</span> <span class="o">&lt;</span><span class="kt">INTERFACE</span><span class="o">|</span><span class="kt">PUBLIC</span><span class="o">|</span><span class="kt">PRIVATE</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">items</span><span class="o">...</span><span class="p">])</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">SYSTEM</code> keyword informs the compilers that the provided dirs are meant as standard system directories (to be used with angle-brackets)</p>
+
+<h1 id="linking">Linking</h1>
+
+<p>Linking relocates individual object files into a single executable (needs to literally relocate pieces of the files together, contains sections headers, sections, and a section header table). Secondly, it needs to resolve references from differenten translation units (each cpp file is a translation unit).</p>
+
+<p>All libraries have a common prefix <code class="language-plaintext highlighter-rouge">lib</code>.</p>
+
+<h2 id="libraries">Libraries</h2>
+
+<h2 id="static-libraries">Static libraries</h2>
+
+<p>Will simply create a static library. Static libraries are a collection of <em>raw object files</em> in an archive. Use them if you want to avoid separating your dependencies from the executable, at the price of increasing size and memory consumed.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="kt">STATIC</span><span class="p">]</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="dynamic-libraries">Dynamic libraries</h2>
+
+<p>Shared libraries are built using a linker. This libraries will contains proper section headers, sections, etc. The OS will load a single instance into memory and all subsequently started programs will be provided with the same address.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">SHARED</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="shared-modules">Shared modules</h2>
+
+<p>This is a version of a shared library that is intended to be loaded during runtime, rather than linked during compilation. A shared module is not loaded automatically at the start of a program (like dy libs). This only happens when a program explicitly requests it via system call.</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">MODULE</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
+</code></pre></div></div>
+
+<h2 id="namespaces">Namespaces</h2>
+
+<p>I’ll spare you the details, depending on the linker implementation sometimes symbols/definitions/variables might be resolved or merged or just fail when compiling your program. Namespaces were created for the purpose of encapsulating translation units without having to worry about this collisions. Just use them.</p>
+
+<h1 id="fetch-content">Fetch content</h1>
+
+<p>CMake can also help taking care of fetching dependencies not in your machine:</p>
+
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Includes Fetch content plugin</span>
+<span class="nf">include</span><span class="p">(</span><span class="kt">FetchContent</span><span class="p">)</span>
+<span class="c1">// Declare dependency from a git repo and a specific tag</span>
+<span class="kt">FetchContent_Declare</span><span class="p">(</span><span class="n">cpr</span> <span class="kt">GIT_REPOSITORY</span> <span class="nv">https</span><span class="p">:</span><span class="c1">//github.com/libcpr/cpr.git</span>
+                         <span class="kt">GIT_TAG</span> <span class="mi">871</span><span class="n">ed52d350214a034f6ef8a3b8f51c5ce1bd400</span><span class="p">)</span>
+<span class="c1">// Make dependency available as a target</span>
+<span class="kt">FetchContent_MakeAvailable</span><span class="p">(</span><span class="n">cpr</span><span class="p">)</span>
+<span class="c1">// Link target with cpr</span>
+<span class="nf">target_link_libraries</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PRIVATE</span> <span class="nv">cpr</span><span class="p">::</span><span class="n">cpr</span><span class="p">)</span>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[CMake is a meta build system, can automate everything including running tests and taking screenshots.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
+
+<p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code class="language-plaintext highlighter-rouge">Arguments</code> tab, there you will see a <code class="language-plaintext highlighter-rouge">OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
+
+<p>If you don’t want to use NSLog (or print on Swift I suppose) you can use the RCTLog functions:</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTLog.h&gt;
+</span>
+<span class="c1">// Your code</span>
+<span class="n">RCTLogWarn</span><span class="p">(</span><span class="s">@"Your message"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="android">Android</h1>
+
+<p>On Android you can resort to the RNLog functions:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.facebook.react.util.RNLog</span><span class="o">;</span>
+
+<span class="c1">// Your code</span>
+<span class="nc">RNLog</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="s">"Your message"</span><span class="o">);</span>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[iOS]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, Rust step-by-step integration guide</title><link href="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/" rel="alternate" type="text/html" title="React Native, Rust step-by-step integration guide" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native,%20rust%20step-by-step%20integration%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"><![CDATA[<p>There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.</p>
 
 <p>Here is a more step by step tutorial, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
 
@@ -579,203 +887,4 @@ hw.audioOutput = no
 
 <p>Then save a patch with <a href="https://github.com/ds300/patch-package">patch-package</a>.</p>
 
-<p>Building the app again (if you are doing local builds, you might want to run <code class="language-plaintext highlighter-rouge">./gradlew clean</code> on your android folder to get rid of any caches), <strong>yields a ~1.2 megabytes of the size of the app</strong>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I convinced my team to switch from Crashlytics to Sentry. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that’s just too much.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native JSI/TurboModules pitfalls</title><link href="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/" rel="alternate" type="text/html" title="React Native JSI/TurboModules pitfalls" /><published>2022-06-05T15:00:00+02:00</published><updated>2022-06-05T15:00:00+02:00</updated><id>https://ospfranco.com/post/2022/06/05/jsi%20pitfalls</id><content type="html" xml:base="https://ospfranco.com/post/2022/06/05/jsi-pitfalls/"><![CDATA[<p>Here is the latest information dump my findings with React Native’s JSI.</p>
-
-<h1 id="speed-is-relative">Speed is relative</h1>
-
-<p>C++ is the fastest but Swift is fast, Java ByteCode is also fast. Using JSI/TurboModules won’t necessarily make your module faster. <strong>The JSI is a communication layer</strong>, therefore it excels in situations where you <strong>transfer</strong> a lot of data between native and JavaScript.</p>
-
-<p>If you need to pass a few bytes once (or a few times), the old APIs are easier to work with and the performance penalty might be small enough that you might be better off skipping the JSI. Reading a small piece of data from AsyncStorage takes 5ms on release mode, so this extrapolates to any package that does a lot of calculation on the native side and then only returns a small chunk of data to JavaScript.</p>
-
-<p>Here is a comparison, reading a small string (“hello”), one time (release mode -O2 optimized):</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Framework</th>
-      <th>Time</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>MMKV</td>
-      <td>&gt; 0ms</td>
-    </tr>
-    <tr>
-      <td>Quick SQLite</td>
-      <td>&gt; 0ms</td>
-    </tr>
-    <tr>
-      <td>WatermelonDB</td>
-      <td>&gt; 8ms</td>
-    </tr>
-    <tr>
-      <td>Async Storage</td>
-      <td>&gt; 5ms</td>
-    </tr>
-  </tbody>
-</table>
-
-<p>Artificial benchmarks testing reading the same value or calculating something thousands of times are… disingenuous.</p>
-
-<p>Most frameworks have caches implemented to them, reading anything more than once results in testing if the cache is there. Other important details cannot be ignored: MMKV is a key/value storage, whereas Quick SQLite and WatermelonDB are relational databases on top of SQLite, comparing them is comparing apples to oranges.</p>
-
-<p>Calculating data thousands of times will also mix JSI performance with C++/Swift/Kotlin performance, hard to tell when one ends and the other begins.</p>
-
-<p>IMO it is better to test <strong>transferring a large amount of data</strong>. However, it is hard to find a test that actually makes sense, because details can affect the performance. Returning one large string will only mem-copy (Strings on your native code are not returned directly to JavaScript, but the memory needs to be copied to JSI Strings) once, whereas returning a lot of strings, will have allocate memory multiple times.</p>
-
-<p>I can share some anecdotic experience of some people using Quick SQLite. <a href="https://dev.to/craftzdog/a-performant-way-to-use-pouchdb7-on-react-native-in-2022-24ej">Takuya experienced 2x to 5x speed boost</a> when switching from the old bridge SQLite driver, user <a href="https://twitter.com/sallar">@sallar</a> experienced 2x - 2.5x speed improvement, query time reduced from 600ms to ~250ms, with large SQLite queries. The larger your SQL results the better will Quick SQLite perform for you.</p>
-
-<p>Just to be clear <strong>JSI does cuts the overhead of communication</strong>, transferring a few bytes once is just not the best use-case. It will also excel in cases where you transfer a small chunk of data but you need to do it very often, e.g. reanimated.</p>
-
-<h1 id="i-want-to-use-xyz-programming-language">I want to use XYZ programming language</h1>
-
-<p>Among the questions that get repeated over and over is “how can I use my favorite language?”. I even made a video about it, <a href="https://www.youtube.com/watch?v=_I6bH5_rO2k&amp;t=178s">go watch it</a>.</p>
-
-<p>In the video I made a mistake, I made it sound like there is no possibility to use any other language, which is not technically correct. So here it is explained in a list so hopefully it will be clearer for everyone:</p>
-
-<ul>
-  <li>Everything is based on the JSI.</li>
-  <li>The JSI is C++.</li>
-  <li>TurboModules generates C++ headers (meant to be used with ObjC++ and JNI C++).</li>
-  <li>TurboModules currently only allow to use implement the generated headers with ObjC++ and JNI C++.</li>
-  <li><strong>You can use any language you want, if you can call it from the native mobile languages</strong>. If you can compile your code (and link it as a static library if necessary), you can just call it. It just misses the point of TurboModules, because a big reason is to give auto-generated type safety. Your compilation process might also become complex (e.g. using Rust)</li>
-</ul>
-
-<p>You can use w/e you want, it’s just that you will have to manually modify and sync your function signatures. And to be clear this is partly a limitation of JSI and in some cases compatibility between languages (e.g. Swift and C++ interoperability).</p>
-
-<h1 id="its-so-complex-flutter-is-easy">It’s so complex! Flutter is easy</h1>
-
-<p>Don’t drink this cool-aid, all frameworks abstract the heavy-lifting for you. Even if you would write your app in native there would be occasions where you will have to deal with some complexity. If not on the language level, it would be on the API level, on some integration, on some framework model. etc. I have written a fair amount of native code at this point and I it doesn’t get any easier.</p>
-
-<p>I have already seen tweets from flutter devs complaining they are writing dart/swift/kotlin/c++ code at the same time. If you are interested in this topic you are going deep into the inner working of the frameworks, this is usually what it takes to build software at this level.</p>
-
-<p>As far as I can see here are the options:</p>
-
-<ul>
-  <li>Wait and hope someone solves your problem</li>
-  <li>Create your own framework (With time you will hit the C++/Swift/Kotlin problem anyways)</li>
-  <li>Pay someone to solve the problem for you</li>
-  <li>DIY and enjoy the process</li>
-</ul>
-
-<p><a href="mailto:ospfranco@gmail.com">Get in touch if you need help with the JSI</a>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Here is the latest information dump my findings with React Native’s JSI.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Email templates with React and Tailwind</title><link href="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" rel="alternate" type="text/html" title="Email templates with React and Tailwind" /><published>2022-01-08T14:00:00+01:00</published><updated>2022-01-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2022/01/08/email%20templates%20with%20react%20and%20tailwind</id><content type="html" xml:base="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"><![CDATA[<p>Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.</p>
-
-<p>I didn’t want to go down that path one more time, so I spend some time trying to answer one question: can I create a email template using only React and Tailwind (with my existing configuration) and the answer is: YES! well, mostly…</p>
-
-<h2 id="render-a-react-component-to-plain-html-markup">Render a React component to plain HTML Markup</h2>
-
-<p>The first part of this question was the easiest to answer, how to turn a React component into raw html string:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// unfortunately no type information for this module</span>
-<span class="c1">// @ts-ignore</span>
-<span class="k">import</span> <span class="nx">ReactDOMServer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-dom/server</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="kd">const</span> <span class="nx">TestMail</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span>
-    <span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
-      <span class="c1">// important to keep the color scheme on some email clients</span>
-      <span class="p">{</span><span class="cm">/* &lt;meta name="color-scheme" content="only"&gt;&lt;/meta&gt; */</span><span class="p">}</span>
-      <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span><span class="c1">// We will use this later&lt;/head&gt;</span>
-      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">py-3</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">Hi</span> <span class="nx">I</span> <span class="nx">am</span> <span class="nx">a</span> <span class="nx">react</span> <span class="nx">component</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
-</span>    <span class="o">&lt;</span><span class="sr">/html</span><span class="err">&gt;
-</span>  <span class="p">);</span>
-<span class="p">};</span>
-
-<span class="kd">const</span> <span class="nx">emailHtml</span> <span class="o">=</span> <span class="nx">ReactDOMServer</span><span class="p">.</span><span class="nx">renderToStaticMarkup</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">TestMail</span> <span class="o">/&gt;</span><span class="p">);</span>
-</code></pre></div></div>
-
-<p>This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there <code class="language-plaintext highlighter-rouge">py-3</code>, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.</p>
-
-<p>This was the tricky part, there are some frameworks that try to solve this exact problem, like maizzle for example, but just by reading the home page I already see an ocean of complexity, so early in my googling I stumbled upon <a href="https://github.com/soheilpro/mailwind">Mailwind</a>, the instructions were scant, but it was exactly what I wanted, it works based on <a href="https://github.com/Automattic/juice">Juice</a>, not going to bore you with the details, here is the snippet that makes it work:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">juice</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">juice</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nx">juicify</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">juice</span><span class="p">.</span><span class="nx">juiceResources</span><span class="p">(</span>
-      <span class="nx">html</span><span class="p">,</span>
-      <span class="p">{</span>
-        <span class="na">webResources</span><span class="p">:</span> <span class="p">{</span>
-          <span class="na">relativeTo</span><span class="p">:</span> <span class="dl">"</span><span class="s2">public/</span><span class="dl">"</span><span class="p">,</span>
-        <span class="p">},</span>
-      <span class="p">},</span>
-      <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">processed</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">`Could not juice email</span><span class="p">${</span><span class="nx">err</span><span class="p">}</span><span class="s2">`</span><span class="p">));</span>
-        <span class="p">}</span>
-
-        <span class="nx">resolve</span><span class="p">(</span><span class="nx">processed</span><span class="p">);</span>
-      <span class="p">}</span>
-    <span class="p">);</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>You also need to update the email component to include a stylesheet in the head tag:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
-  <span class="p">{</span><span class="cm">/* eslint-disable-next-line @next/next/no-css-tags */</span><span class="p">}</span>
-  <span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">mailwind.css</span><span class="dl">"</span> <span class="nx">rel</span><span class="o">=</span><span class="dl">"</span><span class="s2">stylesheet</span><span class="dl">"</span> <span class="nx">data</span><span class="o">-</span><span class="nx">inline</span> <span class="o">/&gt;</span>
-<span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;
-</span></code></pre></div></div>
-
-<blockquote>
-  <p>You can already see that you need to import mailwind.css file and make it accessible somewhere in your project, on the juicify function the <code class="language-plaintext highlighter-rouge">relativeTo</code> path, will allow juice to correctly determine where to fetch the .css file</p>
-</blockquote>
-
-<p>And TA-DA you have working email templates with React and Tailwind, no need for complex framework, configuration files, etc. The juicify function will output a raw string, which you can send to your email distributor and it should work just fine.</p>
-
-<h2 id="the-caveat">The caveat</h2>
-
-<p>Now there is one small caveat here, which is the mailwind.css file, it’s not going to be your application styles, some of the changes are good, for example everything being based on px styles, but you might need your own colors, or paddings, etc.</p>
-
-<p>TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your <code class="language-plaintext highlighter-rouge">tailwind.config.js</code> and spit out a <code class="language-plaintext highlighter-rouge">.css</code> file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reset NVRAM on m1 mac</title><link href="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/" rel="alternate" type="text/html" title="Reset NVRAM on m1 mac" /><published>2021-12-21T14:00:00+01:00</published><updated>2021-12-21T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/21/reset%20nvram%20on%20m1%20mac</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/21/reset-nvram-on-m1-mac/"><![CDATA[<p>I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo nvram -c
-</code></pre></div></div>
-
-<p>You might see some errors regarding some services that cannot be restarted (fmm-mobileme and fmm-computer-name), but you can ignore those, afterwards restart your computer and it should be fine</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I needed to reset my M1 NVRAM for reasons, here to save you some seconds of googling]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Never use anything except a pure UUID (Anti REGEX argument)</title><link href="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/" rel="alternate" type="text/html" title="Never use anything except a pure UUID (Anti REGEX argument)" /><published>2021-12-18T14:00:00+01:00</published><updated>2021-12-18T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/18/never%20use%20anything%20except%20a%20pure%20uuid</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/18/never-use-anything-except-a-pure-uuid/"><![CDATA[<p>Browsing my notes found this small gem</p>
-
-<blockquote>
-  <p>Use UUIDs for id-ing your entities. Period.</p>
-
-  <p>Do not use anything else, don’t try to be clever, it just creates embedded logic and soon you will find yourself regexing your ids like a chump</p>
-</blockquote>
-
-<h2 id="lesson-never-learned">Lesson never learned</h2>
-
-<p>I first came into this idea many years ago, my college professor was in charge of designing and leading the team responsible for the student system (assignments, class schedules, notes, etc), they bought an Israeli system and then adapted it for our university.</p>
-
-<p>At the time, my professor thought it would be a great idea to make the user ids contain some extra information, so that one could at first glance tell the enrollment year and the student age, so each student id would be something like:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>[enrollment_year]_[birth_year]_[id_number]
-</code></pre></div></div>
-
-<p>This is great in theory, whoemever is in charge already gets some information without needing to type the id into the system.</p>
-
-<h2 id="embedded-logic">Embedded logic</h2>
-
-<p>In real life, this created a slew of problems, one of them was that the students id were easily guessable, this created a lot of problems with phishing attempts, this had serious consequences.</p>
-
-<p>But another more subtle was the consequence for the project code itself, since some of the information now did not need a query to the database, then came the REGEXES, to parse and extract this meta information from the IDs.</p>
-
-<p>This generates a lot implicit and embedded logic, what if the ID needs to be changed? then entire parts of the system didn’t work properly anymore.</p>
-
-<h2 id="regexes-are-fine-on-5-of-the-cases">REGEXES are fine on 5% of the cases</h2>
-
-<p>Regexes definitely have their use cases, especially when extracting information from a third-party data source, where you have no control over the data you are getting.</p>
-
-<p>But please, don’t ever try to embed data in your systems.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Browsing my notes found this small gem]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">How to install M1 (arm) compatible JDK</title><link href="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/" rel="alternate" type="text/html" title="How to install M1 (arm) compatible JDK" /><published>2021-12-11T14:00:00+01:00</published><updated>2021-12-11T14:00:00+01:00</updated><id>https://ospfranco.com/post/2021/12/11/how%20to%20install%20m1%20(arm)%20compatible%20jdk</id><content type="html" xml:base="https://ospfranco.com/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/"><![CDATA[<p>Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.</p>
-
-<p>You can directly do it via Android Studio (or intellij IDEA), just go into the preferences and on the build tools &gt; gradle menu, you can select which version of the JDK you want to use, if you open the dropdown you will see there is also an option to download a JDK.</p>
-
-<p><img src="https://ospfranco.com/assets/androidStudio1.png" alt="Android Studio 1" /></p>
-
-<p>Click on it and you will get a small dialog were you can select the flavor of JDK you want, I know for certain that the Azul versions are arm compatible.</p>
-
-<p><img src="https://ospfranco.com/assets/androidStudio2.png" alt="Android Studio 2" /></p>
-
-<p>(BTW I’m using the Android Studio Preview to get native arm android images)</p>
-
-<p>Very convenient!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>Building the app again (if you are doing local builds, you might want to run <code class="language-plaintext highlighter-rouge">./gradlew clean</code> on your android folder to get rid of any caches), <strong>yields a ~1.2 megabytes of the size of the app</strong>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I convinced my team to switch from Crashlytics to Sentry. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that’s just too much.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
