@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-15T08:46:06+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">ZSH configuration files load order</title><link href="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/" rel="alternate" type="text/html" title="ZSH configuration files load order" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/zsh%20configuration%20files%20load%20order</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/"><![CDATA[<p>The order of files being loaded by ZSH is the following:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-15T08:50:27+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">ZSH configuration files load order</title><link href="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/" rel="alternate" type="text/html" title="ZSH configuration files load order" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/zsh%20configuration%20files%20load%20order</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/"><![CDATA[<p>The order of files being loaded by ZSH is the following:</p>
 
 <ol>
   <li><code class="language-plaintext highlighter-rouge">.zshenv</code></li>
@@ -351,7 +351,194 @@ D = double</p>
 
 <p>https://developer.android.com/studio/projects/configure-cmake</p>
 
-<p>After much trial and error I found no easy-to-break way of linking against the OS libsqlite. It’s just not worth it also because each vendor can potentially modify them and also on older OS versions you are using outdated versions.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I take as I write C++ for Android]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
+<p>After much trial and error I found no easy-to-break way of linking against the OS libsqlite. It’s just not worth it also because each vendor can potentially modify them and also on older OS versions you are using outdated versions.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I take as I write C++ for Android]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/08/15/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
+
+<p><code class="language-plaintext highlighter-rouge">uint8_t</code> = <code class="language-plaintext highlighter-rouge">byte</code> = a type of unsigned integer of length 8 bits</p>
+
+<h1 id="references">References</h1>
+
+<h2 id="printf">Printf</h2>
+
+<p><code class="language-plaintext highlighter-rouge">printf</code> is legacy C, fairly type unsafe, <code class="language-plaintext highlighter-rouge">cout</code> seems to be accepted but android logging does not use it.</p>
+
+<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8f53b05-b015-4ada-b275-db5407f1b41c/Screenshot_000064.png" alt="Screenshot 000064.png" /></p>
+
+<blockquote>
+  <p>💡 printing a <code class="language-plaintext highlighter-rouge">size_t</code> is done via <code class="language-plaintext highlighter-rouge">printf(”%zu”, sizeVar)</code></p>
+</blockquote>
+
+<h2 id="define-pre-processors">DEFINE pre-processors</h2>
+
+<p>In various C code, I see constants defined like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define T 100
+</code></pre></div></div>
+
+<p>Whereas in C++ examples, it is almost always:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const int T = 100;
+</code></pre></div></div>
+
+<p><strong>THEY ARE BAD PRACTICE IN C++</strong></p>
+
+<p>because all macros (which are what <code class="language-plaintext highlighter-rouge">#define</code>s define) are in a single namespace and they take effect everywhere. Variables, including <code class="language-plaintext highlighter-rouge">const</code>-qualified variables, can be encapsulated in classes and namespaces.</p>
+
+<p>Macros are used in C because in C, a <code class="language-plaintext highlighter-rouge">const</code>-qualified variable is not actually a constant, it is just a variable that cannot be modified. A <code class="language-plaintext highlighter-rouge">const</code>-qualified variable cannot appear in a constant expression, so it can’t be used as an array size, for example.</p>
+
+<p>In C++, a <code class="language-plaintext highlighter-rouge">const</code>-qualified object that is initialized with a constant expression (like <code class="language-plaintext highlighter-rouge">const int x = 5 * 2;</code>) <em>is</em> a constant and can be used in a constant expression, so you can and should use them.</p>
+
+<h1 id="libraries">Libraries</h1>
+
+<p>After your code is compiled to a static lib (<code class="language-plaintext highlighter-rouge">.a</code> on macOS and <code class="language-plaintext highlighter-rouge">.so</code> on linux)</p>
+
+<p>One useful tool is <code class="language-plaintext highlighter-rouge">nm</code>. Displays the symbol label inside of your so file, which is useful for debugging any missing symbols.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">nm</span> <span class="o">-</span><span class="nx">gDC</span> <span class="nx">myLibrary</span><span class="p">.</span><span class="nx">so</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">-g</code> Displays only global (external) symbols</p>
+
+<p>Each symbol name is preceded by its value, followed by the following description character:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>U</th>
+      <th>undefined</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>absolute</td>
+    </tr>
+    <tr>
+      <td>T</td>
+      <td>text section symbol</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>data selection symbol</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>bss section symbol</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>common symbol</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>Debugger symbol entries (only with -a)</td>
+    </tr>
+    <tr>
+      <td>S</td>
+      <td>Symbol in a section other than those above(???)</td>
+    </tr>
+    <tr>
+      <td>I</td>
+      <td>indirect symbol</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase <code class="language-plaintext highlighter-rouge">u</code> in a dynamic shared library indicates an undefined reference to a private external in another module in the same library.</p>
+
+<p>If the symbol is a Objective-C method, the symbol name is <code class="language-plaintext highlighter-rouge">±[Class_name(category_name) method:name:]</code>, where <code class="language-plaintext highlighter-rouge">+</code> is for class methods, <code class="language-plaintext highlighter-rouge">-</code> is for instance
+methods, and (category_name) is present only when the method is in a category.</p>
+
+<h1 id="advanced-pointers">Advanced pointers</h1>
+
+<h2 id="unique-pointer">Unique pointer</h2>
+
+<p>Help with memory management. They guarantee they delete their object if they are destructed. They follow “Resource Acquisition Is Initialization” (RAII) rule.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">unique_ptr</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span> <span class="nx">p</span><span class="p">(</span><span class="k">new</span> <span class="nx">int</span><span class="p">);</span>
+<span class="c1">// p &lt;--------&gt;  object</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">p</code> owns the object and the object has only one owner, <code class="language-plaintext highlighter-rouge">p</code>. A unique pointer cannot be copied or passed by value. However, the ownership of its object can be transferred.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">auto</span> <span class="nx">q</span> <span class="o">=</span> <span class="nx">make_unique</span><span class="o">&lt;</span><span class="nx">int</span><span class="o">&gt;</span><span class="p">();</span> <span class="c1">// q created with an int object on the heap</span>
+<span class="nx">auto</span> <span class="nx">p</span> <span class="o">=</span> <span class="nx">move</span><span class="p">(</span><span class="nx">q</span><span class="p">);</span> <span class="c1">// p owns the q's object, q lost it (null pointer).</span>
+</code></pre></div></div>
+
+<p>Here is a more complete example</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="err">#</span><span class="nx">include</span><span class="o">&lt;</span><span class="nx">iostream</span><span class="o">&gt;</span>
+<span class="err">#</span><span class="nx">include</span><span class="o">&lt;</span><span class="nx">memory</span><span class="o">&gt;</span>
+<span class="nx">using</span> <span class="nx">namespace</span> <span class="nx">std</span><span class="p">;</span>
+
+<span class="nx">struct</span> <span class="nx">A</span><span class="p">{</span>
+    <span class="o">~</span><span class="nx">A</span><span class="p">(){</span><span class="nx">cout</span><span class="o">&lt;&lt;</span><span class="dl">"</span><span class="s2">Deleted.</span><span class="dl">"</span><span class="p">;}</span>
+<span class="p">};</span>
+
+<span class="k">void</span> <span class="nx">PassIn</span><span class="p">(</span><span class="nx">std</span><span class="p">::</span><span class="nx">unique_ptr</span><span class="o">&lt;</span><span class="nx">A</span><span class="o">&gt;</span> <span class="nx">a</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nx">cout</span><span class="o">&lt;&lt;</span> <span class="dl">"</span><span class="s2">Pointer received.</span><span class="dl">"</span><span class="o">&lt;&lt;</span><span class="dl">'</span><span class="se">\n</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">}</span> <span class="c1">// a and its object are deleted.</span>
+
+<span class="nx">int</span> <span class="nx">main</span><span class="p">(){</span>
+    
+    <span class="nx">auto</span> <span class="nx">x</span> <span class="o">=</span> <span class="nx">make_unique</span><span class="o">&lt;</span><span class="nx">A</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="nx">PassIn</span><span class="p">(</span><span class="nx">move</span><span class="p">(</span><span class="nx">x</span><span class="p">))</span> <span class="c1">// Pointer received.</span>
+    <span class="p">;</span> <span class="c1">// Deleted.</span>
+    
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">x</span><span class="p">)</span> <span class="nx">cout</span><span class="o">&lt;&lt;</span> <span class="dl">"</span><span class="s2">x is empty.</span><span class="dl">"</span><span class="p">;</span> <span class="c1">// true: x is empty.</span>
+    
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="shared-pointer">Shared pointer</h2>
+
+<p>Multiple instance pointer, once all the shared pointers are destructed then the object gets deleted. Passing by value creates a new shared pointer allocation (e.g. count 2)</p>
+
+<h2 id="weak-pointer">Weak pointer</h2>
+
+<p>A weak pointer is a smart pointer that does not take ownership of an object but act as an observer. It’s used to observe the object of a shared pointer. It does not participate in reference counting. Weak pointers are mainly used to break circular dependencies.</p>
+
+<h1 id="type-aliases">Type Aliases</h1>
+
+<p>On C++ 11, the keyword is <code class="language-plaintext highlighter-rouge">using</code></p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// C++11</span>
+<span class="nx">using</span> <span class="nx">counter</span> <span class="o">=</span> <span class="nx">long</span><span class="p">;</span>
+
+<span class="c1">// C++03 equivalent:</span>
+<span class="nx">typedef</span> <span class="nx">long</span> <span class="nx">counter</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h1 id="object-initialization">Object initialization</h1>
+
+<p>There is only one way to initialize class consts or reference members, using the the <code class="language-plaintext highlighter-rouge">initialization list</code> syntax. It initializes the variables of an instance before the body of the constructor is called</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Demo</span>
+<span class="p">{</span>
+    <span class="nx">Demo</span><span class="p">(</span><span class="nx">int</span><span class="o">&amp;</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span> <span class="nx">m_val</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+     <span class="p">{</span>
+     <span class="p">}</span>
+<span class="nl">private</span><span class="p">:</span>
+    <span class="kd">const</span> <span class="nx">int</span><span class="o">&amp;</span> <span class="nx">m_val</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="destructor">Destructor</h2>
+
+<p>You can execute code after an object has been destructured</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// dispatch_queue.h</span>
+<span class="k">class</span> <span class="nc">dispatch_queue</span> <span class="p">{</span>
+
+<span class="nl">public:</span>
+<span class="c1">// Explicit constructor (does not allow for argument implicit conversion)</span>
+<span class="k">explicit</span> <span class="n">dispatch_queue</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">thread_cnt</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+<span class="c1">// Destructor</span>
+<span class="o">~</span><span class="n">dispatch_queue</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Noteworthy Types]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
 
 <p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code class="language-plaintext highlighter-rouge">Arguments</code> tab, there you will see a <code class="language-plaintext highlighter-rouge">OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
 
@@ -918,14 +1105,4 @@ cp /tmp/raleway/*.ttf assets/fonts
 
 <p>Credit to <a href="https://github.com/jsamr/react-native-font-demo#goal">https://github.com/jsamr/react-native-font-demo</a> for finding the xml fonts setup.</p>
 
-<p><a href="https://github.com/dioi2000/react-native-simple-default-props#readme">https://github.com/dioi2000/react-native-simple-default-props</a> for the easy setup of default styles.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the &lt;Text&gt; component in some custom component that sets the fontFamily style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, Android emulator prevent janky bluetooth output</title><link href="https://ospfranco.com/post/2023/08/11/react-native,-android-audio/" rel="alternate" type="text/html" title="React Native, Android emulator prevent janky bluetooth output" /><published>2023-08-11T15:00:00+02:00</published><updated>2023-08-11T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/11/react%20native,%20android%20audio</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/11/react-native,-android-audio/"><![CDATA[<p>When the Android emulator starts it causes microphones to start recording, if you are using Bluetooth headphones, this causes a significant drop in quality.</p>
-
-<p>You can disable audio input permanently on the emulator by editing:</p>
-
-<p><code class="language-plaintext highlighter-rouge">~/.android/avd/&lt;emulator-device-name&gt;.avd/config.ini</code></p>
-
-<p>Change the following lines:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>hw.audioInput = no
-hw.audioOutput = no
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[When the Android emulator starts it causes microphones to start recording, if you are using Bluetooth headphones, this causes a significant drop in quality.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p><a href="https://github.com/dioi2000/react-native-simple-default-props#readme">https://github.com/dioi2000/react-native-simple-default-props</a> for the easy setup of default styles.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the &lt;Text&gt; component in some custom component that sets the fontFamily style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
