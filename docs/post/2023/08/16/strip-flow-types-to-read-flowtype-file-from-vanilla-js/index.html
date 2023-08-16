@@ -1,0 +1,159 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Strip flow types to read flowtype file from vanilla JS | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Strip flow types to read flowtype file from vanilla JS" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType." />
+<meta property="og:description" content="Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-16T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:title" content="Strip flow types to read flowtype file from vanilla JS" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-16T15:00:00+02:00","datePublished":"2023-08-16T15:00:00+02:00","description":"Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.","headline":"Strip flow types to read flowtype file from vanilla JS","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"},"url":"https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/inter.css" />
+</head>
+
+<html>
+  <header
+  class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-3xl flex items-center gap-2 px-4">
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
+
+    <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a>
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+        Strip flow types to read flowtype file from vanilla JS
+      </h1>
+
+      <p class="mt-2 font-semibold">
+        August 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown"><p>Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.</p>
+
+<p>I needed to use a translation file that had flow types in vanilla JS and I figured out a way to strip the types.</p>
+
+<h2 id="install-flow-remove-types-package">Install flow remove types package</h2>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">yarn</span> <span class="nx">add</span> <span class="nx">flow</span><span class="o">-</span><span class="nx">remove</span><span class="o">-</span><span class="nx">types</span>
+</code></pre></div></div>
+
+<h2 id="use-flow-remove-types">Use flow remove types</h2>
+
+<p>In my use case I had a huge file with translations that is strongly typed and I wanted to migrate them to another format.</p>
+
+<p>The process is basically:</p>
+
+<ol>
+  <li>Read file from disk</li>
+  <li>Pass it to flow-remove-types</li>
+  <li>Write to another file (or you can also load it in memory with another package <code class="language-plaintext highlighter-rouge">require-from-string</code>)</li>
+  <li>import it normally</li>
+</ol>
+
+<p>Here is a part of the script I used:</p>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="c1">// allows you to call this file like a script from the command line</span><span class="cp">
+#!/usr/bin/env node
+</span>
+<span class="kd">let</span> <span class="nx">flowRemoveTypes</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">flow-remove-types</span><span class="dl">'</span><span class="p">);</span>
+<span class="c1">// let translations = require('../src/I18n/translations') // cannot import it bc it contains flow types</span>
+<span class="kd">let</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">function</span> <span class="nx">unpackTranslation</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">if</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">translationObj</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+  <span class="p">}</span>
+
+  <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="nb">Object</span><span class="p">.</span><span class="nx">entries</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">).</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">entry</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">res</span><span class="p">[</span><span class="nx">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nx">unpackTranslation</span><span class="p">(</span><span class="nx">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">key</span><span class="p">)</span>
+  <span class="p">})</span>
+
+  <span class="k">return</span> <span class="nx">res</span>
+
+<span class="p">}</span>
+
+<span class="c1">// Start by taking the translations file and stripping flow out of it</span>
+<span class="kd">let</span> <span class="nx">translationsInput</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">../src/I18n/translations.js</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="c1">// Remove flow and module export with traditional syntax</span>
+<span class="kd">let</span> <span class="nx">translationsOutput</span> <span class="o">=</span> <span class="nx">flowRemoveTypes</span><span class="p">(</span><span class="nx">translationsInput</span><span class="p">).</span><span class="nx">toString</span><span class="p">().</span><span class="nx">replace</span><span class="p">(</span><span class="dl">'</span><span class="s1">export default TRANSLATIONS</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">module.exports = TRANSLATIONS</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">,</span> <span class="nx">translationsOutput</span><span class="p">);</span>
+
+<span class="c1">// then we can just read this file</span>
+<span class="kd">const</span> <span class="nx">translations</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="kd">let</span> <span class="nx">languages</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">en</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">it</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pt</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">fr</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">es</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">de</span><span class="dl">'</span><span class="p">]</span>
+<span class="kd">let</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./webAppTranslationKeys.json</span><span class="dl">'</span><span class="p">))</span>
+
+
+<span class="nx">languages</span><span class="p">.</span><span class="nx">forEach</span><span class="p">((</span><span class="nx">languageKey</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="c1">// let languageTranslations = JSON.parse(fs.readFileSync(`../webapp/public/locales/${languageKey}/translation.json`))</span>
+  <span class="kd">let</span> <span class="nx">languageTranslations</span> <span class="o">=</span> <span class="p">{}</span>
+  <span class="nx">keys</span><span class="p">.</span><span class="nx">forEach</span><span class="p">(</span><span class="nx">key</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="kd">const</span> <span class="nx">ogTranslation</span> <span class="o">=</span> <span class="nx">translations</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">ogTranslation</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">🛑 Could not find translations for</span><span class="dl">'</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
+      <span class="nx">process</span><span class="p">.</span><span class="nx">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="p">}</span>
+
+    <span class="nx">languageTranslations</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nx">unpackTranslation</span><span class="p">(</span><span class="nx">ogTranslation</span><span class="p">,</span> <span class="nx">languageKey</span><span class="p">)</span>
+  <span class="p">})</span>
+  <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFileSync</span><span class="p">(</span><span class="s2">`../webapp/public/locales/</span><span class="p">${</span><span class="nx">languageKey</span><span class="p">}</span><span class="s2">/translation.json`</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">languageTranslations</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="p">})</span>
+
+<span class="c1">// Delete auto generated file</span>
+<span class="nx">fs</span><span class="p">.</span><span class="nx">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
+
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
+</code></pre></div></div>
+</div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
+
+</html>
