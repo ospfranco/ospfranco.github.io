@@ -1,4 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-16T11:18:16+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Strip flow types to read flowtype file from vanilla JS</title><link href="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" rel="alternate" type="text/html" title="Strip flow types to read flowtype file from vanilla JS" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/strip%20flow%20types%20to%20read%20flowtype%20file%20from%20vanilla%20js</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"><![CDATA[<p>Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-20T09:28:12+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Change macOS dock animation time</title><link href="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/" rel="alternate" type="text/html" title="Change macOS dock animation time" /><published>2023-08-20T15:00:00+02:00</published><updated>2023-08-20T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/20/change%20macos%20dock%20animation%20time</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/"><![CDATA[<p>I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:</p>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.dock autohide-time-modifier <span class="nt">-float</span> 0<span class="p">;</span> killall Dock
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Disambiguate TypeScript union types</title><link href="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/" rel="alternate" type="text/html" title="Disambiguate TypeScript union types" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/disambiguate%20typescript%20union%20types</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/"><![CDATA[<p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
+
+<span class="c1">// Trouble comes</span>
+
+<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
+
+<span class="c1">// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null</span>
+<span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">iOSOnlyField</span> <span class="c1">// kaboom</span>
+</code></pre></div></div>
+
+<p>You can make typescript happy by adding a literal field that will provide it with enough info to make sure the object is correct:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Android</span><span class="dl">'</span><span class="p">;</span>
+
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
+
+<span class="c1">// Trouble comes</span>
+
+<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Type safe code for iOSPaymentInfo</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="c1">// Type safe code for AndroidPaymentInfo</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
+</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Strip flow types to read flowtype file from vanilla JS</title><link href="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" rel="alternate" type="text/html" title="Strip flow types to read flowtype file from vanilla JS" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/strip%20flow%20types%20to%20read%20flowtype%20file%20from%20vanilla%20js</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"><![CDATA[<p>Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.</p>
 
 <p>I needed to use a translation file that had flow types in vanilla JS and I figured out a way to strip the types.</p>
 
@@ -79,59 +134,7 @@
 <span class="nx">fs</span><span class="p">.</span><span class="nx">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
 
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Disambiguate TypeScript union types</title><link href="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/" rel="alternate" type="text/html" title="Disambiguate TypeScript union types" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/disambiguate%20typescript%20union%20types</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/"><![CDATA[<p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
-
-<span class="c1">// Trouble comes</span>
-
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
-
-<span class="c1">// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null</span>
-<span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">iOSOnlyField</span> <span class="c1">// kaboom</span>
-</code></pre></div></div>
-
-<p>You can make typescript happy by adding a literal field that will provide it with enough info to make sure the object is correct:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Android</span><span class="dl">'</span><span class="p">;</span>
-
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
-
-<span class="c1">// Trouble comes</span>
-
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
-
-<span class="k">if</span><span class="p">(</span><span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for iOSPaymentInfo</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for AndroidPaymentInfo</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
-</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Objective-C cheatsheet</title><link href="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" rel="alternate" type="text/html" title="Objective-C cheatsheet" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/objective%20c%20cheatsheet</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"><![CDATA[<p>Quick reference guide when you need to do some objective C</p>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Objective-C cheatsheet</title><link href="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" rel="alternate" type="text/html" title="Objective-C cheatsheet" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/objective%20c%20cheatsheet</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"><![CDATA[<p>Quick reference guide when you need to do some objective C</p>
 
 <h1 id="what-is-objective-c">What is Objective-C</h1>
 
@@ -1636,58 +1639,4 @@ D = double</p>
   <li><code class="language-plaintext highlighter-rouge">Header Search Paths</code> are the paths searched when you use <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code></li>
 </ul>
 
-<p>The option <code class="language-plaintext highlighter-rouge">Always Search User Paths</code> will force <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code> to search in the <code class="language-plaintext highlighter-rouge">User Header Search Paths</code>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I go making as I get to compile C++ with XCode]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">C++ and Android notes</title><link href="https://ospfranco.com/post/2023/08/15/c++-and-android-notes/" rel="alternate" type="text/html" title="C++ and Android notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/c++%20and%20android%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/c++-and-android-notes/"><![CDATA[<p>Random notes I take as I write C++ for Android</p>
-
-<h1 id="standard-template-library-stl">Standard Template Library (STL)</h1>
-
-<p>The Standard Template Library (STL) is a set of C++ template classes to provide common programming data structures and functions such as lists, stacks, arrays, etc. It is a library of container classes, algorithms, and iterators. It is a generalized library and so, its components are parameterized.</p>
-
-<p>To use the STL, one would have to depend on a “shared library” (for simplicity, we’ll call it <code class="language-plaintext highlighter-rouge">libc++.so</code>) in the system one is executing the binary in. There are two ways to link this “shared library”, either statically or dynamically.</p>
-
-<h2 id="static-vs-dynamic-linking">Static vs Dynamic Linking</h2>
-
-<p>Statically means that the C++ runtime will be bundled with the C++ binary.</p>
-
-<p>Dynamically means that the C++ binary will <em>not</em> include C++ runtime, but will utilize the system’s dynamic linker in order to find the necessary STL methods.</p>
-
-<h1 id="one-stl-per-app">One STL per-app</h1>
-
-<p>Quoting from the relevant pages in <a href="https://developer.android.com/ndk/guides/cpp-support#one_stl_per_app">developer.android.com</a>:</p>
-
-<blockquote>
-  <p>An application should not use more than one C++ runtime. The various STLs are not compatible with one another.</p>
-</blockquote>
-
-<h3 id="nuclear-explosion-example">Nuclear explosion example</h3>
-
-<ul>
-  <li>You try to compile your app with <code class="language-plaintext highlighter-rouge">ANDROID_STL=gnustl_static</code></li>
-  <li>3rd-party library foo has <code class="language-plaintext highlighter-rouge">ANDROID_STL=c++_shared</code></li>
-</ul>
-
-<p>Two STLs, GNU’s and LLVM’s, will exist in one app. Both STLs have functions and structures that will go through different <a href="https://www.ibm.com/support/knowledgecenter/en/ssw_ibm_i_72/rzarg/name_mangling.htm">name mangling</a> processes which would produce unique function names. So for example, <code class="language-plaintext highlighter-rouge">std::to_string</code> could exist with the mangled name of <code class="language-plaintext highlighter-rouge">_ZN9to7string6E</code> in LLVM’s STL and <code class="language-plaintext highlighter-rouge">_AX8to2string5D</code> in GNU’s STL. This is actually good. When calling one <code class="language-plaintext highlighter-rouge">std::to_string</code> from a native function that is expecting GNU’s mangled name, it will get GNU’s version of <code class="language-plaintext highlighter-rouge">std::to_string</code> and vice versa.</p>
-
-<p>The issues occur when both STLs produce <strong>the same</strong> mangled name, which is very much the case in <code class="language-plaintext highlighter-rouge">std::exception</code>, for example. Or another issue occurs when <code class="language-plaintext highlighter-rouge">[std::to_string</code> exists in one STL and does not exist at all in another STL](https://stackoverflow.com/questions/22774009/android-ndk-stdto-string-support).</p>
-
-<h3 id="not-so-nuclear-example">Not so nuclear example</h3>
-
-<ul>
-  <li>
-    <p>App has <code class="language-plaintext highlighter-rouge">ANDROID_STL=gnustl_static</code> </p>
-  </li>
-  <li>
-    <p>3rd-party library foo has <code class="language-plaintext highlighter-rouge">ANDROID_STL=c++_static</code></p>
-  </li>
-</ul>
-
-<p>This situation differs from Case #1 since there is no dynamic linking neither in the app nor in the 3rd-party library foo. This is gonna cause two STLs to exist in the same app space where all global data, static constructors and imported functions to also exit in the app space, but that still should not cause any linkage issues <strong>only as long as</strong> the two runtimes have zero communication between each other.</p>
-
-<p>To note, <a href="https://github.com/facebook/yoga/">Facebook’s Yoga</a> builds two shared libraries natively, <code class="language-plaintext highlighter-rouge">libfb.so</code> and <code class="language-plaintext highlighter-rouge">libyoga.so</code>, both of which are built with, as of the time of writing, <code class="language-plaintext highlighter-rouge">c++_static</code>, which is LLVM’s C++ static runtime variant. This means that they don’t have to worry about the app developer including GNU’s STL or some other STL in the mix. More on this issue <a href="https://github.com/facebook/yoga/issues/813">here</a></p>
-
-<h1 id="android-header-libraries">Android header libraries</h1>
-
-<p>The NDK exposes some libraries out of convenience, but unfortunately not all of them (curl, sqlite, etc are not available)</p>
-
-<p>https://developer.android.com/studio/projects/configure-cmake</p>
-
-<p>After much trial and error I found no easy-to-break way of linking against the OS libsqlite. It’s just not worth it also because each vendor can potentially modify them and also on older OS versions you are using outdated versions.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I take as I write C++ for Android]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>The option <code class="language-plaintext highlighter-rouge">Always Search User Paths</code> will force <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code> to search in the <code class="language-plaintext highlighter-rouge">User Header Search Paths</code>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I go making as I get to compile C++ with XCode]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
