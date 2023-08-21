@@ -1,4 +1,296 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-20T09:28:12+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Change macOS dock animation time</title><link href="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/" rel="alternate" type="text/html" title="Change macOS dock animation time" /><published>2023-08-20T15:00:00+02:00</published><updated>2023-08-20T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/20/change%20macos%20dock%20animation%20time</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/"><![CDATA[<p>I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-08-21T18:23:49+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Add gap support to Native Wind 2.x.x</title><link href="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/" rel="alternate" type="text/html" title="Add gap support to Native Wind 2.x.x" /><published>2023-08-21T15:00:00+02:00</published><updated>2023-08-21T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/21/add%20gap%20support%20to%20native%20wind%202.x.x</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"><![CDATA[<p>I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.</p>
+
+<p>There is however a small problem with the 2.X.X version of NativeWind, it doesn’t support the <code class="language-plaintext highlighter-rouge">gap</code> property, which was added on RN 0.70.</p>
+
+<p>We can however patch this functionality (without using the unstable 3.x.x branch).</p>
+
+<h1 id="add-the-following-to-tailwindconfigjs">Add the following to <code class="language-plaintext highlighter-rouge">tailwind.config.js</code></h1>
+
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** @type {import('tailwindcss').Config} */</span>
+
+<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">tailwindcss/plugin</span><span class="dl">'</span><span class="p">);</span>
+
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">content</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">./App.tsx</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">./src/**/*.{ts,tsx}</span><span class="dl">'</span><span class="p">],</span>
+  <span class="na">theme</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">'</span><span class="s1">spacing</span><span class="dl">'</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
+    <span class="na">extend</span><span class="p">:</span> <span class="p">{</span>
+      <span class="na">colors</span><span class="p">:</span> <span class="p">{</span>
+        <span class="na">lightPurple</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#6360EB</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">darkPurple</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#001448</span><span class="dl">'</span><span class="p">,</span>
+      <span class="p">},</span>
+    <span class="p">},</span>
+  <span class="p">},</span>
+  <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
+    <span class="nx">plugin</span><span class="p">(</span><span class="kd">function</span> <span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span> <span class="c1">// ADD THIS PLUGIN</span>
+      <span class="nx">matchUtilities</span><span class="p">(</span>
+        <span class="p">{</span>
+          <span class="na">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
+            <span class="na">gap</span><span class="p">:</span> <span class="nx">value</span><span class="p">,</span>
+          <span class="p">}),</span>
+        <span class="p">},</span>
+        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">)</span> <span class="p">}</span>
+      <span class="p">);</span>
+    <span class="p">}),</span>
+  <span class="p">],</span>
+<span class="p">};</span>
+
+</code></pre></div></div>
+
+<h1 id="use-patch-package-to-patch-the-list-of-supported-properties">Use patch-package to patch the list of supported properties</h1>
+
+<p>Internally NativeWind maintains a list of supported properties, and gap is not among them, so we are going to have to <code class="language-plaintext highlighter-rouge">patch-package</code> it. Create a patch <code class="language-plaintext highlighter-rouge">nativewind+2.0.11.patch</code> file in your <code class="language-plaintext highlighter-rouge">patches</code> directory, with the following content:</p>
+
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
+index 7d7715b..56472bc 100644
+</span><span class="gd">--- a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
+</span><span class="gi">+++ b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
+</span><span class="p">@@ -1,120 +1,121 @@</span>
+<span class="gd">-"use strict";
+-Object.defineProperty(exports, "__esModule", { value: true });
+-exports.isInvalidProperty = void 0;
+</span><span class="gi">+'use strict'
++Object.defineProperty(exports, '__esModule', {value: true})
++exports.isInvalidProperty = void 0
+</span> function isInvalidProperty(property) {
+<span class="gd">-    return !validProps.has(property);
+</span><span class="gi">+  return !validProps.has(property)
+</span> }
+<span class="gd">-exports.isInvalidProperty = isInvalidProperty;
+</span><span class="gi">+exports.isInvalidProperty = isInvalidProperty
+</span> const validProps = new Set([
+<span class="gd">-    "alignContent",
+-    "alignItems",
+-    "alignSelf",
+-    "aspectRatio",
+-    "backfaceVisibility",
+-    "backgroundColor",
+-    "borderBottomColor",
+-    "borderBottomEndRadius",
+-    "borderBottomLeftRadius",
+-    "borderBottomRightRadius",
+-    "borderBottomStartRadius",
+-    "borderBottomWidth",
+-    "borderColor",
+-    "borderEndColor",
+-    "borderEndWidth",
+-    "borderLeftColor",
+-    "borderLeftWidth",
+-    "borderRadius",
+-    "borderRightColor",
+-    "borderRightWidth",
+-    "borderStartColor",
+-    "borderStartWidth",
+-    "borderStyle",
+-    "borderTopColor",
+-    "borderTopEndRadius",
+-    "borderTopLeftRadius",
+-    "borderTopRightRadius",
+-    "borderTopStartRadius",
+-    "borderTopWidth",
+-    "borderWidth",
+-    "bottom",
+-    "color",
+-    "direction",
+-    "display",
+-    "elevation",
+-    "end",
+-    "flex",
+-    "flexBasis",
+-    "flexDirection",
+-    "flexGrow",
+-    "flexShrink",
+-    "flexWrap",
+-    "fontFamily",
+-    "fontSize",
+-    "fontStyle",
+-    "fontVariant",
+-    "fontWeight",
+-    "height",
+-    "includeFontPadding",
+-    "justifyContent",
+-    "left",
+-    "letterSpacing",
+-    "lineHeight",
+-    "margin",
+-    "marginBottom",
+-    "marginEnd",
+-    "marginHorizontal",
+-    "marginLeft",
+-    "marginRight",
+-    "marginStart",
+-    "marginTop",
+-    "marginVertical",
+-    "maxHeight",
+-    "maxWidth",
+-    "minHeight",
+-    "minWidth",
+-    "opacity",
+-    "overflow",
+-    "overlayColor",
+-    "padding",
+-    "paddingBottom",
+-    "paddingEnd",
+-    "paddingHorizontal",
+-    "paddingLeft",
+-    "paddingRight",
+-    "paddingStart",
+-    "paddingTop",
+-    "paddingVertical",
+-    "position",
+-    "resizeMode",
+-    "right",
+-    "rotation",
+-    "scaleX",
+-    "scaleY",
+-    "shadowColor",
+-    "shadowOffset",
+-    "shadowOpacity",
+-    "shadowRadius",
+-    "start",
+-    "textAlign",
+-    "textAlignVertical",
+-    "textDecorationColor",
+-    "textDecorationLine",
+-    "textDecorationStyle",
+-    "textShadowColor",
+-    "textShadowOffset",
+-    "textShadowRadius",
+-    "textTransform",
+-    "tintColor",
+-    "top",
+-    "transform",
+-    "transformMatrix",
+-    "translateX",
+-    "translateY",
+-    "width",
+-    "writingDirection",
+-    "zIndex",
+-    /* SVG Props */
+-    "fill",
+-    "stroke",
+-    "strokeWidth",
+-]);
+</span><span class="gi">+  'alignContent',
++  'alignItems',
++  'alignSelf',
++  'aspectRatio',
++  'backfaceVisibility',
++  'backgroundColor',
++  'borderBottomColor',
++  'borderBottomEndRadius',
++  'borderBottomLeftRadius',
++  'borderBottomRightRadius',
++  'borderBottomStartRadius',
++  'borderBottomWidth',
++  'borderColor',
++  'borderEndColor',
++  'borderEndWidth',
++  'borderLeftColor',
++  'borderLeftWidth',
++  'borderRadius',
++  'borderRightColor',
++  'borderRightWidth',
++  'borderStartColor',
++  'borderStartWidth',
++  'borderStyle',
++  'borderTopColor',
++  'borderTopEndRadius',
++  'borderTopLeftRadius',
++  'borderTopRightRadius',
++  'borderTopStartRadius',
++  'borderTopWidth',
++  'borderWidth',
++  'bottom',
++  'color',
++  'direction',
++  'display',
++  'elevation',
++  'end',
++  'flex',
++  'flexBasis',
++  'flexDirection',
++  'flexGrow',
++  'flexShrink',
++  'flexWrap',
++  'fontFamily',
++  'fontSize',
++  'fontStyle',
++  'fontVariant',
++  'fontWeight',
++  'height',
++  'includeFontPadding',
++  'justifyContent',
++  'left',
++  'letterSpacing',
++  'lineHeight',
++  'margin',
++  'marginBottom',
++  'marginEnd',
++  'marginHorizontal',
++  'marginLeft',
++  'marginRight',
++  'marginStart',
++  'marginTop',
++  'marginVertical',
++  'maxHeight',
++  'maxWidth',
++  'minHeight',
++  'minWidth',
++  'opacity',
++  'overflow',
++  'overlayColor',
++  'padding',
++  'paddingBottom',
++  'paddingEnd',
++  'paddingHorizontal',
++  'paddingLeft',
++  'paddingRight',
++  'paddingStart',
++  'paddingTop',
++  'paddingVertical',
++  'position',
++  'resizeMode',
++  'right',
++  'rotation',
++  'scaleX',
++  'scaleY',
++  'shadowColor',
++  'shadowOffset',
++  'shadowOpacity',
++  'shadowRadius',
++  'start',
++  'textAlign',
++  'textAlignVertical',
++  'textDecorationColor',
++  'textDecorationLine',
++  'textDecorationStyle',
++  'textShadowColor',
++  'textShadowOffset',
++  'textShadowRadius',
++  'textTransform',
++  'tintColor',
++  'top',
++  'transform',
++  'transformMatrix',
++  'translateX',
++  'translateY',
++  'width',
++  'writingDirection',
++  'zIndex',
++  'gap',
++  /* SVG Props */
++  'fill',
++  'stroke',
++  'strokeWidth',
++])
+</span></code></pre></div></div>
+
+<blockquote>
+  <p>Actually we only need to add gap to the list, but my formatter cleaned everything and I’m too lazy to clean it :)</p>
+</blockquote>
+
+<p>Afterwards you can run <code class="language-plaintext highlighter-rouge">yarn</code> again for the patch to take effect, restart the packager (maybe with –reset-cache) and you can now use the gap property via <code class="language-plaintext highlighter-rouge">g-[n]</code> utilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Change macOS dock animation time</title><link href="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/" rel="alternate" type="text/html" title="Change macOS dock animation time" /><published>2023-08-20T15:00:00+02:00</published><updated>2023-08-20T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/20/change%20macos%20dock%20animation%20time</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/"><![CDATA[<p>I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.dock autohide-time-modifier <span class="nt">-float</span> 0<span class="p">;</span> killall Dock
 </code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Disambiguate TypeScript union types</title><link href="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/" rel="alternate" type="text/html" title="Disambiguate TypeScript union types" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/disambiguate%20typescript%20union%20types</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/"><![CDATA[<p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
@@ -134,7 +426,53 @@
 <span class="nx">fs</span><span class="p">.</span><span class="nx">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
 
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Objective-C cheatsheet</title><link href="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" rel="alternate" type="text/html" title="Objective-C cheatsheet" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/objective%20c%20cheatsheet</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"><![CDATA[<p>Quick reference guide when you need to do some objective C</p>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
+
+<p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code class="language-plaintext highlighter-rouge">Arguments</code> tab, there you will see a <code class="language-plaintext highlighter-rouge">OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
+
+<p>If you don’t want to use NSLog (or print on Swift I suppose) you can use the RCTLog functions:</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTLog.h&gt;
+</span>
+<span class="c1">// Your code</span>
+<span class="n">RCTLogWarn</span><span class="p">(</span><span class="s">@"Your message"</span><span class="p">)</span>
+</code></pre></div></div>
+
+<h1 id="android">Android</h1>
+
+<p>On Android you can resort to the RNLog functions:</p>
+
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.facebook.react.util.RNLog</span><span class="o">;</span>
+
+<span class="c1">// Your code</span>
+<span class="nc">RNLog</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="s">"Your message"</span><span class="o">);</span>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[iOS]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, file upload via axios</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-file-upload-via-axios/" rel="alternate" type="text/html" title="React Native, file upload via axios" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20file%20upload%20via%20axios</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-file-upload-via-axios/"><![CDATA[<p>Some years ago I remember I had to implement file uploads using react-native-fetch-blob. I tried it again this year and with pure Axios it is working just fine:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">{</span>
+	<span class="kd">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
+	
+	<span class="nx">formData</span><span class="p">.</span><span class="nx">append</span><span class="p">(</span><span class="dl">'</span><span class="s1">certificateFile</span><span class="dl">'</span><span class="p">,</span> <span class="p">{</span>
+	  <span class="na">uri</span><span class="p">:</span> <span class="nx">isIOS</span> <span class="p">?</span> <span class="nx">uri</span><span class="p">.</span><span class="nx">replace</span><span class="p">(</span><span class="dl">'</span><span class="s1">file://</span><span class="dl">'</span><span class="p">,</span> <span class="dl">''</span><span class="p">)</span> <span class="p">:</span> <span class="nx">uri</span><span class="p">,,</span>
+	  <span class="na">type</span><span class="p">:</span> <span class="dl">'</span><span class="s1">application/pem</span><span class="dl">'</span><span class="p">,</span>
+	  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cert.pem</span><span class="dl">'</span><span class="p">,</span>
+	<span class="p">});</span>
+	
+	<span class="k">await</span> <span class="nx">axi</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="dl">'</span><span class="s1">/network/backend/certificate</span><span class="dl">'</span><span class="p">,</span> <span class="nx">formData</span><span class="p">,</span> <span class="p">{</span>
+	  <span class="na">headers</span><span class="p">:</span> <span class="p">{</span>
+	    <span class="dl">'</span><span class="s1">content-type</span><span class="dl">'</span><span class="p">:</span> <span class="dl">'</span><span class="s1">multipart/form-data</span><span class="dl">'</span><span class="p">,</span>
+	  <span class="p">},</span>
+	  <span class="na">transformRequest</span><span class="p">:</span> <span class="p">(</span><span class="na">data</span><span class="p">:</span> <span class="nx">unknown</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">data</span><span class="p">,</span>
+	<span class="p">});</span>
+	<span class="k">return</span> <span class="p">{};</span>
+<span class="p">}</span> <span class="k">catch</span> <span class="p">(</span><span class="nx">e</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">{</span><span class="na">error</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Error uploading cert</span><span class="dl">'</span><span class="p">};</span>
+<span class="p">}</span>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Some years ago I remember I had to implement file uploads using react-native-fetch-blob. I tried it again this year and with pure Axios it is working just fine:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, change metro default terminal</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-change-metro-default-terminal/" rel="alternate" type="text/html" title="React Native, change metro default terminal" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20change%20metro%20default%20terminal</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-change-metro-default-terminal/"><![CDATA[<p>Metro will open a new Terminal window everytime you start your RN app. If you are using other terminal app this is however very annoying. You can change the terminal used to run the initial script:</p>
+
+<ol>
+  <li>Open finder window and navigate to <code class="language-plaintext highlighter-rouge">&lt;your_project/node_modules/react-native/scripts</code></li>
+  <li>Locate <code class="language-plaintext highlighter-rouge">launchPackager.command</code>, right click the file, select <code class="language-plaintext highlighter-rouge">Get info</code> and then change the <code class="language-plaintext highlighter-rouge">Open with:</code> value to your terminal, then click on <code class="language-plaintext highlighter-rouge">Change All</code></li>
+</ol>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Metro will open a new Terminal window everytime you start your RN app. If you are using other terminal app this is however very annoying. You can change the terminal used to run the initial script:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Objective-C cheatsheet</title><link href="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" rel="alternate" type="text/html" title="Objective-C cheatsheet" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/objective%20c%20cheatsheet</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"><![CDATA[<p>Quick reference guide when you need to do some objective C</p>
 
 <h1 id="what-is-objective-c">What is Objective-C</h1>
 
@@ -771,872 +1109,4 @@ libraries where they reside were not given to the linker. The latter is obvious:
 
 <h2 id="android-studio-️">Android Studio 🤷🏽‍♂️</h2>
 
-<p>If you are a big android fan you can probably make it work, but once I had the iOS version of my JSI package working, the only code I needed was the glue to compile and link the library to the android side of things, so here you can use whatever you want to write java/kotlin.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">JSI Cheatsheet: Part 1 - C++</title><link href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/" rel="alternate" type="text/html" title="JSI Cheatsheet: Part 1 - C++" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/jsi%20cheatsheet%20part%201%20-%20jsi</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"><![CDATA[<p>With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.</p>
-
-<p>I’m going to try to use small code snippets to show you, because written explanations get convoluted fast.</p>
-
-<h2 id="contents">Contents</h2>
-
-<h2 id="the-basics">The basics</h2>
-
-<p>Not gonna go over the basics, how to declare an int, double, functions, etc. I’m trying to teach you how to run, not how to walk, go to youtube look at any of the basic tutorials, a couple of hours is more than enough</p>
-
-<p>This is what I watched for like 20 mins:</p>
-
-<p>https://www.youtube.com/watch?v=vLnPwxZdW4Y&amp;t=11682s</p>
-
-<p>I can write a lot but at the end of the day you will need to write the code, you can set up the toolchain in your machine or you can just go to <a href="https://replit.com/languages/cpp">replit with c++</a>, you won’t be able to test JSI code, but you can play around with the basics.</p>
-
-<p>Before we start I need to teach your JavaScript brain some of the not so basic yet not so advanced stuff.</p>
-
-<h1 id="not-basic-yet-not-advanced-stuff">Not basic yet not advanced stuff</h1>
-
-<h2 id="namespaces">Namespaces</h2>
-
-<p>TypeScript also has a concept of namespaces, but they are not widely used (unless you wrote them for your library). Therefore it is somewhat confusing seeing them all over the place on C++.</p>
-
-<p>Example without namespace:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">=</span> <span class="s">"my string!"</span><span class="p">;</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>🚨 The <code class="language-plaintext highlighter-rouge">::</code> operator is similar to a <code class="language-plaintext highlighter-rouge">.</code> but is meant to be used with namespaces only</p>
-</blockquote>
-
-<p>You can use a namespace module wide and life becomes prettier:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">string</span> <span class="o">=</span> <span class="s">"my string!"</span><span class="p">;</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>You can use more than one namespace in each file. This (of course) breaks down if you have two namespaces that use the same names.</p>
-
-<h2 id="macros">Macros</h2>
-
-<p>Unlike on JavaScript which is the WYSIWYG equivalent of programming languages, on C++ you can dynamically modify your code before it gets compiled, you do this via macros.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
- * Portable wrapper for mkdir. Internally used by mkdir()
- * @param[in] path the full path of the directory to create.
- * @return zero on success, otherwise -1.
- */</span>
-<span class="kt">int</span> <span class="nf">_mkdir</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">)</span>
-<span class="p">{</span>
-<span class="cp">#if _POSIX_C_SOURCE
-</span>  <span class="k">return</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
-<span class="cp">#else
-</span>  <span class="k">return</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="mo">0755</span><span class="p">);</span>
-<span class="cp">#endif
-</span><span class="p">}</span>
-</code></pre></div></div>
-
-<p>Ignore everything except the stuff with <code class="language-plaintext highlighter-rouge">#</code>, here the macro is checking for the <code class="language-plaintext highlighter-rouge">_POSIX_C_SOURCE</code> environment variable, if the flag is present when you compile the code, then the code inside the true branch will be inserted and compiled, if not the false branch will be compiled.</p>
-
-<h2 id="auto-type">Auto type</h2>
-
-<p>C++ actually has dynamic allocation type… but be careful! Useful if you are a C++ noob with types or you are quickly testing, but I just try to stay away from it when possible</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span> <span class="c1">// auto here will take the int type</span>
-</code></pre></div></div>
-
-<h2 id="constant-variables">Constant variables</h2>
-
-<p>You can declare a constant variable by using the <code class="language-plaintext highlighter-rouge">const</code> type, when you are declaring your functions this will be important to make sure you don’t overwrite the variable (on the direct memory address) for the rest of your code</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// dangerous</span>
-<span class="kt">void</span> <span class="nf">doSomethingFunny_wrong</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">foo</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">foo</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="c1">// ⚠️ modifies the direct memory address, will mess up your program</span>
-<span class="p">}</span>
-
-<span class="c1">// safer(ish)</span>
-<span class="kt">void</span> <span class="n">doSomethingFunny</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">foo</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">foo</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="c1">// doesn't compile, cannot modify const</span>
-<span class="p">}</span>
-
-<span class="c1">// to declare a variable as constant</span>
-<span class="k">const</span> <span class="kt">int</span> <span class="n">foo</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span>
-</code></pre></div></div>
-
-<h2 id="vectors-variable-size-arrays">Vectors (variable size arrays)</h2>
-
-<p>JavaScript makes you think that your arrays are infinitely growable, when in reality the one that needs to grow is you (👊), so now you will have to deal with arrays like a real man (or real woman), arrays are fixed the moment you create them, you cannot just append stuff to them… that is if you are using pure C, C++ gives us the <code class="language-plaintext highlighter-rouge">vector</code> class:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span>
-<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
-	<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span>
-	<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"I miss"</span><span class="p">);</span>
-	<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"Javascript"</span><span class="p">);</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Just be careful, the vector will hold a chunk of memory for you to insert stuff, once you go over the reserved space, it will have to reserve a bigger chunk and copy all the data to it</p>
-
-<h2 id="maps">Maps</h2>
-
-<p>Needless to say there is also maps for those among you who cannot even without JavaScript</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
-</span>
-<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">myMap</span> <span class="o">=</span> <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span><span class="p">();</span>
-
-<span class="n">myMap</span><span class="p">[</span><span class="s">"I miss"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Javascript"</span><span class="p">;</span>
-</code></pre></div></div>
-
-<h2 id="structs">Structs</h2>
-
-<p>The time might come where you need to bundle more data in a more complex structure than maps or vectors, there you need to create a struct. Be orderly and create it in it’s own header file.</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// myStruct.h</span>
-<span class="k">struct</span> <span class="nc">MyLittleStruct</span>
-<span class="p">{</span>
-	<span class="n">string</span> <span class="n">message</span><span class="p">;</span>
-	<span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>You can later use it in your other files</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MyLittleStruct</span> <span class="nf">createALittleStruct</span><span class="p">()</span>
-<span class="p">{</span>
-	<span class="k">return</span> <span class="n">MyLittleStruct</span><span class="p">{</span>
-		<span class="s">"I'm ready to cry"</span><span class="p">,</span>
-		<span class="mi">12</span>
-	<span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>⚠️ JavaScript will not understand any of this vector/map/struct mumbo jumbo, you will need to convert it at a later point to the appropriate JSI objects.</p>
-</blockquote>
-
-<h1 id="the-advanced-stuff">The advanced stuff</h1>
-
-<h2 id="a-pointer-is-a-memory-address">A <strong>pointer is a memory address</strong></h2>
-
-<p>Once you go beyond simple functions becomes super important, but only Einstein levels of intellect have the brain power and time to really understand the topic, you and me as mere mortals need to know only this:</p>
-
-<blockquote>
-  <p>🚨 <strong>A pointer is a memory address</strong></p>
-</blockquote>
-
-<p>Get a tattoo of it if you can, whenever you use pointers it will also subtly change the semantics of your functions, but let’s just start with the basics:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// A regular integer variable</span>
-<span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span> <span class="c1">// 19</span>
-
-<span class="c1">// The "&amp;" operator returns the pointer (memory address) of a variable</span>
-<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">&amp;</span><span class="n">age</span><span class="p">;</span> <span class="c1">// "0x6ef07b"</span>
-
-<span class="c1">// A pointer variable (that points to an integer)</span>
-<span class="kt">int</span> <span class="o">*</span><span class="n">pAge</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">age</span><span class="p">;</span> <span class="c1">// 0x6ef07b</span>
-
-<span class="c1">// Why does the pointer also have an int?</span>
-<span class="c1">// because just a memory address is not useful</span>
-<span class="c1">// You need to be able to cast it back into the original data</span>
-<span class="c1">// The "*" operator "dereferences" the pointer = reads memory and casts it back to the original data</span>
-<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">pAge</span><span class="p">;</span> <span class="c1">// "19"</span>
-</code></pre></div></div>
-
-<h2 id="pass-by-value-and-by-reference">Pass by value and by reference</h2>
-
-<p>While Javascript also has pass by value and by reference, there you cannot modify the semantics, but on C++ you can:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-</span>
-<span class="c1">// The "&amp;" operator here does not mean to get the pointer</span>
-<span class="c1">// but that the argument passed should not copied but rather "referenced"</span>
-<span class="kt">int</span> <span class="nf">sumByReference</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">9</span><span class="p">;</span>
-	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="c1">// A normal function</span>
-<span class="kt">int</span> <span class="n">sumByValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
-	<span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">9</span><span class="p">;</span>
-	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 0</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Sum by value: "</span> <span class="o">&lt;&lt;</span> <span class="n">sumByValue</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// Sum by value: 19</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 0</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Sum by reference: "</span> <span class="o">&lt;&lt;</span> <span class="n">sumByReference</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// Sum by reference: 19</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 19</span>
-
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h2 id="strings">Strings</h2>
-
-<p>On C there is no string class, it’s all done with raw bytes and pointers, C++ has <code class="language-plaintext highlighter-rouge">std::string</code> which makes it easier, but a lot of APIs still deal with C-like strings, so it’s important to understand them</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// in C++</span>
-<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">hello</span> <span class="o">=</span> <span class="s">"I'm a Javascript princess"</span><span class="p">;</span>
-
-<span class="c1">// Create a C-Like string</span>
-<span class="kt">char</span> <span class="o">*</span><span class="n">myString</span> <span class="o">=</span> <span class="n">hello</span><span class="p">.</span><span class="n">c_str</span><span class="p">();</span>
-</code></pre></div></div>
-
-<p>This means the <code class="language-plaintext highlighter-rouge">*mystring</code> pointer → points to the first byte (ASCII → 1byte = 1char, also UTF-8 but other encodings need more bytes) of the string, you can “reconstruct” your string by walking byte by byte</p>
-
-<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c787b649-7083-43da-929e-5f23165a4127/Frame_1.png" alt="Frame 1.png" /></p>
-
-<p>But how do you know when the string ends? by convention you mark the end of a string by using a null pointer (<code class="language-plaintext highlighter-rouge">\0</code>)</p>
-
-<p>So then when you need to pass c_like strings in functions, you pass only the pointer</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">takesAString</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">myCString</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">myCString</span><span class="p">);</span> <span class="c1">// convert to a c++ std::string</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p>⚠️ This is not only used for strings, but whenever to pass arrays of stuff in without C++ fancy classes (no vectors, maps, etc). E.g: <code class="language-plaintext highlighter-rouge">jsi::Value *args</code> = array of <code class="language-plaintext highlighter-rouge">jsi::Values</code>, but unlike strings for other types of arrays you will have to pass/receive the length of the array as an integer (sometimes with a special <code class="language-plaintext highlighter-rouge">size_t</code> type).</p>
-</blockquote>
-
-<h2 id="scopecontext-lifecycles--memory-de-allocations--️">Scope/context Lifecycles / Memory de-allocations  ⚠️</h2>
-
-<p>This is one <strong>WILL BITE YOU IN THE ASS.</strong> Important topic because unlike JS where you can just pass stuff around and it will (mostly) be fine, on C++ your variables will be de-allocated and you will end up with trash.</p>
-
-<p>But it’s important to note, C++ does not have a garbage collector, it just re-uses memory as the stack/heap get re-used.</p>
-
-<p>It is specially important for JSI since current API operates with lambdas and the context (calling function) were they are created is garbage collected and they need capture semantics.</p>
-
-<p>Let’s say you have an initialization function, that function has some variables declared inside:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">initMyModule</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">// using a char* just to illustrate my point and keep the direct memory reference</span>
-	<span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span> <span class="o">=</span> <span class="s">"/usr/osp/Documents/"</span><span class="p">;</span>
-
-	<span class="n">initDatabaseModule</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">docPath</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>In order to initialize your module you call another module where you pass such variables, BUT inside that module you have functions that will outlive the original scope of the calling module:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ATTENTION: Pseudo-code</span>
-
-<span class="c1">// my database module</span>
-
-<span class="c1">// remember the pass by reference (&amp;) part? </span>
-<span class="c1">// This function takes a pointer via the "*" operator</span>
-<span class="kt">void</span> <span class="nf">initDatabaseModule</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span><span class="p">)</span> <span class="p">{</span>
-	
-	<span class="c1">// this is a function with a lambda inside</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">openDatabase</span><span class="p">(</span><span class="n">string</span> <span class="n">dbName</span><span class="p">)</span> <span class="p">{</span>
-		<span class="c1">// some code to initialize a database</span>
-		<span class="k">return</span> <span class="n">createDbFile</span><span class="p">(</span><span class="n">dbName</span><span class="p">,</span> <span class="n">docPath</span><span class="p">);</span>
-	<span class="p">}</span>
-
-	<span class="c1">// Then let's say you make this function globally available to the JS context</span>
-	<span class="c1">// (Foreshadowing to JSI 😉)</span>
-	<span class="n">exposeToJS</span><span class="p">(</span><span class="n">openDatabase</span><span class="p">());</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Well… this will compile just fine, but when you try to call <code class="language-plaintext highlighter-rouge">openDatabase</code> from JavaScript, the <code class="language-plaintext highlighter-rouge">docPath</code> variable (pointer) will no longer contain a string, it will contain random bytes, that is because the context of the <code class="language-plaintext highlighter-rouge">initMyModule</code> function has been freed up, and some other piece of code has (could have) re-written that space.</p>
-
-<blockquote>
-  <p>⚠️ <strong>Unlike JS, you need to be really careful on the references you are passing, because they can be moved/garbage collected.</strong></p>
-</blockquote>
-
-<p>This brings us to capture semantics and how to work around this issues, for this type of module level variables one workaround is to declare a module variable:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ATTENTION: Pseudo-code</span>
-
-<span class="c1">// my database module</span>
-
-<span class="c1">// non-deallocatable reference</span>
-<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">myDocPath</span><span class="p">;</span>
-
-<span class="kt">void</span> <span class="nf">initDatabaseModule</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// We create a copy </span>
-	<span class="n">myDocPath</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">docPath</span><span class="p">);</span>
-
-	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">openDatabase</span><span class="p">(</span><span class="n">string</span> <span class="n">dbName</span><span class="p">)</span> <span class="p">{</span>
-		<span class="c1">// some code to initialize a database</span>
-		<span class="k">return</span> <span class="n">createDbFile</span><span class="p">(</span><span class="n">dbName</span><span class="p">,</span> <span class="n">myDocPath</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
-	<span class="p">}</span>
-
-	<span class="n">exposeToJS</span><span class="p">(</span><span class="n">openDatabase</span><span class="p">());</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Another workaround is to use pass by value semantics, but this might not always work, but at least now you know why your strings are garbage characters.</p>
-
-<h2 id="lambdas">Lambdas</h2>
-
-<p><a href="https://en.cppreference.com/w/cpp/language/lambda">Doc Reference</a></p>
-
-<p>A C++ lambda follows the syntax:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span> <span class="n">captured</span> <span class="n">variables</span> <span class="p">](</span> <span class="n">params</span> <span class="p">)</span> <span class="p">{</span> <span class="n">body</span> <span class="p">}</span>
-</code></pre></div></div>
-
-<p>Here is a very simple lambda example of a curried function (<a href="https://javascript.info/currying-partials">currying</a> =  fancy word for partially applying functions )</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
-#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
-</span>
-<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">createSumN</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
-	<span class="p">};</span>
-<span class="p">}</span>
-
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4</span> <span class="o">=</span> <span class="n">createSumN</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-
-	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-	
-  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h3 id="captured-variables">Captured variables</h3>
-
-<p>In the example I used <code class="language-plaintext highlighter-rouge">[=]</code> as my capture value, this basically copies the entire context of the parent function into the lambda function context, you might want to capture specific values, in that case you want to do something like:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// pass by value/reference still applies here</span>
-
-<span class="c1">// pass by value (will create a copy in the lambda context)</span>
-<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">createSumN</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="p">[</span><span class="n">n</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
-	<span class="p">};</span>
-<span class="p">}</span>
-
-<span class="c1">// pass by reference (will use the same memory address) will basically create garbage if you are not careful and call after parent memory has been re-used</span>
-<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">createSumNWrong</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
-	<span class="k">return</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">n</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
-	<span class="p">};</span>
-<span class="p">}</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4</span> <span class="o">=</span> <span class="n">createSumN</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4Wrong</span> <span class="o">=</span> <span class="n">createSumNWrong</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
-
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="c1">// "14"</span>
-<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4Wrong</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="c1">// who knows, I got "3660"</span>
-</code></pre></div></div>
-
-<p>So whatever you are trying to capture by reference make sure that it will be long lived</p>
-
-<h2 id="stdmove">std::move</h2>
-
-<p>There is another trick you need to know that will keep your variables (and lambdas) from being de-allocated: <code class="language-plaintext highlighter-rouge">std::move</code> takes a variable or reference and tells the compiler it is safe to move it’s memory space to whatever you are passing it to, JSI (and probably the code you will write) uses this extensively:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Assume you are initializing your JSI module, in this case a database module</span>
-<span class="c1">// you create a JSI function and now you need to move it to JavaScript global object</span>
-
-<span class="k">auto</span> <span class="n">myOpenFunction</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">crea</span><span class="p">...</span> <span class="c1">// creates a JSI (read Javascript) function</span>
-
-<span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">()</span>
-	<span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span>
-							 <span class="s">"open"</span><span class="p">,</span> 
-							 <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">myOpenFunction</span><span class="p">));</span> <span class="c1">// This will safely move the memory chunk of "myOpenFunction" from the context of this function to the global object</span>
-</code></pre></div></div>
-
-<p>If your library returns anything but basic types (int, doubles, etc) you will also have to std::move their structs to avoid them from being thrashed:</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">myOpenFunction</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">create</span><span class="p">...</span> <span class="c1">// creates a JSI (read Javascript) function</span>
-											<span class="c1">// bunch of mumbo jumbo</span>
-											<span class="p">{</span>
-												<span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="n">response</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span> <span class="c1">// creates a JavaScript {} (empty object)</span>
-												<span class="n">response</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"foo"</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">);</span> <span class="c1">// {foo: "bar"}</span>
-												<span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">response</span><span class="p">);</span> <span class="c1">// Moves the "response" object from this function scope to the JavaScript runtime to avoid the memory being deleted</span>
-											<span class="p">}</span>
-</code></pre></div></div>
-
-<h2 id="void-returns">Void returns</h2>
-
-<p>Unlike Javascript, <strong>you need to return your lambda functions</strong> (not to Javascript, just on the C++ side):</p>
-
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">myOpenFunction</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">create</span><span class="p">..</span>
-											<span class="c1">// bunch of mumbo jumbo</span>
-											<span class="p">{</span>
-												<span class="p">[]()</span> <span class="o">-&gt;</span> <span class="kt">void</span> <span class="p">{</span>
-													<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"I did some side-effect"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-													<span class="k">return</span> <span class="p">{};</span> <span class="c1">// void return</span>
-												<span class="p">}</span>
-											<span class="p">}</span>
-</code></pre></div></div>
-
-<h1 id="advanced-advanced-stuff">Advanced advanced stuff</h1>
-
-<h2 id="bitwise-operations-masks">Bitwise operations (masks)</h2>
-
-<p>While it is possible to do bit level operations on Javascript is not very common, so you might don’t know how it works, it is however a fairly standard trick in the C/C++ world</p>
-
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">int</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// = 0000...01 (binary)</span>
-<span class="nx">int</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// = 0000...10 (binary)</span>
-
-<span class="c1">// Do an AND on the bits</span>
-<span class="nx">cout</span> <span class="o">&lt;&lt;</span> <span class="nx">a</span> <span class="o">&amp;</span> <span class="nx">b</span> <span class="o">&lt;&lt;</span> <span class="nx">endl</span><span class="p">;</span> <span class="c1">// 0 = 0000...00</span>
-
-<span class="c1">// Do an OR on the bits</span>
-<span class="nx">cout</span> <span class="o">&lt;&lt;</span> <span class="nx">a</span> <span class="o">|</span> <span class="nx">b</span> <span class="o">&lt;&lt;</span> <span class="nx">endl</span><span class="p">;</span> <span class="c1">// 3 = 0000...11</span>
-</code></pre></div></div>
-
-<p>What kind of madman would use this beside the magicians… well, a lot of devs use for single flag configurations, here is a theoretical example:</p>
-
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Let's say I'm creating a user/role module</span>
-<span class="c1">// instead of creating enums, string or w/e</span>
-<span class="c1">// I can model my permissions as a series of flags</span>
-<span class="nx">int</span> <span class="nx">HAS_READ_PERMISSION</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 0000...01</span>
-<span class="nx">int</span> <span class="nx">HAS_WRITE_PERMISSION</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 0000...10</span>
-<span class="nx">int</span> <span class="nx">HAS_EXECUTE_PERMISSION</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">// 000..100</span>
-<span class="c1">// ...</span>
-<span class="nx">int</span> <span class="nx">HAS_CHESEE_WAREHOUSE_PERMISION</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span> <span class="c1">// 000...10000</span>
-
-<span class="c1">// So then when I want to create permissions for an specific user I can do this cute trick</span>
-<span class="nx">int</span> <span class="nx">myUserPermissions</span> <span class="o">=</span> <span class="nx">HAS_READ_PERMISION</span> <span class="o">|</span> <span class="nx">HAS_WRITE_PERMISSION</span> <span class="o">|</span> <span class="nx">HAS_CHESEE_WAREHOUSE_PERMISION</span><span class="p">;</span> <span class="c1">// 000...10101</span>
-</code></pre></div></div>
-
-<h2 id="revisiting-pointers">Revisiting pointers</h2>
-
-<p>I superficially introduced pointers to you, I did not want to go deeper because it can be super confusing, however it is important to know everything you can do (and be careful of) with pointers.</p>
-
-<p>For your reference here is the <a href="https://www.cplusplus.com/doc/tutorial/pointers/">cplusplus tutorial</a> on pointers.</p>
-
-<p>Here are some patterns that you might encounter, instead of reading you the theory like the bible, I think it is better to plain explain it</p>
-
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SQLite example to "open" a database</span>
-
-<span class="c1">// Remember bit masks?</span>
-<span class="nx">int</span> <span class="nx">sqlOpenFlags</span> <span class="o">=</span> <span class="nx">SQLITE_OPEN_READWRITE</span> <span class="o">|</span> <span class="nx">SQLITE_OPEN_CREATE</span><span class="p">;</span>
-
-<span class="nx">sqlite3</span> <span class="o">*</span><span class="nx">db</span><span class="p">;</span> <span class="c1">// Declare a pointer to a sqlite3 type variable, currently empty</span>
-
-<span class="c1">// Exit code to be used by sqlite</span>
-<span class="c1">// 0 is considered by everyone and their grandma to be the code when a program has correctly executed it's function</span>
-<span class="nx">int</span> <span class="nx">exit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
-
-<span class="c1">// Mash everything together! 😮‍💨</span>
-<span class="c1">// 1) The success (or failure) of the operation will be saved on the exit variable</span>
-<span class="c1">// 2) notice the &amp;db: we are passing a pointer to the pointer! Yes that is possible!</span>
-<span class="c1">//    sqlite3 will initialize a sqlite3 object and then cram the memory value into the pointer we passed!</span>
-
-<span class="nx">exit</span> <span class="o">=</span> <span class="nx">sqlite3_open_v2</span><span class="p">(</span><span class="dl">"</span><span class="s2">my_database_path</span><span class="dl">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">db</span><span class="p">,</span> <span class="nx">sqlOpenFlags</span><span class="p">,</span> <span class="nx">nullptr</span><span class="p">);</span>
-
-<span class="c1">// The code above will not throw a memory exception, but it will return the return code</span>
-<span class="c1">// it falls to us to check the function has correctly opened a SQLite database</span>
-<span class="c1">// (SQLITE_OK is just 0)</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">exit</span> <span class="o">!=</span> <span class="nx">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
-<span class="p">...</span>
-</code></pre></div></div>
-
-<h2 id="host-objects">Host Objects</h2>
-
-<p>Host objects are just C++ (class) instances that have methods exposed to the JS context. They do not necessarily have a performance advantage, but rather allow to encapsulate and use most of C++ class semantics easily.</p>
-
-<p>To expose a C++ as a HostObject you need to take care of the following:</p>
-
-<ol>
-  <li>Inherit from jsi::HostObject</li>
-  <li>Override <code class="language-plaintext highlighter-rouge">get</code> and <code class="language-plaintext highlighter-rouge">set</code> to allow access to methods and properties</li>
-  <li>Register object on the global object</li>
-</ol>
-
-<p>Here is a simple example:</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;jsi/jsi.h&gt;</span>
-<span class="cp">#import &lt;React/RCTBridge+Private.h&gt;</span>
-
-<span class="n">using</span> <span class="n">namespace</span> <span class="nv">facebook</span><span class="p">::</span><span class="n">jsi</span><span class="p">;</span>
-<span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
-
-<span class="c1">// Store key-value pairs persistently across launches of your app.</span>
-<span class="kd">class</span> <span class="kt">NativeStorage</span> <span class="p">:</span> <span class="kd">public</span> <span class="kt">HostObject</span> <span class="p">{</span>
-<span class="nv">public</span><span class="p">:</span>
-  <span class="c1">/// Stored property</span>
-  <span class="n">int</span> <span class="n">expirationTime</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span><span class="p">;</span> <span class="c1">// 1 day</span>
-  
-  <span class="c1">// Helper function</span>
-  <span class="kd">static</span> <span class="kt">NSString</span><span class="o">*</span> <span class="nf">stringValue</span><span class="p">(</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="nf">isString</span><span class="p">()</span>
-      <span class="p">?</span> <span class="p">[</span><span class="kt">NSString</span> <span class="nv">stringWithUTF8String</span><span class="p">:</span><span class="n">value</span><span class="o">.</span><span class="nf">getString</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="nf">c_str</span><span class="p">()]</span>
-      <span class="p">:</span> <span class="kc">nil</span><span class="p">;</span>
-  <span class="p">}</span>
-  
-  <span class="kt">Value</span> <span class="nf">get</span><span class="p">(</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">PropNameID</span> <span class="o">&amp;</span><span class="n">name</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
-    <span class="n">auto</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
-    
-    <span class="c1">// `expirationTime` property getter</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"expirationTime"</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">expirationTime</span><span class="p">;</span>
-    <span class="p">}</span>
-    <span class="c1">// `setObject` method</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"setObject"</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="kt">Function</span><span class="p">::</span><span class="nf">createFromHostFunction</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="kt">PropNameID</span><span class="p">::</span><span class="nf">forAscii</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"setObject"</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span>
-                                                        <span class="p">[](</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">thisValue</span><span class="p">,</span><span class="n">const</span> <span class="kt">Value</span> <span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Value</span> <span class="p">{</span>
-        <span class="kt">NSString</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="nf">stringValue</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-        <span class="kt">NSString</span><span class="o">*</span> <span class="n">value</span> <span class="o">=</span> <span class="nf">stringValue</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">length</span> <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
-          <span class="p">[</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span> <span class="nv">setObject</span><span class="p">:</span><span class="n">value</span> <span class="nv">forKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
-          <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-    <span class="c1">// `object` method</span>
-    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"object"</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">return</span> <span class="kt">Function</span><span class="p">::</span><span class="nf">createFromHostFunction</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="kt">PropNameID</span><span class="p">::</span><span class="nf">forAscii</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"object"</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span>
-                                                        <span class="p">[](</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">thisValue</span><span class="p">,</span><span class="n">const</span> <span class="kt">Value</span> <span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Value</span> <span class="p">{</span>
-        <span class="kt">NSString</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="nf">stringValue</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-        <span class="kt">NSString</span><span class="o">*</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span> <span class="nv">stringForKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
-        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">length</span>
-          <span class="p">?</span> <span class="kt">Value</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="kt">String</span><span class="p">::</span><span class="nf">createFromUtf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="kt">UTF8String</span><span class="p">))</span>
-          <span class="p">:</span> <span class="kt">Value</span><span class="p">::</span><span class="nf">undefined</span><span class="p">();</span>
-      <span class="p">});</span>
-    <span class="p">}</span>
-    <span class="k">return</span> <span class="kt">Value</span><span class="p">::</span><span class="nf">undefined</span><span class="p">();</span>
-  <span class="p">}</span>
-  
-  <span class="n">void</span> <span class="nf">set</span><span class="p">(</span><span class="kt">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">PropNameID</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
-    <span class="n">auto</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
-    
-    <span class="c1">// ExpirationTime property setter</span>
-    <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"expirationTime"</span><span class="p">)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="nf">isNumber</span><span class="p">())</span> <span class="p">{</span>
-        <span class="n">this</span><span class="o">-&gt;</span><span class="n">expirationTime</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="nf">asNumber</span><span class="p">();</span>
-      <span class="p">}</span>
-    <span class="p">}</span>
-  <span class="p">}</span>
-  
-	<span class="c1">// You can call this method from the entry point where you install the bindings</span>
-  <span class="c1">// or call it in another method, we will take a look later</span>
-  <span class="c1">// Install `nativeStorage` globally to the runtime</span>
-  <span class="kd">static</span> <span class="n">void</span> <span class="nf">install</span><span class="p">(</span><span class="kt">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
-    <span class="kt">NativeStorage</span> <span class="n">nativeStorage</span><span class="p">;</span>
-    <span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">NativeStorage</span><span class="o">&gt;</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">make_shared</span><span class="o">&lt;</span><span class="kt">NativeStorage</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">move</span><span class="p">(</span><span class="n">nativeStorage</span><span class="p">));</span>
-    <span class="n">auto</span> <span class="n">object</span> <span class="o">=</span> <span class="kt">Object</span><span class="p">::</span><span class="nf">createFromHostObject</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">binding</span><span class="p">);</span>
-
-    <span class="n">runtime</span><span class="o">.</span><span class="nf">global</span><span class="p">()</span><span class="o">.</span><span class="nf">setProperty</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"nativeStorage"</span><span class="p">,</span> <span class="n">object</span><span class="p">);</span>
-  <span class="p">}</span>
-<span class="p">};</span>
-</code></pre></div></div>
-
-<h1 id="references">References</h1>
-
-<p>So most of what you see here I learned from the library I implemented: <a href="https://github.com/ospfranco/react-native-quick-sqlite">react-native-quick-sqlite</a>, it is a new wrapper for SQLite3 using JSI bindings, the code is MIT and open source, so feel free to check it out, there are also many other JSI libraries out there, with varying grades of difficulty for you to understand:</p>
-
-<h3 id="libraries-implemented-using-jsi">Libraries implemented using JSI</h3>
-
-<ul>
-  <li>https://github.com/mrousavy/react-native-vision-camera</li>
-  <li>https://github.com/mrousavy/react-native-mmkv</li>
-  <li>https://github.com/mrousavy/react-native-multithreading</li>
-  <li>https://github.com/software-mansion/react-native-reanimated</li>
-  <li>https://github.com/BabylonJS/BabylonReactNative</li>
-  <li>https://github.com/craftzdog/react-native-quick-base64</li>
-  <li>https://github.com/craftzdog/react-native-quick-md5</li>
-  <li>https://github.com/greentriangle/react-native-leveldb</li>
-  <li>https://github.com/expo/expo/tree/master/packages/expo-gl</li>
-  <li>https://github.com/ospfranco/react-native-quick-sqlite</li>
-  <li>https://github.com/ammarahm-ed/react-native-mmkv-storage</li>
-  <li>https://github.com/Nozbe/WatermelonDB</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Javas JNI quirks and notes</title><link href="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/" rel="alternate" type="text/html" title="Javas JNI quirks and notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/javas%20jni%20quirks%20and%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"><![CDATA[<p>The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check.</p>
-
-<h1 id="type-conversions">Type conversions</h1>
-
-<p>When declaring a Java JNI function you need to declare the types with single characters that will be mapped to C types. The conversion is as follows:</p>
-
-<p>Z = boolean
-B = byte
-C = char
-I = short
-J = long
-F = float
-D = double</p>
-
-<p>Non scalar types need to be declared by their corresponding package:</p>
-
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Will be passed to the C side as a JString</span>
-<span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
-</code></pre></div></div>
-
-<h1 id="extern-c">Extern C</h1>
-
-<p>C++ code needs to be within a <code class="language-plaintext highlighter-rouge">extern "C"</code> to prevent name mangling by the compiler and allow the JNI to call the function blindly.</p>
-
-<h1 id="jniexport--jnicall">JNIEXPORT &amp; JNICALL</h1>
-
-<p><code class="language-plaintext highlighter-rouge">JNIEXPORT</code> ensures function is visible on the symbols table
-<code class="language-plaintext highlighter-rouge">JNICALL</code> ensures function uses the correct calling convention. On Android JNICALL has a different value based on the architecture where it is running.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">CMake notes</title><link href="https://ospfranco.com/post/2023/08/15/cmake-notes/" rel="alternate" type="text/html" title="CMake notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/cmake%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/cmake-notes/"><![CDATA[<p>CMake is a meta build system, can automate everything including running tests and taking screenshots.</p>
-
-<p>It has 3 stages:</p>
-
-<ul>
-  <li>Configuration</li>
-  <li>Generation</li>
-  <li>Building</li>
-</ul>
-
-<h1 id="configuration">Configuration</h1>
-
-<p>CMake will read project details in the <em>source tree</em> directory and preparing the output directory, called <em>build tree,</em> for the generation stage. It collects info about the env (compilers, linkers, variables, etc) into a CMakeCache.txt.</p>
-
-<h1 id="generation">Generation</h1>
-
-<p>After reading the configuration a <em>build system</em> is generated. Since CMake is a meta build system, the output is a cut-to-size configuration for other build tools (make, ninja, IDE files for Visual Studio or Xcode).</p>
-
-<h1 id="building">Building</h1>
-
-<p>To produce the final artifacts, the build tool needs to run. The beauty lies in the ability to produce buildsystem on demand for every platform with a single configuration.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="c1">// CMake does not build anything, but the platform build tool does</span>
-</code></pre></div></div>
-
-<h1 id="useful-flags">Useful flags</h1>
-
-<p><code class="language-plaintext highlighter-rouge">-S</code> Source tree target directory</p>
-
-<p><code class="language-plaintext highlighter-rouge">-B</code> Build tree target directory</p>
-
-<p><code class="language-plaintext highlighter-rouge">-G</code> Generator to use (cmake –help outputs the list of available generators)</p>
-
-<p><code class="language-plaintext highlighter-rouge">-D CMAKE_BUILD_TYPE=Release</code> Important flag to compile for the right level</p>
-
-<blockquote>
-  <p>💡 Some generators are able to generate debug AND release builds at the same time (Xcode and Visual Studio)</p>
-</blockquote>
-
-<blockquote>
-  <p>💻 Cmake can run certain commands in a platform independent way:
-<em>capablities, cat, chdir, compare_files, copy, copy_directory, copy_if_different, echo, echo_append, env, environment, make_directory, md5sum, sha1sum, sha224sum, sha256sum, create_symlink, etc</em></p>
-</blockquote>
-
-<blockquote>
-  <p>📂 Cmake supports sub directories which can have their own compilation process:</p>
-
-  <p><code class="language-plaintext highlighter-rouge">add_subdirectory(api)</code></p>
-</blockquote>
-
-<h1 id="variables">Variables</h1>
-
-<p>CMake performs recursive variable expansion. Setting is done via function.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">set</span><span class="p">(</span><span class="kt">MyString1</span> <span class="s">"Text1"</span><span class="p">)</span>
-<span class="nf">set</span><span class="p">([[</span><span class="kt">My</span> <span class="kt">String2</span><span class="p">]]</span> <span class="s">"Text2"</span><span class="p">)</span>
-<span class="nf">set</span><span class="p">(</span><span class="s">"My String 3"</span> <span class="s">"Text3"</span><span class="p">)</span>
-<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">MyString1</span><span class="p">})</span>
-<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">My</span><span class="p">\</span> <span class="kt">String2</span><span class="p">})</span>
-<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">My</span><span class="p">\</span> <span class="kt">String</span><span class="p">\</span> <span class="mi">3</span><span class="p">})</span>
-</code></pre></div></div>
-
-<p>Depending on the type of variable, they get accessed differently</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">${}</code> syntax is used to reference normal or cache variables</li>
-  <li><code class="language-plaintext highlighter-rouge">$ENV{}</code> syntax is used to reference environment variables</li>
-  <li><code class="language-plaintext highlighter-rouge">$CACHE{}</code> syntax is used to reference cache variables</li>
-</ul>
-
-<h1 id="commands">Commands</h1>
-
-<h2 id="include">include</h2>
-
-<p>Will try to read a cmake file and execute it</p>
-
-<h2 id="file">file</h2>
-
-<p>Set of file manipulations</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">file</span><span class="p">(</span><span class="kt">READ</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">out</span><span class="o">-</span><span class="kd">var</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">...</span><span class="p">])</span>
-<span class="nf">file</span><span class="p">({</span><span class="kt">WRITE</span> <span class="o">|</span> <span class="kt">APPEND</span><span class="p">}</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">content</span><span class="o">&gt;...</span><span class="p">)</span>
-<span class="nf">file</span><span class="p">(</span><span class="kt">DOWNLOAD</span> <span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
-
-<h2 id="execute_process">execute_process</h2>
-
-<p>Allows to execute an external process. TIMEOUT can be used. RESULT_VARIABLE allows to collect the exit status code.</p>
-
-<h2 id="option">option</h2>
-
-<p>Provide a variable that the user can overwrite:</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">option</span><span class="p">(</span><span class="kt">BUILD_SHARED_LIBS</span> <span class="s">"Build libraries as shared libraries"</span> <span class="kt">ON</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h1 id="sub-directories">Sub directories</h1>
-
-<p>Allow for the natural inclusion of a file structure.</p>
-
-<h2 id="add_subdirectory">add_subdirectory</h2>
-
-<p>Will simply execute any nested cmakelists.txt found in the passed directory. This does not imply automatic linking.</p>
-
-<h2 id="target_link_libraries">target_link_libraries</h2>
-
-<p>It’s used to link the artifacts generated to the target. Root <code class="language-plaintext highlighter-rouge">cmakelists.txt</code>:</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">cmake_minimum_required</span><span class="p">(</span><span class="kt">VERSION</span> <span class="mf">3.20</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-<span class="nf">project</span><span class="p">(</span><span class="kt">Rental</span> <span class="kt">CXX</span><span class="p">)</span>
-
-<span class="nf">add_executable</span><span class="p">(</span><span class="kt">Rental</span> <span class="n">main</span><span class="o">.</span><span class="n">cpp</span><span class="p">)</span>
-
-<span class="nf">add_subdirectory</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
-<span class="nf">target_link_libraries</span><span class="p">(</span><span class="kt">Rental</span> <span class="kt">PRIVATE</span> <span class="n">cars</span><span class="p">)</span>
-</code></pre></div></div>
-
-<p>Child <code class="language-plaintext highlighter-rouge">cmakelists.txt</code>:</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="n">cards</span> <span class="kt">OBJECT</span>
-	<span class="n">car</span><span class="o">.</span><span class="n">cpp</span>
-<span class="cp"># car_maintenance.cpp</span>
-<span class="p">)</span>
-
-<span class="nf">target_include_directories</span><span class="p">(</span><span class="n">cars</span> <span class="kt">PUBLIC</span> <span class="o">.</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="add_library">add_library</h2>
-
-<p>Produces a globally visible target <code class="language-plaintext highlighter-rouge">cars</code> (basically: will link the symbols). By using the <strong>OBJECT</strong> keyword, only the object files will generated (not a library).</p>
-
-<h2 id="target_include_directories">target_include_directories</h2>
-
-<p>Will allow cpp code to include the headers (without providing a relative path. e.g. <code class="language-plaintext highlighter-rouge">#include “myheader.h”</code>)</p>
-
-<h1 id="cross-compilation">Cross-compilation</h1>
-
-<p>Compiling code on one machine-art to be run in another is called <strong>cross-compilation</strong>. The <strong>host</strong> system information variables always have <em>HOST</em> in their name.</p>
-
-<h2 id="64-bits">64 bits</h2>
-
-<p>CMake uses the pointer size to gather information about the target machine.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="kt">CMAKE_SIZEOF_VOID_P</span> <span class="kt">EQUAL</span> <span class="mi">8</span><span class="p">)</span>
-	<span class="nf">message</span><span class="p">(</span><span class="kt">STATUS</span> <span class="s">"Target is 64 bits"</span><span class="p">)</span>
-<span class="nf">endif</span><span class="p">()</span>
-</code></pre></div></div>
-
-<h1 id="cxx-standard">Cxx standard</h1>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Pick C++ (11, 14, 17, 20, 23) version</span>
-<span class="nf">set_property</span><span class="p">(</span><span class="kt">TARGET</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PROPERTY</span> <span class="kt">CXX</span> <span class="o">&lt;</span><span class="n">standard</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="nf">set</span><span class="p">(</span><span class="kt">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="kt">ON</span><span class="p">)</span> <span class="c1">// Forces CMake to check the compiler supports the standard</span>
-</code></pre></div></div>
-
-<h2 id="try_run">try_run</h2>
-
-<p>Command that allows to quickly run an artifact to check after compilation it runs without runtime errors.</p>
-
-<h1 id="targets">Targets</h1>
-
-<p>It’s a recipe that a buildsystem uses to compile a list of files into another file. CMake can create three targets:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">add_executable()</code></li>
-  <li><code class="language-plaintext highlighter-rouge">add_library()</code></li>
-  <li><code class="language-plaintext highlighter-rouge">add_custom_target()</code> → doesn’t necessarily produce an output file</li>
-</ul>
-
-<p>Targets have properties that work similar way to fields of c++ objects.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">get_target_property</span><span class="p">(</span><span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">property</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="nf">set_target_properties</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target1</span><span class="o">&gt;</span> <span class="o">...</span> <span class="kt">PROPERTIES</span> <span class="o">&lt;</span><span class="n">prop1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value1</span><span class="o">&gt;</span> <span class="o">...</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h2 id="aliases">Aliases</h2>
-
-<p>Useful if some specific target requires a specific name.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_executable</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">ALIAS</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">ALIAS</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span><span class="p">)</span>
-</code></pre></div></div>
-
-<h1 id="building-1">Building</h1>
-
-<p>Including header files</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;path-spec&gt; // Will check standard include directories, including system directories</span>
-<span class="cp">#include "path-spec" // Will start searching for the included file in the directory of the current file and then check directories for the angle-bracket form</span>
-</code></pre></div></div>
-
-<p>Cmake provides a command to manipulate paths being searched for included files</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">target_include_directories</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="p">[</span><span class="kt">SYSTEM</span><span class="p">]</span> <span class="p">[</span><span class="kt">AFTER</span><span class="o">|</span><span class="kt">BEFORE</span><span class="p">]</span> <span class="o">&lt;</span><span class="kt">INTERFACE</span><span class="o">|</span><span class="kt">PUBLIC</span><span class="o">|</span><span class="kt">PRIVATE</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">items</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">SYSTEM</code> keyword informs the compilers that the provided dirs are meant as standard system directories (to be used with angle-brackets)</p>
-
-<h1 id="linking">Linking</h1>
-
-<p>Linking relocates individual object files into a single executable (needs to literally relocate pieces of the files together, contains sections headers, sections, and a section header table). Secondly, it needs to resolve references from differenten translation units (each cpp file is a translation unit).</p>
-
-<p>All libraries have a common prefix <code class="language-plaintext highlighter-rouge">lib</code>.</p>
-
-<h2 id="libraries">Libraries</h2>
-
-<h2 id="static-libraries">Static libraries</h2>
-
-<p>Will simply create a static library. Static libraries are a collection of <em>raw object files</em> in an archive. Use them if you want to avoid separating your dependencies from the executable, at the price of increasing size and memory consumed.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="kt">STATIC</span><span class="p">]</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
-
-<h2 id="dynamic-libraries">Dynamic libraries</h2>
-
-<p>Shared libraries are built using a linker. This libraries will contains proper section headers, sections, etc. The OS will load a single instance into memory and all subsequently started programs will be provided with the same address.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">SHARED</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
-
-<h2 id="shared-modules">Shared modules</h2>
-
-<p>This is a version of a shared library that is intended to be loaded during runtime, rather than linked during compilation. A shared module is not loaded automatically at the start of a program (like dy libs). This only happens when a program explicitly requests it via system call.</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">MODULE</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
-
-<h2 id="namespaces">Namespaces</h2>
-
-<p>I’ll spare you the details, depending on the linker implementation sometimes symbols/definitions/variables might be resolved or merged or just fail when compiling your program. Namespaces were created for the purpose of encapsulating translation units without having to worry about this collisions. Just use them.</p>
-
-<h1 id="fetch-content">Fetch content</h1>
-
-<p>CMake can also help taking care of fetching dependencies not in your machine:</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Includes Fetch content plugin</span>
-<span class="nf">include</span><span class="p">(</span><span class="kt">FetchContent</span><span class="p">)</span>
-<span class="c1">// Declare dependency from a git repo and a specific tag</span>
-<span class="kt">FetchContent_Declare</span><span class="p">(</span><span class="n">cpr</span> <span class="kt">GIT_REPOSITORY</span> <span class="nv">https</span><span class="p">:</span><span class="c1">//github.com/libcpr/cpr.git</span>
-                         <span class="kt">GIT_TAG</span> <span class="mi">871</span><span class="n">ed52d350214a034f6ef8a3b8f51c5ce1bd400</span><span class="p">)</span>
-<span class="c1">// Make dependency available as a target</span>
-<span class="kt">FetchContent_MakeAvailable</span><span class="p">(</span><span class="n">cpr</span><span class="p">)</span>
-<span class="c1">// Link target with cpr</span>
-<span class="nf">target_link_libraries</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PRIVATE</span> <span class="nv">cpr</span><span class="p">::</span><span class="n">cpr</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[CMake is a meta build system, can automate everything including running tests and taking screenshots.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">C++ and XCode notes</title><link href="https://ospfranco.com/post/2023/08/15/c++-and-xcode-notes/" rel="alternate" type="text/html" title="C++ and XCode notes" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/c++%20and%20xcode%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/c++-and-xcode-notes/"><![CDATA[<p>Random notes I go making as I get to compile C++ with XCode</p>
-
-<h1 id="header-paths">Header paths</h1>
-
-<p>Xcode settings show two different path variables for headers:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">User Header Search Paths</code> are the paths searched when you use <code class="language-plaintext highlighter-rouge">#include "..."</code></li>
-  <li><code class="language-plaintext highlighter-rouge">Header Search Paths</code> are the paths searched when you use <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code></li>
-</ul>
-
-<p>The option <code class="language-plaintext highlighter-rouge">Always Search User Paths</code> will force <code class="language-plaintext highlighter-rouge">#include &lt;...&gt;</code> to search in the <code class="language-plaintext highlighter-rouge">User Header Search Paths</code>.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Random notes I go making as I get to compile C++ with XCode]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>If you are a big android fan you can probably make it work, but once I had the iOS version of my JSI package working, the only code I needed was the glue to compile and link the library to the android side of things, so here you can use whatever you want to write java/kotlin.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
