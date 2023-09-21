@@ -24,6 +24,8 @@ exclude:
   - bin
   - .gitignore
 
+include: [".well-known"]
+
 webrick:
   headers:
     Cache-Control: max-age=31536000
