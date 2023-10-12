@@ -1,0 +1,92 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>React Native load release bundle in iOS dev app | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="React Native load release bundle in iOS dev app" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code." />
+<meta property="og:description" content="When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-12T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:title" content="React Native load release bundle in iOS dev app" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-12T15:00:00+02:00","datePublished":"2023-10-12T15:00:00+02:00","description":"When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.","headline":"React Native load release bundle in iOS dev app","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"},"url":"https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/inter.css" />
+</head>
+
+<html>
+  <header
+  class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-3xl flex items-center gap-2 px-4">
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
+
+    <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a>
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+        React Native load release bundle in iOS dev app
+      </h1>
+
+      <p class="mt-2 font-semibold">
+        October 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown"><p>When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.</p>
+
+<p>In your AppDelegate, replace:</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>for</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">packagerServerHostPort</span> <span class="o">=</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">packagerServerHostPort</span><span class="p">];</span>
+<span class="k">return</span> <span class="p">[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span>
+                                         <span class="nl">packagerHost:</span><span class="n">packagerServerHostPort</span>
+                                            <span class="nl">enableDev:</span><span class="nb">NO</span>
+                                   <span class="nl">enableMinification:</span><span class="nb">NO</span><span class="p">];</span>
+</code></pre></div></div>
+</div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+
+    <script>
+      hljs.initHighlightingOnLoad();
+    </script>
+  </div>
+</body>
+
+</html>

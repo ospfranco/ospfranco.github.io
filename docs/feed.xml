@@ -1,4 +1,18 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-09-21T14:00:24+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Add gap support to Native Wind 2.x.x</title><link href="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/" rel="alternate" type="text/html" title="Add gap support to Native Wind 2.x.x" /><published>2023-08-21T15:00:00+02:00</published><updated>2023-08-21T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/21/add%20gap%20support%20to%20native%20wind%202.x.x</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"><![CDATA[<p>I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-10-12T06:58:25+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native load release bundle in iOS dev app</title><link href="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/" rel="alternate" type="text/html" title="React Native load release bundle in iOS dev app" /><published>2023-10-12T15:00:00+02:00</published><updated>2023-10-12T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/10/12/react%20native%20load%20release%20bundle%20in%20ios%20dev%20app</id><content type="html" xml:base="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"><![CDATA[<p>When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.</p>
+
+<p>In your AppDelegate, replace:</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span><span class="p">];</span>
+</code></pre></div></div>
+
+<p>for</p>
+
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">packagerServerHostPort</span> <span class="o">=</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">packagerServerHostPort</span><span class="p">];</span>
+<span class="k">return</span> <span class="p">[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span>
+                                         <span class="nl">packagerHost:</span><span class="n">packagerServerHostPort</span>
+                                            <span class="nl">enableDev:</span><span class="nb">NO</span>
+                                   <span class="nl">enableMinification:</span><span class="nb">NO</span><span class="p">];</span>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Add gap support to Native Wind 2.x.x</title><link href="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/" rel="alternate" type="text/html" title="Add gap support to Native Wind 2.x.x" /><published>2023-08-21T15:00:00+02:00</published><updated>2023-08-21T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/21/add%20gap%20support%20to%20native%20wind%202.x.x</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"><![CDATA[<p>I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.</p>
 
 <p>There is however a small problem with the 2.X.X version of NativeWind, it doesn’t support the <code class="language-plaintext highlighter-rouge">gap</code> property, which was added on RN 0.70.</p>
 
@@ -293,59 +307,7 @@ index 7d7715b..56472bc 100644
 <p>Afterwards you can run <code class="language-plaintext highlighter-rouge">yarn</code> again for the patch to take effect, restart the packager (maybe with –reset-cache) and you can now use the gap property via <code class="language-plaintext highlighter-rouge">g-[n]</code> utilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Change macOS dock animation time</title><link href="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/" rel="alternate" type="text/html" title="Change macOS dock animation time" /><published>2023-08-20T15:00:00+02:00</published><updated>2023-08-20T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/20/change%20macos%20dock%20animation%20time</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/"><![CDATA[<p>I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.dock autohide-time-modifier <span class="nt">-float</span> 0<span class="p">;</span> killall Dock
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Disambiguate TypeScript union types</title><link href="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/" rel="alternate" type="text/html" title="Disambiguate TypeScript union types" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/disambiguate%20typescript%20union%20types</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/"><![CDATA[<p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
-
-<span class="c1">// Trouble comes</span>
-
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
-
-<span class="c1">// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null</span>
-<span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">iOSOnlyField</span> <span class="c1">// kaboom</span>
-</code></pre></div></div>
-
-<p>You can make typescript happy by adding a literal field that will provide it with enough info to make sure the object is correct:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Android</span><span class="dl">'</span><span class="p">;</span>
-
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
-
-<span class="c1">// Trouble comes</span>
-
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
-
-<span class="k">if</span><span class="p">(</span><span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for iOSPaymentInfo</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for AndroidPaymentInfo</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
-</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Strip flow types to read flowtype file from vanilla JS</title><link href="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" rel="alternate" type="text/html" title="Strip flow types to read flowtype file from vanilla JS" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/strip%20flow%20types%20to%20read%20flowtype%20file%20from%20vanilla%20js</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"><![CDATA[<p>Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.</p>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Strip flow types to read flowtype file from vanilla JS</title><link href="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" rel="alternate" type="text/html" title="Strip flow types to read flowtype file from vanilla JS" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/strip%20flow%20types%20to%20read%20flowtype%20file%20from%20vanilla%20js</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"><![CDATA[<p>Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.</p>
 
 <p>I needed to use a translation file that had flow types in vanilla JS and I figured out a way to strip the types.</p>
 
@@ -426,27 +388,59 @@ index 7d7715b..56472bc 100644
 <span class="nx">fs</span><span class="p">.</span><span class="nx">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
 
 <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, native logs quirks</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" rel="alternate" type="text/html" title="React Native, native logs quirks" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20native%20logs%20quirks</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"><![CDATA[<h1 id="ios">iOS</h1>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Disambiguate TypeScript union types</title><link href="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/" rel="alternate" type="text/html" title="Disambiguate TypeScript union types" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/disambiguate%20typescript%20union%20types</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/"><![CDATA[<p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
 
-<p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code class="language-plaintext highlighter-rouge">Arguments</code> tab, there you will see a <code class="language-plaintext highlighter-rouge">OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
 
-<p>If you don’t want to use NSLog (or print on Swift I suppose) you can use the RCTLog functions:</p>
+<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+<span class="p">}</span>
 
-<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTLog.h&gt;
-</span>
-<span class="c1">// Your code</span>
-<span class="n">RCTLogWarn</span><span class="p">(</span><span class="s">@"Your message"</span><span class="p">)</span>
+<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
+
+<span class="c1">// Trouble comes</span>
+
+<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
+
+<span class="c1">// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null</span>
+<span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">iOSOnlyField</span> <span class="c1">// kaboom</span>
 </code></pre></div></div>
 
-<h1 id="android">Android</h1>
+<p>You can make typescript happy by adding a literal field that will provide it with enough info to make sure the object is correct:</p>
 
-<p>On Android you can resort to the RNLog functions:</p>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">}</span>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.facebook.react.util.RNLog</span><span class="o">;</span>
+<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
+  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Android</span><span class="dl">'</span><span class="p">;</span>
 
-<span class="c1">// Your code</span>
-<span class="nc">RNLog</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="s">"Your message"</span><span class="o">);</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[iOS]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, file upload via axios</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-file-upload-via-axios/" rel="alternate" type="text/html" title="React Native, file upload via axios" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20file%20upload%20via%20axios</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-file-upload-via-axios/"><![CDATA[<p>Some years ago I remember I had to implement file uploads using react-native-fetch-blob. I tried it again this year and with pure Axios it is working just fine:</p>
+<span class="p">}</span>
+
+<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
+
+<span class="c1">// Trouble comes</span>
+
+<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
+
+<span class="k">if</span><span class="p">(</span><span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// Type safe code for iOSPaymentInfo</span>
+<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+  <span class="c1">// Type safe code for AndroidPaymentInfo</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<blockquote>
+  <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
+</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native, file upload via axios</title><link href="https://ospfranco.com/post/2023/08/15/react-native,-file-upload-via-axios/" rel="alternate" type="text/html" title="React Native, file upload via axios" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/react%20native,%20file%20upload%20via%20axios</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/react-native,-file-upload-via-axios/"><![CDATA[<p>Some years ago I remember I had to implement file uploads using react-native-fetch-blob. I tried it again this year and with pure Axios it is working just fine:</p>
 
 <div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">try</span><span class="p">{</span>
 	<span class="kd">const</span> <span class="nx">formData</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FormData</span><span class="p">();</span>
