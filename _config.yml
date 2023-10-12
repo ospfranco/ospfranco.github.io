@@ -11,7 +11,7 @@ title: "Oscar Franco"
 twitter:
   username: "ospfranco"
   card: "summary"
-image: "assets/profile.JPG"
+image: "assets/profile.jpg"
 future: true # Publish posts with future dates
 
 exclude:
