@@ -12,8 +12,8 @@
 <meta property="og:title" content="Add gap support to Native Wind 2.x.x" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles." />
-<meta property="og:description" content="I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles." />
+<meta name="description" content="I’m a big fan of Tailwind CSS. On React Native I use Nativewind." />
+<meta property="og:description" content="I’m a big fan of Tailwind CSS. On React Native I use Nativewind." />
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-21T15:00:00+02:00","datePublished":"2023-08-21T15:00:00+02:00","description":"I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.","headline":"Add gap support to Native Wind 2.x.x","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"},"url":"https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-21T15:00:00+02:00","datePublished":"2023-08-21T15:00:00+02:00","description":"I’m a big fan of Tailwind CSS. On React Native I use Nativewind.","headline":"Add gap support to Native Wind 2.x.x","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"},"url":"https://ospfranco.com/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -38,69 +38,70 @@
   class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
 >
   <div class="w-full max-w-3xl flex items-center gap-2 px-4">
-    <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white"
+      >Oscar Franco</a
+    >
 
-    <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
     <a href="mailto:ospfranco@gmail.com"
     target="_blank" class="text-sm">
       Available for freelance work
-    </a>
+    </a> -->
   </div>
 </header>
+
 
 <body class="flex flex-col items-center">
   <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
         Add gap support to Native Wind 2.x.x
       </h1>
 
-      <p class="mt-2 font-semibold">
-        August 2023
-      </p>
+      <p class="mt-2 dark:text-neutral-500">August 2023</p>
 
-      <div class="pt-4 pb-20 markdown"><p>I’m a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.</p>
+      <div class="pt-4 pb-20 markdown"><p>I’m a big fan of Tailwind CSS. On React Native I use Nativewind.</p>
 
-<p>There is however a small problem with the 2.X.X version of NativeWind, it doesn’t support the <code class="language-plaintext highlighter-rouge">gap</code> property, which was added on RN 0.70.</p>
+<p>There is however a small problem with the 2.X.X version of Nativewind, it doesn’t support the <code class="language-plaintext highlighter-rouge">gap</code> property, which was added on RN 0.70.</p>
 
 <p>We can however patch this functionality (without using the unstable 3.x.x branch).</p>
 
-<h1 id="add-the-following-to-tailwindconfigjs">Add the following to <code class="language-plaintext highlighter-rouge">tailwind.config.js</code></h1>
+<p>Add the following to <code class="language-plaintext highlighter-rouge">tailwind.config.js</code></p>
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** @type {import('tailwindcss').Config} */</span>
 
-<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">tailwindcss/plugin</span><span class="dl">'</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">tailwindcss/plugin</span><span class="dl">"</span><span class="p">);</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">content</span><span class="p">:</span> <span class="p">[</span><span class="dl">'</span><span class="s1">./App.tsx</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">./src/**/*.{ts,tsx}</span><span class="dl">'</span><span class="p">],</span>
+  <span class="na">content</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">./App.tsx</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">./src/**/*.{ts,tsx}</span><span class="dl">"</span><span class="p">],</span>
   <span class="na">theme</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">'</span><span class="s1">spacing</span><span class="dl">'</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
+    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">spacing</span><span class="dl">"</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
     <span class="na">extend</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">colors</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">lightPurple</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#6360EB</span><span class="dl">'</span><span class="p">,</span>
-        <span class="na">darkPurple</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#001448</span><span class="dl">'</span><span class="p">,</span>
+        <span class="na">lightPurple</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#6360EB</span><span class="dl">"</span><span class="p">,</span>
+        <span class="na">darkPurple</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#001448</span><span class="dl">"</span><span class="p">,</span>
       <span class="p">},</span>
     <span class="p">},</span>
   <span class="p">},</span>
   <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
-    <span class="nx">plugin</span><span class="p">(</span><span class="kd">function</span> <span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span> <span class="c1">// ADD THIS PLUGIN</span>
+    <span class="nx">plugin</span><span class="p">(</span><span class="kd">function</span> <span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span>
+      <span class="c1">// ADD THIS PLUGIN</span>
       <span class="nx">matchUtilities</span><span class="p">(</span>
         <span class="p">{</span>
           <span class="na">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
             <span class="na">gap</span><span class="p">:</span> <span class="nx">value</span><span class="p">,</span>
           <span class="p">}),</span>
         <span class="p">},</span>
-        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">'</span><span class="s1">g</span><span class="dl">'</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">g</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span>
       <span class="p">);</span>
     <span class="p">}),</span>
   <span class="p">],</span>
 <span class="p">};</span>
-
 </code></pre></div></div>
 
 <h1 id="use-patch-package-to-patch-the-list-of-supported-properties">Use patch-package to patch the list of supported properties</h1>
 
-<p>Internally NativeWind maintains a list of supported properties, and gap is not among them, so we are going to have to <code class="language-plaintext highlighter-rouge">patch-package</code> it. Create a patch <code class="language-plaintext highlighter-rouge">nativewind+2.0.11.patch</code> file in your <code class="language-plaintext highlighter-rouge">patches</code> directory, with the following content:</p>
+<p>Internally Nativewind maintains a list of supported properties, and gap is not among them, so we are going to have to <code class="language-plaintext highlighter-rouge">patch-package</code> it. Create a patch <code class="language-plaintext highlighter-rouge">nativewind+2.0.11.patch</code> file in your <code class="language-plaintext highlighter-rouge">patches</code> directory, with the following content:</p>
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
 index 7d7715b..56472bc 100644
@@ -357,12 +358,12 @@ index 7d7715b..56472bc 100644
 
     <link
       rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
     <script>
-      hljs.initHighlightingOnLoad();
+      hljs.highlightAll();
     </script>
   </div>
 </body>

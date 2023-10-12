@@ -56,13 +56,11 @@ a {
   @apply pl-4 italic border-l-2 dark:border-neutral-600 my-2;
 }
 
-.markdown .highlighter-rouge {
-  @apply max-w-full pt-0 pb-0 font-medium bg-transparent text-amber-600;
-  font-family: Inter, Arial, Helvetica, sans-serif;
-  word-break: break-all
+.markdown .language-plaintext {
+  @apply px-1 rounded text-orange-500 border dark:border-neutral-800 bg-gray-100 dark:bg-gray-900 text-sm;
 }
 
 .hljs {
-  @apply rounded-lg;
-  padding: 0.8rem 1rem!important;
+  @apply rounded-lg text-xs border dark:border-neutral-800;
+  padding: 0.8rem 1rem !important;
 }

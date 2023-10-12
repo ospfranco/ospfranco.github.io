@@ -36,26 +36,27 @@
   class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
 >
   <div class="w-full max-w-3xl flex items-center gap-2 px-4">
-    <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white"
+      >Oscar Franco</a
+    >
 
-    <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
     <a href="mailto:ospfranco@gmail.com"
     target="_blank" class="text-sm">
       Available for freelance work
-    </a>
+    </a> -->
   </div>
 </header>
+
 
 <body class="flex flex-col items-center">
   <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
         How to deploy a NestJS app on Minikube
       </h1>
 
-      <p class="mt-2 font-semibold">
-        February 2020
-      </p>
+      <p class="mt-2 dark:text-neutral-500">February 2020</p>
 
       <div class="pt-4 pb-20 markdown"><p>In order to release the SaaS version of my new product <a href="www.strest.io">Strest</a>, I’ve decided to use Kubernetes, you keep hearing all the yapping about it and it promises scalability right from the get go, which is what I need, so I’m giving up to the complexity and (finally) learning it, I have run into a lot of problems and I’m still not through with the learning face, but the simple packaging and deployment of a sample app was so painful that I’ve decided to write something down, not only as a log for me to better retain the knowledge but hopefully also helping anybody struggling to do their first deployment.</p>
 
@@ -204,12 +205,12 @@ template:
 
     <link
       rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
     <script>
-      hljs.initHighlightingOnLoad();
+      hljs.highlightAll();
     </script>
   </div>
 </body>

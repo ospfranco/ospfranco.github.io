@@ -7,25 +7,23 @@ layout: default
 <body class="flex flex-col items-center">
   <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
         {{ page.title }}
       </h1>
 
-      <p class="mt-2 font-semibold">
-        {{ page.date | date: "%B %Y" }}
-      </p>
+      <p class="mt-2 dark:text-neutral-500">{{ page.date | date: "%B %Y" }}</p>
 
       <div class="pt-4 pb-20 markdown">{{ content }}</div>
     </div>
 
     <link
       rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
     <script>
-      hljs.initHighlightingOnLoad();
+      hljs.highlightAll();
     </script>
   </div>
 </body>

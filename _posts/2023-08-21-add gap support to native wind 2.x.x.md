@@ -7,49 +7,49 @@ permalink: /:categories/:year/:month/:day/:title/
 image: assets/profile.JPG
 ---
 
-I'm a big fan of TailWind. On React Native I use [NativeWind] which uses babel transforms so on runtime there is no overhead when applying the TailWind styles.
+I'm a big fan of Tailwind CSS. On React Native I use Nativewind.
 
-There is however a small problem with the 2.X.X version of NativeWind, it doesn't support the `gap` property, which was added on RN 0.70.
+There is however a small problem with the 2.X.X version of Nativewind, it doesn't support the `gap` property, which was added on RN 0.70.
 
 We can however patch this functionality (without using the unstable 3.x.x branch).
 
-# Add the following to `tailwind.config.js`
+Add the following to `tailwind.config.js`
 
 ```js
 /** @type {import('tailwindcss').Config} */
 
-const plugin = require('tailwindcss/plugin');
+const plugin = require("tailwindcss/plugin");
 
 module.exports = {
-  content: ['./App.tsx', './src/**/*.{ts,tsx}'],
+  content: ["./App.tsx", "./src/**/*.{ts,tsx}"],
   theme: {
-    g: ({ theme }) => theme('spacing'), // ADD THIS FUNCTION
+    g: ({ theme }) => theme("spacing"), // ADD THIS FUNCTION
     extend: {
       colors: {
-        lightPurple: '#6360EB',
-        darkPurple: '#001448',
+        lightPurple: "#6360EB",
+        darkPurple: "#001448",
       },
     },
   },
   plugins: [
-    plugin(function ({ matchUtilities, theme }) { // ADD THIS PLUGIN
+    plugin(function ({ matchUtilities, theme }) {
+      // ADD THIS PLUGIN
       matchUtilities(
         {
           g: (value) => ({
             gap: value,
           }),
         },
-        { values: theme('g') }
+        { values: theme("g") }
       );
     }),
   ],
 };
-
 ```
 
 # Use patch-package to patch the list of supported properties
 
-Internally NativeWind maintains a list of supported properties, and gap is not among them, so we are going to have to `patch-package` it. Create a patch `nativewind+2.0.11.patch` file in your `patches` directory, with the following content:
+Internally Nativewind maintains a list of supported properties, and gap is not among them, so we are going to have to `patch-package` it. Create a patch `nativewind+2.0.11.patch` file in your `patches` directory, with the following content:
 
 ```diff
 diff --git a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js

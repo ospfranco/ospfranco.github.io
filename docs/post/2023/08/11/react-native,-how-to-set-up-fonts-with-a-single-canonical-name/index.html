@@ -38,26 +38,27 @@
   class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
 >
   <div class="w-full max-w-3xl flex items-center gap-2 px-4">
-    <a href="/" class="font-semibold flex-1 text-black dark:text-white">Oscar Franco</a>
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white"
+      >Oscar Franco</a
+    >
 
-    <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
     <a href="mailto:ospfranco@gmail.com"
     target="_blank" class="text-sm">
       Available for freelance work
-    </a>
+    </a> -->
   </div>
 </header>
+
 
 <body class="flex flex-col items-center">
   <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-4xl font-semibold">
+      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
         React Native, how to set up fonts with a single canonical name
       </h1>
 
-      <p class="mt-2 font-semibold">
-        August 2023
-      </p>
+      <p class="mt-2 dark:text-neutral-500">August 2023</p>
 
       <div class="pt-4 pb-20 markdown"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code class="language-plaintext highlighter-rouge">&lt;Text&gt;</code> component in some custom component that sets the <code class="language-plaintext highlighter-rouge">fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
 
@@ -267,12 +268,12 @@ cp /tmp/raleway/*.ttf assets/fonts
 
     <link
       rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/styles/darcula.min.css"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.0.3/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
 
     <script>
-      hljs.initHighlightingOnLoad();
+      hljs.highlightAll();
     </script>
   </div>
 </body>
