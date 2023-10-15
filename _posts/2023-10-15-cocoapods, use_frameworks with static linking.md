@@ -12,7 +12,7 @@ image: assets/profile.JPG
 In this case, you can actually use frameworks, yet still force static compiling. Replace
 
 ```ruby
-`use_frameworks!` with:
+`use_frameworks!`
 ```
 
 with
