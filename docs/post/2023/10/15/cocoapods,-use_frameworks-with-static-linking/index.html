@@ -1,0 +1,88 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Cocoapods, use_frameworks with static linking | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Cocoapods, use_frameworks with static linking" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="use_frameworks! tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
+<meta property="og:description" content="use_frameworks! tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:title" content="Cocoapods, use_frameworks with static linking" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-15T15:00:00+02:00","datePublished":"2023-10-15T15:00:00+02:00","description":"use_frameworks! tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).","headline":"Cocoapods, use_frameworks with static linking","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"},"url":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/inter.css" />
+</head>
+
+<html>
+  <header
+  class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-3xl flex items-center gap-2 px-4">
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white"
+      >Oscar Franco</a
+    >
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
+        Cocoapods, use_frameworks with static linking
+      </h1>
+
+      <p class="mt-2 dark:text-neutral-500">October 2023</p>
+
+      <div class="pt-4 pb-20 markdown"><p><code class="language-plaintext highlighter-rouge">use_frameworks!</code> tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
+
+<p>In this case, you can actually use frameworks, yet still force static compiling. Replace <code class="language-plaintext highlighter-rouge">use_frameworks!</code> with:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">use_frameworks!</span> <span class="ss">linkage: :static</span>
+</code></pre></div></div>
+
+<h1 id="frameworks">Frameworks</h1>
+
+<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code class="language-plaintext highlighter-rouge">.framework</code> file you might find folders per architecture and a <code class="language-plaintext highlighter-rouge">.plist</code> file. So there should be no reason not to able to statically link the dependency.</p>
+</div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+
+</html>
