@@ -12,8 +12,8 @@
 <meta property="og:title" content="Cocoapods, use_frameworks with static linking" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="use_frameworks! tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
-<meta property="og:description" content="use_frameworks! tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
+<meta name="description" content="use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
+<meta property="og:description" content="use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
 <link rel="canonical" href="https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -26,7 +26,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-15T15:00:00+02:00","datePublished":"2023-10-15T15:00:00+02:00","description":"use_frameworks! tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).","headline":"Cocoapods, use_frameworks with static linking","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"},"url":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-15T15:00:00+02:00","datePublished":"2023-10-15T15:00:00+02:00","description":"use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).","headline":"Cocoapods, use_frameworks with static linking","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"},"url":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -60,16 +60,21 @@
 
       <p class="mt-2 dark:text-neutral-500">October 2023</p>
 
-      <div class="pt-4 pb-20 markdown"><p><code class="language-plaintext highlighter-rouge">use_frameworks!</code> tells CocoaPods that you want to use Frameworks instead of Static Libraries. Swift didn’t support frameworks back in the day, but now it should work. However, every once in a hilw you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
+      <div class="pt-4 pb-20 markdown"><p><code class="language-plaintext highlighter-rouge">use_frameworks!</code> tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
 
-<p>In this case, you can actually use frameworks, yet still force static compiling. Replace <code class="language-plaintext highlighter-rouge">use_frameworks!</code> with:</p>
+<p>In this case, you can actually use frameworks, yet still force static compiling. Replace</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="sb">`use_frameworks!`</span> <span class="ss">with:
+</span></code></pre></div></div>
+
+<p>with</p>
 
 <div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">use_frameworks!</span> <span class="ss">linkage: :static</span>
 </code></pre></div></div>
 
-<h1 id="frameworks">Frameworks</h1>
+<h1 id="xcframeworks">XCFrameworks</h1>
 
-<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code class="language-plaintext highlighter-rouge">.framework</code> file you might find folders per architecture and a <code class="language-plaintext highlighter-rouge">.plist</code> file. So there should be no reason not to able to statically link the dependency.</p>
+<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> file you might find folders per architecture and a <code class="language-plaintext highlighter-rouge">.plist</code> file.</p>
 </div>
     </div>
 
