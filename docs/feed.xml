@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-08T17:44:38+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-08T17:47:56+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
 
 <p><code class="language-plaintext highlighter-rouge">uint8_t</code> = <code class="language-plaintext highlighter-rouge">byte</code> = a type of unsigned integer of length 8 bits</p>
 
@@ -7,8 +7,6 @@
 <h2 id="printf">Printf</h2>
 
 <p><code class="language-plaintext highlighter-rouge">printf</code> is legacy C, type unsafe, meaning you should REALLY NOT USE IT. <code class="language-plaintext highlighter-rouge">cout</code> seems to be accepted but android logging does not use it.</p>
-
-<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8f53b05-b015-4ada-b275-db5407f1b41c/Screenshot_000064.png" alt="Screenshot 000064.png" /></p>
 
 <blockquote>
   <p>💡 printing a <code class="language-plaintext highlighter-rouge">size_t</code> is done via <code class="language-plaintext highlighter-rouge">printf(”%zu”, sizeVar)</code></p>
@@ -40,21 +38,27 @@
 
 <p>One useful tool is <code class="language-plaintext highlighter-rouge">nm</code>. Displays the symbol label inside of your so file, which is useful for debugging any missing symbols.</p>
 
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">nm</span> <span class="o">-</span><span class="nx">gDC</span> <span class="nx">myLibrary</span><span class="p">.</span><span class="nx">so</span>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nm <span class="nt">-gDC</span> myLibrary.so
 </code></pre></div></div>
 
-<p><code class="language-plaintext highlighter-rouge">-g</code> Displays only global (external) symbols</p>
+<blockquote>
+  <p><code class="language-plaintext highlighter-rouge">-g</code> Displays only global (external) symbols</p>
+</blockquote>
 
 <p>Each symbol name is preceded by its value, followed by the following description character:</p>
 
 <table>
   <thead>
     <tr>
-      <th>U</th>
-      <th>undefined</th>
+      <th>Symbol</th>
+      <th>Object</th>
     </tr>
   </thead>
   <tbody>
+    <tr>
+      <td>U</td>
+      <td>undefined</td>
+    </tr>
     <tr>
       <td>A</td>
       <td>absolute</td>
@@ -90,7 +94,7 @@
   </tbody>
 </table>
 
-<p>If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase <code class="language-plaintext highlighter-rouge">u</code> in a dynamic shared library indicates an undefined reference to a private external in another module in the same library.</p>
+<p>If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase <code class="language-plaintext highlighter-rouge">u</code> in a dynamic shared library indicates an undefined reference to a private external in another module in the same library. Meaning your symbol is missing in the headers and cannot be linked/called.</p>
 
 <p>If the symbol is a Objective-C method, the symbol name is <code class="language-plaintext highlighter-rouge">±[Class_name(category_name) method:name:]</code>, where <code class="language-plaintext highlighter-rouge">+</code> is for class methods, <code class="language-plaintext highlighter-rouge">-</code> is for instance
 methods, and (category_name) is present only when the method is in a category.</p>

@@ -17,8 +17,6 @@ image: assets/profile.JPG
 
 `printf` is legacy C, type unsafe, meaning you should REALLY NOT USE IT. `cout` seems to be accepted but android logging does not use it.
 
-![Screenshot 000064.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8f53b05-b015-4ada-b275-db5407f1b41c/Screenshot_000064.png)
-
 > 💡 printing a `size_t` is done via `printf(”%zu”, sizeVar)`
 
 ## DEFINE pre-processors
@@ -49,26 +47,27 @@ After your code is compiled to a static lib (`.a` on macOS and `.so` on linux)
 
 One useful tool is `nm`. Displays the symbol label inside of your so file, which is useful for debugging any missing symbols.
 
-```jsx
+```bash
 nm -gDC myLibrary.so
 ```
 
-`-g` Displays only global (external) symbols
+> `-g` Displays only global (external) symbols
 
 Each symbol name is preceded by its value, followed by the following description character:
 
-| U   | undefined                                       |
-| --- | ----------------------------------------------- |
-| A   | absolute                                        |
-| T   | text section symbol                             |
-| D   | data selection symbol                           |
-| B   | bss section symbol                              |
-| C   | common symbol                                   |
-| -   | Debugger symbol entries (only with -a)          |
-| S   | Symbol in a section other than those above(???) |
-| I   | indirect symbol                                 |
+| Symbol | Object                                          |
+| ------ | ----------------------------------------------- |
+| U      | undefined                                       |
+| A      | absolute                                        |
+| T      | text section symbol                             |
+| D      | data selection symbol                           |
+| B      | bss section symbol                              |
+| C      | common symbol                                   |
+| -      | Debugger symbol entries (only with -a)          |
+| S      | Symbol in a section other than those above(???) |
+| I      | indirect symbol                                 |
 
-If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase `u` in a dynamic shared library indicates an undefined reference to a private external in another module in the same library.
+If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase `u` in a dynamic shared library indicates an undefined reference to a private external in another module in the same library. Meaning your symbol is missing in the headers and cannot be linked/called.
 
 If the symbol is a Objective-C method, the symbol name is `±[Class_name(category_name) method:name:]`, where `+` is for class methods, `-` is for instance
 methods, and (category_name) is present only when the method is in a category.
