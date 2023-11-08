@@ -1,0 +1,389 @@
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Advanced C++ notes | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Advanced C++ notes" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Noteworthy Types" />
+<meta property="og:description" content="Noteworthy Types" />
+<link rel="canonical" href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-08T14:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:title" content="Advanced C++ notes" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-11-08T14:00:00+01:00","datePublished":"2023-11-08T14:00:00+01:00","description":"Noteworthy Types","headline":"Advanced C++ notes","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"},"url":"https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+  <link rel="stylesheet" href="/css/inter.css" />
+</head>
+
+<html>
+  <header
+  class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
+>
+  <div class="w-full max-w-3xl flex items-center gap-2 px-4">
+    <a href="/" class="font-semibold flex-1 text-black dark:text-white"
+      >Oscar Franco</a
+    >
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
+        Advanced C++ notes
+      </h1>
+
+      <p class="mt-2 dark:text-neutral-500">November 2023</p>
+
+      <div class="pt-4 pb-20 markdown"><h1 id="noteworthy-types">Noteworthy Types</h1>
+
+<p><code class="language-plaintext highlighter-rouge">uint8_t</code> = <code class="language-plaintext highlighter-rouge">byte</code> = a type of unsigned integer of length 8 bits</p>
+
+<h1 id="references">References</h1>
+
+<h2 id="printf">Printf</h2>
+
+<p><code class="language-plaintext highlighter-rouge">printf</code> is legacy C, type unsafe, meaning you should REALLY NOT USE IT. <code class="language-plaintext highlighter-rouge">cout</code> seems to be accepted but android logging does not use it.</p>
+
+<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/a8f53b05-b015-4ada-b275-db5407f1b41c/Screenshot_000064.png" alt="Screenshot 000064.png" /></p>
+
+<blockquote>
+  <p>💡 printing a <code class="language-plaintext highlighter-rouge">size_t</code> is done via <code class="language-plaintext highlighter-rouge">printf(”%zu”, sizeVar)</code></p>
+</blockquote>
+
+<h2 id="define-pre-processors">DEFINE pre-processors</h2>
+
+<p>In various C code, I see constants defined like this:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define T 100
+</code></pre></div></div>
+
+<p>Whereas in C++ examples, it is almost always:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const int T = 100;
+</code></pre></div></div>
+
+<p><strong>THEY ARE BAD PRACTICE IN C++</strong></p>
+
+<p>Because all macros (which are what <code class="language-plaintext highlighter-rouge">#define</code>s define) are in a single namespace and they take effect everywhere. Variables, including <code class="language-plaintext highlighter-rouge">const</code>-qualified variables, can be encapsulated in classes and namespaces.</p>
+
+<p>Macros are used in C because in C, a <code class="language-plaintext highlighter-rouge">const</code>-qualified variable is not actually a constant, it is just a variable that cannot be modified. A <code class="language-plaintext highlighter-rouge">const</code>-qualified variable cannot appear in a constant expression, so it can’t be used as an array size, for example.</p>
+
+<p>In C++, a <code class="language-plaintext highlighter-rouge">const</code>-qualified object that is initialized with a constant expression (like <code class="language-plaintext highlighter-rouge">const int x = 5 * 2;</code>) <em>is</em> a constant and can be used in a constant expression, so you can and should use them.</p>
+
+<h1 id="libraries">Libraries</h1>
+
+<p>After your code is compiled to a static lib (<code class="language-plaintext highlighter-rouge">.a</code> on macOS and <code class="language-plaintext highlighter-rouge">.so</code> on linux)</p>
+
+<p>One useful tool is <code class="language-plaintext highlighter-rouge">nm</code>. Displays the symbol label inside of your so file, which is useful for debugging any missing symbols.</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">nm</span> <span class="o">-</span><span class="nx">gDC</span> <span class="nx">myLibrary</span><span class="p">.</span><span class="nx">so</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">-g</code> Displays only global (external) symbols</p>
+
+<p>Each symbol name is preceded by its value, followed by the following description character:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>U</th>
+      <th>undefined</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>A</td>
+      <td>absolute</td>
+    </tr>
+    <tr>
+      <td>T</td>
+      <td>text section symbol</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>data selection symbol</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>bss section symbol</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>common symbol</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>Debugger symbol entries (only with -a)</td>
+    </tr>
+    <tr>
+      <td>S</td>
+      <td>Symbol in a section other than those above(???)</td>
+    </tr>
+    <tr>
+      <td>I</td>
+      <td>indirect symbol</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase <code class="language-plaintext highlighter-rouge">u</code> in a dynamic shared library indicates an undefined reference to a private external in another module in the same library.</p>
+
+<p>If the symbol is a Objective-C method, the symbol name is <code class="language-plaintext highlighter-rouge">±[Class_name(category_name) method:name:]</code>, where <code class="language-plaintext highlighter-rouge">+</code> is for class methods, <code class="language-plaintext highlighter-rouge">-</code> is for instance
+methods, and (category_name) is present only when the method is in a category.</p>
+
+<h1 id="smart-pointers">Smart pointers</h1>
+
+<p>Whenever the context where you create the variables ends, the variables you created will get de-allocated. This is a big problem if you want to keep resources alive. e.g.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">function</span> <span class="nf">foo</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">};</span>
+    <span class="p">...</span>
+    <span class="c1">// function ends, a gets de-allocated</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Smart pointers will help you keep things alive depending on how you want to keep those objects alive</p>
+
+<h2 id="unique-pointer">Unique pointer</h2>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">p</span><span class="p">(</span><span class="k">new</span> <span class="kt">int</span><span class="p">);</span>
+<span class="c1">// p &lt;--------&gt;  object</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">p</code> owns the object and the object has only one owner, <code class="language-plaintext highlighter-rouge">p</code>. A unique pointer cannot be copied or passed by value. However, the ownership of its object can be transferred.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">q</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span> <span class="c1">// q created with an int object on the heap</span>
+<span class="k">auto</span> <span class="n">p</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">q</span><span class="p">);</span> <span class="c1">// p owns the q's object, q lost it (null pointer).</span>
+</code></pre></div></div>
+
+<p>Here is a more complete example</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span><span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span><span class="cpf">&lt;memory&gt;</span><span class="cp">
+</span><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">struct</span> <span class="nc">A</span><span class="p">{</span>
+    <span class="o">~</span><span class="n">A</span><span class="p">(){</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Deleted."</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">void</span> <span class="n">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="s">"Pointer received."</span><span class="o">&lt;&lt;</span><span class="sc">'\n'</span><span class="p">;</span>
+
+<span class="p">}</span> <span class="c1">// a and its object are deleted.</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+
+    <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">();</span>
+    <span class="n">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="c1">// Pointer received.</span>
+    <span class="p">;</span> <span class="c1">// Deleted.</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">x</span><span class="p">)</span> <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="s">"x is empty."</span><span class="p">;</span> <span class="c1">// true: x is empty.</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>A unique pointer is useful if you want to <strong>ensure</strong> only a single copy of your data is kept alive in your code. Once somebody has taken over the pointer (via std::move) the previous reference/owner will completely loose it.</p>
+
+<h2 id="shared-pointer">Shared pointer</h2>
+
+<p>A shared pointer is useful when you want to keep data around as long as any of the owners of the data are alive (e.g. multiple lamdas or multiple objects pointing to a common shared object). The semantics of passing a shared pointer however are subtle and prone to errors.</p>
+
+<h3 id="pass-by-value">Pass by value</h3>
+
+<p>Passing a shared pointer by value will actually add an owner to the pointee (keeping it alive) and is the main use case. In the following code, the vector <code class="language-plaintext highlighter-rouge">a</code> will have the count of owners bumped when foo is called and decreased when <code class="language-plaintext highlighter-rouge">foo</code> finishes running. So the semantics don’t change.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+<span class="n">function</span> <span class="nf">foo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">ints</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Do something with ints</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+
+    <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>But if you would have a long lived structure and you pass the pointer too it, then the vector will be kept alive as long as the struct is also alive:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">class</span> <span class="nc">A</span> <span class="p">{</span>
+
+    <span class="c1">// You get a shared vector from some external source</span>
+    <span class="c1">// as long as the instance of this class is alive then a will also be kept alive</span>
+    <span class="n">A</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">this</span><span class="o">-&gt;</span><span class="n">a</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>There is a small price to performance price to pay when owning the pointer. So if you only need to access it but not copy it you can pass by reference or by passing the underlaying pointer</p>
+
+<h3 id="pass-by-reference">Pass by reference</h3>
+
+<p>Passing by reference does not increase the owner count, you can however create a shared pointer and become an owner. The benefit of not taking ownership is that you don’t pay the price of copying and owning the shared pointer.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Does not take ownership (copy the std::shared_ptr) only uses it while this function is alive</span>
+<span class="n">function</span> <span class="nf">foo</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="o">&amp;</span><span class="n">ints</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Do something with ints</span>
+<span class="p">}</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+
+    <span class="n">foo</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h3 id="pass-the-underlaying-pointer">Pass the underlaying pointer</h3>
+
+<p>Similar to passing by reference except you cannot create a shared_ptr (doing so will create a new shared_ptr but will not increase the owner count)</p>
+
+<h3 id="lambdas">Lambdas</h3>
+
+<p>With this the capture semantics of lambdas are much clearer:</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
+
+<span class="c1">// Because a is a shared pointer, it will not be allocated until myLambda itself is de-allocated, which could be much later down the life of the program</span>
+<span class="k">auto</span> <span class="n">myLambda</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">]()</span> <span class="p">{</span>
+    <span class="c1">// Do something with a</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<h2 id="weak-pointer">Weak pointer</h2>
+
+<p>A weak pointer is a smart pointer that does not take ownership of an object but act as an observer. It’s used to observe the object of a shared pointer. It does not participate in reference counting. Weak pointers are mainly used to break circular dependencies.</p>
+
+<h1 id="type-aliases">Type Aliases</h1>
+
+<p>On C++ 11, the keyword is <code class="language-plaintext highlighter-rouge">using</code></p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// C++11</span>
+<span class="nx">using</span> <span class="nx">counter</span> <span class="o">=</span> <span class="nx">long</span><span class="p">;</span>
+
+<span class="c1">// C++03 equivalent:</span>
+<span class="nx">typedef</span> <span class="nx">long</span> <span class="nx">counter</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h1 id="stdany-and-stdvariant">std::any and std::variant</h1>
+
+<h2 id="stdany">std::any</h2>
+
+<p>Sometimes you don’t know which object you are going to receive. Starting on C++ you can use <code class="language-plaintext highlighter-rouge">std::any</code>. <code class="language-plaintext highlighter-rouge">std::any</code> is basically a pointer and a type information, you could do the same yourself but you can type cast to anything and get into trouble, while <code class="language-plaintext highlighter-rouge">std::any</code> can prevent you from gunfoot. It is useful to pass data data around to which you don’t know the exact type/size and you don’t care until it is time to cast it and do something useful with it. You can imagine how this is super useful with dealing with JS values that can have anything inside of them.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">any</span> <span class="n">myAnyInt</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">any</span> <span class="n">myAnyStr</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="s">"this is a string"</span><span class="p">);</span>
+</code></pre></div></div>
+
+<p>The problem with <code class="language-plaintext highlighter-rouge">std::any</code> however is you can only run code if you know the type ahead of time (read in your head and not in runtime). You can try to do casting and comparissons but it’s kinda shit.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">any</span> <span class="n">myAny</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="c1">// Later down the line</span>
+<span class="k">if</span><span class="p">(</span><span class="n">myAny</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="k">typeid</span><span class="p">(</span><span class="kt">int</span><span class="p">))</span> <span class="p">{</span>
+    <span class="kt">int</span> <span class="n">myInt</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">any_cast</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">myAny</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// You cannot really check the type of the thing you held if not by raw comparisson</span>
+<span class="c1">// and the types you get are implementation dependent</span>
+
+<span class="k">struct</span> <span class="nc">A</span> <span class="p">{}</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">any</span> <span class="n">myA</span> <span class="o">=</span> <span class="n">A</span><span class="p">();</span>
+
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="n">myA</span><span class="p">.</span><span class="n">type</span><span class="p">().</span><span class="n">name</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// Might output "x"</span>
+</code></pre></div></div>
+
+<h2 id="stdvariant">std::variant</h2>
+
+<p>If you already know what your bag of holding will hold you can use std::variant. It is much better because it will only accept a set of types you define. It will also apply compiler optimizations.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">MyBagOfHolding</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">variant</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">,</span> <span class="kt">double</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">nullptr_t</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="n">MyBagOfHolding</span> <span class="n">bag</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span>
+
+<span class="c1">// .. much later down in the code</span>
+
+<span class="k">if</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">holds_alternative</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bag</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">get</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">bag</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>This example is simple and might look as good as <code class="language-plaintext highlighter-rouge">std::any</code>, but the compiler optimizations and the type warnings are worth it on it’s own.</p>
+
+<h1 id="object-initialization">Object initialization</h1>
+
+<p>There is only one way to initialize class consts or reference members, using the the <code class="language-plaintext highlighter-rouge">initialization list</code> syntax. It initializes the variables of an instance before the body of the constructor is called</p>
+
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Demo</span>
+<span class="p">{</span>
+    <span class="nx">Demo</span><span class="p">(</span><span class="nx">int</span><span class="o">&amp;</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span> <span class="nx">m_val</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+     <span class="p">{</span>
+     <span class="p">}</span>
+<span class="nl">private</span><span class="p">:</span>
+    <span class="kd">const</span> <span class="nx">int</span><span class="o">&amp;</span> <span class="nx">m_val</span><span class="p">;</span>
+<span class="p">};</span>
+</code></pre></div></div>
+
+<h2 id="destructor">Destructor</h2>
+
+<p>You can execute code after an object has been destructured</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// dispatch_queue.h</span>
+<span class="k">class</span> <span class="nc">dispatch_queue</span> <span class="p">{</span>
+
+<span class="nl">public:</span>
+<span class="c1">// Explicit constructor (does not allow for argument implicit conversion)</span>
+<span class="k">explicit</span> <span class="n">dispatch_queue</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">name</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">thread_cnt</span> <span class="o">=</span> <span class="mi">1</span><span class="p">);</span>
+<span class="c1">// Destructor</span>
+<span class="o">~</span><span class="n">dispatch_queue</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
+</div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+
+</html>
