@@ -25,13 +25,13 @@ image: assets/profile.JPG
 
 In various C code, I see constants defined like this:
 
-```
+```c++
 #define T 100
 ```
 
 Whereas in C++ examples, it is almost always:
 
-```
+```c++
 const int T = 100;
 ```
 
@@ -200,7 +200,7 @@ With this the capture semantics of lambdas are much clearer:
 ```c++
 std::shared_ptr<std::vector<int>> a{1,2,3};
 
-// Because a is a shared pointer, it will not be allocated until myLambda itself is de-allocated, which could be much later down the life of the program
+// Because a is a shared pointer, it will not be de-allocated until myLambda itself is de-allocated, which could be much later down the life of the program
 auto myLambda = [a]() {
     // Do something with a
 }

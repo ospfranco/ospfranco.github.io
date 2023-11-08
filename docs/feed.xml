@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-08T17:41:46+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-08T17:44:38+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
 
 <p><code class="language-plaintext highlighter-rouge">uint8_t</code> = <code class="language-plaintext highlighter-rouge">byte</code> = a type of unsigned integer of length 8 bits</p>
 
@@ -18,12 +18,12 @@
 
 <p>In various C code, I see constants defined like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define T 100
-</code></pre></div></div>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define T 100
+</span></code></pre></div></div>
 
 <p>Whereas in C++ examples, it is almost always:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const int T = 100;
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </code></pre></div></div>
 
 <p><strong>THEY ARE BAD PRACTICE IN C++</strong></p>
@@ -214,7 +214,7 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 
-<span class="c1">// Because a is a shared pointer, it will not be allocated until myLambda itself is de-allocated, which could be much later down the life of the program</span>
+<span class="c1">// Because a is a shared pointer, it will not be de-allocated until myLambda itself is de-allocated, which could be much later down the life of the program</span>
 <span class="k">auto</span> <span class="n">myLambda</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">]()</span> <span class="p">{</span>
     <span class="c1">// Do something with a</span>
 <span class="p">}</span>

@@ -80,12 +80,12 @@
 
 <p>In various C code, I see constants defined like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>#define T 100
-</code></pre></div></div>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define T 100
+</span></code></pre></div></div>
 
 <p>Whereas in C++ examples, it is almost always:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>const int T = 100;
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">const</span> <span class="kt">int</span> <span class="n">T</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
 </code></pre></div></div>
 
 <p><strong>THEY ARE BAD PRACTICE IN C++</strong></p>
@@ -276,7 +276,7 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 
-<span class="c1">// Because a is a shared pointer, it will not be allocated until myLambda itself is de-allocated, which could be much later down the life of the program</span>
+<span class="c1">// Because a is a shared pointer, it will not be de-allocated until myLambda itself is de-allocated, which could be much later down the life of the program</span>
 <span class="k">auto</span> <span class="n">myLambda</span> <span class="o">=</span> <span class="p">[</span><span class="n">a</span><span class="p">]()</span> <span class="p">{</span>
     <span class="c1">// Do something with a</span>
 <span class="p">}</span>
