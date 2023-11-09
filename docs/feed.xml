@@ -1,4 +1,59 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-09T22:04:28+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-09T23:09:17+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">SQLite for React Native, but 5x faster and 5x less memory</title><link href="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" rel="alternate" type="text/html" title="SQLite for React Native, but 5x faster and 5x less memory" /><published>2023-11-09T14:00:00+01:00</published><updated>2023-11-09T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/09/sqlite%20for%20react%20native,%20but%205x%20faster%20and%205x%20less%20memory</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"><![CDATA[<p>I love a good technical write-up, so here is one for <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a> my new SQLite module for React Native.</p>
+
+<h1 id="quick-sqlite">quick-sqlite</h1>
+
+<p>I wrote quick-sqlite last year after I learned about React Native JSI, a way to bridge C++ code to JavaScript. The idea was simple and I even took a peek at existing libraries. One basically takes the arguments passed from JavaScript, and then just call the SQLite APIs, then collect the results of the queries and pass them back to JavaScript.</p>
+
+<p>quick-sqlite already produced a major improvement in performance over the old bridge modules, where data had to be serialized to JSON and then passed between native and JavaScript. The flow was pretty simple:</p>
+
+<p><img src="https://ospfranco.com/assets/quick-sqlite-flow.png" alt="quic-sqlite-flow" title="Quick SQLite flow" /></p>
+
+<p>In order to really tests the numbers at a good scale, I set up a test of a database of 300k records, mix of strings, ints and doubles. At lower scales the differences might be so tiny that they don’t really matter. But when, large I could better see if the changes I was making made sense.</p>
+
+<h1 id="where-quick-sqlite-fell-short">Where quick-sqlite fell short</h1>
+
+<p>There were however some issues with quick-sqlite. All of the sudden, I started getting complains about people trying to run huge queries on mobile. Then the devices would run out of memory or the queries would be too slow to process. Given that this was open source work and I already gotten what I wanted I did not pursue further optimizations further. I was also not in the best of places emotionally, so I handed over quick-sqlite to Margelo and went for a long vacation.</p>
+
+<p>I’ve been back at work for a few months and I have seen the value quick-sqlite provides to companies large and small. But people <a href="https://github.com/margelo/react-native-quick-sqlite/pull/30#issuecomment-1801378465">kept asking if it could be made faster</a>. They already had some good ideas: try to reduce the amount of created strings, use HostObjects to reduce memory foot-print, and so on. Just out of curiosity I decided to try a few things.</p>
+
+<h1 id="migrate-to-hostobjects">Migrate to HostObjects</h1>
+
+<p>The first obvious idea was migrating to HostObjects (if you don’t know what they are, <a href="https://www.youtube.com/watch?v=_BNinSbzZTE">I made a video about them</a>). HostObjects are not a cure to all, but they would immediately provide a big benefit: memory consumption would be reduced. On the old flow, I would get the results from SQLite, store them in a vector, and then when I got access to the JS context again, iterate and recreate all the data again in JSI (read: plain JS) objects. This meant that all the price of converting/transfering data from native to JS, was paid upfront. By using HostObjects one can avoid paying this massive price of copying strings and other values. They would be created once and then stored in memory, when the JS side reaches inside them then they do the conversion of data at that point in time.</p>
+
+<p>It is not perfect, since I’m shifting the price paid before upfront into some cost when accessing the data. But testing showed that access was not necessarily too slow, and memory consumption was halved! This meant queries that would OOM before now could be run without problem.</p>
+
+<h1 id="get-rid-of-holding-struct">Get rid of holding struct</h1>
+
+<p>Another issue was I created a Struct to hold different type of data, it was <code class="language-plaintext highlighter-rouge">QuickValue</code>;</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">QuickValue</span> <span class="p">{</span>
+  <span class="kt">int</span> <span class="n">intVal</span><span class="p">;</span>
+  <span class="kt">double</span> <span class="n">doubleVal</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">strVal</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">boolVal</span><span class="p">;</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">type</span><span class="p">;</span> <span class="c1">// used to store which type of data this was holding</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>There is no justification for this structure other than: I didn’t knew any better, my c++-fu was weak. I knew that using this struct would allocate too much extra memory and was wasteful, I just didn’t imagine how much. Allocating memory and moving objects around in the heap has a big cost, not only in memory but sometimes in performance!</p>
+
+<p>When browsing the web and other peoples code, I came to learn about <code class="language-plaintext highlighter-rouge">std::any</code>, which was introduced in C++ 17. It basically functions the same as my struct to hold data. I got rid of the struct and swapped all references for <code class="language-plaintext highlighter-rouge">std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code class="language-plaintext highlighter-rouge">std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there. When reading on how to do certain operations, a lot of answers pointed towards <code class="language-plaintext highlighter-rouge">std::variant</code>. After getting the code to compile with <code class="language-plaintext highlighter-rouge">std::any</code> I decided to give <code class="language-plaintext highlighter-rouge">std::variant</code> a try. Although on the surface it looked the same, because it cannot hold any type of data (internally it just stores a pointer <code class="language-plaintext highlighter-rouge">void *</code>), the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
+
+<h1 id="turning-the-problem-around">Turning the problem around</h1>
+
+<p>Still not satisfied, I had a nagging feeling that somehow I was just wasting so much memory by creating HostObject that store the same key data over and over again (Remember I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then with a good ol’ flashback to my programming contest days, I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!</p>
+
+<p>It took a little while for me to wrap my head (really this time) around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get magically de-allocated, but I finally managed to do it. The final result is a combination of what I call a <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h">DumbHostObject</a>, an object that only holds data but has a pointer to the shared keys between all of the DumbObjects created when executing a SQL query.</p>
+
+<p>As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade.</p>
+
+<h1 id="troubles-in-paradise">Troubles in paradise</h1>
+
+<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code class="language-plaintext highlighter-rouge">std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all. As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code class="language-plaintext highlighter-rouge">jsi::Object()</code> API, when I tested <code class="language-plaintext highlighter-rouge">quick-sqlite</code> the numbers accessing data are quite similar. <code class="language-plaintext highlighter-rouge">expo-sqlite</code> was super fast, but it zips the data on the JS size, to it seems the only way to get super fast access is to create objects on the JS side. This means however you will always pay the price upfront for such large queries.</p>
+
+<p>There are a few final optimizations that can be done, such as inserting keys in the shared vector with some sorting, so then accessing can be done via binary search (o nlogn time), but it seems overkill for me atm, doubt it will make a real difference. Other optimizations include trying to inline more functions, but I think I have reached the end of what is possible with the JSI.</p>
+
+<p>The next big step in performance will come from Static Hermes, where we can finally call SQLite code directly from JS without the need of HostObjects, shared pointers and so on. There will be one major difficulty though, static hermes is still single threaded, so getting React Native to call large queries without hanging will require creating a multi-threaded messaging system, AKA web-workers. I would definetely would like to tackle this problem and then create a new version of op-sqlite with that!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I love a good technical write-up, so here is one for op-sqlite my new SQLite module for React Native.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
 
 <p><code class="language-plaintext highlighter-rouge">uint8_t</code> = <code class="language-plaintext highlighter-rouge">byte</code> = a type of unsigned integer of length 8 bits</p>
 
@@ -830,179 +885,7 @@ index 7d7715b..56472bc 100644
 
 <blockquote>
   <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
-</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Objective-C cheatsheet</title><link href="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/" rel="alternate" type="text/html" title="Objective-C cheatsheet" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/objective%20c%20cheatsheet</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/objective-c-cheatsheet/"><![CDATA[<p>Quick reference guide when you need to do some objective C</p>
-
-<h1 id="what-is-objective-c">What is Objective-C</h1>
-
-<p>Objective-C aims to add <strong>Objects</strong> to the C language, they did this by adding SmallTalk-like message passing to C.</p>
-
-<p>On practical terms and in our day and age: this means funny syntax when declaring classes and instead of calling methods you send messages.</p>
-
-<p>I suggest you learn some C (or C++) first. A lot of the knowledge (pointers, pass-by-value, pass-by-reference) is shared.</p>
-
-<h1 id="ns-fu"><code class="language-plaintext highlighter-rouge">NS-</code>Fu</h1>
-
-<p>All the NS classes where created by the NeXT team and are the base objects which are used to interact with the base API of the language. They all come from the <code class="language-plaintext highlighter-rouge">Foundation</code> framework.</p>
-
-<p>Some of them are: <code class="language-plaintext highlighter-rouge">NSLog</code>, <code class="language-plaintext highlighter-rouge">NSString</code>, <code class="language-plaintext highlighter-rouge">NSDictionary</code>, <code class="language-plaintext highlighter-rouge">NSArray</code> and so on. That is why you will always end up importing the <code class="language-plaintext highlighter-rouge">Foundation.h</code> header file at the top of your obj-c code.</p>
-
-<h1 id="pass-by-reference">Pass by reference</h1>
-
-<p>You will notice everytime you pass around a object you will need to pass it as a pointer. Sometimes this means you will loose typesafety and will need to internally cast the pointer to a more specific type</p>
-
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Untyped (int? object?) array</span>
-<span class="o">*</span><span class="n">NSArray</span> <span class="n">doSomething</span> <span class="p">{</span>
-	<span class="n">NSArray</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="p">@[...];</span>
-	<span class="k">return</span> <span class="n">myArray</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h1 id="-macro">@ Macro</h1>
-
-<p>The “<strong>@</strong>” is a special macro (read text expansion) to instantiate certain classes, e.g. NSString</p>
-
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;
-</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"I'm a string"</span><span class="p">);</span>
-
-	<span class="n">NSDictionary</span> <span class="o">*</span><span class="n">myDict</span> <span class="o">=</span> <span class="p">@{</span> <span class="s">@"Who am I"</span><span class="o">:</span> <span class="s">@"A dictionary"</span><span class="p">};</span>
-
-	<span class="k">return</span> <span class="mi">0</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h1 id="classes">Classes</h1>
-
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span><span class="nc">NSObject</span>
-<span class="c1">// Methods and properties declarations</span>
-<span class="k">@end</span>
-
-<span class="k">@implementation</span> <span class="nc">MyObj</span>
-<span class="c1">// Actual definition</span>
-<span class="k">@end</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">// Instatiation = Allocation + Constructor</span>
-	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>The definition of methods and properties goes inside the <code class="language-plaintext highlighter-rouge">@interface</code> block. The actual implementation inside the <code class="language-plaintext highlighter-rouge">@implementation</code> block.  It is also necessary to inherit from <code class="language-plaintext highlighter-rouge">NSObject</code> which the base class for any object.</p>
-
-<h2 id="class-properties">Class properties</h2>
-
-<p>Adding class properties you can actually interact with from code outside the class</p>
-
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
-<span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="kt">int</span> <span class="n">age</span><span class="p">;</span> <span class="c1">// writable instance property</span>
-
-<span class="k">@end</span>
-
-<span class="c1">// declaration</span>
-<span class="k">@implementation</span> <span class="nc">MyObj</span>
-
-<span class="k">@end</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-	<span class="n">obj</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"Age %d"</span><span class="p">,</span> <span class="n">obj</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
-
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h2 id="class-methods">Class methods</h2>
-
-<p>You should be able to read the language like you read a normal english sentence, IMO that idea that has aged poorly.</p>
-
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
-<span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
-<span class="o">+</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswerStatic</span><span class="p">;</span>
-<span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswer</span>
-<span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">setAnswer</span><span class="o">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">num</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="kt">int</span> <span class="n">answer</span><span class="p">;</span> <span class="c1">// writable instance property</span>
-
-<span class="k">@end</span>
-
-<span class="c1">// declaration</span>
-<span class="k">@implementation</span> <span class="nc">MyObj</span>
-	<span class="k">+</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswerStatic</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
-	<span class="p">}</span>
-
-	<span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswer</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">answer</span><span class="p">;</span>
-	<span class="p">}</span>
-
-	<span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">setAnswer</span><span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">num</span> <span class="p">{</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="k">@end</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswerStatic</span><span class="p">]);</span> <span class="c1">// 42</span>
-
-	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswer</span><span class="p">]);</span> <span class="c1">// 0</span>
-
-	<span class="p">[</span><span class="n">MyObj</span> <span class="n">setAnswer</span> <span class="nf">num</span><span class="p">:</span><span class="mi">52</span><span class="p">];</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswer</span><span class="p">]);</span> <span class="c1">// 52</span>
-
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Important to note the <code class="language-plaintext highlighter-rouge">+</code> and <code class="language-plaintext highlighter-rouge">-</code> prefixes. <code class="language-plaintext highlighter-rouge">+</code> means static method (class level) and <code class="language-plaintext highlighter-rouge">-</code> means instance method (object level).</p>
-
-<h2 id="constructors">Constructors</h2>
-
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
-<span class="k">@interface</span> <span class="nc">Person</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
-	<span class="n">NSString</span> <span class="o">*</span><span class="n">name</span>
-	<span class="n">NSInteger</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">andAge</span><span class="p">:(</span><span class="n">NSInteger</span> <span class="o">*</span><span class="p">)</span><span class="nv">age</span><span class="p">;</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">print</span><span class="p">;</span>
-
-<span class="k">@end</span>
-
-<span class="c1">// declaration</span>
-<span class="k">@implementation</span> <span class="nc">Person</span>
-	<span class="k">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">andAge</span><span class="p">:(</span><span class="n">NSInteger</span> <span class="o">*</span><span class="p">)</span><span class="nv">age</span> <span class="p">{</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span><span class="p">;</span>
-		<span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-	<span class="p">}</span>
-
-	<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">print</span> <span class="p">{</span>
-		<span class="n">NSLog</span><span class="p">(</span><span class="s">@"Person instance. name: %@, age: %@"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
-	<span class="p">}</span>
-<span class="k">@end</span>
-
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithName</span><span class="p">:</span> <span class="s">@"Oscar"</span> <span class="nf">andAge</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
-	<span class="p">[</span><span class="n">person</span> <span class="nf">print</span><span class="p">];</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<h1 id="obj-c">Obj-C++</h1>
-
-<p>If you change the extension of you file from <code class="language-plaintext highlighter-rouge">.m</code> to <code class="language-plaintext highlighter-rouge">.mm</code> you will change the language to Obj-C++. It is basically C++ and Obj-C mixed together.</p>
-
-<p>There will be a lot of caveats when you using it: You cannot call Obj-C methods using C++ syntax and so forth. But, it does allow to use and mix C++ classes and syntax inside Obj-C code. Very useful to re-use already existing modules.</p>
-
-<p>Here is an example of a JSI function (C++) calling a Obj-C API:</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Quick reference guide when you need to do some objective C]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">JSI Cheatsheet: Part 3 - JSI API Reference</title><link href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/" rel="alternate" type="text/html" title="JSI Cheatsheet: Part 3 - JSI API Reference" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/jsi%20cheatsheet%20part%203%20-%20jsi%20api%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"><![CDATA[<p>JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.</p>
+</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">JSI Cheatsheet: Part 3 - JSI API Reference</title><link href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/" rel="alternate" type="text/html" title="JSI Cheatsheet: Part 3 - JSI API Reference" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/jsi%20cheatsheet%20part%203%20-%20jsi%20api%20reference</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"><![CDATA[<p>JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.</p>
 
 <h1 id="table-of-contents">Table of contents</h1>
 
