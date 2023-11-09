@@ -11,7 +11,7 @@ I love a good technical write-up, so here is one for [op-sqlite](https://github.
 
 # quick-sqlite
 
-I wrote quick-sqlite last year after I learned about React Native JSI, a way to bridge C++ code to JavaScript. The idea was simple and I even took a peek at existing libraries. One basically takes the arguments passed from JavaScript, and then just call the SQLite APIs, then collect the results of the queries and pass them back to JavaScript.
+I wrote quick-sqlite last year after I learned about React Native JSI, a way to bridge C++ code to JavaScript. The idea was simple and I took a peek at existing libraries. One basically takes the arguments passed from JavaScript, and then just call the SQLite APIs, then collect the results of the queries and pass them back to JavaScript.
 
 quick-sqlite already produced a major improvement in performance over the old bridge modules, where data had to be serialized to JSON and then passed between native and JavaScript. The flow was pretty simple:
 
@@ -21,7 +21,7 @@ In order to really tests the numbers at a good scale, I set up a test of a datab
 
 # Where quick-sqlite fell short
 
-There were however some issues with quick-sqlite. All of the sudden, I started getting complains about people trying to run huge queries on mobile. Then the devices would run out of memory or the queries would be too slow to process. Given that this was open source work and I already gotten what I wanted I did not pursue further optimizations further. I was also not in the best of places emotionally, so I handed over quick-sqlite to Margelo and went for a long vacation.
+There were however some issues with quick-sqlite. People complained although it was fast, queries would run out of memory or queries would not be fast enough. Given that this was open source work and I already gotten what I wanted I did not pursue further optimizations further. At some point it was not fun and I handed over quick-sqlite to Margelo and went for a long vacation.
 
 I've been back at work for a few months and I have seen the value quick-sqlite provides to companies large and small. But people [kept asking if it could be made faster](https://github.com/margelo/react-native-quick-sqlite/pull/30#issuecomment-1801378465). They already had some good ideas: try to reduce the amount of created strings, use HostObjects to reduce memory foot-print, and so on. Just out of curiosity I decided to try a few things.
 
