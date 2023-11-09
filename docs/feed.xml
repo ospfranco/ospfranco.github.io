@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-09T23:14:32+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">SQLite for React Native, but 5x faster and 5x less memory</title><link href="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" rel="alternate" type="text/html" title="SQLite for React Native, but 5x faster and 5x less memory" /><published>2023-11-09T14:00:00+01:00</published><updated>2023-11-09T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/09/sqlite%20for%20react%20native,%20but%205x%20faster%20and%205x%20less%20memory</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"><![CDATA[<p>I love a good technical write-up, so here is one for <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a> my new SQLite module for React Native.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-09T23:18:21+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">SQLite for React Native, but 5x faster and 5x less memory</title><link href="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" rel="alternate" type="text/html" title="SQLite for React Native, but 5x faster and 5x less memory" /><published>2023-11-09T14:00:00+01:00</published><updated>2023-11-09T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/09/sqlite%20for%20react%20native,%20but%205x%20faster%20and%205x%20less%20memory</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"><![CDATA[<p>I love a good technical write-up, so here is one for <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a> my new SQLite module for React Native.</p>
 
 <h1 id="quick-sqlite">quick-sqlite</h1>
 
@@ -41,11 +41,38 @@
 
 <h1 id="turning-the-problem-around">Turning the problem around</h1>
 
-<p>Still not satisfied, I had a nagging feeling that somehow I was just wasting so much memory by creating HostObject that store the same key data over and over again (Remember I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then with a good ol’ flashback to my programming contest days, I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!</p>
+<p>Still not satisfied, I had a nagging feeling that somehow I was just wasting so much memory by creating HostObjects that store the same key data over and over again (Remember I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then with a good ol’ flashback to my programming contest days, I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!</p>
 
-<p>It took a little while for me to wrap my head (really this time) around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get magically de-allocated, but I finally managed to do it. The final result is a combination of what I call a <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h">DumbHostObject</a>, an object that only holds data but has a pointer to the shared keys between all of the DumbObjects created when executing a SQL query.</p>
+<p>It took a little while for me to wrap my head (really this time) around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get magically de-allocated, but I finally managed to do it. The final result is a combination of what I call a <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h">DumbHostObject</a> and <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DynamicHostObject.cpp">DynamicHostObject</a>, the dumb objects only hold data, and the dynamic objects can hold anything (that can also be accessed from the JS side), but by combining the two, one can save memory by shared the key set (a DynamicHostObject) among many results (DumbHostObjects).</p>
 
-<p>As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade.</p>
+<p>As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade. The original query in quick-sqlite took over two seconds and required 1.2 gbs in memory. This now runs in ~500ms and requires only 250mbs of memory. The Android performance gains are masive as well, reaching almost 8x the speed.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Library</th>
+      <th>iPhone 15 Pro</th>
+      <th>Galaxy S22</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>quick-sqlite</td>
+      <td>2719ms</td>
+      <td>8851ms</td>
+    </tr>
+    <tr>
+      <td>expo-sqlite</td>
+      <td>2293ms</td>
+      <td>10626ms</td>
+    </tr>
+    <tr>
+      <td>op-sqlite</td>
+      <td>507ms</td>
+      <td>1125ms</td>
+    </tr>
+  </tbody>
+</table>
 
 <h1 id="troubles-in-paradise">Troubles in paradise</h1>
 

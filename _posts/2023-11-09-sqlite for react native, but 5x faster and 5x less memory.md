@@ -51,11 +51,17 @@ When browsing the web and other peoples code, I came to learn about `std::any`, 
 
 # Turning the problem around
 
-Still not satisfied, I had a nagging feeling that somehow I was just wasting so much memory by creating HostObject that store the same key data over and over again (Remember I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then with a good ol' flashback to my programming contest days, I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!
+Still not satisfied, I had a nagging feeling that somehow I was just wasting so much memory by creating HostObjects that store the same key data over and over again (Remember I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then with a good ol' flashback to my programming contest days, I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!
 
-It took a little while for me to wrap my head (really this time) around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get magically de-allocated, but I finally managed to do it. The final result is a combination of what I call a [DumbHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h), an object that only holds data but has a pointer to the shared keys between all of the DumbObjects created when executing a SQL query.
+It took a little while for me to wrap my head (really this time) around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get magically de-allocated, but I finally managed to do it. The final result is a combination of what I call a [DumbHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h) and [DynamicHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DynamicHostObject.cpp), the dumb objects only hold data, and the dynamic objects can hold anything (that can also be accessed from the JS side), but by combining the two, one can save memory by shared the key set (a DynamicHostObject) among many results (DumbHostObjects).
 
-As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade.
+As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade. The original query in quick-sqlite took over two seconds and required 1.2 gbs in memory. This now runs in ~500ms and requires only 250mbs of memory. The Android performance gains are masive as well, reaching almost 8x the speed.
+
+| Library      | iPhone 15 Pro | Galaxy S22 |
+| ------------ | ------------- | ---------- |
+| quick-sqlite | 2719ms        | 8851ms     |
+| expo-sqlite  | 2293ms        | 10626ms    |
+| op-sqlite    | 507ms         | 1125ms     |
 
 # Troubles in paradise
 
