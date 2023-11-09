@@ -72,6 +72,54 @@ If the symbol is local (non-external), the symbol’s type is instead represente
 If the symbol is a Objective-C method, the symbol name is `±[Class_name(category_name) method:name:]`, where `+` is for class methods, `-` is for instance
 methods, and (category_name) is present only when the method is in a category.
 
+# Type aliases
+
+The old c style of introducing a type-alias is via `typedef`
+
+```c++
+typedef std::vec<int> vInt;
+```
+
+Starting in C++ 11 the `using` keyword was introduced
+
+```c++
+using vInt = std::vec<int>;
+```
+
+# Virtual functions
+
+Virtual function is a member function that we expect to redefine in a derived class. It ensures **overriding** even if you cast a pointer to the base class.
+
+```c++
+#include <iostream>
+
+using namespace std;
+
+class Base {
+public:
+    virtual void print() {
+        cout << "Base function" << endl;
+    }
+};
+
+class Derived: public Base {
+public:
+    virtual void print() {
+        cout << "derived function" << endl;
+    }
+};
+
+int main() {
+    Derived d;
+
+    Base *b = &derived;
+
+    b->print(); // prints "derived function"
+
+    return 0;
+}
+```
+
 # Smart pointers
 
 Whenever the context where you create the variables ends, the variables you created will get de-allocated. This is a big problem if you want to keep resources alive. e.g.
@@ -219,6 +267,25 @@ using counter = long;
 
 // C++03 equivalent:
 typedef long counter;
+```
+
+# NULL vs nullptr
+
+`NULL` is C legacy, `nullptr`` is idiomatic C++. Null is convertible to integral types (int, bool, etc) whereas nullptr is not
+
+```c++
+int x = NULL; ✅
+int y = nullptr; ❌ // it is however castable to bool
+```
+
+The reason why NULL is legacy is because it causes ambiguity when functions are overriden.
+
+```c++
+// this both match calling a(NULL);
+
+function a(int x) ...
+
+function a(char* s) ...
 ```
 
 # std::any and std::variant

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-08T17:47:56+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-09T22:03:32+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Advanced C++ notes</title><link href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" rel="alternate" type="text/html" title="Advanced C++ notes" /><published>2023-11-08T14:00:00+01:00</published><updated>2023-11-08T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/08/advanced%20c++%20notes</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"><![CDATA[<h1 id="noteworthy-types">Noteworthy Types</h1>
 
 <p><code class="language-plaintext highlighter-rouge">uint8_t</code> = <code class="language-plaintext highlighter-rouge">byte</code> = a type of unsigned integer of length 8 bits</p>
 
@@ -98,6 +98,51 @@
 
 <p>If the symbol is a Objective-C method, the symbol name is <code class="language-plaintext highlighter-rouge">±[Class_name(category_name) method:name:]</code>, where <code class="language-plaintext highlighter-rouge">+</code> is for class methods, <code class="language-plaintext highlighter-rouge">-</code> is for instance
 methods, and (category_name) is present only when the method is in a category.</p>
+
+<h1 id="type-aliases">Type aliases</h1>
+
+<p>The old c style of introducing a type-alias is via <code class="language-plaintext highlighter-rouge">typedef</code></p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">typedef</span> <span class="n">std</span><span class="o">::</span><span class="n">vec</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">vInt</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Starting in C++ 11 the <code class="language-plaintext highlighter-rouge">using</code> keyword was introduced</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">using</span> <span class="n">vInt</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">vec</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h1 id="virtual-functions">Virtual functions</h1>
+
+<p>Virtual function is a member function that we expect to redefine in a derived class. It ensures <strong>overriding</strong> even if you cast a pointer to the base class.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+<span class="k">class</span> <span class="nc">Base</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Base function"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Derived</span><span class="o">:</span> <span class="k">public</span> <span class="n">Base</span> <span class="p">{</span>
+<span class="nl">public:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"derived function"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="n">Derived</span> <span class="n">d</span><span class="p">;</span>
+
+    <span class="n">Base</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">derived</span><span class="p">;</span>
+
+    <span class="n">b</span><span class="o">-&gt;</span><span class="n">print</span><span class="p">();</span> <span class="c1">// prints "derived function"</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h1 id="smart-pointers">Smart pointers</h1>
 
@@ -228,7 +273,7 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <p>A weak pointer is a smart pointer that does not take ownership of an object but act as an observer. It’s used to observe the object of a shared pointer. It does not participate in reference counting. Weak pointers are mainly used to break circular dependencies.</p>
 
-<h1 id="type-aliases">Type Aliases</h1>
+<h1 id="type-aliases-1">Type Aliases</h1>
 
 <p>On C++ 11, the keyword is <code class="language-plaintext highlighter-rouge">using</code></p>
 
@@ -237,6 +282,23 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <span class="c1">// C++03 equivalent:</span>
 <span class="nx">typedef</span> <span class="nx">long</span> <span class="nx">counter</span><span class="p">;</span>
+</code></pre></div></div>
+
+<h1 id="null-vs-nullptr">NULL vs nullptr</h1>
+
+<p><code class="language-plaintext highlighter-rouge">NULL</code> is C legacy, <code class="language-plaintext highlighter-rouge">nullptr</code>` is idiomatic C++. Null is convertible to integral types (int, bool, etc) whereas nullptr is not</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">x</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="err">✅</span>
+<span class="kt">int</span> <span class="n">y</span> <span class="o">=</span> <span class="nb">nullptr</span><span class="p">;</span> <span class="err">❌</span> <span class="c1">// it is however castable to bool</span>
+</code></pre></div></div>
+
+<p>The reason why NULL is legacy is because it causes ambiguity when functions are overriden.</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// this both match calling a(NULL);</span>
+
+<span class="n">function</span> <span class="n">a</span><span class="p">(</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">...</span>
+
+<span class="n">function</span> <span class="n">a</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">s</span><span class="p">)</span> <span class="p">...</span>
 </code></pre></div></div>
 
 <h1 id="stdany-and-stdvariant">std::any and std::variant</h1>
