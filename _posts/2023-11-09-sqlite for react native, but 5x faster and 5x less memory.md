@@ -33,7 +33,7 @@ It is not perfect, since I'm shifting the price paid before upfront into some co
 
 # Get rid of holding struct
 
-Another issue was I created a Struct to hold different type of data, due to the nature of JS any value you receive can be of this types:
+Another issue was I created a Struct to hold different type of data, due to the nature of JS any value you receive can be of these types:
 
 ```c++
 struct QuickValue {
@@ -51,13 +51,25 @@ When browsing the web and other peoples code, I came to learn about [std::any](h
 
 When reading on how to do certain operations, a lot of answers pointed towards [std::variant](https://en.cppreference.com/w/cpp/utility/variant). After getting the code to compile with `std::any` I decided to give `std::variant` a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.
 
+```c++
+#include <variant>
+
+struct ArrayBuffer {
+    std::shared_ptr<uint8_t> data;
+    size_t size;
+};
+
+
+using JSVariant = std::variant<nullptr_t, bool, int, double, long, long long, std::string, ArrayBuffer>;
+```
+
 # Turning the problem around
 
-Still not satisfied, I had a nagging feeling that somehow I was just wasting so much memory by creating HostObjects that are basically maps, therefore store the same keys over and over again (remember, I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!
+I had a nagging feeling that somehow I was just wasting so much memory by creating HostObjects that are basically maps, therefore store the same keys over and over again (remember, I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!
 
-It took a little while for me to wrap my head (really this time) around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get de-allocated. The final result is a combination of what I call a [DumbHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h) and [DynamicHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DynamicHostObject.cpp), the dumb objects only hold data, and the dynamic objects can hold anything (that can also be accessed from the JS side), but by combining the two, one can save memory by sharing the key set (in a DynamicHostObject) among many results (DumbHostObjects).
+It took a little while for me to wrap my head around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get de-allocated. The final result is a combination of what I call a [DumbHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h) and [DynamicHostObject](https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DynamicHostObject.cpp), the dumb objects only hold data, and the dynamic objects can hold anything (that can also be accessed from the JS side), but by combining the two, one can save memory by sharing the key set (in a DynamicHostObject) among many results (DumbHostObjects).
 
-As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade. The original query in quick-sqlite took over two seconds and required 1.2 gbs in memory. This now runs in ~500ms and requires only 250mbs of memory. The Android performance gains are masive as well, reaching almost 8x the speed.
+As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade. The original query in quick-sqlite took over two seconds and required 1.2 gbs in memory on iOS. This now runs in ~500ms and requires only 250mbs of memory. The Android performance gains are masive as well, reaching almost 8x the speed.
 
 | Library      | iPhone 15 Pro | Galaxy S22 |
 | ------------ | ------------- | ---------- |
