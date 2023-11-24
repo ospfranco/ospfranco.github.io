@@ -1,12 +1,12 @@
 ---
 layout: post
 title: SQLite for React Native, but 5x faster and 5x less memory
-date: 2023-11-09 09:00:00 -04:00
+date: 2023-11-09
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
 
-I love a good technical write-up, so here is one for [op-sqlite](https://github.com/OP-Engineering/op-sqlite) my new SQLite module for React Native.
+I created a new sqlite module for react-native: [op-sqlite](https://github.com/OP-Engineering/op-sqlite). Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module.
 
 # quick-sqlite
 

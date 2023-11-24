@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Get iOS simulator local home folder on macOS
-date: 2023-11-13 09:00:00 -04:00
+date: 2023-11-13
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---

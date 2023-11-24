@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Mix C++, Obj-C and Swift files in a single XCode target
-date: 2023-11-24 09:00:00 -04:00
+date: 2023-11-24
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
 ---
