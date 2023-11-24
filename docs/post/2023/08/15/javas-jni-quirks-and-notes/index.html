@@ -14,8 +14,8 @@
 <meta property="og:title" content="Javas JNI quirks and notes" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check." />
-<meta property="og:description" content="The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check." />
+<meta name="description" content="The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions." />
+<meta property="og:description" content="The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions." />
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -28,7 +28,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check.","headline":"Javas JNI quirks and notes","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"},"url":"https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions.","headline":"Javas JNI quirks and notes","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"},"url":"https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -61,7 +61,53 @@
 
       <p class="mt-2 text-neutral-500">August 2023</p>
 
-      <div class="pt-4 pb-20 markdown"><p>The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions. Here are some useful notes every time I work with it I need to check.</p>
+      <div class="pt-4 pb-20 markdown"><p>The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions.</p>
+
+<h1 id="cpp-adapter">Cpp-adapter</h1>
+
+<p>The entry point (at least for React Native modules) is the <code class="language-plaintext highlighter-rouge">cpp-adapter</code> file. This file receives a <code class="language-plaintext highlighter-rouge">jobject thiz</code> reference, which maps to the Java/Kotlin instance/class that has created it. You can use this reference to call the methods to the class/instance.</p>
+
+<p>Calling the methods however is a bit tedious, since you have to first reference the method via signature using a weird string syntax, then convert any type of C++ integral type to the Java equivalent. Perform the conversion, call, handle any exceptions, etc.</p>
+
+<p>Here is one example</p>
+
+<pre><code class="language-C++">void set(const char* key, const char* value, bool withBiometrics)
+{
+    JNIEnv *jniEnv = GetJniEnv();
+    java_class = jniEnv-&gt;GetObjectClass(java_object);
+    jmethodID mid = jniEnv-&gt;GetMethodID(java_class, "setItem", "(Ljava/lang/String;Ljava/lang/String;Z)V");
+    jstring jKey = string2jstring(jniEnv, key);
+    jstring jVal = string2jstring(jniEnv, value);
+    jvalue params[3];
+    params[0].l = jKey;
+    params[1].l = jVal;
+    params[2].z = withBiometrics;
+
+
+    jniEnv-&gt;CallVoidMethodA(java_object, mid, params);
+
+    jthrowable exObj = jniEnv-&gt;ExceptionOccurred();
+    if(exObj) {
+        jniEnv-&gt;ExceptionClear();
+
+        jclass clazz = jniEnv-&gt;GetObjectClass(exObj);
+        jmethodID getMessage = jniEnv-&gt;GetMethodID(clazz,
+                                                "toString",
+                                                "()Ljava/lang/String;");
+        jstring message = (jstring)jniEnv-&gt;CallObjectMethod(exObj, getMessage);
+        const char *mstr = jniEnv-&gt;GetStringUTFChars(message, NULL);
+        throw std::runtime_error(std::string(mstr));
+    }
+}
+</code></pre>
+
+<p>Here is a convenience method to convert from a CString to a Java String</p>
+
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jstring</span> <span class="nf">string2jstring</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">).</span><span class="n">NewStringUTF</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h1 id="type-conversions">Type conversions</h1>
 
