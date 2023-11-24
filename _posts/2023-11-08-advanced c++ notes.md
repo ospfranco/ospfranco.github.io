@@ -4,7 +4,6 @@ title: Advanced C++ notes
 date: 2023-11-08 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 # Noteworthy Types

@@ -4,7 +4,6 @@ title: React Native, Rust step-by-step integration guide
 date: 2023-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.
@@ -19,7 +18,9 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
 - Set up Rust compiler on your computer, just follow the instructions on the Rust website.
 - Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
+
   - 32bit targets have been deprecated by the rust team, no longer available on the stable channel
+
   ```bash
   rustup target add x86_64-apple-ios
   rustup target add aarch64-apple-ios
@@ -30,6 +31,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   rustup target add armv7-linux-androideabi
   rustup target add i686-linux-android
   ```
+
 - Next we will create the folder where we will put all of our Rust code and infra scripts. In my case I will call it `my_sdk`
 
   ```bash
@@ -42,6 +44,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 - Create a `cbindgen.toml` file, it is fine if it is empty.
 - `cbindgen --config cbindgen.toml --crate my_sdk --output include/my_sdk.h`
 - Modify toml to compile as static library for iOS and a dynamic library with JNI linked for Android
+
   ```bash
   [package]
   name = "SDK"
@@ -59,7 +62,9 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   [features]
   default = ["jni"]
   ```
+
 - Setup Makefile
+
   ```makefile
   ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
   ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi i686-linux-android
@@ -85,6 +90,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   	lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
   	xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
   ```
+
 - Add generated `.xcframework` to Xcode (dragging and dropping is the easiest)
   - On the project properties mark the xcframework as embed and sign
 - You should now be able to simply import the header file and call the rust function from any obj-c++ file
@@ -211,6 +217,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 - We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the `[lib.rs](http://lib.rs)` and the following block
 
 - We can finally call `make android` and the library will be created for us
+
   ```rust
   // On Android function names need to follow the JNI convention
   pub mod android {
@@ -227,6 +234,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
     }
   }
   ```
+
 - We now need to somehow include this .so files into the Android compilation, the easiest way is to copy them inside of the `Android/app/src` folder and then Gradle should automatically pick them up and include them in the compilation process. Let’s update our make file to include a new script that will copy everything once it is compiled:
 
   ```makefile

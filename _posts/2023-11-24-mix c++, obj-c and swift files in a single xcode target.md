@@ -4,7 +4,6 @@ title: Mix C++, Obj-C and Swift files in a single XCode target
 date: 2023-11-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.

@@ -4,7 +4,6 @@ title: Get iOS simulator local home folder on macOS
 date: 2023-11-13 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.

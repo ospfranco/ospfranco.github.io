@@ -4,7 +4,6 @@ title: C++ and XCode notes
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 Random notes I go making as I get to compile C++ with XCode

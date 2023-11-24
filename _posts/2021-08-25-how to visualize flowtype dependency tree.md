@@ -4,7 +4,6 @@ title: How to visualize Flowtype dependency tree
 date: 2021-08-25 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 At work we use [FlowType](https://flow.org) on our JavaScript application. I'm a fan of JS type checkers, flow is not my favorite, but what is important is that it works.

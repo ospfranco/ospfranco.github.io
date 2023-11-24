@@ -19,16 +19,14 @@
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/" />
 <meta property="og:site_name" content="Oscar Franco" />
-<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-08-11T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="React Native, Rust step-by-step integration guide" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.","headline":"React Native, Rust step-by-step integration guide","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"},"url":"https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.","headline":"React Native, Rust step-by-step integration guide","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"},"url":"https://ospfranco.com/post/2023/08/11/react-native,-rust-step-by-step-integration-guide/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -75,20 +73,22 @@
 
 <ul>
   <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website.</li>
-  <li>Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
+  <li>
+    <p>Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.</p>
+
     <ul>
-      <li>32bit targets have been deprecated by the rust team, no longer available on the stable channel
-```bash
-rustup target add x86_64-apple-ios
-rustup target add aarch64-apple-ios
-rustup target add aarch64-apple-ios-sim</li>
+      <li>32bit targets have been deprecated by the rust team, no longer available on the stable channel</li>
     </ul>
 
-    <p>rustup target add x86_64-linux-android
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>rustup target add x86_64-apple-ios
+rustup target add aarch64-apple-ios
+rustup target add aarch64-apple-ios-sim
+
+rustup target add x86_64-linux-android
 rustup target add aarch64-linux-android
 rustup target add armv7-linux-androideabi
 rustup target add i686-linux-android
-```</p>
+</code></pre></div>    </div>
   </li>
   <li>
     <p>Next we will create the folder where we will put all of our Rust code and infra scripts. In my case I will call it <code class="language-plaintext highlighter-rouge">my_sdk</code></p>
@@ -101,7 +101,9 @@ rustup target add i686-linux-android
   <li>Add cbindgen crate (alternative is cxx.rs) <code class="language-plaintext highlighter-rouge">cargo install cbindgen</code></li>
   <li>Create a <code class="language-plaintext highlighter-rouge">cbindgen.toml</code> file, it is fine if it is empty.</li>
   <li><code class="language-plaintext highlighter-rouge">cbindgen --config cbindgen.toml --crate my_sdk --output include/my_sdk.h</code></li>
-  <li>Modify toml to compile as static library for iOS and a dynamic library with JNI linked for Android
+  <li>
+    <p>Modify toml to compile as static library for iOS and a dynamic library with JNI linked for Android</p>
+
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">[</span>package]
 name <span class="o">=</span> <span class="s2">"SDK"</span>
 version <span class="o">=</span> <span class="s2">"0.1.0"</span>
@@ -119,7 +121,9 @@ jni <span class="o">=</span> <span class="s2">"0.17.0"</span>
 default <span class="o">=</span> <span class="o">[</span><span class="s2">"jni"</span><span class="o">]</span>
 </code></pre></div>    </div>
   </li>
-  <li>Setup Makefile
+  <li>
+    <p>Setup Makefile</p>
+
     <div class="language-makefile highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ARCHS_IOS</span> <span class="o">=</span> x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
 <span class="nv">ARCHS_ANDROID</span> <span class="o">=</span> aarch64-linux-android armv7-linux-androideabi i686-linux-android
 <span class="nv">LIB</span> <span class="o">=</span> libmy_sdk.a
@@ -281,7 +285,9 @@ cargo build <span class="nt">--target</span> <span class="nv">$TARGET</span> <sp
   <li>
     <p>We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the <code class="language-plaintext highlighter-rouge">[lib.rs](http://lib.rs)</code> and the following block</p>
   </li>
-  <li>We can finally call <code class="language-plaintext highlighter-rouge">make android</code> and the library will be created for us
+  <li>
+    <p>We can finally call <code class="language-plaintext highlighter-rouge">make android</code> and the library will be created for us</p>
+
     <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// On Android function names need to follow the JNI convention</span>
 <span class="k">pub</span> <span class="k">mod</span> <span class="n">android</span> <span class="p">{</span>
   <span class="k">extern</span> <span class="k">crate</span> <span class="n">jni</span><span class="p">;</span>

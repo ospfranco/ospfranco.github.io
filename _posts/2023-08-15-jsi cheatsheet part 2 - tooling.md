@@ -4,7 +4,6 @@ title: JSI Cheatsheet&#58; Part 2 - Tooling
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 Now that you know C++ ([JSI Cheatsheet Part I: C++](https://www.notion.so/JSI-Cheatsheet-Part-I-C-f1872d77ee4c4dc3b9563fa6cb3005f6?pvs=21)) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.

@@ -4,7 +4,6 @@ title: React Native, how to set up fonts with a single canonical name
 date: 2023-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the `<Text>` component in some custom component that sets the `fontFamily` style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:

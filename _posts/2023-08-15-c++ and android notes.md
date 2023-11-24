@@ -4,7 +4,6 @@ title: C++ and Android notes
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 Random notes I take as I write C++ for Android

@@ -4,7 +4,6 @@ title: React Native, reduce Sentry's bundle size on Android
 date: 2023-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 I convinced my team to switch from Crashlytics to `Sentry`. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that's just too much.

@@ -4,7 +4,6 @@ title: Objective-C cheatsheet
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/oscar.jpg
 ---
 
 Quick reference guide when you need to do some objective C
