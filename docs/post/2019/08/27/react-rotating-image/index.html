@@ -81,7 +81,7 @@
 
 <p>The following snippet:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">public</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">public</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
   
   <span class="o">&lt;</span><span class="nx">ExifOrientationImg</span> <span class="nx">markdown</span><span class="o">=</span><span class="dl">"</span><span class="s2">span</span><span class="dl">"</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">img</span><span class="p">}</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">height</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">objectFit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cover</span><span class="dl">'</span> <span class="p">}}</span> <span class="sr">/</span><span class="err">&gt;
 </span>  
@@ -110,17 +110,17 @@
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">loadImage</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">blueimp-load-image</span><span class="dl">'</span><span class="p">;</span>
 
 <span class="kr">private</span> <span class="nx">onPressImage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">myImage</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">img</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
+  <span class="nf">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">img</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nf">setState</span><span class="p">({</span>
       <span class="na">imageModalVisible</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
       <span class="na">selectedImage</span><span class="p">:</span> <span class="nx">attachment</span><span class="p">,</span>
     <span class="p">});</span>
     <span class="nx">img</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">fit_to_parent</span><span class="dl">'</span><span class="p">;</span>
-    <span class="nx">Reactdom</span><span class="p">.</span><span class="nx">findDOMNode</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span><span class="p">).</span><span class="nx">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+    <span class="nx">Reactdom</span><span class="p">.</span><span class="nf">findDOMNode</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span><span class="p">).</span><span class="nf">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
   <span class="p">},</span> <span class="p">{</span><span class="na">orientation</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
 <span class="p">}</span>
 
-<span class="kr">public</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<span class="kr">public</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
   
   <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">markdown</span><span class="o">=</span><span class="dl">"</span><span class="s2">0</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">display</span><span class="p">:</span> <span class="dl">'</span><span class="s1">flex</span><span class="dl">'</span><span class="p">,</span> <span class="na">alignItems</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span> <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">}}</span> <span class="nx">ref</span><span class="o">=</span><span class="p">{(</span><span class="nx">ref</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
 </span>  
@@ -138,13 +138,13 @@
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="k">as</span> <span class="nx">loadImage</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">blueimp-load-image</span><span class="dl">'</span><span class="p">;</span>
 <span class="p">...</span>
 <span class="kr">private</span> <span class="nx">onPressImage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">myImage</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">canvas</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">setState</span><span class="p">({</span>
-    <span class="na">selectedImageBase64</span><span class="p">:</span> <span class="nx">canvas</span><span class="p">.</span><span class="nx">toDataURL</span><span class="p">()</span>
+  <span class="nf">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">canvas</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nf">setState</span><span class="p">({</span>
+    <span class="na">selectedImageBase64</span><span class="p">:</span> <span class="nx">canvas</span><span class="p">.</span><span class="nf">toDataURL</span><span class="p">()</span>
   <span class="p">});</span>
   <span class="p">},</span> <span class="p">{</span><span class="na">orientation</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
 <span class="p">}</span>
-<span class="kr">public</span> <span class="nx">render</span><span class="p">()</span> <span class="p">{</span>
+<span class="kr">public</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
   
   <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="na">maxWidth</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">maxHeight</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">}}</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">selectedImageBase64</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
 </span>  

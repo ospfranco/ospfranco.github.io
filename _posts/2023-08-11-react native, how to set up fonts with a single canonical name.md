@@ -10,7 +10,7 @@ Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while
 
 ```tsx
 <Text
-  style={{
+  style=\{\{
     fontFamily: "Raleway",
     fontWeight: "600",
   }}

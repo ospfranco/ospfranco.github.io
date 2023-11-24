@@ -199,7 +199,7 @@
   <span class="n">jsiRuntime</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">multiply</span><span class="p">));</span>
 <span class="p">}</span>
 
-<span class="kt">void</span> <span class="n">cleanUpSequel</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">()</span> <span class="p">{</span>
   <span class="c1">// intentionally left blank</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -223,10 +223,10 @@
 <p>Finally, on our index.ts file we can create bindings for this function (I’m not sure if they also get exposed to the wrapper app, for now I created a dumb wrapper), having typescript also allows for type checking on the JS level</p>
 
 <div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// /src/index.tsx</span>
-<span class="kr">declare</span> <span class="kd">function</span> <span class="nx">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
+<span class="kr">declare</span> <span class="kd">function</span> <span class="nf">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
 
-<span class="k">export</span> <span class="kd">function</span> <span class="nx">multiplyA</span><span class="p">():</span> <span class="kr">number</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="nx">multiply</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">multiplyA</span><span class="p">():</span> <span class="kr">number</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nf">multiply</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
 <span class="p">}</span>
 </code></pre></div></div>
 
@@ -237,21 +237,21 @@
 <span class="k">import</span> <span class="p">{</span> <span class="nx">StyleSheet</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Text</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native</span><span class="dl">"</span><span class="p">;</span>
 <span class="k">import</span> <span class="p">{</span> <span class="nx">multiplyA</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-sequel</span><span class="dl">"</span><span class="p">;</span>
 
-<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nx">App</span><span class="p">()</span> <span class="p">{</span>
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nf">App</span><span class="p">()</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="p">[</span><span class="nx">result</span><span class="p">,</span> <span class="nx">setResult</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="o">&lt;</span><span class="kr">number</span> <span class="o">|</span> <span class="kc">undefined</span><span class="o">&gt;</span><span class="p">();</span>
 
-  <span class="nx">React</span><span class="p">.</span><span class="nx">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">setResult</span><span class="p">(</span><span class="nx">multiplyA</span><span class="p">());</span>
+  <span class="nx">React</span><span class="p">.</span><span class="nf">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nf">setResult</span><span class="p">(</span><span class="nf">multiplyA</span><span class="p">());</span>
   <span class="p">},</span> <span class="p">[]);</span>
 
-  <span class="k">return</span> <span class="p">(</span>
+  <span class="k">return </span><span class="p">(</span>
     <span class="p">&lt;</span><span class="nc">View</span> <span class="na">style</span><span class="p">=</span><span class="si">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="si">}</span><span class="p">&gt;</span>
       <span class="p">&lt;</span><span class="nc">Text</span><span class="p">&gt;</span>Result: <span class="si">{</span><span class="nx">result</span><span class="si">}</span><span class="p">&lt;/</span><span class="nc">Text</span><span class="p">&gt;</span>
     <span class="p">&lt;/</span><span class="nc">View</span><span class="p">&gt;</span>
   <span class="p">);</span>
 <span class="p">}</span>
 
-<span class="kd">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span>
+<span class="kd">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
   <span class="na">container</span><span class="p">:</span> <span class="p">{</span>
     <span class="na">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
     <span class="na">alignItems</span><span class="p">:</span> <span class="dl">"</span><span class="s2">center</span><span class="dl">"</span><span class="p">,</span>
@@ -315,7 +315,7 @@ target_link_libraries(sequel)
 <span class="p">}</span>
 
 <span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
-<span class="n">Java_com_reactnativesequel_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
+<span class="nf">Java_com_reactnativesequel_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">cleanUpSequel</span><span class="p">();</span>
 <span class="p">}</span>

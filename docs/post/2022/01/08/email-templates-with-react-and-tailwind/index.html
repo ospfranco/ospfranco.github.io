@@ -72,7 +72,7 @@
 <span class="k">import</span> <span class="nx">ReactDOMServer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-dom/server</span><span class="dl">"</span><span class="p">;</span>
 
 <span class="kd">const</span> <span class="nx">TestMail</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span>
+  <span class="k">return </span><span class="p">(</span>
     <span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
       <span class="c1">// important to keep the color scheme on some email clients</span>
       <span class="p">{</span><span class="cm">/* &lt;meta name="color-scheme" content="only"&gt;&lt;/meta&gt; */</span><span class="p">}</span>
@@ -82,7 +82,7 @@
 </span>  <span class="p">);</span>
 <span class="p">};</span>
 
-<span class="kd">const</span> <span class="nx">emailHtml</span> <span class="o">=</span> <span class="nx">ReactDOMServer</span><span class="p">.</span><span class="nx">renderToStaticMarkup</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">TestMail</span> <span class="o">/&gt;</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">emailHtml</span> <span class="o">=</span> <span class="nx">ReactDOMServer</span><span class="p">.</span><span class="nf">renderToStaticMarkup</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">TestMail</span> <span class="o">/&gt;</span><span class="p">);</span>
 </code></pre></div></div>
 
 <p>This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there <code class="language-plaintext highlighter-rouge">py-3</code>, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.</p>
@@ -91,9 +91,9 @@
 
 <div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">juice</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">juice</span><span class="dl">"</span><span class="p">;</span>
 
-<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nx">juicify</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="k">new</span> <span class="nb">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">juice</span><span class="p">.</span><span class="nx">juiceResources</span><span class="p">(</span>
+<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nf">juicify</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nc">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">juice</span><span class="p">.</span><span class="nf">juiceResources</span><span class="p">(</span>
       <span class="nx">html</span><span class="p">,</span>
       <span class="p">{</span>
         <span class="na">webResources</span><span class="p">:</span> <span class="p">{</span>
@@ -101,11 +101,11 @@
         <span class="p">},</span>
       <span class="p">},</span>
       <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">processed</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
-          <span class="nx">reject</span><span class="p">(</span><span class="k">new</span> <span class="nb">Error</span><span class="p">(</span><span class="s2">`Could not juice email</span><span class="p">${</span><span class="nx">err</span><span class="p">}</span><span class="s2">`</span><span class="p">));</span>
+        <span class="k">if </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nf">reject</span><span class="p">(</span><span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="s2">`Could not juice email</span><span class="p">${</span><span class="nx">err</span><span class="p">}</span><span class="s2">`</span><span class="p">));</span>
         <span class="p">}</span>
 
-        <span class="nx">resolve</span><span class="p">(</span><span class="nx">processed</span><span class="p">);</span>
+        <span class="nf">resolve</span><span class="p">(</span><span class="nx">processed</span><span class="p">);</span>
       <span class="p">}</span>
     <span class="p">);</span>
   <span class="p">});</span>

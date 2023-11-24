@@ -88,12 +88,12 @@
 <p>So once you have your tile set in your device, you will create a url for it:</p>
 
 <div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">let</span> <span class="nx">tilesUrl</span> <span class="o">=</span> <span class="dl">""</span><span class="p">;</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">localDirectory</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if </span><span class="p">(</span><span class="nx">localDirectory</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// We assume that the file has been unpacked to a local directory</span>
   <span class="nx">tilesUrl</span> <span class="o">=</span> <span class="s2">`file://</span><span class="p">${</span><span class="nx">localDirectory</span><span class="p">}</span><span class="s2">/{z}-{x}-{y}.png`</span><span class="p">;</span>
 <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
   <span class="c1">// Dispatching the download job in the background</span>
-  <span class="nx">FileCacheInstance</span><span class="p">.</span><span class="nx">fetch</span><span class="p">([</span><span class="nx">plan</span><span class="p">.</span><span class="nx">tileUrl</span><span class="p">]);</span>
+  <span class="nx">FileCacheInstance</span><span class="p">.</span><span class="nf">fetch</span><span class="p">([</span><span class="nx">plan</span><span class="p">.</span><span class="nx">tileUrl</span><span class="p">]);</span>
   <span class="nx">tilesUrl</span> <span class="o">=</span> <span class="s2">`file//</span><span class="p">${</span><span class="nx">downloadsFolder</span><span class="p">}</span><span class="s2">/{z}-{x}-{y}.png`</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -121,9 +121,9 @@
 <span class="p">};</span>
 
 <span class="c1">// Write json file to device storage</span>
-<span class="k">await</span> <span class="nx">RNFS</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span>
+<span class="k">await</span> <span class="nx">RNFS</span><span class="p">.</span><span class="nf">writeFile</span><span class="p">(</span>
   <span class="s2">`</span><span class="p">${</span><span class="nx">RNFS</span><span class="p">.</span><span class="nx">DocumentDirectoryPath</span><span class="p">}</span><span class="s2">/</span><span class="p">${</span><span class="nx">plan</span><span class="p">.</span><span class="nx">id</span><span class="p">}</span><span class="s2">-style.json`</span><span class="p">,</span>
-  <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">styleJSON</span><span class="p">),</span>
+  <span class="nx">JSON</span><span class="p">.</span><span class="nf">stringify</span><span class="p">(</span><span class="nx">styleJSON</span><span class="p">),</span>
   <span class="dl">"</span><span class="s2">utf8</span><span class="dl">"</span>
 <span class="p">);</span>
 </code></pre></div></div>
@@ -153,7 +153,7 @@
  * Degrees to radians
  * @param degrees
  */</span>
-<span class="kd">function</span> <span class="nx">degToRad</span><span class="p">(</span><span class="nx">degrees</span><span class="p">:</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nf">degToRad</span><span class="p">(</span><span class="nx">degrees</span><span class="p">:</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">degrees</span> <span class="o">*</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -161,7 +161,7 @@
  * Radians to degrees
  * @param rads
  */</span>
-<span class="kd">function</span> <span class="nx">radToDeg</span><span class="p">(</span><span class="nx">rad</span><span class="p">:</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nf">radToDeg</span><span class="p">(</span><span class="nx">rad</span><span class="p">:</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
   <span class="k">return</span> <span class="nx">rad</span> <span class="o">/</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">180</span><span class="p">);</span>
 <span class="p">}</span>
 
@@ -171,10 +171,10 @@
  * @param minVal min value
  * @param maxVal max value
  */</span>
-<span class="kd">function</span> <span class="nx">bound</span><span class="p">(</span><span class="nx">val</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">minVal</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">maxVal</span><span class="p">:</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
+<span class="kd">function</span> <span class="nf">bound</span><span class="p">(</span><span class="nx">val</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">minVal</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">maxVal</span><span class="p">:</span> <span class="nx">number</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">let</span> <span class="nx">res</span><span class="p">;</span>
-  <span class="nx">res</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">max</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">minVal</span><span class="p">);</span>
-  <span class="nx">res</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">min</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">maxVal</span><span class="p">);</span>
+  <span class="nx">res</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">max</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">minVal</span><span class="p">);</span>
+  <span class="nx">res</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">min</span><span class="p">(</span><span class="nx">val</span><span class="p">,</span> <span class="nx">maxVal</span><span class="p">);</span>
   <span class="k">return</span> <span class="nx">res</span><span class="p">;</span>
 <span class="p">}</span>
 
@@ -183,17 +183,17 @@
  * @param oldCoord
  */</span>
 <span class="c1">// TODO: Translate this to typescript</span>
-<span class="k">export</span> <span class="kd">function</span> <span class="nx">fromLngLatToPoint</span><span class="p">(</span><span class="nx">lng</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">lat</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">zoom</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span> <span class="nx">Point</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">fromLngLatToPoint</span><span class="p">(</span><span class="nx">lng</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">lat</span><span class="p">:</span> <span class="nx">number</span><span class="p">,</span> <span class="nx">zoom</span> <span class="o">=</span> <span class="mi">0</span><span class="p">):</span> <span class="nx">Point</span> <span class="p">{</span>
   <span class="c1">// [x, y]</span>
   <span class="kd">const</span> <span class="nx">res</span><span class="p">:</span> <span class="nx">Point</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">];</span>
   <span class="nx">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">PIXEL_ORIGIN</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">lng</span> <span class="o">*</span> <span class="nx">PIXELS_PER_LONG_DEGREE</span><span class="p">;</span>
 
   <span class="c1">// Truncating to 0.9999 effectively limits latitude to 89.189. This is</span>
   <span class="c1">// about a third of a tile past the edge of the world tile.</span>
-  <span class="kd">const</span> <span class="nx">siny</span> <span class="o">=</span> <span class="nx">bound</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">sin</span><span class="p">(</span><span class="nx">degToRad</span><span class="p">(</span><span class="nx">lat</span><span class="p">)),</span> <span class="o">-</span><span class="mf">0.9999</span><span class="p">,</span> <span class="mf">0.9999</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">siny</span> <span class="o">=</span> <span class="nf">bound</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">sin</span><span class="p">(</span><span class="nf">degToRad</span><span class="p">(</span><span class="nx">lat</span><span class="p">)),</span> <span class="o">-</span><span class="mf">0.9999</span><span class="p">,</span> <span class="mf">0.9999</span><span class="p">);</span>
   <span class="nx">res</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span>
     <span class="nx">PIXEL_ORIGIN</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span>
-    <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">log</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">siny</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">siny</span><span class="p">))</span> <span class="o">*</span> <span class="o">-</span><span class="nx">PIXELS_PER_LONG_RADIAN</span><span class="p">;</span>
+    <span class="mf">0.5</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">log</span><span class="p">((</span><span class="mi">1</span> <span class="o">+</span> <span class="nx">siny</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nx">siny</span><span class="p">))</span> <span class="o">*</span> <span class="o">-</span><span class="nx">PIXELS_PER_LONG_RADIAN</span><span class="p">;</span>
 
   <span class="kd">const</span> <span class="nx">numTiles</span> <span class="o">=</span> <span class="mi">1</span> <span class="o">&lt;&lt;</span> <span class="nx">zoom</span><span class="p">;</span>
   <span class="nx">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">*</span> <span class="nx">numTiles</span><span class="p">;</span>
@@ -205,14 +205,14 @@
  * Translate point from simple cartesian system to lat/long
  * @param point x, y point in the 256 tile size scheme
  */</span>
-<span class="k">export</span> <span class="kd">function</span> <span class="nx">fromPointToLngLat</span><span class="p">(</span><span class="nx">point</span><span class="p">:</span> <span class="nx">Point</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">fromPointToLngLat</span><span class="p">(</span><span class="nx">point</span><span class="p">:</span> <span class="nx">Point</span><span class="p">)</span> <span class="p">{</span>
   <span class="kd">const</span> <span class="nx">newPoint</span> <span class="o">=</span> <span class="p">[...</span><span class="nx">point</span><span class="p">];</span>
   <span class="kd">const</span> <span class="nx">numTiles</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
   <span class="nx">newPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">/</span> <span class="nx">numTiles</span><span class="p">;</span>
   <span class="nx">newPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="nx">newPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="nx">numTiles</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">lng</span> <span class="o">=</span> <span class="p">(</span><span class="nx">newPoint</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">PIXEL_ORIGIN</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">/</span> <span class="nx">PIXELS_PER_LONG_DEGREE</span><span class="p">;</span>
   <span class="kd">const</span> <span class="nx">latRadians</span> <span class="o">=</span> <span class="p">(</span><span class="nx">newPoint</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="nx">PIXEL_ORIGIN</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span> <span class="o">/</span> <span class="o">-</span><span class="nx">PIXELS_PER_LONG_RADIAN</span><span class="p">;</span>
-  <span class="kd">const</span> <span class="nx">lat</span> <span class="o">=</span> <span class="nx">radToDeg</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">atan</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">exp</span><span class="p">(</span><span class="nx">latRadians</span><span class="p">))</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+  <span class="kd">const</span> <span class="nx">lat</span> <span class="o">=</span> <span class="nf">radToDeg</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">atan</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nf">exp</span><span class="p">(</span><span class="nx">latRadians</span><span class="p">))</span> <span class="o">-</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">PI</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
 
   <span class="k">return</span> <span class="p">[</span><span class="nx">lng</span><span class="p">,</span> <span class="nx">lat</span><span class="p">];</span>
 <span class="p">}</span>
@@ -248,9 +248,9 @@
  * Returns function that you can pass to the onRegionIsChanging call
  * @param cameraRef React ref object to the map instance camera objects
  */</span>
-<span class="k">export</span> <span class="kd">function</span> <span class="nx">limitMapboxBounds</span><span class="p">(</span><span class="nx">cameraRef</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">RefObject</span><span class="o">&lt;</span><span class="nx">MapboxGL</span><span class="p">.</span><span class="nx">Camera</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">limitMapboxBounds</span><span class="p">(</span><span class="nx">cameraRef</span><span class="p">:</span> <span class="nx">React</span><span class="p">.</span><span class="nx">RefObject</span><span class="o">&lt;</span><span class="nx">MapboxGL</span><span class="p">.</span><span class="nx">Camera</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
   <span class="c1">// There is no available type for mapbox region feature, you are going to have to trust me here</span>
-  <span class="k">return</span> <span class="p">(</span><span class="nx">regionFeature</span><span class="p">:</span> <span class="nx">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return </span><span class="p">(</span><span class="nx">regionFeature</span><span class="p">:</span> <span class="nx">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
     <span class="cm">/**
      * Visible bounds is array of to LNG/LAT coordinates
      * [0]: is the north east corner
@@ -281,15 +281,15 @@
      * over 180... which of course is impossible on a lat long coordinate system
      */</span>
 
-    <span class="k">if</span> <span class="p">(</span><span class="nx">sw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">minSw</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
-      <span class="kd">const</span> <span class="nx">visibleWidth</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">sw</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-      <span class="nx">cameraRef</span><span class="p">.</span><span class="nx">current</span><span class="p">?.</span><span class="nx">fitBounds</span><span class="p">(</span>
+    <span class="k">if </span><span class="p">(</span><span class="nx">sw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="nx">minSw</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">visibleWidth</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">sw</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+      <span class="nx">cameraRef</span><span class="p">.</span><span class="nx">current</span><span class="p">?.</span><span class="nf">fitBounds</span><span class="p">(</span>
         <span class="p">[</span><span class="nx">minSw</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">sw</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
         <span class="p">[</span><span class="nx">minSw</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="nx">visibleWidth</span><span class="p">,</span> <span class="nx">ne</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
       <span class="p">);</span>
-    <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">maxNe</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">)</span> <span class="p">{</span>
-      <span class="kd">const</span> <span class="nx">visibleWidth</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">abs</span><span class="p">(</span><span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">sw</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
-      <span class="nx">cameraRef</span><span class="p">.</span><span class="nx">current</span><span class="p">?.</span><span class="nx">fitBounds</span><span class="p">(</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="k">if </span><span class="p">(</span><span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="nx">maxNe</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&amp;&amp;</span> <span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mi">300</span><span class="p">)</span> <span class="p">{</span>
+      <span class="kd">const</span> <span class="nx">visibleWidth</span> <span class="o">=</span> <span class="nb">Math</span><span class="p">.</span><span class="nf">abs</span><span class="p">(</span><span class="nx">ne</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">sw</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+      <span class="nx">cameraRef</span><span class="p">.</span><span class="nx">current</span><span class="p">?.</span><span class="nf">fitBounds</span><span class="p">(</span>
         <span class="p">[</span><span class="nx">maxNe</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="nx">sw</span><span class="p">[</span><span class="mi">1</span><span class="p">]],</span>
         <span class="p">[</span><span class="nx">maxNe</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="nx">visibleWidth</span><span class="p">,</span> <span class="nx">ne</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
       <span class="p">);</span>
@@ -300,10 +300,10 @@
 
 <p>this is the <code class="language-plaintext highlighter-rouge">boundedChecksFunction</code> that I have assigned in the Mapview and it is created on runtime to give it a little bit more of a performance boost:</p>
 
-<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">public</span> <span class="k">async</span> <span class="nx">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">boundedCheckBoundsFunction</span> <span class="o">=</span> <span class="nx">limitMapboxBounds</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cameraRef</span><span class="p">);</span>
-  <span class="k">await</span> <span class="nx">generateTempMapStyleJSON</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">plan</span><span class="p">);</span>
-  <span class="k">this</span><span class="p">.</span><span class="nx">forceUpdate</span><span class="p">();</span>
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">public</span> <span class="k">async</span> <span class="nf">componentDidMount</span><span class="p">()</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">boundedCheckBoundsFunction</span> <span class="o">=</span> <span class="nf">limitMapboxBounds</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">cameraRef</span><span class="p">);</span>
+  <span class="k">await</span> <span class="nf">generateTempMapStyleJSON</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">props</span><span class="p">.</span><span class="nx">plan</span><span class="p">);</span>
+  <span class="k">this</span><span class="p">.</span><span class="nf">forceUpdate</span><span class="p">();</span>
 <span class="p">}</span>
 </code></pre></div></div>
 

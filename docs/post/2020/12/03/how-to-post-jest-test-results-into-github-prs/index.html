@@ -122,7 +122,7 @@
       <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run tests</span>
         <span class="na">uses</span><span class="pi">:</span> <span class="s">ospfranco/gh-jester@v1.0.13</span>
         <span class="na">with</span><span class="pi">:</span>
-          <span class="na">post-comment</span><span class="pi">:</span> <span class="no">true</span>
+          <span class="na">post-comment</span><span class="pi">:</span> <span class="kc">true</span>
         <span class="na">env</span><span class="pi">:</span>
           <span class="na">GITHUB_TOKEN</span><span class="pi">:</span> <span class="s">${{ secrets.GITHUB_TOKEN }}</span>
           <span class="na">GITHUB_CONTEXT</span><span class="pi">:</span> <span class="s">${{ toJson(github) }}</span>

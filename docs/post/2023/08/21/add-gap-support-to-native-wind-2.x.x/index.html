@@ -69,12 +69,12 @@
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** @type {import('tailwindcss').Config} */</span>
 
-<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">tailwindcss/plugin</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">tailwindcss/plugin</span><span class="dl">"</span><span class="p">);</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">content</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">./App.tsx</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">./src/**/*.{ts,tsx}</span><span class="dl">"</span><span class="p">],</span>
   <span class="na">theme</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">spacing</span><span class="dl">"</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
+    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nf">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">spacing</span><span class="dl">"</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
     <span class="na">extend</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">colors</span><span class="p">:</span> <span class="p">{</span>
         <span class="na">lightPurple</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#6360EB</span><span class="dl">"</span><span class="p">,</span>
@@ -83,15 +83,15 @@
     <span class="p">},</span>
   <span class="p">},</span>
   <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
-    <span class="nx">plugin</span><span class="p">(</span><span class="kd">function</span> <span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span>
+    <span class="nf">plugin</span><span class="p">(</span><span class="nf">function </span><span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span>
       <span class="c1">// ADD THIS PLUGIN</span>
-      <span class="nx">matchUtilities</span><span class="p">(</span>
+      <span class="nf">matchUtilities</span><span class="p">(</span>
         <span class="p">{</span>
           <span class="na">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
             <span class="na">gap</span><span class="p">:</span> <span class="nx">value</span><span class="p">,</span>
           <span class="p">}),</span>
         <span class="p">},</span>
-        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">g</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nf">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">g</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span>
       <span class="p">);</span>
     <span class="p">}),</span>
   <span class="p">],</span>

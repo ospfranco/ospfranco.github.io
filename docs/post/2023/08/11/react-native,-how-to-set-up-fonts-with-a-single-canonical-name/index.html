@@ -62,7 +62,10 @@
       <div class="pt-4 pb-20 markdown"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code class="language-plaintext highlighter-rouge">&lt;Text&gt;</code> component in some custom component that sets the <code class="language-plaintext highlighter-rouge">fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
 
 <div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nc">Text</span>
-  <span class="na">style</span><span class="p">=</span>
+  <span class="na">style</span><span class="p">=</span><span class="err">\</span><span class="si">{</span><span class="err">\</span><span class="p">{</span>
+    <span class="nl">fontFamily</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Raleway</span><span class="dl">"</span><span class="p">,</span>
+    <span class="nx">fontWeight</span><span class="p">:</span> <span class="dl">"</span><span class="s2">600</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">}</span><span class="si">}</span>
 <span class="p">&gt;</span>
   Hello
 <span class="p">&lt;/</span><span class="nc">Text</span><span class="p">&gt;</span>

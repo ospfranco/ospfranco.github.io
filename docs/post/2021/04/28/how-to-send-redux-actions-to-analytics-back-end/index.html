@@ -73,20 +73,20 @@
 <span class="kd">const</span> <span class="nx">ACTION_BLACK_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">timer/TICK</span><span class="dl">'</span><span class="p">]</span>
 
 <span class="kd">const</span> <span class="nx">handleAction</span> <span class="o">=</span> <span class="p">(</span><span class="nx">next</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">action</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">ACTION_BLACK_LIST</span><span class="p">.</span><span class="nx">includes</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="kd">type</span><span class="p">))</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">ACTION_BLACK_LIST</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="kd">type</span><span class="p">))</span> <span class="p">{</span>
     <span class="c1">// Careful here not to send entire actions, it chokes the react-native bridge and might not even reach sentry due to the amount of data</span>
-    <span class="nx">Sentry</span><span class="p">.</span><span class="nx">addBreadcrumb</span><span class="p">({</span>
+    <span class="nx">Sentry</span><span class="p">.</span><span class="nf">addBreadcrumb</span><span class="p">({</span>
       <span class="na">category</span><span class="p">:</span> <span class="dl">'</span><span class="s1">redux_action</span><span class="dl">'</span><span class="p">,</span>
       <span class="na">message</span><span class="p">:</span> <span class="nx">action</span><span class="p">.</span><span class="kd">type</span><span class="p">,</span>
       <span class="na">level</span><span class="p">:</span> <span class="nx">Sentry</span><span class="p">.</span><span class="nx">Severity</span><span class="p">.</span><span class="nx">info</span>
     <span class="p">})</span>
   <span class="p">}</span>
 
-  <span class="k">return</span> <span class="nx">next</span><span class="p">(</span><span class="nx">action</span><span class="p">)</span>
+  <span class="k">return</span> <span class="nf">next</span><span class="p">(</span><span class="nx">action</span><span class="p">)</span>
 <span class="p">}</span>
 
-<span class="k">export</span> <span class="kd">function</span> <span class="nx">createSentryMiddleware</span> <span class="p">()</span> <span class="p">{</span>
-  <span class="k">return</span> <span class="p">(</span><span class="nx">store</span><span class="p">:</span><span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">next</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">action</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nx">handleAction</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">createSentryMiddleware</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">return </span><span class="p">(</span><span class="nx">store</span><span class="p">:</span><span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">next</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">action</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">handleAction</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span>
 <span class="p">}</span>
 </code></pre></div></div>
 <blockquote>
@@ -99,12 +99,12 @@
 
 <span class="p">...</span>
 
-<span class="kd">const</span> <span class="nx">sentryMiddleware</span> <span class="o">=</span> <span class="nx">createSentryMiddleware</span><span class="p">()</span>
-<span class="nx">middlewares</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">sentryMiddleware</span><span class="p">)</span>
+<span class="kd">const</span> <span class="nx">sentryMiddleware</span> <span class="o">=</span> <span class="nf">createSentryMiddleware</span><span class="p">()</span>
+<span class="nx">middlewares</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">sentryMiddleware</span><span class="p">)</span>
 
 <span class="p">...</span>
 
-<span class="kd">const</span> <span class="nx">store</span><span class="p">:</span> <span class="nx">Store</span> <span class="o">=</span> <span class="nx">createStore</span><span class="p">(</span><span class="nx">rootReducer</span><span class="p">,</span> <span class="nx">compose</span><span class="p">(</span><span class="nx">applyMiddleware</span><span class="p">(...</span><span class="nx">middlewares</span><span class="p">)))</span>
+<span class="kd">const</span> <span class="nx">store</span><span class="p">:</span> <span class="nx">Store</span> <span class="o">=</span> <span class="nf">createStore</span><span class="p">(</span><span class="nx">rootReducer</span><span class="p">,</span> <span class="nf">compose</span><span class="p">(</span><span class="nf">applyMiddleware</span><span class="p">(...</span><span class="nx">middlewares</span><span class="p">)))</span>
 </code></pre></div></div>
 
 <p>The code is super simple, but the concept is truly powerful, it could save you a lot of time by not manually having to add data points and also retroactively collect data from the moment you develop a new feature.</p>

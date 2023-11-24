@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-24T18:57:04+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T14:00:00+01:00</published><updated>2023-11-24T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-24T19:10:41+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T14:00:00+01:00</published><updated>2023-11-24T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
 
 <p>The root issue is the <a href="https://stackoverflow.com/questions/47788422/cannot-use-namespace-and-cannot-include-standard-c-library-in-my-h-files">Swift compiler</a>, it doesn’t support C++, yet it still tries to compile C headers on its own. Whenever you have Swift files together with C++ files, it’s the Swift compiler that will kick-in in a first pass (followed by CLang? maybe before? doesn’t matter) and will try to compile the headers as C headers independently of what you tell it, file extensions, etc.</p>
 
@@ -70,7 +70,30 @@ void Foo_bar(struct FooHandle* foo, int c);
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T14:00:00+01:00</published><updated>2023-11-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
+<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
+
+<p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
+
+<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
+
+<p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
+
+<pre><code class="language-C++">#import &lt;jsi/jsi.h&gt;
+</code></pre>
+
+<p>You should import everything with</p>
+
+<pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
+</code></pre>
+
+<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T14:00:00+01:00</published><updated>2023-11-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
 
 <p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code class="language-plaintext highlighter-rouge">po NSHomeDirectory()</code> and it will print out the local directory.</p>
 
@@ -306,7 +329,7 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">Derived</span> <span class="n">d</span><span class="p">;</span>
 
     <span class="n">Base</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">derived</span><span class="p">;</span>
@@ -354,13 +377,13 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="kt">void</span> <span class="n">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span>
+<span class="kt">void</span> <span class="nf">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="s">"Pointer received."</span><span class="o">&lt;&lt;</span><span class="sc">'\n'</span><span class="p">;</span>
 
 <span class="p">}</span> <span class="c1">// a and its object are deleted.</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
 
     <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">();</span>
     <span class="n">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="c1">// Pointer received.</span>
@@ -387,7 +410,7 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="c1">// Do something with ints</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 
     <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
@@ -419,7 +442,7 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="c1">// Do something with ints</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 
     <span class="n">foo</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
@@ -524,9 +547,9 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <p>There is only one way to initialize class consts or reference members, using the the <code class="language-plaintext highlighter-rouge">initialization list</code> syntax. It initializes the variables of an instance before the body of the constructor is called</p>
 
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Demo</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Demo</span>
 <span class="p">{</span>
-    <span class="nx">Demo</span><span class="p">(</span><span class="nx">int</span><span class="o">&amp;</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span> <span class="nx">m_val</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+    <span class="nc">Demo</span><span class="p">(</span><span class="nx">int</span><span class="o">&amp;</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span> <span class="nf">m_val</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
      <span class="p">{</span>
      <span class="p">}</span>
 <span class="nl">private</span><span class="p">:</span>
@@ -585,12 +608,12 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** @type {import('tailwindcss').Config} */</span>
 
-<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">tailwindcss/plugin</span><span class="dl">"</span><span class="p">);</span>
+<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">tailwindcss/plugin</span><span class="dl">"</span><span class="p">);</span>
 
 <span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
   <span class="na">content</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">./App.tsx</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">./src/**/*.{ts,tsx}</span><span class="dl">"</span><span class="p">],</span>
   <span class="na">theme</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">spacing</span><span class="dl">"</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
+    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nf">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">spacing</span><span class="dl">"</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
     <span class="na">extend</span><span class="p">:</span> <span class="p">{</span>
       <span class="na">colors</span><span class="p">:</span> <span class="p">{</span>
         <span class="na">lightPurple</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#6360EB</span><span class="dl">"</span><span class="p">,</span>
@@ -599,15 +622,15 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="p">},</span>
   <span class="p">},</span>
   <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
-    <span class="nx">plugin</span><span class="p">(</span><span class="kd">function</span> <span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span>
+    <span class="nf">plugin</span><span class="p">(</span><span class="nf">function </span><span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span>
       <span class="c1">// ADD THIS PLUGIN</span>
-      <span class="nx">matchUtilities</span><span class="p">(</span>
+      <span class="nf">matchUtilities</span><span class="p">(</span>
         <span class="p">{</span>
           <span class="na">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
             <span class="na">gap</span><span class="p">:</span> <span class="nx">value</span><span class="p">,</span>
           <span class="p">}),</span>
         <span class="p">},</span>
-        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nx">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">g</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span>
+        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nf">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">g</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span>
       <span class="p">);</span>
     <span class="p">}),</span>
   <span class="p">],</span>
@@ -951,56 +974,4 @@ index 7d7715b..56472bc 100644
 <span class="nx">fs</span><span class="p">.</span><span class="nf">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
 
 <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary></entry><entry><title type="html">Disambiguate TypeScript union types</title><link href="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/" rel="alternate" type="text/html" title="Disambiguate TypeScript union types" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/disambiguate%20typescript%20union%20types</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/disambiguate-typescript-union-types/"><![CDATA[<p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
-
-<span class="c1">// Trouble comes</span>
-
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
-
-<span class="c1">// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null</span>
-<span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">iOSOnlyField</span> <span class="c1">// kaboom</span>
-</code></pre></div></div>
-
-<p>You can make typescript happy by adding a literal field that will provide it with enough info to make sure the object is correct:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">;</span>
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Android</span><span class="dl">'</span><span class="p">;</span>
-
-<span class="p">}</span>
-
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
-
-<span class="c1">// Trouble comes</span>
-
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
-
-<span class="k">if</span><span class="p">(</span><span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for iOSPaymentInfo</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for AndroidPaymentInfo</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<blockquote>
-  <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
-</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary></entry></feed>

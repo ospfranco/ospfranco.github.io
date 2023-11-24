@@ -194,7 +194,7 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">Derived</span> <span class="n">d</span><span class="p">;</span>
 
     <span class="n">Base</span> <span class="o">*</span><span class="n">b</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">derived</span><span class="p">;</span>
@@ -242,13 +242,13 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="p">}</span>
 <span class="p">};</span>
 
-<span class="kt">void</span> <span class="n">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span>
+<span class="kt">void</span> <span class="nf">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">unique_ptr</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span> <span class="n">a</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">cout</span><span class="o">&lt;&lt;</span> <span class="s">"Pointer received."</span><span class="o">&lt;&lt;</span><span class="sc">'\n'</span><span class="p">;</span>
 
 <span class="p">}</span> <span class="c1">// a and its object are deleted.</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">(){</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(){</span>
 
     <span class="k">auto</span> <span class="n">x</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">make_unique</span><span class="o">&lt;</span><span class="n">A</span><span class="o">&gt;</span><span class="p">();</span>
     <span class="n">PassIn</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="c1">// Pointer received.</span>
@@ -275,7 +275,7 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="c1">// Do something with ints</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 
     <span class="n">foo</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
@@ -307,7 +307,7 @@ methods, and (category_name) is present only when the method is in a category.</
     <span class="c1">// Do something with ints</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
     <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;&gt;</span> <span class="n">a</span><span class="p">{</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="mi">3</span><span class="p">};</span>
 
     <span class="n">foo</span><span class="p">(</span><span class="o">&amp;</span><span class="n">a</span><span class="p">);</span>
@@ -412,9 +412,9 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <p>There is only one way to initialize class consts or reference members, using the the <code class="language-plaintext highlighter-rouge">initialization list</code> syntax. It initializes the variables of an instance before the body of the constructor is called</p>
 
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nx">Demo</span>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">class</span> <span class="nc">Demo</span>
 <span class="p">{</span>
-    <span class="nx">Demo</span><span class="p">(</span><span class="nx">int</span><span class="o">&amp;</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span> <span class="nx">m_val</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
+    <span class="nc">Demo</span><span class="p">(</span><span class="nx">int</span><span class="o">&amp;</span> <span class="nx">val</span><span class="p">)</span> <span class="p">:</span> <span class="nf">m_val</span><span class="p">(</span><span class="nx">val</span><span class="p">)</span>
      <span class="p">{</span>
      <span class="p">}</span>
 <span class="nl">private</span><span class="p">:</span>
