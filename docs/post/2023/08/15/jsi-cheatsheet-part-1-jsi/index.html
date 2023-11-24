@@ -11,7 +11,7 @@
   <meta name="twitter:image" content="/assets/oscar.jpg" />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>JSI Cheatsheet: Part 1 - C++ | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.2.2" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="JSI Cheatsheet: Part 1 - C++" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -20,16 +20,16 @@
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/" />
 <meta property="og:site_name" content="Oscar Franco" />
-<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="JSI Cheatsheet: Part 1 - C++" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.","headline":"JSI Cheatsheet: Part 1 - C++","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.","headline":"JSI Cheatsheet: Part 1 - C++","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -152,7 +152,7 @@
 <span class="p">}</span>
 
 <span class="c1">// safer(ish)</span>
-<span class="kt">void</span> <span class="n">doSomethingFunny</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">foo</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">void</span> <span class="nf">doSomethingFunny</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">foo</span><span class="p">)</span> <span class="p">{</span>
 	<span class="n">foo</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="c1">// doesn't compile, cannot modify const</span>
 <span class="p">}</span>
 
@@ -260,12 +260,12 @@
 <span class="p">}</span>
 
 <span class="c1">// A normal function</span>
-<span class="kt">int</span> <span class="n">sumByValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">sumByValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
 	<span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">9</span><span class="p">;</span>
 	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
   <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 0</span>
@@ -306,7 +306,7 @@
   <p>⚠️ This is not only used for strings, but whenever to pass arrays of stuff in without C++ fancy classes (no vectors, maps, etc). E.g: <code class="language-plaintext highlighter-rouge">jsi::Value *args</code> = array of <code class="language-plaintext highlighter-rouge">jsi::Values</code>, but unlike strings for other types of arrays you will have to pass/receive the length of the array as an integer (sometimes with a special <code class="language-plaintext highlighter-rouge">size_t</code> type).</p>
 </blockquote>
 
-<h2 id="scopecontext-lifecycles--memory-de-allocations--️">Scope/context Lifecycles / Memory de-allocations  ⚠️</h2>
+<h2 id="scopecontext-lifecycles--memory-de-allocations-️">Scope/context Lifecycles / Memory de-allocations ⚠️</h2>
 
 <p>This is one <strong>WILL BITE YOU IN THE ASS.</strong> Important topic because unlike JS where you can just pass stuff around and it will (mostly) be fine, on C++ your variables will be de-allocated and you will end up with trash.</p>
 
@@ -330,10 +330,10 @@
 
 <span class="c1">// my database module</span>
 
-<span class="c1">// remember the pass by reference (&amp;) part? </span>
+<span class="c1">// remember the pass by reference (&amp;) part?</span>
 <span class="c1">// This function takes a pointer via the "*" operator</span>
 <span class="kt">void</span> <span class="nf">initDatabaseModule</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span><span class="p">)</span> <span class="p">{</span>
-	
+
 	<span class="c1">// this is a function with a lambda inside</span>
 	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">openDatabase</span><span class="p">(</span><span class="n">string</span> <span class="n">dbName</span><span class="p">)</span> <span class="p">{</span>
 		<span class="c1">// some code to initialize a database</span>
@@ -362,7 +362,7 @@
 <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">myDocPath</span><span class="p">;</span>
 
 <span class="kt">void</span> <span class="nf">initDatabaseModule</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span><span class="p">)</span> <span class="p">{</span>
-	<span class="c1">// We create a copy </span>
+	<span class="c1">// We create a copy</span>
 	<span class="n">myDocPath</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">docPath</span><span class="p">);</span>
 
 	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">openDatabase</span><span class="p">(</span><span class="n">string</span> <span class="n">dbName</span><span class="p">)</span> <span class="p">{</span>
@@ -385,7 +385,7 @@
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span> <span class="n">captured</span> <span class="n">variables</span> <span class="p">](</span> <span class="n">params</span> <span class="p">)</span> <span class="p">{</span> <span class="n">body</span> <span class="p">}</span>
 </code></pre></div></div>
 
-<p>Here is a very simple lambda example of a curried function (<a href="https://javascript.info/currying-partials">currying</a> =  fancy word for partially applying functions )</p>
+<p>Here is a very simple lambda example of a curried function (<a href="https://javascript.info/currying-partials">currying</a> = fancy word for partially applying functions )</p>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
 #include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
@@ -396,11 +396,11 @@
 	<span class="p">};</span>
 <span class="p">}</span>
 
-<span class="kt">int</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
 	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4</span> <span class="o">=</span> <span class="n">createSumN</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 
 	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
-	
+
   <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
 </code></pre></div></div>
@@ -445,7 +445,7 @@
 
 <span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">()</span>
 	<span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span>
-							 <span class="s">"open"</span><span class="p">,</span> 
+							 <span class="s">"open"</span><span class="p">,</span>
 							 <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">myOpenFunction</span><span class="p">));</span> <span class="c1">// This will safely move the memory chunk of "myOpenFunction" from the context of this function to the global object</span>
 </code></pre></div></div>
 
@@ -529,12 +529,12 @@
 <span class="c1">// 2) notice the &amp;db: we are passing a pointer to the pointer! Yes that is possible!</span>
 <span class="c1">//    sqlite3 will initialize a sqlite3 object and then cram the memory value into the pointer we passed!</span>
 
-<span class="nx">exit</span> <span class="o">=</span> <span class="nx">sqlite3_open_v2</span><span class="p">(</span><span class="dl">"</span><span class="s2">my_database_path</span><span class="dl">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">db</span><span class="p">,</span> <span class="nx">sqlOpenFlags</span><span class="p">,</span> <span class="nx">nullptr</span><span class="p">);</span>
+<span class="nx">exit</span> <span class="o">=</span> <span class="nf">sqlite3_open_v2</span><span class="p">(</span><span class="dl">"</span><span class="s2">my_database_path</span><span class="dl">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">db</span><span class="p">,</span> <span class="nx">sqlOpenFlags</span><span class="p">,</span> <span class="nx">nullptr</span><span class="p">);</span>
 
 <span class="c1">// The code above will not throw a memory exception, but it will return the return code</span>
 <span class="c1">// it falls to us to check the function has correctly opened a SQLite database</span>
 <span class="c1">// (SQLITE_OK is just 0)</span>
-<span class="k">if</span> <span class="p">(</span><span class="nx">exit</span> <span class="o">!=</span> <span class="nx">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if </span><span class="p">(</span><span class="nx">exit</span> <span class="o">!=</span> <span class="nx">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
 <span class="p">...</span>
 </code></pre></div></div>
 
@@ -563,17 +563,17 @@
 <span class="nv">public</span><span class="p">:</span>
   <span class="c1">/// Stored property</span>
   <span class="n">int</span> <span class="n">expirationTime</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span><span class="p">;</span> <span class="c1">// 1 day</span>
-  
+
   <span class="c1">// Helper function</span>
   <span class="kd">static</span> <span class="kt">NSString</span><span class="o">*</span> <span class="nf">stringValue</span><span class="p">(</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
     <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="nf">isString</span><span class="p">()</span>
       <span class="p">?</span> <span class="p">[</span><span class="kt">NSString</span> <span class="nv">stringWithUTF8String</span><span class="p">:</span><span class="n">value</span><span class="o">.</span><span class="nf">getString</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="nf">c_str</span><span class="p">()]</span>
       <span class="p">:</span> <span class="kc">nil</span><span class="p">;</span>
   <span class="p">}</span>
-  
+
   <span class="kt">Value</span> <span class="nf">get</span><span class="p">(</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">PropNameID</span> <span class="o">&amp;</span><span class="n">name</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
     <span class="n">auto</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
-    
+
     <span class="c1">// `expirationTime` property getter</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"expirationTime"</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">return</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">expirationTime</span><span class="p">;</span>
@@ -604,10 +604,10 @@
     <span class="p">}</span>
     <span class="k">return</span> <span class="kt">Value</span><span class="p">::</span><span class="nf">undefined</span><span class="p">();</span>
   <span class="p">}</span>
-  
+
   <span class="n">void</span> <span class="nf">set</span><span class="p">(</span><span class="kt">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">PropNameID</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
     <span class="n">auto</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
-    
+
     <span class="c1">// ExpirationTime property setter</span>
     <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"expirationTime"</span><span class="p">)</span> <span class="p">{</span>
       <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="nf">isNumber</span><span class="p">())</span> <span class="p">{</span>
@@ -615,7 +615,7 @@
       <span class="p">}</span>
     <span class="p">}</span>
   <span class="p">}</span>
-  
+
 	<span class="c1">// You can call this method from the entry point where you install the bindings</span>
   <span class="c1">// or call it in another method, we will take a look later</span>
   <span class="c1">// Install `nativeStorage` globally to the runtime</span>

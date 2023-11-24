@@ -11,7 +11,7 @@
   <meta name="twitter:image" content="/assets/oscar.jpg" />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>JSI Cheatsheet: Part 2 - Tooling | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.2.2" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="JSI Cheatsheet: Part 2 - Tooling" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -20,16 +20,16 @@
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/" />
 <meta property="og:site_name" content="Oscar Franco" />
-<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="JSI Cheatsheet: Part 2 - Tooling" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.","headline":"JSI Cheatsheet: Part 2 - Tooling","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.","headline":"JSI Cheatsheet: Part 2 - Tooling","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -108,10 +108,10 @@
 
 <p>The linker is what produces the final compilation output from the object files the compiler produced. This output can be either a shared (or dynamic) library (and while the name is similar, they haven’t got much in common with static libraries mentioned earlier) or an executable.</p>
 
-<p>It links all the object files by replacing the references to undefined symbols with the correct addresses. Each of these symbols can be defined in other object files or in libraries. If they are defined in libraries other than the standard library, you need to tell the linker 
+<p>It links all the object files by replacing the references to undefined symbols with the correct addresses. Each of these symbols can be defined in other object files or in libraries. If they are defined in libraries other than the standard library, you need to tell the linker
 about them.</p>
 
-<p>At this stage the most common errors are missing definitions or duplicate definitions. The former means that either the definitions don’t exist (i.e. they are not written), or that the object files or 
+<p>At this stage the most common errors are missing definitions or duplicate definitions. The former means that either the definitions don’t exist (i.e. they are not written), or that the object files or
 libraries where they reside were not given to the linker. The latter is obvious: the same symbol was defined in two different object files or libraries.</p>
 
 <h1 id="cmake">CMake</h1>
@@ -133,14 +133,14 @@ libraries where they reside were not given to the linker. The latter is obvious:
 
 <div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Tell which version of CMake is required</span>
 <span class="c1">// Check your android version, since they come bundled with the build-tools</span>
-<span class="nx">cmake_minimum_required</span><span class="p">(</span><span class="nx">VERSION</span> <span class="mf">3.4</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span>
+<span class="nf">cmake_minimum_required</span><span class="p">(</span><span class="nx">VERSION</span> <span class="mf">3.4</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span>
 
-<span class="kd">set</span> <span class="p">(</span><span class="nx">CMAKE_VERBOSE_MAKEFILE</span> <span class="nx">ON</span><span class="p">)</span>
+<span class="nf">set </span><span class="p">(</span><span class="nx">CMAKE_VERBOSE_MAKEFILE</span> <span class="nx">ON</span><span class="p">)</span>
 <span class="c1">// set the version of C++ you are going to use</span>
-<span class="kd">set</span> <span class="p">(</span><span class="nx">CMAKE_CXX_STANDARD</span> <span class="mi">11</span><span class="p">)</span>
+<span class="nf">set </span><span class="p">(</span><span class="nx">CMAKE_CXX_STANDARD</span> <span class="mi">11</span><span class="p">)</span>
 
 <span class="c1">// Include all the directories with .cpp files that will need to be compiled</span>
-<span class="nx">include_directories</span><span class="p">(</span>
+<span class="nf">include_directories</span><span class="p">(</span>
   <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span>
   <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">React</span>
   <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">React</span><span class="o">/</span><span class="nx">Base</span>
@@ -148,7 +148,7 @@ libraries where they reside were not given to the linker. The latter is obvious:
 <span class="p">)</span>
 
 <span class="c1">// create a library "sequel", which needs to compile all the following files</span>
-<span class="nx">add_library</span><span class="p">(</span><span class="nx">sequel</span>
+<span class="nf">add_library</span><span class="p">(</span><span class="nx">sequel</span>
   <span class="nx">SHARED</span>
   <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">ReactCommon</span><span class="o">/</span><span class="nx">jsi</span><span class="o">/</span><span class="nx">jsi</span><span class="o">/</span><span class="nx">jsi</span><span class="p">.</span><span class="nx">cpp</span>
   <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">sequel</span><span class="p">.</span><span class="nx">cpp</span>
@@ -165,7 +165,7 @@ libraries where they reside were not given to the linker. The latter is obvious:
 <span class="c1">// in this case I link android specific libraries and logging library</span>
 <span class="c1">// so I can log to the android console from my CPP code</span>
 <span class="c1">// on iOS this is not necessary (iOS doesn't even use CMakeLists)</span>
-<span class="nx">target_link_libraries</span><span class="p">(</span><span class="nx">sequel</span> <span class="nx">android</span> <span class="nx">log</span><span class="p">)</span>
+<span class="nf">target_link_libraries</span><span class="p">(</span><span class="nx">sequel</span> <span class="nx">android</span> <span class="nx">log</span><span class="p">)</span>
 </code></pre></div></div>
 
 <p>CMake is a world on it’s own, <a href="https://en.wikipedia.org/wiki/CMake">the wikipedia article</a> gives a good high level overview, but if you are developing your JSI module this should be more than enough: just include all your header and cpp files in your CMakeLists and link any android libraries as necessary</p>
@@ -203,7 +203,7 @@ libraries where they reside were not given to the linker. The latter is obvious:
 <span class="p">}</span>
 
 <span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
-<span class="n">Java_com_reactnativequicksqlite_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
+<span class="nf">Java_com_reactnativequicksqlite_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
 <span class="p">{</span>
   <span class="n">cleanUpSequel</span><span class="p">();</span>
 <span class="p">}</span>
@@ -222,7 +222,7 @@ libraries where they reside were not given to the linker. The latter is obvious:
 
 <p>Another interesting pain point, is that you cannot just use any C++ dynamic library on android, android has it’s own flavor of dynamic libraries (.AAR) if you know how to generate them… you are a god, if not you have to rely on the ones published by google… there is 2 of them, I opted for the easy path and completely included the sqlite.c code in my library</p>
 
-<p>To be honest compilation and native toolchains are so f<em>**</em> complicated I cannot dive deeper without confusing you even more (even I’m confused until this day), however feel free to reach out if you need some other point explained.</p>
+<p>To be honest compilation and native toolchains are so f**** complicated I cannot dive deeper without confusing you even more (even I’m confused until this day), however feel free to reach out if you need some other point explained.</p>
 
 <h1 id="ide-support">IDE support</h1>
 

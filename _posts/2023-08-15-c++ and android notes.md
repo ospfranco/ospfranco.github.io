@@ -4,7 +4,7 @@ title: C++ and Android notes
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Random notes I take as I write C++ for Android
@@ -38,7 +38,7 @@ The issues occur when both STLs produce **the same** mangled name, which is ve
 
 ### Not so nuclear example
 
-- App has `ANDROID_STL=gnustl_static` 
+- App has `ANDROID_STL=gnustl_static`
 
 - 3rd-party library foo has `ANDROID_STL=c++_static`
 

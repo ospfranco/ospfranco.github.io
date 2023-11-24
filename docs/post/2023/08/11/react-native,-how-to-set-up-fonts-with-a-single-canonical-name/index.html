@@ -11,7 +11,7 @@
   <meta name="twitter:image" content="/assets/oscar.jpg" />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>React Native, how to set up fonts with a single canonical name | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.2.2" />
+<meta name="generator" content="Jekyll v4.3.2" />
 <meta property="og:title" content="React Native, how to set up fonts with a single canonical name" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -20,16 +20,16 @@
 <link rel="canonical" href="https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/" />
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/" />
 <meta property="og:site_name" content="Oscar Franco" />
-<meta property="og:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
 <meta property="article:published_time" content="2023-08-11T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
-<meta property="twitter:image" content="https://ospfranco.com/assets/profile.JPG" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="React Native, how to set up fonts with a single canonical name" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the &lt;Text&gt; component in some custom component that sets the fontFamily style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:","headline":"React Native, how to set up fonts with a single canonical name","image":"https://ospfranco.com/assets/profile.JPG","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"},"url":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the &lt;Text&gt; component in some custom component that sets the fontFamily style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:","headline":"React Native, how to set up fonts with a single canonical name","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"},"url":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -65,12 +65,9 @@
       <div class="pt-4 pb-20 markdown"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code class="language-plaintext highlighter-rouge">&lt;Text&gt;</code> component in some custom component that sets the <code class="language-plaintext highlighter-rouge">fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
 
 <div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nc">Text</span>
-	<span class="na">style</span><span class="p">=</span><span class="si">{</span> <span class="p">{</span>
-		<span class="na">fontFamily</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Raleway</span><span class="dl">'</span><span class="p">,</span>
-		<span class="na">fontWeight</span><span class="p">:</span> <span class="dl">'</span><span class="s1">600</span><span class="dl">'</span>
-	<span class="p">}</span><span class="si">}</span>
+  <span class="na">style</span><span class="p">=</span>
 <span class="p">&gt;</span>
-	Hello
+  Hello
 <span class="p">&lt;/</span><span class="nc">Text</span><span class="p">&gt;</span>
 </code></pre></div></div>
 
@@ -104,7 +101,6 @@
 
 <blockquote>
   <p>You will need otfinfo installed in your system to perform this step. It is shipped with many Linux distributions. On MacOS, install it via <code class="language-plaintext highlighter-rouge">lcdf-typetools</code> brew package.</p>
-
 </blockquote>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otfinfo <span class="nt">--family</span> Raleway-Regular.ttf
@@ -118,7 +114,6 @@
 
 <blockquote>
   <p>Remark: This procedure is available in React Native since commit fd6386a07eb75a8ec16b1384a3e5827dea520b64 (7 May 2019 ), with the addition of ReactFontManager::addCustomFont method.</p>
-
 </blockquote>
 
 <h3 id="1-copy-and-rename-assets-to-the-resource-font-folder">1. Copy and rename assets to the resource font folder</h3>
@@ -185,7 +180,6 @@
 
 <blockquote>
   <p>⚠️ If you are registering a different font, make sure you replace “Raleway” with the name found in the former step (find font family name).</p>
-
 </blockquote>
 
 <div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">import com.facebook.react.ReactApplication;
@@ -196,17 +190,17 @@
 </span> import com.facebook.soloader.SoLoader;
  import java.lang.reflect.InvocationTargetException;
  import java.util.List;
-
-public class MainApplication extends Application implements ReactApplication {
-   @Override
+<span class="err">
+</span><span class="p">public class MainApplication extends Application implements ReactApplication {
+</span>   @Override
    public void onCreate() {
      super.onCreate();
 <span class="gi">+    [ReactFontManager.getInstance().addCustomFont(this, "Raleway", R.font.raleway);](https://www.notion.so/Locio-6a09ff579fbc4cb6aaf5cff020ef8df0?pvs=21)
 </span>     SoLoader.init(this, /* native exopackage */ false);
      initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
    }
-
-</code></pre></div></div>
+<span class="err">
+</span></code></pre></div></div>
 
 <h1 id="ios">iOS</h1>
 
@@ -248,12 +242,12 @@ cp /tmp/raleway/*.ttf assets/fonts
 
 <p>Then on app start:</p>
 
-<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">setDefaultProps</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native-simple-default-props</span><span class="dl">'</span><span class="p">;</span>
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">setDefaultProps</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-simple-default-props</span><span class="dl">"</span><span class="p">;</span>
 
-<span class="nx">setDefaultProps</span><span class="p">(</span><span class="nx">Text</span><span class="p">,</span> <span class="p">{</span>
+<span class="nf">setDefaultProps</span><span class="p">(</span><span class="nx">Text</span><span class="p">,</span> <span class="p">{</span>
   <span class="na">style</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">fontFamily</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Raleway</span><span class="dl">'</span><span class="p">,</span>
-    <span class="na">color</span><span class="p">:</span> <span class="dl">'</span><span class="s1">#0F0F26</span><span class="dl">'</span><span class="p">,</span>
+    <span class="na">fontFamily</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Raleway</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#0F0F26</span><span class="dl">"</span><span class="p">,</span>
   <span class="p">},</span>
 <span class="p">});</span>
 </code></pre></div></div>

@@ -4,7 +4,7 @@ title: Strip flow types to read flowtype file from vanilla JS
 date: 2023-08-16 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.

@@ -4,7 +4,7 @@ title: JSI Cheatsheet&#58; Part 1 - C++
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.
@@ -256,7 +256,7 @@ std::string takesAString(char* myCString) {
 
 > ⚠️ This is not only used for strings, but whenever to pass arrays of stuff in without C++ fancy classes (no vectors, maps, etc). E.g: `jsi::Value *args` = array of `jsi::Values`, but unlike strings for other types of arrays you will have to pass/receive the length of the array as an integer (sometimes with a special `size_t` type).
 
-## Scope/context Lifecycles / Memory de-allocations  ⚠️
+## Scope/context Lifecycles / Memory de-allocations ⚠️
 
 This is one **WILL BITE YOU IN THE ASS.** Important topic because unlike JS where you can just pass stuff around and it will (mostly) be fine, on C++ your variables will be de-allocated and you will end up with trash.
 
@@ -282,10 +282,10 @@ In order to initialize your module you call another module where you pass such v
 
 // my database module
 
-// remember the pass by reference (&) part? 
+// remember the pass by reference (&) part?
 // This function takes a pointer via the "*" operator
 void initDatabaseModule(char *docPath) {
-	
+
 	// this is a function with a lambda inside
 	std::function openDatabase(string dbName) {
 		// some code to initialize a database
@@ -313,7 +313,7 @@ This brings us to capture semantics and how to work around this issues, for this
 std::string myDocPath;
 
 void initDatabaseModule(char *docPath) {
-	// We create a copy 
+	// We create a copy
 	myDocPath = std::string(docPath);
 
 	std::function openDatabase(string dbName) {
@@ -337,7 +337,7 @@ A C++ lambda follows the syntax:
 [ captured variables ]( params ) { body }
 ```
 
-Here is a very simple lambda example of a curried function ([currying](https://javascript.info/currying-partials) =  fancy word for partially applying functions )
+Here is a very simple lambda example of a curried function ([currying](https://javascript.info/currying-partials) = fancy word for partially applying functions )
 
 ```cpp
 #include <iostream>
@@ -353,7 +353,7 @@ int main() {
 	std::function sum4 = createSumN(4);
 
 	std::cout << "result of sum4: " << sum4(10) << std::endl;
-	
+
   return 0;
 }
 ```
@@ -400,7 +400,7 @@ auto myOpenFunction = jsi::Function::crea... // creates a JSI (read Javascript) 
 
 rt.global()
 	.setProperty(rt,
-							 "open", 
+							 "open",
 							 std::move(myOpenFunction)); // This will safely move the memory chunk of "myOpenFunction" from the context of this function to the global object
 ```
 
@@ -522,17 +522,17 @@ class NativeStorage : public HostObject {
 public:
   /// Stored property
   int expirationTime = 60 * 60 * 24; // 1 day
-  
+
   // Helper function
   static NSString* stringValue(Runtime &runtime, const Value &value) {
     return value.isString()
       ? [NSString stringWithUTF8String:value.getString(runtime).utf8(runtime).c_str()]
       : nil;
   }
-  
+
   Value get(Runtime &runtime, const PropNameID &name) override {
     auto methodName = name.utf8(runtime);
-    
+
     // `expirationTime` property getter
     if (methodName == "expirationTime") {
       return this->expirationTime;
@@ -563,10 +563,10 @@ public:
     }
     return Value::undefined();
   }
-  
+
   void set(Runtime& runtime, const PropNameID& name, const Value& value) override {
     auto methodName = name.utf8(runtime);
-    
+
     // ExpirationTime property setter
     if (methodName == "expirationTime") {
       if (value.isNumber()) {
@@ -574,7 +574,7 @@ public:
       }
     }
   }
-  
+
 	// You can call this method from the entry point where you install the bindings
   // or call it in another method, we will take a look later
   // Install `nativeStorage` globally to the runtime

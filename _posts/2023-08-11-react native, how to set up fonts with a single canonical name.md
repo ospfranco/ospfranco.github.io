@@ -4,19 +4,19 @@ title: React Native, how to set up fonts with a single canonical name
 date: 2023-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the `<Text>` component in some custom component that sets the `fontFamily` style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:
 
 ```tsx
 <Text
-	style={ {
-		fontFamily: 'Raleway',
-		fontWeight: '600'
-	}}
+  style={{
+    fontFamily: "Raleway",
+    fontWeight: "600",
+  }}
 >
-	Hello
+  Hello
 </Text>
 ```
 
@@ -50,7 +50,6 @@ Download your font family, you should get all the files in a folder (we will cal
 ### Find the font family name
 
 > You will need otfinfo installed in your system to perform this step. It is shipped with many Linux distributions. On MacOS, install it via `lcdf-typetools` brew package.
-> 
 
 ```bash
 otfinfo --family Raleway-Regular.ttf
@@ -63,7 +62,6 @@ Should print "Raleway". This value must be retained for the Android setup. This 
 For Android, we are going to use [XML Fonts](https://developer.android.com/guide/topics/ui/look-and-feel/fonts-in-xml) to define variants of a base font family.
 
 > Remark: This procedure is available in React Native since commit fd6386a07eb75a8ec16b1384a3e5827dea520b64 (7 May 2019 ), with the addition of ReactFontManager::addCustomFont method.
-> 
 
 ### 1. Copy and rename assets to the resource font folder
 
@@ -130,7 +128,6 @@ Create the `android/app/src/main/res/font/raleway.xml` file with the below con
 In `android/app/src/main/java/com/fontdemo/MainApplication.java`, bind the font family name with the asset we just created inside `onCreate` method.
 
 > ⚠️ If you are registering a different font, make sure you replace "Raleway" with the name found in the former step (find font family name).
-> 
 
 ```diff
 import com.facebook.react.ReactApplication;
@@ -199,12 +196,12 @@ yarn add react-native-simple-default-props
 Then on app start:
 
 ```tsx
-import setDefaultProps from 'react-native-simple-default-props';
+import setDefaultProps from "react-native-simple-default-props";
 
 setDefaultProps(Text, {
   style: {
-    fontFamily: 'Raleway',
-    color: '#0F0F26',
+    fontFamily: "Raleway",
+    color: "#0F0F26",
   },
 });
 ```
@@ -213,6 +210,6 @@ Now you can simply use any `<Text/>`component without the need for any semantic 
 
 # Credits
 
-Credit to [https://github.com/jsamr/react-native-font-demo](https://github.com/jsamr/react-native-font-demo#goal) for finding the xml fonts setup. 
+Credit to [https://github.com/jsamr/react-native-font-demo](https://github.com/jsamr/react-native-font-demo#goal) for finding the xml fonts setup.
 
 [https://github.com/dioi2000/react-native-simple-default-props](https://github.com/dioi2000/react-native-simple-default-props#readme) for the easy setup of default styles.

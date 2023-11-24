@@ -4,7 +4,7 @@ title: JSI Cheatsheet&#58; Part 2 - Tooling
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Now that you know C++ ([JSI Cheatsheet Part I: C++](https://www.notion.so/JSI-Cheatsheet-Part-I-C-f1872d77ee4c4dc3b9563fa6cb3005f6?pvs=21)) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.
@@ -23,7 +23,7 @@ The compilation of a C++ program involves three steps:
 
 ## Preprocessing
 
-The preprocessor handles the *preprocessor directives*, like `#include` and `#define`. It is agnostic of the syntax of C++, which is why it must be used with care.
+The preprocessor handles the _preprocessor directives_, like `#include` and `#define`. It is agnostic of the syntax of C++, which is why it must be used with care.
 
 It works on one C++ source file at a time by replacing `#include` directives with the content of the respective files (which is usually just declarations), doing replacement of macros (`#define`), and selecting different portions of text depending of `#if`, `#ifdef` and `#ifndef` directives.
 
@@ -41,7 +41,7 @@ The compiler parses the pure C++ source code (now without any preprocessor direc
 
 Object files can refer to symbols that are not defined. This is the case when you use a declaration, and don't provide a definition for it. The compiler doesn't mind this, and will happily produce the object file as long as the source code is well-formed.
 
-Compilers usually let you stop compilation at this point. This is very useful because with it you can compile each source code file separately. The advantage this provides is that you don't need to recompile *everything* if you only change a single file.
+Compilers usually let you stop compilation at this point. This is very useful because with it you can compile each source code file separately. The advantage this provides is that you don't need to recompile _everything_ if you only change a single file.
 
 The produced object files can be put in special archives called static libraries, for easier reusing later on.
 
@@ -51,10 +51,10 @@ It's at this stage that "regular" compiler errors, like syntax errors or failed 
 
 The linker is what produces the final compilation output from the object files the compiler produced. This output can be either a shared (or dynamic) library (and while the name is similar, they haven't got much in common with static libraries mentioned earlier) or an executable.
 
-It links all the object files by replacing the references to undefined symbols with the correct addresses. Each of these symbols can be defined in other object files or in libraries. If they are defined in libraries other than the standard library, you need to tell the linker 
+It links all the object files by replacing the references to undefined symbols with the correct addresses. Each of these symbols can be defined in other object files or in libraries. If they are defined in libraries other than the standard library, you need to tell the linker
 about them.
 
-At this stage the most common errors are missing definitions or duplicate definitions. The former means that either the definitions don't exist (i.e. they are not written), or that the object files or 
+At this stage the most common errors are missing definitions or duplicate definitions. The former means that either the definitions don't exist (i.e. they are not written), or that the object files or
 libraries where they reside were not given to the linker. The latter is obvious: the same symbol was defined in two different object files or libraries.
 
 # CMake
@@ -166,7 +166,7 @@ Like all things Android/Google the documentation is piss poor and written by rob
 
 Another interesting pain point, is that you cannot just use any C++ dynamic library on android, android has it's own flavor of dynamic libraries (.AAR) if you know how to generate them... you are a god, if not you have to rely on the ones published by google... there is 2 of them, I opted for the easy path and completely included the sqlite.c code in my library
 
-To be honest compilation and native toolchains are so f**** complicated I cannot dive deeper without confusing you even more (even I'm confused until this day), however feel free to reach out if you need some other point explained.
+To be honest compilation and native toolchains are so f\*\*\*\* complicated I cannot dive deeper without confusing you even more (even I'm confused until this day), however feel free to reach out if you need some other point explained.
 
 # IDE support
 

@@ -4,7 +4,7 @@ title: Objective-C cheatsheet
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Quick reference guide when you need to do some objective C
@@ -69,7 +69,7 @@ int main() {
 }
 ```
 
-The definition of methods and properties goes inside the `@interface` block. The actual implementation inside the `@implementation` block.  It is also necessary to inherit from `NSObject` which the base class for any object.
+The definition of methods and properties goes inside the `@interface` block. The actual implementation inside the `@implementation` block. It is also necessary to inherit from `NSObject` which the base class for any object.
 
 ## Class properties
 
@@ -181,7 +181,7 @@ int main() {
 
 # Obj-C++
 
-If you change the extension of you file from `.m` to `.mm` you will change the language to Obj-C++. It is basically C++ and Obj-C mixed together. 
+If you change the extension of you file from `.m` to `.mm` you will change the language to Obj-C++. It is basically C++ and Obj-C mixed together.
 
 There will be a lot of caveats when you using it: You cannot call Obj-C methods using C++ syntax and so forth. But, it does allow to use and mix C++ classes and syntax inside Obj-C code. Very useful to re-use already existing modules.
 

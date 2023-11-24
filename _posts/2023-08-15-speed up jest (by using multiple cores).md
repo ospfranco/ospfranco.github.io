@@ -4,7 +4,7 @@ title: Speed up Jest (by using multiple cores)
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 You can increase jest speed by passing the amount of workers, this works wonders on a m1 machine, use the following npm scripts:

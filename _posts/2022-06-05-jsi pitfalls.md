@@ -4,7 +4,7 @@ title: React Native JSI/TurboModules pitfalls
 date: 2022-06-05 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Here is the latest information dump my findings with React Native's JSI.

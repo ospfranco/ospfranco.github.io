@@ -4,7 +4,7 @@ title: JSI Cheatsheet&#58; Part 3 - JSI API Reference
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.
@@ -243,7 +243,7 @@ auto open = jsi::Function::createFromHostFunction(
             jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
             return {};
           }
-          
+
           tempDocPath = tempDocPath + "/" + args[1].asString(rt).utf8(rt);
         }
 

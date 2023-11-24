@@ -4,7 +4,7 @@ title: ZSH configuration files load order
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 The order of files being loaded by ZSH is the following:

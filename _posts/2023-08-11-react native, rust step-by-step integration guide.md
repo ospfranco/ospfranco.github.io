@@ -4,7 +4,7 @@ title: React Native, Rust step-by-step integration guide
 date: 2023-08-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 There are many talks and tutorials that go over the more advanced topics once people have integrated Rust into their projects, however, if you are like me and have no idea about how to build, link and include your Rust code, they really convey little information.
@@ -19,21 +19,19 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
 - Set up Rust compiler on your computer, just follow the instructions on the Rust website.
 - Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
-    - 32bit targets have been deprecated by the rust team, no longer available on the stable channel
-    
-    ```bash
-    rustup target add x86_64-apple-ios
-    rustup target add aarch64-apple-ios
-    rustup target add aarch64-apple-ios-sim
-    
-    rustup target add x86_64-linux-android
-    rustup target add aarch64-linux-android
-    rustup target add armv7-linux-androideabi
-    rustup target add i686-linux-android
-    ```
-    
+  - 32bit targets have been deprecated by the rust team, no longer available on the stable channel
+  ```bash
+  rustup target add x86_64-apple-ios
+  rustup target add aarch64-apple-ios
+  rustup target add aarch64-apple-ios-sim
+
+  rustup target add x86_64-linux-android
+  rustup target add aarch64-linux-android
+  rustup target add armv7-linux-androideabi
+  rustup target add i686-linux-android
+  ```
 - Next we will create the folder where we will put all of our Rust code and infra scripts. In my case I will call it `my_sdk`
-  
+
   ```bash
   cargo new [YOUR_LIBRARY_NAME]
   ```
@@ -44,55 +42,51 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 - Create a `cbindgen.toml` file, it is fine if it is empty.
 - `cbindgen --config cbindgen.toml --crate my_sdk --output include/my_sdk.h`
 - Modify toml to compile as static library for iOS and a dynamic library with JNI linked for Android
-    
-    ```bash
-    [package]
-    name = "SDK"
-    version = "0.1.0"
-    edition = "2021"
-    
-    [lib]
-    name = "SDK"
-    crate-type = ["staticlib", "cdylib"]
-    
-    [dependencies]
-    libc = "0.2.80"
-    jni = "0.17.0"
-    
-    [features]
-    default = ["jni"]
-    ```
-    
+  ```bash
+  [package]
+  name = "SDK"
+  version = "0.1.0"
+  edition = "2021"
+
+  [lib]
+  name = "SDK"
+  crate-type = ["staticlib", "cdylib"]
+
+  [dependencies]
+  libc = "0.2.80"
+  jni = "0.17.0"
+
+  [features]
+  default = ["jni"]
+  ```
 - Setup Makefile
-    
-    ```makefile
-    ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-    ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi i686-linux-android
-    LIB = libmy_sdk.a
-    XCFRAMEWORK = MySdk.xcframework
-    
-    all: ios android
-    
-    ios: $(XCFRAMEWORK)
-    
-    android: $(ARCHS_ANDROID)
-    	sh copy_android.sh
-    
-    .PHONY: $(ARCHS_IOS)
-    $(ARCHS_IOS): %:
-    	cargo build --target $@ --release
-    
-    .PHONY: $(ARCHS_ANDROID)
-    $(ARCHS_ANDROID): %:
-    	cargo build --target $@ --release
-    
-    $(XCFRAMEWORK): $(ARCHS_IOS)
-    	lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
-    	xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
-    ```
-    
+  ```makefile
+  ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
+  ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi i686-linux-android
+  LIB = libmy_sdk.a
+  XCFRAMEWORK = MySdk.xcframework
+
+  all: ios android
+
+  ios: $(XCFRAMEWORK)
+
+  android: $(ARCHS_ANDROID)
+  	sh copy_android.sh
+
+  .PHONY: $(ARCHS_IOS)
+  $(ARCHS_IOS): %:
+  	cargo build --target $@ --release
+
+  .PHONY: $(ARCHS_ANDROID)
+  $(ARCHS_ANDROID): %:
+  	cargo build --target $@ --release
+
+  $(XCFRAMEWORK): $(ARCHS_IOS)
+  	lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
+  	xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
+  ```
 - Add generated `.xcframework` to Xcode (dragging and dropping is the easiest)
-    - On the project properties mark the xcframework as embed and sign
+  - On the project properties mark the xcframework as embed and sign
 - You should now be able to simply import the header file and call the rust function from any obj-c++ file
 
 # Android
@@ -148,32 +142,31 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   ```
 
 - Now we actually have to to compile Rust for android, unlike for iOS, Android requires more flags, instead of doing this via make file a bash script is a little simpler. First modify the Makefile and then create a new `build-android.sh` script (don’t forget to give it permissions).
-    
+
   ```makefile
   ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
   ARCHS_ANDROID = i686-linux-android x86_64-linux-android aarch64-linux-android arm-linux-androideabi
   LIB = libmy_sdk.a
   XCFRAMEWORK = MySdk.xcframework
-  
+
   all: ios android
-  
+
   ios: $(XCFRAMEWORK)
-  
+
   android: $(ARCHS_ANDROID)
-  
+
   .PHONY: $(ARCHS_IOS)
   $(ARCHS_IOS): %:
     cargo build --target $@ --release
-  
-  .PHONY: $(ARCHS_ANDROID) 
+
+  .PHONY: $(ARCHS_ANDROID)
   $(ARCHS_ANDROID): %:
     ./build-android.sh $@ # Change this!!!!!!!!!
-  
+
   $(XCFRAMEWORK): $(ARCHS_IOS)
     lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
     xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
   ```
-    
 
   ```bash
   #!/bin/bash
@@ -218,24 +211,22 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 - We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the `[lib.rs](http://lib.rs)` and the following block
 
 - We can finally call `make android` and the library will be created for us
-    
-    ```rust
-    // On Android function names need to follow the JNI convention
-    pub mod android {
-      extern crate jni;
-    
-      use self::jni::JNIEnv;
-      use self::jni::objects::JClass;
-      use self::jni::sys::jstring;
-    
-      #[no_mangle]
-      pub unsafe extern fn Java_com_samplesdk_BindingsModule_helloWorld(env: JNIEnv, _: JClass) -> jstring {
-        let output = env.new_string("Hello from Rust!").expect("Couldn't create java string!");
-        output.into_inner()
-      }
+  ```rust
+  // On Android function names need to follow the JNI convention
+  pub mod android {
+    extern crate jni;
+
+    use self::jni::JNIEnv;
+    use self::jni::objects::JClass;
+    use self::jni::sys::jstring;
+
+    #[no_mangle]
+    pub unsafe extern fn Java_com_samplesdk_BindingsModule_helloWorld(env: JNIEnv, _: JClass) -> jstring {
+      let output = env.new_string("Hello from Rust!").expect("Couldn't create java string!");
+      output.into_inner()
     }
-    ```
-    
+  }
+  ```
 - We now need to somehow include this .so files into the Android compilation, the easiest way is to copy them inside of the `Android/app/src` folder and then Gradle should automatically pick them up and include them in the compilation process. Let’s update our make file to include a new script that will copy everything once it is compiled:
 
   ```makefile
@@ -290,11 +281,9 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   echo "Dynamic libraries copied!"
   ```
 
-
 > Another alternative and also if you are using JSI is using CMakeLists to declare your files as dependencies and or library, then it will automatically be included in the compilation process. You can see one example of this here:
 > [https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt](https://github.com/serenity-kit/react-native-opaque/blob/main/android/CMakeLists.txt)
 > However loading .so libraries is a common practice in the Android world, so I think both are fine.
-
 
 - We can now create a RN Module (or JSI module) and simply load the library and call it (via JNI of course)
 

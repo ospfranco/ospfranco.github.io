@@ -4,7 +4,7 @@ title: Add gap support to Native Wind 2.x.x
 date: 2023-08-21 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 I'm a big fan of Tailwind CSS. On React Native I use Nativewind.

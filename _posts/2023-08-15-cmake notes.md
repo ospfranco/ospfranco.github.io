@@ -4,7 +4,7 @@ title: CMake notes
 date: 2023-08-15 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 CMake is a meta build system, can automate everything including running tests and taking screenshots.
@@ -17,11 +17,11 @@ It has 3 stages:
 
 # Configuration
 
-CMake will read project details in the *source tree* directory and preparing the output directory, called *build tree,* for the generation stage. It collects info about the env (compilers, linkers, variables, etc) into a CMakeCache.txt.
+CMake will read project details in the _source tree_ directory and preparing the output directory, called _build tree,_ for the generation stage. It collects info about the env (compilers, linkers, variables, etc) into a CMakeCache.txt.
 
 # Generation
 
-After reading the configuration a *build system* is generated. Since CMake is a meta build system, the output is a cut-to-size configuration for other build tools (make, ninja, IDE files for Visual Studio or Xcode).
+After reading the configuration a _build system_ is generated. Since CMake is a meta build system, the output is a cut-to-size configuration for other build tools (make, ninja, IDE files for Visual Studio or Xcode).
 
 # Building
 
@@ -44,13 +44,11 @@ cmake --build // CMake does not build anything, but the platform build tool does
 > 💡 Some generators are able to generate debug AND release builds at the same time (Xcode and Visual Studio)
 
 > 💻 Cmake can run certain commands in a platform independent way:
-> *capablities, cat, chdir, compare_files, copy, copy_directory, copy_if_different, echo, echo_append, env, environment, make_directory, md5sum, sha1sum, sha224sum, sha256sum, create_symlink, etc*
-
+> _capablities, cat, chdir, compare_files, copy, copy_directory, copy_if_different, echo, echo_append, env, environment, make_directory, md5sum, sha1sum, sha224sum, sha256sum, create_symlink, etc_
 
 > 📂 Cmake supports sub directories which can have their own compilation process:
 >
 > `add_subdirectory(api)`
-
 
 # Variables
 
@@ -142,7 +140,7 @@ Will allow cpp code to include the headers (without providing a relative path. e
 
 # Cross-compilation
 
-Compiling code on one machine-art to be run in another is called **cross-compilation**. The **host** system information variables always have *HOST* in their name.
+Compiling code on one machine-art to be run in another is called **cross-compilation**. The **host** system information variables always have _HOST_ in their name.
 
 ## 64 bits
 
@@ -217,7 +215,7 @@ All libraries have a common prefix `lib`.
 
 ## Static libraries
 
-Will simply create a static library. Static libraries are a collection of *raw object files* in an archive. Use them if you want to avoid separating your dependencies from the executable, at the price of increasing size and memory consumed.
+Will simply create a static library. Static libraries are a collection of _raw object files_ in an archive. Use them if you want to avoid separating your dependencies from the executable, at the price of increasing size and memory consumed.
 
 ```swift
 add_library(<name> [STATIC] [sources...])

@@ -4,7 +4,7 @@ title: How to install M1 (arm) compatible JDK
 date: 2021-12-11 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
-image: assets/profile.JPG
+image: assets/oscar.jpg
 ---
 
 Recently found out a nice trick to easily install a compatible JDK on mac without scouring the internet or brew formulas.
