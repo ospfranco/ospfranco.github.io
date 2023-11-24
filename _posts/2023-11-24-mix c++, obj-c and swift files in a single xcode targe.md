@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Mix C++, Obj-C and Swift files in a single XCode targe
+title: Mix C++, Obj-C and Swift files in a single XCode target
 date: 2023-11-24 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
@@ -36,7 +36,11 @@ void Foo_bar(struct FooHandle* foo, int c);
 #endif
 ```
 
-But this is time consuming and annoying, since every header you create you will have to manually modify to check for syntax errors.
+Every header you create you will have to manually modify to check for syntax errors.
+
+# Cocoapods
+
+Cocoapods has a special problem with this, since it generates an umbrella header that will also get compiled by the Swift compiler and it will fail. Either of the methods described above will workaround the issue for now.
 
 Another alternative is to hide the header files from the XCode file system, yet still provide them via flags that will get passed to the compilers:
 
@@ -78,7 +82,3 @@ end
 ```
 
 One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won't show navigation side bar.
-
-# Cocoapods
-
-Cocoapods has a special problem with this, since it generates an umbrella header that will also get compiled by the Swift compiler and it will fail. Either of the methods described above will workaround the issue for now.
