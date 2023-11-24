@@ -8,6 +8,7 @@
     type="image/x-icon"
     href="/assets/favicon.ico"
   />
+  <meta name="twitter:image" content="/assets/oscar.jpg" />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>Cocoapods, use_frameworks with static linking | Oscar Franco</title>
 <meta name="generator" content="Jekyll v4.2.2" />
@@ -55,11 +56,11 @@
 <body class="flex flex-col items-center">
   <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-xl sm:text-3xl font-semibold">
+      <h1 class="text-black dark:text-white text-2xl sm:text-4xl font-semibold">
         Cocoapods, use_frameworks with static linking
       </h1>
 
-      <p class="mt-2 dark:text-neutral-500">October 2023</p>
+      <p class="mt-2 text-neutral-500">October 2023</p>
 
       <div class="pt-4 pb-20 markdown"><p><code class="language-plaintext highlighter-rouge">use_frameworks!</code> tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
 
