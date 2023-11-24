@@ -1,4 +1,76 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-13T11:09:19+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T14:00:00+01:00</published><updated>2023-11-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-24T09:21:45+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode targe</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-targe/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode targe" /><published>2023-11-24T14:00:00+01:00</published><updated>2023-11-24T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20targe</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-targe/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
+
+<p>The root issue is the <a href="https://stackoverflow.com/questions/47788422/cannot-use-namespace-and-cannot-include-standard-c-library-in-my-h-files">Swift compiler</a>, it doesn’t support C++, yet it still tries to compile C headers on its own. Whenever you have Swift files together with C++ files, it’s the Swift compiler that will kick-in in a first pass (followed by CLang? maybe before? doesn’t matter) and will try to compile the headers as C headers independently of what you tell it, file extensions, etc.</p>
+
+<p>You will then start getting errors based on the C++ syntax (if you used any). For example if you are using namespaces (which don’t exist on C), you will get <a href="https://github.com/CocoaPods/CocoaPods/issues/12105#issuecomment-1824455557">invalid syntax errors</a>.</p>
+
+<p>There are a couple workarounds. First you can wrap every single bit of C++ syntax in your headers around a macro that checks if the compiler supports C++:</p>
+
+<pre><code class="language-C++">#if defined __cplusplus
+extern "C" {
+#endif
+
+#if defiend __cplusplus
+
+class Foo
+{
+    void bar(int c);
+}
+#endif
+struct FooHandle;
+
+void Foo_bar(struct FooHandle* foo, int c);
+
+#if defined __cplusplus
+}
+#endif
+</code></pre>
+
+<p>But this is time consuming and annoying, since every header you create you will have to manually modify to check for syntax errors.</p>
+
+<p>Another alternative is to hide the header files from the XCode file system, yet still provide them via flags that will get passed to the compilers:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s2">"json"</span>
+
+<span class="n">package</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">__dir__</span><span class="p">,</span> <span class="s2">"package.json"</span><span class="p">)))</span>
+
+<span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">name</span>           <span class="o">=</span> <span class="s2">"matrix"</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">version</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">summary</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">homepage</span>       <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"homepage"</span><span class="p">]</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">license</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"license"</span><span class="p">]</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">authors</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"author"</span><span class="p">]</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">platforms</span>      <span class="o">=</span> <span class="p">{</span> <span class="ss">:ios</span> <span class="o">=&gt;</span> <span class="s2">"13.0"</span> <span class="p">}</span>
+
+  <span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">"DEFINES_MODULE"</span> <span class="o">=&gt;</span> <span class="s2">"YES"</span><span class="p">,</span>
+    <span class="s2">"SWIFT_COMPILATION_MODE"</span> <span class="o">=&gt;</span> <span class="s2">"wholemodule"</span><span class="p">,</span>
+    <span class="s2">"CLANG_CXX_LANGUAGE_STANDARD"</span> <span class="o">=&gt;</span> <span class="s2">"c++17"</span><span class="p">,</span>
+    <span class="c1"># ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓</span>
+    <span class="s2">"HEADER_SEARCH_PATHS"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">$(PODS_TARGET_SRCROOT)/cpp/</span><span class="se">\"</span><span class="s2">/** "</span> <span class="c1"># This will link the headers at compile time, flag passed directly to the compiler</span>
+  <span class="p">}</span>
+
+  <span class="c1"># ↓↓↓↓↓↓↓↓↓↓↓↓</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">source_files</span> <span class="o">=</span> <span class="s2">"ios/**/*.{mm,swift}"</span><span class="p">,</span> <span class="s2">"cpp/**/*.{cpp,c}"</span> <span class="c1"># Do not include the headers in the sources, then XCode won't try to compile them</span>
+
+  <span class="c1"># ↓↓↓↓↓↓↓↓↓↓↓↓↓↓</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">preserve_paths</span> <span class="o">=</span> <span class="p">[</span>
+    <span class="s2">"cpp/**/*.h"</span><span class="p">,</span>
+    <span class="s2">"ios/**/*.h"</span>
+  <span class="p">]</span>
+
+  <span class="n">s</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"React"</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"React-Core"</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"React-callinvoker"</span>
+<span class="k">end</span>
+</code></pre></div></div>
+
+<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>
+
+<h1 id="cocoapods">Cocoapods</h1>
+
+<p>Cocoapods has a special problem with this, since it generates an umbrella header that will also get compiled by the Swift compiler and it will fail. Either of the methods described above will workaround the issue for now.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T14:00:00+01:00</published><updated>2023-11-13T14:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
 
 <p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code class="language-plaintext highlighter-rouge">po NSHomeDirectory()</code> and it will print out the local directory.</p>
 
@@ -931,16 +1003,4 @@ index 7d7715b..56472bc 100644
 
 <blockquote>
   <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>
-</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">ZSH configuration files load order</title><link href="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/" rel="alternate" type="text/html" title="ZSH configuration files load order" /><published>2023-08-15T15:00:00+02:00</published><updated>2023-08-15T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/15/zsh%20configuration%20files%20load%20order</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/15/zsh-configuration-files-load-order/"><![CDATA[<p>The order of files being loaded by ZSH is the following:</p>
-
-<ol>
-  <li><code class="language-plaintext highlighter-rouge">.zshenv</code></li>
-  <li><code class="language-plaintext highlighter-rouge">.zprofile</code> if login</li>
-  <li><code class="language-plaintext highlighter-rouge">.zshrc</code> if interactive</li>
-  <li><code class="language-plaintext highlighter-rouge">.zlogin</code> if login</li>
-  <li><code class="language-plaintext highlighter-rouge">.zlogout</code>sometimes</li>
-</ol>
-
-<p>Why? sometimes variables might be replaced by subsequent files or some other configuration that you don’t desire might be applied.</p>
-
-<p>Be careful when setting things on <code class="language-plaintext highlighter-rouge">.zshenv</code> since it can be overriden by subsequent scripts. Also, only <code class="language-plaintext highlighter-rouge">.zshrc</code> should be used for things like prompt colors and user scripts.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[The order of files being loaded by ZSH is the following:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</blockquote>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[On TypeScript you can easily create the union of two similar, yet distinct, types:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/profile.JPG" /><media:content medium="image" url="https://ospfranco.com/assets/profile.JPG" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
