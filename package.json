@@ -2,7 +2,6 @@
   "license": "MIT",
   "scripts": {
     "postinstall": "husky install",
-    "refreshImages": "node bin/refreshImages.js",
     "dev": "bundle exec jekyll serve --livereload --drafts --future --port 3000 '$@'",
     "build": "JEKYLL_ENV=production NODE_ENV=production bundle exec jekyll build -d docs && git add ."
   },
