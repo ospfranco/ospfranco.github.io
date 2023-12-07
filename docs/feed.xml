@@ -1,27 +1,69 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-11-24T19:16:32+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.2">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2023-12-07T11:59:55+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">How to resolve duplicated libraries on Android</title><link href="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/" rel="alternate" type="text/html" title="How to resolve duplicated libraries on Android" /><published>2023-12-07T00:00:00+01:00</published><updated>2023-12-07T00:00:00+01:00</updated><id>https://ospfranco.com/how%20to%20resolve%20duplicated%20libraries%20on%20android</id><content type="html" xml:base="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/"><![CDATA[<p>If you have developed on Android long enough, you might have found an error like this:</p>
 
-<p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
-
-<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
-
-<p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
-<span class="p">}</span>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
+2 files found with path 'lib/arm64-v8a/libcrypto.so'
 </code></pre></div></div>
 
-<p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
+<p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code class="language-plaintext highlighter-rouge">libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>
 
-<pre><code class="language-C++">#import &lt;jsi/jsi.h&gt;
-</code></pre>
+<p>There are a number of workarounds, but they all have potential issues, so here are some short explanations.</p>
 
-<p>You should import everything with</p>
+<h1 id="exclude">Exclude</h1>
 
-<pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
-</code></pre>
+<p>The first solution you might try is the <code class="language-plaintext highlighter-rouge">exclude</code> command of gradle. This will only work if you are modifying the sources of one of the conflicting libraries. This basically tells Gradle: whenever you are packaging this library, exclude this files from the final bundle merge.</p>
 
-<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">packagingOptions</span> <span class="o">{</span>
+      <span class="n">excludes</span> <span class="o">=</span> <span class="o">[</span>
+        <span class="c1">// ... other excluded files</span>
+        <span class="s2">"**/libcrypto.so"</span>
+      <span class="o">]</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<p>This will basically force your final application to contain one <code class="language-plaintext highlighter-rouge">libcrypto.so</code> and avoid any potential conflicts. The problem is than, if you remove the other dependency and no one is left to generate the .so, then you are out of luck and you will get an error saying the file is missing.</p>
+
+<h1 id="pick-first">Pick first</h1>
+
+<p>Another possible strategy is using <code class="language-plaintext highlighter-rouge">pickFirst</code>, it basically tells Gradle: “whatever you find first, just link against that”. The problem with this however is that it cannot be included in the offending library <code class="language-plaintext highlighter-rouge">build.gradle</code> but must be specified in the application’s <code class="language-plaintext highlighter-rouge">build.gradle</code> (since that is the parent scope that faces the conflict when compiling the dependencies)</p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">packagingOptions</span> <span class="o">{</span>
+  <span class="n">pickFirst</span> <span class="s1">'**/libcrypto.so'</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="other-strategies">Other strategies</h1>
+
+<p>There are other strategies that work on pure gradle dependencies, which might or might not work on React Native but you can give them a try.</p>
+
+<h2 id="excluding-group">Excluding group</h2>
+
+<p>Change the declared dependency to exclude the internal dependency</p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">implementation</span> <span class="o">(</span><span class="s1">'junit:junit:4.12'</span><span class="o">){</span>
+    <span class="n">exclude</span> <span class="nl">group:</span> <span class="s1">'org.hamcrest'</span><span class="o">,</span> <span class="nl">module:</span><span class="s1">'hamcrest-core'</span> <span class="c1">// exclude the transtive dependency</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h2 id="explicitely-requiring-the-dependency">Explicitely requiring the dependency</h2>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">implementation</span> <span class="s1">'junit:junit:4.12'</span>
+<span class="n">implementation</span> <span class="s1">'org.hamcrest:hamcrest-core:1.3'</span> <span class="c1">// force the shared dependency version</span>
+</code></pre></div></div>
+
+<h2 id="force-resolution">Force resolution</h2>
+
+<p>This might force an older version into the dependencies</p>
+
+<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
+    <span class="n">configurations</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span>
+        <span class="n">resolutionStrategy</span><span class="o">.</span><span class="na">force</span> <span class="s1">'org.hamcrest:hamcrest-core:1.1'</span>
+    <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
+
+<h1 id="version-missmatch">Version missmatch</h1>
+
+<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
 
 <p>The root issue is the <a href="https://stackoverflow.com/questions/47788422/cannot-use-namespace-and-cannot-include-standard-c-library-in-my-h-files">Swift compiler</a>, it doesn’t support C++, yet it still tries to compile C headers on its own. Whenever you have Swift files together with C++ files, it’s the Swift compiler that will kick-in in a first pass (followed by CLang? maybe before? doesn’t matter) and will try to compile the headers as C headers independently of what you tell it, file extensions, etc.</p>
 
@@ -93,7 +135,30 @@ void Foo_bar(struct FooHandle* foo, int c);
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T00:00:00+01:00</published><updated>2023-11-13T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
+<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
+
+<p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
+
+<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
+
+<p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
+
+<pre><code class="language-C++">#import &lt;jsi/jsi.h&gt;
+</code></pre>
+
+<p>You should import everything with</p>
+
+<pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
+</code></pre>
+
+<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T00:00:00+01:00</published><updated>2023-11-13T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
 
 <p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code class="language-plaintext highlighter-rouge">po NSHomeDirectory()</code> and it will print out the local directory.</p>
 
@@ -893,85 +958,4 @@ index 7d7715b..56472bc 100644
 <p>Afterwards you can run <code class="language-plaintext highlighter-rouge">yarn</code> again for the patch to take effect, restart the packager (maybe with –reset-cache) and you can now use the gap property via <code class="language-plaintext highlighter-rouge">g-[n]</code> utilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a big fan of Tailwind CSS. On React Native I use Nativewind.]]></summary></entry><entry><title type="html">Change macOS dock animation time</title><link href="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/" rel="alternate" type="text/html" title="Change macOS dock animation time" /><published>2023-08-20T15:00:00+02:00</published><updated>2023-08-20T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/20/change%20macos%20dock%20animation%20time</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/20/change-macos-dock-animation-time/"><![CDATA[<p>I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:</p>
 
 <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>defaults write com.apple.dock autohide-time-modifier <span class="nt">-float</span> 0<span class="p">;</span> killall Dock
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:]]></summary></entry><entry><title type="html">Strip flow types to read flowtype file from vanilla JS</title><link href="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/" rel="alternate" type="text/html" title="Strip flow types to read flowtype file from vanilla JS" /><published>2023-08-16T15:00:00+02:00</published><updated>2023-08-16T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/08/16/strip%20flow%20types%20to%20read%20flowtype%20file%20from%20vanilla%20js</id><content type="html" xml:base="https://ospfranco.com/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/"><![CDATA[<p>Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.</p>
-
-<p>I needed to use a translation file that had flow types in vanilla JS and I figured out a way to strip the types.</p>
-
-<h2 id="install-flow-remove-types-package">Install flow remove types package</h2>
-
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">yarn</span> <span class="nx">add</span> <span class="nx">flow</span><span class="o">-</span><span class="nx">remove</span><span class="o">-</span><span class="nx">types</span>
-</code></pre></div></div>
-
-<h2 id="use-flow-remove-types">Use flow remove types</h2>
-
-<p>In my use case I had a huge file with translations that is strongly typed and I wanted to migrate them to another format.</p>
-
-<p>The process is basically:</p>
-
-<ol>
-  <li>Read file from disk</li>
-  <li>Pass it to flow-remove-types</li>
-  <li>Write to another file (or you can also load it in memory with another package <code class="language-plaintext highlighter-rouge">require-from-string</code>)</li>
-  <li>import it normally</li>
-</ol>
-
-<p>Here is a part of the script I used:</p>
-
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1">// allows you to call this file like a script from the command line</span><span class="cp">
-#!/usr/bin/env node
-</span>
-<span class="kd">let</span> <span class="nx">flowRemoveTypes</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">flow-remove-types</span><span class="dl">'</span><span class="p">);</span>
-<span class="c1">// let translations = require('../src/I18n/translations') // cannot import it bc it contains flow types</span>
-<span class="kd">let</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">function</span> <span class="nf">unpackTranslation</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">translationObj</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
-  <span class="p">}</span>
-
-  <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">{}</span>
-  <span class="nb">Object</span><span class="p">.</span><span class="nf">entries</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">).</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">entry</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">res</span><span class="p">[</span><span class="nx">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nf">unpackTranslation</span><span class="p">(</span><span class="nx">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">key</span><span class="p">)</span>
-  <span class="p">})</span>
-
-  <span class="k">return</span> <span class="nx">res</span>
-
-<span class="p">}</span>
-
-<span class="c1">// Start by taking the translations file and stripping flow out of it</span>
-<span class="kd">let</span> <span class="nx">translationsInput</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nf">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">../src/I18n/translations.js</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="c1">// Remove flow and module export with traditional syntax</span>
-<span class="kd">let</span> <span class="nx">translationsOutput</span> <span class="o">=</span> <span class="nf">flowRemoveTypes</span><span class="p">(</span><span class="nx">translationsInput</span><span class="p">).</span><span class="nf">toString</span><span class="p">().</span><span class="nf">replace</span><span class="p">(</span><span class="dl">'</span><span class="s1">export default TRANSLATIONS</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">module.exports = TRANSLATIONS</span><span class="dl">'</span><span class="p">)</span>
-
-<span class="nx">fs</span><span class="p">.</span><span class="nf">writeFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">,</span> <span class="nx">translationsOutput</span><span class="p">);</span>
-
-<span class="c1">// then we can just read this file</span>
-<span class="kd">const</span> <span class="nx">translations</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations</span><span class="dl">'</span><span class="p">);</span>
-
-<span class="kd">let</span> <span class="nx">languages</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">en</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">it</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pt</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">fr</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">es</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">de</span><span class="dl">'</span><span class="p">]</span>
-<span class="kd">let</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nf">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./webAppTranslationKeys.json</span><span class="dl">'</span><span class="p">))</span>
-
-
-<span class="nx">languages</span><span class="p">.</span><span class="nf">forEach</span><span class="p">((</span><span class="nx">languageKey</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="c1">// let languageTranslations = JSON.parse(fs.readFileSync(`../webapp/public/locales/${languageKey}/translation.json`))</span>
-  <span class="kd">let</span> <span class="nx">languageTranslations</span> <span class="o">=</span> <span class="p">{}</span>
-  <span class="nx">keys</span><span class="p">.</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">key</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">ogTranslation</span> <span class="o">=</span> <span class="nx">translations</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
-
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">ogTranslation</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">🛑 Could not find translations for</span><span class="dl">'</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
-      <span class="nx">process</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">}</span>
-
-    <span class="nx">languageTranslations</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nf">unpackTranslation</span><span class="p">(</span><span class="nx">ogTranslation</span><span class="p">,</span> <span class="nx">languageKey</span><span class="p">)</span>
-  <span class="p">})</span>
-  <span class="nx">fs</span><span class="p">.</span><span class="nf">writeFileSync</span><span class="p">(</span><span class="s2">`../webapp/public/locales/</span><span class="p">${</span><span class="nx">languageKey</span><span class="p">}</span><span class="s2">/translation.json`</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nf">stringify</span><span class="p">(</span><span class="nx">languageTranslations</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="p">})</span>
-
-<span class="c1">// Delete auto generated file</span>
-<span class="nx">fs</span><span class="p">.</span><span class="nf">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
-
-<span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Unlike Typescript where you have tools like ts-node that allow you to quickly run typescript files without tooling (think without webpack or metro), I found however no way to achieve this with FlowType.]]></summary></entry></feed>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I auto-hide the dock on macOS, however the animation delay is a waste of time. You can set the animation time with the following command:]]></summary></entry></feed>
