@@ -11,7 +11,8 @@
 }
 
 html {
-  font-size: 14px;
+  @apply dark:bg-bg;
+  font-size: 15px;
 }
 
 @supports (font-variation-settings: normal) {
@@ -21,7 +22,7 @@ html {
 }
 
 body {
-  @apply max-w-full dark:text-white dark:bg-bg;
+  @apply max-w-full dark:text-neutral-300 dark:from-bg dark:to-black bg-gradient-to-b;
 }
 
 a {
@@ -29,7 +30,7 @@ a {
 }
 
 .markdown {
-  @apply dark:text-gray-200;
+  /* @apply dark:text-gray-300; */
 }
 
 .markdown a {

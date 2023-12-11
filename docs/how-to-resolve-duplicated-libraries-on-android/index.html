@@ -33,12 +33,10 @@
 </head>
 
 <html>
-  <header
-  class="w-full flex justify-center pt-4 pb-4 bg-white dark:bg-black fixed top-0 border-b border-gray-100 dark:border-neutral-800"
->
+  <header class="w-full flex justify-center pt-4 pb-4">
   <div class="w-full max-w-3xl flex items-center gap-2 px-4">
-    <a href="/" class="font-semibold flex-1 text-black dark:text-white"
-      >Oscar Franco</a
+    <a href="/" class="flex-1 text-black dark:text-white text-2xl"
+      >@ospfranco</a
     >
 
     <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
@@ -51,9 +49,9 @@
 
 
 <body class="flex flex-col items-center">
-  <div class="px-4 pt-24 min-h-screen xl:max-w-3xl w-full">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-3xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-2xl sm:text-4xl font-semibold">
+      <h1 class="text-black dark:text-white text-2xl sm:text-4xl">
         How to resolve duplicated libraries on Android
       </h1>
 
@@ -61,8 +59,8 @@
 
       <div class="pt-4 pb-20 markdown"><p>If you have developed on Android long enough, you might have found an error like this:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
-2 files found with path 'lib/arm64-v8a/libcrypto.so'
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A failure occurred <span class="k">while </span>executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask<span class="nv">$MergeNativeLibsTaskWorkAction</span>
+2 files found with path <span class="s1">'lib/arm64-v8a/libcrypto.so'</span>
 </code></pre></div></div>
 
 <p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code class="language-plaintext highlighter-rouge">libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>

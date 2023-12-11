@@ -8,7 +8,7 @@ permalink: /:title/
 
 If you have developed on Android long enough, you might have found an error like this:
 
-```
+```sh
 A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
 2 files found with path 'lib/arm64-v8a/libcrypto.so'
 ```
