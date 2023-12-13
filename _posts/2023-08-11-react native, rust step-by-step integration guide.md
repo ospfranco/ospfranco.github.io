@@ -12,27 +12,25 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
 <iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
-> I’m currently looking for freelance projects, if your team needs a RN developer or some consulting, [send me an email](mailto://ospfranco@gmail.com).
-
 # Basic Setup and iOS
 
-- Set up Rust compiler on your computer, just follow the instructions on the Rust website.
+- Set up Rust compiler on your computer, just follow the instructions on the Rust website (using `rustup`).
 - Set up cross compilation targets, 32 bits targets are no longer supported, so we will only add those usable in 2023.
 
   - 32bit targets have been deprecated by the rust team, no longer available on the stable channel
 
   ```bash
-  rustup target add x86_64-apple-ios
-  rustup target add aarch64-apple-ios
-  rustup target add aarch64-apple-ios-sim
+  rustup target add x86_64-apple-ios # intel simulator
+  rustup target add aarch64-apple-ios # actual iOS
+  rustup target add aarch64-apple-ios-sim # arm simulator
 
-  rustup target add x86_64-linux-android
-  rustup target add aarch64-linux-android
-  rustup target add armv7-linux-androideabi
-  rustup target add i686-linux-android
+  rustup target add x86_64-linux-android # intel 64 bits emulator
+  rustup target add aarch64-linux-android # some android arch
+  rustup target add armv7-linux-androideabi # another android arch
+  rustup target add i686-linux-android # intel 32 bits emulator
   ```
 
-- Next we will create the folder where we will put all of our Rust code and infra scripts. In my case I will call it `my_sdk`
+- Next we will create the folder where we will put all of our Rust lib code and infra scripts. In my case I will call it `my_sdk`
 
   ```bash
   cargo new [YOUR_LIBRARY_NAME]
@@ -40,10 +38,18 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
 - Change name of `main.rs` to `lib.rs`
 - Add your API code on lib.rs
-- Add cbindgen crate (alternative is cxx.rs) `cargo install cbindgen`
-- Create a `cbindgen.toml` file, it is fine if it is empty.
-- `cbindgen --config cbindgen.toml --crate my_sdk --output include/my_sdk.h`
-- Modify toml to compile as static library for iOS and a dynamic library with JNI linked for Android
+
+```rust
+#[no_mangle]
+pub extern "C" fn sum(a: Int, b: Int) {
+  a + b
+}
+```
+
+- We will use a crate called `cbindgen` (alternative is cxx.rs or maybe uniFFI) that will help us generate a C header for our Rust functions: `cargo install cbindgen`
+- Create a `cbindgen.toml` file, empty is fine.
+- `cbindgen --config cbindgen.toml --crate my_sdk --output include/my_sdk.h`, this generates the header in an `include` folder with the name `my_sdk.h`. If you open it you should be able to see the public Rust functions that are callable from C.
+- Modify the `cargo.toml` to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The `jni` dependency is only necessary if you are planing to call your code from Java/Kotlin.
 
   ```bash
   [package]
@@ -53,7 +59,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
   [lib]
   name = "SDK"
-  crate-type = ["staticlib", "cdylib"]
+  crate-type = ["staticlib"]
 
   [dependencies]
   libc = "0.2.80"
@@ -63,37 +69,42 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   default = ["jni"]
   ```
 
-- Setup Makefile
+- We are going to use `Make` to compile and package the library. No specific reason for it, it was just what I already found online. It should look something like this:
 
-  ```makefile
+  ```make
   ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-  ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi i686-linux-android
+  ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
   LIB = libmy_sdk.a
-  XCFRAMEWORK = MySdk.xcframework
+  XCFRAMEWORK = my_sdk.xcframework
 
   all: ios android
 
   ios: $(XCFRAMEWORK)
 
   android: $(ARCHS_ANDROID)
-  	sh copy_android.sh
 
   .PHONY: $(ARCHS_IOS)
   $(ARCHS_IOS): %:
-  	cargo build --target $@ --release
+    cargo build --target $@ --release
 
   .PHONY: $(ARCHS_ANDROID)
   $(ARCHS_ANDROID): %:
-  	cargo build --target $@ --release
+    ./build-android-target.sh $@
 
   $(XCFRAMEWORK): $(ARCHS_IOS)
-  	lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
-  	xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
+    cbindgen --config cbindgen.toml --crate query-engine-rn --output include/query_engine.h
+    rm -rf my_sdk.xcframework
+    lipo -create $(wildcard ../../target/x86_64-apple-ios/release/$(LIB)) $(wildcard ../../target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
+    xcodebuild -create-xcframework -library $(wildcard ../../target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
+    ./copy-ios.sh
   ```
 
-- Add generated `.xcframework` to Xcode (dragging and dropping is the easiest)
-  - On the project properties mark the xcframework as embed and sign
-- You should now be able to simply import the header file and call the rust function from any obj-c++ file
+  > You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.
+
+- Add generated `.xcframework` to Xcode
+  - If you are doing this on a single project then dragging and dropping is the easiest, just make sure in the project properties mark the xcframework as embed and sign.
+  - If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the `xcframework` somewhere and then on your podspec add `s.vendored_frameworks = "my_sdk.xcframework"`
+- You should now be able to simply import the header file (#include "my_sdk.h") and call any Rust function from any Obj-c++ file
 
 # Android
 
@@ -117,62 +128,48 @@ Here is a more step by step tutorial, but in the video form I go over the concep
   default = ["jni"]
   ```
 
-- Android unfortunately requires its own linker, some of the old tutorials mention using a script inside the sdk to generate a standalone toolchain, on the latest versions of the Android SDK there are pre-compiled versions for windows, linux and mac, on my machine I can find them on `~/Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin`. Take note of the version since version 24 of the Android SDK is the one that supports m1 machines.
+- Android unfortunately requires its own linker, some of the old tutorials mention using a script inside the sdk to generate a standalone toolchain, on the latest versions of the Android SDK there are pre-compiled versions for windows, linux and mac, on my machine I can find them on `~/Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin`. Take note of the version since version 24 of the Android SDK is the one that supports m1 machines, you can use anything above that.
 - What we need to do then is tell the Rust compiler to use some of this binaries to compile our rust code, to do this we will create a cargo-config.toml file on our folder, but then we need to copy this into our home folder in the machine since this is a global configuration file:
 
   ```toml
-  # template file on <project>/my_sdk/cargo-config.toml
-  # All paths are relative to the user home folder
-  [target.aarch64-linux-android]
-  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar"
-  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android31-clang"
-
-  # Take note, the target the binary names do not match on this case
-  [target.arm-linux-androideabi]
-  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
-  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
-
-  [target.i686-linux-android]
-  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-ar"
-  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android31-clang"
-
-  [target.x86_64-linux-android]
-  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-ar"
-  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android31-clang"
+  # template file
   ```
+
+# move this to your home directory to allow rust to compile the library for android
+
+# All paths are relative to the user home folder
+
+[target.aarch64-linux-android]
+ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar"
+linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android31-clang"
+
+# Take note, the target the binary names do not match on this case
+
+[target.arm-linux-androideabi]
+ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
+linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
+
+[target.armv7-linux-androideabi]
+ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
+linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
+
+[target.i686-linux-android]
+ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-ar"
+linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android31-clang"
+
+[target.x86_64-linux-android]
+ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-ar"
+linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android31-clang"
+
+````
 
 - Once you have this file, copy it to the home folder via
 
-  ```bash
-  cp cargo-config.toml ~/.cargo/config
-  ```
+```bash
+cp cargo-config.toml ~/.cargo/config
+````
 
-- Now we actually have to to compile Rust for android, unlike for iOS, Android requires more flags, instead of doing this via make file a bash script is a little simpler. First modify the Makefile and then create a new `build-android.sh` script (don’t forget to give it permissions).
-
-  ```makefile
-  ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-  ARCHS_ANDROID = i686-linux-android x86_64-linux-android aarch64-linux-android arm-linux-androideabi
-  LIB = libmy_sdk.a
-  XCFRAMEWORK = MySdk.xcframework
-
-  all: ios android
-
-  ios: $(XCFRAMEWORK)
-
-  android: $(ARCHS_ANDROID)
-
-  .PHONY: $(ARCHS_IOS)
-  $(ARCHS_IOS): %:
-    cargo build --target $@ --release
-
-  .PHONY: $(ARCHS_ANDROID)
-  $(ARCHS_ANDROID): %:
-    ./build-android.sh $@ # Change this!!!!!!!!!
-
-  $(XCFRAMEWORK): $(ARCHS_IOS)
-    lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
-    xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
-  ```
+- Now we actually have to to compile Rust for android, unlike for iOS, Android requires more flags, instead of doing this via make file, a bash script is a little simpler. First modify the Makefile and then create a new `build-android.sh` script (don’t forget to give it permissions).
 
   ```bash
   #!/bin/bash
@@ -214,7 +211,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
 - Ask you can see you need to have set the `$ANDROID_HOME` environment variable (I have it on my `.zshrc`) you can modify the `API_VERSION` and the `NDK_VERSION` to the ones you are using and have installed on your machine.
 
-- We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the `[lib.rs](http://lib.rs)` and the following block
+- We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the `lib.rs` and the following block
 
 - We can finally call `make android` and the library will be created for us
 
@@ -237,27 +234,7 @@ Here is a more step by step tutorial, but in the video form I go over the concep
 
 - We now need to somehow include this .so files into the Android compilation, the easiest way is to copy them inside of the `Android/app/src` folder and then Gradle should automatically pick them up and include them in the compilation process. Let’s update our make file to include a new script that will copy everything once it is compiled:
 
-  ```makefile
-  ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-  ARCHS_ANDROID = i686-linux-android x86_64-linux-android aarch64-linux-android arm-linux-androideabi
-  LIB = libmy_sdk.a
-  XCFRAMEWORK = MySdk.xcframework
-
-  all: ios android
-
-  ios: $(XCFRAMEWORK)
-
-  android: GENERATE_ANDROID
-
-  # PHONY keyword on make means this is not a file, just an identifier for a target
-  .PHONY: $(ARCHS_IOS)
-  $(ARCHS_IOS): %:
-    cargo build --target $@ --release
-
-  $(XCFRAMEWORK): $(ARCHS_IOS)
-    lipo -create $(wildcard target/x86_64-apple-ios/release/$(LIB)) $(wildcard target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
-    xcodebuild -create-xcframework -library $(wildcard target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
-
+  ```make
   .PHONY: $(ARCHS_ANDROID)
   $(ARCHS_ANDROID): %:
     ./build-android.sh $@
