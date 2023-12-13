@@ -196,44 +196,42 @@ default <span class="o">=</span> <span class="o">[</span><span class="s2">"jni"<
     <p>What we need to do then is tell the Rust compiler to use some of this binaries to compile our rust code, to do this we will create a cargo-config.toml file on our folder, but then we need to copy this into our home folder in the machine since this is a global configuration file:</p>
 
     <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># template file</span>
+
+
+<span class="c"># move this to your home directory to allow rust to compile the library for android</span>
+
+<span class="c"># All paths are relative to the user home folder</span>
+
+
+<span class="nn">[target.aarch64-linux-android]</span>
+<span class="py">ar</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar"</span>
+<span class="py">linker</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android31-clang"</span>
+
+<span class="c"># Take note, the target the binary names do not match on this case</span>
+
+<span class="nn">[target.arm-linux-androideabi]</span>
+<span class="py">ar</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"</span>
+<span class="py">linker</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"</span>
+
+<span class="nn">[target.armv7-linux-androideabi]</span>
+<span class="py">ar</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"</span>
+<span class="py">linker</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"</span>
+
+<span class="nn">[target.i686-linux-android]</span>
+<span class="py">ar</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-ar"</span>
+<span class="py">linker</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android31-clang"</span>
+
+<span class="nn">[target.x86_64-linux-android]</span>
+<span class="py">ar</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-ar"</span>
+<span class="py">linker</span> <span class="p">=</span> <span class="s">"Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android31-clang"</span>
 </code></pre></div>    </div>
   </li>
-</ul>
+  <li>
+    <p>Once you have this file, copy it to the home folder via</p>
 
-<h1 id="move-this-to-your-home-directory-to-allow-rust-to-compile-the-library-for-android">move this to your home directory to allow rust to compile the library for android</h1>
-
-<h1 id="all-paths-are-relative-to-the-user-home-folder">All paths are relative to the user home folder</h1>
-
-<p>[target.aarch64-linux-android]
-ar = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar”
-linker = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android31-clang”</p>
-
-<h1 id="take-note-the-target-the-binary-names-do-not-match-on-this-case">Take note, the target the binary names do not match on this case</h1>
-
-<p>[target.arm-linux-androideabi]
-ar = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar”
-linker = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang”</p>
-
-<p>[target.armv7-linux-androideabi]
-ar = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar”
-linker = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang”</p>
-
-<p>[target.i686-linux-android]
-ar = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-ar”
-linker = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android31-clang”</p>
-
-<p>[target.x86_64-linux-android]
-ar = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-ar”
-linker = “Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android31-clang”</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-- Once you have this file, copy it to the home folder via
-
-```bash
-cp cargo-config.toml ~/.cargo/config
-</code></pre></div></div>
-
-<ul>
+    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp </span>cargo-config.toml ~/.cargo/config
+</code></pre></div>    </div>
+  </li>
   <li>
     <p>Now we actually have to to compile Rust for android, unlike for iOS, Android requires more flags, instead of doing this via make file, a bash script is a little simpler. First modify the Makefile and then create a new <code class="language-plaintext highlighter-rouge">build-android.sh</code> script (don’t forget to give it permissions).</p>
 

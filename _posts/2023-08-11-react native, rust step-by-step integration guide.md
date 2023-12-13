@@ -134,41 +134,41 @@ pub extern "C" fn sum(a: Int, b: Int) {
 
   ```toml
   # template file
+
+
+  # move this to your home directory to allow rust to compile the library for android
+
+  # All paths are relative to the user home folder
+
+
+  [target.aarch64-linux-android]
+  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar"
+  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android31-clang"
+
+  # Take note, the target the binary names do not match on this case
+
+  [target.arm-linux-androideabi]
+  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
+  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
+
+  [target.armv7-linux-androideabi]
+  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
+  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
+
+  [target.i686-linux-android]
+  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-ar"
+  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android31-clang"
+
+  [target.x86_64-linux-android]
+  ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-ar"
+  linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android31-clang"
   ```
-
-# move this to your home directory to allow rust to compile the library for android
-
-# All paths are relative to the user home folder
-
-[target.aarch64-linux-android]
-ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android-ar"
-linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/aarch64-linux-android31-clang"
-
-# Take note, the target the binary names do not match on this case
-
-[target.arm-linux-androideabi]
-ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
-linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
-
-[target.armv7-linux-androideabi]
-ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi-ar"
-linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/armv7a-linux-androideabi31-clang"
-
-[target.i686-linux-android]
-ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android-ar"
-linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/i686-linux-android31-clang"
-
-[target.x86_64-linux-android]
-ar = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android-ar"
-linker = "Library/Android/sdk/ndk/24.0.8215888/toolchains/llvm/prebuilt/darwin-x86_64/bin/x86_64-linux-android31-clang"
-
-````
 
 - Once you have this file, copy it to the home folder via
 
-```bash
-cp cargo-config.toml ~/.cargo/config
-````
+  ```bash
+  cp cargo-config.toml ~/.cargo/config
+  ```
 
 - Now we actually have to to compile Rust for android, unlike for iOS, Android requires more flags, instead of doing this via make file, a bash script is a little simpler. First modify the Makefile and then create a new `build-android.sh` script (don’t forget to give it permissions).
 
