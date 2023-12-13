@@ -101,6 +101,7 @@ pub extern "C" fn sum(a: Int, b: Int) {
 
   > You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.
 
+- The `copy-ios.sh` is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you want.
 - Add generated `.xcframework` to Xcode
   - If you are doing this on a single project then dragging and dropping is the easiest, just make sure in the project properties mark the xcframework as embed and sign.
   - If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the `xcframework` somewhere and then on your podspec add `s.vendored_frameworks = "my_sdk.xcframework"`

@@ -158,6 +158,7 @@ default <span class="o">=</span> <span class="o">[</span><span class="s2">"jni"<
       <p>You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.</p>
     </blockquote>
   </li>
+  <li>The <code class="language-plaintext highlighter-rouge">copy-ios.sh</code> is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you want.</li>
   <li>Add generated <code class="language-plaintext highlighter-rouge">.xcframework</code> to Xcode
     <ul>
       <li>If you are doing this on a single project then dragging and dropping is the easiest, just make sure in the project properties mark the xcframework as embed and sign.</li>
