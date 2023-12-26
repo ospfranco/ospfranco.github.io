@@ -22,7 +22,7 @@ html {
 }
 
 body {
-  @apply max-w-full dark:text-neutral-300 dark:from-bg dark:to-black bg-gradient-to-b;
+  @apply max-w-full dark:text-neutral-300 dark:bg-black;
 }
 
 a {
