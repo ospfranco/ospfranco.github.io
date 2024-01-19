@@ -9,7 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        bg: "#111111",
+        bg: "#151718",
       },
       animation: {
         fadeIn: "fadeIn 2s ease-in forwards",

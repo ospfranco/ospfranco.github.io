@@ -10,10 +10,6 @@
   font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
 }
 
-html {
-  @apply dark:bg-bg;
-  font-size: 15px;
-}
 
 @supports (font-variation-settings: normal) {
   :root {
@@ -22,7 +18,7 @@ html {
 }
 
 body {
-  @apply max-w-full dark:text-neutral-300 dark:bg-black;
+  @apply max-w-full dark:text-neutral-300 dark:bg-bg;
 }
 
 a {
@@ -70,7 +66,7 @@ a {
 }
 
 .markdown .language-plaintext {
-  @apply px-1 rounded text-orange-500 border dark:border-neutral-800 bg-gray-100 dark:bg-gray-900 text-sm;
+  @apply px-1 rounded dark:text-white border dark:border-neutral-800 bg-gray-100 dark:bg-gray-900 text-sm;
 }
 
 .hljs {

@@ -5,13 +5,13 @@ layout: default
 {%include header.html%}
 
 <body class="flex flex-col items-center">
-  <div class="px-4 pt-8 min-h-screen xl:max-w-3xl w-full">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
     <div class="xl:mx-auto flex flex-col">
-      <h1 class="text-black dark:text-white text-2xl sm:text-4xl">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
         {{ page.title }}
       </h1>
 
-      <p class="mt-2 text-neutral-500">{{ page.date | date: "%B %Y" }}</p>
+      <p class="mt-2 text-neutral-500 text-sm">{{ page.date | date: "%b %Y" }}</p>
 
       <div class="pt-4 pb-20 markdown">{{ content }}</div>
     </div>
