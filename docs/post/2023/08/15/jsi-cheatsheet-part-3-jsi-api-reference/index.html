@@ -10,7 +10,7 @@
   />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
 <title>JSI Cheatsheet: Part 3 - JSI API Reference | Oscar Franco</title>
-<meta name="generator" content="Jekyll v4.3.2" />
+<meta name="generator" content="Jekyll v4.3.3" />
 <meta property="og:title" content="JSI Cheatsheet: Part 3 - JSI API Reference" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
@@ -212,20 +212,20 @@
 <h2 id="create-2">Create</h2>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// in javascript this would equal: module = {}</span>
-<span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="n">module</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="k">module</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
 </code></pre></div></div>
 
 <h2 id="set-property">Set property</h2>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="n">module</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span> <span class="c1">// module = {}</span>
-<span class="n">module</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"age"</span><span class="p">,</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="mi">19</span><span class="p">));</span> <span class="c1">// module = {age: 19}</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="k">module</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span> <span class="c1">// module = {}</span>
+<span class="k">module</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"age"</span><span class="p">,</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="mi">19</span><span class="p">));</span> <span class="c1">// module = {age: 19}</span>
 </code></pre></div></div>
 
 <h2 id="global-object">Global object</h2>
 
 <p>JSI exposes the globalThis object for you to register your module</p>
 
-<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"myModule"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="n">module</span><span class="p">));</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"myModule"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="k">module</span><span class="p">));</span>
 </code></pre></div></div>
 
 <h1 id="functions">Functions</h1>
@@ -321,7 +321,7 @@
 </blockquote>
 
 <div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// LOOK! move([blah blah])!!! DON'T FORGET IT!</span>
-<span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"sqlite"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="n">module</span><span class="p">));</span>
+<span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"sqlite"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="k">module</span><span class="p">));</span>
 </code></pre></div></div>
 
 <blockquote>
