@@ -16,7 +16,7 @@ The big promise of Rust is to prevent memory allocation problems. It does this v
 
 While the specific use-case of writing Rust games may not be ideal for such a strict system as the borrow-checker I have found the tyrannical nature of it more cumbersome than helpful. On my normal day-to-day, there are very few pieces of code where I want to write the memory-safe code myself. Opening a file, and passing a variable to multiple functions, everything becomes 20x cumbersome.
 
-The borrow-checker on a high level, dumps the responsibility of writing safe code to YOU. It's a very useful helper but it just points at the correct path and doesn't solve the problem.
+The borrow-checker on a high level, dumps the responsibility of writing safe code to YOU. It's a very useful helper but it just points at the correct path and doesn't solve the problem **for you**.
 
 # Swift has become my favorite language
 
