@@ -10,7 +10,6 @@
   font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
 }
 
-
 @supports (font-variation-settings: normal) {
   :root {
     font-family: InterVariable, sans-serif;
@@ -18,7 +17,7 @@
 }
 
 body {
-  @apply max-w-full dark:text-neutral-300 dark:bg-bg;
+  @apply max-w-full dark:text-neutral-300 dark:bg-[#0d1116];
 }
 
 a {
