@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Why Swift is better than Rust
+title: Why I believe Swift is better than Rust
 date: 2024-04-29
 categories: post
 permalink: /:title/
