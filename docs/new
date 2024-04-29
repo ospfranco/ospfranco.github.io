@@ -9,7 +9,7 @@ post_date = Date.today.to_s
 post_time = '09:00:00 -04:00'
 file_path = "./_posts/#{post_date}-#{ARGV.join('-').gsub(/:/, "").downcase}.md"
 
-raise 'File already exists' if File.exists? file_path
+raise 'File already exists' if File.exist? file_path
 
 front_matter = <<~FRONTMATTER
 ---
