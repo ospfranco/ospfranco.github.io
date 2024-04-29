@@ -20,7 +20,7 @@ The borrow-checker on a high level, dumps the responsibility of writing safe cod
 
 # Swift has become my favorite language
 
-After the last few years, I can only praise Swift. It's not perfect, but it feels like the culmination of the C-like family of languages. It does a lot of the nice things Rust does. Explicit control, exhaustive checks for branching code, yet it has dynamic syntax and a sensible memory model that will cover 98% of the code you normally write. But it also does them with automatic memory management.
+After the last few years, I can only praise Swift. It's not perfect, but it feels like the culmination of the C-like family of languages. It does a lot of the nice things Rust does. Explicit control, and exhaustive checks for branching code, yet it has dynamic syntax. But it also does them with automatic memory management.
 
 Swift has taken all the lessons of the last 20 years of software development and dumped them into a useful language.
 
