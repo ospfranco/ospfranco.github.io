@@ -139,16 +139,16 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
 
 - The `ndk` crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:
 
-```bash
-export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
-```
+  ```bash
+  export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+  export ANDROID_HOME=$HOME/Library/Android/sdk
+  export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
+  ```
 
 - After the compilation is done, we need to place the files in the correct place, the `copy-android.sh` takes care of that:
 
-```bash
-#! /bin/bash
+  ```bash
+  #!/bin/bash
   mkdir -p ../android/app/src/main/jniLibs
   mkdir -p ../android/app/src/main/jniLibs/x86
   mkdir -p ../android/app/src/main/jniLibs/arm64-v8a
@@ -160,22 +160,22 @@ export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
   cp ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
   cp ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
   cp ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
-```
+  ```
 
 - We need to tell cmake to link the library when compiling our native module, on the `CMakeLists.txt` file add the following:
 
-```cmake
-make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
-add_library(my_sdk STATIC IMPORTED)
-set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})
+  ```cmake
+  make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
+  add_library(my_sdk STATIC IMPORTED)
+  set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})
 
-target_link_libraries(tm
-        jsi
-        my_sdk
-        react_nativemodule_core
-        react_codegen_AppSpecs
-)
-```
+  target_link_libraries(tm
+          jsi
+          my_sdk
+          react_nativemodule_core
+          react_codegen_AppSpecs
+  )
+  ```
 
 - We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the `lib.rs` and the following block
 - We can finally call `make android` and the library will be created for us
