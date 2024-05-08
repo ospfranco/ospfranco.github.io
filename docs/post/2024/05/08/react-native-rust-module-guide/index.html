@@ -58,7 +58,9 @@
         Rust modules in React Native
       </h1>
 
-      <p class="mt-2 text-neutral-500 text-sm">May 2024</p>
+      <p class="mt-2 text-neutral-500 text-sm">
+        May 2024
+      </p>
 
       <div class="pt-4 pb-20 markdown"><p>This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
 
@@ -75,40 +77,35 @@
     <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo new my_sdk
 </code></pre></div>    </div>
   </li>
-  <li>Create a <code class="language-plaintext highlighter-rouge">rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project</li>
-</ul>
+  <li>
+    <p>Create a <code class="language-plaintext highlighter-rouge">rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project:</p>
 
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[toolchain]</span>
+    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[toolchain]</span>
 <span class="py">channel</span> <span class="p">=</span> <span class="s">"stable"</span>
 <span class="py">targets</span> <span class="p">=</span> <span class="p">[</span><span class="s">"x86_64-apple-ios"</span><span class="p">,</span> <span class="s">"aarch64-apple-ios"</span><span class="p">,</span> <span class="s">"aarch64-apple-ios-sim"</span><span class="p">,</span> <span class="s">"aarch64-linux-android"</span><span class="p">,</span> <span class="s">"armv7-linux-androideabi"</span><span class="p">,</span> <span class="s">"x86_64-linux-android"</span><span class="p">,</span> <span class="s">"i686-linux-android"</span><span class="p">]</span>
-
-</code></pre></div></div>
-
-<ul>
+</code></pre></div>    </div>
+  </li>
   <li>Change name of <code class="language-plaintext highlighter-rouge">main.rs</code> to <code class="language-plaintext highlighter-rouge">lib.rs</code></li>
-  <li>Add your API code on lib.rs</li>
-</ul>
+  <li>
+    <p>Add your API code on lib.rs</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
-<span class="k">pub</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="n">Int</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="n">Int</span><span class="p">)</span> <span class="p">{</span>
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
+<span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="p">{</span>
   <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
 <span class="p">}</span>
-</code></pre></div></div>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>We will use a crate called <code class="language-plaintext highlighter-rouge">cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code class="language-plaintext highlighter-rouge">build.rs</code> that runs everytime our project is compiled/checked. First we are going to add the dependency as a <code class="language-plaintext highlighter-rouge">[build-dependencies]</code>, the project <code class="language-plaintext highlighter-rouge">Cargo.toml</code>:</p>
 
-<ul>
-  <li>We will use a crate called <code class="language-plaintext highlighter-rouge">cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code class="language-plaintext highlighter-rouge">build.rs</code> that runs everytime our project is compiled/checked. First we are going to add the dependency as a <code class="language-plaintext highlighter-rouge">[build-dependency]</code>, the project <code class="language-plaintext highlighter-rouge">Cargo.toml</code>:</li>
-</ul>
-
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[build-dependencies]</span>
+    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[build-dependencies]</span>
 <span class="py">cbindgen</span> <span class="p">=</span> <span class="s">"0.26.0"</span>
+</code></pre></div>    </div>
+  </li>
+  <li>
+    <p>Then on the root of the project create a <code class="language-plaintext highlighter-rouge">build.rs</code> file:</p>
 
-</code></pre></div></div>
-
-<ul>
-  <li>Then on the root of the project create a <code class="language-plaintext highlighter-rouge">build.rs</code> file:</li>
-</ul>
-
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extern</span> <span class="k">crate</span> <span class="n">cbindgen</span><span class="p">;</span>
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extern</span> <span class="k">crate</span> <span class="n">cbindgen</span><span class="p">;</span>
 
 <span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="n">env</span><span class="p">;</span>
 
@@ -134,9 +131,8 @@
     <span class="c1">// println!("cargo:rerun-if-changed=src/lib.rs");</span>
     <span class="nf">generate_c_headers</span><span class="p">();</span>
 <span class="p">}</span>
-</code></pre></div></div>
-
-<ul>
+</code></pre></div>    </div>
+  </li>
   <li>
     <p>Modify the <code class="language-plaintext highlighter-rouge">cargo.toml</code> to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The <code class="language-plaintext highlighter-rouge">jni</code> dependency is only necessary if you are planing to call your code from Java/Kotlin.</p>
 
@@ -150,13 +146,18 @@
 <span class="py">crate-type</span> <span class="p">=</span> <span class="p">[</span><span class="s">"staticlib"</span><span class="p">]</span>
 
 <span class="nn">[dependencies]</span>
-<span class="py">libc</span> <span class="p">=</span> <span class="s">"0.2.80"</span>
-<span class="py">jni</span> <span class="p">=</span> <span class="s">"0.17.0"</span>
+<span class="py">libc</span> <span class="p">=</span> <span class="s">"0.2.80"</span> <span class="c"># Allows to use c types CString, c_char, etc.</span>
+<span class="py">jni</span> <span class="p">=</span> <span class="s">"0.17.0"</span> <span class="c"># Allows to write JNI bindings directly from Rust</span>
 
-<span class="nn">[features]</span>
-<span class="py">default</span> <span class="p">=</span> <span class="p">[</span><span class="s">"jni"</span><span class="p">]</span>
+<span class="nn">[build-dependencies]</span>
+<span class="py">cbindgen</span> <span class="p">=</span> <span class="s">"0.26.0"</span>
 </code></pre></div>    </div>
   </li>
+</ul>
+
+<h1 id="ios">iOS</h1>
+
+<ul>
   <li>
     <p>We are going to use <code class="language-plaintext highlighter-rouge">Make</code> to compile and package the library. No specific reason for it you can create your script on JS too.</p>
 
@@ -197,7 +198,7 @@
       <li>If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the <code class="language-plaintext highlighter-rouge">xcframework</code> somewhere and then on your podspec add <code class="language-plaintext highlighter-rouge">s.vendored_frameworks = "my_sdk.xcframework"</code></li>
     </ul>
   </li>
-  <li>You should now be able to simply import the header file (#include “my_sdk.h”) and call any Rust function from any Obj-C++ file</li>
+  <li>You should now be able to simply import the header file (<code class="language-plaintext highlighter-rouge">#include "my_sdk.h"</code>) and call any Rust function from any Obj-C++ file</li>
 </ul>
 
 <h1 id="android">Android</h1>
@@ -227,9 +228,6 @@
   <span class="nb">cp</span> ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
   <span class="nb">cp</span> ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
   <span class="nb">cp</span> ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
-
-
-  <span class="nb">echo</span> <span class="s2">"Dynamic libraries copied!"</span>
 </code></pre></div></div>
 
 <ul>
@@ -313,9 +311,9 @@
 
     <link
       rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
     />
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>
       hljs.highlightAll();
