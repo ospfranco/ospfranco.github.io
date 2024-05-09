@@ -3,6 +3,9 @@ source "https://rubygems.org"
 ruby '3.3.1'
 
 gem "jekyll"
+gem "csv"
+gem "base64"
+gem "bigdecimal"
 
 group :jekyll_plugins do
   gem "jekyll-feed"
