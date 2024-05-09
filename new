@@ -18,6 +18,7 @@ title: #{post_title.gsub(/:/, "&#58;")}
 date: #{post_date}
 categories: post
 permalink: /:title/
+image: /assets/oscar.jpg
 ---
 FRONTMATTER
 

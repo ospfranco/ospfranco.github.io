@@ -4,6 +4,7 @@ title: Rust modules in React Native
 date: 2024-05-8 09:00:00 -04:00
 categories: post
 permalink: /:categories/:year/:month/:day/:title/
+image: /assets/oscar.jpg
 ---
 
 This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.
