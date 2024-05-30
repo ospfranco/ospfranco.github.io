@@ -1,4 +1,91 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-05-09T09:50:26+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust modules in React Native</title><link href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/" rel="alternate" type="text/html" title="Rust modules in React Native" /><published>2024-05-08T15:00:00+02:00</published><updated>2024-05-08T15:00:00+02:00</updated><id>https://ospfranco.com/post/2024/05/08/react%20native%20rust%20module%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/"><![CDATA[<p>This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-05-30T10:39:36+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00+02:00</published><updated>2024-05-30T00:00:00+02:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information.</p>
+
+<p>In this guide, we will explore various security considerations and best practices that every React Native developer should be aware of to the best of my knowledge. If you find anything wrong or have feedback please reach out! This is a topic we should all care about.</p>
+
+<h1 id="preface">Preface</h1>
+
+<p>Let’s get this out of the way: there is no real way to protect the data once it is on device. A motivated attacker with root or hardware access to the device will be able to eventually impersonate/break the security features when storing on-device data. Here is a <a href="https://blog.1password.com/local-threats-device-protections/">1Password write-up</a> that describes it quite well.</p>
+
+<p>As we are not all building vault apps, this should be our guiding principle: <strong>do not put anything on the device of the user that you cannot afford to leak</strong>.</p>
+
+<p>But that doesn’t mean everything is lost. If the attacker does not have direct access to the machine applying the protections will still be deterrent enough (and secure enough unless they actually get a hold of the hardware). And still, using the best-known security practices make some of the attacks in practically so cumbersome that they act as a deterrent, so we should still use them.</p>
+
+<h1 id="secrets">Secrets</h1>
+
+<p>Armed with this knowledge there is one inconvenient truth: <strong>you won’t be able to protect secrets like API keys for third party services</strong>. No matter how you store them or how you obfuscate them or what packages promise. You also won’t be able to protect your encryption keys, which then means <strong>you won’t be able to protect the encrypted USER data</strong> (again, if they get a hold of the hardware). The difference lies that user data belongs to the user, they can hack their own app/device and see their data, but they had access to this data anyways, right? The problematic part are the secrets as they are shared among your users.</p>
+
+<p>Is there a way to protect secrets? Using a gateway would definitely be a way, but sometimes it is not possible, for example if using a third-party SDK that ingest the key directly. Nothing we can do about that.</p>
+
+<p>An important thing to note here is the existance of device attestation which is not very common. There are <a href="https://support.apple.com/guide/deployment/managed-device-attestation-dep28afbde6a/web">APIs for iOS</a> and <a href="https://developer.android.com/privacy-and-security/safetynet/attestation">Android</a>. There are companies that offer this as a service with and SDK where before you send data to the device you could verify the device/app has not been tampered with.</p>
+
+<p>With device attestation you could have a more secure (read “more inconvenient way to hack”) secret management:</p>
+
+<ol>
+  <li>On app start do device attestation, if it fails: game over you tampered with the device/app, so no candies for you.</li>
+  <li>On first start download the secrets and store them in your favourite cryptographically secure storage.</li>
+  <li>You can combine this with partial keys which are needed to fetch from a server every time to decode the secrets/data.</li>
+</ol>
+
+<p>Again, once a hacker has access to the device it’s game over, they can even mess with the OS internals to defeat even device attestation but at least you can make their lives harder.</p>
+
+<p>The final point to mention here are packages like <code class="language-plaintext highlighter-rouge">react-native-dotenv</code> and <code class="language-plaintext highlighter-rouge">react-native-config</code>. I don’t like them, because they are a bit missleading. This environment variables packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and mixing the concept of real environment variables with what they do has at least lead unaware devs into thinking their secrets are secure (talking out of my own experience).</p>
+
+<p>The reason why enviroment variables in things like docker containers and server environments are secure is because they reside in memory and are not persisted and are isolated by running on the server where (hopefully) the only point of entry is a secure HTTP API. Which is not the case for our mobile apps (independent of the language/framework you are using).</p>
+
+<p>Enough about secrets, how about user data?</p>
+
+<h1 id="user-data">User data</h1>
+
+<p>Given this knowledge, why should we bother encrypting user data? Well, again, if talking about the worse case scenario then the world is bleak. But if we assume we are still running in an untampered device/OS the fact we protect data from other apps and script-kiddies is still worthy. Here most of the packages have some way of encrypting your data via an encryption key.</p>
+
+<p>Which algorithm they use and if they are actually securing the data is a per-package question. Lot’s of them (at least on the react-native world) have hand rolled their encryption, use dubious implementations or are outdated. Too much to cover on this article, so I will just give you an ideal workflow that should be secure (barring implementation errors on the libraries themselves):</p>
+
+<h2 id="generate-and-securely-store-your-encryption-key">Generate and securely store your encryption key</h2>
+
+<p>Most of the packages tell you to do this:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">password_is_password</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+  <span class="nx">encryptionKey</span> <span class="o">=</span> <span class="nx">myKey</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>The problem with this approach is that anyone can decompile your app and read the value of <code class="language-plaintext highlighter-rouge">myKey</code> (no matter how you obfuscate it). This is even worse on react-native where you can just decompress an APK/IPA and just take a look at the minified JS/TS code. I mentioned in articles before how taking a look into the JS bundle even leaks valuable bussines logic and allows competitors to copy functionality.</p>
+
+<p>So here is a better approach to generate and store your encryption key, I’m going to use my package <code class="language-plaintext highlighter-rouge">op-s2</code> for this, but you can use the expo equivalent. They both work by storing data on the keychain on iOS and keystore on android, which are backed by hardware (when possible on android) and are secure (as secure as it gets with untampared devices).</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="kd">get</span><span class="p">,</span> <span class="kd">set</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@op-engineering/op-s2</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// Will do another article about generating secure bytes</span>
+<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">generateRandomKey</span><span class="p">();</span> <span class="c1">// generate truly secure random bytes, using t2 chip on iOS/macos and linux calls on android</span>
+
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">error</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">set</span><span class="p">({</span>
+  <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">value</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
+  <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// This means a faceID/biometrics prompt will appear every time, see the docs if you don't want to use this</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">withBiometrics</code> is the safest but most cumbersome option, it means user will have to authenticate everytime you want to read this key. You can leave it out and it will still be secure. How? Because keystore/keychain actually allow access on a per bundle basis. You only have access to the data you have created, you cannot read the values from other apps/processes. So at least we have per app security.</p>
+
+<p>So then when you start your storage you can pass this key:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+  <span class="nx">encryptionKey</span> <span class="o">=</span> <span class="nx">myKey</span><span class="p">,</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="c1">// You can even trigger a gargabe collection to make a timed attack even harder</span>
+</code></pre></div></div>
+
+<p>Again, nothing is secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent things from leaking. We then rely that the library has correctly implemented an encryption algorithm.</p>
+
+<h2 id="use-a-secure-storage">Use a secure storage</h2>
+
+<p>TODO. Use <code class="language-plaintext highlighter-rouge">op-sqlite</code> with the <code class="language-plaintext highlighter-rouge">sqlcipher</code> flag turned on :)</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust modules in React Native</title><link href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/" rel="alternate" type="text/html" title="Rust modules in React Native" /><published>2024-05-08T15:00:00+02:00</published><updated>2024-05-08T15:00:00+02:00</updated><id>https://ospfranco.com/post/2024/05/08/react%20native%20rust%20module%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/"><![CDATA[<p>This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
 
 <iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
 
@@ -327,30 +414,7 @@
 
 <h1 id="version-missmatch">Version missmatch</h1>
 
-<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
-
-<p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
-
-<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
-
-<p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
-
-<pre><code class="language-C++">#import &lt;jsi/jsi.h&gt;
-</code></pre>
-
-<p>You should import everything with</p>
-
-<pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
-</code></pre>
-
-<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
+<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
 
 <p>The root issue is the <a href="https://stackoverflow.com/questions/47788422/cannot-use-namespace-and-cannot-include-standard-c-library-in-my-h-files">Swift compiler</a>, it doesn’t support C++, yet it still tries to compile C headers on its own. Whenever you have Swift files together with C++ files, it’s the Swift compiler that will kick-in in a first pass (followed by CLang? maybe before? doesn’t matter) and will try to compile the headers as C headers independently of what you tell it, file extensions, etc.</p>
 
@@ -422,7 +486,30 @@ void Foo_bar(struct FooHandle* foo, int c);
 <span class="k">end</span>
 </code></pre></div></div>
 
-<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T00:00:00+01:00</published><updated>2023-11-13T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
+<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
+
+<p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
+
+<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
+
+<p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
+
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
+
+<pre><code class="language-C++">#import &lt;jsi/jsi.h&gt;
+</code></pre>
+
+<p>You should import everything with</p>
+
+<pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
+</code></pre>
+
+<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T00:00:00+01:00</published><updated>2023-11-13T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
 
 <p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code class="language-plaintext highlighter-rouge">po NSHomeDirectory()</code> and it will print out the local directory.</p>
 
@@ -913,18 +1000,4 @@ methods, and (category_name) is present only when the method is in a category.</
 
 <h1 id="xcframeworks">XCFrameworks</h1>
 
-<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> file you might find folders per architecture and a <code class="language-plaintext highlighter-rouge">.plist</code> file.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).]]></summary></entry><entry><title type="html">React Native load release bundle in iOS dev app</title><link href="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/" rel="alternate" type="text/html" title="React Native load release bundle in iOS dev app" /><published>2023-10-12T15:00:00+02:00</published><updated>2023-10-12T15:00:00+02:00</updated><id>https://ospfranco.com/post/2023/10/12/react%20native%20load%20release%20bundle%20in%20ios%20dev%20app</id><content type="html" xml:base="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"><![CDATA[<p>When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.</p>
-
-<p>In your AppDelegate, replace</p>
-
-<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span><span class="p">];</span>
-</code></pre></div></div>
-
-<p>with</p>
-
-<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">packagerServerHostPort</span> <span class="o">=</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">packagerServerHostPort</span><span class="p">];</span>
-<span class="k">return</span> <span class="p">[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span>
-                                         <span class="nl">packagerHost:</span><span class="n">packagerServerHostPort</span>
-                                            <span class="nl">enableDev:</span><span class="nb">NO</span>
-                                   <span class="nl">enableMinification:</span><span class="nb">NO</span><span class="p">];</span>
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.]]></summary></entry></feed>
+<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> file you might find folders per architecture and a <code class="language-plaintext highlighter-rouge">.plist</code> file.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).]]></summary></entry></feed>

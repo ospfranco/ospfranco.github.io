@@ -1,0 +1,170 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>React Native Security Guide | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.3.3" />
+<meta property="og:title" content="React Native Security Guide" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information." />
+<meta property="og:description" content="Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information." />
+<link rel="canonical" href="https://ospfranco.com/react-native-security-guide/" />
+<meta property="og:url" content="https://ospfranco.com/react-native-security-guide/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-05-30T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="React Native Security Guide" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-05-30T00:00:00+02:00","datePublished":"2024-05-30T00:00:00+02:00","description":"Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information.","headline":"React Native Security Guide","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/react-native-security-guide/"},"url":"https://ospfranco.com/react-native-security-guide/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white"
+      >
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a
+    >
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        React Native Security Guide
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        May 2024
+      </p>
+
+      <div class="pt-4 pb-20 markdown"><p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information.</p>
+
+<p>In this guide, we will explore various security considerations and best practices that every React Native developer should be aware of to the best of my knowledge. If you find anything wrong or have feedback please reach out! This is a topic we should all care about.</p>
+
+<h1 id="preface">Preface</h1>
+
+<p>Let’s get this out of the way: there is no real way to protect the data once it is on device. A motivated attacker with root or hardware access to the device will be able to eventually impersonate/break the security features when storing on-device data. Here is a <a href="https://blog.1password.com/local-threats-device-protections/">1Password write-up</a> that describes it quite well.</p>
+
+<p>As we are not all building vault apps, this should be our guiding principle: <strong>do not put anything on the device of the user that you cannot afford to leak</strong>.</p>
+
+<p>But that doesn’t mean everything is lost. If the attacker does not have direct access to the machine applying the protections will still be deterrent enough (and secure enough unless they actually get a hold of the hardware). And still, using the best-known security practices make some of the attacks in practically so cumbersome that they act as a deterrent, so we should still use them.</p>
+
+<h1 id="secrets">Secrets</h1>
+
+<p>Armed with this knowledge there is one inconvenient truth: <strong>you won’t be able to protect secrets like API keys for third party services</strong>. No matter how you store them or how you obfuscate them or what packages promise. You also won’t be able to protect your encryption keys, which then means <strong>you won’t be able to protect the encrypted USER data</strong> (again, if they get a hold of the hardware). The difference lies that user data belongs to the user, they can hack their own app/device and see their data, but they had access to this data anyways, right? The problematic part are the secrets as they are shared among your users.</p>
+
+<p>Is there a way to protect secrets? Using a gateway would definitely be a way, but sometimes it is not possible, for example if using a third-party SDK that ingest the key directly. Nothing we can do about that.</p>
+
+<p>An important thing to note here is the existance of device attestation which is not very common. There are <a href="https://support.apple.com/guide/deployment/managed-device-attestation-dep28afbde6a/web">APIs for iOS</a> and <a href="https://developer.android.com/privacy-and-security/safetynet/attestation">Android</a>. There are companies that offer this as a service with and SDK where before you send data to the device you could verify the device/app has not been tampered with.</p>
+
+<p>With device attestation you could have a more secure (read “more inconvenient way to hack”) secret management:</p>
+
+<ol>
+  <li>On app start do device attestation, if it fails: game over you tampered with the device/app, so no candies for you.</li>
+  <li>On first start download the secrets and store them in your favourite cryptographically secure storage.</li>
+  <li>You can combine this with partial keys which are needed to fetch from a server every time to decode the secrets/data.</li>
+</ol>
+
+<p>Again, once a hacker has access to the device it’s game over, they can even mess with the OS internals to defeat even device attestation but at least you can make their lives harder.</p>
+
+<p>The final point to mention here are packages like <code class="language-plaintext highlighter-rouge">react-native-dotenv</code> and <code class="language-plaintext highlighter-rouge">react-native-config</code>. I don’t like them, because they are a bit missleading. This environment variables packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and mixing the concept of real environment variables with what they do has at least lead unaware devs into thinking their secrets are secure (talking out of my own experience).</p>
+
+<p>The reason why enviroment variables in things like docker containers and server environments are secure is because they reside in memory and are not persisted and are isolated by running on the server where (hopefully) the only point of entry is a secure HTTP API. Which is not the case for our mobile apps (independent of the language/framework you are using).</p>
+
+<p>Enough about secrets, how about user data?</p>
+
+<h1 id="user-data">User data</h1>
+
+<p>Given this knowledge, why should we bother encrypting user data? Well, again, if talking about the worse case scenario then the world is bleak. But if we assume we are still running in an untampered device/OS the fact we protect data from other apps and script-kiddies is still worthy. Here most of the packages have some way of encrypting your data via an encryption key.</p>
+
+<p>Which algorithm they use and if they are actually securing the data is a per-package question. Lot’s of them (at least on the react-native world) have hand rolled their encryption, use dubious implementations or are outdated. Too much to cover on this article, so I will just give you an ideal workflow that should be secure (barring implementation errors on the libraries themselves):</p>
+
+<h2 id="generate-and-securely-store-your-encryption-key">Generate and securely store your encryption key</h2>
+
+<p>Most of the packages tell you to do this:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">password_is_password</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+  <span class="nx">encryptionKey</span> <span class="o">=</span> <span class="nx">myKey</span><span class="p">,</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p>The problem with this approach is that anyone can decompile your app and read the value of <code class="language-plaintext highlighter-rouge">myKey</code> (no matter how you obfuscate it). This is even worse on react-native where you can just decompress an APK/IPA and just take a look at the minified JS/TS code. I mentioned in articles before how taking a look into the JS bundle even leaks valuable bussines logic and allows competitors to copy functionality.</p>
+
+<p>So here is a better approach to generate and store your encryption key, I’m going to use my package <code class="language-plaintext highlighter-rouge">op-s2</code> for this, but you can use the expo equivalent. They both work by storing data on the keychain on iOS and keystore on android, which are backed by hardware (when possible on android) and are secure (as secure as it gets with untampared devices).</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="kd">get</span><span class="p">,</span> <span class="kd">set</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@op-engineering/op-s2</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// Will do another article about generating secure bytes</span>
+<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">generateRandomKey</span><span class="p">();</span> <span class="c1">// generate truly secure random bytes, using t2 chip on iOS/macos and linux calls on android</span>
+
+<span class="kd">const</span> <span class="p">{</span> <span class="nx">error</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">set</span><span class="p">({</span>
+  <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span>
+  <span class="na">value</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
+  <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// This means a faceID/biometrics prompt will appear every time, see the docs if you don't want to use this</span>
+<span class="p">});</span>
+</code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">withBiometrics</code> is the safest but most cumbersome option, it means user will have to authenticate everytime you want to read this key. You can leave it out and it will still be secure. How? Because keystore/keychain actually allow access on a per bundle basis. You only have access to the data you have created, you cannot read the values from other apps/processes. So at least we have per app security.</p>
+
+<p>So then when you start your storage you can pass this key:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+  <span class="nx">encryptionKey</span> <span class="o">=</span> <span class="nx">myKey</span><span class="p">,</span>
+<span class="p">});</span>
+
+<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
+<span class="c1">// You can even trigger a gargabe collection to make a timed attack even harder</span>
+</code></pre></div></div>
+
+<p>Again, nothing is secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent things from leaking. We then rely that the library has correctly implemented an encryption algorithm.</p>
+
+<h2 id="use-a-secure-storage">Use a secure storage</h2>
+
+<p>TODO. Use <code class="language-plaintext highlighter-rouge">op-sqlite</code> with the <code class="language-plaintext highlighter-rouge">sqlcipher</code> flag turned on :)</p>
+</div>
+    </div>
+
+    <link
+      rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+
+</html>
