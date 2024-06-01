@@ -136,3 +136,7 @@ This will fully encrypt the data saved/stored from disk with a bit of overhead. 
 I have to mention hardware keys, which circumveit the issue of the attacker having remote access to the device. Since they are separate from the OS, they cannot be as easily compromised (apart from being physically stolen) and provide an extra layer of security.
 
 If your app requires even higher level of security it might be worth to take a look into them. I have bridged the yubiko SDK for RN but it's not currently open source. [Although you cannot save data to a yubikey](https://developers.yubico.com/Developer_Program/Guides/User_Loaded_Data.html) authentication would be enough to use as secure bytes and using it as encryption key, and as I've shown in the article, as long as the encryption key is safe, you can consider your data safe enough. If someone would be willing to sponsor the work I would be willing to create a turbo module to make this functionality available to React Native apps.
+
+# Conclusion
+
+It's still worth to take a look into the [official RN documentation](https://reactnative.dev/docs/security#storing-sensitive-info), however, I hope this guide is a bit more hands on.
