@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-01T09:51:51+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00+02:00</published><updated>2024-05-30T00:00:00+02:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-01T09:54:21+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00+02:00</published><updated>2024-05-30T00:00:00+02:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of missconceptions floating around, fueled by the existance of packages and lack of targeted information.</p>
 
 <p>In this guide, we will explore various security considerations and best practices that every React Native developer should be aware of to the best of my knowledge. If you find anything wrong or have feedback please reach out! This is a topic we should all care about.</p>
 
@@ -79,7 +79,15 @@
 <span class="c1">// You can even trigger a gargabe collection to make a timed attack even harder</span>
 </code></pre></div></div>
 
-<p>Again, nothing is secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent things from leaking. We then rely that the library has correctly implemented an encryption algorithm.</p>
+<p>Again, nothing is truly secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent things from leaking. We then rely that the library has correctly implemented an encryption algorithm.</p>
+
+<blockquote>
+  <p>As a funny side notes.
+Apple’s Keychain is just a API wrapper against a sqlite database that has some OS protections bolted in.
+Keystore is just an API for retrieving/generating/saving secure crypto keys. The actual API that saves data is EncryptedSharedPreferences which just saves files to disk with encryption bolted on.</p>
+
+  <p>:)</p>
+</blockquote>
 
 <h2 id="use-a-secure-storage">Use a secure storage</h2>
 

@@ -89,7 +89,13 @@ const myKey = null;
 // You can even trigger a gargabe collection to make a timed attack even harder
 ```
 
-Again, nothing is secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent things from leaking. We then rely that the library has correctly implemented an encryption algorithm.
+Again, nothing is truly secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent things from leaking. We then rely that the library has correctly implemented an encryption algorithm.
+
+> As a funny side notes.
+> Apple's Keychain is just a API wrapper against a sqlite database that has some OS protections bolted in.
+> Keystore is just an API for retrieving/generating/saving secure crypto keys. The actual API that saves data is EncryptedSharedPreferences which just saves files to disk with encryption bolted on.
+>
+> :)
 
 ## Use a secure storage
 
