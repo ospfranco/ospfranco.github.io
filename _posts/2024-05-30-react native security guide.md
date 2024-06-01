@@ -25,7 +25,7 @@ Armed with this knowledge there is one inconvenient truth: **you won't be able t
 
 Is there a way to protect secrets? Using a gateway would definitely be a way, but sometimes it is not possible, for example if using a third-party SDK that ingest the key directly. Nothing we can do about that.
 
-An important thing to note here is the existance of device attestation which is not very common. There are [APIs for iOS](https://support.apple.com/guide/deployment/managed-device-attestation-dep28afbde6a/web) and [Android](https://developer.android.com/privacy-and-security/safetynet/attestation). There are companies that offer this as a service with and SDK where before you send data to the device you could verify the device/app has not been tampered with.
+An important thing to note here is the existance of device attestation. Device attestation is a process on which the OS tries to verify the device and/or app has not been tampered with. There are [APIs for iOS](https://support.apple.com/guide/deployment/managed-device-attestation-dep28afbde6a/web) and [Android](https://developer.android.com/privacy-and-security/safetynet/attestation). There are companies that offer this as a service with and SDK where before you send data to the device you could verify the device/app has not been tampered with. It is however a not very well explored topic and I guess very time consuming or expensive.
 
 With device attestation you could have a more secure (read "more inconvenient way to hack") secret management:
 
@@ -35,11 +35,9 @@ With device attestation you could have a more secure (read "more inconvenient wa
 
 Again, once a hacker has access to the device it's game over, they can even mess with the OS internals to defeat even device attestation but at least you can make their lives harder.
 
-The final point to mention here are packages like `react-native-dotenv` and `react-native-config`. I don't like them, because they are a bit missleading. This environment variables packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and mixing the concept of real environment variables with what they do has at least lead unaware devs into thinking their secrets are secure (talking out of my own experience).
+The final point to mention here are packages like `react-native-dotenv` and `react-native-config`. I don't like them, because they are a bit missleading (and because they have giving me a lot of trouble compiling them in the past). This "environment variables" packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and mixing the concept of real environment variables with what they do has at least lead unaware devs into thinking their secrets are secure (talking out of my own experience working with teams and talking with clients).
 
 The reason why enviroment variables in things like docker containers and server environments are secure is because they reside in memory and are not persisted and are isolated by running on the server where (hopefully) the only point of entry is a secure HTTP API. Which is not the case for our mobile apps (independent of the language/framework you are using).
-
-Enough about secrets, how about user data?
 
 # User data
 
@@ -61,7 +59,7 @@ const storage = MyStateLibrary.create({
 
 The problem with this approach is that anyone can decompile your app and read the value of `myKey` (no matter how you obfuscate it). This is even worse on react-native where you can just decompress an APK/IPA and just take a look at the minified JS/TS code. I mentioned in articles before how taking a look into the JS bundle even leaks valuable bussines logic and allows competitors to copy functionality.
 
-So here is a better approach to generate and store your encryption key, I'm going to use my package `op-s2` for this, but you can use the expo equivalent. They both work by storing data on the keychain on iOS and keystore on android, which are backed by hardware (when possible on android) and are secure (as secure as it gets with untampared devices).
+So here is a better approach to generate and store your encryption key, I'm going to use my package `op-s2` for this, but you can use the [expo secure store](https://docs.expo.dev/versions/latest/sdk/securestore/) equivalent. They both work by storing data on the Keychain on iOS and by generating keys with the KeyStore API on android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampared devices).
 
 ```ts
 import { get, set } from "@op-engineering/op-s2";
@@ -76,7 +74,7 @@ const { error } = set({
 });
 ```
 
-`withBiometrics` is the safest but most cumbersome option, it means user will have to authenticate everytime you want to read this key. You can leave it out and it will still be secure. How? Because keystore/keychain actually allow access on a per bundle basis. You only have access to the data you have created, you cannot read the values from other apps/processes. So at least we have per app security.
+`withBiometrics` is the safest but most cumbersome option, it means user will have to authenticate everytime you want to read this key. You can leave it out and it will still be secure. How are this packages secure? Because KeyStore/Keychain actually allow access on a per app bundle basis (with signature verification I think). You only have access to the data you have created, you cannot read the values from other apps/processes. So at least we have per app security.
 
 So then when you start your storage you can pass this key:
 
@@ -95,4 +93,46 @@ Again, nothing is secure, but at least we have an extra layer of protection. Cle
 
 ## Use a secure storage
 
-TODO. Use `op-sqlite` with the `sqlcipher` flag turned on :)
+Once you have your encryption keys securely stored it is time to move to storing the data itself securely. Here some of the libraries are already prepared for that. MMKV allows you to specify an encryption key:
+
+```ts
+import { MMKV, Mode } from "react-native-mmkv";
+
+const myKey = get({ key: "myKey", withBiometrics: true });
+
+export const storage = new MMKV({
+  id: `user-${userId}-storage`,
+  path: `${USER_DIRECTORY}/storage`,
+  encryptionKey: myKey,
+  mode: Mode.MULTI_PROCESS,
+});
+```
+
+Another alternative (and my favorite) is using a encrypted fork of sqlite called sqlcipher, you can do use this via [op-sqlite](https://github.com/OP-Engineering/op-sqlite). You just need to enable sqlcipher support on the `package.json`:
+
+```json
+"op-sqlite": {
+  "sqlcipher": true
+}
+```
+
+And then when you open your database:
+
+```ts
+const {open} from '@op-engineering/op-sqlite';
+
+const myKey = get({ key: "myKey", withBiometrics: true });
+
+const db = open({
+  name: 'my_secure_db.sqlite',
+  encriptionKey: myKey
+})
+```
+
+This will fully encrypt the data saved/stored from disk with a bit of overhead. As long as your encryption key is not tampered with, it should be safe.
+
+# Hardware keys
+
+I have to mention hardware keys, which circumveit the issue of the attacker having remote access to the device. Since they are separate from the OS, they cannot be as easily compromised (apart from being physically stolen) and provide an extra layer of security.
+
+If your app requires even higher level of security it might be worth to take a look into them. I have bridged the yubiko SDK for RN but it's not currently open source. [Although you cannot save data to a yubikey](https://developers.yubico.com/Developer_Program/Guides/User_Loaded_Data.html) authentication would be enough to use as secure bytes and using it as encryption key, and as I've shown in the article, as long as the encryption key is safe, you can consider your data safe enough. If someone would be willing to sponsor the work I would be willing to create a turbo module to make this functionality available to React Native apps.
