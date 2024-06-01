@@ -59,7 +59,7 @@ const storage = MyStateLibrary.create({
 
 The problem with this approach is that anyone can decompile your app and read the value of `myKey` (no matter how you obfuscate it). This is even worse in React Native, where you can just decompress an APK/IPA and take a look at the minified JS/TS code. I have mentioned in previous articles how looking into the JS bundle can leak valuable business logic and allow competitors to copy functionality.
 
-Here is a better approach to generate and store your encryption key. I'll use my package `op-s2` for this, but you can use the [Expo Secure Store](https://docs.expo.dev/versions/latest/sdk/securestore/) equivalent. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).
+Here is a better approach to generate and store your encryption key. I'll use my package `op-s2` for this, but you can use [Expo Secure Store](https://docs.expo.dev/versions/latest/sdk/securestore/) or [react-native-keychain](https://github.com/oblador/react-native-keychain) they are all (more-or-less) equivalent but I tried to make op-s2 the simplest. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).
 
 ```ts
 import { get, set } from "@op-engineering/op-s2";
