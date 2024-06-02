@@ -150,6 +150,10 @@ I have to mention hardware keys, which circumvent the issue of the attacker havi
 
 If your app requires an even higher level of security, it might be worth looking into them. I have bridged the Yubico SDK for RN, but it's not currently open source. [Although you cannot save data to a YubiKey](https://developers.yubico.com/Developer_Program/Guides/User_Loaded_Data.html), authentication would be enough to use secure bytes as an encryption key. As I've shown in this article, as long as the encryption key is safe, you can consider your data safe enough. If someone is willing to sponsor the work, I would be willing to create a Turbo module to make this functionality available to React Native apps.
 
+# Encryption algorithms
+
+If you are on the market for rolling your own encryption or need some crypto math, just use [react-native-quick-crypto](https://github.com/margelo/react-native-quick-crypto), it's a (re)implementation of the [node's crypto module](https://nodejs.org/api/crypto.html). There are many people who are not fans of the API, doesn't matter. It's proven and fast since it uses C++ bindings. It's also somewhat incomplete but more APIs can be added if you are willing to sponsor the work.
+
 # Conclusion
 
 It's still worth looking into the [official RN documentation](https://reactnative.dev/docs/security#storing-sensitive-info); however, I hope this guide is a bit more hands-on.

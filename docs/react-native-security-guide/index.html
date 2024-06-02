@@ -205,6 +205,10 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 
 <p>If your app requires an even higher level of security, it might be worth looking into them. I have bridged the Yubico SDK for RN, but it’s not currently open source. <a href="https://developers.yubico.com/Developer_Program/Guides/User_Loaded_Data.html">Although you cannot save data to a YubiKey</a>, authentication would be enough to use secure bytes as an encryption key. As I’ve shown in this article, as long as the encryption key is safe, you can consider your data safe enough. If someone is willing to sponsor the work, I would be willing to create a Turbo module to make this functionality available to React Native apps.</p>
 
+<h1 id="encryption-algorithms">Encryption algorithms</h1>
+
+<p>If you are on the market for rolling your own encryption or need some crypto math, just use <a href="https://github.com/margelo/react-native-quick-crypto">react-native-quick-crypto</a>, it’s a (re)implementation of the <a href="https://nodejs.org/api/crypto.html">node’s crypto module</a>. There are many people who are not fans of the API, doesn’t matter. It’s proven and fast since it uses C++ bindings. It’s also somewhat incomplete but more APIs can be added if you are willing to sponsor the work.</p>
+
 <h1 id="conclusion">Conclusion</h1>
 
 <p>It’s still worth looking into the <a href="https://reactnative.dev/docs/security#storing-sensitive-info">official RN documentation</a>; however, I hope this guide is a bit more hands-on.</p>
