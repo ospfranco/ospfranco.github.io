@@ -62,16 +62,22 @@ The problem with this approach is that anyone can decompile your app and read th
 Here is a better approach to generate and store your encryption key. I'll use my package `op-s2` for this, but you can use [Expo Secure Store](https://docs.expo.dev/versions/latest/sdk/securestore/) or [react-native-keychain](https://github.com/oblador/react-native-keychain) they are all (more-or-less) equivalent but I tried to make op-s2 the simplest. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).
 
 ```ts
-import { get, set } from "@op-engineering/op-s2";
+import { set } from "@op-engineering/op-s2";
+import { generateSecureRandom } from "react-native-securerandom";
 
-// Generate truly secure random bytes using the T2 chip on iOS/macOS and Linux calls on Android
-const myKey = generateRandomKey();
+async function generateKey() {
+  // generate secure bytes using the t2 chip (SecRandomCopyBytes) and Secure Random on Android
+  const secureBytes = await generateSecureRandom(42);
 
-const { error } = set({
-  key: "myKey",
-  value: myKey,
-  withBiometrics: true, // This means a FaceID/biometrics prompt will appear every time. See the docs if you don't want to use this
-});
+  // on the latest versions of RN btoa is part of hermes
+  const key = btoa(String.fromCharCode.apply(null, secureBytes));
+
+  const { error } = set({
+    key: "myKey",
+    value: key,
+    withBiometrics: true, // This means a FaceID/biometrics prompt will appear every time. See the docs if you don't want to use this
+  });
+}
 ```
 
 `withBiometrics` is the safest but most cumbersome option, as it requires user authentication every time you want to read this key. You can leave it out, and it will still be secure. How are these packages secure? Because KeyStore/Keychain actually allow access on a per-app bundle basis (with signature verification, I believe). You only have access to the data you have created; you cannot read values from other apps/processes. So, at least we have per-app security.
@@ -102,6 +108,7 @@ Again, nothing is truly secure, but at least we have an extra layer of protectio
 Once you have your encryption keys securely stored, it's time to move on to storing the data itself securely. Here, some libraries are already prepared for that. MMKV allows you to specify an encryption key:
 
 ```ts
+import { get } from "@op-engineering/op-s2";
 import { MMKV, Mode } from "react-native-mmkv";
 
 const myKey = get({ key: "myKey", withBiometrics: true });
@@ -114,7 +121,7 @@ export const storage = new MMKV({
 });
 ```
 
-Another alternative (and my favorite) is using an encrypted fork of SQLite called SQLCipher, which you can use via [op-sqlite](https://github.com/OP-Engineering/op-sqlite). You just need to enable SQLCipher support in the `package.json`:
+Another alternative is using an encrypted fork of SQLite called SQLCipher, which you can use via [op-sqlite](https://github.com/OP-Engineering/op-sqlite). You just need to enable SQLCipher support in the `package.json`:
 
 ```json
 "op-sqlite": {
@@ -135,9 +142,7 @@ const db = open({
 });
 ```
 
-This will fully encrypt the data stored on disk with a bit of overhead. As long as your encryption key is not compromised, it should be
-
-safe.
+This will fully encrypt the data stored on disk with a bit of overhead. As long as your encryption key is not compromised, it should be safe.
 
 # Hardware Keys
 
