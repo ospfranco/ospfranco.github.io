@@ -82,8 +82,6 @@
 <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[cfg(test)]</span>
 <span class="k">mod</span> <span class="n">tests</span> <span class="p">{</span>
     <span class="k">use</span> <span class="k">super</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
-    <span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="n">fs</span><span class="p">;</span>
-    <span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="nn">path</span><span class="p">::</span><span class="n">Path</span><span class="p">;</span>
     <span class="k">use</span> <span class="nn">tauri</span><span class="p">::{</span>
         <span class="nn">test</span><span class="p">::{</span><span class="n">mock_context</span><span class="p">,</span> <span class="n">noop_assets</span><span class="p">,</span> <span class="n">MockRuntime</span><span class="p">},</span>
         <span class="n">App</span><span class="p">,</span>

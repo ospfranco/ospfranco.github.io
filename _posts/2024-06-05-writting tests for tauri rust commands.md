@@ -27,8 +27,6 @@ Then you can write your test like so:
 #[cfg(test)]
 mod tests {
     use super::*;
-    use std::fs;
-    use std::path::Path;
     use tauri::{
         test::{mock_context, noop_assets, MockRuntime},
         App,
