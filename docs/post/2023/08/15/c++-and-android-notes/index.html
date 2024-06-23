@@ -68,7 +68,7 @@
 
 <p>The Standard Template Library (STL) is a set of C++ template classes to provide common programming data structures and functions such as lists, stacks, arrays, etc. It is a library of container classes, algorithms, and iterators. It is a generalized library and so, its components are parameterized.</p>
 
-<p>To use the STL, one would have to depend on a “shared library” (for simplicity, we’ll call it <code class="language-plaintext highlighter-rouge">libc++.so</code>) in the system one is executing the binary in. There are two ways to link this “shared library”, either statically or dynamically.</p>
+<p>To use the STL, one would have to depend on a “shared library” (for simplicity, we’ll call it <code>libc++.so</code>) in the system one is executing the binary in. There are two ways to link this “shared library”, either statically or dynamically.</p>
 
 <h2 id="static-vs-dynamic-linking">Static vs Dynamic Linking</h2>
 
@@ -87,28 +87,28 @@
 <h3 id="nuclear-explosion-example">Nuclear explosion example</h3>
 
 <ul>
-  <li>You try to compile your app with <code class="language-plaintext highlighter-rouge">ANDROID_STL=gnustl_static</code></li>
-  <li>3rd-party library foo has <code class="language-plaintext highlighter-rouge">ANDROID_STL=c++_shared</code></li>
+  <li>You try to compile your app with <code>ANDROID_STL=gnustl_static</code></li>
+  <li>3rd-party library foo has <code>ANDROID_STL=c++_shared</code></li>
 </ul>
 
-<p>Two STLs, GNU’s and LLVM’s, will exist in one app. Both STLs have functions and structures that will go through different <a href="https://www.ibm.com/support/knowledgecenter/en/ssw_ibm_i_72/rzarg/name_mangling.htm">name mangling</a> processes which would produce unique function names. So for example, <code class="language-plaintext highlighter-rouge">std::to_string</code> could exist with the mangled name of <code class="language-plaintext highlighter-rouge">_ZN9to7string6E</code> in LLVM’s STL and <code class="language-plaintext highlighter-rouge">_AX8to2string5D</code> in GNU’s STL. This is actually good. When calling one <code class="language-plaintext highlighter-rouge">std::to_string</code> from a native function that is expecting GNU’s mangled name, it will get GNU’s version of <code class="language-plaintext highlighter-rouge">std::to_string</code> and vice versa.</p>
+<p>Two STLs, GNU’s and LLVM’s, will exist in one app. Both STLs have functions and structures that will go through different <a href="https://www.ibm.com/support/knowledgecenter/en/ssw_ibm_i_72/rzarg/name_mangling.htm">name mangling</a> processes which would produce unique function names. So for example, <code>std::to_string</code> could exist with the mangled name of <code>_ZN9to7string6E</code> in LLVM’s STL and <code>_AX8to2string5D</code> in GNU’s STL. This is actually good. When calling one <code>std::to_string</code> from a native function that is expecting GNU’s mangled name, it will get GNU’s version of <code>std::to_string</code> and vice versa.</p>
 
-<p>The issues occur when both STLs produce <strong>the same</strong> mangled name, which is very much the case in <code class="language-plaintext highlighter-rouge">std::exception</code>, for example. Or another issue occurs when <code class="language-plaintext highlighter-rouge">[std::to_string</code> exists in one STL and does not exist at all in another STL](https://stackoverflow.com/questions/22774009/android-ndk-stdto-string-support).</p>
+<p>The issues occur when both STLs produce <strong>the same</strong> mangled name, which is very much the case in <code>std::exception</code>, for example. Or another issue occurs when <code>[std::to_string</code> exists in one STL and does not exist at all in another STL](https://stackoverflow.com/questions/22774009/android-ndk-stdto-string-support).</p>
 
 <h3 id="not-so-nuclear-example">Not so nuclear example</h3>
 
 <ul>
   <li>
-    <p>App has <code class="language-plaintext highlighter-rouge">ANDROID_STL=gnustl_static</code></p>
+    <p>App has <code>ANDROID_STL=gnustl_static</code></p>
   </li>
   <li>
-    <p>3rd-party library foo has <code class="language-plaintext highlighter-rouge">ANDROID_STL=c++_static</code></p>
+    <p>3rd-party library foo has <code>ANDROID_STL=c++_static</code></p>
   </li>
 </ul>
 
 <p>This situation differs from Case #1 since there is no dynamic linking neither in the app nor in the 3rd-party library foo. This is gonna cause two STLs to exist in the same app space where all global data, static constructors and imported functions to also exit in the app space, but that still should not cause any linkage issues <strong>only as long as</strong> the two runtimes have zero communication between each other.</p>
 
-<p>To note, <a href="https://github.com/facebook/yoga/">Facebook’s Yoga</a> builds two shared libraries natively, <code class="language-plaintext highlighter-rouge">libfb.so</code> and <code class="language-plaintext highlighter-rouge">libyoga.so</code>, both of which are built with, as of the time of writing, <code class="language-plaintext highlighter-rouge">c++_static</code>, which is LLVM’s C++ static runtime variant. This means that they don’t have to worry about the app developer including GNU’s STL or some other STL in the mix. More on this issue <a href="https://github.com/facebook/yoga/issues/813">here</a></p>
+<p>To note, <a href="https://github.com/facebook/yoga/">Facebook’s Yoga</a> builds two shared libraries natively, <code>libfb.so</code> and <code>libyoga.so</code>, both of which are built with, as of the time of writing, <code>c++_static</code>, which is LLVM’s C++ static runtime variant. This means that they don’t have to worry about the app developer including GNU’s STL or some other STL in the mix. More on this issue <a href="https://github.com/facebook/yoga/issues/813">here</a></p>
 
 <h1 id="android-header-libraries">Android header libraries</h1>
 

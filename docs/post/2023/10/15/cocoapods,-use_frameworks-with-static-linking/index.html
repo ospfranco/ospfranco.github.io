@@ -62,21 +62,21 @@
         October 2023
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p><code class="language-plaintext highlighter-rouge">use_frameworks!</code> tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
+      <div class="pt-4 pb-20 markdown"><p><code>use_frameworks!</code> tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
 
 <p>In this case, you can actually use frameworks, yet still force static compiling. Replace</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">use_frameworks!</span>
-</code></pre></div></div>
+<pre><code class="language-ruby">use_frameworks!
+</code></pre>
 
 <p>with</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">use_frameworks!</span> <span class="ss">linkage: :static</span>
-</code></pre></div></div>
+<pre><code class="language-ruby">use_frameworks! linkage: :static
+</code></pre>
 
 <h1 id="xcframeworks">XCFrameworks</h1>
 
-<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> file you might find folders per architecture and a <code class="language-plaintext highlighter-rouge">.plist</code> file.</p>
+<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code>.xcframework</code> file you might find folders per architecture and a <code>.plist</code> file.</p>
 </div>
     </div>
 

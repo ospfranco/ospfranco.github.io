@@ -68,8 +68,8 @@
 
 <h2 id="install-flow-remove-types-package">Install flow remove types package</h2>
 
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">yarn</span> <span class="nx">add</span> <span class="nx">flow</span><span class="o">-</span><span class="nx">remove</span><span class="o">-</span><span class="nx">types</span>
-</code></pre></div></div>
+<pre><code class="language-jsx">yarn add flow-remove-types
+</code></pre>
 
 <h2 id="use-flow-remove-types">Use flow remove types</h2>
 
@@ -80,70 +80,70 @@
 <ol>
   <li>Read file from disk</li>
   <li>Pass it to flow-remove-types</li>
-  <li>Write to another file (or you can also load it in memory with another package <code class="language-plaintext highlighter-rouge">require-from-string</code>)</li>
+  <li>Write to another file (or you can also load it in memory with another package <code>require-from-string</code>)</li>
   <li>import it normally</li>
 </ol>
 
 <p>Here is a part of the script I used:</p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-<span class="c1">// allows you to call this file like a script from the command line</span><span class="cp">
+<pre><code class="language-js">
+// allows you to call this file like a script from the command line
 #!/usr/bin/env node
-</span>
-<span class="kd">let</span> <span class="nx">flowRemoveTypes</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">flow-remove-types</span><span class="dl">'</span><span class="p">);</span>
-<span class="c1">// let translations = require('../src/I18n/translations') // cannot import it bc it contains flow types</span>
-<span class="kd">let</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">fs</span><span class="dl">'</span><span class="p">);</span>
 
-<span class="kd">function</span> <span class="nf">unpackTranslation</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
-  <span class="k">if</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">[</span><span class="nx">key</span><span class="p">])</span> <span class="p">{</span>
-    <span class="k">return</span> <span class="nx">translationObj</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
-  <span class="p">}</span>
+let flowRemoveTypes = require('flow-remove-types');
+// let translations = require('../src/I18n/translations') // cannot import it bc it contains flow types
+let fs = require('fs');
 
-  <span class="kd">const</span> <span class="nx">res</span> <span class="o">=</span> <span class="p">{}</span>
-  <span class="nb">Object</span><span class="p">.</span><span class="nf">entries</span><span class="p">(</span><span class="nx">translationObj</span><span class="p">).</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">entry</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="nx">res</span><span class="p">[</span><span class="nx">entry</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="nf">unpackTranslation</span><span class="p">(</span><span class="nx">entry</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="nx">key</span><span class="p">)</span>
-  <span class="p">})</span>
+function unpackTranslation(translationObj, key) {
+  if(translationObj[key]) {
+    return translationObj[key]
+  }
 
-  <span class="k">return</span> <span class="nx">res</span>
+  const res = {}
+  Object.entries(translationObj).forEach(entry =&gt; {
+    res[entry[0]] = unpackTranslation(entry[1], key)
+  })
 
-<span class="p">}</span>
+  return res
 
-<span class="c1">// Start by taking the translations file and stripping flow out of it</span>
-<span class="kd">let</span> <span class="nx">translationsInput</span> <span class="o">=</span> <span class="nx">fs</span><span class="p">.</span><span class="nf">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">../src/I18n/translations.js</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">utf8</span><span class="dl">'</span><span class="p">);</span>
+}
 
-<span class="c1">// Remove flow and module export with traditional syntax</span>
-<span class="kd">let</span> <span class="nx">translationsOutput</span> <span class="o">=</span> <span class="nf">flowRemoveTypes</span><span class="p">(</span><span class="nx">translationsInput</span><span class="p">).</span><span class="nf">toString</span><span class="p">().</span><span class="nf">replace</span><span class="p">(</span><span class="dl">'</span><span class="s1">export default TRANSLATIONS</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">module.exports = TRANSLATIONS</span><span class="dl">'</span><span class="p">)</span>
+// Start by taking the translations file and stripping flow out of it
+let translationsInput = fs.readFileSync('../src/I18n/translations.js', 'utf8');
 
-<span class="nx">fs</span><span class="p">.</span><span class="nf">writeFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">,</span> <span class="nx">translationsOutput</span><span class="p">);</span>
+// Remove flow and module export with traditional syntax
+let translationsOutput = flowRemoveTypes(translationsInput).toString().replace('export default TRANSLATIONS', 'module.exports = TRANSLATIONS')
 
-<span class="c1">// then we can just read this file</span>
-<span class="kd">const</span> <span class="nx">translations</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations</span><span class="dl">'</span><span class="p">);</span>
+fs.writeFileSync('./translations.js', translationsOutput);
 
-<span class="kd">let</span> <span class="nx">languages</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">en</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">it</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">pt</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">fr</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">es</span><span class="dl">'</span><span class="p">,</span> <span class="dl">'</span><span class="s1">de</span><span class="dl">'</span><span class="p">]</span>
-<span class="kd">let</span> <span class="nx">keys</span> <span class="o">=</span> <span class="nx">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nf">readFileSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./webAppTranslationKeys.json</span><span class="dl">'</span><span class="p">))</span>
+// then we can just read this file
+const translations = require('./translations');
+
+let languages = ['en', 'it', 'pt', 'fr', 'es', 'de']
+let keys = JSON.parse(fs.readFileSync('./webAppTranslationKeys.json'))
 
 
-<span class="nx">languages</span><span class="p">.</span><span class="nf">forEach</span><span class="p">((</span><span class="nx">languageKey</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="c1">// let languageTranslations = JSON.parse(fs.readFileSync(`../webapp/public/locales/${languageKey}/translation.json`))</span>
-  <span class="kd">let</span> <span class="nx">languageTranslations</span> <span class="o">=</span> <span class="p">{}</span>
-  <span class="nx">keys</span><span class="p">.</span><span class="nf">forEach</span><span class="p">(</span><span class="nx">key</span> <span class="o">=&gt;</span> <span class="p">{</span>
-    <span class="kd">const</span> <span class="nx">ogTranslation</span> <span class="o">=</span> <span class="nx">translations</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span>
+languages.forEach((languageKey) =&gt; {
+  // let languageTranslations = JSON.parse(fs.readFileSync(`../webapp/public/locales/${languageKey}/translation.json`))
+  let languageTranslations = {}
+  keys.forEach(key =&gt; {
+    const ogTranslation = translations[key]
 
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="nx">ogTranslation</span><span class="p">)</span> <span class="p">{</span>
-      <span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">🛑 Could not find translations for</span><span class="dl">'</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span>
-      <span class="nx">process</span><span class="p">.</span><span class="nf">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
-    <span class="p">}</span>
+    if(!ogTranslation) {
+      console.log('🛑 Could not find translations for', key)
+      process.exit(1)
+    }
 
-    <span class="nx">languageTranslations</span><span class="p">[</span><span class="nx">key</span><span class="p">]</span> <span class="o">=</span> <span class="nf">unpackTranslation</span><span class="p">(</span><span class="nx">ogTranslation</span><span class="p">,</span> <span class="nx">languageKey</span><span class="p">)</span>
-  <span class="p">})</span>
-  <span class="nx">fs</span><span class="p">.</span><span class="nf">writeFileSync</span><span class="p">(</span><span class="s2">`../webapp/public/locales/</span><span class="p">${</span><span class="nx">languageKey</span><span class="p">}</span><span class="s2">/translation.json`</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nf">stringify</span><span class="p">(</span><span class="nx">languageTranslations</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
-<span class="p">})</span>
+    languageTranslations[key] = unpackTranslation(ogTranslation, languageKey)
+  })
+  fs.writeFileSync(`../webapp/public/locales/${languageKey}/translation.json`, JSON.stringify(languageTranslations, null, 2))
+})
 
-<span class="c1">// Delete auto generated file</span>
-<span class="nx">fs</span><span class="p">.</span><span class="nf">unlinkSync</span><span class="p">(</span><span class="dl">'</span><span class="s1">./translations.js</span><span class="dl">'</span><span class="p">)</span>
+// Delete auto generated file
+fs.unlinkSync('./translations.js')
 
-<span class="nx">console</span><span class="p">.</span><span class="nf">log</span><span class="p">(</span><span class="dl">'</span><span class="s1">✅ Generated webapp translations</span><span class="dl">'</span><span class="p">)</span>
-</code></pre></div></div>
+console.log('✅ Generated webapp translations')
+</code></pre>
 </div>
     </div>
 

@@ -70,61 +70,61 @@
 
 <p>Credit where is due this <a href="https://stackoverflow.com/questions/77524788/writing-tests-for-tauri-commands-how-to-access-and-manage-state-in-test-environ">Stack Overflow answer</a> provided the info I was looking for.</p>
 
-<p>However Tauri <code class="language-plaintext highlighter-rouge">1.6.7</code> broke this functionality and <code class="language-plaintext highlighter-rouge">1.6.8</code> fixed it by adding a new parameter.</p>
+<p>However Tauri <code>1.6.7</code> broke this functionality and <code>1.6.8</code> fixed it by adding a new parameter.</p>
 
-<p>Without further ado, first you need to add the <code class="language-plaintext highlighter-rouge">test</code> feature in your Tauri dependency:</p>
+<p>Without further ado, first you need to add the <code>test</code> feature in your Tauri dependency:</p>
 
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">tauri</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"1.6.8"</span><span class="p">,</span> <span class="py">features</span> <span class="p">=</span> <span class="p">[</span><span class="s">"api-all"</span><span class="p">,</span> <span class="s">"updater"</span><span class="p">,</span> <span class="s">"test"</span><span class="p">]</span> <span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-toml">tauri = { version = "1.6.8", features = ["api-all", "updater", "test"] }
+</code></pre>
 
 <p>Then you can write your test like so:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[cfg(test)]</span>
-<span class="k">mod</span> <span class="n">tests</span> <span class="p">{</span>
-    <span class="k">use</span> <span class="k">super</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
-    <span class="k">use</span> <span class="nn">tauri</span><span class="p">::{</span>
-        <span class="nn">test</span><span class="p">::{</span><span class="n">mock_context</span><span class="p">,</span> <span class="n">noop_assets</span><span class="p">,</span> <span class="n">MockRuntime</span><span class="p">},</span>
-        <span class="n">App</span><span class="p">,</span>
-    <span class="p">};</span>
+<pre><code class="language-rust">#[cfg(test)]
+mod tests {
+    use super::*;
+    use tauri::{
+        test::{mock_context, noop_assets, MockRuntime},
+        App,
+    };
 
-    <span class="k">fn</span> <span class="nf">before_each</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="nn">tauri</span><span class="p">::</span><span class="n">App</span><span class="o">&lt;</span><span class="n">MockRuntime</span><span class="o">&gt;</span><span class="p">,</span> <span class="nn">std</span><span class="p">::</span><span class="nn">io</span><span class="p">::</span><span class="n">Error</span><span class="o">&gt;</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="n">app</span> <span class="o">=</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">test</span><span class="p">::</span><span class="nf">mock_builder</span><span class="p">()</span>
-            <span class="nf">.plugin</span><span class="p">(</span><span class="k">super</span><span class="p">::</span><span class="nf">init_plugin</span><span class="p">())</span>
-            <span class="nf">.build</span><span class="p">(</span><span class="nf">mock_context</span><span class="p">(</span><span class="nf">noop_assets</span><span class="p">()))</span>
-            <span class="nf">.unwrap</span><span class="p">();</span>
+    fn before_each() -&gt; Result&lt;tauri::App&lt;MockRuntime&gt;, std::io::Error&gt; {
+        let app = tauri::test::mock_builder()
+            .plugin(super::init_plugin())
+            .build(mock_context(noop_assets()))
+            .unwrap();
 
-        <span class="c1">// Any other setup code you need</span>
-        <span class="nf">Ok</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-    <span class="p">}</span>
+        // Any other setup code you need
+        Ok(app)
+    }
 
-    <span class="k">async</span> <span class="k">fn</span> <span class="nf">after_each</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">App</span><span class="o">&lt;</span><span class="n">MockRuntime</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// your clean up code</span>
-    <span class="p">}</span>
+    async fn after_each(app: App&lt;MockRuntime&gt;) {
+        // your clean up code
+    }
 
-    <span class="nd">#[tokio::test]</span>
-    <span class="k">async</span> <span class="k">fn</span> <span class="nf">should_return_0_with_no_loaded_models</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="n">app</span> <span class="o">=</span> <span class="nf">before_each</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>
-        <span class="k">let</span> <span class="n">window</span> <span class="o">=</span> <span class="n">app</span><span class="nf">.get_window</span><span class="p">(</span><span class="s">"main"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">();</span>
-        <span class="k">let</span> <span class="n">foo</span> <span class="o">=</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">test</span><span class="p">::</span><span class="nn">get_ipc_response</span><span class="p">::</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;&gt;</span><span class="p">(</span>
-            <span class="o">&amp;</span><span class="n">window</span><span class="p">,</span>
-            <span class="nn">tauri</span><span class="p">::</span><span class="n">InvokePayload</span> <span class="p">{</span>
-                <span class="n">cmd</span><span class="p">:</span> <span class="s">"plugin:my_plugin|foo"</span><span class="nf">.into</span><span class="p">(),</span>
-                <span class="n">tauri_module</span><span class="p">:</span> <span class="nb">None</span><span class="p">,</span>
-                <span class="n">invoke_key</span><span class="p">:</span> <span class="nf">Some</span><span class="p">(</span><span class="nn">tauri</span><span class="p">::</span><span class="nn">test</span><span class="p">::</span><span class="n">INVOKE_KEY</span><span class="nf">.into</span><span class="p">()),</span>
-                <span class="n">callback</span><span class="p">:</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">api</span><span class="p">::</span><span class="nn">ipc</span><span class="p">::</span><span class="nf">CallbackFn</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-                <span class="n">error</span><span class="p">:</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">api</span><span class="p">::</span><span class="nn">ipc</span><span class="p">::</span><span class="nf">CallbackFn</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">inner</span><span class="p">:</span> <span class="nn">serde_json</span><span class="p">::</span><span class="nd">json!</span><span class="p">({}),</span>
-            <span class="p">},</span>
-        <span class="p">);</span>
+    #[tokio::test]
+    async fn should_return_0_with_no_loaded_models() {
+        let app = before_each().unwrap();
+        let window = app.get_window("main").unwrap();
+        let foo = tauri::test::get_ipc_response::&lt;Vec&lt;String&gt;&gt;(
+            &amp;window,
+            tauri::InvokePayload {
+                cmd: "plugin:my_plugin|foo".into(),
+                tauri_module: None,
+                invoke_key: Some(tauri::test::INVOKE_KEY.into()),
+                callback: tauri::api::ipc::CallbackFn(0),
+                error: tauri::api::ipc::CallbackFn(1),
+                inner: serde_json::json!({}),
+            },
+        );
 
-        <span class="nd">assert!</span><span class="p">(</span><span class="n">foo</span><span class="nf">.is_ok</span><span class="p">());</span>
+        assert!(foo.is_ok());
 
-        <span class="nf">after_each</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="k">.await</span><span class="p">;</span>
-    <span class="p">}</span>
+        after_each(app).await;
+    }
 
-<span class="p">}</span>
+}
 
-</code></pre></div></div>
+</code></pre>
 </div>
     </div>
 

@@ -66,7 +66,7 @@
 
 <h1 id="cpp-adapter">Cpp-adapter</h1>
 
-<p>The entry point (at least for React Native modules) is the <code class="language-plaintext highlighter-rouge">cpp-adapter</code> file. This file receives a <code class="language-plaintext highlighter-rouge">jobject thiz</code> reference, which maps to the Java/Kotlin instance/class that has created it. You can use this reference to call the methods to the class/instance.</p>
+<p>The entry point (at least for React Native modules) is the <code>cpp-adapter</code> file. This file receives a <code>jobject thiz</code> reference, which maps to the Java/Kotlin instance/class that has created it. You can use this reference to call the methods to the class/instance.</p>
 
 <p>Calling the methods however is a bit tedious, since you have to first reference the method via signature using a weird string syntax, then convert any type of C++ integral type to the Java equivalent. Perform the conversion, call, handle any exceptions, etc.</p>
 
@@ -104,11 +104,11 @@
 
 <p>Here is a convenience method to convert from a CString to a Java String</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jstring</span> <span class="nf">string2jstring</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">str</span><span class="p">)</span>
-<span class="p">{</span>
-    <span class="k">return</span> <span class="p">(</span><span class="o">*</span><span class="n">env</span><span class="p">).</span><span class="n">NewStringUTF</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-c++">jstring string2jstring(JNIEnv *env, const char *str)
+{
+    return (*env).NewStringUTF(str);
+}
+</code></pre>
 
 <h1 id="type-conversions">Type conversions</h1>
 
@@ -124,18 +124,18 @@ D = double</p>
 
 <p>Non scalar types need to be declared by their corresponding package:</p>
 
-<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Will be passed to the C side as a JString</span>
-<span class="nc">Ljava</span><span class="o">/</span><span class="n">lang</span><span class="o">/</span><span class="nc">String</span><span class="o">;</span>
-</code></pre></div></div>
+<pre><code class="language-java">// Will be passed to the C side as a JString
+Ljava/lang/String;
+</code></pre>
 
 <h1 id="extern-c">Extern C</h1>
 
-<p>C++ code needs to be within a <code class="language-plaintext highlighter-rouge">extern "C"</code> to prevent name mangling by the compiler and allow the JNI to call the function blindly.</p>
+<p>C++ code needs to be within a <code>extern "C"</code> to prevent name mangling by the compiler and allow the JNI to call the function blindly.</p>
 
 <h1 id="jniexport--jnicall">JNIEXPORT &amp; JNICALL</h1>
 
-<p><code class="language-plaintext highlighter-rouge">JNIEXPORT</code> ensures function is visible on the symbols table
-<code class="language-plaintext highlighter-rouge">JNICALL</code> ensures function uses the correct calling convention. On Android JNICALL has a different value based on the architecture where it is running.</p>
+<p><code>JNIEXPORT</code> ensures function is visible on the symbols table
+<code>JNICALL</code> ensures function uses the correct calling convention. On Android JNICALL has a different value based on the architecture where it is running.</p>
 </div>
     </div>
 

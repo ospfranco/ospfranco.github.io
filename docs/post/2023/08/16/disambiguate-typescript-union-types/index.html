@@ -64,53 +64,53 @@
 
       <div class="pt-4 pb-20 markdown"><p>On TypeScript you can easily create the union of two similar, yet distinct, types:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-ts">type iOSPaymentInfo = {
+  orderId: string;
+  iOSOnlyField: string;
+}
 
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-<span class="p">}</span>
+type AndroidPaymentInfo = {
+  orderId: string;
+  androidOnlyField: string;
+}
 
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
+type PaymentInfo = iOSPaymentInfo | AndroidPaymentInfo;
 
-<span class="c1">// Trouble comes</span>
+// Trouble comes
 
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
+let paymentInfo: PaymentInfo = ... // some payment info
 
-<span class="c1">// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null</span>
-<span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">iOSOnlyField</span> <span class="c1">// kaboom</span>
-</code></pre></div></div>
+// You cannot access iOSOnlyField or AndroidOnlyField TypeScript will complain the field might be null
+paymentInfo.iOSOnlyField // kaboom
+</code></pre>
 
 <p>You can make typescript happy by adding a literal field that will provide it with enough info to make sure the object is correct:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">type</span> <span class="nx">iOSPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">iOSOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-ts">type iOSPaymentInfo = {
+  orderId: string;
+  iOSOnlyField: string;
+  kind: 'iOS';
+}
 
-<span class="kd">type</span> <span class="nx">AndroidPaymentInfo</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">orderId</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">androidOnlyField</span><span class="p">:</span> <span class="kr">string</span><span class="p">;</span>
-  <span class="nl">kind</span><span class="p">:</span> <span class="dl">'</span><span class="s1">Android</span><span class="dl">'</span><span class="p">;</span>
+type AndroidPaymentInfo = {
+  orderId: string;
+  androidOnlyField: string;
+  kind: 'Android';
 
-<span class="p">}</span>
+}
 
-<span class="kd">type</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="nx">iOSPaymentInfo</span> <span class="o">|</span> <span class="nx">AndroidPaymentInfo</span><span class="p">;</span>
+type PaymentInfo = iOSPaymentInfo | AndroidPaymentInfo;
 
-<span class="c1">// Trouble comes</span>
+// Trouble comes
 
-<span class="kd">let</span> <span class="nx">paymentInfo</span><span class="p">:</span> <span class="nx">PaymentInfo</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// some payment info</span>
+let paymentInfo: PaymentInfo = ... // some payment info
 
-<span class="k">if</span><span class="p">(</span><span class="nx">paymentInfo</span><span class="p">.</span><span class="nx">kind</span> <span class="o">===</span> <span class="dl">'</span><span class="s1">iOS</span><span class="dl">'</span><span class="p">)</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for iOSPaymentInfo</span>
-<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-  <span class="c1">// Type safe code for AndroidPaymentInfo</span>
-<span class="p">}</span>
-</code></pre></div></div>
+if(paymentInfo.kind === 'iOS') {
+  // Type safe code for iOSPaymentInfo
+} else {
+  // Type safe code for AndroidPaymentInfo
+}
+</code></pre>
 
 <blockquote>
   <p><a href="https://basarat.gitbook.io/typescript/type-system/discriminated-unions">Source</a></p>

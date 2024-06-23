@@ -91,7 +91,7 @@ now one option would be to hook up to the database after each transaction, retri
 
 <p>Here is the code for socket handler, a bit simplified (it might contain some of the old business logic, but you can get the point):</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>package com.foo.common.SocketHandler
+<pre><code>package com.foo.common.SocketHandler
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.foo.api.dto.DtoSocketStreamMessage
@@ -271,7 +271,7 @@ class SocketHandlerServiceImpl : SocketHandlerService() {
         return sessionUsers.size
     }
 }
-</code></pre></div></div>
+</code></pre>
 
 <p>You can always scale up your Redis instance to handle more messages, you should use a load balancer to route the connections between your instances to keep the load uniform and make sure you are not running out of memory for the connections, which might mean more advanced routing in the future.</p>
 

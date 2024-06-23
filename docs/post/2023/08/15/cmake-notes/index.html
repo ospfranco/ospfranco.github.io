@@ -84,18 +84,18 @@
 
 <p>To produce the final artifacts, the build tool needs to run. The beauty lies in the ability to produce buildsystem on demand for every platform with a single configuration.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">cmake</span> <span class="o">--</span><span class="n">build</span> <span class="c1">// CMake does not build anything, but the platform build tool does</span>
-</code></pre></div></div>
+<pre><code class="language-swift">cmake --build // CMake does not build anything, but the platform build tool does
+</code></pre>
 
 <h1 id="useful-flags">Useful flags</h1>
 
-<p><code class="language-plaintext highlighter-rouge">-S</code> Source tree target directory</p>
+<p><code>-S</code> Source tree target directory</p>
 
-<p><code class="language-plaintext highlighter-rouge">-B</code> Build tree target directory</p>
+<p><code>-B</code> Build tree target directory</p>
 
-<p><code class="language-plaintext highlighter-rouge">-G</code> Generator to use (cmake –help outputs the list of available generators)</p>
+<p><code>-G</code> Generator to use (cmake –help outputs the list of available generators)</p>
 
-<p><code class="language-plaintext highlighter-rouge">-D CMAKE_BUILD_TYPE=Release</code> Important flag to compile for the right level</p>
+<p><code>-D CMAKE_BUILD_TYPE=Release</code> Important flag to compile for the right level</p>
 
 <blockquote>
   <p>💡 Some generators are able to generate debug AND release builds at the same time (Xcode and Visual Studio)</p>
@@ -109,27 +109,27 @@
 <blockquote>
   <p>📂 Cmake supports sub directories which can have their own compilation process:</p>
 
-  <p><code class="language-plaintext highlighter-rouge">add_subdirectory(api)</code></p>
+  <p><code>add_subdirectory(api)</code></p>
 </blockquote>
 
 <h1 id="variables">Variables</h1>
 
 <p>CMake performs recursive variable expansion. Setting is done via function.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">set</span><span class="p">(</span><span class="kt">MyString1</span> <span class="s">"Text1"</span><span class="p">)</span>
-<span class="nf">set</span><span class="p">([[</span><span class="kt">My</span> <span class="kt">String2</span><span class="p">]]</span> <span class="s">"Text2"</span><span class="p">)</span>
-<span class="nf">set</span><span class="p">(</span><span class="s">"My String 3"</span> <span class="s">"Text3"</span><span class="p">)</span>
-<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">MyString1</span><span class="p">})</span>
-<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">My</span><span class="p">\</span> <span class="kt">String2</span><span class="p">})</span>
-<span class="nf">message</span><span class="p">(</span><span class="err">$</span><span class="p">{</span><span class="kt">My</span><span class="p">\</span> <span class="kt">String</span><span class="p">\</span> <span class="mi">3</span><span class="p">})</span>
-</code></pre></div></div>
+<pre><code class="language-swift">set(MyString1 "Text1")
+set([[My String2]] "Text2")
+set("My String 3" "Text3")
+message(${MyString1})
+message(${My\ String2})
+message(${My\ String\ 3})
+</code></pre>
 
 <p>Depending on the type of variable, they get accessed differently</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">${}</code> syntax is used to reference normal or cache variables</li>
-  <li><code class="language-plaintext highlighter-rouge">$ENV{}</code> syntax is used to reference environment variables</li>
-  <li><code class="language-plaintext highlighter-rouge">$CACHE{}</code> syntax is used to reference cache variables</li>
+  <li><code>${}</code> syntax is used to reference normal or cache variables</li>
+  <li><code>$ENV{}</code> syntax is used to reference environment variables</li>
+  <li><code>$CACHE{}</code> syntax is used to reference cache variables</li>
 </ul>
 
 <h1 id="commands">Commands</h1>
@@ -142,10 +142,10 @@
 
 <p>Set of file manipulations</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">file</span><span class="p">(</span><span class="kt">READ</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">out</span><span class="o">-</span><span class="kd">var</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">...</span><span class="p">])</span>
-<span class="nf">file</span><span class="p">({</span><span class="kt">WRITE</span> <span class="o">|</span> <span class="kt">APPEND</span><span class="p">}</span> <span class="o">&lt;</span><span class="n">filename</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">content</span><span class="o">&gt;...</span><span class="p">)</span>
-<span class="nf">file</span><span class="p">(</span><span class="kt">DOWNLOAD</span> <span class="o">&lt;</span><span class="n">url</span><span class="o">&gt;</span> <span class="p">[</span><span class="o">&lt;</span><span class="n">file</span><span class="o">&gt;</span><span class="p">]</span> <span class="p">[</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
+<pre><code class="language-swift">file(READ &lt;filename&gt; &lt;out-var&gt; [...])
+file({WRITE | APPEND} &lt;filename&gt; &lt;content&gt;...)
+file(DOWNLOAD &lt;url&gt; [&lt;file&gt;] [...])
+</code></pre>
 
 <h2 id="execute_process">execute_process</h2>
 
@@ -155,8 +155,8 @@
 
 <p>Provide a variable that the user can overwrite:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">option</span><span class="p">(</span><span class="kt">BUILD_SHARED_LIBS</span> <span class="s">"Build libraries as shared libraries"</span> <span class="kt">ON</span><span class="p">)</span>
-</code></pre></div></div>
+<pre><code class="language-swift">option(BUILD_SHARED_LIBS "Build libraries as shared libraries" ON)
+</code></pre>
 
 <h1 id="sub-directories">Sub directories</h1>
 
@@ -168,34 +168,34 @@
 
 <h2 id="target_link_libraries">target_link_libraries</h2>
 
-<p>It’s used to link the artifacts generated to the target. Root <code class="language-plaintext highlighter-rouge">cmakelists.txt</code>:</p>
+<p>It’s used to link the artifacts generated to the target. Root <code>cmakelists.txt</code>:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">cmake_minimum_required</span><span class="p">(</span><span class="kt">VERSION</span> <span class="mf">3.20</span><span class="o">.</span><span class="mi">0</span><span class="p">)</span>
-<span class="nf">project</span><span class="p">(</span><span class="kt">Rental</span> <span class="kt">CXX</span><span class="p">)</span>
+<pre><code class="language-swift">cmake_minimum_required(VERSION 3.20.0)
+project(Rental CXX)
 
-<span class="nf">add_executable</span><span class="p">(</span><span class="kt">Rental</span> <span class="n">main</span><span class="o">.</span><span class="n">cpp</span><span class="p">)</span>
+add_executable(Rental main.cpp)
 
-<span class="nf">add_subdirectory</span><span class="p">(</span><span class="n">cars</span><span class="p">)</span>
-<span class="nf">target_link_libraries</span><span class="p">(</span><span class="kt">Rental</span> <span class="kt">PRIVATE</span> <span class="n">cars</span><span class="p">)</span>
-</code></pre></div></div>
+add_subdirectory(cars)
+target_link_libraries(Rental PRIVATE cars)
+</code></pre>
 
-<p>Child <code class="language-plaintext highlighter-rouge">cmakelists.txt</code>:</p>
+<p>Child <code>cmakelists.txt</code>:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="n">cards</span> <span class="kt">OBJECT</span>
-	<span class="n">car</span><span class="o">.</span><span class="n">cpp</span>
-<span class="cp"># car_maintenance.cpp</span>
-<span class="p">)</span>
+<pre><code class="language-swift">add_library(cards OBJECT
+	car.cpp
+# car_maintenance.cpp
+)
 
-<span class="nf">target_include_directories</span><span class="p">(</span><span class="n">cars</span> <span class="kt">PUBLIC</span> <span class="o">.</span><span class="p">)</span>
-</code></pre></div></div>
+target_include_directories(cars PUBLIC .)
+</code></pre>
 
 <h2 id="add_library">add_library</h2>
 
-<p>Produces a globally visible target <code class="language-plaintext highlighter-rouge">cars</code> (basically: will link the symbols). By using the <strong>OBJECT</strong> keyword, only the object files will generated (not a library).</p>
+<p>Produces a globally visible target <code>cars</code> (basically: will link the symbols). By using the <strong>OBJECT</strong> keyword, only the object files will generated (not a library).</p>
 
 <h2 id="target_include_directories">target_include_directories</h2>
 
-<p>Will allow cpp code to include the headers (without providing a relative path. e.g. <code class="language-plaintext highlighter-rouge">#include “myheader.h”</code>)</p>
+<p>Will allow cpp code to include the headers (without providing a relative path. e.g. <code>#include “myheader.h”</code>)</p>
 
 <h1 id="cross-compilation">Cross-compilation</h1>
 
@@ -205,17 +205,17 @@
 
 <p>CMake uses the pointer size to gather information about the target machine.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">if</span> <span class="p">(</span><span class="kt">CMAKE_SIZEOF_VOID_P</span> <span class="kt">EQUAL</span> <span class="mi">8</span><span class="p">)</span>
-	<span class="nf">message</span><span class="p">(</span><span class="kt">STATUS</span> <span class="s">"Target is 64 bits"</span><span class="p">)</span>
-<span class="nf">endif</span><span class="p">()</span>
-</code></pre></div></div>
+<pre><code class="language-swift">if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+	message(STATUS "Target is 64 bits")
+endif()
+</code></pre>
 
 <h1 id="cxx-standard">Cxx standard</h1>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Pick C++ (11, 14, 17, 20, 23) version</span>
-<span class="nf">set_property</span><span class="p">(</span><span class="kt">TARGET</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PROPERTY</span> <span class="kt">CXX</span> <span class="o">&lt;</span><span class="n">standard</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="nf">set</span><span class="p">(</span><span class="kt">CMAKE_CXX_STANDARD_REQUIRED</span> <span class="kt">ON</span><span class="p">)</span> <span class="c1">// Forces CMake to check the compiler supports the standard</span>
-</code></pre></div></div>
+<pre><code class="language-swift">// Pick C++ (11, 14, 17, 20, 23) version
+set_property(TARGET &lt;target&gt; PROPERTY CXX &lt;standard&gt;)
+set(CMAKE_CXX_STANDARD_REQUIRED ON) // Forces CMake to check the compiler supports the standard
+</code></pre>
 
 <h2 id="try_run">try_run</h2>
 
@@ -226,45 +226,45 @@
 <p>It’s a recipe that a buildsystem uses to compile a list of files into another file. CMake can create three targets:</p>
 
 <ul>
-  <li><code class="language-plaintext highlighter-rouge">add_executable()</code></li>
-  <li><code class="language-plaintext highlighter-rouge">add_library()</code></li>
-  <li><code class="language-plaintext highlighter-rouge">add_custom_target()</code> → doesn’t necessarily produce an output file</li>
+  <li><code>add_executable()</code></li>
+  <li><code>add_library()</code></li>
+  <li><code>add_custom_target()</code> → doesn’t necessarily produce an output file</li>
 </ul>
 
 <p>Targets have properties that work similar way to fields of c++ objects.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">get_target_property</span><span class="p">(</span><span class="o">&lt;</span><span class="kd">var</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">property</span><span class="o">-</span><span class="n">name</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="nf">set_target_properties</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target1</span><span class="o">&gt;</span> <span class="o">...</span> <span class="kt">PROPERTIES</span> <span class="o">&lt;</span><span class="n">prop1</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">value1</span><span class="o">&gt;</span> <span class="o">...</span><span class="p">)</span>
-</code></pre></div></div>
+<pre><code class="language-swift">get_target_property(&lt;var&gt; &lt;target&gt; &lt;property-name&gt;)
+set_target_properties(&lt;target1&gt; ... PROPERTIES &lt;prop1&gt; &lt;value1&gt; ...)
+</code></pre>
 
 <h2 id="aliases">Aliases</h2>
 
 <p>Useful if some specific target requires a specific name.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_executable</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">ALIAS</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span><span class="p">)</span>
-<span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">ALIAS</span> <span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span><span class="p">)</span>
-</code></pre></div></div>
+<pre><code class="language-swift">add_executable(&lt;name&gt; ALIAS &lt;target&gt;)
+add_library(&lt;name&gt; ALIAS &lt;target&gt;)
+</code></pre>
 
 <h1 id="building-1">Building</h1>
 
 <p>Including header files</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;path-spec&gt; // Will check standard include directories, including system directories</span>
-<span class="cp">#include "path-spec" // Will start searching for the included file in the directory of the current file and then check directories for the angle-bracket form</span>
-</code></pre></div></div>
+<pre><code class="language-swift">#include &lt;path-spec&gt; // Will check standard include directories, including system directories
+#include "path-spec" // Will start searching for the included file in the directory of the current file and then check directories for the angle-bracket form
+</code></pre>
 
 <p>Cmake provides a command to manipulate paths being searched for included files</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">target_include_directories</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="p">[</span><span class="kt">SYSTEM</span><span class="p">]</span> <span class="p">[</span><span class="kt">AFTER</span><span class="o">|</span><span class="kt">BEFORE</span><span class="p">]</span> <span class="o">&lt;</span><span class="kt">INTERFACE</span><span class="o">|</span><span class="kt">PUBLIC</span><span class="o">|</span><span class="kt">PRIVATE</span><span class="o">&gt;</span> <span class="p">[</span><span class="n">items</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
+<pre><code class="language-swift">target_include_directories(&lt;target&gt; [SYSTEM] [AFTER|BEFORE] &lt;INTERFACE|PUBLIC|PRIVATE&gt; [items...])
+</code></pre>
 
-<p>The <code class="language-plaintext highlighter-rouge">SYSTEM</code> keyword informs the compilers that the provided dirs are meant as standard system directories (to be used with angle-brackets)</p>
+<p>The <code>SYSTEM</code> keyword informs the compilers that the provided dirs are meant as standard system directories (to be used with angle-brackets)</p>
 
 <h1 id="linking">Linking</h1>
 
 <p>Linking relocates individual object files into a single executable (needs to literally relocate pieces of the files together, contains sections headers, sections, and a section header table). Secondly, it needs to resolve references from differenten translation units (each cpp file is a translation unit).</p>
 
-<p>All libraries have a common prefix <code class="language-plaintext highlighter-rouge">lib</code>.</p>
+<p>All libraries have a common prefix <code>lib</code>.</p>
 
 <h2 id="libraries">Libraries</h2>
 
@@ -272,22 +272,22 @@
 
 <p>Will simply create a static library. Static libraries are a collection of <em>raw object files</em> in an archive. Use them if you want to avoid separating your dependencies from the executable, at the price of increasing size and memory consumed.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="p">[</span><span class="kt">STATIC</span><span class="p">]</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
+<pre><code class="language-swift">add_library(&lt;name&gt; [STATIC] [sources...])
+</code></pre>
 
 <h2 id="dynamic-libraries">Dynamic libraries</h2>
 
 <p>Shared libraries are built using a linker. This libraries will contains proper section headers, sections, etc. The OS will load a single instance into memory and all subsequently started programs will be provided with the same address.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">SHARED</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
+<pre><code class="language-swift">add_library(&lt;name&gt; SHARED [sources...])
+</code></pre>
 
 <h2 id="shared-modules">Shared modules</h2>
 
 <p>This is a version of a shared library that is intended to be loaded during runtime, rather than linked during compilation. A shared module is not loaded automatically at the start of a program (like dy libs). This only happens when a program explicitly requests it via system call.</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">add_library</span><span class="p">(</span><span class="o">&lt;</span><span class="n">name</span><span class="o">&gt;</span> <span class="kt">MODULE</span> <span class="p">[</span><span class="n">sources</span><span class="o">...</span><span class="p">])</span>
-</code></pre></div></div>
+<pre><code class="language-swift">add_library(&lt;name&gt; MODULE [sources...])
+</code></pre>
 
 <h2 id="namespaces">Namespaces</h2>
 
@@ -297,16 +297,16 @@
 
 <p>CMake can also help taking care of fetching dependencies not in your machine:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Includes Fetch content plugin</span>
-<span class="nf">include</span><span class="p">(</span><span class="kt">FetchContent</span><span class="p">)</span>
-<span class="c1">// Declare dependency from a git repo and a specific tag</span>
-<span class="kt">FetchContent_Declare</span><span class="p">(</span><span class="n">cpr</span> <span class="kt">GIT_REPOSITORY</span> <span class="nv">https</span><span class="p">:</span><span class="c1">//github.com/libcpr/cpr.git</span>
-                         <span class="kt">GIT_TAG</span> <span class="mi">871</span><span class="n">ed52d350214a034f6ef8a3b8f51c5ce1bd400</span><span class="p">)</span>
-<span class="c1">// Make dependency available as a target</span>
-<span class="kt">FetchContent_MakeAvailable</span><span class="p">(</span><span class="n">cpr</span><span class="p">)</span>
-<span class="c1">// Link target with cpr</span>
-<span class="nf">target_link_libraries</span><span class="p">(</span><span class="o">&lt;</span><span class="n">target</span><span class="o">&gt;</span> <span class="kt">PRIVATE</span> <span class="nv">cpr</span><span class="p">::</span><span class="n">cpr</span><span class="p">)</span>
-</code></pre></div></div>
+<pre><code class="language-swift">// Includes Fetch content plugin
+include(FetchContent)
+// Declare dependency from a git repo and a specific tag
+FetchContent_Declare(cpr GIT_REPOSITORY https://github.com/libcpr/cpr.git
+                         GIT_TAG 871ed52d350214a034f6ef8a3b8f51c5ce1bd400)
+// Make dependency available as a target
+FetchContent_MakeAvailable(cpr)
+// Link target with cpr
+target_link_libraries(&lt;target&gt; PRIVATE cpr::cpr)
+</code></pre>
 </div>
     </div>
 

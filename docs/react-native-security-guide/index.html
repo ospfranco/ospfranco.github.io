@@ -94,7 +94,7 @@
 
 <p>Again, once a hacker has access to the device, it’s game over. They can even mess with the OS internals to defeat device attestation, but at least you can make their lives harder.</p>
 
-<p>A final point to mention is packages like <code class="language-plaintext highlighter-rouge">react-native-dotenv</code> and <code class="language-plaintext highlighter-rouge">react-native-config</code>. I don’t like them because they can be misleading (and have caused me trouble compiling them in the past). These “environment variables” packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and the mixing of real environment variables with what they do have at least led unaware developers to think their secrets are secure (speaking from personal experience).</p>
+<p>A final point to mention is packages like <code>react-native-dotenv</code> and <code>react-native-config</code>. I don’t like them because they can be misleading (and have caused me trouble compiling them in the past). These “environment variables” packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and the mixing of real environment variables with what they do have at least led unaware developers to think their secrets are secure (speaking from personal experience).</p>
 
 <p>The reason why environment variables in things like Docker containers and server environments are secure is that they reside in memory, are not persisted, and are isolated by running on the server where (hopefully) the only point of entry is a secure HTTP API. This is not the case for mobile apps (regardless of the language/framework you are using).</p>
 
@@ -108,48 +108,48 @@
 
 <p>Most packages tell you to do this:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">password_is_password</span><span class="dl">"</span><span class="p">;</span>
+<pre><code class="language-ts">const myKey = "password_is_password";
 
-<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
-<span class="p">});</span>
-</code></pre></div></div>
+const storage = MyStateLibrary.create({
+  encryptionKey: myKey,
+});
+</code></pre>
 
-<p>The problem with this approach is that anyone can decompile your app and read the value of <code class="language-plaintext highlighter-rouge">myKey</code> (no matter how you obfuscate it). This is even worse in React Native, where you can just decompress an APK/IPA and take a look at the minified JS/TS code. I have mentioned in previous articles how looking into the JS bundle can leak valuable business logic and allow competitors to copy functionality.</p>
+<p>The problem with this approach is that anyone can decompile your app and read the value of <code>myKey</code> (no matter how you obfuscate it). This is even worse in React Native, where you can just decompress an APK/IPA and take a look at the minified JS/TS code. I have mentioned in previous articles how looking into the JS bundle can leak valuable business logic and allow competitors to copy functionality.</p>
 
-<p>Here is a better approach to generate and store your encryption key. I’ll use my package <code class="language-plaintext highlighter-rouge">op-s2</code> for this, but you can use <a href="https://docs.expo.dev/versions/latest/sdk/securestore/">Expo Secure Store</a> or <a href="https://github.com/oblador/react-native-keychain">react-native-keychain</a> they are all (more-or-less) equivalent but I tried to make op-s2 the simplest. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).</p>
+<p>Here is a better approach to generate and store your encryption key. I’ll use my package <code>op-s2</code> for this, but you can use <a href="https://docs.expo.dev/versions/latest/sdk/securestore/">Expo Secure Store</a> or <a href="https://github.com/oblador/react-native-keychain">react-native-keychain</a> they are all (more-or-less) equivalent but I tried to make op-s2 the simplest. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="kd">set</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@op-engineering/op-s2</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">generateSecureRandom</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-securerandom</span><span class="dl">"</span><span class="p">;</span>
+<pre><code class="language-ts">import { set } from "@op-engineering/op-s2";
+import { generateSecureRandom } from "react-native-securerandom";
 
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateKey</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// generate secure bytes using the t2 chip (SecRandomCopyBytes) and Secure Random on Android</span>
-  <span class="kd">const</span> <span class="nx">secureBytes</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">generateSecureRandom</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+async function generateKey() {
+  // generate secure bytes using the t2 chip (SecRandomCopyBytes) and Secure Random on Android
+  const secureBytes = await generateSecureRandom(42);
 
-  <span class="c1">// on the latest versions of RN btoa is part of hermes</span>
-  <span class="kd">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="nf">btoa</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">secureBytes</span><span class="p">));</span>
+  // on the latest versions of RN btoa is part of hermes
+  const key = btoa(String.fromCharCode.apply(null, secureBytes));
 
-  <span class="kd">const</span> <span class="p">{</span> <span class="nx">error</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">set</span><span class="p">({</span>
-    <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">value</span><span class="p">:</span> <span class="nx">key</span><span class="p">,</span>
-    <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// This means a FaceID/biometrics prompt will appear every time. See the docs if you don't want to use this</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div></div>
+  const { error } = set({
+    key: "myKey",
+    value: key,
+    withBiometrics: true, // This means a FaceID/biometrics prompt will appear every time. See the docs if you don't want to use this
+  });
+}
+</code></pre>
 
-<p><code class="language-plaintext highlighter-rouge">withBiometrics</code> is the safest but most cumbersome option, as it requires user authentication every time you want to read this key. You can leave it out, and it will still be secure. How are these packages secure? Because KeyStore/Keychain actually allow access on a per-app bundle basis (with signature verification, I believe). You only have access to the data you have created; you cannot read values from other apps/processes. So, at least we have per-app security.</p>
+<p><code>withBiometrics</code> is the safest but most cumbersome option, as it requires user authentication every time you want to read this key. You can leave it out, and it will still be secure. How are these packages secure? Because KeyStore/Keychain actually allow access on a per-app bundle basis (with signature verification, I believe). You only have access to the data you have created; you cannot read values from other apps/processes. So, at least we have per-app security.</p>
 
 <p>Then, when you start your storage, you can pass this key:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+<pre><code class="language-ts">const myKey = get({ key: "myKey", withBiometrics: true });
 
-<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
-<span class="p">});</span>
+const storage = MyStateLibrary.create({
+  encryptionKey: myKey,
+});
 
-<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-<span class="c1">// You can even trigger garbage collection to make a timed attack even harder</span>
-</code></pre></div></div>
+const myKey = null;
+// You can even trigger garbage collection to make a timed attack even harder
+</code></pre>
 
 <p>Again, nothing is truly secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent leaks. We then rely on the library to have correctly implemented an encryption algorithm.</p>
 
@@ -165,37 +165,37 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 
 <p>Once you have your encryption keys securely stored, it’s time to move on to storing the data itself securely. Here, some libraries are already prepared for that. MMKV allows you to specify an encryption key:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="kd">get</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@op-engineering/op-s2</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">MMKV</span><span class="p">,</span> <span class="nx">Mode</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-mmkv</span><span class="dl">"</span><span class="p">;</span>
+<pre><code class="language-ts">import { get } from "@op-engineering/op-s2";
+import { MMKV, Mode } from "react-native-mmkv";
 
-<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+const myKey = get({ key: "myKey", withBiometrics: true });
 
-<span class="k">export</span> <span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MMKV</span><span class="p">({</span>
-  <span class="na">id</span><span class="p">:</span> <span class="s2">`user-</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">-storage`</span><span class="p">,</span>
-  <span class="na">path</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">USER_DIRECTORY</span><span class="p">}</span><span class="s2">/storage`</span><span class="p">,</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
-  <span class="na">mode</span><span class="p">:</span> <span class="nx">Mode</span><span class="p">.</span><span class="nx">MULTI_PROCESS</span><span class="p">,</span>
-<span class="p">});</span>
-</code></pre></div></div>
+export const storage = new MMKV({
+  id: `user-${userId}-storage`,
+  path: `${USER_DIRECTORY}/storage`,
+  encryptionKey: myKey,
+  mode: Mode.MULTI_PROCESS,
+});
+</code></pre>
 
-<p>Another alternative is using an encrypted fork of SQLite called SQLCipher, which you can use via <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. You just need to enable SQLCipher support in the <code class="language-plaintext highlighter-rouge">package.json</code>:</p>
+<p>Another alternative is using an encrypted fork of SQLite called SQLCipher, which you can use via <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. You just need to enable SQLCipher support in the <code>package.json</code>:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"op-sqlite"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"sqlcipher"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">"op-sqlite": {
+  "sqlcipher": true
+}
+</code></pre>
 
 <p>Then, when you open your database:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">open</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@op-engineering/op-sqlite</span><span class="dl">'</span><span class="p">;</span>
+<pre><code class="language-ts">const { open } from '@op-engineering/op-sqlite';
 
-<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+const myKey = get({ key: "myKey", withBiometrics: true });
 
-<span class="kd">const</span> <span class="nx">db</span> <span class="o">=</span> <span class="nf">open</span><span class="p">({</span>
-  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">my_secure_db.sqlite</span><span class="dl">'</span><span class="p">,</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span>
-<span class="p">});</span>
-</code></pre></div></div>
+const db = open({
+  name: 'my_secure_db.sqlite',
+  encryptionKey: myKey
+});
+</code></pre>
 
 <p>This will fully encrypt the data stored on disk with a bit of overhead. As long as your encryption key is not compromised, it should be safe.</p>
 

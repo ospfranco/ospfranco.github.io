@@ -66,17 +66,17 @@
 
 <p>In your AppDelegate, replace</p>
 
-<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span><span class="p">];</span>
-</code></pre></div></div>
+<pre><code class="language-obj-c">return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
+</code></pre>
 
 <p>with</p>
 
-<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">packagerServerHostPort</span> <span class="o">=</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">packagerServerHostPort</span><span class="p">];</span>
-<span class="k">return</span> <span class="p">[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span>
-                                         <span class="nl">packagerHost:</span><span class="n">packagerServerHostPort</span>
-                                            <span class="nl">enableDev:</span><span class="nb">NO</span>
-                                   <span class="nl">enableMinification:</span><span class="nb">NO</span><span class="p">];</span>
-</code></pre></div></div>
+<pre><code class="language-obj-c">NSString *packagerServerHostPort = [[RCTBundleURLProvider sharedSettings] packagerServerHostPort];
+return [RCTBundleURLProvider jsBundleURLForBundleRoot:@"index"
+                                         packagerHost:packagerServerHostPort
+                                            enableDev:NO
+                                   enableMinification:NO];
+</code></pre>
 </div>
     </div>
 

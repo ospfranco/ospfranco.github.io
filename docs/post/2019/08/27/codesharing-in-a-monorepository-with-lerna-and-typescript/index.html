@@ -84,9 +84,9 @@
 
 <p>Lernajs is a tool that shares codes within a monorepo, it handles your package dependencies by hoisting them to the root folder of the repo.</p>
 
-<p>Imagine using <code class="language-plaintext highlighter-rouge">ramda</code> in all of your applications but installing it only once at the root. By hoisting, Lernajs does exactly that and symlinks it to the application <code class="language-plaintext highlighter-rouge">node_modules</code> folder. Furthermore, it has some nice little utilities that you can use to manage your workflow like adding new packages to applications, running multiple applications in parallel, etc.</p>
+<p>Imagine using <code>ramda</code> in all of your applications but installing it only once at the root. By hoisting, Lernajs does exactly that and symlinks it to the application <code>node_modules</code> folder. Furthermore, it has some nice little utilities that you can use to manage your workflow like adding new packages to applications, running multiple applications in parallel, etc.</p>
 
-<p>Specifically what I wanted to share between the deployments: redux actions, redux reducers and epics, typescript models and some utility code, I crammed all this code into a <code class="language-plaintext highlighter-rouge">shared</code> package which is being used by our <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages, declared as a dependency.</p>
+<p>Specifically what I wanted to share between the deployments: redux actions, redux reducers and epics, typescript models and some utility code, I crammed all this code into a <code>shared</code> package which is being used by our <code>frontend</code> and <code>mobile</code> packages, declared as a dependency.</p>
 
 <p>So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.</p>
 
@@ -95,22 +95,22 @@
   <p>Our refactored code, shared contains common code</p>
 </blockquote>
 
-<p>These are then imported in the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages where we create our store (combing all the reducers from <code class="language-plaintext highlighter-rouge">shared</code>) and root epic (combining all the epics from <code class="language-plaintext highlighter-rouge">shared</code>). The reason for creating the store inside the <code class="language-plaintext highlighter-rouge">frontend</code> and <code class="language-plaintext highlighter-rouge">mobile</code> packages rather than in <code class="language-plaintext highlighter-rouge">shared</code> is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.</p>
+<p>These are then imported in the <code>frontend</code> and <code>mobile</code> packages where we create our store (combing all the reducers from <code>shared</code>) and root epic (combining all the epics from <code>shared</code>). The reason for creating the store inside the <code>frontend</code> and <code>mobile</code> packages rather than in <code>shared</code> is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.</p>
 
 <p><img src="https://ospfranco.com/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" /></p>
 <blockquote>
-  <p>Assuming you have a <code class="language-plaintext highlighter-rouge">UserModel</code> class in <code class="language-plaintext highlighter-rouge">shared</code> you would simple import it like so_</p>
+  <p>Assuming you have a <code>UserModel</code> class in <code>shared</code> you would simple import it like so_</p>
 </blockquote>
 
-<p>For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the <code class="language-plaintext highlighter-rouge">shared</code> package). You can of course, add more actions inside the <code class="language-plaintext highlighter-rouge">frontend</code>/<code class="language-plaintext highlighter-rouge">mobile</code> packages and supply your own <code class="language-plaintext highlighter-rouge">epic</code> to handle them and it’ll all work seamlessly™.
+<p>For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the <code>shared</code> package). You can of course, add more actions inside the <code>frontend</code>/<code>mobile</code> packages and supply your own <code>epic</code> to handle them and it’ll all work seamlessly™.
 You can read more about lerna on their website, but here are a couple of steps that we followed and should get you halfway there:</p>
 
 <ul>
   <li>Install lerna</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npm <span class="nb">install</span> <span class="nt">-g</span> lerna
-</code></pre></div></div>
+<pre><code class="language-bash">npm install -g lerna
+</code></pre>
 
 <ul>
   <li>
@@ -121,8 +121,8 @@ You can read more about lerna on their website, but here are a couple of steps t
   </li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lerna init
-</code></pre></div></div>
+<pre><code class="language-bash">lerna init
+</code></pre>
 
 <ul>
   <li>Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:</li>
@@ -134,40 +134,40 @@ You can read more about lerna on their website, but here are a couple of steps t
   <li>Link your shared folder</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lerna add wa-core — scope=frontend
+<pre><code>lerna add wa-core — scope=frontend
 lerna add wa-core — scope=mobile
-</code></pre></div></div>
+</code></pre>
 
 <ul>
   <li>Bootstrap your project</li>
 </ul>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>lerna bootstrap
-</code></pre></div></div>
+<pre><code>lerna bootstrap
+</code></pre>
 
-<p>There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called <code class="language-plaintext highlighter-rouge">nohoist</code>, which would make lerna not hoist them to the root.</p>
+<p>There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called <code>nohoist</code>, which would make lerna not hoist them to the root.</p>
 
 <h2 id="typescript-3">Typescript (3.+)</h2>
 
-<p>The latest release of typescript has what they call <code class="language-plaintext highlighter-rouge">project references</code>, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.</p>
+<p>The latest release of typescript has what they call <code>project references</code>, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.</p>
 
-<p>After refactoring and extracting the shared code, your shared folder should contain a <code class="language-plaintext highlighter-rouge">tsconfig.json</code> file, now in the package were you want to import this code, you should modify your <code class="language-plaintext highlighter-rouge">tsconfig.json</code> to contain the following:</p>
+<p>After refactoring and extracting the shared code, your shared folder should contain a <code>tsconfig.json</code> file, now in the package were you want to import this code, you should modify your <code>tsconfig.json</code> to contain the following:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="err">…</span><span class="w">
-  </span><span class="nl">"composite"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"declaration"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"references"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w">
-    </span><span class="p">{</span><span class="w"> </span><span class="nl">"path"</span><span class="p">:</span><span class="w"> </span><span class="s2">"../shared"</span><span class="w"> </span><span class="p">}</span><span class="w">
-  </span><span class="p">],</span><span class="w">
-  </span><span class="err">…</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">{
+  …
+  "composite": true,
+  "declaration": true,
+  "references": [
+    { "path": "../shared" }
+  ],
+  …
+}
+</code></pre>
 
 <p>Once that is done, you can import your code by doing:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">Foo</span> <span class="p">}</span> <span class="k">from</span> <span class="err">‘</span><span class="p">..</span><span class="o">/</span><span class="nx">shared</span><span class="o">/</span><span class="nx">Foo</span><span class="err">’</span><span class="p">;</span>
-</code></pre></div></div>
+<pre><code class="language-ts">import { Foo } from ‘../shared/Foo’;
+</code></pre>
 
 <p>To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.</p>
 </div>

@@ -14,8 +14,8 @@
 <meta property="og:title" content="Reduce Rust binaries size" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="I find myself writting lots of Rust nowadays. I’m by no means an expert but I need to make due with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts." />
-<meta property="og:description" content="I find myself writting lots of Rust nowadays. I’m by no means an expert but I need to make due with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts." />
+<meta name="description" content="I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts." />
+<meta property="og:description" content="I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts." />
 <link rel="canonical" href="https://ospfranco.com/rust-reduce-binary-size/" />
 <meta property="og:url" content="https://ospfranco.com/rust-reduce-binary-size/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -28,7 +28,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-23T00:00:00+02:00","datePublished":"2024-06-23T00:00:00+02:00","description":"I find myself writting lots of Rust nowadays. I’m by no means an expert but I need to make due with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts.","headline":"Reduce Rust binaries size","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/rust-reduce-binary-size/"},"url":"https://ospfranco.com/rust-reduce-binary-size/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-23T00:00:00+02:00","datePublished":"2024-06-23T00:00:00+02:00","description":"I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.","headline":"Reduce Rust binaries size","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/rust-reduce-binary-size/"},"url":"https://ospfranco.com/rust-reduce-binary-size/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -64,32 +64,32 @@
         June 2024
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p>I find myself writting lots of Rust nowadays. I’m by no means an expert but I need to make due with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts.</p>
+      <div class="pt-4 pb-20 markdown"><p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
 
-<p>The documentation is a bit confusing but here is the configuration I ended up using to get somewhat OK sizes. On the <code class="language-plaintext highlighter-rouge">cargo.toml</code>:</p>
+<p>The documentation is a bit confusing, but here is the configuration I ended up using to get somewhat OK sizes. In the <code>cargo.toml</code> file:</p>
 
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[profile.release]</span> <span class="c"># When compiling in release mode</span>
-<span class="py">debug</span> <span class="p">=</span> <span class="kc">false</span> <span class="c"># Exclude debug symbols</span>
-<span class="py">strip</span> <span class="p">=</span> <span class="s">"symbols"</span> <span class="c"># Exclude the rest of symbols</span>
-<span class="c"># opt-level = "z" # Did not use this, but equals C++ optimize for size (O3?)</span>
-<span class="py">lto</span> <span class="p">=</span> <span class="kc">true</span> <span class="c"># Link time optimization, not sure what this does but helps reduce the size</span>
-</code></pre></div></div>
+<pre><code class="language-toml">[profile.release] # When compiling in release mode
+debug = false # Exclude debug symbols
+strip = "symbols" # Exclude the rest of the symbols
+# opt-level = "z" # Did not use this, but it equals C++'s optimize for size (O3?)
+lto = true # Link time optimization, not sure what this does but it helps reduce the size
+</code></pre>
 
 <p>Additionally, using the following flag turns on dead-code stripping:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RUSTFLAGS="-C link-arg=-Wl,-dead_strip" cargo build --release --target=&lt;your-target&gt;
-</code></pre></div></div>
+<pre><code>RUSTFLAGS="-C link-arg=-Wl,-dead_strip" cargo build --release --target=&lt;your-target&gt;
+</code></pre>
 
-<h1 id="cargo-bloat">Cargo bloat</h1>
+<h1 id="cargo-bloat">Cargo Bloat</h1>
 
-<p>I haven’t fully explored what this tool can do, but it does point to large sections of the code. Install with <code class="language-plaintext highlighter-rouge">cargo install cargo-bloat</code> and then fire away:</p>
+<p>I haven’t fully explored what this tool can do, but it does point to large sections of the code. Install it with <code>cargo install cargo-bloat</code> and then run:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo bloat --release --target=&lt;your-target&gt;
-</code></pre></div></div>
+<pre><code>cargo bloat --release --target=&lt;your-target&gt;
+</code></pre>
 
 <h1 id="results">Results</h1>
 
-<p>Using all the compile optimizations I was able to get output binary from 60mbs to 30mbs, still large but better.</p>
+<p>Using all the compile optimizations, I was able to reduce the output binary from 60 MB to 30 MB. It’s still large but better.</p>
 </div>
     </div>
 

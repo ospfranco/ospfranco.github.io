@@ -76,45 +76,45 @@
 
 <p>Right-click the base folder -&gt; New file… -&gt; Swift file -&gt; AppDelegate.swift, after you create it XCode should ask you if you want to create a Bridging header file, click on yes.</p>
 
-<p>The content of the new <code class="language-plaintext highlighter-rouge">AppDelegate.swift</code> file:</p>
+<p>The content of the new <code>AppDelegate.swift</code> file:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
-<span class="kd">import</span> <span class="kt">UIKit</span>
+<pre><code class="language-swift">import Foundation
+import UIKit
 
-<span class="kd">@UIApplicationMain</span>
-<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">?</span>
-  <span class="k">var</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="o">!</span>
+@UIApplicationMain
+class AppDelegate: UIResponder, UIApplicationDelegate {
+  var window: UIWindow?
+  var bridge: RCTBridge!
 
-  <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span><span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplication</span><span class="o">.</span><span class="kt">LaunchOptionsKey</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">jsCodeLocation</span><span class="p">:</span> <span class="kt">URL</span>
+  func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -&gt; Bool {
+    let jsCodeLocation: URL
 
-    <span class="n">jsCodeLocation</span> <span class="o">=</span> <span class="kt">RCTBundleURLProvider</span><span class="o">.</span><span class="nf">sharedSettings</span><span class="p">()</span><span class="o">.</span><span class="nf">jsBundleURL</span><span class="p">(</span><span class="nv">forBundleRoot</span><span class="p">:</span> <span class="s">"index"</span><span class="p">,</span> <span class="nv">fallbackResource</span><span class="p">:</span><span class="kc">nil</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">rootView</span> <span class="o">=</span> <span class="kt">RCTRootView</span><span class="p">(</span><span class="nv">bundleURL</span><span class="p">:</span> <span class="n">jsCodeLocation</span><span class="p">,</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="s">"YOUR_PROJECT_NAME"</span><span class="p">,</span> <span class="nv">initialProperties</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="n">launchOptions</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">rootViewController</span> <span class="o">=</span> <span class="kt">UIViewController</span><span class="p">()</span>
-    <span class="n">rootViewController</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">rootView</span>
+    jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:nil)
+    let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "YOUR_PROJECT_NAME", initialProperties: nil, launchOptions: launchOptions)
+    let rootViewController = UIViewController()
+    rootViewController.view = rootView
 
-    <span class="k">self</span><span class="o">.</span><span class="n">window</span> <span class="o">=</span> <span class="kt">UIWindow</span><span class="p">(</span><span class="nv">frame</span><span class="p">:</span> <span class="kt">UIScreen</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">bounds</span><span class="p">)</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">?</span><span class="o">.</span><span class="n">rootViewController</span> <span class="o">=</span> <span class="n">rootViewController</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">window</span><span class="p">?</span><span class="o">.</span><span class="nf">makeKeyAndVisible</span><span class="p">()</span>
+    self.window = UIWindow(frame: UIScreen.main.bounds)
+    self.window?.rootViewController = rootViewController
+    self.window?.makeKeyAndVisible()
 
-    <span class="k">return</span> <span class="kc">true</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
+    return true
+  }
+}
+</code></pre>
 
 <h1 id="3-fill-the-bridging-header">3. Fill the bridging header</h1>
 
 <p>On your bridging header put the following content:</p>
 
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTBridgeModule.h&gt;</span>
-<span class="cp">#import &lt;React/RCTBridge.h&gt;</span>
-<span class="cp">#import &lt;React/RCTEventDispatcher.h&gt;</span>
-<span class="cp">#import &lt;React/RCTRootView.h&gt;</span>
-<span class="cp">#import &lt;React/RCTUtils.h&gt;</span>
-<span class="cp">#import &lt;React/RCTConvert.h&gt;</span>
-<span class="cp">#import &lt;React/RCTBundleURLProvider.h&gt;</span>
-</code></pre></div></div>
+<pre><code class="language-swift">#import &lt;React/RCTBridgeModule.h&gt;
+#import &lt;React/RCTBridge.h&gt;
+#import &lt;React/RCTEventDispatcher.h&gt;
+#import &lt;React/RCTRootView.h&gt;
+#import &lt;React/RCTUtils.h&gt;
+#import &lt;React/RCTConvert.h&gt;
+#import &lt;React/RCTBundleURLProvider.h&gt;
+</code></pre>
 
 <h1 id="4-fix-swift-compilation">4. Fix swift compilation</h1>
 

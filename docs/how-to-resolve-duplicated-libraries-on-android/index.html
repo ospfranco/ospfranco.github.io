@@ -64,36 +64,36 @@
 
       <div class="pt-4 pb-20 markdown"><p>If you have developed on Android long enough, you might have found an error like this:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A failure occurred <span class="k">while </span>executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask<span class="nv">$MergeNativeLibsTaskWorkAction</span>
-2 files found with path <span class="s1">'lib/arm64-v8a/libcrypto.so'</span>
-</code></pre></div></div>
+<pre><code class="language-sh">A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
+2 files found with path 'lib/arm64-v8a/libcrypto.so'
+</code></pre>
 
-<p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code class="language-plaintext highlighter-rouge">libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>
+<p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code>libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>
 
 <p>There are a number of workarounds, but they all have potential issues, so here are some short explanations.</p>
 
 <h1 id="exclude">Exclude</h1>
 
-<p>The first solution you might try is the <code class="language-plaintext highlighter-rouge">exclude</code> command of gradle. This will only work if you are modifying the sources of one of the conflicting libraries. This basically tells Gradle: whenever you are packaging this library, exclude this files from the final bundle merge.</p>
+<p>The first solution you might try is the <code>exclude</code> command of gradle. This will only work if you are modifying the sources of one of the conflicting libraries. This basically tells Gradle: whenever you are packaging this library, exclude this files from the final bundle merge.</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">packagingOptions</span> <span class="o">{</span>
-      <span class="n">excludes</span> <span class="o">=</span> <span class="o">[</span>
-        <span class="c1">// ... other excluded files</span>
-        <span class="s2">"**/libcrypto.so"</span>
-      <span class="o">]</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">packagingOptions {
+      excludes = [
+        // ... other excluded files
+        "**/libcrypto.so"
+      ]
+}
+</code></pre>
 
-<p>This will basically force your final application to contain one <code class="language-plaintext highlighter-rouge">libcrypto.so</code> and avoid any potential conflicts. The problem is than, if you remove the other dependency and no one is left to generate the .so, then you are out of luck and you will get an error saying the file is missing.</p>
+<p>This will basically force your final application to contain one <code>libcrypto.so</code> and avoid any potential conflicts. The problem is than, if you remove the other dependency and no one is left to generate the .so, then you are out of luck and you will get an error saying the file is missing.</p>
 
 <h1 id="pick-first">Pick first</h1>
 
-<p>Another possible strategy is using <code class="language-plaintext highlighter-rouge">pickFirst</code>, it basically tells Gradle: “whatever you find first, just link against that”. The problem with this however is that it cannot be included in the offending library <code class="language-plaintext highlighter-rouge">build.gradle</code> but must be specified in the application’s <code class="language-plaintext highlighter-rouge">build.gradle</code> (since that is the parent scope that faces the conflict when compiling the dependencies)</p>
+<p>Another possible strategy is using <code>pickFirst</code>, it basically tells Gradle: “whatever you find first, just link against that”. The problem with this however is that it cannot be included in the offending library <code>build.gradle</code> but must be specified in the application’s <code>build.gradle</code> (since that is the parent scope that faces the conflict when compiling the dependencies)</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">packagingOptions</span> <span class="o">{</span>
-  <span class="n">pickFirst</span> <span class="s1">'**/libcrypto.so'</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">packagingOptions {
+  pickFirst '**/libcrypto.so'
+}
+</code></pre>
 
 <h1 id="other-strategies">Other strategies</h1>
 
@@ -103,27 +103,27 @@
 
 <p>Change the declared dependency to exclude the internal dependency</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">implementation</span> <span class="o">(</span><span class="s1">'junit:junit:4.12'</span><span class="o">){</span>
-    <span class="n">exclude</span> <span class="nl">group:</span> <span class="s1">'org.hamcrest'</span><span class="o">,</span> <span class="nl">module:</span><span class="s1">'hamcrest-core'</span> <span class="c1">// exclude the transtive dependency</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">implementation ('junit:junit:4.12'){
+    exclude group: 'org.hamcrest', module:'hamcrest-core' // exclude the transtive dependency
+}
+</code></pre>
 
 <h2 id="explicitely-requiring-the-dependency">Explicitely requiring the dependency</h2>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">implementation</span> <span class="s1">'junit:junit:4.12'</span>
-<span class="n">implementation</span> <span class="s1">'org.hamcrest:hamcrest-core:1.3'</span> <span class="c1">// force the shared dependency version</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">implementation 'junit:junit:4.12'
+implementation 'org.hamcrest:hamcrest-core:1.3' // force the shared dependency version
+</code></pre>
 
 <h2 id="force-resolution">Force resolution</h2>
 
 <p>This might force an older version into the dependencies</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
-    <span class="n">configurations</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span>
-        <span class="n">resolutionStrategy</span><span class="o">.</span><span class="na">force</span> <span class="s1">'org.hamcrest:hamcrest-core:1.1'</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">android {
+    configurations.all {
+        resolutionStrategy.force 'org.hamcrest:hamcrest-core:1.1'
+    }
+}
+</code></pre>
 
 <h1 id="version-missmatch">Version missmatch</h1>
 

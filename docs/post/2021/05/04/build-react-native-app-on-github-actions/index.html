@@ -68,176 +68,176 @@
 
 <h2 id="migrating-to-github-actions">Migrating to Github Actions</h2>
 
-<p>I (previously) removed our pure JavaScript tests from Bitrise and into <strong>Github Actions</strong>. The process was simple, and since it runs where the code already lives, it is pretty sweet to have everything under the Github umbrella. I found out Github has macOS machines you can use to build your app, so I begged the team to see if we could try to migrate. We were already using Fastlane before, so there was a <code class="language-plaintext highlighter-rouge">Fastfile</code> that I could re-use after updating it, I just needed to set up the machines and the environments.</p>
+<p>I (previously) removed our pure JavaScript tests from Bitrise and into <strong>Github Actions</strong>. The process was simple, and since it runs where the code already lives, it is pretty sweet to have everything under the Github umbrella. I found out Github has macOS machines you can use to build your app, so I begged the team to see if we could try to migrate. We were already using Fastlane before, so there was a <code>Fastfile</code> that I could re-use after updating it, I just needed to set up the machines and the environments.</p>
 
 <p>Here is our workflow file for our android build:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Android GMS Staging</span>
+<pre><code class="language-yaml">name: Android GMS Staging
 
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">create</span><span class="pi">:</span>
-    <span class="na">tags</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">v*</span>
-  <span class="na">workflow_dispatch</span><span class="pi">:</span>
-    <span class="na">inputs</span><span class="pi">:</span>
-      <span class="na">message</span><span class="pi">:</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Build</span><span class="nv"> </span><span class="s">description'</span>
+on:
+  create:
+    tags:
+      - v*
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Build description'
 
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">container</span><span class="pi">:</span>
-      <span class="na">image</span><span class="pi">:</span> <span class="s">docker://fabernovel/android:api-29-v1.1.0</span>
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    container:
+      image: docker://fabernovel/android:api-29-v1.1.0
 
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout</span>
-        <span class="na">uses </span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+    steps:
+      - name: Checkout
+        uses : actions/checkout@v2
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Node modules cache</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s1">'</span><span class="s">**/node_modules'</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on yarn.lock</span><span class="pi">]</span>
+      - name: Node modules cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: [Put a hash key here based on yarn.lock]
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Ruby cache</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1.2.0</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on gemfile.lock</span><span class="pi">]</span>
+      - name: Ruby cache
+        uses: actions/cache@v1.2.0
+        with:
+          path: vendor/bundle
+          key: [Put a hash key here based on gemfile.lock]
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Gradle cache</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v1.2.0</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s">/root/.gradle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on *.gradle</span><span class="pi">]</span>
+      - name: Gradle cache
+        uses: actions/cache@v1.2.0
+        with:
+          path: /root/.gradle
+          key: [Put a hash key here based on *.gradle]
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node </span><span class="m">14</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">node-version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">14'</span>
+      - name: Use Node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install yarn</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g yarn</span>
+      - name: Install yarn
+        run: npm install -g yarn
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install firebase CLI</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g firebase-tools</span>
+      - name: Install firebase CLI
+        run: npm install -g firebase-tools
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+      - name: Install dependencies
+        run: yarn
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode keystore file</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$ANDROID_KEYSTORE_FILE" | base64 -d &gt; ./my-release-key.keystore</span>
-        <span class="na">working-directory</span><span class="pi">:</span> <span class="s">./android/app</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">ANDROID_KEYSTORE_FILE</span><span class="pi">:</span> <span class="s">$</span>
+      - name: Decode keystore file
+        run: echo -n "$ANDROID_KEYSTORE_FILE" | base64 -d &gt; ./my-release-key.keystore
+        working-directory: ./android/app
+        env:
+          ANDROID_KEYSTORE_FILE: $
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Bundle install</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">bundle config path vendor/bundle</span>
-          <span class="s">bundle check || bundle install</span>
+      - name: Bundle install
+        run: |
+          bundle config path vendor/bundle
+          bundle check || bundle install
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Fastlane</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec fastlane android distribute_staging</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">MYAPP_RELEASE_STORE_PASSWORD</span><span class="pi">:</span> <span class="s">$</span>
-          <span class="na">MYAPP_RELEASE_KEY_ALIAS</span><span class="pi">:</span> <span class="s">$</span>
-          <span class="na">MYAPP_RELEASE_KEY_PASSWORD</span><span class="pi">:</span> <span class="s">$</span>
-          <span class="na">FIREBASE_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
-</code></pre></div></div>
+      - name: Fastlane
+        run: bundle exec fastlane android distribute_staging
+        env:
+          MYAPP_RELEASE_STORE_PASSWORD: $
+          MYAPP_RELEASE_KEY_ALIAS: $
+          MYAPP_RELEASE_KEY_PASSWORD: $
+          FIREBASE_TOKEN: $
+</code></pre>
 
 <blockquote>
-  <p>You might see some floating <code class="language-plaintext highlighter-rouge">$</code> there goes a github secret, you can figure those out for your own config</p>
+  <p>You might see some floating <code>$</code> there goes a github secret, you can figure those out for your own config</p>
 </blockquote>
 
 <p>Nothing too fancy, basically using a pre-built image which already has the android SDK installed, then installing node dependencies, ruby dependencies, etc. The keystore file is in our github secrets as a base64 string. Finally it is just a matter of calling Fastlane, which takes care of all the final build steps, I did not want to put any more logic inside of the workflow, because we should also be able to run fastlane in our machines in case the CI is not an option or we need to do an emergency release for some reason.</p>
 
 <p>For iOS, is somewhat similar:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">iOS Staging</span>
-<span class="na">on</span><span class="pi">:</span>
-  <span class="na">create</span><span class="pi">:</span>
-    <span class="na">tags</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">v*</span>
-  <span class="na">workflow_dispatch</span><span class="pi">:</span>
-    <span class="na">inputs</span><span class="pi">:</span>
-      <span class="na">message</span><span class="pi">:</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Build</span><span class="nv"> </span><span class="s">description'</span>
+<pre><code class="language-yaml">name: iOS Staging
+on:
+  create:
+    tags:
+      - v*
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Build description'
 
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">build</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">macOS-latest</span>
-    <span class="c1"># timeout-minutes: 30</span>
+jobs:
+  build:
+    runs-on: macOS-latest
+    # timeout-minutes: 30
 
-    <span class="na">steps</span><span class="pi">:</span>
+    steps:
     
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Checkout</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
+      - name: Checkout
+        uses: actions/checkout@v2
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Node modules cache</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s1">'</span><span class="s">**/node_modules'</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on yarn.lock</span><span class="pi">]</span>
+      - name: Node modules cache
+        uses: actions/cache@v2
+        with:
+          path: '**/node_modules'
+          key: [Put a hash key here based on yarn.lock]
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Ruby cache</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/cache@v2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">path</span><span class="pi">:</span> <span class="s">vendor/bundle</span>
-          <span class="na">key</span><span class="pi">:</span> <span class="pi">[</span><span class="nv">Put a hash key here based on gemfile.lock</span><span class="pi">]</span>
+      - name: Ruby cache
+        uses: actions/cache@v2
+        with:
+          path: vendor/bundle
+          key: [Put a hash key here based on gemfile.lock]
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node </span><span class="m">14</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">node-version</span><span class="pi">:</span> <span class="s1">'</span><span class="s">14'</span>
+      - name: Use Node 14
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install yarn</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g yarn</span>
+      - name: Install yarn
+        run: npm install -g yarn
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install firebase CLI</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">npm install -g firebase-tools</span>
+      - name: Install firebase CLI
+        run: npm install -g firebase-tools
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install dependencies</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
+      - name: Install dependencies
+        run: yarn
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode cert file</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$P12_CODE_SIGNING_CERT_BASE64" | base64 -d &gt; ./cert.p12</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">P12_CODE_SIGNING_CERT_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      - name: Decode cert file
+        run: echo -n "$P12_CODE_SIGNING_CERT_BASE64" | base64 -d &gt; ./cert.p12
+        env:
+          P12_CODE_SIGNING_CERT_BASE64: $
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode adhoc prov file</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_ADHOC_BASE64" | base64 -d &gt; ./mobileProvisionAdhoc.mobileprovision</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">MOBILEPROVISION_ADHOC_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      - name: Decode adhoc prov file
+        run: echo -n "$MOBILEPROVISION_ADHOC_BASE64" | base64 -d &gt; ./mobileProvisionAdhoc.mobileprovision
+        env:
+          MOBILEPROVISION_ADHOC_BASE64: $
       
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode appstore prov file</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_APPSTORE_BASE64" | base64 -d &gt; ./mobileProvisionAppstore.mobileprovision</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">MOBILEPROVISION_APPSTORE_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      - name: Decode appstore prov file
+        run: echo -n "$MOBILEPROVISION_APPSTORE_BASE64" | base64 -d &gt; ./mobileProvisionAppstore.mobileprovision
+        env:
+          MOBILEPROVISION_APPSTORE_BASE64: $
       
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode widget adhoc prov file</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_WIDGET_ADHOC_BASE64" | base64 -d &gt; ./mobileProvisionWidgetAdhoc.mobileprovision</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">MOBILEPROVISION_WIDGET_ADHOC_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      - name: Decode widget adhoc prov file
+        run: echo -n "$MOBILEPROVISION_WIDGET_ADHOC_BASE64" | base64 -d &gt; ./mobileProvisionWidgetAdhoc.mobileprovision
+        env:
+          MOBILEPROVISION_WIDGET_ADHOC_BASE64: $
       
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Decode widget appstore prov file</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo -n "$MOBILEPROVISION_WIDGET_APPSTORE_BASE64" | base64 -d &gt; ./mobileProvisionWidgetAppstore.mobileprovision</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">MOBILEPROVISION_WIDGET_APPSTORE_BASE64</span><span class="pi">:</span> <span class="s">$</span>
+      - name: Decode widget appstore prov file
+        run: echo -n "$MOBILEPROVISION_WIDGET_APPSTORE_BASE64" | base64 -d &gt; ./mobileProvisionWidgetAppstore.mobileprovision
+        env:
+          MOBILEPROVISION_WIDGET_APPSTORE_BASE64: $
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Bundle install</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="pi">|</span>
-          <span class="s">bundle config path vendor/bundle</span>
-          <span class="s">bundle check || bundle install</span>
+      - name: Bundle install
+        run: |
+          bundle config path vendor/bundle
+          bundle check || bundle install
 
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Fastlane</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">bundle exec fastlane ios distribute_staging</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">FIREBASE_TOKEN</span><span class="pi">:</span> <span class="s">$</span>
-</code></pre></div></div>
+      - name: Fastlane
+        run: bundle exec fastlane ios distribute_staging
+        env:
+          FIREBASE_TOKEN: $
+</code></pre>
 
-<p>The main difference is the unpacking and decoding of provisioning profiles and certificate. If you have used fastlane you will see there is some recommendation to use <code class="language-plaintext highlighter-rouge">match</code>, don’t, it’s useless, it’s a waste of time to set up and only to automate a task that you will probably do once a year (re-generate the certificate once it expires).</p>
+<p>The main difference is the unpacking and decoding of provisioning profiles and certificate. If you have used fastlane you will see there is some recommendation to use <code>match</code>, don’t, it’s useless, it’s a waste of time to set up and only to automate a task that you will probably do once a year (re-generate the certificate once it expires).</p>
 
-<p>Another nice thing is the <code class="language-plaintext highlighter-rouge">workflow_dispatch</code> trigger, it allows you to trigger a workflow from the github UI (and you can put params, but as you can see I’m not using the description parameter yet).</p>
+<p>Another nice thing is the <code>workflow_dispatch</code> trigger, it allows you to trigger a workflow from the github UI (and you can put params, but as you can see I’m not using the description parameter yet).</p>
 
 <h2 id="results">Results</h2>
 
@@ -279,9 +279,9 @@
 <h2 id="lessons-learned">Lessons learned</h2>
 
 <ul>
-  <li>As stated, skip fastlane’s <code class="language-plaintext highlighter-rouge">match</code>, it’s a waste of your time and your organization time (unless you regenerate certs/profiles every week or so)</li>
-  <li>Fastlane scripts/plugins have some hidden behavior, do not try to create a new platform, stick to <code class="language-plaintext highlighter-rouge">ios</code> and <code class="language-plaintext highlighter-rouge">android</code>, we created a <code class="language-plaintext highlighter-rouge">huawei</code> platform and wasted a day trying to figure out why the apk was not detected for upload to firebase.</li>
-  <li>Fastlane works on the <code class="language-plaintext highlighter-rouge">.fastlane</code> directory, github actions on the project root… this can be a pain to debug if you have to point to files directly.</li>
+  <li>As stated, skip fastlane’s <code>match</code>, it’s a waste of your time and your organization time (unless you regenerate certs/profiles every week or so)</li>
+  <li>Fastlane scripts/plugins have some hidden behavior, do not try to create a new platform, stick to <code>ios</code> and <code>android</code>, we created a <code>huawei</code> platform and wasted a day trying to figure out why the apk was not detected for upload to firebase.</li>
+  <li>Fastlane works on the <code>.fastlane</code> directory, github actions on the project root… this can be a pain to debug if you have to point to files directly.</li>
   <li>If you are going to run macOS machines on every commit/pr, then github actions is probably not the best tool, it’s way too expensive</li>
 </ul>
 

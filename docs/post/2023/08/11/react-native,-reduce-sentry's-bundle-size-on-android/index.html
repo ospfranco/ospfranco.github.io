@@ -62,17 +62,17 @@
         August 2023
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p>I convinced my team to switch from Crashlytics to <code class="language-plaintext highlighter-rouge">Sentry</code>. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that’s just too much.</p>
+      <div class="pt-4 pb-20 markdown"><p>I convinced my team to switch from Crashlytics to <code>Sentry</code>. Sentry is just a more complete tool, however, due to our target audience and just the android ecosystem in general, we are very careful regarding our app’s apk size. Every added mb has a negative impact on how many people download/sign-up in our app. After adding Sentry our app grew by almost 2 megabytes, that’s just too much.</p>
 
-<p>I spent a bit of time trying to see if there was anything that could be done about it. Eventually reading the issues on the <code class="language-plaintext highlighter-rouge">sentry-android</code> repo (which is a direct dependency of the react-native version of the Sentry library), some people mentioned that NDK support (the framework to write C/C++ in android) seems to add a lot of unnecessary files.</p>
+<p>I spent a bit of time trying to see if there was anything that could be done about it. Eventually reading the issues on the <code>sentry-android</code> repo (which is a direct dependency of the react-native version of the Sentry library), some people mentioned that NDK support (the framework to write C/C++ in android) seems to add a lot of unnecessary files.</p>
 
-<p>The documentation directly mentions that if you don’t need NDK support, you can switch your dependency from <code class="language-plaintext highlighter-rouge">sentry-android</code> to <code class="language-plaintext highlighter-rouge">sentry-android-core</code>.</p>
+<p>The documentation directly mentions that if you don’t need NDK support, you can switch your dependency from <code>sentry-android</code> to <code>sentry-android-core</code>.</p>
 
-<p>So I opened to <code class="language-plaintext highlighter-rouge">node_modules/@sentry/react-native/android/build.gradle</code> and changed the dependency there from <code class="language-plaintext highlighter-rouge">sentry-android</code> to <code class="language-plaintext highlighter-rouge">sentry-android-core</code>.</p>
+<p>So I opened to <code>node_modules/@sentry/react-native/android/build.gradle</code> and changed the dependency there from <code>sentry-android</code> to <code>sentry-android-core</code>.</p>
 
 <p>Then save a patch with <a href="https://github.com/ds300/patch-package">patch-package</a>.</p>
 
-<p>Building the app again (if you are doing local builds, you might want to run <code class="language-plaintext highlighter-rouge">./gradlew clean</code> on your android folder to get rid of any caches), <strong>yields a ~1.2 megabytes of the size of the app</strong>.</p>
+<p>Building the app again (if you are doing local builds, you might want to run <code>./gradlew clean</code> on your android folder to get rid of any caches), <strong>yields a ~1.2 megabytes of the size of the app</strong>.</p>
 </div>
     </div>
 

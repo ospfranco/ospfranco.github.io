@@ -72,46 +72,46 @@
 
 <p>Here is an example of a parent workflow:</p>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Fork production builds</span>
+<pre><code class="language-yml">name: Fork production builds
 
-<span class="na">on</span><span class="pi">:</span>
-  <span class="s">workflow_dispatch</span>
+on:
+  workflow_dispatch
 
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">say_hi</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Hi</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">echo "Hi"</span>
-</code></pre></div></div>
+jobs:
+  say_hi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hi
+        run: echo "Hi"
+</code></pre>
 <blockquote>
   <p>You need to have jobs with a step, otherwise github complains, but this entire workflow runs in less than a second.</p>
 </blockquote>
 
 <p>and on the child workflow, you just add it to the triggers</p>
 
-<div class="language-yml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">Android HMS Production</span>
+<pre><code class="language-yml">name: Android HMS Production
 
-<span class="na">on</span><span class="pi">:</span>
-  <span class="c1"># Automatic trigger when pushing tags</span>
-  <span class="c1"># push:</span>
-  <span class="c1">#   branches:</span>
-  <span class="c1">#     - "!*"</span>
-  <span class="c1">#   tags:</span>
-  <span class="c1">#     - 'v*'</span>
+on:
+  # Automatic trigger when pushing tags
+  # push:
+  #   branches:
+  #     - "!*"
+  #   tags:
+  #     - 'v*'
 
-  <span class="c1"># Manual trigger from the UI</span>
-  <span class="na">workflow_dispatch</span><span class="pi">:</span>
-    <span class="na">inputs</span><span class="pi">:</span>
-      <span class="na">message</span><span class="pi">:</span>
-        <span class="na">description</span><span class="pi">:</span> <span class="s1">'</span><span class="s">Build</span><span class="nv"> </span><span class="s">description'</span>
+  # Manual trigger from the UI
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Build description'
 
-  <span class="c1"># Dependency to a forking workflow</span>
-  <span class="na">workflow_run</span><span class="pi">:</span>
-    <span class="na">workflows</span><span class="pi">:</span> <span class="pi">[</span><span class="s2">"</span><span class="s">Fork</span><span class="nv"> </span><span class="s">production</span><span class="nv"> </span><span class="s">builds"</span><span class="pi">]</span>
-    <span class="na">type</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="s">complete</span>
-</code></pre></div></div>
+  # Dependency to a forking workflow
+  workflow_run:
+    workflows: ["Fork production builds"]
+    type:
+      - complete
+</code></pre>
 <blockquote>
   <p>The ‘complete’ type is just so that this workflow triggers after the previous one has been completed.</p>
 </blockquote>

@@ -64,19 +64,19 @@
 
       <div class="pt-4 pb-20 markdown"><p>In some cases you might want to clear listeners or state when a fast-refresh/hot-reload cycle happens. You can do so by hooking up to the hot module:</p>
 
-<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nf">accept</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">store</span><span class="p">.</span><span class="nf">cleanUp</span><span class="p">();</span>
-<span class="p">});</span>
-</code></pre></div></div>
+<pre><code class="language-typescript">module.hot?.accept(() =&gt; {
+  store.cleanUp();
+});
+</code></pre>
 
-<p>This will only be called once the new module is mounted, this means any reference the previous in-memory module had, will not be there. Sometimes you really need a reference to an old object to clean it, you can use the counter part <code class="language-plaintext highlighter-rouge">dispose</code>:</p>
+<p>This will only be called once the new module is mounted, this means any reference the previous in-memory module had, will not be there. Sometimes you really need a reference to an old object to clean it, you can use the counter part <code>dispose</code>:</p>
 
-<div class="language-typescript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">module</span><span class="p">.</span><span class="nx">hot</span><span class="p">?.</span><span class="nf">dispose</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
-  <span class="nx">myVarThatHoldsARef</span><span class="p">.</span><span class="nf">reset</span><span class="p">();</span>
-<span class="p">});</span>
-</code></pre></div></div>
+<pre><code class="language-typescript">module.hot?.dispose(() =&gt; {
+  myVarThatHoldsARef.reset();
+});
+</code></pre>
 
-<p>Take note of the optional chaining operator, when compiling the app on production the <code class="language-plaintext highlighter-rouge">hot</code> module will not be there, causing a crash if trying to be called.</p>
+<p>Take note of the optional chaining operator, when compiling the app on production the <code>hot</code> module will not be there, causing a crash if trying to be called.</p>
 </div>
     </div>
 

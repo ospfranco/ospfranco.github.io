@@ -93,19 +93,19 @@
 
 <p>After many hours ended up figuring out the right command to output the entire dependency graph for the app:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn flow graph dep-graph <span class="nt">--strip-root</span> <span class="nt">--out</span> ./output
-</code></pre></div></div>
+<pre><code class="language-bash">yarn flow graph dep-graph --strip-root --out ./output
+</code></pre>
 
 <p>This however it only produces the entire app graph… you can imagine this file is hundred thousand of lines of dependencies. In any case, this outputs a DOT file (from graphviz), which in theory you can easily visualize by using the right command:</p>
 
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># install dot via "brew install graphviz"</span>
+<pre><code class="language-bash"># install dot via "brew install graphviz"
 
-<span class="c"># I tried a png first... it just fails</span>
+# I tried a png first... it just fails
 
-dot <span class="nt">-Tsvg</span> output <span class="nt">-o</span> graph.svg
-</code></pre></div></div>
+dot -Tsvg output -o graph.svg
+</code></pre>
 
-<p>This produces an svg so massive and so filled with squigly lines it is effectively useless… so I had to narrow down the output to just an entry file which I’m interested. Unfortunately the <code class="language-plaintext highlighter-rouge">graph</code> command does not take an entry point to generate the graph, so I had to manually narrow down the graph that I had. Here is the gist with the script I ended up coming up with:</p>
+<p>This produces an svg so massive and so filled with squigly lines it is effectively useless… so I had to narrow down the output to just an entry file which I’m interested. Unfortunately the <code>graph</code> command does not take an entry point to generate the graph, so I had to manually narrow down the graph that I had. Here is the gist with the script I ended up coming up with:</p>
 
 <script src="https://gist.github.com/ospfranco/d599a68f1a2fe1f39a457162238fec78.js"></script>
 

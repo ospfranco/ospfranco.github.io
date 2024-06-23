@@ -62,18 +62,18 @@
         November 2023
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
+      <div class="pt-4 pb-20 markdown"><p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code>std::string</code>).</p>
 
 <p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
 
-<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
+<p>Afterwards you need to go into the <code>Build Settings</code> → <code>Swift Compiler - Language</code> → <code>C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
 
 <p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-ruby">s.pod_target_xcconfig = {
+  'SWIFT_OBJC_INTEROP_MODE' = 'objcxx'
+}
+</code></pre>
 
 <p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
 

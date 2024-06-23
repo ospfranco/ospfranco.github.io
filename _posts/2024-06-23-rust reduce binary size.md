@@ -7,16 +7,16 @@ permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-I find myself writting lots of Rust nowadays. I'm by no means an expert but I need to make due with my limited knowledge. A constant problem I'm facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts.
+I find myself writing a lot of Rust nowadays. I'm by no means an expert, but I need to make do with my limited knowledge. A constant problem I'm facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.
 
-The documentation is a bit confusing but here is the configuration I ended up using to get somewhat OK sizes. On the `cargo.toml`:
+The documentation is a bit confusing, but here is the configuration I ended up using to get somewhat OK sizes. In the `cargo.toml` file:
 
 ```toml
 [profile.release] # When compiling in release mode
 debug = false # Exclude debug symbols
-strip = "symbols" # Exclude the rest of symbols
-# opt-level = "z" # Did not use this, but equals C++ optimize for size (O3?)
-lto = true # Link time optimization, not sure what this does but helps reduce the size
+strip = "symbols" # Exclude the rest of the symbols
+# opt-level = "z" # Did not use this, but it equals C++'s optimize for size (O3?)
+lto = true # Link time optimization, not sure what this does but it helps reduce the size
 ```
 
 Additionally, using the following flag turns on dead-code stripping:
@@ -25,9 +25,9 @@ Additionally, using the following flag turns on dead-code stripping:
 RUSTFLAGS="-C link-arg=-Wl,-dead_strip" cargo build --release --target=<your-target>
 ```
 
-# Cargo bloat
+# Cargo Bloat
 
-I haven't fully explored what this tool can do, but it does point to large sections of the code. Install with `cargo install cargo-bloat` and then fire away:
+I haven't fully explored what this tool can do, but it does point to large sections of the code. Install it with `cargo install cargo-bloat` and then run:
 
 ```
 cargo bloat --release --target=<your-target>
@@ -35,4 +35,4 @@ cargo bloat --release --target=<your-target>
 
 # Results
 
-Using all the compile optimizations I was able to get output binary from 60mbs to 30mbs, still large but better.
+Using all the compile optimizations, I was able to reduce the output binary from 60 MB to 30 MB. It's still large but better.

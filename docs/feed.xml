@@ -1,89 +1,89 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-23T09:12:19+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Reduce Rust binaries size</title><link href="https://ospfranco.com/rust-reduce-binary-size/" rel="alternate" type="text/html" title="Reduce Rust binaries size" /><published>2024-06-23T00:00:00+02:00</published><updated>2024-06-23T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20reduce%20binary%20size</id><content type="html" xml:base="https://ospfranco.com/rust-reduce-binary-size/"><![CDATA[<p>I find myself writting lots of Rust nowadays. I’m by no means an expert but I need to make due with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-23T09:29:33+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Reduce Rust binaries size</title><link href="https://ospfranco.com/rust-reduce-binary-size/" rel="alternate" type="text/html" title="Reduce Rust binaries size" /><published>2024-06-23T00:00:00+02:00</published><updated>2024-06-23T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20reduce%20binary%20size</id><content type="html" xml:base="https://ospfranco.com/rust-reduce-binary-size/"><![CDATA[<p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
 
-<p>The documentation is a bit confusing but here is the configuration I ended up using to get somewhat OK sizes. On the <code class="language-plaintext highlighter-rouge">cargo.toml</code>:</p>
+<p>The documentation is a bit confusing, but here is the configuration I ended up using to get somewhat OK sizes. In the <code>cargo.toml</code> file:</p>
 
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[profile.release]</span> <span class="c"># When compiling in release mode</span>
-<span class="py">debug</span> <span class="p">=</span> <span class="kc">false</span> <span class="c"># Exclude debug symbols</span>
-<span class="py">strip</span> <span class="p">=</span> <span class="s">"symbols"</span> <span class="c"># Exclude the rest of symbols</span>
-<span class="c"># opt-level = "z" # Did not use this, but equals C++ optimize for size (O3?)</span>
-<span class="py">lto</span> <span class="p">=</span> <span class="kc">true</span> <span class="c"># Link time optimization, not sure what this does but helps reduce the size</span>
-</code></pre></div></div>
+<pre><code class="language-toml">[profile.release] # When compiling in release mode
+debug = false # Exclude debug symbols
+strip = "symbols" # Exclude the rest of the symbols
+# opt-level = "z" # Did not use this, but it equals C++'s optimize for size (O3?)
+lto = true # Link time optimization, not sure what this does but it helps reduce the size
+</code></pre>
 
 <p>Additionally, using the following flag turns on dead-code stripping:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>RUSTFLAGS="-C link-arg=-Wl,-dead_strip" cargo build --release --target=&lt;your-target&gt;
-</code></pre></div></div>
+<pre><code>RUSTFLAGS="-C link-arg=-Wl,-dead_strip" cargo build --release --target=&lt;your-target&gt;
+</code></pre>
 
-<h1 id="cargo-bloat">Cargo bloat</h1>
+<h1 id="cargo-bloat">Cargo Bloat</h1>
 
-<p>I haven’t fully explored what this tool can do, but it does point to large sections of the code. Install with <code class="language-plaintext highlighter-rouge">cargo install cargo-bloat</code> and then fire away:</p>
+<p>I haven’t fully explored what this tool can do, but it does point to large sections of the code. Install it with <code>cargo install cargo-bloat</code> and then run:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo bloat --release --target=&lt;your-target&gt;
-</code></pre></div></div>
+<pre><code>cargo bloat --release --target=&lt;your-target&gt;
+</code></pre>
 
 <h1 id="results">Results</h1>
 
-<p>Using all the compile optimizations I was able to get output binary from 60mbs to 30mbs, still large but better.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I find myself writting lots of Rust nowadays. I’m by no means an expert but I need to make due with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is specially a problem on mobile where each Mb counts.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Writting tests for Tauri Rust Commands</title><link href="https://ospfranco.com/writting-tests-for-tauri-rust-commands/" rel="alternate" type="text/html" title="Writting tests for Tauri Rust Commands" /><published>2024-06-05T00:00:00+02:00</published><updated>2024-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/writting%20tests%20for%20tauri%20rust%20commands</id><content type="html" xml:base="https://ospfranco.com/writting-tests-for-tauri-rust-commands/"><![CDATA[<p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
+<p>Using all the compile optimizations, I was able to reduce the output binary from 60 MB to 30 MB. It’s still large but better.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Writting tests for Tauri Rust Commands</title><link href="https://ospfranco.com/writting-tests-for-tauri-rust-commands/" rel="alternate" type="text/html" title="Writting tests for Tauri Rust Commands" /><published>2024-06-05T00:00:00+02:00</published><updated>2024-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/writting%20tests%20for%20tauri%20rust%20commands</id><content type="html" xml:base="https://ospfranco.com/writting-tests-for-tauri-rust-commands/"><![CDATA[<p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
 
 <p>The official documentation says one should write e2e tests with a UI simulation framework to test this functionality but that is way to cumbersome. I wanted unit tests for my Rust code. Also, I did not have stateless Rust functions, but functions where Tauri itself managed the state, so I needed to mock the entire Tauri app stack.</p>
 
 <p>Credit where is due this <a href="https://stackoverflow.com/questions/77524788/writing-tests-for-tauri-commands-how-to-access-and-manage-state-in-test-environ">Stack Overflow answer</a> provided the info I was looking for.</p>
 
-<p>However Tauri <code class="language-plaintext highlighter-rouge">1.6.7</code> broke this functionality and <code class="language-plaintext highlighter-rouge">1.6.8</code> fixed it by adding a new parameter.</p>
+<p>However Tauri <code>1.6.7</code> broke this functionality and <code>1.6.8</code> fixed it by adding a new parameter.</p>
 
-<p>Without further ado, first you need to add the <code class="language-plaintext highlighter-rouge">test</code> feature in your Tauri dependency:</p>
+<p>Without further ado, first you need to add the <code>test</code> feature in your Tauri dependency:</p>
 
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="py">tauri</span> <span class="o">=</span> <span class="p">{</span> <span class="py">version</span> <span class="p">=</span> <span class="s">"1.6.8"</span><span class="p">,</span> <span class="py">features</span> <span class="p">=</span> <span class="p">[</span><span class="s">"api-all"</span><span class="p">,</span> <span class="s">"updater"</span><span class="p">,</span> <span class="s">"test"</span><span class="p">]</span> <span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-toml">tauri = { version = "1.6.8", features = ["api-all", "updater", "test"] }
+</code></pre>
 
 <p>Then you can write your test like so:</p>
 
-<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[cfg(test)]</span>
-<span class="k">mod</span> <span class="n">tests</span> <span class="p">{</span>
-    <span class="k">use</span> <span class="k">super</span><span class="p">::</span><span class="o">*</span><span class="p">;</span>
-    <span class="k">use</span> <span class="nn">tauri</span><span class="p">::{</span>
-        <span class="nn">test</span><span class="p">::{</span><span class="n">mock_context</span><span class="p">,</span> <span class="n">noop_assets</span><span class="p">,</span> <span class="n">MockRuntime</span><span class="p">},</span>
-        <span class="n">App</span><span class="p">,</span>
-    <span class="p">};</span>
+<pre><code class="language-rust">#[cfg(test)]
+mod tests {
+    use super::*;
+    use tauri::{
+        test::{mock_context, noop_assets, MockRuntime},
+        App,
+    };
 
-    <span class="k">fn</span> <span class="nf">before_each</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">Result</span><span class="o">&lt;</span><span class="nn">tauri</span><span class="p">::</span><span class="n">App</span><span class="o">&lt;</span><span class="n">MockRuntime</span><span class="o">&gt;</span><span class="p">,</span> <span class="nn">std</span><span class="p">::</span><span class="nn">io</span><span class="p">::</span><span class="n">Error</span><span class="o">&gt;</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="n">app</span> <span class="o">=</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">test</span><span class="p">::</span><span class="nf">mock_builder</span><span class="p">()</span>
-            <span class="nf">.plugin</span><span class="p">(</span><span class="k">super</span><span class="p">::</span><span class="nf">init_plugin</span><span class="p">())</span>
-            <span class="nf">.build</span><span class="p">(</span><span class="nf">mock_context</span><span class="p">(</span><span class="nf">noop_assets</span><span class="p">()))</span>
-            <span class="nf">.unwrap</span><span class="p">();</span>
+    fn before_each() -&gt; Result&lt;tauri::App&lt;MockRuntime&gt;, std::io::Error&gt; {
+        let app = tauri::test::mock_builder()
+            .plugin(super::init_plugin())
+            .build(mock_context(noop_assets()))
+            .unwrap();
 
-        <span class="c1">// Any other setup code you need</span>
-        <span class="nf">Ok</span><span class="p">(</span><span class="n">app</span><span class="p">)</span>
-    <span class="p">}</span>
+        // Any other setup code you need
+        Ok(app)
+    }
 
-    <span class="k">async</span> <span class="k">fn</span> <span class="nf">after_each</span><span class="p">(</span><span class="n">app</span><span class="p">:</span> <span class="n">App</span><span class="o">&lt;</span><span class="n">MockRuntime</span><span class="o">&gt;</span><span class="p">)</span> <span class="p">{</span>
-        <span class="c1">// your clean up code</span>
-    <span class="p">}</span>
+    async fn after_each(app: App&lt;MockRuntime&gt;) {
+        // your clean up code
+    }
 
-    <span class="nd">#[tokio::test]</span>
-    <span class="k">async</span> <span class="k">fn</span> <span class="nf">should_return_0_with_no_loaded_models</span><span class="p">()</span> <span class="p">{</span>
-        <span class="k">let</span> <span class="n">app</span> <span class="o">=</span> <span class="nf">before_each</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>
-        <span class="k">let</span> <span class="n">window</span> <span class="o">=</span> <span class="n">app</span><span class="nf">.get_window</span><span class="p">(</span><span class="s">"main"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">();</span>
-        <span class="k">let</span> <span class="n">foo</span> <span class="o">=</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">test</span><span class="p">::</span><span class="nn">get_ipc_response</span><span class="p">::</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;&gt;</span><span class="p">(</span>
-            <span class="o">&amp;</span><span class="n">window</span><span class="p">,</span>
-            <span class="nn">tauri</span><span class="p">::</span><span class="n">InvokePayload</span> <span class="p">{</span>
-                <span class="n">cmd</span><span class="p">:</span> <span class="s">"plugin:my_plugin|foo"</span><span class="nf">.into</span><span class="p">(),</span>
-                <span class="n">tauri_module</span><span class="p">:</span> <span class="nb">None</span><span class="p">,</span>
-                <span class="n">invoke_key</span><span class="p">:</span> <span class="nf">Some</span><span class="p">(</span><span class="nn">tauri</span><span class="p">::</span><span class="nn">test</span><span class="p">::</span><span class="n">INVOKE_KEY</span><span class="nf">.into</span><span class="p">()),</span>
-                <span class="n">callback</span><span class="p">:</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">api</span><span class="p">::</span><span class="nn">ipc</span><span class="p">::</span><span class="nf">CallbackFn</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
-                <span class="n">error</span><span class="p">:</span> <span class="nn">tauri</span><span class="p">::</span><span class="nn">api</span><span class="p">::</span><span class="nn">ipc</span><span class="p">::</span><span class="nf">CallbackFn</span><span class="p">(</span><span class="mi">1</span><span class="p">),</span>
-                <span class="n">inner</span><span class="p">:</span> <span class="nn">serde_json</span><span class="p">::</span><span class="nd">json!</span><span class="p">({}),</span>
-            <span class="p">},</span>
-        <span class="p">);</span>
+    #[tokio::test]
+    async fn should_return_0_with_no_loaded_models() {
+        let app = before_each().unwrap();
+        let window = app.get_window("main").unwrap();
+        let foo = tauri::test::get_ipc_response::&lt;Vec&lt;String&gt;&gt;(
+            &amp;window,
+            tauri::InvokePayload {
+                cmd: "plugin:my_plugin|foo".into(),
+                tauri_module: None,
+                invoke_key: Some(tauri::test::INVOKE_KEY.into()),
+                callback: tauri::api::ipc::CallbackFn(0),
+                error: tauri::api::ipc::CallbackFn(1),
+                inner: serde_json::json!({}),
+            },
+        );
 
-        <span class="nd">assert!</span><span class="p">(</span><span class="n">foo</span><span class="nf">.is_ok</span><span class="p">());</span>
+        assert!(foo.is_ok());
 
-        <span class="nf">after_each</span><span class="p">(</span><span class="n">app</span><span class="p">)</span><span class="k">.await</span><span class="p">;</span>
-    <span class="p">}</span>
+        after_each(app).await;
+    }
 
-<span class="p">}</span>
+}
 
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00+02:00</published><updated>2024-05-30T00:00:00+02:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.</p>
+</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00+02:00</published><updated>2024-05-30T00:00:00+02:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.</p>
 
 <p>In this guide, we will explore various security considerations and best practices that every React Native developer should be aware of. If you find anything incorrect or have feedback, please reach out! This is a topic we should all care about.</p>
 
@@ -113,7 +113,7 @@
 
 <p>Again, once a hacker has access to the device, it’s game over. They can even mess with the OS internals to defeat device attestation, but at least you can make their lives harder.</p>
 
-<p>A final point to mention is packages like <code class="language-plaintext highlighter-rouge">react-native-dotenv</code> and <code class="language-plaintext highlighter-rouge">react-native-config</code>. I don’t like them because they can be misleading (and have caused me trouble compiling them in the past). These “environment variables” packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and the mixing of real environment variables with what they do have at least led unaware developers to think their secrets are secure (speaking from personal experience).</p>
+<p>A final point to mention is packages like <code>react-native-dotenv</code> and <code>react-native-config</code>. I don’t like them because they can be misleading (and have caused me trouble compiling them in the past). These “environment variables” packages still package your environment variables inside the app bundle and then read them at runtime. While they have not intentionally deceived people into thinking they are secure, the naming and the mixing of real environment variables with what they do have at least led unaware developers to think their secrets are secure (speaking from personal experience).</p>
 
 <p>The reason why environment variables in things like Docker containers and server environments are secure is that they reside in memory, are not persisted, and are isolated by running on the server where (hopefully) the only point of entry is a secure HTTP API. This is not the case for mobile apps (regardless of the language/framework you are using).</p>
 
@@ -127,48 +127,48 @@
 
 <p>Most packages tell you to do this:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="dl">"</span><span class="s2">password_is_password</span><span class="dl">"</span><span class="p">;</span>
+<pre><code class="language-ts">const myKey = "password_is_password";
 
-<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
-<span class="p">});</span>
-</code></pre></div></div>
+const storage = MyStateLibrary.create({
+  encryptionKey: myKey,
+});
+</code></pre>
 
-<p>The problem with this approach is that anyone can decompile your app and read the value of <code class="language-plaintext highlighter-rouge">myKey</code> (no matter how you obfuscate it). This is even worse in React Native, where you can just decompress an APK/IPA and take a look at the minified JS/TS code. I have mentioned in previous articles how looking into the JS bundle can leak valuable business logic and allow competitors to copy functionality.</p>
+<p>The problem with this approach is that anyone can decompile your app and read the value of <code>myKey</code> (no matter how you obfuscate it). This is even worse in React Native, where you can just decompress an APK/IPA and take a look at the minified JS/TS code. I have mentioned in previous articles how looking into the JS bundle can leak valuable business logic and allow competitors to copy functionality.</p>
 
-<p>Here is a better approach to generate and store your encryption key. I’ll use my package <code class="language-plaintext highlighter-rouge">op-s2</code> for this, but you can use <a href="https://docs.expo.dev/versions/latest/sdk/securestore/">Expo Secure Store</a> or <a href="https://github.com/oblador/react-native-keychain">react-native-keychain</a> they are all (more-or-less) equivalent but I tried to make op-s2 the simplest. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).</p>
+<p>Here is a better approach to generate and store your encryption key. I’ll use my package <code>op-s2</code> for this, but you can use <a href="https://docs.expo.dev/versions/latest/sdk/securestore/">Expo Secure Store</a> or <a href="https://github.com/oblador/react-native-keychain">react-native-keychain</a> they are all (more-or-less) equivalent but I tried to make op-s2 the simplest. Both work by storing data in the Keychain on iOS and by generating keys with the KeyStore API on Android, which are backed by hardware (when possible on Android) and are secure (as secure as it gets with untampered devices).</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="kd">set</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@op-engineering/op-s2</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">generateSecureRandom</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-securerandom</span><span class="dl">"</span><span class="p">;</span>
+<pre><code class="language-ts">import { set } from "@op-engineering/op-s2";
+import { generateSecureRandom } from "react-native-securerandom";
 
-<span class="k">async</span> <span class="kd">function</span> <span class="nf">generateKey</span><span class="p">()</span> <span class="p">{</span>
-  <span class="c1">// generate secure bytes using the t2 chip (SecRandomCopyBytes) and Secure Random on Android</span>
-  <span class="kd">const</span> <span class="nx">secureBytes</span> <span class="o">=</span> <span class="k">await</span> <span class="nf">generateSecureRandom</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+async function generateKey() {
+  // generate secure bytes using the t2 chip (SecRandomCopyBytes) and Secure Random on Android
+  const secureBytes = await generateSecureRandom(42);
 
-  <span class="c1">// on the latest versions of RN btoa is part of hermes</span>
-  <span class="kd">const</span> <span class="nx">key</span> <span class="o">=</span> <span class="nf">btoa</span><span class="p">(</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">.</span><span class="nf">apply</span><span class="p">(</span><span class="kc">null</span><span class="p">,</span> <span class="nx">secureBytes</span><span class="p">));</span>
+  // on the latest versions of RN btoa is part of hermes
+  const key = btoa(String.fromCharCode.apply(null, secureBytes));
 
-  <span class="kd">const</span> <span class="p">{</span> <span class="nx">error</span> <span class="p">}</span> <span class="o">=</span> <span class="nf">set</span><span class="p">({</span>
-    <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span>
-    <span class="na">value</span><span class="p">:</span> <span class="nx">key</span><span class="p">,</span>
-    <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span> <span class="c1">// This means a FaceID/biometrics prompt will appear every time. See the docs if you don't want to use this</span>
-  <span class="p">});</span>
-<span class="p">}</span>
-</code></pre></div></div>
+  const { error } = set({
+    key: "myKey",
+    value: key,
+    withBiometrics: true, // This means a FaceID/biometrics prompt will appear every time. See the docs if you don't want to use this
+  });
+}
+</code></pre>
 
-<p><code class="language-plaintext highlighter-rouge">withBiometrics</code> is the safest but most cumbersome option, as it requires user authentication every time you want to read this key. You can leave it out, and it will still be secure. How are these packages secure? Because KeyStore/Keychain actually allow access on a per-app bundle basis (with signature verification, I believe). You only have access to the data you have created; you cannot read values from other apps/processes. So, at least we have per-app security.</p>
+<p><code>withBiometrics</code> is the safest but most cumbersome option, as it requires user authentication every time you want to read this key. You can leave it out, and it will still be secure. How are these packages secure? Because KeyStore/Keychain actually allow access on a per-app bundle basis (with signature verification, I believe). You only have access to the data you have created; you cannot read values from other apps/processes. So, at least we have per-app security.</p>
 
 <p>Then, when you start your storage, you can pass this key:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+<pre><code class="language-ts">const myKey = get({ key: "myKey", withBiometrics: true });
 
-<span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="nx">MyStateLibrary</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
-<span class="p">});</span>
+const storage = MyStateLibrary.create({
+  encryptionKey: myKey,
+});
 
-<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="kc">null</span><span class="p">;</span>
-<span class="c1">// You can even trigger garbage collection to make a timed attack even harder</span>
-</code></pre></div></div>
+const myKey = null;
+// You can even trigger garbage collection to make a timed attack even harder
+</code></pre>
 
 <p>Again, nothing is truly secure, but at least we have an extra layer of protection. Clearing the memory is also a best practice to prevent leaks. We then rely on the library to have correctly implemented an encryption algorithm.</p>
 
@@ -184,37 +184,37 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 
 <p>Once you have your encryption keys securely stored, it’s time to move on to storing the data itself securely. Here, some libraries are already prepared for that. MMKV allows you to specify an encryption key:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="kd">get</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">@op-engineering/op-s2</span><span class="dl">"</span><span class="p">;</span>
-<span class="k">import</span> <span class="p">{</span> <span class="nx">MMKV</span><span class="p">,</span> <span class="nx">Mode</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-mmkv</span><span class="dl">"</span><span class="p">;</span>
+<pre><code class="language-ts">import { get } from "@op-engineering/op-s2";
+import { MMKV, Mode } from "react-native-mmkv";
 
-<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+const myKey = get({ key: "myKey", withBiometrics: true });
 
-<span class="k">export</span> <span class="kd">const</span> <span class="nx">storage</span> <span class="o">=</span> <span class="k">new</span> <span class="nc">MMKV</span><span class="p">({</span>
-  <span class="na">id</span><span class="p">:</span> <span class="s2">`user-</span><span class="p">${</span><span class="nx">userId</span><span class="p">}</span><span class="s2">-storage`</span><span class="p">,</span>
-  <span class="na">path</span><span class="p">:</span> <span class="s2">`</span><span class="p">${</span><span class="nx">USER_DIRECTORY</span><span class="p">}</span><span class="s2">/storage`</span><span class="p">,</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span><span class="p">,</span>
-  <span class="na">mode</span><span class="p">:</span> <span class="nx">Mode</span><span class="p">.</span><span class="nx">MULTI_PROCESS</span><span class="p">,</span>
-<span class="p">});</span>
-</code></pre></div></div>
+export const storage = new MMKV({
+  id: `user-${userId}-storage`,
+  path: `${USER_DIRECTORY}/storage`,
+  encryptionKey: myKey,
+  mode: Mode.MULTI_PROCESS,
+});
+</code></pre>
 
-<p>Another alternative is using an encrypted fork of SQLite called SQLCipher, which you can use via <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. You just need to enable SQLCipher support in the <code class="language-plaintext highlighter-rouge">package.json</code>:</p>
+<p>Another alternative is using an encrypted fork of SQLite called SQLCipher, which you can use via <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. You just need to enable SQLCipher support in the <code>package.json</code>:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"op-sqlite"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-  </span><span class="nl">"sqlcipher"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">"op-sqlite": {
+  "sqlcipher": true
+}
+</code></pre>
 
 <p>Then, when you open your database:</p>
 
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">const</span> <span class="p">{</span> <span class="nx">open</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@op-engineering/op-sqlite</span><span class="dl">'</span><span class="p">;</span>
+<pre><code class="language-ts">const { open } from '@op-engineering/op-sqlite';
 
-<span class="kd">const</span> <span class="nx">myKey</span> <span class="o">=</span> <span class="nf">get</span><span class="p">({</span> <span class="na">key</span><span class="p">:</span> <span class="dl">"</span><span class="s2">myKey</span><span class="dl">"</span><span class="p">,</span> <span class="na">withBiometrics</span><span class="p">:</span> <span class="kc">true</span> <span class="p">});</span>
+const myKey = get({ key: "myKey", withBiometrics: true });
 
-<span class="kd">const</span> <span class="nx">db</span> <span class="o">=</span> <span class="nf">open</span><span class="p">({</span>
-  <span class="na">name</span><span class="p">:</span> <span class="dl">'</span><span class="s1">my_secure_db.sqlite</span><span class="dl">'</span><span class="p">,</span>
-  <span class="na">encryptionKey</span><span class="p">:</span> <span class="nx">myKey</span>
-<span class="p">});</span>
-</code></pre></div></div>
+const db = open({
+  name: 'my_secure_db.sqlite',
+  encryptionKey: myKey
+});
+</code></pre>
 
 <p>This will fully encrypt the data stored on disk with a bit of overhead. As long as your encryption key is not compromised, it should be safe.</p>
 
@@ -237,89 +237,89 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 <h1 id="basic-setup">Basic Setup</h1>
 
 <ul>
-  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website (using <code class="language-plaintext highlighter-rouge">rustup</code>).</li>
-  <li>In order to compile the Android version you are going to use the <code class="language-plaintext highlighter-rouge">ndk</code> create which simplifies the command to compile the rust library for Android. Install it via <code class="language-plaintext highlighter-rouge">cargo install ndk</code></li>
+  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website (using <code>rustup</code>).</li>
+  <li>In order to compile the Android version you are going to use the <code>ndk</code> create which simplifies the command to compile the rust library for Android. Install it via <code>cargo install ndk</code></li>
   <li>
-    <p>Create a crate where we will put all of our Rust lib code and infra scripts. In my case I will call it <code class="language-plaintext highlighter-rouge">my_sdk</code></p>
+    <p>Create a crate where we will put all of our Rust lib code and infra scripts. In my case I will call it <code>my_sdk</code></p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo new my_sdk
-</code></pre></div>    </div>
+    <pre><code class="language-bash">cargo new my_sdk
+</code></pre>
   </li>
   <li>
-    <p>Create a <code class="language-plaintext highlighter-rouge">rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project:</p>
+    <p>Create a <code>rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project:</p>
 
-    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[toolchain]</span>
-<span class="py">channel</span> <span class="p">=</span> <span class="s">"stable"</span>
-<span class="py">targets</span> <span class="p">=</span> <span class="p">[</span><span class="s">"x86_64-apple-ios"</span><span class="p">,</span> <span class="s">"aarch64-apple-ios"</span><span class="p">,</span> <span class="s">"aarch64-apple-ios-sim"</span><span class="p">,</span> <span class="s">"aarch64-linux-android"</span><span class="p">,</span> <span class="s">"armv7-linux-androideabi"</span><span class="p">,</span> <span class="s">"x86_64-linux-android"</span><span class="p">,</span> <span class="s">"i686-linux-android"</span><span class="p">]</span>
-</code></pre></div>    </div>
+    <pre><code class="language-toml">[toolchain]
+channel = "stable"
+targets = ["x86_64-apple-ios", "aarch64-apple-ios", "aarch64-apple-ios-sim", "aarch64-linux-android", "armv7-linux-androideabi", "x86_64-linux-android", "i686-linux-android"]
+</code></pre>
   </li>
-  <li>Change name of <code class="language-plaintext highlighter-rouge">main.rs</code> to <code class="language-plaintext highlighter-rouge">lib.rs</code></li>
+  <li>Change name of <code>main.rs</code> to <code>lib.rs</code></li>
   <li>
     <p>Add your API code on lib.rs</p>
 
-    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
-<span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="p">}</span>
-</code></pre></div>    </div>
+    <pre><code class="language-rust">#[no_mangle]
+extern "C" fn sum(a: i32, b: i32) {
+  a + b
+}
+</code></pre>
   </li>
   <li>
-    <p>We will use a crate called <code class="language-plaintext highlighter-rouge">cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code class="language-plaintext highlighter-rouge">build.rs</code> that runs everytime our project is compiled/checked. First we are going to add the dependency as a <code class="language-plaintext highlighter-rouge">[build-dependencies]</code>, the project <code class="language-plaintext highlighter-rouge">Cargo.toml</code>:</p>
+    <p>We will use a crate called <code>cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code>build.rs</code> that runs everytime our project is compiled/checked. First we are going to add the dependency as a <code>[build-dependencies]</code>, the project <code>Cargo.toml</code>:</p>
 
-    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[build-dependencies]</span>
-<span class="py">cbindgen</span> <span class="p">=</span> <span class="s">"0.26.0"</span>
-</code></pre></div>    </div>
+    <pre><code class="language-toml">[build-dependencies]
+cbindgen = "0.26.0"
+</code></pre>
   </li>
   <li>
-    <p>Then on the root of the project create a <code class="language-plaintext highlighter-rouge">build.rs</code> file:</p>
+    <p>Then on the root of the project create a <code>build.rs</code> file:</p>
 
-    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extern</span> <span class="k">crate</span> <span class="n">cbindgen</span><span class="p">;</span>
+    <pre><code class="language-rust">extern crate cbindgen;
 
-<span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="n">env</span><span class="p">;</span>
+use std::env;
 
-<span class="k">fn</span> <span class="nf">generate_c_headers</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">crate_dir</span> <span class="o">=</span> <span class="nn">env</span><span class="p">::</span><span class="nf">var</span><span class="p">(</span><span class="s">"CARGO_MANIFEST_DIR"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">();</span>
+fn generate_c_headers() {
+    let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
 
-    <span class="nn">cbindgen</span><span class="p">::</span><span class="nn">Builder</span><span class="p">::</span><span class="nf">new</span><span class="p">()</span>
-        <span class="nf">.with_crate</span><span class="p">(</span><span class="n">crate_dir</span><span class="p">)</span>
-        <span class="nf">.with_language</span><span class="p">(</span><span class="nn">cbindgen</span><span class="p">::</span><span class="nn">Language</span><span class="p">::</span><span class="n">C</span><span class="p">)</span>
-        <span class="nf">.with_include_guard</span><span class="p">(</span><span class="s">"my_sdk_h"</span><span class="p">)</span>
-        <span class="nf">.with_autogen_warning</span><span class="p">(</span>
-            <span class="s">"/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */"</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="nf">.with_namespace</span><span class="p">(</span><span class="s">"my_sdk"</span><span class="p">)</span>
-        <span class="nf">.with_cpp_compat</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
-        <span class="nf">.generate</span><span class="p">()</span>
-        <span class="nf">.expect</span><span class="p">(</span><span class="s">"Unable to generate bindings"</span><span class="p">)</span>
-        <span class="nf">.write_to_file</span><span class="p">(</span><span class="s">"generated/include/my_sdk.h"</span><span class="p">);</span>
-<span class="p">}</span>
+    cbindgen::Builder::new()
+        .with_crate(crate_dir)
+        .with_language(cbindgen::Language::C)
+        .with_include_guard("my_sdk_h")
+        .with_autogen_warning(
+            "/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */",
+        )
+        .with_namespace("my_sdk")
+        .with_cpp_compat(true)
+        .generate()
+        .expect("Unable to generate bindings")
+        .write_to_file("generated/include/my_sdk.h");
+}
 
-<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// Tell Cargo that if the given file changes, to rerun this build script.</span>
-    <span class="c1">// println!("cargo:rerun-if-changed=src/lib.rs");</span>
-    <span class="nf">generate_c_headers</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div>    </div>
+fn main() {
+    // Tell Cargo that if the given file changes, to rerun this build script.
+    // println!("cargo:rerun-if-changed=src/lib.rs");
+    generate_c_headers();
+}
+</code></pre>
   </li>
   <li>
-    <p>Modify the <code class="language-plaintext highlighter-rouge">cargo.toml</code> to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The <code class="language-plaintext highlighter-rouge">jni</code> dependency is only necessary if you are planing to call your code from Java/Kotlin.</p>
+    <p>Modify the <code>cargo.toml</code> to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The <code>jni</code> dependency is only necessary if you are planing to call your code from Java/Kotlin.</p>
 
-    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[package]</span>
-<span class="py">name</span> <span class="p">=</span> <span class="s">"SDK"</span>
-<span class="py">version</span> <span class="p">=</span> <span class="s">"0.1.0"</span>
-<span class="py">edition</span> <span class="p">=</span> <span class="s">"2021"</span>
+    <pre><code class="language-toml">[package]
+name = "SDK"
+version = "0.1.0"
+edition = "2021"
 
-<span class="nn">[lib]</span>
-<span class="py">name</span> <span class="p">=</span> <span class="s">"SDK"</span>
-<span class="py">crate-type</span> <span class="p">=</span> <span class="p">[</span><span class="s">"staticlib"</span><span class="p">]</span>
+[lib]
+name = "SDK"
+crate-type = ["staticlib"]
 
-<span class="nn">[dependencies]</span>
-<span class="py">libc</span> <span class="p">=</span> <span class="s">"0.2.80"</span> <span class="c"># Allows to use c types CString, c_char, etc.</span>
-<span class="py">jni</span> <span class="p">=</span> <span class="s">"0.17.0"</span> <span class="c"># Allows to write JNI bindings directly from Rust</span>
+[dependencies]
+libc = "0.2.80" # Allows to use c types CString, c_char, etc.
+jni = "0.17.0" # Allows to write JNI bindings directly from Rust
 
-<span class="nn">[build-dependencies]</span>
-<span class="py">cbindgen</span> <span class="p">=</span> <span class="s">"0.26.0"</span>
-</code></pre></div>    </div>
+[build-dependencies]
+cbindgen = "0.26.0"
+</code></pre>
   </li>
 </ul>
 
@@ -327,148 +327,148 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 
 <ul>
   <li>
-    <p>We are going to use <code class="language-plaintext highlighter-rouge">Make</code> to compile and package the library. No specific reason for it you can create your script on JS too.</p>
+    <p>We are going to use <code>Make</code> to compile and package the library. No specific reason for it you can create your script on JS too.</p>
 
-    <div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ARCHS_IOS</span> <span class="o">=</span> x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-<span class="nv">ARCHS_ANDROID</span> <span class="o">=</span> aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
-<span class="nv">LIB</span> <span class="o">=</span> libmy_sdk.a
-<span class="nv">XCFRAMEWORK</span> <span class="o">=</span> my_sdk.xcframework
+    <pre><code class="language-make">ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
+ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+LIB = libmy_sdk.a
+XCFRAMEWORK = my_sdk.xcframework
 
-<span class="nl">all</span><span class="o">:</span> <span class="nf">ios android</span>
+all: ios android
 
-<span class="nl">ios</span><span class="o">:</span> <span class="nf">$(XCFRAMEWORK)</span>
+ios: $(XCFRAMEWORK)
 
-<span class="nl">android</span><span class="o">:</span> <span class="nf">$(ARCHS_ANDROID)</span>
-  <span class="err">./copy-android.sh</span>
+android: $(ARCHS_ANDROID)
+  ./copy-android.sh
 
-<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">$(ARCHS_IOS)</span>
-<span class="nl">$(ARCHS_IOS)</span><span class="o">:</span> <span class="nf">%:</span>
-  <span class="err">cargo</span> <span class="err">build</span> <span class="err">--target</span> <span class="err">$@</span> <span class="err">--release</span>
+.PHONY: $(ARCHS_IOS)
+$(ARCHS_IOS): %:
+  cargo build --target $@ --release
 
-<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">$(ARCHS_ANDROID)</span>
-<span class="nl">$(ARCHS_ANDROID)</span><span class="o">:</span> <span class="nf">%:</span>
-  <span class="err">cargo</span> <span class="err">ndk</span> <span class="err">--target</span> <span class="err">$@</span> <span class="err">--platform</span> <span class="err">31</span> <span class="err">--release</span>
+.PHONY: $(ARCHS_ANDROID)
+$(ARCHS_ANDROID): %:
+  cargo ndk --target $@ --platform 31 --release
 
-<span class="nl">$(XCFRAMEWORK)</span><span class="o">:</span> <span class="nf">$(ARCHS_IOS)</span>
-  <span class="err">lipo</span> <span class="err">-create</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../../target/x86_64-apple-ios/release/<span class="p">$(</span>LIB<span class="p">))</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../../target/aarch64-apple-ios-sim/release/<span class="p">$(</span>LIB<span class="p">))</span> <span class="err">-output</span> <span class="err">simulator_fat/libmy_sdk.a</span>
-  <span class="err">xcodebuild</span> <span class="err">-create-xcframework</span> <span class="err">-library</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../../target/aarch64-apple-ios/release/<span class="p">$(</span>LIB<span class="p">))</span> <span class="err">-headers</span> <span class="k">include</span><span class="sx"> -library simulator_fat/libmy_sdk.a -headers include -output $@</span>
-  <span class="err">./copy-ios.sh</span>
-</code></pre></div>    </div>
+$(XCFRAMEWORK): $(ARCHS_IOS)
+  lipo -create $(wildcard ../../target/x86_64-apple-ios/release/$(LIB)) $(wildcard ../../target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
+  xcodebuild -create-xcframework -library $(wildcard ../../target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
+  ./copy-ios.sh
+</code></pre>
 
     <blockquote>
       <p>You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.</p>
     </blockquote>
   </li>
-  <li>The <code class="language-plaintext highlighter-rouge">copy-ios.sh</code> is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you modify the locations manually.</li>
-  <li>Add generated <code class="language-plaintext highlighter-rouge">.xcframework</code> to Xcode
+  <li>The <code>copy-ios.sh</code> is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you modify the locations manually.</li>
+  <li>Add generated <code>.xcframework</code> to Xcode
     <ul>
       <li>If you are doing this on a single project then dragging and dropping is the easiest, just make sure in the project properties mark the xcframework as embed and sign.</li>
-      <li>If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the <code class="language-plaintext highlighter-rouge">xcframework</code> somewhere and then on your podspec add <code class="language-plaintext highlighter-rouge">s.vendored_frameworks = "my_sdk.xcframework"</code></li>
+      <li>If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the <code>xcframework</code> somewhere and then on your podspec add <code>s.vendored_frameworks = "my_sdk.xcframework"</code></li>
     </ul>
   </li>
-  <li>You should now be able to simply import the header file (<code class="language-plaintext highlighter-rouge">#include "my_sdk.h"</code>) and call any Rust function from any Obj-C++ file</li>
+  <li>You should now be able to simply import the header file (<code>#include "my_sdk.h"</code>) and call any Rust function from any Obj-C++ file</li>
 </ul>
 
 <h1 id="android">Android</h1>
 
 <ul>
   <li>
-    <p>The <code class="language-plaintext highlighter-rouge">ndk</code> crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:</p>
+    <p>The <code>ndk</code> crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">ANDROID_SDK_ROOT</span><span class="o">=</span><span class="nv">$HOME</span>/Library/Android/sdk
-<span class="nb">export </span><span class="nv">ANDROID_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/Library/Android/sdk
-<span class="nb">export </span><span class="nv">ANDROID_NDK_HOME</span><span class="o">=</span><span class="nv">$ANDROID_HOME</span>/ndk/25.1.8937393
-</code></pre></div>    </div>
+    <pre><code class="language-bash">export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
+</code></pre>
   </li>
   <li>
-    <p>After the compilation is done, we need to place the files in the correct place, the <code class="language-plaintext highlighter-rouge">copy-android.sh</code> takes care of that:</p>
+    <p>After the compilation is done, we need to place the files in the correct place, the <code>copy-android.sh</code> takes care of that:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/x86
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/arm64-v8a
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/armeabi-v7a
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/x86_64
+    <pre><code class="language-bash">#!/bin/bash
+mkdir -p ../android/app/src/main/jniLibs
+mkdir -p ../android/app/src/main/jniLibs/x86
+mkdir -p ../android/app/src/main/jniLibs/arm64-v8a
+mkdir -p ../android/app/src/main/jniLibs/armeabi-v7a
+mkdir -p ../android/app/src/main/jniLibs/x86_64
 
 
-<span class="nb">cp</span> ./target/i686-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86/libmy_sdk.so
-<span class="nb">cp</span> ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
-<span class="nb">cp</span> ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
-<span class="nb">cp</span> ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
-</code></pre></div>    </div>
+cp ./target/i686-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86/libmy_sdk.so
+cp ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
+cp ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
+cp ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
+</code></pre>
   </li>
   <li>
-    <p>We need to tell cmake to link the library when compiling our native module, on the <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code> file add the following:</p>
+    <p>We need to tell cmake to link the library when compiling our native module, on the <code>CMakeLists.txt</code> file add the following:</p>
 
-    <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">make_path</span><span class="p">(</span>SET MY_SDK_LIB <span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span>/jniLibs/<span class="si">${</span><span class="nv">ANDROID_ABI</span><span class="si">}</span>/libmy_sdk.a NORMALIZE<span class="p">)</span>
-<span class="nb">add_library</span><span class="p">(</span>my_sdk STATIC IMPORTED<span class="p">)</span>
-<span class="nb">set_target_properties</span><span class="p">(</span>my_sdk PROPERTIES IMPORTED_LOCATION <span class="si">${</span><span class="nv">MY_SDK_LIB</span><span class="si">}</span><span class="p">)</span>
+    <pre><code class="language-cmake">make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
+add_library(my_sdk STATIC IMPORTED)
+set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})
 
-<span class="nb">target_link_libraries</span><span class="p">(</span>tm
+target_link_libraries(tm
         jsi
         my_sdk
         react_nativemodule_core
         react_codegen_AppSpecs
-<span class="p">)</span>
-</code></pre></div>    </div>
+)
+</code></pre>
   </li>
-  <li>We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the <code class="language-plaintext highlighter-rouge">lib.rs</code> and the following block</li>
-  <li>We can finally call <code class="language-plaintext highlighter-rouge">make android</code> and the library will be created for us</li>
+  <li>We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the <code>lib.rs</code> and the following block</li>
+  <li>We can finally call <code>make android</code> and the library will be created for us</li>
   <li>
     <p><strong>Optional</strong> If you want to call the functions from Java/Kotlin (and not from C++) you need to create another binding using Android’s JNI:</p>
 
-    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// On Android function names need to follow the JNI convention</span>
-<span class="k">pub</span> <span class="k">mod</span> <span class="n">android</span> <span class="p">{</span>
-  <span class="k">extern</span> <span class="k">crate</span> <span class="n">jni</span><span class="p">;</span>
+    <pre><code class="language-rust">// On Android function names need to follow the JNI convention
+pub mod android {
+  extern crate jni;
 
-  <span class="k">use</span> <span class="k">self</span><span class="p">::</span><span class="nn">jni</span><span class="p">::</span><span class="n">JNIEnv</span><span class="p">;</span>
-  <span class="k">use</span> <span class="k">self</span><span class="p">::</span><span class="nn">jni</span><span class="p">::</span><span class="nn">objects</span><span class="p">::</span><span class="n">JClass</span><span class="p">;</span>
-  <span class="k">use</span> <span class="k">self</span><span class="p">::</span><span class="nn">jni</span><span class="p">::</span><span class="nn">sys</span><span class="p">::</span><span class="n">jstring</span><span class="p">;</span>
+  use self::jni::JNIEnv;
+  use self::jni::objects::JClass;
+  use self::jni::sys::jstring;
 
-  <span class="nd">#[no_mangle]</span>
-  <span class="k">pub</span> <span class="k">unsafe</span> <span class="k">extern</span> <span class="k">fn</span> <span class="nf">Java_com_samplesdk_BindingsModule_helloWorld</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="n">JNIEnv</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">JClass</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">jstring</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">output</span> <span class="o">=</span> <span class="n">env</span><span class="nf">.new_string</span><span class="p">(</span><span class="s">"Hello from Rust!"</span><span class="p">)</span><span class="nf">.expect</span><span class="p">(</span><span class="s">"Couldn't create java string!"</span><span class="p">);</span>
-    <span class="n">output</span><span class="nf">.into_inner</span><span class="p">()</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>    </div>
+  #[no_mangle]
+  pub unsafe extern fn Java_com_samplesdk_BindingsModule_helloWorld(env: JNIEnv, _: JClass) -&gt; jstring {
+    let output = env.new_string("Hello from Rust!").expect("Couldn't create java string!");
+    output.into_inner()
+  }
+}
+</code></pre>
   </li>
   <li>
     <p>We can now create a RN Module (or JSI module) and simply load the library and call it (via JNI of course)</p>
 
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.samplesdk</span><span class="o">;</span>
+    <pre><code class="language-java">package com.samplesdk;
 
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.NativeModule</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactApplicationContext</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactContext</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactContextBaseJavaModule</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactMethod</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.util.RNLog</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.util.RNLog;
+import java.util.Map;
+import java.util.HashMap;
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BindingsModule</span> <span class="kd">extends</span> <span class="nc">ReactContextBaseJavaModule</span> <span class="o">{</span>
+public class BindingsModule extends ReactContextBaseJavaModule {
 
 
-    <span class="nc">BindingsModule</span><span class="o">(</span><span class="nc">ReactApplicationContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
-    <span class="o">}</span>
+    BindingsModule(ReactApplicationContext context) {
+        super(context);
+    }
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="s">"Bindings"</span><span class="o">;</span>
-    <span class="o">}</span>
+    @Override
+    public String getName() {
+        return "Bindings";
+    }
 
-    <span class="nd">@ReactMethod</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiKey</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">RNLog</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">(),</span> <span class="s">"BindingsModule.init() called with apiKey: "</span> <span class="o">+</span> <span class="n">apiKey</span> <span class="o">+</span> <span class="s">"calling rust"</span><span class="o">);</span>
-        <span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">helloWorld</span><span class="o">();</span>
-        <span class="nc">RNLog</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">(),</span> <span class="s">"Rust says: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
-    <span class="o">}</span>
+    @ReactMethod
+    public void init(String apiKey) {
+        RNLog.w(this.getReactApplicationContext(), "BindingsModule.init() called with apiKey: " + apiKey + "calling rust");
+        String result = helloWorld();
+        RNLog.w(this.getReactApplicationContext(), "Rust says: " + result);
+    }
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="nc">String</span> <span class="nf">helloWorld</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div>    </div>
+    private static native String helloWorld();
+}
+</code></pre>
   </li>
 </ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why I believe Swift is better than Rust</title><link href="https://ospfranco.com/why-I-believe-swift-is-better-than-rust/" rel="alternate" type="text/html" title="Why I believe Swift is better than Rust" /><published>2024-04-29T00:00:00+02:00</published><updated>2024-04-29T00:00:00+02:00</updated><id>https://ospfranco.com/why%20I%20believe%20swift%20is%20better%20than%20rust</id><content type="html" xml:base="https://ospfranco.com/why-I-believe-swift-is-better-than-rust/"><![CDATA[<p>Over the last year, I have been building software in native languages. C++, Swift, Kotlin and most recently Rust. Rust has been particularly tricky to get right and has given me an uneasy feeling.</p>
 
@@ -492,40 +492,40 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 
 <h1 id="the-feeling">The feeling</h1>
 
-<p>Whenever I open a Swift file I wrote myself I can immediately pick up where I left. Whereas with Rust every function is a mess of <code class="language-plaintext highlighter-rouge">unwrap</code>, <code class="language-plaintext highlighter-rouge">clone</code>, <code class="language-plaintext highlighter-rouge">arc</code>, <code class="language-plaintext highlighter-rouge">box</code>. Ultimately, Rust solved the memory management problem at the interface between your hands and the keyboard and that makes coding too hard.</p>
+<p>Whenever I open a Swift file I wrote myself I can immediately pick up where I left. Whereas with Rust every function is a mess of <code>unwrap</code>, <code>clone</code>, <code>arc</code>, <code>box</code>. Ultimately, Rust solved the memory management problem at the interface between your hands and the keyboard and that makes coding too hard.</p>
 
 <p>I don’t think Swift is perfect but is a joy to work with.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Over the last year, I have been building software in native languages. C++, Swift, Kotlin and most recently Rust. Rust has been particularly tricky to get right and has given me an uneasy feeling.]]></summary></entry><entry><title type="html">How to resolve duplicated libraries on Android</title><link href="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/" rel="alternate" type="text/html" title="How to resolve duplicated libraries on Android" /><published>2023-12-07T00:00:00+01:00</published><updated>2023-12-07T00:00:00+01:00</updated><id>https://ospfranco.com/how%20to%20resolve%20duplicated%20libraries%20on%20android</id><content type="html" xml:base="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/"><![CDATA[<p>If you have developed on Android long enough, you might have found an error like this:</p>
 
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>A failure occurred <span class="k">while </span>executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask<span class="nv">$MergeNativeLibsTaskWorkAction</span>
-2 files found with path <span class="s1">'lib/arm64-v8a/libcrypto.so'</span>
-</code></pre></div></div>
+<pre><code class="language-sh">A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
+2 files found with path 'lib/arm64-v8a/libcrypto.so'
+</code></pre>
 
-<p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code class="language-plaintext highlighter-rouge">libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>
+<p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code>libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>
 
 <p>There are a number of workarounds, but they all have potential issues, so here are some short explanations.</p>
 
 <h1 id="exclude">Exclude</h1>
 
-<p>The first solution you might try is the <code class="language-plaintext highlighter-rouge">exclude</code> command of gradle. This will only work if you are modifying the sources of one of the conflicting libraries. This basically tells Gradle: whenever you are packaging this library, exclude this files from the final bundle merge.</p>
+<p>The first solution you might try is the <code>exclude</code> command of gradle. This will only work if you are modifying the sources of one of the conflicting libraries. This basically tells Gradle: whenever you are packaging this library, exclude this files from the final bundle merge.</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">packagingOptions</span> <span class="o">{</span>
-      <span class="n">excludes</span> <span class="o">=</span> <span class="o">[</span>
-        <span class="c1">// ... other excluded files</span>
-        <span class="s2">"**/libcrypto.so"</span>
-      <span class="o">]</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">packagingOptions {
+      excludes = [
+        // ... other excluded files
+        "**/libcrypto.so"
+      ]
+}
+</code></pre>
 
-<p>This will basically force your final application to contain one <code class="language-plaintext highlighter-rouge">libcrypto.so</code> and avoid any potential conflicts. The problem is than, if you remove the other dependency and no one is left to generate the .so, then you are out of luck and you will get an error saying the file is missing.</p>
+<p>This will basically force your final application to contain one <code>libcrypto.so</code> and avoid any potential conflicts. The problem is than, if you remove the other dependency and no one is left to generate the .so, then you are out of luck and you will get an error saying the file is missing.</p>
 
 <h1 id="pick-first">Pick first</h1>
 
-<p>Another possible strategy is using <code class="language-plaintext highlighter-rouge">pickFirst</code>, it basically tells Gradle: “whatever you find first, just link against that”. The problem with this however is that it cannot be included in the offending library <code class="language-plaintext highlighter-rouge">build.gradle</code> but must be specified in the application’s <code class="language-plaintext highlighter-rouge">build.gradle</code> (since that is the parent scope that faces the conflict when compiling the dependencies)</p>
+<p>Another possible strategy is using <code>pickFirst</code>, it basically tells Gradle: “whatever you find first, just link against that”. The problem with this however is that it cannot be included in the offending library <code>build.gradle</code> but must be specified in the application’s <code>build.gradle</code> (since that is the parent scope that faces the conflict when compiling the dependencies)</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">packagingOptions</span> <span class="o">{</span>
-  <span class="n">pickFirst</span> <span class="s1">'**/libcrypto.so'</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">packagingOptions {
+  pickFirst '**/libcrypto.so'
+}
+</code></pre>
 
 <h1 id="other-strategies">Other strategies</h1>
 
@@ -535,42 +535,42 @@ Keystore is just an API for retrieving/generating/saving secure crypto keys. The
 
 <p>Change the declared dependency to exclude the internal dependency</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">implementation</span> <span class="o">(</span><span class="s1">'junit:junit:4.12'</span><span class="o">){</span>
-    <span class="n">exclude</span> <span class="nl">group:</span> <span class="s1">'org.hamcrest'</span><span class="o">,</span> <span class="nl">module:</span><span class="s1">'hamcrest-core'</span> <span class="c1">// exclude the transtive dependency</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">implementation ('junit:junit:4.12'){
+    exclude group: 'org.hamcrest', module:'hamcrest-core' // exclude the transtive dependency
+}
+</code></pre>
 
 <h2 id="explicitely-requiring-the-dependency">Explicitely requiring the dependency</h2>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">implementation</span> <span class="s1">'junit:junit:4.12'</span>
-<span class="n">implementation</span> <span class="s1">'org.hamcrest:hamcrest-core:1.3'</span> <span class="c1">// force the shared dependency version</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">implementation 'junit:junit:4.12'
+implementation 'org.hamcrest:hamcrest-core:1.3' // force the shared dependency version
+</code></pre>
 
 <h2 id="force-resolution">Force resolution</h2>
 
 <p>This might force an older version into the dependencies</p>
 
-<div class="language-groovy highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">android</span> <span class="o">{</span>
-    <span class="n">configurations</span><span class="o">.</span><span class="na">all</span> <span class="o">{</span>
-        <span class="n">resolutionStrategy</span><span class="o">.</span><span class="na">force</span> <span class="s1">'org.hamcrest:hamcrest-core:1.1'</span>
-    <span class="o">}</span>
-<span class="o">}</span>
-</code></pre></div></div>
+<pre><code class="language-groovy">android {
+    configurations.all {
+        resolutionStrategy.force 'org.hamcrest:hamcrest-core:1.1'
+    }
+}
+</code></pre>
 
 <h1 id="version-missmatch">Version missmatch</h1>
 
-<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code class="language-plaintext highlighter-rouge">std::string</code>).</p>
+<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00+01:00</published><updated>2023-11-24T00:00:00+01:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code>std::string</code>).</p>
 
 <p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
 
-<p>Afterwards you need to go into the <code class="language-plaintext highlighter-rouge">Build Settings</code> → <code class="language-plaintext highlighter-rouge">Swift Compiler - Language</code> → <code class="language-plaintext highlighter-rouge">C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
+<p>Afterwards you need to go into the <code>Build Settings</code> → <code>Swift Compiler - Language</code> → <code>C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
 
 <p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="s1">'SWIFT_OBJC_INTEROP_MODE'</span> <span class="o">=</span> <span class="s1">'objcxx'</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-ruby">s.pod_target_xcconfig = {
+  'SWIFT_OBJC_INTEROP_MODE' = 'objcxx'
+}
+</code></pre>
 
 <p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
 
@@ -618,45 +618,45 @@ void Foo_bar(struct FooHandle* foo, int c);
 
 <p>Another alternative is to hide the header files from the XCode file system, yet still provide them via flags that will get passed to the compilers:</p>
 
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">require</span> <span class="s2">"json"</span>
+<pre><code class="language-ruby">require "json"
 
-<span class="n">package</span> <span class="o">=</span> <span class="no">JSON</span><span class="p">.</span><span class="nf">parse</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">read</span><span class="p">(</span><span class="no">File</span><span class="p">.</span><span class="nf">join</span><span class="p">(</span><span class="n">__dir__</span><span class="p">,</span> <span class="s2">"package.json"</span><span class="p">)))</span>
+package = JSON.parse(File.read(File.join(__dir__, "package.json")))
 
-<span class="no">Pod</span><span class="o">::</span><span class="no">Spec</span><span class="p">.</span><span class="nf">new</span> <span class="k">do</span> <span class="o">|</span><span class="n">s</span><span class="o">|</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">name</span>           <span class="o">=</span> <span class="s2">"matrix"</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">version</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"version"</span><span class="p">]</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">summary</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"description"</span><span class="p">]</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">homepage</span>       <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"homepage"</span><span class="p">]</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">license</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"license"</span><span class="p">]</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">authors</span>        <span class="o">=</span> <span class="n">package</span><span class="p">[</span><span class="s2">"author"</span><span class="p">]</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">platforms</span>      <span class="o">=</span> <span class="p">{</span> <span class="ss">:ios</span> <span class="o">=&gt;</span> <span class="s2">"13.0"</span> <span class="p">}</span>
+Pod::Spec.new do |s|
+  s.name           = "matrix"
+  s.version        = package["version"]
+  s.summary        = package["description"]
+  s.homepage       = package["homepage"]
+  s.license        = package["license"]
+  s.authors        = package["author"]
+  s.platforms      = { :ios =&gt; "13.0" }
 
-  <span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">"DEFINES_MODULE"</span> <span class="o">=&gt;</span> <span class="s2">"YES"</span><span class="p">,</span>
-    <span class="s2">"SWIFT_COMPILATION_MODE"</span> <span class="o">=&gt;</span> <span class="s2">"wholemodule"</span><span class="p">,</span>
-    <span class="s2">"CLANG_CXX_LANGUAGE_STANDARD"</span> <span class="o">=&gt;</span> <span class="s2">"c++17"</span><span class="p">,</span>
-    <span class="c1"># ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓</span>
-    <span class="s2">"HEADER_SEARCH_PATHS"</span> <span class="o">=&gt;</span> <span class="s2">"</span><span class="se">\"</span><span class="s2">$(PODS_TARGET_SRCROOT)/cpp/</span><span class="se">\"</span><span class="s2">/** "</span> <span class="c1"># This will link the headers at compile time, flag passed directly to the compiler</span>
-  <span class="p">}</span>
+  s.pod_target_xcconfig = {
+    "DEFINES_MODULE" =&gt; "YES",
+    "SWIFT_COMPILATION_MODE" =&gt; "wholemodule",
+    "CLANG_CXX_LANGUAGE_STANDARD" =&gt; "c++17",
+    # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    "HEADER_SEARCH_PATHS" =&gt; "\"$(PODS_TARGET_SRCROOT)/cpp/\"/** " # This will link the headers at compile time, flag passed directly to the compiler
+  }
 
-  <span class="c1"># ↓↓↓↓↓↓↓↓↓↓↓↓</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">source_files</span> <span class="o">=</span> <span class="s2">"ios/**/*.{mm,swift}"</span><span class="p">,</span> <span class="s2">"cpp/**/*.{cpp,c}"</span> <span class="c1"># Do not include the headers in the sources, then XCode won't try to compile them</span>
+  # ↓↓↓↓↓↓↓↓↓↓↓↓
+  s.source_files = "ios/**/*.{mm,swift}", "cpp/**/*.{cpp,c}" # Do not include the headers in the sources, then XCode won't try to compile them
 
-  <span class="c1"># ↓↓↓↓↓↓↓↓↓↓↓↓↓↓</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">preserve_paths</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">"cpp/**/*.h"</span><span class="p">,</span>
-    <span class="s2">"ios/**/*.h"</span>
-  <span class="p">]</span>
+  # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+  s.preserve_paths = [
+    "cpp/**/*.h",
+    "ios/**/*.h"
+  ]
 
-  <span class="n">s</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"React"</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"React-Core"</span>
-  <span class="n">s</span><span class="p">.</span><span class="nf">dependency</span> <span class="s2">"React-callinvoker"</span>
-<span class="k">end</span>
-</code></pre></div></div>
+  s.dependency "React"
+  s.dependency "React-Core"
+  s.dependency "React-callinvoker"
+end
+</code></pre>
 
 <p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T00:00:00+01:00</published><updated>2023-11-13T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
 
-<p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code class="language-plaintext highlighter-rouge">po NSHomeDirectory()</code> and it will print out the local directory.</p>
+<p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code>po NSHomeDirectory()</code> and it will print out the local directory.</p>
 
 <p><img src="https://ospfranco.com/assets/pohomedirectory.png" alt="home directory print out" title="PO NSHomeDirectory" /></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.]]></summary></entry><entry><title type="html">SQLite for React Native, but 5x faster and 5x less memory</title><link href="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" rel="alternate" type="text/html" title="SQLite for React Native, but 5x faster and 5x less memory" /><published>2023-11-09T00:00:00+01:00</published><updated>2023-11-09T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/09/sqlite%20for%20react%20native,%20but%205x%20faster%20and%205x%20less%20memory</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"><![CDATA[<p>I created a new sqlite module for react-native: <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module.</p>
 
@@ -686,31 +686,31 @@ void Foo_bar(struct FooHandle* foo, int c);
 
 <p>Another issue was I created a Struct to hold different type of data, due to the nature of JS any value you receive can be of these types:</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">QuickValue</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">intVal</span><span class="p">;</span>
-  <span class="kt">double</span> <span class="n">doubleVal</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">strVal</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="n">boolVal</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">type</span><span class="p">;</span> <span class="c1">// used to store which type of data this was holding</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-c++">struct QuickValue {
+  int intVal;
+  double doubleVal;
+  std::string strVal;
+  bool boolVal;
+  std::string type; // used to store which type of data this was holding
+}
+</code></pre>
 
 <p>There is no justification for this structure other than: I didn’t knew any better, my c++-fu was weak. I knew that using this struct would allocate too much extra memory and was wasteful, I just didn’t imagine how much. Allocating memory and moving objects around in the heap has a big cost, not only in memory but sometimes in performance!</p>
 
-<p>When browsing the web and other peoples code, I came to learn about <a href="https://en.cppreference.com/w/cpp/utility/any">std::any</a>, which was introduced in C++ 17. It basically functions the same as my struct to hold data (internally it just stores a pointer <code class="language-plaintext highlighter-rouge">void *</code>). I got rid of the struct and swapped all references for <code class="language-plaintext highlighter-rouge">std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code class="language-plaintext highlighter-rouge">std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there.</p>
+<p>When browsing the web and other peoples code, I came to learn about <a href="https://en.cppreference.com/w/cpp/utility/any">std::any</a>, which was introduced in C++ 17. It basically functions the same as my struct to hold data (internally it just stores a pointer <code>void *</code>). I got rid of the struct and swapped all references for <code>std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code>std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there.</p>
 
-<p>When reading on how to do certain operations, a lot of answers pointed towards <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a>. After getting the code to compile with <code class="language-plaintext highlighter-rouge">std::any</code> I decided to give <code class="language-plaintext highlighter-rouge">std::variant</code> a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
+<p>When reading on how to do certain operations, a lot of answers pointed towards <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a>. After getting the code to compile with <code>std::any</code> I decided to give <code>std::variant</code> a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;variant&gt;</span><span class="cp">
-</span>
-<span class="k">struct</span> <span class="nc">ArrayBuffer</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span>
-    <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>
-<span class="p">};</span>
+<pre><code class="language-c++">#include &lt;variant&gt;
+
+struct ArrayBuffer {
+    std::shared_ptr&lt;uint8_t&gt; data;
+    size_t size;
+};
 
 
-<span class="k">using</span> <span class="n">JSVariant</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">variant</span><span class="o">&lt;</span><span class="n">nullptr_t</span><span class="p">,</span> <span class="kt">bool</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">double</span><span class="p">,</span> <span class="kt">long</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">ArrayBuffer</span><span class="o">&gt;</span><span class="p">;</span>
-</code></pre></div></div>
+using JSVariant = std::variant&lt;nullptr_t, bool, int, double, long, long long, std::string, ArrayBuffer&gt;;
+</code></pre>
 
 <h1 id="turning-the-problem-around">Turning the problem around</h1>
 
@@ -749,9 +749,9 @@ void Foo_bar(struct FooHandle* foo, int c);
 
 <h1 id="troubles-in-paradise">Troubles in paradise</h1>
 
-<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code class="language-plaintext highlighter-rouge">std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all.</p>
+<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code>std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all.</p>
 
-<p>As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code class="language-plaintext highlighter-rouge">jsi::Object()</code> API, when I tested <code class="language-plaintext highlighter-rouge">quick-sqlite</code> the numbers accessing data are quite similar. <code class="language-plaintext highlighter-rouge">expo-sqlite</code> was super fast on accessing data, but it zips the data on the JS side, so it seems that is the only way to create fast access objects. This means however you will always pay the price upfront for such large queries.</p>
+<p>As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code>jsi::Object()</code> API, when I tested <code>quick-sqlite</code> the numbers accessing data are quite similar. <code>expo-sqlite</code> was super fast on accessing data, but it zips the data on the JS side, so it seems that is the only way to create fast access objects. This means however you will always pay the price upfront for such large queries.</p>
 
 <p>There are a few final optimizations that can be done, such as inserting keys in the shared vector with some sorting, so then accessing can be done via binary search, but I will leave it for later. Other optimizations include trying to inline more functions, but I think I have reached the end of what is possible with the JSI.</p>
 

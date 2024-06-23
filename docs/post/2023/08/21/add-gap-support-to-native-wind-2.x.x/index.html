@@ -64,66 +64,66 @@
 
       <div class="pt-4 pb-20 markdown"><p>I’m a big fan of Tailwind CSS. On React Native I use Nativewind.</p>
 
-<p>There is however a small problem with the 2.X.X version of Nativewind, it doesn’t support the <code class="language-plaintext highlighter-rouge">gap</code> property, which was added on RN 0.70.</p>
+<p>There is however a small problem with the 2.X.X version of Nativewind, it doesn’t support the <code>gap</code> property, which was added on RN 0.70.</p>
 
 <p>We can however patch this functionality (without using the unstable 3.x.x branch).</p>
 
-<p>Add the following to <code class="language-plaintext highlighter-rouge">tailwind.config.js</code></p>
+<p>Add the following to <code>tailwind.config.js</code></p>
 
-<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/** @type {import('tailwindcss').Config} */</span>
+<pre><code class="language-js">/** @type {import('tailwindcss').Config} */
 
-<span class="kd">const</span> <span class="nx">plugin</span> <span class="o">=</span> <span class="nf">require</span><span class="p">(</span><span class="dl">"</span><span class="s2">tailwindcss/plugin</span><span class="dl">"</span><span class="p">);</span>
+const plugin = require("tailwindcss/plugin");
 
-<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="p">{</span>
-  <span class="na">content</span><span class="p">:</span> <span class="p">[</span><span class="dl">"</span><span class="s2">./App.tsx</span><span class="dl">"</span><span class="p">,</span> <span class="dl">"</span><span class="s2">./src/**/*.{ts,tsx}</span><span class="dl">"</span><span class="p">],</span>
-  <span class="na">theme</span><span class="p">:</span> <span class="p">{</span>
-    <span class="na">g</span><span class="p">:</span> <span class="p">({</span> <span class="nx">theme</span> <span class="p">})</span> <span class="o">=&gt;</span> <span class="nf">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">spacing</span><span class="dl">"</span><span class="p">),</span> <span class="c1">// ADD THIS FUNCTION</span>
-    <span class="na">extend</span><span class="p">:</span> <span class="p">{</span>
-      <span class="na">colors</span><span class="p">:</span> <span class="p">{</span>
-        <span class="na">lightPurple</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#6360EB</span><span class="dl">"</span><span class="p">,</span>
-        <span class="na">darkPurple</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#001448</span><span class="dl">"</span><span class="p">,</span>
-      <span class="p">},</span>
-    <span class="p">},</span>
-  <span class="p">},</span>
-  <span class="na">plugins</span><span class="p">:</span> <span class="p">[</span>
-    <span class="nf">plugin</span><span class="p">(</span><span class="nf">function </span><span class="p">({</span> <span class="nx">matchUtilities</span><span class="p">,</span> <span class="nx">theme</span> <span class="p">})</span> <span class="p">{</span>
-      <span class="c1">// ADD THIS PLUGIN</span>
-      <span class="nf">matchUtilities</span><span class="p">(</span>
-        <span class="p">{</span>
-          <span class="na">g</span><span class="p">:</span> <span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">({</span>
-            <span class="na">gap</span><span class="p">:</span> <span class="nx">value</span><span class="p">,</span>
-          <span class="p">}),</span>
-        <span class="p">},</span>
-        <span class="p">{</span> <span class="na">values</span><span class="p">:</span> <span class="nf">theme</span><span class="p">(</span><span class="dl">"</span><span class="s2">g</span><span class="dl">"</span><span class="p">)</span> <span class="p">}</span>
-      <span class="p">);</span>
-    <span class="p">}),</span>
-  <span class="p">],</span>
-<span class="p">};</span>
-</code></pre></div></div>
+module.exports = {
+  content: ["./App.tsx", "./src/**/*.{ts,tsx}"],
+  theme: {
+    g: ({ theme }) =&gt; theme("spacing"), // ADD THIS FUNCTION
+    extend: {
+      colors: {
+        lightPurple: "#6360EB",
+        darkPurple: "#001448",
+      },
+    },
+  },
+  plugins: [
+    plugin(function ({ matchUtilities, theme }) {
+      // ADD THIS PLUGIN
+      matchUtilities(
+        {
+          g: (value) =&gt; ({
+            gap: value,
+          }),
+        },
+        { values: theme("g") }
+      );
+    }),
+  ],
+};
+</code></pre>
 
 <h1 id="use-patch-package-to-patch-the-list-of-supported-properties">Use patch-package to patch the list of supported properties</h1>
 
-<p>Internally Nativewind maintains a list of supported properties, and gap is not among them, so we are going to have to <code class="language-plaintext highlighter-rouge">patch-package</code> it. Create a patch <code class="language-plaintext highlighter-rouge">nativewind+2.0.11.patch</code> file in your <code class="language-plaintext highlighter-rouge">patches</code> directory, with the following content:</p>
+<p>Internally Nativewind maintains a list of supported properties, and gap is not among them, so we are going to have to <code>patch-package</code> it. Create a patch <code>nativewind+2.0.11.patch</code> file in your <code>patches</code> directory, with the following content:</p>
 
-<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gh">diff --git a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
+<pre><code class="language-diff">diff --git a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
 index 7d7715b..56472bc 100644
-</span><span class="gd">--- a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
-</span><span class="gi">+++ b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
-</span><span class="p">@@ -1,120 +1,121 @@</span>
-<span class="gd">-"use strict";
+--- a/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
++++ b/node_modules/nativewind/dist/postcss/to-react-native/is-invalid-property.js
+@@ -1,120 +1,121 @@
+-"use strict";
 -Object.defineProperty(exports, "__esModule", { value: true });
 -exports.isInvalidProperty = void 0;
-</span><span class="gi">+'use strict'
++'use strict'
 +Object.defineProperty(exports, '__esModule', {value: true})
 +exports.isInvalidProperty = void 0
-</span> function isInvalidProperty(property) {
-<span class="gd">-    return !validProps.has(property);
-</span><span class="gi">+  return !validProps.has(property)
-</span> }
-<span class="gd">-exports.isInvalidProperty = isInvalidProperty;
-</span><span class="gi">+exports.isInvalidProperty = isInvalidProperty
-</span> const validProps = new Set([
-<span class="gd">-    "alignContent",
+ function isInvalidProperty(property) {
+-    return !validProps.has(property);
++  return !validProps.has(property)
+ }
+-exports.isInvalidProperty = isInvalidProperty;
++exports.isInvalidProperty = isInvalidProperty
+ const validProps = new Set([
+-    "alignContent",
 -    "alignItems",
 -    "alignSelf",
 -    "aspectRatio",
@@ -235,7 +235,7 @@ index 7d7715b..56472bc 100644
 -    "stroke",
 -    "strokeWidth",
 -]);
-</span><span class="gi">+  'alignContent',
++  'alignContent',
 +  'alignItems',
 +  'alignSelf',
 +  'aspectRatio',
@@ -348,13 +348,13 @@ index 7d7715b..56472bc 100644
 +  'stroke',
 +  'strokeWidth',
 +])
-</span></code></pre></div></div>
+</code></pre>
 
 <blockquote>
   <p>Actually we only need to add gap to the list, but my formatter cleaned everything and I’m too lazy to clean it :)</p>
 </blockquote>
 
-<p>Afterwards you can run <code class="language-plaintext highlighter-rouge">yarn</code> again for the patch to take effect, restart the packager (maybe with –reset-cache) and you can now use the gap property via <code class="language-plaintext highlighter-rouge">g-[n]</code> utilities.</p>
+<p>Afterwards you can run <code>yarn</code> again for the patch to take effect, restart the packager (maybe with –reset-cache) and you can now use the gap property via <code>g-[n]</code> utilities.</p>
 </div>
     </div>
 

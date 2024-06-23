@@ -71,89 +71,89 @@
 <h1 id="basic-setup">Basic Setup</h1>
 
 <ul>
-  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website (using <code class="language-plaintext highlighter-rouge">rustup</code>).</li>
-  <li>In order to compile the Android version you are going to use the <code class="language-plaintext highlighter-rouge">ndk</code> create which simplifies the command to compile the rust library for Android. Install it via <code class="language-plaintext highlighter-rouge">cargo install ndk</code></li>
+  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website (using <code>rustup</code>).</li>
+  <li>In order to compile the Android version you are going to use the <code>ndk</code> create which simplifies the command to compile the rust library for Android. Install it via <code>cargo install ndk</code></li>
   <li>
-    <p>Create a crate where we will put all of our Rust lib code and infra scripts. In my case I will call it <code class="language-plaintext highlighter-rouge">my_sdk</code></p>
+    <p>Create a crate where we will put all of our Rust lib code and infra scripts. In my case I will call it <code>my_sdk</code></p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo new my_sdk
-</code></pre></div>    </div>
+    <pre><code class="language-bash">cargo new my_sdk
+</code></pre>
   </li>
   <li>
-    <p>Create a <code class="language-plaintext highlighter-rouge">rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project:</p>
+    <p>Create a <code>rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project:</p>
 
-    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[toolchain]</span>
-<span class="py">channel</span> <span class="p">=</span> <span class="s">"stable"</span>
-<span class="py">targets</span> <span class="p">=</span> <span class="p">[</span><span class="s">"x86_64-apple-ios"</span><span class="p">,</span> <span class="s">"aarch64-apple-ios"</span><span class="p">,</span> <span class="s">"aarch64-apple-ios-sim"</span><span class="p">,</span> <span class="s">"aarch64-linux-android"</span><span class="p">,</span> <span class="s">"armv7-linux-androideabi"</span><span class="p">,</span> <span class="s">"x86_64-linux-android"</span><span class="p">,</span> <span class="s">"i686-linux-android"</span><span class="p">]</span>
-</code></pre></div>    </div>
+    <pre><code class="language-toml">[toolchain]
+channel = "stable"
+targets = ["x86_64-apple-ios", "aarch64-apple-ios", "aarch64-apple-ios-sim", "aarch64-linux-android", "armv7-linux-androideabi", "x86_64-linux-android", "i686-linux-android"]
+</code></pre>
   </li>
-  <li>Change name of <code class="language-plaintext highlighter-rouge">main.rs</code> to <code class="language-plaintext highlighter-rouge">lib.rs</code></li>
+  <li>Change name of <code>main.rs</code> to <code>lib.rs</code></li>
   <li>
     <p>Add your API code on lib.rs</p>
 
-    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
-<span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">sum</span><span class="p">(</span><span class="n">a</span><span class="p">:</span> <span class="nb">i32</span><span class="p">,</span> <span class="n">b</span><span class="p">:</span> <span class="nb">i32</span><span class="p">)</span> <span class="p">{</span>
-  <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
-<span class="p">}</span>
-</code></pre></div>    </div>
+    <pre><code class="language-rust">#[no_mangle]
+extern "C" fn sum(a: i32, b: i32) {
+  a + b
+}
+</code></pre>
   </li>
   <li>
-    <p>We will use a crate called <code class="language-plaintext highlighter-rouge">cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code class="language-plaintext highlighter-rouge">build.rs</code> that runs everytime our project is compiled/checked. First we are going to add the dependency as a <code class="language-plaintext highlighter-rouge">[build-dependencies]</code>, the project <code class="language-plaintext highlighter-rouge">Cargo.toml</code>:</p>
+    <p>We will use a crate called <code>cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code>build.rs</code> that runs everytime our project is compiled/checked. First we are going to add the dependency as a <code>[build-dependencies]</code>, the project <code>Cargo.toml</code>:</p>
 
-    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[build-dependencies]</span>
-<span class="py">cbindgen</span> <span class="p">=</span> <span class="s">"0.26.0"</span>
-</code></pre></div>    </div>
+    <pre><code class="language-toml">[build-dependencies]
+cbindgen = "0.26.0"
+</code></pre>
   </li>
   <li>
-    <p>Then on the root of the project create a <code class="language-plaintext highlighter-rouge">build.rs</code> file:</p>
+    <p>Then on the root of the project create a <code>build.rs</code> file:</p>
 
-    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extern</span> <span class="k">crate</span> <span class="n">cbindgen</span><span class="p">;</span>
+    <pre><code class="language-rust">extern crate cbindgen;
 
-<span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="n">env</span><span class="p">;</span>
+use std::env;
 
-<span class="k">fn</span> <span class="nf">generate_c_headers</span><span class="p">()</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">crate_dir</span> <span class="o">=</span> <span class="nn">env</span><span class="p">::</span><span class="nf">var</span><span class="p">(</span><span class="s">"CARGO_MANIFEST_DIR"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">();</span>
+fn generate_c_headers() {
+    let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
 
-    <span class="nn">cbindgen</span><span class="p">::</span><span class="nn">Builder</span><span class="p">::</span><span class="nf">new</span><span class="p">()</span>
-        <span class="nf">.with_crate</span><span class="p">(</span><span class="n">crate_dir</span><span class="p">)</span>
-        <span class="nf">.with_language</span><span class="p">(</span><span class="nn">cbindgen</span><span class="p">::</span><span class="nn">Language</span><span class="p">::</span><span class="n">C</span><span class="p">)</span>
-        <span class="nf">.with_include_guard</span><span class="p">(</span><span class="s">"my_sdk_h"</span><span class="p">)</span>
-        <span class="nf">.with_autogen_warning</span><span class="p">(</span>
-            <span class="s">"/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */"</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="nf">.with_namespace</span><span class="p">(</span><span class="s">"my_sdk"</span><span class="p">)</span>
-        <span class="nf">.with_cpp_compat</span><span class="p">(</span><span class="k">true</span><span class="p">)</span>
-        <span class="nf">.generate</span><span class="p">()</span>
-        <span class="nf">.expect</span><span class="p">(</span><span class="s">"Unable to generate bindings"</span><span class="p">)</span>
-        <span class="nf">.write_to_file</span><span class="p">(</span><span class="s">"generated/include/my_sdk.h"</span><span class="p">);</span>
-<span class="p">}</span>
+    cbindgen::Builder::new()
+        .with_crate(crate_dir)
+        .with_language(cbindgen::Language::C)
+        .with_include_guard("my_sdk_h")
+        .with_autogen_warning(
+            "/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */",
+        )
+        .with_namespace("my_sdk")
+        .with_cpp_compat(true)
+        .generate()
+        .expect("Unable to generate bindings")
+        .write_to_file("generated/include/my_sdk.h");
+}
 
-<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-    <span class="c1">// Tell Cargo that if the given file changes, to rerun this build script.</span>
-    <span class="c1">// println!("cargo:rerun-if-changed=src/lib.rs");</span>
-    <span class="nf">generate_c_headers</span><span class="p">();</span>
-<span class="p">}</span>
-</code></pre></div>    </div>
+fn main() {
+    // Tell Cargo that if the given file changes, to rerun this build script.
+    // println!("cargo:rerun-if-changed=src/lib.rs");
+    generate_c_headers();
+}
+</code></pre>
   </li>
   <li>
-    <p>Modify the <code class="language-plaintext highlighter-rouge">cargo.toml</code> to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The <code class="language-plaintext highlighter-rouge">jni</code> dependency is only necessary if you are planing to call your code from Java/Kotlin.</p>
+    <p>Modify the <code>cargo.toml</code> to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The <code>jni</code> dependency is only necessary if you are planing to call your code from Java/Kotlin.</p>
 
-    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nn">[package]</span>
-<span class="py">name</span> <span class="p">=</span> <span class="s">"SDK"</span>
-<span class="py">version</span> <span class="p">=</span> <span class="s">"0.1.0"</span>
-<span class="py">edition</span> <span class="p">=</span> <span class="s">"2021"</span>
+    <pre><code class="language-toml">[package]
+name = "SDK"
+version = "0.1.0"
+edition = "2021"
 
-<span class="nn">[lib]</span>
-<span class="py">name</span> <span class="p">=</span> <span class="s">"SDK"</span>
-<span class="py">crate-type</span> <span class="p">=</span> <span class="p">[</span><span class="s">"staticlib"</span><span class="p">]</span>
+[lib]
+name = "SDK"
+crate-type = ["staticlib"]
 
-<span class="nn">[dependencies]</span>
-<span class="py">libc</span> <span class="p">=</span> <span class="s">"0.2.80"</span> <span class="c"># Allows to use c types CString, c_char, etc.</span>
-<span class="py">jni</span> <span class="p">=</span> <span class="s">"0.17.0"</span> <span class="c"># Allows to write JNI bindings directly from Rust</span>
+[dependencies]
+libc = "0.2.80" # Allows to use c types CString, c_char, etc.
+jni = "0.17.0" # Allows to write JNI bindings directly from Rust
 
-<span class="nn">[build-dependencies]</span>
-<span class="py">cbindgen</span> <span class="p">=</span> <span class="s">"0.26.0"</span>
-</code></pre></div>    </div>
+[build-dependencies]
+cbindgen = "0.26.0"
+</code></pre>
   </li>
 </ul>
 
@@ -161,148 +161,148 @@
 
 <ul>
   <li>
-    <p>We are going to use <code class="language-plaintext highlighter-rouge">Make</code> to compile and package the library. No specific reason for it you can create your script on JS too.</p>
+    <p>We are going to use <code>Make</code> to compile and package the library. No specific reason for it you can create your script on JS too.</p>
 
-    <div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">ARCHS_IOS</span> <span class="o">=</span> x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-<span class="nv">ARCHS_ANDROID</span> <span class="o">=</span> aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
-<span class="nv">LIB</span> <span class="o">=</span> libmy_sdk.a
-<span class="nv">XCFRAMEWORK</span> <span class="o">=</span> my_sdk.xcframework
+    <pre><code class="language-make">ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
+ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
+LIB = libmy_sdk.a
+XCFRAMEWORK = my_sdk.xcframework
 
-<span class="nl">all</span><span class="o">:</span> <span class="nf">ios android</span>
+all: ios android
 
-<span class="nl">ios</span><span class="o">:</span> <span class="nf">$(XCFRAMEWORK)</span>
+ios: $(XCFRAMEWORK)
 
-<span class="nl">android</span><span class="o">:</span> <span class="nf">$(ARCHS_ANDROID)</span>
-  <span class="err">./copy-android.sh</span>
+android: $(ARCHS_ANDROID)
+  ./copy-android.sh
 
-<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">$(ARCHS_IOS)</span>
-<span class="nl">$(ARCHS_IOS)</span><span class="o">:</span> <span class="nf">%:</span>
-  <span class="err">cargo</span> <span class="err">build</span> <span class="err">--target</span> <span class="err">$@</span> <span class="err">--release</span>
+.PHONY: $(ARCHS_IOS)
+$(ARCHS_IOS): %:
+  cargo build --target $@ --release
 
-<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">$(ARCHS_ANDROID)</span>
-<span class="nl">$(ARCHS_ANDROID)</span><span class="o">:</span> <span class="nf">%:</span>
-  <span class="err">cargo</span> <span class="err">ndk</span> <span class="err">--target</span> <span class="err">$@</span> <span class="err">--platform</span> <span class="err">31</span> <span class="err">--release</span>
+.PHONY: $(ARCHS_ANDROID)
+$(ARCHS_ANDROID): %:
+  cargo ndk --target $@ --platform 31 --release
 
-<span class="nl">$(XCFRAMEWORK)</span><span class="o">:</span> <span class="nf">$(ARCHS_IOS)</span>
-  <span class="err">lipo</span> <span class="err">-create</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../../target/x86_64-apple-ios/release/<span class="p">$(</span>LIB<span class="p">))</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../../target/aarch64-apple-ios-sim/release/<span class="p">$(</span>LIB<span class="p">))</span> <span class="err">-output</span> <span class="err">simulator_fat/libmy_sdk.a</span>
-  <span class="err">xcodebuild</span> <span class="err">-create-xcframework</span> <span class="err">-library</span> <span class="nf">$(</span><span class="nb">wildcard</span> ../../target/aarch64-apple-ios/release/<span class="p">$(</span>LIB<span class="p">))</span> <span class="err">-headers</span> <span class="k">include</span><span class="sx"> -library simulator_fat/libmy_sdk.a -headers include -output $@</span>
-  <span class="err">./copy-ios.sh</span>
-</code></pre></div>    </div>
+$(XCFRAMEWORK): $(ARCHS_IOS)
+  lipo -create $(wildcard ../../target/x86_64-apple-ios/release/$(LIB)) $(wildcard ../../target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
+  xcodebuild -create-xcframework -library $(wildcard ../../target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
+  ./copy-ios.sh
+</code></pre>
 
     <blockquote>
       <p>You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.</p>
     </blockquote>
   </li>
-  <li>The <code class="language-plaintext highlighter-rouge">copy-ios.sh</code> is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you modify the locations manually.</li>
-  <li>Add generated <code class="language-plaintext highlighter-rouge">.xcframework</code> to Xcode
+  <li>The <code>copy-ios.sh</code> is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you modify the locations manually.</li>
+  <li>Add generated <code>.xcframework</code> to Xcode
     <ul>
       <li>If you are doing this on a single project then dragging and dropping is the easiest, just make sure in the project properties mark the xcframework as embed and sign.</li>
-      <li>If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the <code class="language-plaintext highlighter-rouge">xcframework</code> somewhere and then on your podspec add <code class="language-plaintext highlighter-rouge">s.vendored_frameworks = "my_sdk.xcframework"</code></li>
+      <li>If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the <code>xcframework</code> somewhere and then on your podspec add <code>s.vendored_frameworks = "my_sdk.xcframework"</code></li>
     </ul>
   </li>
-  <li>You should now be able to simply import the header file (<code class="language-plaintext highlighter-rouge">#include "my_sdk.h"</code>) and call any Rust function from any Obj-C++ file</li>
+  <li>You should now be able to simply import the header file (<code>#include "my_sdk.h"</code>) and call any Rust function from any Obj-C++ file</li>
 </ul>
 
 <h1 id="android">Android</h1>
 
 <ul>
   <li>
-    <p>The <code class="language-plaintext highlighter-rouge">ndk</code> crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:</p>
+    <p>The <code>ndk</code> crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">export </span><span class="nv">ANDROID_SDK_ROOT</span><span class="o">=</span><span class="nv">$HOME</span>/Library/Android/sdk
-<span class="nb">export </span><span class="nv">ANDROID_HOME</span><span class="o">=</span><span class="nv">$HOME</span>/Library/Android/sdk
-<span class="nb">export </span><span class="nv">ANDROID_NDK_HOME</span><span class="o">=</span><span class="nv">$ANDROID_HOME</span>/ndk/25.1.8937393
-</code></pre></div>    </div>
+    <pre><code class="language-bash">export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
+export ANDROID_HOME=$HOME/Library/Android/sdk
+export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
+</code></pre>
   </li>
   <li>
-    <p>After the compilation is done, we need to place the files in the correct place, the <code class="language-plaintext highlighter-rouge">copy-android.sh</code> takes care of that:</p>
+    <p>After the compilation is done, we need to place the files in the correct place, the <code>copy-android.sh</code> takes care of that:</p>
 
-    <div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/x86
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/arm64-v8a
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/armeabi-v7a
-<span class="nb">mkdir</span> <span class="nt">-p</span> ../android/app/src/main/jniLibs/x86_64
+    <pre><code class="language-bash">#!/bin/bash
+mkdir -p ../android/app/src/main/jniLibs
+mkdir -p ../android/app/src/main/jniLibs/x86
+mkdir -p ../android/app/src/main/jniLibs/arm64-v8a
+mkdir -p ../android/app/src/main/jniLibs/armeabi-v7a
+mkdir -p ../android/app/src/main/jniLibs/x86_64
 
 
-<span class="nb">cp</span> ./target/i686-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86/libmy_sdk.so
-<span class="nb">cp</span> ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
-<span class="nb">cp</span> ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
-<span class="nb">cp</span> ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
-</code></pre></div>    </div>
+cp ./target/i686-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86/libmy_sdk.so
+cp ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
+cp ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
+cp ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
+</code></pre>
   </li>
   <li>
-    <p>We need to tell cmake to link the library when compiling our native module, on the <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code> file add the following:</p>
+    <p>We need to tell cmake to link the library when compiling our native module, on the <code>CMakeLists.txt</code> file add the following:</p>
 
-    <div class="language-cmake highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nf">make_path</span><span class="p">(</span>SET MY_SDK_LIB <span class="si">${</span><span class="nv">CMAKE_CURRENT_SOURCE_DIR</span><span class="si">}</span>/jniLibs/<span class="si">${</span><span class="nv">ANDROID_ABI</span><span class="si">}</span>/libmy_sdk.a NORMALIZE<span class="p">)</span>
-<span class="nb">add_library</span><span class="p">(</span>my_sdk STATIC IMPORTED<span class="p">)</span>
-<span class="nb">set_target_properties</span><span class="p">(</span>my_sdk PROPERTIES IMPORTED_LOCATION <span class="si">${</span><span class="nv">MY_SDK_LIB</span><span class="si">}</span><span class="p">)</span>
+    <pre><code class="language-cmake">make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
+add_library(my_sdk STATIC IMPORTED)
+set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})
 
-<span class="nb">target_link_libraries</span><span class="p">(</span>tm
+target_link_libraries(tm
         jsi
         my_sdk
         react_nativemodule_core
         react_codegen_AppSpecs
-<span class="p">)</span>
-</code></pre></div>    </div>
+)
+</code></pre>
   </li>
-  <li>We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the <code class="language-plaintext highlighter-rouge">lib.rs</code> and the following block</li>
-  <li>We can finally call <code class="language-plaintext highlighter-rouge">make android</code> and the library will be created for us</li>
+  <li>We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the <code>lib.rs</code> and the following block</li>
+  <li>We can finally call <code>make android</code> and the library will be created for us</li>
   <li>
     <p><strong>Optional</strong> If you want to call the functions from Java/Kotlin (and not from C++) you need to create another binding using Android’s JNI:</p>
 
-    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// On Android function names need to follow the JNI convention</span>
-<span class="k">pub</span> <span class="k">mod</span> <span class="n">android</span> <span class="p">{</span>
-  <span class="k">extern</span> <span class="k">crate</span> <span class="n">jni</span><span class="p">;</span>
+    <pre><code class="language-rust">// On Android function names need to follow the JNI convention
+pub mod android {
+  extern crate jni;
 
-  <span class="k">use</span> <span class="k">self</span><span class="p">::</span><span class="nn">jni</span><span class="p">::</span><span class="n">JNIEnv</span><span class="p">;</span>
-  <span class="k">use</span> <span class="k">self</span><span class="p">::</span><span class="nn">jni</span><span class="p">::</span><span class="nn">objects</span><span class="p">::</span><span class="n">JClass</span><span class="p">;</span>
-  <span class="k">use</span> <span class="k">self</span><span class="p">::</span><span class="nn">jni</span><span class="p">::</span><span class="nn">sys</span><span class="p">::</span><span class="n">jstring</span><span class="p">;</span>
+  use self::jni::JNIEnv;
+  use self::jni::objects::JClass;
+  use self::jni::sys::jstring;
 
-  <span class="nd">#[no_mangle]</span>
-  <span class="k">pub</span> <span class="k">unsafe</span> <span class="k">extern</span> <span class="k">fn</span> <span class="nf">Java_com_samplesdk_BindingsModule_helloWorld</span><span class="p">(</span><span class="n">env</span><span class="p">:</span> <span class="n">JNIEnv</span><span class="p">,</span> <span class="n">_</span><span class="p">:</span> <span class="n">JClass</span><span class="p">)</span> <span class="k">-&gt;</span> <span class="n">jstring</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="n">output</span> <span class="o">=</span> <span class="n">env</span><span class="nf">.new_string</span><span class="p">(</span><span class="s">"Hello from Rust!"</span><span class="p">)</span><span class="nf">.expect</span><span class="p">(</span><span class="s">"Couldn't create java string!"</span><span class="p">);</span>
-    <span class="n">output</span><span class="nf">.into_inner</span><span class="p">()</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div>    </div>
+  #[no_mangle]
+  pub unsafe extern fn Java_com_samplesdk_BindingsModule_helloWorld(env: JNIEnv, _: JClass) -&gt; jstring {
+    let output = env.new_string("Hello from Rust!").expect("Couldn't create java string!");
+    output.into_inner()
+  }
+}
+</code></pre>
   </li>
   <li>
     <p>We can now create a RN Module (or JSI module) and simply load the library and call it (via JNI of course)</p>
 
-    <div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.samplesdk</span><span class="o">;</span>
+    <pre><code class="language-java">package com.samplesdk;
 
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.NativeModule</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactApplicationContext</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactContext</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactContextBaseJavaModule</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactMethod</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">com.facebook.react.util.RNLog</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.Map</span><span class="o">;</span>
-<span class="kn">import</span> <span class="nn">java.util.HashMap</span><span class="o">;</span>
+import com.facebook.react.bridge.NativeModule;
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.util.RNLog;
+import java.util.Map;
+import java.util.HashMap;
 
-<span class="kd">public</span> <span class="kd">class</span> <span class="nc">BindingsModule</span> <span class="kd">extends</span> <span class="nc">ReactContextBaseJavaModule</span> <span class="o">{</span>
+public class BindingsModule extends ReactContextBaseJavaModule {
 
 
-    <span class="nc">BindingsModule</span><span class="o">(</span><span class="nc">ReactApplicationContext</span> <span class="n">context</span><span class="o">)</span> <span class="o">{</span>
-        <span class="kd">super</span><span class="o">(</span><span class="n">context</span><span class="o">);</span>
-    <span class="o">}</span>
+    BindingsModule(ReactApplicationContext context) {
+        super(context);
+    }
 
-    <span class="nd">@Override</span>
-    <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
-        <span class="k">return</span> <span class="s">"Bindings"</span><span class="o">;</span>
-    <span class="o">}</span>
+    @Override
+    public String getName() {
+        return "Bindings";
+    }
 
-    <span class="nd">@ReactMethod</span>
-    <span class="kd">public</span> <span class="kt">void</span> <span class="nf">init</span><span class="o">(</span><span class="nc">String</span> <span class="n">apiKey</span><span class="o">)</span> <span class="o">{</span>
-        <span class="nc">RNLog</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">(),</span> <span class="s">"BindingsModule.init() called with apiKey: "</span> <span class="o">+</span> <span class="n">apiKey</span> <span class="o">+</span> <span class="s">"calling rust"</span><span class="o">);</span>
-        <span class="nc">String</span> <span class="n">result</span> <span class="o">=</span> <span class="n">helloWorld</span><span class="o">();</span>
-        <span class="nc">RNLog</span><span class="o">.</span><span class="na">w</span><span class="o">(</span><span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">(),</span> <span class="s">"Rust says: "</span> <span class="o">+</span> <span class="n">result</span><span class="o">);</span>
-    <span class="o">}</span>
+    @ReactMethod
+    public void init(String apiKey) {
+        RNLog.w(this.getReactApplicationContext(), "BindingsModule.init() called with apiKey: " + apiKey + "calling rust");
+        String result = helloWorld();
+        RNLog.w(this.getReactApplicationContext(), "Rust says: " + result);
+    }
 
-    <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="nc">String</span> <span class="nf">helloWorld</span><span class="o">();</span>
-<span class="o">}</span>
-</code></pre></div>    </div>
+    private static native String helloWorld();
+}
+</code></pre>
   </li>
 </ul>
 </div>

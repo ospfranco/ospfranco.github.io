@@ -74,17 +74,17 @@
 
 <p>Once you have the extension installed (and created the launch configurations), you can add the following commands to launch a different simulator and configurations:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"[iOS] Debug"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"cwd"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceFolder}"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"reactnative"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"platform"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ios"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"scheme"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Debug"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"runArguments"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"--simulator"</span><span class="p">,</span><span class="w"> </span><span class="s2">"iPhone 6s"</span><span class="p">,</span><span class="w"> </span><span class="s2">"--scheme"</span><span class="p">,</span><span class="w"> </span><span class="s2">"Debug"</span><span class="p">],</span><span class="w">
-  </span><span class="nl">"preLaunchTask"</span><span class="p">:</span><span class="w"> </span><span class="s2">"npm: prebuild"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">{
+  "name": "[iOS] Debug",
+  "cwd": "${workspaceFolder}",
+  "type": "reactnative",
+  "request": "launch",
+  "platform": "ios",
+  "scheme": "Debug",
+  "runArguments": ["--simulator", "iPhone 6s", "--scheme", "Debug"],
+  "preLaunchTask": "npm: prebuild"
+}
+</code></pre>
 
 <ul>
   <li>
@@ -106,17 +106,17 @@
 
 <p>The next one is making the test workflow a lot faster, since most of the time your tests will be running in a headless environment, getting the value of the variables and/or the render tree can be frustrating and difficult, being able to attach a debugger to your tests makes life a lot easier, this one has to do with launch configurations as well, you can create the following configuration in your launch.json:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
-  </span><span class="nl">"type"</span><span class="p">:</span><span class="w"> </span><span class="s2">"node"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"request"</span><span class="p">:</span><span class="w"> </span><span class="s2">"launch"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"Test [INVARIANT]"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"program"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceRoot}/node_modules/.bin/jest"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"args"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"-i"</span><span class="p">],</span><span class="w">
-  </span><span class="nl">"internalConsoleOptions"</span><span class="p">:</span><span class="w"> </span><span class="s2">"openOnSessionStart"</span><span class="p">,</span><span class="w">
-  </span><span class="nl">"outFiles"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"${workspaceRoot}/dist/**/*"</span><span class="p">],</span><span class="w">
-  </span><span class="nl">"envFile"</span><span class="p">:</span><span class="w"> </span><span class="s2">"${workspaceRoot}/.env"</span><span class="w">
-</span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">{
+  "type": "node",
+  "request": "launch",
+  "name": "Test [INVARIANT]",
+  "program": "${workspaceRoot}/node_modules/.bin/jest",
+  "args": ["-i"],
+  "internalConsoleOptions": "openOnSessionStart",
+  "outFiles": ["${workspaceRoot}/dist/**/*"],
+  "envFile": "${workspaceRoot}/.env"
+}
+</code></pre>
 
 <p>There is nothing special about this configuration, but you can easily run your tests directly from vscode without having to switch back and forward from your console, and as mentioned being able to have debugger breakpoints.</p>
 
@@ -136,12 +136,12 @@
 
 <p>The next one has saved me a lot of time going back and forward with the CI, commit hooks are nothing new, but setting them up can be unglamorous, husky is the tool for the job (I recently heard about lefthook, I’ll give that one a try later),after you add husky to your dependencies, you only need to specify a husky property in your package.json, afterwards everytime you do a yarn install new hooks are generated for you, I have the following configuration:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">  </span><span class="nl">"husky"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"hooks"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"pre-commit"</span><span class="p">:</span><span class="w"> </span><span class="s2">"pretty-quick --staged &amp;&amp; yarn flow &amp;&amp; yarn tsc &amp;&amp; yarn test:invariant"</span><span class="w">
-    </span><span class="p">}</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">  "husky": {
+    "hooks": {
+      "pre-commit": "pretty-quick --staged &amp;&amp; yarn flow &amp;&amp; yarn tsc &amp;&amp; yarn test:invariant"
+    }
+  }
+</code></pre>
 
 <p>It basically saves me having to wait minutes for CI to boot up and inform me of my trivial mistakes, my machine is definitely a lot faster the environment provided by circleCI, I can run the tests in <strong>10 seconds</strong> while the CI environment takes at least 2 minutes to run the same sequence of commands.</p>
 
@@ -161,25 +161,25 @@
 
 <p>On your babel.config.js (might not work with the older babel.rc config), on the module resolver, I changed it to the following configuration:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span><span class="w">
-  </span><span class="s2">"module-resolver"</span><span class="p">,</span><span class="w">
-  </span><span class="p">{</span><span class="w">
-    </span><span class="nl">"root"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"./src"</span><span class="p">],</span><span class="w">
-    </span><span class="nl">"alias"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="nl">"*"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"./src/"</span><span class="p">]</span><span class="w">
-    </span><span class="p">},</span><span class="w">
-    </span><span class="nl">"extensions"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">".js"</span><span class="p">,</span><span class="w"> </span><span class="s2">".ts"</span><span class="p">,</span><span class="w"> </span><span class="s2">".tsx"</span><span class="p">,</span><span class="w"> </span><span class="s2">".ios.js"</span><span class="p">,</span><span class="w"> </span><span class="s2">".android.js"</span><span class="p">]</span><span class="w">
-  </span><span class="p">}</span><span class="w">
-</span><span class="p">]</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">[
+  "module-resolver",
+  {
+    "root": ["./src"],
+    "alias": {
+      "*": ["./src/"]
+    },
+    "extensions": [".js", ".ts", ".tsx", ".ios.js", ".android.js"]
+  }
+]
+</code></pre>
 
 <p>(adding an alias for the root config)</p>
 
 <p>On your tsconfig, you also need to specify some properties:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"baseUrl"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src/"</span><span class="err">,</span><span class="w">
-</span><span class="nl">"rootDir"</span><span class="p">:</span><span class="w"> </span><span class="s2">"src"</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">"baseUrl": "src/",
+"rootDir": "src"
+</code></pre>
 
 <p>Afterwards you should be able to get all your modules absolute importable and even works with jest.</p>
 </div>

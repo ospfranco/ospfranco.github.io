@@ -90,31 +90,31 @@
 
 <p>Another issue was I created a Struct to hold different type of data, due to the nature of JS any value you receive can be of these types:</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="nc">QuickValue</span> <span class="p">{</span>
-  <span class="kt">int</span> <span class="n">intVal</span><span class="p">;</span>
-  <span class="kt">double</span> <span class="n">doubleVal</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">strVal</span><span class="p">;</span>
-  <span class="kt">bool</span> <span class="n">boolVal</span><span class="p">;</span>
-  <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">type</span><span class="p">;</span> <span class="c1">// used to store which type of data this was holding</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-c++">struct QuickValue {
+  int intVal;
+  double doubleVal;
+  std::string strVal;
+  bool boolVal;
+  std::string type; // used to store which type of data this was holding
+}
+</code></pre>
 
 <p>There is no justification for this structure other than: I didn’t knew any better, my c++-fu was weak. I knew that using this struct would allocate too much extra memory and was wasteful, I just didn’t imagine how much. Allocating memory and moving objects around in the heap has a big cost, not only in memory but sometimes in performance!</p>
 
-<p>When browsing the web and other peoples code, I came to learn about <a href="https://en.cppreference.com/w/cpp/utility/any">std::any</a>, which was introduced in C++ 17. It basically functions the same as my struct to hold data (internally it just stores a pointer <code class="language-plaintext highlighter-rouge">void *</code>). I got rid of the struct and swapped all references for <code class="language-plaintext highlighter-rouge">std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code class="language-plaintext highlighter-rouge">std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there.</p>
+<p>When browsing the web and other peoples code, I came to learn about <a href="https://en.cppreference.com/w/cpp/utility/any">std::any</a>, which was introduced in C++ 17. It basically functions the same as my struct to hold data (internally it just stores a pointer <code>void *</code>). I got rid of the struct and swapped all references for <code>std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code>std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there.</p>
 
-<p>When reading on how to do certain operations, a lot of answers pointed towards <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a>. After getting the code to compile with <code class="language-plaintext highlighter-rouge">std::any</code> I decided to give <code class="language-plaintext highlighter-rouge">std::variant</code> a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
+<p>When reading on how to do certain operations, a lot of answers pointed towards <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a>. After getting the code to compile with <code>std::any</code> I decided to give <code>std::variant</code> a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
 
-<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;variant&gt;</span><span class="cp">
-</span>
-<span class="k">struct</span> <span class="nc">ArrayBuffer</span> <span class="p">{</span>
-    <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">uint8_t</span><span class="o">&gt;</span> <span class="n">data</span><span class="p">;</span>
-    <span class="kt">size_t</span> <span class="n">size</span><span class="p">;</span>
-<span class="p">};</span>
+<pre><code class="language-c++">#include &lt;variant&gt;
+
+struct ArrayBuffer {
+    std::shared_ptr&lt;uint8_t&gt; data;
+    size_t size;
+};
 
 
-<span class="k">using</span> <span class="n">JSVariant</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">variant</span><span class="o">&lt;</span><span class="n">nullptr_t</span><span class="p">,</span> <span class="kt">bool</span><span class="p">,</span> <span class="kt">int</span><span class="p">,</span> <span class="kt">double</span><span class="p">,</span> <span class="kt">long</span><span class="p">,</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">,</span> <span class="n">ArrayBuffer</span><span class="o">&gt;</span><span class="p">;</span>
-</code></pre></div></div>
+using JSVariant = std::variant&lt;nullptr_t, bool, int, double, long, long long, std::string, ArrayBuffer&gt;;
+</code></pre>
 
 <h1 id="turning-the-problem-around">Turning the problem around</h1>
 
@@ -153,9 +153,9 @@
 
 <h1 id="troubles-in-paradise">Troubles in paradise</h1>
 
-<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code class="language-plaintext highlighter-rouge">std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all.</p>
+<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code>std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all.</p>
 
-<p>As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code class="language-plaintext highlighter-rouge">jsi::Object()</code> API, when I tested <code class="language-plaintext highlighter-rouge">quick-sqlite</code> the numbers accessing data are quite similar. <code class="language-plaintext highlighter-rouge">expo-sqlite</code> was super fast on accessing data, but it zips the data on the JS side, so it seems that is the only way to create fast access objects. This means however you will always pay the price upfront for such large queries.</p>
+<p>As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code>jsi::Object()</code> API, when I tested <code>quick-sqlite</code> the numbers accessing data are quite similar. <code>expo-sqlite</code> was super fast on accessing data, but it zips the data on the JS side, so it seems that is the only way to create fast access objects. This means however you will always pay the price upfront for such large queries.</p>
 
 <p>There are a few final optimizations that can be done, such as inserting keys in the shared vector with some sorting, so then accessing can be done via binary search, but I will leave it for later. Other optimizations include trying to inline more functions, but I think I have reached the end of what is possible with the JSI.</p>
 

@@ -65,16 +65,16 @@
       <div class="pt-4 pb-20 markdown"><p>The order of files being loaded by ZSH is the following:</p>
 
 <ol>
-  <li><code class="language-plaintext highlighter-rouge">.zshenv</code></li>
-  <li><code class="language-plaintext highlighter-rouge">.zprofile</code> if login</li>
-  <li><code class="language-plaintext highlighter-rouge">.zshrc</code> if interactive</li>
-  <li><code class="language-plaintext highlighter-rouge">.zlogin</code> if login</li>
-  <li><code class="language-plaintext highlighter-rouge">.zlogout</code>sometimes</li>
+  <li><code>.zshenv</code></li>
+  <li><code>.zprofile</code> if login</li>
+  <li><code>.zshrc</code> if interactive</li>
+  <li><code>.zlogin</code> if login</li>
+  <li><code>.zlogout</code>sometimes</li>
 </ol>
 
 <p>Why? sometimes variables might be replaced by subsequent files or some other configuration that you don’t desire might be applied.</p>
 
-<p>Be careful when setting things on <code class="language-plaintext highlighter-rouge">.zshenv</code> since it can be overriden by subsequent scripts. Also, only <code class="language-plaintext highlighter-rouge">.zshrc</code> should be used for things like prompt colors and user scripts.</p>
+<p>Be careful when setting things on <code>.zshenv</code> since it can be overriden by subsequent scripts. Also, only <code>.zshrc</code> should be used for things like prompt colors and user scripts.</p>
 </div>
     </div>
 

@@ -76,24 +76,24 @@
 
 <p>Getting things to run was a breeze, not a fan of yaml, but setting up the first iteration took 5 mins, here is a sample yaml:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">JS Checks</span>
-<span class="na">on</span><span class="pi">:</span> <span class="s">push</span>
+<pre><code class="language-yaml">name: JS Checks
+on: push
 
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">tests</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+jobs:
+  tests:
+    runs-on: ubuntu-latest
 
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node.js 12.x</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2.1.2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">node-version</span><span class="pi">:</span> <span class="s">12.x</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install Dependencies</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run tests</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">yarn test</span>
-</code></pre></div></div>
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Run tests
+        uses: yarn test
+</code></pre>
 
 <p>However, I wanted to push things a bit further, I hated having to open the bitrise log page, because loading web pages nowadays is sooo slow, so I wanted to see my failing tests directly on my PR!</p>
 
@@ -103,33 +103,33 @@
 
 <p>I forked an old project that claimed to do what I needed, removed the unnecessary parts and added actually the useful output that I was looking for, you can check the <a href="https://github.com/ospfranco/gh-jester">source code</a>, here is a finished YAML you can copy and paste into your github repo:</p>
 
-<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">name</span><span class="pi">:</span> <span class="s">JS Checks</span>
-<span class="na">on</span><span class="pi">:</span> <span class="s">push</span>
+<pre><code class="language-yaml">name: JS Checks
+on: push
 
-<span class="na">jobs</span><span class="pi">:</span>
-  <span class="na">tests</span><span class="pi">:</span>
-    <span class="na">runs-on</span><span class="pi">:</span> <span class="s">ubuntu-latest</span>
+jobs:
+  tests:
+    runs-on: ubuntu-latest
 
-    <span class="na">steps</span><span class="pi">:</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Cancel Previous Runs</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">styfle/cancel-workflow-action@0.6.0</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">access_token</span><span class="pi">:</span> <span class="s">$</span>
-      <span class="pi">-</span> <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/checkout@v2</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Use Node.js 12.x</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">actions/setup-node@v2.1.2</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">node-version</span><span class="pi">:</span> <span class="s">12.x</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Install Dependencies</span>
-        <span class="na">run</span><span class="pi">:</span> <span class="s">yarn</span>
-      <span class="pi">-</span> <span class="na">name</span><span class="pi">:</span> <span class="s">Run tests</span>
-        <span class="na">uses</span><span class="pi">:</span> <span class="s">ospfranco/gh-jester@v1.0.13</span>
-        <span class="na">with</span><span class="pi">:</span>
-          <span class="na">post-comment</span><span class="pi">:</span> <span class="kc">true</span>
-        <span class="na">env</span><span class="pi">:</span>
-          <span class="na">GITHUB_TOKEN</span><span class="pi">:</span> <span class="s">${{ secrets.GITHUB_TOKEN }}</span>
-          <span class="na">GITHUB_CONTEXT</span><span class="pi">:</span> <span class="s">${{ toJson(github) }}</span>
-</code></pre></div></div>
+    steps:
+      - name: Cancel Previous Runs
+        uses: styfle/cancel-workflow-action@0.6.0
+        with:
+          access_token: $
+      - uses: actions/checkout@v2
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v2.1.2
+        with:
+          node-version: 12.x
+      - name: Install Dependencies
+        run: yarn
+      - name: Run tests
+        uses: ospfranco/gh-jester@v1.0.13
+        with:
+          post-comment: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+</code></pre>
 
 <p>Basically, it will run your jest tests and if the tests are failing it will post a nice resume on the commit itself (which will also appear on the PR), bear in mind, the trigger needs to be [push] for it to correctly post the comment with the info.</p>
 

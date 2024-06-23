@@ -72,165 +72,165 @@
 
 <p>I suggest you learn some C (or C++) first. A lot of the knowledge (pointers, pass-by-value, pass-by-reference) is shared.</p>
 
-<h1 id="ns-fu"><code class="language-plaintext highlighter-rouge">NS-</code>Fu</h1>
+<h1 id="ns-fu"><code>NS-</code>Fu</h1>
 
-<p>All the NS classes where created by the NeXT team and are the base objects which are used to interact with the base API of the language. They all come from the <code class="language-plaintext highlighter-rouge">Foundation</code> framework.</p>
+<p>All the NS classes where created by the NeXT team and are the base objects which are used to interact with the base API of the language. They all come from the <code>Foundation</code> framework.</p>
 
-<p>Some of them are: <code class="language-plaintext highlighter-rouge">NSLog</code>, <code class="language-plaintext highlighter-rouge">NSString</code>, <code class="language-plaintext highlighter-rouge">NSDictionary</code>, <code class="language-plaintext highlighter-rouge">NSArray</code> and so on. That is why you will always end up importing the <code class="language-plaintext highlighter-rouge">Foundation.h</code> header file at the top of your obj-c code.</p>
+<p>Some of them are: <code>NSLog</code>, <code>NSString</code>, <code>NSDictionary</code>, <code>NSArray</code> and so on. That is why you will always end up importing the <code>Foundation.h</code> header file at the top of your obj-c code.</p>
 
 <h1 id="pass-by-reference">Pass by reference</h1>
 
 <p>You will notice everytime you pass around a object you will need to pass it as a pointer. Sometimes this means you will loose typesafety and will need to internally cast the pointer to a more specific type</p>
 
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Untyped (int? object?) array</span>
-<span class="o">*</span><span class="n">NSArray</span> <span class="n">doSomething</span> <span class="p">{</span>
-	<span class="n">NSArray</span> <span class="o">*</span><span class="n">myArray</span> <span class="o">=</span> <span class="p">@[...];</span>
-	<span class="k">return</span> <span class="n">myArray</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+<pre><code class="language-objectivec">// Untyped (int? object?) array
+*NSArray doSomething {
+	NSArray *myArray = @[...];
+	return myArray;
+}
+</code></pre>
 
 <h1 id="-macro">@ Macro</h1>
 
 <p>The “<strong>@</strong>” is a special macro (read text expansion) to instantiate certain classes, e.g. NSString</p>
 
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;Foundation/Foundation.h&gt;
-</span>
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"I'm a string"</span><span class="p">);</span>
+<pre><code class="language-objectivec">#import &lt;Foundation/Foundation.h&gt;
 
-	<span class="n">NSDictionary</span> <span class="o">*</span><span class="n">myDict</span> <span class="o">=</span> <span class="p">@{</span> <span class="s">@"Who am I"</span><span class="o">:</span> <span class="s">@"A dictionary"</span><span class="p">};</span>
+int main() {
+	NSLog(@"I'm a string");
 
-	<span class="k">return</span> <span class="mi">0</span>
-<span class="p">}</span>
-</code></pre></div></div>
+	NSDictionary *myDict = @{ @"Who am I": @"A dictionary"};
+
+	return 0
+}
+</code></pre>
 
 <h1 id="classes">Classes</h1>
 
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span><span class="nc">NSObject</span>
-<span class="c1">// Methods and properties declarations</span>
-<span class="k">@end</span>
+<pre><code class="language-objectivec">@interface MyObj:NSObject
+// Methods and properties declarations
+@end
 
-<span class="k">@implementation</span> <span class="nc">MyObj</span>
-<span class="c1">// Actual definition</span>
-<span class="k">@end</span>
+@implementation MyObj
+// Actual definition
+@end
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="c1">// Instatiation = Allocation + Constructor</span>
-	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+int main() {
+	// Instatiation = Allocation + Constructor
+	MyObj *obj = [[MyObj alloc] init];
+	return 0;
+}
+</code></pre>
 
-<p>The definition of methods and properties goes inside the <code class="language-plaintext highlighter-rouge">@interface</code> block. The actual implementation inside the <code class="language-plaintext highlighter-rouge">@implementation</code> block. It is also necessary to inherit from <code class="language-plaintext highlighter-rouge">NSObject</code> which the base class for any object.</p>
+<p>The definition of methods and properties goes inside the <code>@interface</code> block. The actual implementation inside the <code>@implementation</code> block. It is also necessary to inherit from <code>NSObject</code> which the base class for any object.</p>
 
 <h2 id="class-properties">Class properties</h2>
 
 <p>Adding class properties you can actually interact with from code outside the class</p>
 
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
-<span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
-	<span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-objectivec">// interface
+@interface MyObj: NSObject {
+	int age;
+}
 
-<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="kt">int</span> <span class="n">age</span><span class="p">;</span> <span class="c1">// writable instance property</span>
+@property(nonatomic, readwrite) int age; // writable instance property
 
-<span class="k">@end</span>
+@end
 
-<span class="c1">// declaration</span>
-<span class="k">@implementation</span> <span class="nc">MyObj</span>
+// declaration
+@implementation MyObj
 
-<span class="k">@end</span>
+@end
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-	<span class="n">obj</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"Age %d"</span><span class="p">,</span> <span class="n">obj</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
+int main() {
+	MyObj *obj = [[MyObj alloc] init];
+	obj.age = 20;
+	NSLog(@"Age %d", obj.age);
 
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+	return 0;
+}
+</code></pre>
 
 <h2 id="class-methods">Class methods</h2>
 
 <p>You should be able to read the language like you read a normal english sentence, IMO that idea that has aged poorly.</p>
 
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
-<span class="k">@interface</span> <span class="nc">MyObj</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
-<span class="o">+</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswerStatic</span><span class="p">;</span>
-<span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswer</span>
-<span class="o">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">setAnswer</span><span class="o">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">num</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-objectivec">// interface
+@interface MyObj: NSObject {
++(int)getAnswerStatic;
+-(int)getAnswer
+-(int)setAnswer: (int)num;
+}
 
-<span class="k">@property</span><span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">readwrite</span><span class="p">)</span> <span class="kt">int</span> <span class="n">answer</span><span class="p">;</span> <span class="c1">// writable instance property</span>
+@property(nonatomic, readwrite) int answer; // writable instance property
 
-<span class="k">@end</span>
+@end
 
-<span class="c1">// declaration</span>
-<span class="k">@implementation</span> <span class="nc">MyObj</span>
-	<span class="k">+</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswerStatic</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="mi">42</span><span class="p">;</span>
-	<span class="p">}</span>
+// declaration
+@implementation MyObj
+	+(int)getAnswerStatic {
+		return 42;
+	}
 
-	<span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">getAnswer</span> <span class="p">{</span>
-		<span class="k">return</span> <span class="n">self</span><span class="p">.</span><span class="n">answer</span><span class="p">;</span>
-	<span class="p">}</span>
+	-(int)getAnswer {
+		return self.answer;
+	}
 
-	<span class="k">-</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nf">setAnswer</span><span class="p">:</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="nv">num</span> <span class="p">{</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">num</span><span class="p">;</span>
-	<span class="p">}</span>
-<span class="k">@end</span>
+	-(int)setAnswer: (int)num {
+		self.answer = num;
+	}
+@end
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswerStatic</span><span class="p">]);</span> <span class="c1">// 42</span>
+int main() {
+	NSLog(@"%d", [MyObj getAnswerStatic]); // 42
 
-	<span class="n">MyObj</span> <span class="o">*</span><span class="n">obj</span> <span class="o">=</span> <span class="p">[[</span><span class="n">MyObj</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">init</span><span class="p">];</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswer</span><span class="p">]);</span> <span class="c1">// 0</span>
+	MyObj *obj = [[MyObj alloc] init];
+	NSLog(@"%d", [MyObj getAnswer]); // 0
 
-	<span class="p">[</span><span class="n">MyObj</span> <span class="n">setAnswer</span> <span class="nf">num</span><span class="p">:</span><span class="mi">52</span><span class="p">];</span>
-	<span class="n">NSLog</span><span class="p">(</span><span class="s">@"%d"</span><span class="p">,</span> <span class="p">[</span><span class="n">MyObj</span> <span class="nf">getAnswer</span><span class="p">]);</span> <span class="c1">// 52</span>
+	[MyObj setAnswer num:52];
+	NSLog(@"%d", [MyObj getAnswer]); // 52
 
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+	return 0;
+}
+</code></pre>
 
-<p>Important to note the <code class="language-plaintext highlighter-rouge">+</code> and <code class="language-plaintext highlighter-rouge">-</code> prefixes. <code class="language-plaintext highlighter-rouge">+</code> means static method (class level) and <code class="language-plaintext highlighter-rouge">-</code> means instance method (object level).</p>
+<p>Important to note the <code>+</code> and <code>-</code> prefixes. <code>+</code> means static method (class level) and <code>-</code> means instance method (object level).</p>
 
 <h2 id="constructors">Constructors</h2>
 
-<div class="language-objectivec highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// interface</span>
-<span class="k">@interface</span> <span class="nc">Person</span><span class="p">:</span> <span class="nc">NSObject</span> <span class="p">{</span>
-	<span class="n">NSString</span> <span class="o">*</span><span class="n">name</span>
-	<span class="n">NSInteger</span> <span class="n">age</span><span class="p">;</span>
-<span class="p">}</span>
+<pre><code class="language-objectivec">// interface
+@interface Person: NSObject {
+	NSString *name
+	NSInteger age;
+}
 
-<span class="k">-</span> <span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">andAge</span><span class="p">:(</span><span class="n">NSInteger</span> <span class="o">*</span><span class="p">)</span><span class="nv">age</span><span class="p">;</span>
-<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">print</span><span class="p">;</span>
+- (id)initWithName:(NSString *)name andAge:(NSInteger *)age;
+- (void)print;
 
-<span class="k">@end</span>
+@end
 
-<span class="c1">// declaration</span>
-<span class="k">@implementation</span> <span class="nc">Person</span>
-	<span class="k">-</span><span class="p">(</span><span class="n">id</span><span class="p">)</span><span class="nf">initWithName</span><span class="p">:(</span><span class="n">NSString</span> <span class="o">*</span><span class="p">)</span><span class="nv">name</span> <span class="nf">andAge</span><span class="p">:(</span><span class="n">NSInteger</span> <span class="o">*</span><span class="p">)</span><span class="nv">age</span> <span class="p">{</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span><span class="p">;</span>
-		<span class="n">self</span><span class="p">.</span><span class="n">age</span> <span class="o">=</span> <span class="n">age</span><span class="p">;</span>
-		<span class="k">return</span> <span class="n">self</span><span class="p">;</span>
-	<span class="p">}</span>
+// declaration
+@implementation Person
+	-(id)initWithName:(NSString *)name andAge:(NSInteger *)age {
+		self.name = name;
+		self.age = age;
+		return self;
+	}
 
-	<span class="k">-</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">print</span> <span class="p">{</span>
-		<span class="n">NSLog</span><span class="p">(</span><span class="s">@"Person instance. name: %@, age: %@"</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">name</span><span class="p">,</span> <span class="n">self</span><span class="p">.</span><span class="n">age</span><span class="p">);</span>
-	<span class="p">}</span>
-<span class="k">@end</span>
+	-(void)print {
+		NSLog(@"Person instance. name: %@, age: %@", self.name, self.age);
+	}
+@end
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-	<span class="n">Person</span> <span class="o">*</span><span class="n">person</span> <span class="o">=</span> <span class="p">[[</span><span class="n">Person</span> <span class="nf">alloc</span><span class="p">]</span> <span class="nf">initWithName</span><span class="p">:</span> <span class="s">@"Oscar"</span> <span class="nf">andAge</span><span class="p">:</span><span class="mi">5</span><span class="p">];</span>
-	<span class="p">[</span><span class="n">person</span> <span class="nf">print</span><span class="p">];</span>
-	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
-</code></pre></div></div>
+int main() {
+	Person *person = [[Person alloc] initWithName: @"Oscar" andAge:5];
+	[person print];
+	return 0;
+}
+</code></pre>
 
 <h1 id="obj-c">Obj-C++</h1>
 
-<p>If you change the extension of you file from <code class="language-plaintext highlighter-rouge">.m</code> to <code class="language-plaintext highlighter-rouge">.mm</code> you will change the language to Obj-C++. It is basically C++ and Obj-C mixed together.</p>
+<p>If you change the extension of you file from <code>.m</code> to <code>.mm</code> you will change the language to Obj-C++. It is basically C++ and Obj-C mixed together.</p>
 
 <p>There will be a lot of caveats when you using it: You cannot call Obj-C methods using C++ syntax and so forth. But, it does allow to use and mix C++ classes and syntax inside Obj-C code. Very useful to re-use already existing modules.</p>
 

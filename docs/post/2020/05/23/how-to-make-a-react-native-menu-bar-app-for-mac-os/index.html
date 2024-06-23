@@ -72,7 +72,7 @@ I have now launched an online class on how to make macOS apps using react-native
 <p>After sucessfully porting my native SwiftUI app to react-native-macos, here are the steps you can follow too</p>
 <h2 id="1-create-a-rn-project">1. Create a RN project</h2>
 
-<p><code class="language-plaintext highlighter-rouge">npx react-native init myApp --template react-native-template-typescript</code></p>
+<p><code>npx react-native init myApp --template react-native-template-typescript</code></p>
 
 <p>A simple rn project, nothing fancy here</p>
 
@@ -80,9 +80,9 @@ I have now launched an online class on how to make macOS apps using react-native
 
 <p>This is bound to change, you should always follow the instructions on the microsoft react-native-macos site, but for now you can do:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd myApp
+<pre><code>cd myApp
 npx react-native-macos-init
-</code></pre></div></div>
+</code></pre>
 
 <p>Afterwards you should have a basic RN mac os app, you can try to run it and it will open a normal window</p>
 
@@ -90,81 +90,81 @@ npx react-native-macos-init
 
 <p>Ok, this step is not 100% necessary, you could just set up the statusbar button on obj-c but I don’t know objective-c, so I had to do it, therefore delete:</p>
 
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>AppDelegate.h
+<pre><code>AppDelegate.h
 AppDelegate.m
 main.m
 ViewController.h
 ViewController.m
-</code></pre></div></div>
+</code></pre>
 
 <p>And instead create an AppDelegate.swift, Xcode will ask you if you want to create a bridging header, say yes, and that the following contents:</p>
 
 <p>On the bridging header file</p>
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">//  Use this file to import your target's public headers that you would like to expose to Swift.</span>
+<pre><code class="language-swift">//  Use this file to import your target's public headers that you would like to expose to Swift.
 
-<span class="cp">#import &lt;React/RCTBridgeModule.h&gt;</span>
-<span class="cp">#import &lt;React/RCTBridge.h&gt;</span>
-<span class="cp">#import &lt;React/RCTEventDispatcher.h&gt;</span>
-<span class="cp">#import &lt;React/RCTRootView.h&gt;</span>
-<span class="cp">#import &lt;React/RCTUtils.h&gt;</span>
-<span class="cp">#import &lt;React/RCTConvert.h&gt;</span>
-<span class="cp">#import &lt;React/RCTBundleURLProvider.h&gt;</span>
-</code></pre></div></div>
+#import &lt;React/RCTBridgeModule.h&gt;
+#import &lt;React/RCTBridge.h&gt;
+#import &lt;React/RCTEventDispatcher.h&gt;
+#import &lt;React/RCTRootView.h&gt;
+#import &lt;React/RCTUtils.h&gt;
+#import &lt;React/RCTConvert.h&gt;
+#import &lt;React/RCTBundleURLProvider.h&gt;
+</code></pre>
 
 <p>On the AppDelegate.swift</p>
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
-<span class="kd">import</span> <span class="kt">Cocoa</span>
+<pre><code class="language-swift">import Foundation
+import Cocoa
 
-<span class="kd">@NSApplicationMain</span>
-<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">NSObject</span><span class="p">,</span> <span class="kt">NSApplicationDelegate</span> <span class="p">{</span>
-  <span class="k">var</span> <span class="nv">popover</span><span class="p">:</span> <span class="kt">NSPopover</span><span class="o">!</span>
-  <span class="k">var</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="o">!</span>
-  <span class="k">var</span> <span class="nv">statusBarItem</span><span class="p">:</span> <span class="kt">NSStatusItem</span><span class="o">!</span>
+@NSApplicationMain
+class AppDelegate: NSObject, NSApplicationDelegate {
+  var popover: NSPopover!
+  var bridge: RCTBridge!
+  var statusBarItem: NSStatusItem!
 
-  <span class="kd">func</span> <span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">_</span> <span class="nv">aNotification</span><span class="p">:</span> <span class="kt">Notification</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">let</span> <span class="nv">jsCodeLocation</span><span class="p">:</span> <span class="kt">URL</span>
+  func applicationDidFinishLaunching(_ aNotification: Notification) {
+    let jsCodeLocation: URL
 
-    <span class="cp">#if DEBUG</span>
-      <span class="n">jsCodeLocation</span> <span class="o">=</span> <span class="kt">RCTBundleURLProvider</span><span class="o">.</span><span class="nf">sharedSettings</span><span class="p">()</span><span class="o">.</span><span class="nf">jsBundleURL</span><span class="p">(</span><span class="nv">forBundleRoot</span><span class="p">:</span> <span class="s">"index"</span><span class="p">,</span> <span class="nv">fallbackResource</span><span class="p">:</span><span class="kc">nil</span><span class="p">)</span>
-    <span class="cp">#else</span>
-      <span class="n">jsCodeLocation</span> <span class="o">=</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">forResource</span><span class="p">:</span> <span class="s">"main"</span><span class="p">,</span> <span class="nv">withExtension</span><span class="p">:</span> <span class="s">"jsbundle"</span><span class="p">)</span><span class="o">!</span>
-    <span class="cp">#endif</span>
-    <span class="k">let</span> <span class="nv">rootView</span> <span class="o">=</span> <span class="kt">RCTRootView</span><span class="p">(</span><span class="nv">bundleURL</span><span class="p">:</span> <span class="n">jsCodeLocation</span><span class="p">,</span> <span class="nv">moduleName</span><span class="p">:</span> <span class="s">"tempomat"</span><span class="p">,</span> <span class="nv">initialProperties</span><span class="p">:</span> <span class="kc">nil</span><span class="p">,</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="kc">nil</span><span class="p">)</span>
-    <span class="k">let</span> <span class="nv">rootViewController</span> <span class="o">=</span> <span class="kt">NSViewController</span><span class="p">()</span>
-    <span class="n">rootViewController</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">rootView</span>
+    #if DEBUG
+      jsCodeLocation = RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index", fallbackResource:nil)
+    #else
+      jsCodeLocation = Bundle.main.url(forResource: "main", withExtension: "jsbundle")!
+    #endif
+    let rootView = RCTRootView(bundleURL: jsCodeLocation, moduleName: "tempomat", initialProperties: nil, launchOptions: nil)
+    let rootViewController = NSViewController()
+    rootViewController.view = rootView
 
-    <span class="n">popover</span> <span class="o">=</span> <span class="kt">NSPopover</span><span class="p">()</span>
+    popover = NSPopover()
 
-    <span class="n">popover</span><span class="o">.</span><span class="n">contentSize</span> <span class="o">=</span> <span class="kt">NSSize</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">700</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">800</span><span class="p">)</span>
-    <span class="n">popover</span><span class="o">.</span><span class="n">animates</span> <span class="o">=</span> <span class="kc">true</span>
-    <span class="n">popover</span><span class="o">.</span><span class="n">behavior</span> <span class="o">=</span> <span class="o">.</span><span class="n">transient</span>
-    <span class="n">popover</span><span class="o">.</span><span class="n">contentViewController</span> <span class="o">=</span> <span class="n">rootViewController</span>
+    popover.contentSize = NSSize(width: 700, height: 800)
+    popover.animates = true
+    popover.behavior = .transient
+    popover.contentViewController = rootViewController
 
-    <span class="n">statusBarItem</span> <span class="o">=</span> <span class="kt">NSStatusBar</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="nf">statusItem</span><span class="p">(</span><span class="nv">withLength</span><span class="p">:</span> <span class="kt">CGFloat</span><span class="p">(</span><span class="mi">60</span><span class="p">))</span>
+    statusBarItem = NSStatusBar.system.statusItem(withLength: CGFloat(60))
 
-    <span class="k">if</span> <span class="k">let</span> <span class="nv">button</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">statusBarItem</span><span class="o">.</span><span class="n">button</span> <span class="p">{</span>
-        <span class="n">button</span><span class="o">.</span><span class="n">action</span> <span class="o">=</span> <span class="k">#selector</span><span class="p">(</span><span class="nf">togglePopover</span><span class="p">(</span><span class="nv">_</span><span class="p">:))</span>
-      <span class="n">button</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="s">"Tempomat"</span>
-    <span class="p">}</span>
+    if let button = self.statusBarItem.button {
+        button.action = #selector(togglePopover(_:))
+      button.title = "Tempomat"
+    }
 
-  <span class="p">}</span>
+  }
 
-  <span class="kd">@objc</span> <span class="kd">func</span> <span class="nf">togglePopover</span><span class="p">(</span><span class="n">_</span> <span class="nv">sender</span><span class="p">:</span> <span class="kt">AnyObject</span><span class="p">?)</span> <span class="p">{</span>
-      <span class="k">if</span> <span class="k">let</span> <span class="nv">button</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">statusBarItem</span><span class="o">.</span><span class="n">button</span> <span class="p">{</span>
-          <span class="k">if</span> <span class="k">self</span><span class="o">.</span><span class="n">popover</span><span class="o">.</span><span class="n">isShown</span> <span class="p">{</span>
-              <span class="k">self</span><span class="o">.</span><span class="n">popover</span><span class="o">.</span><span class="nf">performClose</span><span class="p">(</span><span class="n">sender</span><span class="p">)</span>
-          <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-              <span class="k">self</span><span class="o">.</span><span class="n">popover</span><span class="o">.</span><span class="nf">show</span><span class="p">(</span><span class="nv">relativeTo</span><span class="p">:</span> <span class="n">button</span><span class="o">.</span><span class="n">bounds</span><span class="p">,</span> <span class="nv">of</span><span class="p">:</span> <span class="n">button</span><span class="p">,</span> <span class="nv">preferredEdge</span><span class="p">:</span> <span class="kt">NSRectEdge</span><span class="o">.</span><span class="n">minY</span><span class="p">)</span>
+  @objc func togglePopover(_ sender: AnyObject?) {
+      if let button = self.statusBarItem.button {
+          if self.popover.isShown {
+              self.popover.performClose(sender)
+          } else {
+              self.popover.show(relativeTo: button.bounds, of: button, preferredEdge: NSRectEdge.minY)
 
-              <span class="k">self</span><span class="o">.</span><span class="n">popover</span><span class="o">.</span><span class="n">contentViewController</span><span class="p">?</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">window</span><span class="p">?</span><span class="o">.</span><span class="nf">becomeKey</span><span class="p">()</span>
-          <span class="p">}</span>
-      <span class="p">}</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
+              self.popover.contentViewController?.view.window?.becomeKey()
+          }
+      }
+  }
+}
+</code></pre>
 
 <blockquote>
-  <p>Since we are using Swift, the normal flags preprocessor flags (DEBUG) won’t work, you need to set new Swift flags on the project settings in xcode, go to build settings and search for <code class="language-plaintext highlighter-rouge">Other swift flags</code> on the macOS target and add <code class="language-plaintext highlighter-rouge">-DDEBUG</code> to te debug config</p>
+  <p>Since we are using Swift, the normal flags preprocessor flags (DEBUG) won’t work, you need to set new Swift flags on the project settings in xcode, go to build settings and search for <code>Other swift flags</code> on the macOS target and add <code>-DDEBUG</code> to te debug config</p>
 </blockquote>
 
 <blockquote>
@@ -175,17 +175,17 @@ ViewController.m
 
 <h2 id="4-clean-up-a-few-other-things">4. Clean up a few other things</h2>
 
-<p>If you don’t want your app to appear on the macOS dock and sit on the background (you won’t be able to alt-tab to it): on your info.plist you need to set the value <code class="language-plaintext highlighter-rouge">Application is agent (UIElement)</code> to <code class="language-plaintext highlighter-rouge">YES</code></p>
+<p>If you don’t want your app to appear on the macOS dock and sit on the background (you won’t be able to alt-tab to it): on your info.plist you need to set the value <code>Application is agent (UIElement)</code> to <code>YES</code></p>
 
-<p>On your <code class="language-plaintext highlighter-rouge">Main.storyboard</code> file, delete the old references to the ViewController and the window, and you also have to change the app delegate on the right side attribute panel and give it your macos module, otherwise it won’t be picked up, here is a screenshot that should guide you on where to look 👀:</p>
+<p>On your <code>Main.storyboard</code> file, delete the old references to the ViewController and the window, and you also have to change the app delegate on the right side attribute panel and give it your macos module, otherwise it won’t be picked up, here is a screenshot that should guide you on where to look 👀:</p>
 
 <p><img src="https://ospfranco.com/assets/AppDelegateattribute.JPG" alt="AppDelegate Module" title="AppDelegate Module" /></p>
 
-<p>I did run into some weird swift compilation chain error, I think it was because of Flipper support in RN 0.62, make sure that on your target settings <code class="language-plaintext highlighter-rouge">DEAD_CODE_STRIPPING</code> is set to <code class="language-plaintext highlighter-rouge">YES</code> and <code class="language-plaintext highlighter-rouge">Always embed swift libraries</code> is also set to <code class="language-plaintext highlighter-rouge">YES</code></p>
+<p>I did run into some weird swift compilation chain error, I think it was because of Flipper support in RN 0.62, make sure that on your target settings <code>DEAD_CODE_STRIPPING</code> is set to <code>YES</code> and <code>Always embed swift libraries</code> is also set to <code>YES</code></p>
 
 <h2 id="5-profit">5. Profit</h2>
 
-<p>Done, you should be able to hit the run button via xcode (or run the app via <code class="language-plaintext highlighter-rouge">npx react-native run-macos</code>) and should see your RN menu bar running!</p>
+<p>Done, you should be able to hit the run button via xcode (or run the app via <code>npx react-native run-macos</code>) and should see your RN menu bar running!</p>
 
 <p><img src="https://ospfranco.com/assets/RNMENUBARAPP.JPG" alt="Menubar App" title="Menubar App" /></p>
 
@@ -193,10 +193,10 @@ ViewController.m
   <p>a lot of libraries have added macos support since this article was published, this steps may no longer be necessary, but it is still useful if you need to work around some issue, react-navigation should work fine out of the box now for example</p>
 </blockquote>
 
-<p>BUT, there is catch, right now react-native-macos is so fresh… pretty much none of the existing libraries are working, and sometimes that will also mess up your <code class="language-plaintext highlighter-rouge">pod install</code> react native vector icons work fine if you follow the macOS steps, but I ended up creating the following yarn command to being able to run pod install without autolinking messing with it:</p>
+<p>BUT, there is catch, right now react-native-macos is so fresh… pretty much none of the existing libraries are working, and sometimes that will also mess up your <code>pod install</code> react native vector icons work fine if you follow the macOS steps, but I ended up creating the following yarn command to being able to run pod install without autolinking messing with it:</p>
 
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nl">"macos:install"</span><span class="p">:</span><span class="w"> </span><span class="s2">"cd node_modules/react-native-vector-icons &amp;&amp; mv RNVectorIcons.podspec X &amp;&amp; cd ../../macos &amp;&amp; pod install &amp;&amp; cd ../node_modules/react-native-vector-icons &amp;&amp; mv X RNVectorIcons.podspec"</span><span class="w">
-</span></code></pre></div></div>
+<pre><code class="language-json">"macos:install": "cd node_modules/react-native-vector-icons &amp;&amp; mv RNVectorIcons.podspec X &amp;&amp; cd ../../macos &amp;&amp; pod install &amp;&amp; cd ../node_modules/react-native-vector-icons &amp;&amp; mv X RNVectorIcons.podspec"
+</code></pre>
 
 <p>You also won’t have the latest version of react-navigation working, I got the latest version of the v2 working and that is fine for now… so yeah, a lot of compromises, but the future looks bright!</p>
 

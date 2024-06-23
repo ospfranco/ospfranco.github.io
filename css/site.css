@@ -8,6 +8,7 @@
 :root {
   font-family: Inter, sans-serif;
   font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
+  font-size: 15px;
 }
 
 @supports (font-variation-settings: normal) {
@@ -17,7 +18,7 @@
 }
 
 body {
-  @apply max-w-full dark:text-neutral-300 dark:bg-[#0d1116];
+  @apply max-w-full text-neutral-700 dark:text-neutral-300 dark:bg-[#0d1116];
 }
 
 a {
@@ -33,19 +34,19 @@ a {
 }
 
 .markdown p {
-  @apply py-3;
+  @apply py-2;
 }
 
 .markdown h1 {
-  @apply mt-8 text-xl font-semibold;
+  @apply mt-6 text-xl font-semibold;
 }
 
 .markdown h2 {
-  @apply mt-8 text-lg font-semibold;
+  @apply mt-6 text-lg font-semibold;
 }
 
 .markdown h3 {
-  @apply mt-8 font-bold;
+  @apply mt-6 font-bold;
 }
 
 .markdown ol {
@@ -64,8 +65,8 @@ a {
   @apply pl-4 italic border-l-2 dark:border-neutral-600 my-2;
 }
 
-.markdown .language-plaintext {
-  @apply px-1 rounded dark:text-white border dark:border-neutral-800 bg-gray-100 dark:bg-gray-900 text-sm;
+code {
+  @apply rounded dark:text-white border dark:border-neutral-700 bg-gray-100 dark:bg-gray-800 text-sm px-1;
 }
 
 .hljs {

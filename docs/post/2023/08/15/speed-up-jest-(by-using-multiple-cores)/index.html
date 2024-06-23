@@ -64,14 +64,14 @@
 
       <div class="pt-4 pb-20 markdown"><p>You can increase jest speed by passing the amount of workers, this works wonders on a m1 machine, use the following npm scripts:</p>
 
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="dl">"</span><span class="s2">test</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jest --maxWorkers=50%</span><span class="dl">"</span><span class="p">,</span>
-<span class="dl">"</span><span class="s2">test:watch</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jest --maxWorkers=50% --watch</span><span class="dl">"</span><span class="p">,</span>
-</code></pre></div></div>
+<pre><code class="language-jsx">"test": "jest --maxWorkers=50%",
+"test:watch": "jest --maxWorkers=50% --watch",
+</code></pre>
 
 <p>For CI jobs, where you usually don’t have many processors running the tests sequentially provides the best results</p>
 
-<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="dl">"</span><span class="s2">test:ci</span><span class="dl">"</span><span class="p">:</span> <span class="dl">"</span><span class="s2">jest --testLocationInResults --runInBand --ci --outputFile=test_results.json --json</span><span class="dl">"</span><span class="p">,</span>
-</code></pre></div></div>
+<pre><code class="language-jsx">"test:ci": "jest --testLocationInResults --runInBand --ci --outputFile=test_results.json --json",
+</code></pre>
 </div>
     </div>
 
