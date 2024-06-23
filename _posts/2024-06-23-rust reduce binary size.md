@@ -35,4 +35,4 @@ cargo bloat --release --target=<your-target>
 
 # Results
 
-Using all the compile optimizations, I was able to reduce the output binary from 60 MB to 30 MB. It's still large but better.
+Using all the compile optimizations, I was able to reduce the output of one of my binaries from 60 MB to 30 MB. It's still large but better.
