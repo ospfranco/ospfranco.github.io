@@ -75,11 +75,6 @@ strip = "symbols" # Exclude the rest of the symbols
 lto = true # Link time optimization, not sure what this does but it helps reduce the size
 </code></pre>
 
-<p>Additionally, using the following flag turns on dead-code stripping:</p>
-
-<pre><code>RUSTFLAGS="-C link-arg=-Wl,-dead_strip" cargo build --release --target=&lt;your-target&gt;
-</code></pre>
-
 <h1 id="cargo-bloat">Cargo Bloat</h1>
 
 <p>I haven’t fully explored what this tool can do, but it does point to large sections of the code. Install it with <code>cargo install cargo-bloat</code> and then run:</p>
@@ -87,9 +82,13 @@ lto = true # Link time optimization, not sure what this does but it helps reduce
 <pre><code>cargo bloat --release --target=&lt;your-target&gt;
 </code></pre>
 
+<h1 id="openssl">OpenSSL</h1>
+
+<p>The OpenSSL adds a lot of weight to a crate unless you need it, you can use <a href="https://crates.io/crates/ring">ring</a> which reduced further 4 MB of my crate.</p>
+
 <h1 id="results">Results</h1>
 
-<p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 60 MB to 30 MB. It’s still large but better.</p>
+<p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It’s still large but better.</p>
 </div>
     </div>
 
