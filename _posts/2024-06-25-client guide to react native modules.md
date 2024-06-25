@@ -44,7 +44,7 @@ Forget about fabric, it's about how UI components are rendered and it's mostly i
 
 # Turbo Modules
 
-All the internals of RN started to migrate from JSON to interacting with C++. So, we now need a new way to create native modules for React Native. Since now at least some C++ code is needed to interact with native code. Turbo Modules are a solution to this problem. Is it important to know: `Turbo Modules` are **built** on top of `JSI`. You can have `new arch` modules (that use the JSI) without Turbo Modules, but not the other way around. Turbo Modules take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, that react native then includes in your project. The idea is that they should allow for lazy initialization and keep your JavaScript function definitions synchronized with the actual native implementations without manual intervention.
+All the internals of RN started to migrate from JSON to interacting with C++. So, we now need a new way to create native modules for React Native. Since now at least some C++ code is needed to interact with native code. Turbo Modules are a solution to this problem. Is it important to know: `Turbo Modules` are **built** on top of `JSI`. You can have `new arch` modules (that use the JSI) without Turbo Modules, but not the other way around. Turbo Modules take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, that react native then includes in your project. They are also a DSL of TypeScript/Flow, so there is that...
 
 ## Pros
 
@@ -60,7 +60,7 @@ All the internals of RN started to migrate from JSON to interacting with C++. So
 
 # Expo modules
 
-Turbo Modules and the necessary knowledge to make use of `JSI` is not trivial at all. It requires knowledge of C++, ObjC, Kotlin/Java, Java's JNI, the build systems and most of all knowledge of the internals of RN. The great guys at expo saw from a mile away that for a company/team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they also applied ungodly amounts of Kotlin/Swift magic and bridged their own way of creating native modules.
+`Turbo Modules` and the necessary knowledge to make use of `JSI` is not trivial at all. It requires knowledge of C++, ObjC, Kotlin/Java, Java's JNI, the build systems and, most of all, knowledge of the internals of RN. The great guys at expo saw from a mile away that for a company/team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they also applied ungodly amounts of Kotlin/Swift magic and bridged their own way of creating native modules.
 
 ## Pros
 
