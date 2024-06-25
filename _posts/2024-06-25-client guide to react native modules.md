@@ -20,6 +20,7 @@ How do you pass data between JavaScript, a interpreted language that runs on C++
 - It is the easiest of all the methods to create a module. Due to the ease of marking methods and the runtime registration, there is not a lot of setup necessary.
 - ❗ Old modules are still supported in the `new arch` (we will talk about it in a bit). In fact there has been a special work put onto them so that they remain compatible at least for extra year while libraries and apps migrate to the new arch.
 - If your SDK sends a small amount of data, actually should be more than enough for your needs.
+- If you use `bridgeless` (will talk about it in a second), they will also use the JSI!
 
 ## Cons
 
@@ -41,6 +42,10 @@ JSI is the corner stone of the new arch.
 ## Fabric
 
 Forget about fabric, it's about how UI components are rendered and it's mostly internal. It will have very little influence on your module, with the exception on how your UI components are registered.
+
+## Bridgeless
+
+It's just a configuration flag that completely removes the JSON bridge. `old arch` modules will still work (in fact they use JSI too). It's just part of the migration to kill the old bridge once and for all.
 
 # Turbo Modules
 
