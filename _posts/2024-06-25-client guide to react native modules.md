@@ -7,7 +7,7 @@ permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-Let's play the following scenario: You are my client and I'm me. You ask "Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module stuff is confusing, can you help us?, the answer is YES. However, I'm a bit tired of explaining the same concepts again and again, so I will point you to this article.
+Let's play the following scenario: You are my client and I'm me. You ask "Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module stuff is confusing, can you help us?" the answer dear client is obviously yes. However, I'm a bit tired of explaining the same concepts again and again, so I will point you to this article.
 
 > If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology and why are they paying their hard earned money to some RN consultant to write Javascript.
 
