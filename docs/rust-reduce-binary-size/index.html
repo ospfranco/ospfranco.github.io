@@ -82,9 +82,13 @@ lto = true # Link time optimization, not sure what this does but it helps reduce
 <pre><code>cargo bloat --release --target=&lt;your-target&gt;
 </code></pre>
 
+<h1 id="building-both-a-static-and-dylib">Building both a static and dylib</h1>
+
+<p>In my experience static binaries on iOS are OK, but on Android they can be huge. Ideally you would specify <code>crate-type = ['staticlib', 'dylib']</code> and just be on your merry way, however, it seems there is a bug in the rust compiles and it bloats the static lib massively. In order to get a static binary for iOS and a dynamic one for Android you can set <code>crate-type = ['dylib']</code> and change the compilation command for iOS to <code>cargo rustc --crate-type=staticlib ...</code></p>
+
 <h1 id="openssl">OpenSSL</h1>
 
-<p>The OpenSSL adds a lot of weight to a crate unless you need it, you can use <a href="https://crates.io/crates/ring">ring</a> which reduced further 4 MB of my crate.</p>
+<p>The OpenSSL adds a lot of weight to a crate unless you need it, you can use <a href="https://crates.io/crates/ring">ring</a> which reduced further 4 MB to 6 MB of my crate.</p>
 
 <h1 id="results">Results</h1>
 

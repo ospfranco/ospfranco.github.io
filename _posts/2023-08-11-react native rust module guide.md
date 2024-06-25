@@ -9,11 +9,11 @@ image: /assets/oscar.jpg
 
 This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.
 
-<iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+<iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
 
 # Basic Setup
 
-- Set up Rust compiler on your computer, just follow the instructions on the Rust website (using `rustup`).
+- Set up Rust compiler on your computer, just follow the instructions on the Rust website (use `rustup`, brew will give you headaches).
 - In order to compile the Android version you are going to use the `ndk` create which simplifies the command to compile the rust library for Android. Install it via `cargo install ndk`
 - Create a crate where we will put all of our Rust lib code and infra scripts. In my case I will call it `my_sdk`
 
@@ -39,7 +39,7 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
   }
   ```
 
-- We will use a crate called `cbindgen` that will help us generate a C header for our Rust functions. We will automate the header creation by creating a `build.rs` that runs everytime our project is compiled/checked. First we are going to add the dependency as a `[build-dependencies]`, the project `Cargo.toml`:
+- We will use a crate called `cbindgen` that will help us generate a C header for our Rust functions. We will automate the header creation by creating a `build.rs` that runs every time our project is compiled/checked. First we are going to add the dependency as a `[build-dependencies]`, the project `Cargo.toml`:
 
   ```toml
   [build-dependencies]
@@ -72,7 +72,7 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
 
   fn main() {
       // Tell Cargo that if the given file changes, to rerun this build script.
-      // println!("cargo:rerun-if-changed=src/lib.rs");
+      println!("cargo:rerun-if-changed=src/lib.rs");
       generate_c_headers();
   }
   ```
@@ -91,11 +91,13 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
 
   [dependencies]
   libc = "0.2.80" # Allows to use c types CString, c_char, etc.
-  jni = "0.17.0" # Allows to write JNI bindings directly from Rust
+  jni = "0.17.0" # OPTIONAL Allows to write JNI bindings directly from Rust
 
   [build-dependencies]
   cbindgen = "0.26.0"
   ```
+
+- (Optional) In my experience static binaries on iOS are OK, but on Android they can be huge. Ideally you would specify `crate-type = ['staticlib', 'dylib']` and just be on your merry way, however, it seems this bloats the static lib massively. In order to get a static binary for iOS and a dynamic one for Android you can set `crate-type = ['dylib']` and change the compilation command for iOS to `cargo rustc --crate-type=staticlib ...`
 
 # iOS
 
@@ -105,6 +107,7 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
   ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
   ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
   LIB = libmy_sdk.a
+  DYLIB = libmy_sdk.so
   XCFRAMEWORK = my_sdk.xcframework
 
   all: ios android
@@ -112,7 +115,18 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
   ios: $(XCFRAMEWORK)
 
   android: $(ARCHS_ANDROID)
-    ./copy-android.sh
+    # After build is done copy files into the android folder
+    mkdir -p ../android/app/src/main/jniLibs
+    mkdir -p ../android/app/src/main/jniLibs/x86
+    mkdir -p ../android/app/src/main/jniLibs/arm64-v8a
+    mkdir -p ../android/app/src/main/jniLibs/armeabi-v7a
+    mkdir -p ../android/app/src/main/jniLibs/x86_64
+
+
+    cp ./target/i686-linux-android/release/$(DYLIB) ../android/app/src/main/jniLibs/x86/$(DYLIB)
+    cp ./target/aarch64-linux-android/release/$(DYLIB) ../android/app/src/main/jniLibs/arm64-v8a/$(DYLIB)
+    cp ./target/arm-linux-androideabi/release/$(DYLIB) ../android/app/src/main/jniLibs/armeabi-v7a/$(DYLIB)
+    cp ./target/x86_64-linux-android/release/$(DYLIB) ../android/app/src/main/jniLibs/x86_64/$(DYLIB)
 
   .PHONY: $(ARCHS_IOS)
   $(ARCHS_IOS): %:
@@ -123,9 +137,10 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
     cargo ndk --target $@ --platform 31 --release
 
   $(XCFRAMEWORK): $(ARCHS_IOS)
-    lipo -create $(wildcard ../../target/x86_64-apple-ios/release/$(LIB)) $(wildcard ../../target/aarch64-apple-ios-sim/release/$(LIB)) -output simulator_fat/libmy_sdk.a
-    xcodebuild -create-xcframework -library $(wildcard ../../target/aarch64-apple-ios/release/$(LIB)) -headers include -library simulator_fat/libmy_sdk.a -headers include -output $@
-    ./copy-ios.sh
+    mkdir -p simulator_fat
+    lipo -create target/x86_64-apple-ios/release/$(LIB) target/aarch64-apple-ios-sim/release/$(LIB) -output simulator_fat/$(LIB)
+    xcodebuild -create-xcframework -library target/aarch64-apple-ios/release/$(LIB) -headers include -library simulator_fat/$(LIB) -headers include -output $@
+    cp -r $@ ../ios/$@
   ```
 
   > You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.
@@ -136,6 +151,10 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
   - If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the `xcframework` somewhere and then on your podspec add `s.vendored_frameworks = "my_sdk.xcframework"`
 - You should now be able to simply import the header file (`#include "my_sdk.h"`) and call any Rust function from any Obj-C++ file
 
+# Binary size
+
+As mentioned in a previous point, the sizes of compiled Rust binaries can be quite large. Which is a problem when targeting mobile platforms. You need to turn on optimizations to get the binary size down, check out the [size optimization guide](https://ospfranco.com/rust-reduce-binary-size/).
+
 # Android
 
 - The `ndk` crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:
@@ -144,23 +163,6 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
   export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
   export ANDROID_HOME=$HOME/Library/Android/sdk
   export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
-  ```
-
-- After the compilation is done, we need to place the files in the correct place, the `copy-android.sh` takes care of that:
-
-  ```bash
-  #!/bin/bash
-  mkdir -p ../android/app/src/main/jniLibs
-  mkdir -p ../android/app/src/main/jniLibs/x86
-  mkdir -p ../android/app/src/main/jniLibs/arm64-v8a
-  mkdir -p ../android/app/src/main/jniLibs/armeabi-v7a
-  mkdir -p ../android/app/src/main/jniLibs/x86_64
-
-
-  cp ./target/i686-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86/libmy_sdk.so
-  cp ./target/aarch64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/arm64-v8a/libmy_sdk.so
-  cp ./target/arm-linux-androideabi/release/libmy_sdk.so ../android/app/src/main/jniLibs/armeabi-v7a/libmy_sdk.so
-  cp ./target/x86_64-linux-android/release/libmy_sdk.so ../android/app/src/main/jniLibs/x86_64/libmy_sdk.so
   ```
 
 - We need to tell cmake to link the library when compiling our native module, on the `CMakeLists.txt` file add the following:
@@ -218,6 +220,7 @@ This is a tutorial on how I integrate Rust modules, but in the video form I go o
 
       BindingsModule(ReactApplicationContext context) {
           super(context);
+          // If you are using a Android dylib, you will have to load it now!
       }
 
       @Override

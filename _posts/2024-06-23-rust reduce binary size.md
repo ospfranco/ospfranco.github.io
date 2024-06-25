@@ -27,9 +27,13 @@ I haven't fully explored what this tool can do, but it does point to large secti
 cargo bloat --release --target=<your-target>
 ```
 
+# Building both a static and dylib
+
+In my experience static binaries on iOS are OK, but on Android they can be huge. Ideally you would specify `crate-type = ['staticlib', 'dylib']` and just be on your merry way, however, it seems there is a bug in the rust compiles and it bloats the static lib massively. In order to get a static binary for iOS and a dynamic one for Android you can set `crate-type = ['dylib']` and change the compilation command for iOS to `cargo rustc --crate-type=staticlib ...`
+
 # OpenSSL
 
-The OpenSSL adds a lot of weight to a crate unless you need it, you can use [ring](https://crates.io/crates/ring) which reduced further 4 MB of my crate.
+The OpenSSL adds a lot of weight to a crate unless you need it, you can use [ring](https://crates.io/crates/ring) which reduced further 4 MB to 6 MB of my crate.
 
 # Results
 
