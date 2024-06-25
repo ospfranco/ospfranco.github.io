@@ -167,7 +167,7 @@ As mentioned in a previous point, the sizes of compiled Rust binaries can be qui
 
 - We need to tell cmake to link the library when compiling our native module, on the `CMakeLists.txt` file add the following:
 
-  ```cmake
+  ```make
   make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
   add_library(my_sdk STATIC IMPORTED)
   set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})

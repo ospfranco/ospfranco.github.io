@@ -235,7 +235,7 @@ export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
   <li>
     <p>We need to tell cmake to link the library when compiling our native module, on the <code>CMakeLists.txt</code> file add the following:</p>
 
-    <pre><code class="language-cmake">make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
+    <pre><code class="language-make">make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
 add_library(my_sdk STATIC IMPORTED)
 set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})
 
