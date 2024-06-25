@@ -92,23 +92,23 @@ You want to get the ball rolling for now: go for an old arch module
 
 # QA
 
-- Is it possible to have a `new arch` (i.e. Turbo Module) that is compatible with `old arch`?
-- Yes, but it's terrible, it takes a lot of work, copying the generated files and modifying the compilation process so that everything runs on both archs. You will definitely need help from one of the agencies or me to get this working properly and maintain it.
+Q: Is it possible to have a `new arch` (i.e. Turbo Module) that is compatible with `old arch`?
+A: Yes, but it's terrible, it takes a lot of work, copying the generated files and modifying the compilation process so that everything runs on both archs. You will definitely need help from one of the agencies or me to get this working properly and maintain it.
 
-- But Expo [insert your comment here]
-- Expo Modules are great if they work for you. Use them. It's fine. Don't ask me about it though, not an Expo developer.
+Q: But Expo [insert your comment here]
+A: Expo Modules are great if they work for you. Use them. It's fine. Don't ask me about it though, not an Expo developer.
 
-- You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?
-- The same way Expo Modules are Swift/Kotlin. Ungodly amount of conversion between languages. Swift → ObjC++ → C++. Kotlin/Java → JNI (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.
+Q: You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?
+A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of conversion between languages. Swift → ObjC++ → C++. Kotlin/Java → JNI (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.
 
-- Can I write my Turbo Module in Swift?
-- No. Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go and the generation scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.
+Q: Can I write my Turbo Module in Swift?
+A: No. Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go and the generation scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.
 
-- When will I be able to write my Turbo Module in Swift?
-- Some day, who knows, go work at Meta and make this a reality :)
+Q: When will I be able to write my Turbo Module in Swift?
+A: Some day, who knows, go work at Meta and make this a reality :)
 
-- Can I write a native module in Rust?
-- Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, [here is a guide](https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/). There is also this [repo](https://github.com/laptou/jsi-rs) in case you really want to write everything in rust, but I haven't managed to get it to run, my Rust-Fu is not advanced enough, but it seems to bridge all the JSI code into Rust so you can call all the functions directly from Rust.
+Q: Can I write a native module in Rust?
+A: Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, [here is a guide](https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/). There is also this [repo](https://github.com/laptou/jsi-rs) in case you really want to write everything in rust, but I haven't managed to get it to run, my Rust-Fu is not advanced enough, but it seems to bridge all the JSI code into Rust so you can call all the functions directly from Rust.
 
-- What are the pitfalls when writing my native module?
-- There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. It's complex to get all of the moving parts working nicely.
+Q: What are the pitfalls when writing my native module?
+A: There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. It's complex to get all of the moving parts working nicely.
