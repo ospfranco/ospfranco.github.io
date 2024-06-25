@@ -1,4 +1,130 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-25T08:24:42+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Reduce Rust binaries size</title><link href="https://ospfranco.com/rust-reduce-binary-size/" rel="alternate" type="text/html" title="Reduce Rust binaries size" /><published>2024-06-23T00:00:00+02:00</published><updated>2024-06-23T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20reduce%20binary%20size</id><content type="html" xml:base="https://ospfranco.com/rust-reduce-binary-size/"><![CDATA[<p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-25T22:45:12+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module stuff is confusing, can you help us?, the answer is YES. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
+
+<blockquote>
+  <p>If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology and why are they paying their hard earned money to some RN consultant to write Javascript.</p>
+</blockquote>
+
+<h1 id="in-the-beginning-there-was-json">In the beginning there was JSON</h1>
+
+<p>How do you pass data between JavaScript, a interpreted language that runs on C++ to native runtimes of iOS (Swift/ObjC) and Android (Java/Kotlin)? easy! JSON. You serialize your data and every native function that you need to call can pass through a narrow tube of message passing. This is what we call the <code>old arch</code> (the usage of JSON is also called the [JSON] bridge) of React Native.</p>
+
+<h2 id="pros">Pros</h2>
+
+<ul>
+  <li>It is the easiest of all the methods to create a module. Due to the ease of marking methods and the runtime registration, there is not a lot of setup necessary.</li>
+  <li>❗ Old modules are still supported in the <code>new arch</code> (we will talk about it in a bit). In fact there has been a special work put onto them so that they remain compatible at least for extra year while libraries and apps migrate to the new arch.</li>
+  <li>If your SDK sends a small amount of data, actually should be more than enough for your needs.</li>
+</ul>
+
+<h2 id="cons">Cons</h2>
+
+<ul>
+  <li>It is slow and can get stuck when there is a large amount of data being serialized between the JS code and the native runtimes.</li>
+  <li>It’s being phased out</li>
+</ul>
+
+<h1 id="new-arch">New arch</h1>
+
+<p>React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the old JSON bridge. So a bunch of concepts/modules/ideas where introduced. The conjunction of the following terms, form what is called <code>new arch</code>:</p>
+
+<h2 id="jsi">JSI</h2>
+
+<p>The first thing to solve is the slow passing data between JS and native. To fix this, the JavaScript Interface was created at meta. It’s basically a bunch of C++ functions that allow to interact with JavaScript from C++ without paying for serialization costs of JSON. You can think of it as Node-API (the way node.js is able to call native code) but a bit shittier since it is not a binary communication protocol but rather a bolt-on with some higher costs but still much faster than before.</p>
+
+<p>The problem when interacting with C++ code though is that it introduces a gap between JavaScript and native. Whenever you run JavaScript code it runs on a JavaScript engine, but actually one should think about this “context” as a virtual machine. It is a context that can be instantiated multiple times actually, though your UI will run on just one of them. As a matter of fact that is how web workers and certain level of parallelism in JavaScript is achieved. Nobody else calls it a virtual machine, but it is one. It reads your JS and keeps a internal state of the code it runs, has it’s own heap and can die out. Most importantly, you cannot just fiddle with it while is interpreting your JS. The functions provided by JSI, allow to do work with this virtual machine/context/runtime by allowing to enqueue callbacks, cast JS values into C++ values, etc.</p>
+
+<p>JSI is the corner stone of the new arch.</p>
+
+<h2 id="fabric">Fabric</h2>
+
+<p>Forget about fabric, it’s about how UI components are rendered and it’s mostly internal. It will have very little influence on your module, with the exception on how your UI components are registered.</p>
+
+<h1 id="turbo-modules">Turbo Modules</h1>
+
+<p>All the internals of RN started to migrate from JSON to interacting with C++. So, we now need a new way to create native modules for React Native. Since now at least some C++ code is needed to interact with native code. Turbo Modules are a solution to this problem. Is it important to know: <code>Turbo Modules</code> are <strong>built</strong> on top of <code>JSI</code>. You can have <code>new arch</code> modules (that use the JSI) without Turbo Modules, but not the other way around. Turbo Modules take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, that react native then includes in your project. The idea is that they should allow for lazy initialization and keep your JavaScript function definitions synchronized with the actual native implementations without manual intervention.</p>
+
+<h2 id="pros-1">Pros</h2>
+
+<ul>
+  <li>Lazy initialization</li>
+  <li>Much faster runtime performance</li>
+  <li>Synchronized function definitions between JS and native</li>
+</ul>
+
+<h2 id="cons-1">Cons</h2>
+
+<ul>
+  <li>Much much harder to setup</li>
+  <li>Lack of documentation</li>
+  <li>Require C++ knowledge and good knowledge of the internals of RN if you deviate from the golden path</li>
+</ul>
+
+<h1 id="expo-modules">Expo modules</h1>
+
+<p>Turbo Modules and the necessary knowledge to make use of <code>JSI</code> is not trivial at all. It requires knowledge of C++, ObjC, Kotlin/Java, Java’s JNI, the build systems and most of all knowledge of the internals of RN. The great guys at expo saw from a mile away that for a company/team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they also applied ungodly amounts of Kotlin/Swift magic and bridged their own way of creating native modules.</p>
+
+<h2 id="pros-2">Pros</h2>
+
+<ul>
+  <li>Much much more easier to expose native (Swift/Kotlin) functions to JS</li>
+  <li>They still use the JSI, so they are quite fast</li>
+  <li>Much much easier to create and move around</li>
+</ul>
+
+<h2 id="cons-2">Cons</h2>
+
+<ul>
+  <li>They <strong>only</strong> run on expo apps</li>
+  <li>JSI is C++, Expo Modules are Swift/Kotlin, so <strong>there is</strong> a runtime performance. It’s not nothing, but is more than good enough for the general use case</li>
+  <li>The signatures of functions need to be adjusted manually between native and the JS side</li>
+</ul>
+
+<h1 id="c-turbo-modules">C++ Turbo Modules</h1>
+
+<p>It’s notable to mention that there are a lot of cases where you don’t want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like sqlite, libsql, etc. This is what you want. JSI is C++, your code is C(++). This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. It is also tricky to setup.</p>
+
+<h1 id="which-should-you-pick">Which should you pick?</h1>
+
+<p>It depends.</p>
+
+<p>You have a small team and want to just call some native Swift/Kotlin and are running Expo already: go for Expo Modules.</p>
+
+<p>You have a C/C++/Rust library and require the most amount of performance: Go for C++ Turbo Module or a custom JSI module.</p>
+
+<p>You want JSI, have some expertise, not on expo: go for Turbo Modules, documentation is scant so this is the least option I recommend</p>
+
+<p>You want to get the ball rolling for now: go for an old arch module</p>
+
+<h1 id="qa">QA</h1>
+
+<ul>
+  <li>Is it possible to have a <code>new arch</code> (i.e. Turbo Module) that is compatible with <code>old arch</code>?</li>
+  <li>
+    <p>Yes, but it’s terrible, it takes a lot of work, copying the generated files and modifying the compilation process so that everything runs on both archs. You will definitely need help from one of the agencies or me to get this working properly and maintain it.</p>
+  </li>
+  <li>But Expo [insert your comment here]</li>
+  <li>
+    <p>Expo Modules are great if they work for you. Use them. It’s fine. Don’t ask me about it though, not an Expo developer.</p>
+  </li>
+  <li>You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?</li>
+  <li>
+    <p>The same way Expo Modules are Swift/Kotlin. Ungodly amount of conversion between languages. Swift → ObjC++ → C++. Kotlin/Java → JNI (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
+  </li>
+  <li>Can I write my Turbo Module in Swift?</li>
+  <li>
+    <p>No. Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go and the generation scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.</p>
+  </li>
+  <li>When will I be able to write my Turbo Module in Swift?</li>
+  <li>
+    <p>Some day, who knows, go work at Meta and make this a reality :)</p>
+  </li>
+  <li>Can I write a native module in Rust?</li>
+  <li>
+    <p>Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, <a href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/">here is a guide</a>. There is also this <a href="https://github.com/laptou/jsi-rs">repo</a> in case you really want to write everything in rust, but I haven’t managed to get it to run, my Rust-Fu is not advanced enough, but it seems to bridge all the JSI code into Rust so you can call all the functions directly from Rust.</p>
+  </li>
+  <li>What are the pitfalls when writing my native module?</li>
+  <li>There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. It’s complex to get all of the moving parts working nicely.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module stuff is confusing, can you help us?, the answer is YES. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reduce Rust binaries size</title><link href="https://ospfranco.com/rust-reduce-binary-size/" rel="alternate" type="text/html" title="Reduce Rust binaries size" /><published>2024-06-23T00:00:00+02:00</published><updated>2024-06-23T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20reduce%20binary%20size</id><content type="html" xml:base="https://ospfranco.com/rust-reduce-binary-size/"><![CDATA[<p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
 
 <p>The documentation is a bit confusing, but here is the configuration I ended up using to get somewhat OK sizes. In the <code>cargo.toml</code> file:</p>
 
@@ -663,101 +789,4 @@ end
 
 <p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code>po NSHomeDirectory()</code> and it will print out the local directory.</p>
 
-<p><img src="https://ospfranco.com/assets/pohomedirectory.png" alt="home directory print out" title="PO NSHomeDirectory" /></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.]]></summary></entry><entry><title type="html">SQLite for React Native, but 5x faster and 5x less memory</title><link href="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" rel="alternate" type="text/html" title="SQLite for React Native, but 5x faster and 5x less memory" /><published>2023-11-09T00:00:00+01:00</published><updated>2023-11-09T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/09/sqlite%20for%20react%20native,%20but%205x%20faster%20and%205x%20less%20memory</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"><![CDATA[<p>I created a new sqlite module for react-native: <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module.</p>
-
-<h1 id="quick-sqlite">quick-sqlite</h1>
-
-<p>I wrote <a href="https://github.com/ospfranco/react-native-quick-sqlite">quick-sqlite</a> last year after I learned about React Native JSI, a way to bridge C++ code to JavaScript. The idea was simple and I took a peek at existing libraries. One basically takes the arguments passed from JavaScript, and then just call the SQLite APIs, then collect the results of the queries and pass them back to JavaScript.</p>
-
-<p>quick-sqlite already produced a major improvement in performance over the old bridge modules, where data had to be serialized to JSON and then passed between native and JavaScript. The flow was pretty simple:</p>
-
-<p><img src="https://ospfranco.com/assets/quick-sqlite-flow.png" alt="quick-sqlite-flow" title="Quick SQLite flow" /></p>
-
-<h1 id="where-quick-sqlite-fell-short">Where quick-sqlite fell short</h1>
-
-<p>There were, however, some issues with quick-sqlite. People complained although it was fast, queries would run out of memory or it would not be fast enough. Given that this was open source work and I already gotten what I wanted I did not pursue further optimizations further. At some point it was not fun and I handed over quick-sqlite to Margelo and went for a long vacation.</p>
-
-<p>I’ve been back at work for a few months and I have seen the value quick-sqlite provides to companies large and small. But people <a href="https://github.com/margelo/react-native-quick-sqlite/pull/30#issuecomment-1801378465">kept asking if it could be made faster</a>. They already had some good ideas: try to reduce the amount of created strings, use HostObjects to reduce memory foot-print, and so on. Just out of curiosity I decided to try a few things.</p>
-
-<p>In order to really see differences, I set up a test of a database of 300k records, mix of strings, ints and doubles. At lower scales the differences might be so tiny that they don’t really matter.</p>
-
-<h1 id="migrate-to-hostobjects">Migrate to HostObjects</h1>
-
-<p>The first obvious idea was migrating to HostObjects (if you don’t know what they are, <a href="https://www.youtube.com/watch?v=_BNinSbzZTE">I made a video about them</a>, but think C++ classes bridged to JS). HostObjects are not a cure to all, but they would immediately provide a big benefit: memory consumption would be reduced. On the old flow, I would get the results from SQLite, store them in a vector, and then when I got access to the JS context again, iterate and recreate all the data again in JSI (read: plain JS) objects. This meant that all the price of converting/transfering data from native to JS, was paid upfront. By using HostObjects one can avoid paying this price of copying strings and other values. They would be created once and then stored in memory, when the JS side reaches inside them then they do the conversion of data at that point in time.</p>
-
-<p>It is not perfect, since I’m shifting the price paid before upfront into some cost when accessing the data. But testing showed that access was just the same, and memory consumption was halved! This meant queries that would OOM before now could be run without problem.</p>
-
-<h1 id="get-rid-of-holding-struct">Get rid of holding struct</h1>
-
-<p>Another issue was I created a Struct to hold different type of data, due to the nature of JS any value you receive can be of these types:</p>
-
-<pre><code class="language-c++">struct QuickValue {
-  int intVal;
-  double doubleVal;
-  std::string strVal;
-  bool boolVal;
-  std::string type; // used to store which type of data this was holding
-}
-</code></pre>
-
-<p>There is no justification for this structure other than: I didn’t knew any better, my c++-fu was weak. I knew that using this struct would allocate too much extra memory and was wasteful, I just didn’t imagine how much. Allocating memory and moving objects around in the heap has a big cost, not only in memory but sometimes in performance!</p>
-
-<p>When browsing the web and other peoples code, I came to learn about <a href="https://en.cppreference.com/w/cpp/utility/any">std::any</a>, which was introduced in C++ 17. It basically functions the same as my struct to hold data (internally it just stores a pointer <code>void *</code>). I got rid of the struct and swapped all references for <code>std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code>std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there.</p>
-
-<p>When reading on how to do certain operations, a lot of answers pointed towards <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a>. After getting the code to compile with <code>std::any</code> I decided to give <code>std::variant</code> a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
-
-<pre><code class="language-c++">#include &lt;variant&gt;
-
-struct ArrayBuffer {
-    std::shared_ptr&lt;uint8_t&gt; data;
-    size_t size;
-};
-
-
-using JSVariant = std::variant&lt;nullptr_t, bool, int, double, long, long long, std::string, ArrayBuffer&gt;;
-</code></pre>
-
-<h1 id="turning-the-problem-around">Turning the problem around</h1>
-
-<p>I had a nagging feeling that somehow I was just wasting so much memory by creating HostObjects that are basically maps, therefore store the same keys over and over again (remember, I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!</p>
-
-<p>It took a little while for me to wrap my head around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get de-allocated. The final result is a combination of what I call a <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h">DumbHostObject</a> and <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DynamicHostObject.cpp">DynamicHostObject</a>, the dumb objects only hold data, and the dynamic objects can hold anything (that can also be accessed from the JS side), but by combining the two, one can save memory by sharing the key set (in a DynamicHostObject) among many results (DumbHostObjects).</p>
-
-<p>As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade. The original query in quick-sqlite took over two seconds and required 1.2 gbs in memory on iOS. This now runs in ~500ms and requires only 250mbs of memory. The Android performance gains are masive as well, reaching almost 8x the speed.</p>
-
-<table>
-  <thead>
-    <tr>
-      <th>Library</th>
-      <th>iPhone 15 Pro</th>
-      <th>Galaxy S22</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>quick-sqlite</td>
-      <td>2719ms</td>
-      <td>8851ms</td>
-    </tr>
-    <tr>
-      <td>expo-sqlite</td>
-      <td>2293ms</td>
-      <td>10626ms</td>
-    </tr>
-    <tr>
-      <td>op-sqlite</td>
-      <td>507ms</td>
-      <td>1125ms</td>
-    </tr>
-  </tbody>
-</table>
-
-<h1 id="troubles-in-paradise">Troubles in paradise</h1>
-
-<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code>std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all.</p>
-
-<p>As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code>jsi::Object()</code> API, when I tested <code>quick-sqlite</code> the numbers accessing data are quite similar. <code>expo-sqlite</code> was super fast on accessing data, but it zips the data on the JS side, so it seems that is the only way to create fast access objects. This means however you will always pay the price upfront for such large queries.</p>
-
-<p>There are a few final optimizations that can be done, such as inserting keys in the shared vector with some sorting, so then accessing can be done via binary search, but I will leave it for later. Other optimizations include trying to inline more functions, but I think I have reached the end of what is possible with the JSI.</p>
-
-<p>The next big step in performance will come from Static Hermes, where we can finally call SQLite code directly from JS without the need of HostObjects, shared pointers and so on. There will be one major difficulty though, static hermes is still single threaded, so getting React Native to call large queries without hanging will require creating a multi-threaded messaging system, AKA web-workers. I would definetely would like to tackle this problem and then create a new version of op-sqlite with that!</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I created a new sqlite module for react-native: op-sqlite. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module.]]></summary></entry></feed>
+<p><img src="https://ospfranco.com/assets/pohomedirectory.png" alt="home directory print out" title="PO NSHomeDirectory" /></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.]]></summary></entry></feed>
