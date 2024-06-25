@@ -76,7 +76,7 @@ All the internals of RN started to migrate from JSON to interacting with C++. So
 
 # C++ Turbo Modules
 
-It's notable to mention that there are a lot of cases where you don't want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like sqlite, libsql, etc. This is what you want. JSI is C++, your code is C(++). This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. It is also tricky to setup.
+It's notable to mention that there are a lot of cases where you don't want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like sqlite, libsql, etc. This is what you want. JSI is C++, your code is C(++). This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. They are also tricky to setup.
 
 # Which should you pick?
 
