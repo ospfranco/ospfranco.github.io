@@ -76,7 +76,7 @@ All the internals of RN started to migrate from JSON to interacting with C++. So
 ## Cons
 
 - They **only** run on expo apps
-- JSI is C++, Expo Modules are Swift/Kotlin, so **there is** a runtime performance. It's not nothing, but is more than good enough for the general use case
+- JSI is C++, Expo Modules are Swift/Kotlin, so **there is** a runtime performance cost. It's not nothing, but is more than good enough for the general use case. I posted benchmarks in my Twitter.
 - The signatures of functions need to be adjusted manually between native and the JS side
 
 # C++ Turbo Modules
