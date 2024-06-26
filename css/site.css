@@ -18,7 +18,7 @@
 }
 
 body {
-  @apply max-w-full text-neutral-700 dark:text-neutral-300 dark:bg-[#0d1116];
+  @apply max-w-full text-neutral-700 dark:text-neutral-200 dark:bg-[#0d1116];
 }
 
 a {
@@ -82,7 +82,7 @@ h4 {
 }
 
 code {
-  @apply rounded  border dark:border-red-500/20 dark:bg-red-800/25 dark:text-red-500 border-red-500/10 bg-red-800/10 text-red-500 text-sm px-1;
+  @apply rounded  border dark:border-red-500/10 dark:bg-red-800/15 dark:text-red-500 border-red-500/10 bg-red-800/10 text-red-500 text-sm px-1;
 }
 
 .hljs {
