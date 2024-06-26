@@ -178,7 +178,7 @@
 
 <p>Q: Do you like Turbo Modules</p>
 
-<p>A: I don’t, they are tricky to setup with code generation step and cryptic native errors. I would much rather stick to pure C++ modules.</p>
+<p>A: I don’t, they are tricky to setup with code generation step and cryptic native errors. I would much rather stick to pure C++ modules. Also, codegen sucks, never do codegen.</p>
 
 <p>Q: But Expo [insert your comment here]</p>
 
@@ -186,11 +186,11 @@
 
 <p>Q: You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?</p>
 
-<p>A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of conversion between languages. Swift → ObjC++ → C++. Kotlin/Java → JNI (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
+<p>A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → <code>JNI</code> (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
 
 <p>Q: Can I write my Turbo Module in Swift?</p>
 
-<p>A: No. Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go and the generation scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.</p>
+<p>A: No (kinda). Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.</p>
 
 <p>Q: When will I be able to write my Turbo Module in Swift?</p>
 

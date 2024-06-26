@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-26T08:31:06+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-26T08:31:43+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
 
 <blockquote>
   <p>If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology</p>
@@ -112,7 +112,7 @@
 
 <p>Q: Do you like Turbo Modules</p>
 
-<p>A: I don’t, they are tricky to setup with code generation step and cryptic native errors. I would much rather stick to pure C++ modules.</p>
+<p>A: I don’t, they are tricky to setup with code generation step and cryptic native errors. I would much rather stick to pure C++ modules. Also, codegen sucks, never do codegen.</p>
 
 <p>Q: But Expo [insert your comment here]</p>
 
@@ -120,11 +120,11 @@
 
 <p>Q: You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?</p>
 
-<p>A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of conversion between languages. Swift → ObjC++ → C++. Kotlin/Java → JNI (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
+<p>A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → <code>JNI</code> (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
 
 <p>Q: Can I write my Turbo Module in Swift?</p>
 
-<p>A: No. Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go and the generation scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.</p>
+<p>A: No (kinda). Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.</p>
 
 <p>Q: When will I be able to write my Turbo Module in Swift?</p>
 
