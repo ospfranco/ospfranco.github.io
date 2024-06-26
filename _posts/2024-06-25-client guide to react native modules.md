@@ -49,7 +49,7 @@ It's just a configuration flag that completely removes the JSON bridge. `old arc
 
 # Turbo Modules
 
-All the internals of RN started to migrate from JSON to interacting with C++. So we now need a new way to create native modules for React Native. Turbo Modules are a solution to this problem. Is it important to know: `Turbo Modules` are **built** on top of `JSI`. You can have `new arch` modules (that use the JSI) without Turbo Modules, but not the other way around. Turbo Modules take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, that react native then includes in your project. They are also a DSL of TypeScript/Flow (😥).
+All the internals of RN started to migrate from JSON to interacting with C++. So we now need a new way to create native modules for React Native. Turbo Modules are a solution to this problem. Is it important to know: `Turbo Modules` are **built** on top of `JSI`. You can have `new arch` modules (that use the JSI) without Turbo Modules, but not the other way around. `Turbo Modules` take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, which React Native then includes in your project. They are also a DSL of TypeScript/Flow (😥).
 
 > `Turbo Modules` are **built on top** of the `JSI`
 
@@ -111,7 +111,7 @@ Q: But Expo [insert your comment here]
 
 A: Expo Modules are great if they work for you. Use them. It's fine. Go ask them for issues.
 
-Q: You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?
+Q: You say `JSI` is C++, how come `Turbo Modules` are ObjC/Kotlin/Java?
 
 A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → `JNI` (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.
 

@@ -25,6 +25,22 @@ a {
   @apply hover:underline text-blue-500;
 }
 
+h1 {
+  @apply dark:text-white;
+}
+
+h2 {
+  @apply dark:text-white;
+}
+
+h3 {
+  @apply dark:text-white;
+}
+
+h4 {
+  @apply dark:text-white;
+}
+
 .markdown {
   /* @apply dark:text-gray-300; */
 }
@@ -66,7 +82,7 @@ a {
 }
 
 code {
-  @apply rounded dark:text-white border dark:border-neutral-700 bg-gray-100 dark:bg-gray-800 text-sm px-1;
+  @apply rounded  border dark:border-red-500/20 bg-gray-100 dark:bg-red-800/25 dark:text-red-500 text-sm px-1;
 }
 
 .hljs {

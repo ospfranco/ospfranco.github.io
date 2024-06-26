@@ -112,7 +112,7 @@
 
 <h1 id="turbo-modules">Turbo Modules</h1>
 
-<p>All the internals of RN started to migrate from JSON to interacting with C++. So we now need a new way to create native modules for React Native. Turbo Modules are a solution to this problem. Is it important to know: <code>Turbo Modules</code> are <strong>built</strong> on top of <code>JSI</code>. You can have <code>new arch</code> modules (that use the JSI) without Turbo Modules, but not the other way around. Turbo Modules take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, that react native then includes in your project. They are also a DSL of TypeScript/Flow (😥).</p>
+<p>All the internals of RN started to migrate from JSON to interacting with C++. So we now need a new way to create native modules for React Native. Turbo Modules are a solution to this problem. Is it important to know: <code>Turbo Modules</code> are <strong>built</strong> on top of <code>JSI</code>. You can have <code>new arch</code> modules (that use the JSI) without Turbo Modules, but not the other way around. <code>Turbo Modules</code> take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, which React Native then includes in your project. They are also a DSL of TypeScript/Flow (😥).</p>
 
 <blockquote>
   <p><code>Turbo Modules</code> are <strong>built on top</strong> of the <code>JSI</code></p>
@@ -184,7 +184,7 @@
 
 <p>A: Expo Modules are great if they work for you. Use them. It’s fine. Go ask them for issues.</p>
 
-<p>Q: You say JSI is C++, how come Turbo Modules are ObjC/Kotlin/Java?</p>
+<p>Q: You say <code>JSI</code> is C++, how come <code>Turbo Modules</code> are ObjC/Kotlin/Java?</p>
 
 <p>A: The same way Expo Modules are Swift/Kotlin. Ungodly amount of jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → <code>JNI</code> (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
 
