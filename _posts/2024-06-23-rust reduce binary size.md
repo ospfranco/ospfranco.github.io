@@ -17,6 +17,7 @@ debug = false # Exclude debug symbols
 strip = "symbols" # Exclude the rest of the symbols
 # opt-level = "z" # Did not use this, but it equals C++'s optimize for size (O3?)
 lto = true # Link time optimization, not sure what this does but it helps reduce the size
+codegen-units = 1 # Cargo specifies 16 parallel codegen units for release builds. This improves compile times, but prevents some optimizations.
 ```
 
 # Cargo Bloat
