@@ -119,9 +119,9 @@ You want to get the ball rolling for now: go for an old arch module
 
 **A**: No (kinda). Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work but it's not straightforward.
 
-**Q**: When will I be able to write my Turbo Module in Swift?
+**Q**: When will I be able to write my `Turbo Module` in Swift?
 
-**A**: Some day, who knows, go work at Meta and make this a reality :)
+**A**: Some day... maybe never... go ask Meta very nicely to do this :)
 
 **Q**: Can I write a native module in Rust?
 
