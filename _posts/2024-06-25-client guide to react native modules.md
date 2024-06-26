@@ -117,7 +117,7 @@ You want to get the ball rolling for now: go for an old arch module
 
 **Q**: Can I write my Turbo Module in Swift?
 
-**A**: No (kinda). Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work.
+**A**: No (kinda). Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work but it's not straightforward.
 
 **Q**: When will I be able to write my Turbo Module in Swift?
 
