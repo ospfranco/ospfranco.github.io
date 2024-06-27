@@ -37,6 +37,10 @@ In my experience static binaries on iOS are OK, but on Android they can be huge.
 
 The OpenSSL adds a lot of weight to a crate unless you need it, you can use [ring](https://crates.io/crates/ring) which reduced further 4 MB to 6 MB of my crate.
 
+# Further reading
+
+[Here is a great repo](https://github.com/johnthagen/min-sized-rust) with a lot more flags and tweaks, mostly under experimental flags or nightly Rust versions so use at your own risk.
+
 # Results
 
 Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It's still large but better.

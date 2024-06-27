@@ -92,6 +92,10 @@ panic = "abort" # when Rust code encounters a situation when it must call panic!
 
 <p>The OpenSSL adds a lot of weight to a crate unless you need it, you can use <a href="https://crates.io/crates/ring">ring</a> which reduced further 4 MB to 6 MB of my crate.</p>
 
+<h1 id="further-reading">Further reading</h1>
+
+<p><a href="https://github.com/johnthagen/min-sized-rust">Here is a great repo</a> with a lot more flags and tweaks, mostly under experimental flags or nightly Rust versions so use at your own risk.</p>
+
 <h1 id="results">Results</h1>
 
 <p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It’s still large but better.</p>
