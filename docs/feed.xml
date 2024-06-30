@@ -1,4 +1,204 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-27T13:52:02+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-30T12:23:24+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
+
+<p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
+
+<ol>
+  <li>Add a new target to your project. Select Swift and StoryBoard.</li>
+</ol>
+
+<p><img src="assets/appclip1.jpg" alt="appclip1" /></p>
+
+<ol>
+  <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
+</ol>
+
+<pre><code class="language-sh">yarn add @rnx-kit/react-native-host --dev
+</code></pre>
+
+<ol>
+  <li>Modify your podfile</li>
+</ol>
+
+<pre><code class="language-ruby">  # In your main app target add the following
+
+  # Auto linking is broken on this package
+  # https://github.com/microsoft/rnx-kit/issues/3208
+  pod 'ReactNativeHost', :path =&gt; "../node_modules/@rnx-kit/react-native-host"
+
+  target 'Clip' do
+    inherit! :complete
+    # Pods for Clip
+  end
+</code></pre>
+
+<ol>
+  <li>Do a new arch pod install</li>
+</ol>
+
+<pre><code class="language-sh">cd ios &amp;&amp; RCT_NEW_ARCH_ENABLED=1 pod install
+</code></pre>
+
+<ol>
+  <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
+</ol>
+
+<p><img src="assets/appclip1.jpg" alt="appclip2" /></p>
+
+<pre><code class="language-swift">import Foundation
+import React
+import ReactNativeHost
+
+class BridgeManager: NSObject {
+    static let shared = BridgeManager()
+
+    var host: ReactNativeHost?
+
+    public func loadReactNative(launchOptions: [AnyHashable: Any]?) {
+      host = ReactNativeHost(self)
+    }
+}
+
+extension BridgeManager: RNXHostConfig {
+  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
+//        #if DEBUG
+          return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index.clip")
+//        #else
+//            return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+//        #endif
+    }
+}
+</code></pre>
+
+<ol>
+  <li>We are going to modify the <code>AppDelegate.m</code> at the Clip target:</li>
+</ol>
+
+<pre><code class="language-swift">import React
+import ReactNativeHost
+import UIKit
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
+
+  var window: UIWindow?
+
+  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
+    return nil
+  }
+
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -&gt; Bool {
+    BridgeManager.shared.loadReactNative(launchOptions: launchOptions)
+    // Override point for customization after application launch.
+    return true
+  }
+
+  // MARK: UISceneSession Lifecycle
+
+  func application(
+    _ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -&gt; UISceneConfiguration {
+    // Called when a new scene session is being created.
+    // Use this method to select a configuration to create the new scene with.
+    return UISceneConfiguration(
+      name: "Default Configuration", sessionRole: connectingSceneSession.role)
+  }
+
+  func application(
+    _ application: UIApplication, didDiscardSceneSessions sceneSessions: Set&lt;UISceneSession&gt;
+  ) {
+    // Called when the user discards a scene session.
+    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+  }
+}
+</code></pre>
+
+<ol>
+  <li>We can the finally load the <code>RCTRootView</code> (the view that holds RN) into the app clip controller</li>
+</ol>
+
+<pre><code class="language-swift">import UIKit
+import ReactNativeHost
+
+class ViewController: UIViewController {
+
+  override func loadView() {
+    if let host = BridgeManager.shared.host {
+          self.view = host.view(
+              moduleName: "clip",
+              initialProperties: nil
+          )
+      }
+
+  }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
+}
+</code></pre>
+
+<ol>
+  <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
+</ol>
+
+<p><img src="assets/appclip3.jpg" alt="appclip3" /></p>
+
+<pre><code class="language-sh">set -e
+
+WITH_ENVIRONMENT="$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh"
+REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
+
+/bin/sh -c "$WITH_ENVIRONMENT $REACT_NATIVE_XCODE index.clip.js"
+</code></pre>
+
+<ol>
+  <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
+</ol>
+
+<p><img src="assets/appclip4.jpg" alt="appclip4" /></p>
+
+<ol>
+  <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
+</ol>
+
+<pre><code class="language-js">/**
+ * @format
+ */
+
+import React from "react";
+import { AppRegistry, View, Text } from "react-native";
+
+const AppClip = () =&gt; (
+  &lt;View
+    style=
+  &gt;
+    &lt;Text
+      style=
+    &gt;
+      Hello,
+    &lt;/Text&gt;
+    &lt;Text
+      style=
+    &gt;
+      I'm your AppClip!
+    &lt;/Text&gt;
+  &lt;/View&gt;
+);
+
+AppRegistry.registerComponent("clip", () =&gt; AppClip);
+</code></pre>
+
+<p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
+
+<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
 
 <blockquote>
   <p>If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology</p>
@@ -803,8 +1003,4 @@ Pod::Spec.new do |s|
 end
 </code></pre>
 
-<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry><entry><title type="html">Get iOS simulator local home folder on macOS</title><link href="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/" rel="alternate" type="text/html" title="Get iOS simulator local home folder on macOS" /><published>2023-11-13T00:00:00+01:00</published><updated>2023-11-13T00:00:00+01:00</updated><id>https://ospfranco.com/post/2023/11/13/get%20ios%20simulator%20local%20home%20folder%20on%20macos</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/"><![CDATA[<p>Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.</p>
-
-<p>You can easily get the directory printed out from the XCode console. When you application is paused or a debugger breakpoint is hit, you can type <code>po NSHomeDirectory()</code> and it will print out the local directory.</p>
-
-<p><img src="https://ospfranco.com/assets/pohomedirectory.png" alt="home directory print out" title="PO NSHomeDirectory" /></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Sometimes you want to really see what is on the file system of iOS. Even the simulator file system is useful to check if files are correctly downloaded or sometimes you might want to check a database file manually.]]></summary></entry></feed>
+<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry></feed>
