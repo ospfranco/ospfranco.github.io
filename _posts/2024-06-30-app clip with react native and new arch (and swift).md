@@ -13,7 +13,7 @@ Most of the steps come from this [repo](https://github.com/codibly/app-clip-inst
 
 1. Add a new target to your project. Select Swift and StoryBoard.
 
-![appclip1](assets/appclip1.jpg)
+![appclip1]({{site.url}}/assets/appclip1.jpg)
 
 2. Add the `@rnx-kit/react-native-host`. It's a package that allows to hoist a RCTRootView in the different architectures
 
@@ -44,7 +44,7 @@ cd ios && RCT_NEW_ARCH_ENABLED=1 pod install
 
 5. Create a `BridgeManager.swift` class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a "host" which is compatible with the old arch and new arch.
 
-![appclip2](assets/appclip1.jpg)
+![appclip2]({{site.url}}/assets/appclip1.jpg)
 
 ```swift
 import Foundation
@@ -148,7 +148,7 @@ class ViewController: UIViewController {
 
 8. At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target `Bundle React Native code and images` but modify it so that instead of loading the `index.js` file it loads `index.clip.js`. Go to build phases, add new script and copy the contents of the script:
 
-![appclip3](assets/appclip3.jpg)
+![appclip3]({{site.url}}/assets/appclip3.jpg)
 
 ```sh
 set -e
@@ -161,7 +161,7 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
 
 9. We are going to run into a hermes error. You need to disable `User Script Sandboxing` on the build settings of the clip target:
 
-![appclip4](assets/appclip4.jpg)
+![appclip4]({{site.url}}/assets/appclip4.jpg)
 
 10. We can finally create our `index.clip.js` at the root of the project
 

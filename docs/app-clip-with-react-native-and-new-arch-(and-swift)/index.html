@@ -72,7 +72,7 @@
   <li>Add a new target to your project. Select Swift and StoryBoard.</li>
 </ol>
 
-<p><img src="assets/appclip1.jpg" alt="appclip1" /></p>
+<p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
 
 <ol>
   <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
@@ -108,7 +108,7 @@
   <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
 </ol>
 
-<p><img src="assets/appclip1.jpg" alt="appclip2" /></p>
+<p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip2" /></p>
 
 <pre><code class="language-swift">import Foundation
 import React
@@ -215,7 +215,7 @@ class ViewController: UIViewController {
   <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
 </ol>
 
-<p><img src="assets/appclip3.jpg" alt="appclip3" /></p>
+<p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
 
 <pre><code class="language-sh">set -e
 
@@ -229,7 +229,7 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
   <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
 </ol>
 
-<p><img src="assets/appclip4.jpg" alt="appclip4" /></p>
+<p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
 
 <ol>
   <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>

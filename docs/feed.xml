@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-30T12:24:25+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-30T12:29:20+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
 
 <p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
 
@@ -6,7 +6,7 @@
   <li>Add a new target to your project. Select Swift and StoryBoard.</li>
 </ol>
 
-<p><img src="assets/appclip1.jpg" alt="appclip1" /></p>
+<p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
 
 <ol>
   <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
@@ -42,7 +42,7 @@
   <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
 </ol>
 
-<p><img src="assets/appclip1.jpg" alt="appclip2" /></p>
+<p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip2" /></p>
 
 <pre><code class="language-swift">import Foundation
 import React
@@ -149,7 +149,7 @@ class ViewController: UIViewController {
   <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
 </ol>
 
-<p><img src="assets/appclip3.jpg" alt="appclip3" /></p>
+<p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
 
 <pre><code class="language-sh">set -e
 
@@ -163,7 +163,7 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
   <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
 </ol>
 
-<p><img src="assets/appclip4.jpg" alt="appclip4" /></p>
+<p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
 
 <ol>
   <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
