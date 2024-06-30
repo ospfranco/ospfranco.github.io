@@ -1,23 +1,23 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-30T12:29:20+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-06-30T15:15:25+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
 
 <p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
 
-<ol>
+<ul>
   <li>Add a new target to your project. Select Swift and StoryBoard.</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
 
-<ol>
+<ul>
   <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
-</ol>
+</ul>
 
 <pre><code class="language-sh">yarn add @rnx-kit/react-native-host --dev
 </code></pre>
 
-<ol>
-  <li>Modify your podfile</li>
-</ol>
+<ul>
+  <li>Modify your <code>podfile</code></li>
+</ul>
 
 <pre><code class="language-ruby">  # In your main app target add the following
 
@@ -31,16 +31,16 @@
   end
 </code></pre>
 
-<ol>
+<ul>
   <li>Do a new arch pod install</li>
-</ol>
+</ul>
 
 <pre><code class="language-sh">cd ios &amp;&amp; RCT_NEW_ARCH_ENABLED=1 pod install
 </code></pre>
 
-<ol>
+<ul>
   <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip2" /></p>
 
@@ -69,9 +69,9 @@ extension BridgeManager: RNXHostConfig {
 }
 </code></pre>
 
-<ol>
+<ul>
   <li>We are going to modify the <code>AppDelegate.m</code> at the Clip target:</li>
-</ol>
+</ul>
 
 <pre><code class="language-swift">import React
 import ReactNativeHost
@@ -117,9 +117,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
 }
 </code></pre>
 
-<ol>
+<ul>
   <li>We can the finally load the <code>RCTRootView</code> (the view that holds RN) into the app clip controller</li>
-</ol>
+</ul>
 
 <pre><code class="language-swift">import UIKit
 import ReactNativeHost
@@ -145,9 +145,9 @@ class ViewController: UIViewController {
 }
 </code></pre>
 
-<ol>
+<ul>
   <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
 
@@ -159,15 +159,13 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
 /bin/sh -c "$WITH_ENVIRONMENT $REACT_NATIVE_XCODE index.clip.js"
 </code></pre>
 
-<ol>
+<ul>
   <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
 
-<ol>
-  <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
-</ol>
+<p>1- We can finally create our <code>index.clip.js</code> at the root of the project</p>
 
 <pre><code class="language-js">import React from "react";
 import { AppRegistry, View, Text } from "react-native";
@@ -184,7 +182,7 @@ AppRegistry.registerComponent("clip", () =&gt; AppClip);
 
 <p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
 
-<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
+<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+02:00</published><updated>2024-06-25T00:00:00+02:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
 
 <blockquote>
   <p>If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology</p>

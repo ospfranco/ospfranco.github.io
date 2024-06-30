@@ -68,22 +68,22 @@
 
 <p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
 
-<ol>
+<ul>
   <li>Add a new target to your project. Select Swift and StoryBoard.</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
 
-<ol>
+<ul>
   <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
-</ol>
+</ul>
 
 <pre><code class="language-sh">yarn add @rnx-kit/react-native-host --dev
 </code></pre>
 
-<ol>
-  <li>Modify your podfile</li>
-</ol>
+<ul>
+  <li>Modify your <code>podfile</code></li>
+</ul>
 
 <pre><code class="language-ruby">  # In your main app target add the following
 
@@ -97,16 +97,16 @@
   end
 </code></pre>
 
-<ol>
+<ul>
   <li>Do a new arch pod install</li>
-</ol>
+</ul>
 
 <pre><code class="language-sh">cd ios &amp;&amp; RCT_NEW_ARCH_ENABLED=1 pod install
 </code></pre>
 
-<ol>
+<ul>
   <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip2" /></p>
 
@@ -135,9 +135,9 @@ extension BridgeManager: RNXHostConfig {
 }
 </code></pre>
 
-<ol>
+<ul>
   <li>We are going to modify the <code>AppDelegate.m</code> at the Clip target:</li>
-</ol>
+</ul>
 
 <pre><code class="language-swift">import React
 import ReactNativeHost
@@ -183,9 +183,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
 }
 </code></pre>
 
-<ol>
+<ul>
   <li>We can the finally load the <code>RCTRootView</code> (the view that holds RN) into the app clip controller</li>
-</ol>
+</ul>
 
 <pre><code class="language-swift">import UIKit
 import ReactNativeHost
@@ -211,9 +211,9 @@ class ViewController: UIViewController {
 }
 </code></pre>
 
-<ol>
+<ul>
   <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
 
@@ -225,15 +225,13 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
 /bin/sh -c "$WITH_ENVIRONMENT $REACT_NATIVE_XCODE index.clip.js"
 </code></pre>
 
-<ol>
+<ul>
   <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
-</ol>
+</ul>
 
 <p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
 
-<ol>
-  <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
-</ol>
+<p>1- We can finally create our <code>index.clip.js</code> at the root of the project</p>
 
 <pre><code class="language-js">import React from "react";
 import { AppRegistry, View, Text } from "react-native";
@@ -250,7 +248,7 @@ AppRegistry.registerComponent("clip", () =&gt; AppClip);
 
 <p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
 
-<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded.</p>
+<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>
 </div>
     </div>
 

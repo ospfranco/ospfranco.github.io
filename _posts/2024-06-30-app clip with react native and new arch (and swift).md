@@ -11,17 +11,17 @@ I had to create an App Clip for a project using React Native. There are people w
 
 Most of the steps come from this [repo](https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md) kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.
 
-1. Add a new target to your project. Select Swift and StoryBoard.
+- Add a new target to your project. Select Swift and StoryBoard.
 
 ![appclip1]({{site.url}}/assets/appclip1.jpg)
 
-2. Add the `@rnx-kit/react-native-host`. It's a package that allows to hoist a RCTRootView in the different architectures
+- Add the `@rnx-kit/react-native-host`. It's a package that allows to hoist a RCTRootView in the different architectures
 
 ```sh
 yarn add @rnx-kit/react-native-host --dev
 ```
 
-3. Modify your podfile
+- Modify your `podfile`
 
 ```ruby
   # In your main app target add the following
@@ -36,13 +36,13 @@ yarn add @rnx-kit/react-native-host --dev
   end
 ```
 
-4. Do a new arch pod install
+- Do a new arch pod install
 
 ```sh
 cd ios && RCT_NEW_ARCH_ENABLED=1 pod install
 ```
 
-5. Create a `BridgeManager.swift` class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a "host" which is compatible with the old arch and new arch.
+- Create a `BridgeManager.swift` class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a "host" which is compatible with the old arch and new arch.
 
 ![appclip2]({{site.url}}/assets/appclip1.jpg)
 
@@ -72,7 +72,7 @@ extension BridgeManager: RNXHostConfig {
 }
 ```
 
-6. We are going to modify the `AppDelegate.m` at the Clip target:
+- We are going to modify the `AppDelegate.m` at the Clip target:
 
 ```swift
 import React
@@ -119,7 +119,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
 }
 ```
 
-7. We can the finally load the `RCTRootView` (the view that holds RN) into the app clip controller
+- We can the finally load the `RCTRootView` (the view that holds RN) into the app clip controller
 
 ```swift
 import UIKit
@@ -146,7 +146,7 @@ class ViewController: UIViewController {
 }
 ```
 
-8. At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target `Bundle React Native code and images` but modify it so that instead of loading the `index.js` file it loads `index.clip.js`. Go to build phases, add new script and copy the contents of the script:
+- At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target `Bundle React Native code and images` but modify it so that instead of loading the `index.js` file it loads `index.clip.js`. Go to build phases, add new script and copy the contents of the script:
 
 ![appclip3]({{site.url}}/assets/appclip3.jpg)
 
@@ -159,11 +159,11 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
 /bin/sh -c "$WITH_ENVIRONMENT $REACT_NATIVE_XCODE index.clip.js"
 ```
 
-9. We are going to run into a hermes error. You need to disable `User Script Sandboxing` on the build settings of the clip target:
+- We are going to run into a hermes error. You need to disable `User Script Sandboxing` on the build settings of the clip target:
 
 ![appclip4]({{site.url}}/assets/appclip4.jpg)
 
-10. We can finally create our `index.clip.js` at the root of the project
+1- We can finally create our `index.clip.js` at the root of the project
 
 ```js
 import React from "react";
@@ -181,4 +181,4 @@ AppRegistry.registerComponent("clip", () => AppClip);
 
 Notice we are registering the component as `clip` which matches the component being loaded at the ViewController.
 
-That's it, if everything is configured correctly you should be able to see your app clip loaded.
+That's it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app [here](https://github.com/ospfranco/RNAppClip)
