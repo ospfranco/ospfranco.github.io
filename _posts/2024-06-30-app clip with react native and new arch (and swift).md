@@ -166,10 +166,6 @@ REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
 10. We can finally create our `index.clip.js` at the root of the project
 
 ```js
-/**
- * @format
- */
-
 import React from "react";
 import { AppRegistry, View, Text } from "react-native";
 
