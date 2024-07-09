@@ -44,7 +44,7 @@ cd ios && RCT_NEW_ARCH_ENABLED=1 pod install
 
 - Create a `BridgeManager.swift` class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a "host" which is compatible with the old arch and new arch.
 
-![appclip2]({{site.url}}/assets/appclip1.jpg)
+![appclip2]({{site.url}}/assets/appclip2.jpg)
 
 ```swift
 import Foundation
@@ -63,14 +63,18 @@ class BridgeManager: NSObject {
 
 extension BridgeManager: RNXHostConfig {
   func sourceURL(for bridge: RCTBridge) -> URL? {
-//        #if DEBUG
+        #if DEBUG
           return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index.clip")
-//        #else
-//            return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-//        #endif
+        #else
+            return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+        #endif
     }
 }
 ```
+
+In order for the DEBUG preprocessor macro to run, we need to add the DEBUG flag into the build settings of the Clip target
+
+![appclip5]({{site.url}}/assets/appclip5.jpg)
 
 - We are going to modify the `AppDelegate.m` at the Clip target:
 
@@ -156,14 +160,14 @@ set -e
 WITH_ENVIRONMENT="$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh"
 REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
 
-/bin/sh -c "$WITH_ENVIRONMENT $REACT_NATIVE_XCODE index.clip.js"
+/bin/sh -c "ENTRY_FILE=index.clip.js $WITH_ENVIRONMENT $REACT_NATIVE_XCODE"
 ```
 
 - We are going to run into a hermes error. You need to disable `User Script Sandboxing` on the build settings of the clip target:
 
 ![appclip4]({{site.url}}/assets/appclip4.jpg)
 
-1- We can finally create our `index.clip.js` at the root of the project
+- We can finally create our `index.clip.js` at the root of the project
 
 ```js
 import React from "react";
