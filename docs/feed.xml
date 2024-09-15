@@ -1,4 +1,134 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-07-11T06:00:32-05:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00-05:00</published><updated>2024-06-30T00:00:00-05:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-09-15T18:21:37-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Generating a XCFramework with dylibs for iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Generating a XCFramework with dylibs for iOS" /><published>2024-09-15T00:00:00-04:00</published><updated>2024-09-15T00:00:00-04:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
+
+<h1 id="frameworks">Frameworks</h1>
+
+<p>First of all, to load dylibs in iOS Apple absolutely fucked us all. You need to create a <code>.framework</code> with a lot of peculiarities. I will skip the why and most of the explanation and just give you a template you can use.</p>
+
+<h1 id="compile-your-library">Compile your library</h1>
+
+<p>I will take <a href="https://github.com/asg017/sqlite-vec">sqlite-vec</a> as an example. It’s a sqlite extension to do vector searching for LLMs.</p>
+
+<p>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8). I basically take care of this with a Makefile:</p>
+
+<pre><code class="language-make">MIN_IOS_VERSION = 8.0
+
+# iOS SDK paths
+IOS_SDK_PATH = $(shell xcrun --sdk iphoneos --show-sdk-path)
+IOS_SIMULATOR_SDK_PATH = $(shell xcrun --sdk iphonesimulator --show-sdk-path)
+
+# iOS cross-compiler toolchains
+CC_ios_arm64 = $(shell xcrun --sdk iphoneos --find clang)
+CC_ios_x86_64 = $(shell xcrun --sdk iphonesimulator --find clang)
+
+# Output directories for iOS
+OUT_DIR_ios_arm64 = $(prefix)/ios/arm64
+OUT_DIR_ios_x86_64 = $(prefix)/ios/x86_64
+OUT_DIR_ios_arm64_simulator = $(prefix)/ios/arm64_simulator
+
+# iOS-specific flags
+IOS_CFLAGS = -Ivendor/ -I./ -O3 -fembed-bitcode -fPIC
+IOS_LDFLAGS = -Wl,-ios_version_min,$(MIN_IOS_VERSION)
+IOS_ARM64_FLAGS = -target arm64-apple-ios$(MIN_IOS_VERSION) -miphoneos-version-min=$(MIN_IOS_VERSION)
+IOS_ARM64_SIM_FLAGS = -target arm64-apple-ios-simulator$(MIN_IOS_VERSION) -mios-simulator-version-min=$(MIN_IOS_VERSION)
+IOS_X86_64_FLAGS = -target x86_64-apple-ios-simulator$(MIN_IOS_VERSION) -mios-simulator-version-min=$(MIN_IOS_VERSION)
+
+# Compilation rules for each iOS architecture
+$(OUT_DIR_ios_arm64):
+	mkdir -p $@
+
+$(OUT_DIR_ios_x86_64):
+	mkdir -p $@
+
+$(OUT_DIR_ios_arm64_simulator):
+	mkdir -p $@
+
+# Rule for compiling for iOS arm64 (device)
+ios_arm64: $(OUT_DIR_ios_arm64)
+	$(CC_ios_arm64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_ARM64_FLAGS) -isysroot $(IOS_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_arm64)/sqlite-vec.o
+	$(CC_ios_arm64) -dynamiclib -o $(OUT_DIR_ios_arm64)/sqlitevec $(OUT_DIR_ios_arm64)/sqlite-vec.o -isysroot $(IOS_SDK_PATH) $(IOS_LDFLAGS)
+
+# Rule for compiling for iOS x86_64 (simulator)
+ios_x86_64: $(OUT_DIR_ios_x86_64)
+	$(CC_ios_x86_64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_X86_64_FLAGS) -isysroot $(IOS_SIMULATOR_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_x86_64)/sqlite-vec.o
+	$(CC_ios_x86_64) $(IOS_X86_64_FLAGS) -dynamiclib -o $(OUT_DIR_ios_x86_64)/sqlitevec $(OUT_DIR_ios_x86_64)/sqlite-vec.o -isysroot $(IOS_SIMULATOR_SDK_PATH)
+
+# Rule for compiling for iOS arm64 (simulator)
+ios_arm64_sim: $(OUT_DIR_ios_arm64_simulator)
+	$(CC_ios_arm64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_ARM64_SIM_FLAGS) -isysroot $(IOS_SIMULATOR_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_arm64_simulator)/sqlite-vec.o
+	$(CC_ios_arm64) -dynamiclib -o $(OUT_DIR_ios_arm64_simulator)/sqlitevec $(OUT_DIR_ios_arm64_simulator)/sqlite-vec.o -isysroot $(IOS_SIMULATOR_SDK_PATH)
+
+# Rule to compile for all iOS architectures
+ios: ios_arm64 ios_x86_64 ios_arm64_sim
+	lipo -create ./dist/ios/x86_64/sqlitevec ./dist/ios/arm64_simulator/sqlitevec -output dist/ios/sim_fat/sqlitevec
+	cp ./dist/ios/arm64/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/
+	install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/sqlitevec
+	cp ./dist/ios/sim_fat/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/
+	install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec
+
+.PHONY: ios ios_arm64 ios_x86_64 ios_arm64_sim
+</code></pre>
+
+<p>That’s the full Makefile. You can see the first lines are all about the steps mentioned above. Then compiling the library into an .o and then linking it as a dylib. It creates a file without extension on each of the target architectures. This are the files we will need to package to get iOS to load the dylib.</p>
+
+<h1 id="xcframework">XCFramework</h1>
+
+<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. You will notice the library is compiled for iOS arm64 device, iOS arm64 simulator and intel simulator. In order to load all of these easily you need to package everything into a <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, which tells Xcode which framework to load based on your computer arch and target. Long story short, you can just copy <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">this folder structure</a>. You CAN also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling let’s say static libs:</p>
+
+<pre><code class="language-sh">xcodebuild -create-xcframework -library ./sim_fat/libsqlite_vec.a -headers ../../ -library ./arm64/libsqlite_vec.a -include ../../ -output libsqlite_vec.xcframework
+</code></pre>
+
+<blockquote>
+  <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) should load just fine</p>
+</blockquote>
+
+<p>The <code>.xcframework</code> contains a <code>Info.plist</code>, inside there are entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs. The makefile will combine the arm64-sim and the intel-sim binaries into a fat binary (they would clash otherwise when you try to run your app). Then try to drop them in the correct folders. Before we take a look into the <code>info.plist</code> of each framework, the last step is using <code>install_name_tool</code> to basically set a dynamic path on which the app will look for the correct binary version on runtime. iOS apps are hardened so this step is required for the OS to correctly look for the library in the sandboxed iOS environment.</p>
+
+<h1 id="each-framework-infoplist">Each framework Info.plist</h1>
+
+<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary</p>
+
+<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
+&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
+&lt;plist version="1.0"&gt;
+&lt;dict&gt;
+  &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;
+  &lt;string&gt;en&lt;/string&gt;
+  &lt;key&gt;CFBundleExecutable&lt;/key&gt;
+  &lt;string&gt;sqlitevec&lt;/string&gt;
+  &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
+  &lt;string&gt;com.ospfranco.sqlitevec&lt;/string&gt;
+  &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;
+  &lt;string&gt;6.0&lt;/string&gt;
+  &lt;key&gt;CFBundlePackageType&lt;/key&gt;
+  &lt;string&gt;FMWK&lt;/string&gt;
+  &lt;key&gt;CFBundleSignature&lt;/key&gt;
+  &lt;string&gt;????&lt;/string&gt;
+  &lt;key&gt;CFBundleVersion&lt;/key&gt;
+  &lt;string&gt;1.0.0&lt;/string&gt;
+  &lt;key&gt;CFBundleShortVersionString&lt;/key&gt;
+  &lt;string&gt;1.0.0&lt;/string&gt;
+	&lt;key&gt;MinimumOSVersion&lt;/key&gt;
+  &lt;string&gt;8.0&lt;/string&gt;
+&lt;/dict&gt;
+&lt;/plist&gt;
+</code></pre>
+
+<p>You can set it to whatever you want, just remember it. Also take a look at <code>CFBundleExecutable</code> which basically tells which is the dylib that is contained in the <code>framework</code>, change it to whatever your library is named.</p>
+
+<h1 id="loading-it-in-runtime">Loading it in runtime</h1>
+
+<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into xcode, or if you are using cocoapods declare as:</p>
+
+<pre><code class="language-ruby">s.vendored_frameworks = "sqlitevec.xcframework"
+</code></pre>
+
+<p>This just takes care of packaging into your app once you do <code>pod install</code>. Once the app starts you actually have load the dylib. Here is a snippet to do this:</p>
+
+<pre><code class="language-objc">NSBundle *libsqlitevec_bundle = [NSBundle bundleWithIdentifier:@"com.ospfranco.sqlitevec"];
+NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" ofType:@""];
+</code></pre>
+
+<p>Ok, this is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00-04:00</published><updated>2024-06-30T00:00:00-04:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
 
 <p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
 
@@ -188,7 +318,7 @@ AppRegistry.registerComponent("clip", () =&gt; AppClip);
 
 <p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
 
-<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00-05:00</published><updated>2024-06-25T00:00:00-05:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
+<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00-04:00</published><updated>2024-06-25T00:00:00-04:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
 
 <blockquote>
   <p>If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology</p>
@@ -326,7 +456,7 @@ AppRegistry.registerComponent("clip", () =&gt; AppClip);
 
 <p><strong>Q</strong>: What are the pitfalls when writing my native module?</p>
 
-<p><strong>A</strong>: There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. It’s complex to get all of the moving parts working nicely.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI/Turbo Module/new arch stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reduce Rust binaries size</title><link href="https://ospfranco.com/rust-reduce-binary-size/" rel="alternate" type="text/html" title="Reduce Rust binaries size" /><published>2024-06-23T00:00:00-05:00</published><updated>2024-06-23T00:00:00-05:00</updated><id>https://ospfranco.com/rust%20reduce%20binary%20size</id><content type="html" xml:base="https://ospfranco.com/rust-reduce-binary-size/"><![CDATA[<p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
+<p><strong>A</strong>: There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. It’s complex to get all of the moving parts working nicely.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI/Turbo Module/new arch stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Reduce Rust binaries size</title><link href="https://ospfranco.com/rust-reduce-binary-size/" rel="alternate" type="text/html" title="Reduce Rust binaries size" /><published>2024-06-23T00:00:00-04:00</published><updated>2024-06-23T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20reduce%20binary%20size</id><content type="html" xml:base="https://ospfranco.com/rust-reduce-binary-size/"><![CDATA[<p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
 
 <p>The documentation is a bit confusing, but here is the configuration I ended up using to get somewhat OK sizes. In the <code>cargo.toml</code> file:</p>
 
@@ -360,7 +490,7 @@ panic = "abort" # when Rust code encounters a situation when it must call panic!
 
 <h1 id="results">Results</h1>
 
-<p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It’s still large but better.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Writting tests for Tauri Rust Commands</title><link href="https://ospfranco.com/writting-tests-for-tauri-rust-commands/" rel="alternate" type="text/html" title="Writting tests for Tauri Rust Commands" /><published>2024-06-05T00:00:00-05:00</published><updated>2024-06-05T00:00:00-05:00</updated><id>https://ospfranco.com/writting%20tests%20for%20tauri%20rust%20commands</id><content type="html" xml:base="https://ospfranco.com/writting-tests-for-tauri-rust-commands/"><![CDATA[<p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
+<p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It’s still large but better.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Writting tests for Tauri Rust Commands</title><link href="https://ospfranco.com/writting-tests-for-tauri-rust-commands/" rel="alternate" type="text/html" title="Writting tests for Tauri Rust Commands" /><published>2024-06-05T00:00:00-04:00</published><updated>2024-06-05T00:00:00-04:00</updated><id>https://ospfranco.com/writting%20tests%20for%20tauri%20rust%20commands</id><content type="html" xml:base="https://ospfranco.com/writting-tests-for-tauri-rust-commands/"><![CDATA[<p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
 
 <p>The official documentation says one should write e2e tests with a UI simulation framework to test this functionality but that is way to cumbersome. I wanted unit tests for my Rust code. Also, I did not have stateless Rust functions, but functions where Tauri itself managed the state, so I needed to mock the entire Tauri app stack.</p>
 
@@ -420,7 +550,7 @@ mod tests {
 
 }
 
-</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00-05:00</published><updated>2024-05-30T00:00:00-05:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.</p>
+</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native Security Guide</title><link href="https://ospfranco.com/react-native-security-guide/" rel="alternate" type="text/html" title="React Native Security Guide" /><published>2024-05-30T00:00:00-04:00</published><updated>2024-05-30T00:00:00-04:00</updated><id>https://ospfranco.com/react%20native%20security%20guide</id><content type="html" xml:base="https://ospfranco.com/react-native-security-guide/"><![CDATA[<p>Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.</p>
 
 <p>In this guide, we will explore various security considerations and best practices that every React Native developer should be aware of. If you find anything incorrect or have feedback, please reach out! This is a topic we should all care about.</p>
 
@@ -567,7 +697,7 @@ const db = open({
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>It’s still worth looking into the <a href="https://reactnative.dev/docs/security#storing-sensitive-info">official RN documentation</a>; however, I hope this guide is a bit more hands-on.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust modules in React Native</title><link href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/" rel="alternate" type="text/html" title="Rust modules in React Native" /><published>2024-05-08T08:00:00-05:00</published><updated>2024-05-08T08:00:00-05:00</updated><id>https://ospfranco.com/post/2024/05/08/react%20native%20rust%20module%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/"><![CDATA[<p>This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
+<p>It’s still worth looking into the <a href="https://reactnative.dev/docs/security#storing-sensitive-info">official RN documentation</a>; however, I hope this guide is a bit more hands-on.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust modules in React Native</title><link href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/" rel="alternate" type="text/html" title="Rust modules in React Native" /><published>2024-05-08T09:00:00-04:00</published><updated>2024-05-08T09:00:00-04:00</updated><id>https://ospfranco.com/post/2024/05/08/react%20native%20rust%20module%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/"><![CDATA[<p>This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
 
 <iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
 
@@ -809,7 +939,7 @@ public class BindingsModule extends ReactContextBaseJavaModule {
 }
 </code></pre>
   </li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why I believe Swift is better than Rust</title><link href="https://ospfranco.com/why-I-believe-swift-is-better-than-rust/" rel="alternate" type="text/html" title="Why I believe Swift is better than Rust" /><published>2024-04-29T00:00:00-05:00</published><updated>2024-04-29T00:00:00-05:00</updated><id>https://ospfranco.com/why%20I%20believe%20swift%20is%20better%20than%20rust</id><content type="html" xml:base="https://ospfranco.com/why-I-believe-swift-is-better-than-rust/"><![CDATA[<p>Over the last year, I have been building software in native languages. C++, Swift, Kotlin and most recently Rust. Rust has been particularly tricky to get right and has given me an uneasy feeling.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Why I believe Swift is better than Rust</title><link href="https://ospfranco.com/why-I-believe-swift-is-better-than-rust/" rel="alternate" type="text/html" title="Why I believe Swift is better than Rust" /><published>2024-04-29T00:00:00-04:00</published><updated>2024-04-29T00:00:00-04:00</updated><id>https://ospfranco.com/why%20I%20believe%20swift%20is%20better%20than%20rust</id><content type="html" xml:base="https://ospfranco.com/why-I-believe-swift-is-better-than-rust/"><![CDATA[<p>Over the last year, I have been building software in native languages. C++, Swift, Kotlin and most recently Rust. Rust has been particularly tricky to get right and has given me an uneasy feeling.</p>
 
 <h1 id="solving-memory-management">Solving memory management</h1>
 
@@ -833,7 +963,7 @@ public class BindingsModule extends ReactContextBaseJavaModule {
 
 <p>Whenever I open a Swift file I wrote myself I can immediately pick up where I left. Whereas with Rust every function is a mess of <code>unwrap</code>, <code>clone</code>, <code>arc</code>, <code>box</code>. Ultimately, Rust solved the memory management problem at the interface between your hands and the keyboard and that makes coding too hard.</p>
 
-<p>I don’t think Swift is perfect but is a joy to work with.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Over the last year, I have been building software in native languages. C++, Swift, Kotlin and most recently Rust. Rust has been particularly tricky to get right and has given me an uneasy feeling.]]></summary></entry><entry><title type="html">How to resolve duplicated libraries on Android</title><link href="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/" rel="alternate" type="text/html" title="How to resolve duplicated libraries on Android" /><published>2023-12-07T00:00:00-05:00</published><updated>2023-12-07T00:00:00-05:00</updated><id>https://ospfranco.com/how%20to%20resolve%20duplicated%20libraries%20on%20android</id><content type="html" xml:base="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/"><![CDATA[<p>If you have developed on Android long enough, you might have found an error like this:</p>
+<p>I don’t think Swift is perfect but is a joy to work with.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Over the last year, I have been building software in native languages. C++, Swift, Kotlin and most recently Rust. Rust has been particularly tricky to get right and has given me an uneasy feeling.]]></summary></entry><entry><title type="html">How to resolve duplicated libraries on Android</title><link href="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/" rel="alternate" type="text/html" title="How to resolve duplicated libraries on Android" /><published>2023-12-07T00:00:00-04:00</published><updated>2023-12-07T00:00:00-04:00</updated><id>https://ospfranco.com/how%20to%20resolve%20duplicated%20libraries%20on%20android</id><content type="html" xml:base="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/"><![CDATA[<p>If you have developed on Android long enough, you might have found an error like this:</p>
 
 <pre><code class="language-sh">A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
 2 files found with path 'lib/arm64-v8a/libcrypto.so'
@@ -898,7 +1028,7 @@ implementation 'org.hamcrest:hamcrest-core:1.3' // force the shared dependency v
 
 <h1 id="version-missmatch">Version missmatch</h1>
 
-<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00-05:00</published><updated>2023-11-24T00:00:00-05:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code>std::string</code>).</p>
+<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00-04:00</published><updated>2023-11-24T00:00:00-04:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code>std::string</code>).</p>
 
 <p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
 
@@ -921,76 +1051,4 @@ implementation 'org.hamcrest:hamcrest-core:1.3' // force the shared dependency v
 <pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
 </code></pre>
 
-<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry><entry><title type="html">Mix C++, Obj-C and Swift files in a single XCode target</title><link href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" rel="alternate" type="text/html" title="Mix C++, Obj-C and Swift files in a single XCode target" /><published>2023-11-24T00:00:00-05:00</published><updated>2023-11-24T00:00:00-05:00</updated><id>https://ospfranco.com/post/2023/11/24/mix%20c++,%20obj-c%20and%20swift%20files%20in%20a%20single%20xcode%20target</id><content type="html" xml:base="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"><![CDATA[<p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
-
-<p>The root issue is the <a href="https://stackoverflow.com/questions/47788422/cannot-use-namespace-and-cannot-include-standard-c-library-in-my-h-files">Swift compiler</a>, it doesn’t support C++, yet it still tries to compile C headers on its own. Whenever you have Swift files together with C++ files, it’s the Swift compiler that will kick-in in a first pass (followed by CLang? maybe before? doesn’t matter) and will try to compile the headers as C headers independently of what you tell it, file extensions, etc.</p>
-
-<p>You will then start getting errors based on the C++ syntax (if you used any). For example if you are using namespaces (which don’t exist on C), you will get <a href="https://github.com/CocoaPods/CocoaPods/issues/12105#issuecomment-1824455557">invalid syntax errors</a>.</p>
-
-<p>There are a couple workarounds. First you can wrap every single bit of C++ syntax in your headers around a macro that checks if the compiler supports C++:</p>
-
-<pre><code class="language-C++">#if defined __cplusplus
-extern "C" {
-#endif
-
-#if defiend __cplusplus
-
-class Foo
-{
-    void bar(int c);
-}
-#endif
-struct FooHandle;
-
-void Foo_bar(struct FooHandle* foo, int c);
-
-#if defined __cplusplus
-}
-#endif
-</code></pre>
-
-<p>Every header you create you will have to manually modify to check for syntax errors.</p>
-
-<h1 id="cocoapods">Cocoapods</h1>
-
-<p>Cocoapods has a special problem with this, since it generates an umbrella header that will also get compiled by the Swift compiler and it will fail. Either of the methods described above will workaround the issue for now.</p>
-
-<p>Another alternative is to hide the header files from the XCode file system, yet still provide them via flags that will get passed to the compilers:</p>
-
-<pre><code class="language-ruby">require "json"
-
-package = JSON.parse(File.read(File.join(__dir__, "package.json")))
-
-Pod::Spec.new do |s|
-  s.name           = "matrix"
-  s.version        = package["version"]
-  s.summary        = package["description"]
-  s.homepage       = package["homepage"]
-  s.license        = package["license"]
-  s.authors        = package["author"]
-  s.platforms      = { :ios =&gt; "13.0" }
-
-  s.pod_target_xcconfig = {
-    "DEFINES_MODULE" =&gt; "YES",
-    "SWIFT_COMPILATION_MODE" =&gt; "wholemodule",
-    "CLANG_CXX_LANGUAGE_STANDARD" =&gt; "c++17",
-    # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-    "HEADER_SEARCH_PATHS" =&gt; "\"$(PODS_TARGET_SRCROOT)/cpp/\"/** " # This will link the headers at compile time, flag passed directly to the compiler
-  }
-
-  # ↓↓↓↓↓↓↓↓↓↓↓↓
-  s.source_files = "ios/**/*.{mm,swift}", "cpp/**/*.{cpp,c}" # Do not include the headers in the sources, then XCode won't try to compile them
-
-  # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓
-  s.preserve_paths = [
-    "cpp/**/*.h",
-    "ios/**/*.h"
-  ]
-
-  s.dependency "React"
-  s.dependency "React-Core"
-  s.dependency "React-callinvoker"
-end
-</code></pre>
-
-<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.]]></summary></entry></feed>
+<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry></feed>
