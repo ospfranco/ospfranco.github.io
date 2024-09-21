@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-09-15T21:14:08-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Generating a XCFramework with dylibs for iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Generating a XCFramework with dylibs for iOS" /><published>2024-09-15T00:00:00-04:00</published><updated>2024-09-15T00:00:00-04:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2024-09-21T10:53:32-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Compiling OpenSSL in Rust for Android</title><link href="https://ospfranco.com/compiling-openssl-in-rust-for-android/" rel="alternate" type="text/html" title="Compiling OpenSSL in Rust for Android" /><published>2024-09-21T00:00:00-04:00</published><updated>2024-09-21T00:00:00-04:00</updated><id>https://ospfranco.com/compiling%20openssl%20in%20rust%20for%20android</id><content type="html" xml:base="https://ospfranco.com/compiling-openssl-in-rust-for-android/"><![CDATA[]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Generating a XCFramework with dylibs for iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Generating a XCFramework with dylibs for iOS" /><published>2024-09-15T00:00:00-04:00</published><updated>2024-09-15T00:00:00-04:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
 
 <h1 id="frameworks">Frameworks</h1>
 
@@ -1076,27 +1076,4 @@ implementation 'org.hamcrest:hamcrest-core:1.3' // force the shared dependency v
 
 <h1 id="version-missmatch">Version missmatch</h1>
 
-<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry><entry><title type="html">Swift 5.9 Notes</title><link href="https://ospfranco.com/swift-5.9-notes/" rel="alternate" type="text/html" title="Swift 5.9 Notes" /><published>2023-11-24T00:00:00-04:00</published><updated>2023-11-24T00:00:00-04:00</updated><id>https://ospfranco.com/swift%205.9%20notes</id><content type="html" xml:base="https://ospfranco.com/swift-5.9-notes/"><![CDATA[<p>Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. <code>std::string</code>).</p>
-
-<p>In order to enable the C++ interop, you need to be on XCode 15 (I think), and your projects needs to be Swift enabled. If you are not sure, you only need to add a Swift file and the bridging header will be created for you and all the Swift build settings will be enabled on XCode.</p>
-
-<p>Afterwards you need to go into the <code>Build Settings</code> → <code>Swift Compiler - Language</code> → <code>C++ and Obj-C++ Interoperability</code> and change the value from C to C++</p>
-
-<p>If you want to do the same in a CocoaPods project you need to modify the pod config like this:</p>
-
-<pre><code class="language-ruby">s.pod_target_xcconfig = {
-  'SWIFT_OBJC_INTEROP_MODE' = 'objcxx'
-}
-</code></pre>
-
-<p>Clang has issues with headers (it generates a module map, topic for another day). Instead of importing headers directly from your dependency, you should import the umbrella header.</p>
-
-<pre><code class="language-C++">#import &lt;jsi/jsi.h&gt;
-</code></pre>
-
-<p>You should import everything with</p>
-
-<pre><code class="language-C++">#import &lt;mypod-umbrella.h&gt;
-</code></pre>
-
-<p>Afterwards you are in the clear, you should be able to call any C++ function/class from your Swift code and viceversa.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Swift 5.9 has enabled direct interop with C++. This means you can directly call and interact with C++, as well as introduced a series of objects that allow to interact with integral and C++ class values directly (e.g. std::string).]]></summary></entry></feed>
+<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[If you have developed on Android long enough, you might have found an error like this:]]></summary></entry></feed>
