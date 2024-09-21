@@ -14,6 +14,8 @@
 <meta property="og:title" content="Compiling OpenSSL in Rust for Android" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
+<meta name="description" content="There is now a long standing issue with the latest versions of OpenSSL. The handwritten assembly is incompatible with Position Independent Code. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android." />
+<meta property="og:description" content="There is now a long standing issue with the latest versions of OpenSSL. The handwritten assembly is incompatible with Position Independent Code. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android." />
 <link rel="canonical" href="https://ospfranco.com/compiling-openssl-in-rust-for-android/" />
 <meta property="og:url" content="https://ospfranco.com/compiling-openssl-in-rust-for-android/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -26,7 +28,7 @@
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-09-21T00:00:00-04:00","datePublished":"2024-09-21T00:00:00-04:00","headline":"Compiling OpenSSL in Rust for Android","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/compiling-openssl-in-rust-for-android/"},"url":"https://ospfranco.com/compiling-openssl-in-rust-for-android/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-09-21T00:00:00-04:00","datePublished":"2024-09-21T00:00:00-04:00","description":"There is now a long standing issue with the latest versions of OpenSSL. The handwritten assembly is incompatible with Position Independent Code. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.","headline":"Compiling OpenSSL in Rust for Android","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/compiling-openssl-in-rust-for-android/"},"url":"https://ospfranco.com/compiling-openssl-in-rust-for-android/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -62,7 +64,123 @@
         September 2024
       </p>
 
-      <div class="pt-4 pb-20 markdown">
+      <div class="pt-4 pb-20 markdown"><p>There is now a long standing issue with the latest versions of OpenSSL. <a href="https://github.com/openssl/openssl/pull/22181">The handwritten assembly is incompatible with Position Independent Code</a>. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.</p>
+
+<p>As a side note, the NDK port of <a href="https://github.com/android/ndk/issues/1992">OpenSSL is still on version 1.1.1 which is EOL</a>. This is a huge vunerability for Android but it seems the NDK team has no priority on updating this.</p>
+
+<p>In a client project I’m using Rust which depends on OpenSSL. This has left me no choice other than to patch OpenSSL myself, so I get it to compile to Android platforms.</p>
+
+<h1 id="compiling-openssl">Compiling OpenSSL</h1>
+
+<p>Here is a script that will download and compile OpenSSL for Android directly. It already includes the patching described in the GitHub issue to patch the handcrafted assembly.</p>
+
+<pre><code class="language-bash">#!/bin/bash
+
+# Clone or download the sources (it's done for you at below)
+# You should most definitely read the ANDROID notes to see the exact command. A lot of the scripts online are outdated for the 1.X branches
+# You basically need to set the ANDROID_NDK_HOME variable for this script to work
+# Generating the dylibs was failing for me, so disabled it for now
+
+#set -v
+set -ex
+
+export OPENSSL_VERSION="openssl-3.3.2"
+rm -rf ${OPENSSL_VERSION}
+# Sometimes this link breaks, you can manually download the sources yourself
+# curl -O "https://github.com/openssl/openssl/releases/download/${OPENSSL_VERSION}/${OPENSSL_VERSION}.tar.gz"
+tar xfz "${OPENSSL_VERSION}.tar.gz"
+
+PROJECT_HOME=`pwd`
+PATH_ORG=$PATH
+OUTPUT_DIR="libs"
+
+# Clean output:
+rm -rf $OUTPUT_DIR
+mkdir $OUTPUT_DIR
+
+build_android_clang() {
+
+	echo ""
+	echo "----- Build libcrypto &amp; libssl.so for "$1" -----"
+	echo ""
+
+	ARCHITECTURE=$1
+	TOOLCHAIN=$2
+	stl="libc++"
+
+	# Set toolchain
+	export TOOLCHAIN_ROOT=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64
+	export SYSROOT=$TOOLCHAIN_ROOT/sysroot
+	export CC=${TOOLCHAIN}21-clang
+	export CXX=${TOOLCHAIN}21-clang++
+	export CXXFLAGS="-fPIC"
+	export CPPFLAGS="-DANDROID -fPIC"
+
+	export PATH=$TOOLCHAIN_ROOT/bin:$SYSROOT/usr/local/bin:$PATH
+
+	cd "${OPENSSL_VERSION}"
+
+	./Configure $ARCHITECTURE no-asm no-shared -D__ANDROID_API__=21
+
+	make clean
+	# Apply patch that fixes the armcap instruction
+	# Linux version
+	# sed -e '/[.]hidden.*OPENSSL_armcap_P/d; /[.]extern.*OPENSSL_armcap_P/ {p; s/extern/hidden/ }' -i -- crypto/*arm*pl crypto/*/asm/*arm*pl
+	# macOS version
+	sed -E -i '' -e '/[.]hidden.*OPENSSL_armcap_P/d' -e '/[.]extern.*OPENSSL_armcap_P/ {p; s/extern/hidden/; }' crypto/*arm*pl crypto/*/asm/*arm*pl
+
+	make
+
+	mkdir -p ../$OUTPUT_DIR/${ARCHITECTURE}/lib
+	mkdir -p ../$OUTPUT_DIR/${ARCHITECTURE}/include
+
+	cp libcrypto.a ../$OUTPUT_DIR/${ARCHITECTURE}/lib/libcrypto.a
+	cp libssl.a ../$OUTPUT_DIR/${ARCHITECTURE}/lib/libssl.a
+
+	cp -R include/openssl ../$OUTPUT_DIR/${ARCHITECTURE}/include
+
+	cd ..
+}
+
+build_android_clang "android-arm" "armv7a-linux-androideabi"
+build_android_clang "android-x86" "i686-linux-android"
+build_android_clang "android-x86_64" "x86_64-linux-android"
+build_android_clang "android-arm64" "aarch64-linux-android"
+</code></pre>
+
+<p>This script will create a <code>libs</code> folder, which contains all the files in the necessary structure.</p>
+
+<h1 id="compiling-rust-crate">Compiling Rust crate</h1>
+
+<p>In order to compile this in your Rust crate you need to first add the crates:</p>
+
+<pre><code class="language-toml">openssl = "0.10"
+openssl-sys = "0.9.103"
+</code></pre>
+
+<p><code>openssl</code> is a bindings crate for the Rust code, but the openssl-sys takes care of compiling/detecting OpenSSL itself.</p>
+
+<p>With this crates added, we can then invoke the compilation command with an added flag <code>OPENSSL_DIR</code> which <code>openssl-sys</code> will detect and instead of compiling OpenSSL from source will use the precompiled static libraries we generated.</p>
+
+<p>Here I’m using <code>cargo-ndk</code> which is a crate that does the SDK/NDK discovery for you so you can easily compile for android. This is a <code>Makefile</code> version, but you can use whatever you want to point to it to the correct folder that matches the architecture:</p>
+
+<pre><code class="language-make">android-build-release-%:
+	@ if [ "$*" = "aarch64-linux-android" ]; then \
+			OPENSSL_DIR=$(CURDIR)/libs/android-arm64; \
+	  elif [ "$*" = "x86_64-linux-android" ]; then \
+	    OPENSSL_DIR=$(CURDIR)/libs/android-x86_64; \
+	  elif [ "$*" = "armv7-linux-androideabi" ]; then \
+	    OPENSSL_DIR=$(CURDIR)/libs/android-arm; \
+	  elif [ "$*" = "i686-linux-android" ]; then \
+	    OPENSSL_DIR=$(CURDIR)/libs/android-x86; \
+	  else \
+	    echo "Unknown target: $*"; \
+	    exit 1; \
+	  fi; \
+	  OPENSSL_DIR=$$OPENSSL_DIR cargo ndk --target $* --platform 31 build --release --all-features
+</code></pre>
+
+<p>Once everything is ready, will not only the Android binary be correct, you will actually be using the latest version of OpenSSL instead of the outdated NDK ports.</p>
 </div>
     </div>
 
