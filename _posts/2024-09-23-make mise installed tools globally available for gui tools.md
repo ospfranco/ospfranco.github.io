@@ -43,9 +43,9 @@ It seems `npm` is in itself a link that tries to call the real `npm-cli.js` scri
 
 # Create a Symlink to the Entire Node.js Directory
 
-Instead of symlinking only npm, I symlink the entire directory where Node.js (and its bundled npm) is installed. Here's how:
+Instead of symlinking only `npm`, let's symlink the entire directory where Node.js (and its bundled `npm`) is installed.
 
-Find the npm directory: First, find where npm is installed. If you installed Node.js with mise, npm is likely installed alongside it in a specific directory:
+First, find where npm is installed. If you installed Node.js with mise, npm is likely installed alongside it in a specific directory:
 
 ```sh
 which npm
@@ -53,16 +53,17 @@ which npm
 
 This will show you the path to the npm binary, and npm-cli.js will likely reside in a folder like `/Users/osp/.local/share/mise/installs/node/18/bin/npm`.
 
-Symlink the Node.js directory to /usr/local/bin: Create a symlink for the entire Node.js directory, so both node and npm can correctly reference their internal files.
+We will create our own folder to not mess with other system paths. Create the directory at `/usr/local/lib`, then symlink the Node.js directory to it.
 
 ```bash
-# You probably need to create /usr/local/lib
+# Don't forget to create /usr/local/lib: `sudo mkdir /usr/local/lib`
 sudo ln -s /Users/osp/.local/share/mise/installs/node/18/bin/ /usr/local/lib/nodejs
 ```
 
 Modify `/etc/paths` which is a file that contains system wide paths independent of terminal sessions or not:
 
 ```
+# ...the rest of the paths, append path where you just added the symlink
 /usr/local/lib/nodejs/bin
 ```
 
