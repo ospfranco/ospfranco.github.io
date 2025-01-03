@@ -109,7 +109,7 @@ exec "$NODE_BASE_DIR/npx" "$@"%
 <pre><code>sudo chmod a+x /usr/local/bin/npx
 </code></pre>
 
-<p>You might need to restart your program or computer for the binary to be correctly found.</p>
+<p>You might need to restart your program or computer for the binary to be correctly found. This should also work for any other scripts binaries you might have an issue. If you are worried about modifying <code>/usr/local/bin</code> don’t be. It’s a per user folder where symlinks and binaries can be placed. Lots of programs add links to their binaries here to make them globally available to other GUI tools: VSCode, Parallels, etc.</p>
 </div>
     </div>
 

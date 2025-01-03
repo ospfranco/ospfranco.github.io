@@ -58,4 +58,4 @@ After creating it give it execute permissions:
 sudo chmod a+x /usr/local/bin/npx
 ```
 
-You might need to restart your program or computer for the binary to be correctly found.
+You might need to restart your program or computer for the binary to be correctly found. This should also work for any other scripts binaries you might have an issue. If you are worried about modifying `/usr/local/bin` don't be. It's a per user folder where symlinks and binaries can be placed. Lots of programs add links to their binaries here to make them globally available to other GUI tools: VSCode, Parallels, etc.
