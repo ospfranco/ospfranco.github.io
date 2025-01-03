@@ -46,8 +46,13 @@ process.argv.splice(2, 0, 'exec')
 In order to solve this issue, create a wrapper script in `/usr/local/bin`. The reason to place it there is because most apps default to known locations (without the chance for you to modify the PATH, e.g. Xcode).
 
 ```
+sudo touch /usr/local/bin/npx
+```
+
+then:
+
+```
 #!/bin/bash
-# do `sudo touch npx`
 NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
 exec "$NODE_BASE_DIR/npx" "$@"%
 ```

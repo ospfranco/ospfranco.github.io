@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-03T08:11:36+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-03T08:12:27+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
 
 <p>[Kitze tweet]</p>
 
@@ -63,8 +63,12 @@ process.argv.splice(2, 0, 'exec')
 
 <p>In order to solve this issue, create a wrapper script in <code>/usr/local/bin</code>. The reason to place it there is because most apps default to known locations (without the chance for you to modify the PATH, e.g. Xcode).</p>
 
+<pre><code>sudo touch /usr/local/bin/npx
+</code></pre>
+
+<p>then:</p>
+
 <pre><code>#!/bin/bash
-# do `sudo touch npx`
 NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
 exec "$NODE_BASE_DIR/npx" "$@"%
 </code></pre>
