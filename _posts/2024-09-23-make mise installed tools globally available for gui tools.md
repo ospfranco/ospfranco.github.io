@@ -7,27 +7,27 @@ permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-I'm a very big fan of [Mise](https://mise.jdx.dev). It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert, Mise handles all of that, even on a per folder basis.
+I'm a very big fan of [Mise](https://mise.jdx.dev). It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert (even with Homebrew), Mise handles all multiple installations on a per folder level.
 
-However, I don't always want to configure the environment per folder. So I usually set a global version for the most common tools I use, one of them being Node:
+I usually set a global version for the most common tools I use, one of them being Node:
 
 ```
 mise global node@20
 ```
 
-This works perfectly when I run the commands from the terminal. However, the problem comes with GUI apps such a Git Fork or Xcode. This apps do not execute binaries from a terminal session (at least not a sandboxed one). So one has to make the installed tools available to them. One way that works for single binaries (e.g. node) is to create a symlink
+This works perfectly when I run the commands from the terminal. However, the problem comes with GUI apps such as Android Studio or Xcode. This apps do not execute binaries from a terminal session (at least not a sandboxed one). So one has to make the installed tools available to them. One way that works for single binaries (e.g. node) is to create a symlink:
 
 ```
 sudo ln -s $(which node) /usr/local/bin
 ```
 
-However, this breaks down when one has to link a binary that might depend on a relative structure. One example is npm:
+However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npm:
 
 ```
-sudo ln -s $(which npm) /usr/local/bin
+sudo ln -s $(which npx) /usr/local/bin
 ```
 
-Will throw an error whenever the GUI program tries to execute an `npm` command:
+Will throw an error whenever the GUI program tries to execute an `npm` command, here is one example from my Android Studio when trying to run a React Native app:
 
 ```
 node:internal/modules/cjs/loader:1148
@@ -39,32 +39,23 @@ node:internal/modules/cjs/loader:1148
 Error: Cannot find module '/usr/local/lib/node_modules/npm/bin/npm-cli.js'
 ```
 
-It seems `npm` is in itself a link that tries to call the real `npm-cli.js` script. In any case, it doesn't work. So here is a somewhat convoluted workaround, but at least it allows me to have the tools globally installed
+It seems `npm` is in itself a link that tries to call the real `npm-cli.js` script, by using a symlink the relative file structure is broken and it doesn't work.
 
-# Create a Symlink to the Entire Node.js Directory
+# Create a wrapper script
 
-Instead of symlinking only `npm`, let's symlink the entire directory where Node.js (and its bundled `npm`) is installed.
-
-First, find where npm is installed. If you installed Node.js with mise, npm is likely installed alongside it in a specific directory:
-
-```sh
-which npm
-```
-
-This will show you the path to the npm binary, and npm-cli.js will likely reside in a folder like `/Users/osp/.local/share/mise/installs/node/18/bin/npm`.
-
-We will create our own folder to not mess with other system paths. Create the directory at `/usr/local/lib`, then symlink the Node.js directory to it.
-
-```bash
-# Don't forget to create /usr/local/lib: `sudo mkdir /usr/local/lib`
-sudo ln -s /Users/osp/.local/share/mise/installs/node/18/bin/ /usr/local/lib/nodejs
-```
-
-Modify `/etc/paths` which is a file that contains system wide paths independent of terminal sessions or not:
+In order to solve this issue, create a wrapper script in `/usr/local/bin`. The reason to place it there is because most apps default to known locations (without the chance for you to modify the PATH, e.g. Xcode).
 
 ```
-# ...the rest of the paths, append path where you just added the symlink
-/usr/local/lib/nodejs/bin
+#!/bin/bash
+# do `sudo touch npm`
+NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
+exec "$NODE_BASE_DIR/npm" "$@"%
 ```
 
-That's it, afterwards GUI programs should be able to run npm/npx scripts without an issue.
+After creating it give it execute permissions:
+
+```
+sudo chmod a+x /usr/local/bin/npm
+```
+
+You might need to restart your program or computer for the binary to be correctly found.
