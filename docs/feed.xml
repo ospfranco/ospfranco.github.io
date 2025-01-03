@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-03T08:01:43+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-03T08:09:59+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
 
 <p>[Kitze tweet]</p>
 
@@ -41,37 +41,37 @@
 <pre><code>sudo ln -s $(which node) /usr/local/bin
 </code></pre>
 
-<p>However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npm:</p>
+<p>However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npx:</p>
 
 <pre><code>sudo ln -s $(which npx) /usr/local/bin
 </code></pre>
 
-<p>Will throw an error whenever the GUI program tries to execute an <code>npm</code> command, here is one example from my Android Studio when trying to run a React Native app:</p>
+<p>Will throw an error whenever the GUI program tries to execute an <code>npx</code> command. Because <code>npx</code> is just a JS script that calls <code>npm</code> internally, however it relies on a relative import:</p>
 
-<pre><code>node:internal/modules/cjs/loader:1148
+<pre><code>#!/usr/bin/env node
 
-  throw err;
+const cli = require('../lib/cli.js')
 
-  ^
+// run the resulting command as `npm exec ...args`
+process.argv[1] = require.resolve('./npm-cli.js')
+process.argv.splice(2, 0, 'exec')
 
-Error: Cannot find module '/usr/local/lib/node_modules/npm/bin/npm-cli.js'
+// ... the rest of the npx script
 </code></pre>
-
-<p>It seems <code>npm</code> is in itself a link that tries to call the real <code>npm-cli.js</code> script, by using a symlink the relative file structure is broken and it doesn’t work.</p>
 
 <h1 id="create-a-wrapper-script">Create a wrapper script</h1>
 
 <p>In order to solve this issue, create a wrapper script in <code>/usr/local/bin</code>. The reason to place it there is because most apps default to known locations (without the chance for you to modify the PATH, e.g. Xcode).</p>
 
 <pre><code>#!/bin/bash
-# do `sudo touch npm`
+# do `sudo touch npx`
 NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
-exec "$NODE_BASE_DIR/npm" "$@"%
+exec "$NODE_BASE_DIR/npx" "$@"%
 </code></pre>
 
 <p>After creating it give it execute permissions:</p>
 
-<pre><code>sudo chmod a+x /usr/local/bin/npm
+<pre><code>sudo chmod a+x /usr/local/bin/npx
 </code></pre>
 
 <p>You might need to restart your program or computer for the binary to be correctly found.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a very big fan of Mise. It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert (even with Homebrew), Mise handles all multiple installations on a per folder level.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Compiling OpenSSL in Rust for Android</title><link href="https://ospfranco.com/compiling-openssl-in-rust-for-android/" rel="alternate" type="text/html" title="Compiling OpenSSL in Rust for Android" /><published>2024-09-21T00:00:00+02:00</published><updated>2024-09-21T00:00:00+02:00</updated><id>https://ospfranco.com/compiling%20openssl%20in%20rust%20for%20android</id><content type="html" xml:base="https://ospfranco.com/compiling-openssl-in-rust-for-android/"><![CDATA[<p>There is now a long standing issue with the latest versions of OpenSSL. <a href="https://github.com/openssl/openssl/pull/22181">The handwritten assembly is incompatible with Position Independent Code</a>. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.</p>

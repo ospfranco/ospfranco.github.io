@@ -21,25 +21,25 @@ This works perfectly when I run the commands from the terminal. However, the pro
 sudo ln -s $(which node) /usr/local/bin
 ```
 
-However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npm:
+However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npx:
 
 ```
 sudo ln -s $(which npx) /usr/local/bin
 ```
 
-Will throw an error whenever the GUI program tries to execute an `npm` command, here is one example from my Android Studio when trying to run a React Native app:
+Will throw an error whenever the GUI program tries to execute an `npx` command. Because `npx` is just a JS script that calls `npm` internally, however it relies on a relative import:
 
 ```
-node:internal/modules/cjs/loader:1148
+#!/usr/bin/env node
 
-  throw err;
+const cli = require('../lib/cli.js')
 
-  ^
+// run the resulting command as `npm exec ...args`
+process.argv[1] = require.resolve('./npm-cli.js')
+process.argv.splice(2, 0, 'exec')
 
-Error: Cannot find module '/usr/local/lib/node_modules/npm/bin/npm-cli.js'
+// ... the rest of the npx script
 ```
-
-It seems `npm` is in itself a link that tries to call the real `npm-cli.js` script, by using a symlink the relative file structure is broken and it doesn't work.
 
 # Create a wrapper script
 
@@ -47,15 +47,15 @@ In order to solve this issue, create a wrapper script in `/usr/local/bin`. The r
 
 ```
 #!/bin/bash
-# do `sudo touch npm`
+# do `sudo touch npx`
 NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
-exec "$NODE_BASE_DIR/npm" "$@"%
+exec "$NODE_BASE_DIR/npx" "$@"%
 ```
 
 After creating it give it execute permissions:
 
 ```
-sudo chmod a+x /usr/local/bin/npm
+sudo chmod a+x /usr/local/bin/npx
 ```
 
 You might need to restart your program or computer for the binary to be correctly found.

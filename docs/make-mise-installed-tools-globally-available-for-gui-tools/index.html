@@ -76,37 +76,37 @@
 <pre><code>sudo ln -s $(which node) /usr/local/bin
 </code></pre>
 
-<p>However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npm:</p>
+<p>However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npx:</p>
 
 <pre><code>sudo ln -s $(which npx) /usr/local/bin
 </code></pre>
 
-<p>Will throw an error whenever the GUI program tries to execute an <code>npm</code> command, here is one example from my Android Studio when trying to run a React Native app:</p>
+<p>Will throw an error whenever the GUI program tries to execute an <code>npx</code> command. Because <code>npx</code> is just a JS script that calls <code>npm</code> internally, however it relies on a relative import:</p>
 
-<pre><code>node:internal/modules/cjs/loader:1148
+<pre><code>#!/usr/bin/env node
 
-  throw err;
+const cli = require('../lib/cli.js')
 
-  ^
+// run the resulting command as `npm exec ...args`
+process.argv[1] = require.resolve('./npm-cli.js')
+process.argv.splice(2, 0, 'exec')
 
-Error: Cannot find module '/usr/local/lib/node_modules/npm/bin/npm-cli.js'
+// ... the rest of the npx script
 </code></pre>
-
-<p>It seems <code>npm</code> is in itself a link that tries to call the real <code>npm-cli.js</code> script, by using a symlink the relative file structure is broken and it doesn’t work.</p>
 
 <h1 id="create-a-wrapper-script">Create a wrapper script</h1>
 
 <p>In order to solve this issue, create a wrapper script in <code>/usr/local/bin</code>. The reason to place it there is because most apps default to known locations (without the chance for you to modify the PATH, e.g. Xcode).</p>
 
 <pre><code>#!/bin/bash
-# do `sudo touch npm`
+# do `sudo touch npx`
 NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
-exec "$NODE_BASE_DIR/npm" "$@"%
+exec "$NODE_BASE_DIR/npx" "$@"%
 </code></pre>
 
 <p>After creating it give it execute permissions:</p>
 
-<pre><code>sudo chmod a+x /usr/local/bin/npm
+<pre><code>sudo chmod a+x /usr/local/bin/npx
 </code></pre>
 
 <p>You might need to restart your program or computer for the binary to be correctly found.</p>
