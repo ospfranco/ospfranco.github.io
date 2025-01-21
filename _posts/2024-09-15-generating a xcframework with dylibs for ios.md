@@ -1,23 +1,21 @@
 ---
 layout: post
-title: Generating a XCFramework with dylibs for iOS
+title: Loading dylibs in iOS
 date: 2024-09-15
 categories: post
 permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.
+Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.
 
 # Frameworks
 
-First of all, to load dylibs in iOS Apple absolutely fucked us all. You need to create a `.framework` with a lot of peculiarities. I will skip the why and most of the explanation and just give you a template you can use. These `framework`s need to be embbeded in a `.xcframework` that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).
+In order to load dynamic libraries in iOS they need to be packaged in a `.framework`. Let's skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a `.xcframework` that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).
 
 # Compile your library
 
-I will take [sqlite-vec](https://github.com/asg017/sqlite-vec) as an example. It's a sqlite extension to do vector searching for LLMs.
-
-You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8). I basically take care of all of this with a Makefile:
+Here is the `Makefile` you need, it's for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:
 
 ```make
 MIN_IOS_VERSION = 8.0
@@ -87,27 +85,27 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 .PHONY: ios ios_arm64 ios_x86_64 ios_arm64_sim
 ```
 
-That's the full Makefile. You can see the first lines are all about the steps mentioned above. Then compiling the library into an .o and then linking it as a dylib. It creates a file without extension on each of the target architectures. This are the files we will need to package to get iOS to load the dylib.
-
-Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single "fat" binary. The reason is clashing of architectures. This is a mandatory step to publish a single `.xcframework` that both intel and m1 machines can load.
-
-The final step is adding an @rpath...err... path to the generated binaries so that iOS can load them from a safe memory location when your app is compiled in hardened mode to be released in the app store. This is confusing, don't think too much about it, it has to do with sandboxing and security of the OS.
+1. You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).
+2. Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.
+3. Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single "fat" binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same "arch" so they clash and need to be merged into a "fat" binary).
+4. With the binary merged we can drop everything into a `.xcframework` template. [You can download it here](https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework). You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.
+5. With the files in the correct places we need to final set the `@rpath`. The rpath basically tells the OS where to find the canonical path of the file. It's mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don't think too much about it, it has to do with sandboxing and security of the OS.
 
 # XCFramework
 
-After you got your library compiled correctly, it's not enough to just drop them somewhere on iOS and call it a day. In order to load all of these easily you need to package everything into a `.xcframework` which basically is a folder that contains an `Info.plist`, which tells Xcode which framework to load based on your computer arch and target. Long story short, you can just copy [this folder structure](https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework). You CAN also create the `xcframework` via command, but it will not create the internal `frameworks` inside for you. Still useful command if you are compiling static libs:
+After you got your library compiled correctly, it's not enough to just drop them somewhere on iOS and call it a day. The `.xcframework` which basically is a folder that contains an `Info.plist`, tells Xcode which framework to load based on your computer arch and target. You **could** also create the `xcframework` via command, but it will not create the internal `frameworks` inside for you. Still useful command if you are compiling static libs:
 
 ```sh
 xcodebuild -create-xcframework -library ./sim_fat/libsqlite_vec.a -headers ../../ -library ./arm64/libsqlite_vec.a -include ../../ -output libsqlite_vec.xcframework
 ```
 
-> This is a sample command, won't work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you
+> This is a sample command, won't work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you. No need to mess with the rpath and frameworks
 
-The `.xcframework` contains a `Info.plist`, inside there are entries to the folders which contain the `frameworks` that actually contain the dylibs. The makefile will combine the arm64-sim and the intel-sim binaries into a fat binary (they would clash otherwise when you try to run your app). Then try to drop them in the correct folders.
+The `Info.plist` also contains entries to the folders which contain the `frameworks` that actually contain the dylibs.
 
 # Each framework Info.plist
 
-Each `.framework` inside the `.xcframework` contains it's own `Info.plist`. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary
+Each `.framework` inside the `.xcframework` contains it's own `Info.plist`. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (`CFBundleExecutable` tells the name of the binary, `CFBundleIdentifier` is needed to load the dylibs):
 
 ```xml
 <?xml version="1.0" encoding="UTF-8"?>
@@ -136,11 +134,9 @@ Each `.framework` inside the `.xcframework` contains it's own `Info.plist`. You 
 </plist>
 ```
 
-You can set it to whatever you want, just remember it. Also take a look at `CFBundleExecutable` which basically tells which is the dylib that is contained in the `framework`, change it to whatever your binary is named.
-
 # Loading it in runtime
 
-After you have correctly created the `xcframework` you can then add it as a dependency in your project. Directly drop it into xcode, or if you are using cocoapods declare as:
+After you have correctly created the `xcframework` you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:
 
 ```ruby
 s.vendored_frameworks = "sqlitevec.xcframework"
@@ -153,7 +149,7 @@ NSBundle *libsqlitevec_bundle = [NSBundle bundleWithIdentifier:@"com.ospfranco.s
 NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" ofType:@""];
 ```
 
-Ok, this is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory.
+This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via `dlopen` I guess, or some other system call).
 
 # Debugging
 
@@ -175,13 +171,7 @@ Load command 8
       sdk 8.0
 ```
 
-The last step is setting the dylib rpath (Already done in the Makefile for you):
-
-```
-install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec
-```
-
-Basically @rpath is a placeholder string. It will replace it on runtime, then take the final path and try to locate your dylib. You can verify is properly set by running:
+The `@rpath also needs to be correct`, although it is done for you in the Makefile you can verify is properly set by running:
 
 ```
 otool -L sqlitevec.framework/sqlitevec

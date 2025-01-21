@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-21T09:27:21+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-21T17:30:52+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
 
 <p>There has been a lot of changes with the new architecture of React Native and a class <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
 
@@ -240,17 +240,15 @@ openssl-sys = "0.9.103"
 	  OPENSSL_DIR=$$OPENSSL_DIR cargo ndk --target $* --platform 31 build --release --all-features
 </code></pre>
 
-<p>Once everything is ready, will not only the Android binary be correct, you will actually be using the latest version of OpenSSL instead of the outdated NDK ports.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[There is now a long standing issue with the latest versions of OpenSSL. The handwritten assembly is incompatible with Position Independent Code. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Generating a XCFramework with dylibs for iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Generating a XCFramework with dylibs for iOS" /><published>2024-09-15T00:00:00+02:00</published><updated>2024-09-15T00:00:00+02:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
+<p>Once everything is ready, will not only the Android binary be correct, you will actually be using the latest version of OpenSSL instead of the outdated NDK ports.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[There is now a long standing issue with the latest versions of OpenSSL. The handwritten assembly is incompatible with Position Independent Code. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Loading dylibs in iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Loading dylibs in iOS" /><published>2024-09-15T00:00:00+02:00</published><updated>2024-09-15T00:00:00+02:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
 
 <h1 id="frameworks">Frameworks</h1>
 
-<p>First of all, to load dylibs in iOS Apple absolutely fucked us all. You need to create a <code>.framework</code> with a lot of peculiarities. I will skip the why and most of the explanation and just give you a template you can use. These <code>framework</code>s need to be embbeded in a <code>.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
+<p>In order to load dynamic libraries in iOS they need to be packaged in a <code>.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code>.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
 
 <h1 id="compile-your-library">Compile your library</h1>
 
-<p>I will take <a href="https://github.com/asg017/sqlite-vec">sqlite-vec</a> as an example. It’s a sqlite extension to do vector searching for LLMs.</p>
-
-<p>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8). I basically take care of all of this with a Makefile:</p>
+<p>Here is the <code>Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
 
 <pre><code class="language-make">MIN_IOS_VERSION = 8.0
 
@@ -319,28 +317,30 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 .PHONY: ios ios_arm64 ios_x86_64 ios_arm64_sim
 </code></pre>
 
-<p>That’s the full Makefile. You can see the first lines are all about the steps mentioned above. Then compiling the library into an .o and then linking it as a dylib. It creates a file without extension on each of the target architectures. This are the files we will need to package to get iOS to load the dylib.</p>
-
-<p>Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures. This is a mandatory step to publish a single <code>.xcframework</code> that both intel and m1 machines can load.</p>
-
-<p>The final step is adding an @rpath…err… path to the generated binaries so that iOS can load them from a safe memory location when your app is compiled in hardened mode to be released in the app store. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</p>
+<ol>
+  <li>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).</li>
+  <li>Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.</li>
+  <li>Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same “arch” so they clash and need to be merged into a “fat” binary).</li>
+  <li>With the binary merged we can drop everything into a <code>.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
+  <li>With the files in the correct places we need to final set the <code>@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
+</ol>
 
 <h1 id="xcframework">XCFramework</h1>
 
-<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. In order to load all of these easily you need to package everything into a <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, which tells Xcode which framework to load based on your computer arch and target. Long story short, you can just copy <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">this folder structure</a>. You CAN also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
+<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
 
 <pre><code class="language-sh">xcodebuild -create-xcframework -library ./sim_fat/libsqlite_vec.a -headers ../../ -library ./arm64/libsqlite_vec.a -include ../../ -output libsqlite_vec.xcframework
 </code></pre>
 
 <blockquote>
-  <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you</p>
+  <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you. No need to mess with the rpath and frameworks</p>
 </blockquote>
 
-<p>The <code>.xcframework</code> contains a <code>Info.plist</code>, inside there are entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs. The makefile will combine the arm64-sim and the intel-sim binaries into a fat binary (they would clash otherwise when you try to run your app). Then try to drop them in the correct folders.</p>
+<p>The <code>Info.plist</code> also contains entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs.</p>
 
 <h1 id="each-framework-infoplist">Each framework Info.plist</h1>
 
-<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary</p>
+<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code>CFBundleExecutable</code> tells the name of the binary, <code>CFBundleIdentifier</code> is needed to load the dylibs):</p>
 
 <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
@@ -368,11 +368,9 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 &lt;/plist&gt;
 </code></pre>
 
-<p>You can set it to whatever you want, just remember it. Also take a look at <code>CFBundleExecutable</code> which basically tells which is the dylib that is contained in the <code>framework</code>, change it to whatever your binary is named.</p>
-
 <h1 id="loading-it-in-runtime">Loading it in runtime</h1>
 
-<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into xcode, or if you are using cocoapods declare as:</p>
+<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
 
 <pre><code class="language-ruby">s.vendored_frameworks = "sqlitevec.xcframework"
 </code></pre>
@@ -383,7 +381,7 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" ofType:@""];
 </code></pre>
 
-<p>Ok, this is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory.</p>
+<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code>dlopen</code> I guess, or some other system call).</p>
 
 <h1 id="debugging">Debugging</h1>
 
@@ -403,12 +401,7 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
       sdk 8.0
 </code></pre>
 
-<p>The last step is setting the dylib rpath (Already done in the Makefile for you):</p>
-
-<pre><code>install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec
-</code></pre>
-
-<p>Basically @rpath is a placeholder string. It will replace it on runtime, then take the final path and try to locate your dylib. You can verify is properly set by running:</p>
+<p>The <code>@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
 
 <pre><code>otool -L sqlitevec.framework/sqlitevec
 </code></pre>
@@ -418,7 +411,7 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
 <pre><code>sqlitevec.framework/sqlitevec:
         @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
         /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
+</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
 
 <p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
 

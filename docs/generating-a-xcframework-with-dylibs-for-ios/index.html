@@ -9,13 +9,13 @@
     href="/assets/favicon.ico"
   />
   <!-- Begin Jekyll SEO tag v2.8.0 -->
-<title>Generating a XCFramework with dylibs for iOS | Oscar Franco</title>
+<title>Loading dylibs in iOS | Oscar Franco</title>
 <meta name="generator" content="Jekyll v4.3.3" />
-<meta property="og:title" content="Generating a XCFramework with dylibs for iOS" />
+<meta property="og:title" content="Loading dylibs in iOS" />
 <meta name="author" content="Oscar Franco" />
 <meta property="og:locale" content="en_US" />
-<meta name="description" content="This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS." />
-<meta property="og:description" content="This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS." />
+<meta name="description" content="Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS." />
+<meta property="og:description" content="Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS." />
 <link rel="canonical" href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" />
 <meta property="og:url" content="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" />
 <meta property="og:site_name" content="Oscar Franco" />
@@ -24,11 +24,11 @@
 <meta property="article:published_time" content="2024-09-15T00:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
-<meta property="twitter:title" content="Generating a XCFramework with dylibs for iOS" />
+<meta property="twitter:title" content="Loading dylibs in iOS" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-09-15T00:00:00+02:00","datePublished":"2024-09-15T00:00:00+02:00","description":"This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.","headline":"Generating a XCFramework with dylibs for iOS","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"},"url":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-09-15T00:00:00+02:00","datePublished":"2024-09-15T00:00:00+02:00","description":"Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.","headline":"Loading dylibs in iOS","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"},"url":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -57,24 +57,22 @@
   <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
     <div class="xl:mx-auto flex flex-col">
       <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
-        Generating a XCFramework with dylibs for iOS
+        Loading dylibs in iOS
       </h1>
 
       <p class="mt-2 text-neutral-500 text-sm">
         September 2024
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p>This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
+      <div class="pt-4 pb-20 markdown"><p>Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
 
 <h1 id="frameworks">Frameworks</h1>
 
-<p>First of all, to load dylibs in iOS Apple absolutely fucked us all. You need to create a <code>.framework</code> with a lot of peculiarities. I will skip the why and most of the explanation and just give you a template you can use. These <code>framework</code>s need to be embbeded in a <code>.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
+<p>In order to load dynamic libraries in iOS they need to be packaged in a <code>.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code>.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
 
 <h1 id="compile-your-library">Compile your library</h1>
 
-<p>I will take <a href="https://github.com/asg017/sqlite-vec">sqlite-vec</a> as an example. It’s a sqlite extension to do vector searching for LLMs.</p>
-
-<p>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8). I basically take care of all of this with a Makefile:</p>
+<p>Here is the <code>Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
 
 <pre><code class="language-make">MIN_IOS_VERSION = 8.0
 
@@ -143,28 +141,30 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 .PHONY: ios ios_arm64 ios_x86_64 ios_arm64_sim
 </code></pre>
 
-<p>That’s the full Makefile. You can see the first lines are all about the steps mentioned above. Then compiling the library into an .o and then linking it as a dylib. It creates a file without extension on each of the target architectures. This are the files we will need to package to get iOS to load the dylib.</p>
-
-<p>Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures. This is a mandatory step to publish a single <code>.xcframework</code> that both intel and m1 machines can load.</p>
-
-<p>The final step is adding an @rpath…err… path to the generated binaries so that iOS can load them from a safe memory location when your app is compiled in hardened mode to be released in the app store. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</p>
+<ol>
+  <li>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).</li>
+  <li>Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.</li>
+  <li>Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same “arch” so they clash and need to be merged into a “fat” binary).</li>
+  <li>With the binary merged we can drop everything into a <code>.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
+  <li>With the files in the correct places we need to final set the <code>@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
+</ol>
 
 <h1 id="xcframework">XCFramework</h1>
 
-<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. In order to load all of these easily you need to package everything into a <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, which tells Xcode which framework to load based on your computer arch and target. Long story short, you can just copy <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">this folder structure</a>. You CAN also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
+<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
 
 <pre><code class="language-sh">xcodebuild -create-xcframework -library ./sim_fat/libsqlite_vec.a -headers ../../ -library ./arm64/libsqlite_vec.a -include ../../ -output libsqlite_vec.xcframework
 </code></pre>
 
 <blockquote>
-  <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you</p>
+  <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you. No need to mess with the rpath and frameworks</p>
 </blockquote>
 
-<p>The <code>.xcframework</code> contains a <code>Info.plist</code>, inside there are entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs. The makefile will combine the arm64-sim and the intel-sim binaries into a fat binary (they would clash otherwise when you try to run your app). Then try to drop them in the correct folders.</p>
+<p>The <code>Info.plist</code> also contains entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs.</p>
 
 <h1 id="each-framework-infoplist">Each framework Info.plist</h1>
 
-<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary</p>
+<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code>CFBundleExecutable</code> tells the name of the binary, <code>CFBundleIdentifier</code> is needed to load the dylibs):</p>
 
 <pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
 &lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
@@ -192,11 +192,9 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 &lt;/plist&gt;
 </code></pre>
 
-<p>You can set it to whatever you want, just remember it. Also take a look at <code>CFBundleExecutable</code> which basically tells which is the dylib that is contained in the <code>framework</code>, change it to whatever your binary is named.</p>
-
 <h1 id="loading-it-in-runtime">Loading it in runtime</h1>
 
-<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into xcode, or if you are using cocoapods declare as:</p>
+<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
 
 <pre><code class="language-ruby">s.vendored_frameworks = "sqlitevec.xcframework"
 </code></pre>
@@ -207,7 +205,7 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" ofType:@""];
 </code></pre>
 
-<p>Ok, this is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory.</p>
+<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code>dlopen</code> I guess, or some other system call).</p>
 
 <h1 id="debugging">Debugging</h1>
 
@@ -227,12 +225,7 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
       sdk 8.0
 </code></pre>
 
-<p>The last step is setting the dylib rpath (Already done in the Makefile for you):</p>
-
-<pre><code>install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec
-</code></pre>
-
-<p>Basically @rpath is a placeholder string. It will replace it on runtime, then take the final path and try to locate your dylib. You can verify is properly set by running:</p>
+<p>The <code>@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
 
 <pre><code>otool -L sqlitevec.framework/sqlitevec
 </code></pre>
