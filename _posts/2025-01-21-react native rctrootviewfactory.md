@@ -23,6 +23,7 @@ I'll just dump you the code right here (for a Swift entry point)
 import Foundation
 import React_RCTAppDelegate
 
+// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject
 @NSApplicationMain
 @objc
 class AppDelegate: RCTAppDelegate {
