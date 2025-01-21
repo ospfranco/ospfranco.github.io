@@ -11,11 +11,7 @@ As I was upgrading one of my RN macOS projects I was having crashes when bumping
 
 There has been a lot of changes with the new architecture of React Native and a class `RCTRootViewFactory` has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.
 
-The base class was contributed by Oskar and announced on twitter, there is also this [callstack article](https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory), but both are a bit incomplete or not indexable:
-
-https://x.com/o_kwasniewski/status/1764971481778323529
-
-# Code
+The base class was contributed by Oskar and [announced on twitter](https://x.com/o_kwasniewski/status/1764971481778323529), there is also this [callstack article](https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory), but both are a bit incomplete or not indexable
 
 I'll just dump you the code right here (for a Swift entry point)
 
