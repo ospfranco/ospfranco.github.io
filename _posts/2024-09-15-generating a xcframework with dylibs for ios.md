@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Loading dylibs in iOS
-date: 2024-09-15
+date: 2025-01-21
 categories: post
 permalink: /:title/
 image: /assets/oscar.jpg

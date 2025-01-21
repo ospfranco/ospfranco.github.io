@@ -273,10 +273,6 @@
 <lastmod>2024-06-30T00:00:00+02:00</lastmod>
 </url>
 <url>
-<loc>https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/</loc>
-<lastmod>2024-09-15T00:00:00+02:00</lastmod>
-</url>
-<url>
 <loc>https://ospfranco.com/compiling-openssl-in-rust-for-android/</loc>
 <lastmod>2024-09-21T00:00:00+02:00</lastmod>
 </url>
@@ -287,6 +283,10 @@
 <url>
 <loc>https://ospfranco.com/use-react-as-a-rendering-layer/</loc>
 <lastmod>2024-11-11T00:00:00+01:00</lastmod>
+</url>
+<url>
+<loc>https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/</loc>
+<lastmod>2025-01-21T00:00:00+01:00</lastmod>
 </url>
 <url>
 <loc>https://ospfranco.com/react-native-rctrootviewfactory/</loc>
