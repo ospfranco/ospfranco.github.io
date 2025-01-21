@@ -7,7 +7,7 @@ permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-Apple has terrible messed with dynamic library loading in iOS. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.
+Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.
 
 # Frameworks
 
