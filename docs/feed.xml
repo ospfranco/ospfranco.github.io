@@ -1,4 +1,51 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-03T08:12:27+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-01-21T09:23:15+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel. There has been a lot of changes with the new architecture of React Native and a class callaed <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation so here are some pointers.</p>
+
+<p>The base class was contributed by Oskar and announced on twitter, there is also this <a href="https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory">callstack article</a>, but both are a bit incomplete or not indexable:</p>
+
+<p>https://x.com/o_kwasniewski/status/1764971481778323529</p>
+
+<h1 id="code">Code</h1>
+
+<p>I’ll just dump you the code right here (for a Swift entry point)</p>
+
+<pre><code class="language-swift">import Foundation
+import React_RCTAppDelegate
+
+@NSApplicationMain
+@objc
+class AppDelegate: RCTAppDelegate {
+  override func sourceURL(for bridge: RCTBridge) -&gt; URL? {
+    self.bundleURL()
+  }
+
+  override func bundleURL() -&gt; URL? {
+    #if DEBUG
+      RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+    #else
+      Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+    #endif
+  }
+
+  // The entry point for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
+  override func applicationDidFinishLaunching(_ notification: Notification) {
+    self.automaticallyLoadReactNativeWindow = false // Important to prevent RCTAppDelegate from trying to init the default RN View
+    super.applicationDidFinishLaunching(notification) // Needs to be called on the latest versions to initialize all the internal RN variables and state
+
+    let rootViewFactoryConfiguration = RCTRootViewFactoryConfiguration(
+      bundleURLBlock: self.bundleURL,
+      newArchEnabled: false,
+      turboModuleEnabled: true,
+      bridgelessEnabled: false)
+
+    self.rootViewFactory = RCTRootViewFactory(configuration: rootViewFactoryConfiguration) // This internal property is not automagically created
+    let rootView = self.rootViewFactory.view(withModuleName: "[Your bundle name]") // Finally create a RN Hosting View
+
+    // add it to your NSWindow or hosting NSView
+  }
+}
+</code></pre>
+
+<p>The beauty of this abstraction is that it should be future proofed whenever the framework changes, preventing weird crashes and errors. If you turn on the flags you can do it programmatically from the constructor.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel. There has been a lot of changes with the new architecture of React Native and a class callaed RCTRootViewFactory has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation so here are some pointers.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
 
 <p>[Kitze tweet]</p>
 
@@ -941,246 +988,4 @@ const db = open({
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>It’s still worth looking into the <a href="https://reactnative.dev/docs/security#storing-sensitive-info">official RN documentation</a>; however, I hope this guide is a bit more hands-on.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust modules in React Native</title><link href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/" rel="alternate" type="text/html" title="Rust modules in React Native" /><published>2024-05-08T15:00:00+02:00</published><updated>2024-05-08T15:00:00+02:00</updated><id>https://ospfranco.com/post/2024/05/08/react%20native%20rust%20module%20guide</id><content type="html" xml:base="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/"><![CDATA[<p>This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.</p>
-
-<iframe class="w-full h-96" src="https://www.youtube.com/embed/PPU4Hrz4J_s" title="YouTube video player" frameborder="0" allow="accelerometer; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen=""></iframe>
-
-<h1 id="basic-setup">Basic Setup</h1>
-
-<ul>
-  <li>Set up Rust compiler on your computer, just follow the instructions on the Rust website (use <code>rustup</code>, brew will give you headaches).</li>
-  <li>In order to compile the Android version you are going to use the <code>ndk</code> create which simplifies the command to compile the rust library for Android. Install it via <code>cargo install ndk</code></li>
-  <li>
-    <p>Create a crate where we will put all of our Rust lib code and infra scripts. In my case I will call it <code>my_sdk</code></p>
-
-    <pre><code class="language-bash">cargo new my_sdk
-</code></pre>
-  </li>
-  <li>
-    <p>Create a <code>rust-toolchain.toml</code> in the project folder you just created. This will add all the necessary architectures to compile your project:</p>
-
-    <pre><code class="language-toml">[toolchain]
-channel = "stable"
-targets = ["x86_64-apple-ios", "aarch64-apple-ios", "aarch64-apple-ios-sim", "aarch64-linux-android", "armv7-linux-androideabi", "x86_64-linux-android", "i686-linux-android"]
-</code></pre>
-  </li>
-  <li>Change name of <code>main.rs</code> to <code>lib.rs</code></li>
-  <li>
-    <p>Add your API code on lib.rs</p>
-
-    <pre><code class="language-rust">#[no_mangle]
-extern "C" fn sum(a: i32, b: i32) {
-  a + b
-}
-</code></pre>
-  </li>
-  <li>
-    <p>We will use a crate called <code>cbindgen</code> that will help us generate a C header for our Rust functions. We will automate the header creation by creating a <code>build.rs</code> that runs every time our project is compiled/checked. First we are going to add the dependency as a <code>[build-dependencies]</code>, the project <code>Cargo.toml</code>:</p>
-
-    <pre><code class="language-toml">[build-dependencies]
-cbindgen = "0.26.0"
-</code></pre>
-  </li>
-  <li>
-    <p>Then on the root of the project create a <code>build.rs</code> file:</p>
-
-    <pre><code class="language-rust">extern crate cbindgen;
-
-use std::env;
-
-fn generate_c_headers() {
-    let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
-
-    cbindgen::Builder::new()
-        .with_crate(crate_dir)
-        .with_language(cbindgen::Language::C)
-        .with_include_guard("my_sdk_h")
-        .with_autogen_warning(
-            "/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */",
-        )
-        .with_namespace("my_sdk")
-        .with_cpp_compat(true)
-        .generate()
-        .expect("Unable to generate bindings")
-        .write_to_file("generated/include/my_sdk.h");
-}
-
-fn main() {
-    // Tell Cargo that if the given file changes, to rerun this build script.
-    println!("cargo:rerun-if-changed=src/lib.rs");
-    generate_c_headers();
-}
-</code></pre>
-  </li>
-  <li>
-    <p>Modify the <code>cargo.toml</code> to compile as static library. You can also create a dynamic library that can be loaded on runtime on Android, but both should work. The <code>jni</code> dependency is only necessary if you are planing to call your code from Java/Kotlin.</p>
-
-    <pre><code class="language-toml">[package]
-name = "SDK"
-version = "0.1.0"
-edition = "2021"
-
-[lib]
-name = "SDK"
-crate-type = ["staticlib"]
-
-[dependencies]
-libc = "0.2.80" # Allows to use c types CString, c_char, etc.
-jni = "0.17.0" # OPTIONAL Allows to write JNI bindings directly from Rust
-
-[build-dependencies]
-cbindgen = "0.26.0"
-</code></pre>
-  </li>
-  <li>(Optional) In my experience static binaries on iOS are OK, but on Android they can be huge. Ideally you would specify <code>crate-type = ['staticlib', 'dylib']</code> and just be on your merry way, however, it seems this bloats the static lib massively. In order to get a static binary for iOS and a dynamic one for Android you can set <code>crate-type = ['dylib']</code> and change the compilation command for iOS to <code>cargo rustc --crate-type=staticlib ...</code></li>
-</ul>
-
-<h1 id="ios">iOS</h1>
-
-<ul>
-  <li>
-    <p>We are going to use <code>Make</code> to compile and package the library. No specific reason for it you can create your script on JS too.</p>
-
-    <pre><code class="language-make">ARCHS_IOS = x86_64-apple-ios aarch64-apple-ios aarch64-apple-ios-sim
-ARCHS_ANDROID = aarch64-linux-android armv7-linux-androideabi x86_64-linux-android i686-linux-android
-LIB = libmy_sdk.a
-DYLIB = libmy_sdk.so
-XCFRAMEWORK = my_sdk.xcframework
-
-all: ios android
-
-ios: $(XCFRAMEWORK)
-
-android: $(ARCHS_ANDROID)
-  # After build is done copy files into the android folder
-  mkdir -p ../android/app/src/main/jniLibs
-  mkdir -p ../android/app/src/main/jniLibs/x86
-  mkdir -p ../android/app/src/main/jniLibs/arm64-v8a
-  mkdir -p ../android/app/src/main/jniLibs/armeabi-v7a
-  mkdir -p ../android/app/src/main/jniLibs/x86_64
-
-
-  cp ./target/i686-linux-android/release/$(DYLIB) ../android/app/src/main/jniLibs/x86/$(DYLIB)
-  cp ./target/aarch64-linux-android/release/$(DYLIB) ../android/app/src/main/jniLibs/arm64-v8a/$(DYLIB)
-  cp ./target/arm-linux-androideabi/release/$(DYLIB) ../android/app/src/main/jniLibs/armeabi-v7a/$(DYLIB)
-  cp ./target/x86_64-linux-android/release/$(DYLIB) ../android/app/src/main/jniLibs/x86_64/$(DYLIB)
-
-.PHONY: $(ARCHS_IOS)
-$(ARCHS_IOS): %:
-  cargo build --target $@ --release
-
-.PHONY: $(ARCHS_ANDROID)
-$(ARCHS_ANDROID): %:
-  cargo ndk --target $@ --platform 31 --release
-
-$(XCFRAMEWORK): $(ARCHS_IOS)
-  mkdir -p simulator_fat
-  lipo -create target/x86_64-apple-ios/release/$(LIB) target/aarch64-apple-ios-sim/release/$(LIB) -output simulator_fat/$(LIB)
-  xcodebuild -create-xcframework -library target/aarch64-apple-ios/release/$(LIB) -headers include -library simulator_fat/$(LIB) -headers include -output $@
-  cp -r $@ ../ios/$@
-</code></pre>
-
-    <blockquote>
-      <p>You see on iOS we are creating a xcframework, that is because the architectures conflict (iOS and iOS sim m1), so we use a xcframework to package it nicely for Xcode to build our app.</p>
-    </blockquote>
-  </li>
-  <li>The <code>copy-ios.sh</code> is just a simple scripts that copies the generated xcframework to a more convenient location. You can leave it out if you modify the locations manually.</li>
-  <li>Add generated <code>.xcframework</code> to Xcode
-    <ul>
-      <li>If you are doing this on a single project then dragging and dropping is the easiest, just make sure in the project properties mark the xcframework as embed and sign.</li>
-      <li>If you are doing this on React Native, as part of a library, then you need to modify your podspec. Just drop the <code>xcframework</code> somewhere and then on your podspec add <code>s.vendored_frameworks = "my_sdk.xcframework"</code></li>
-    </ul>
-  </li>
-  <li>You should now be able to simply import the header file (<code>#include "my_sdk.h"</code>) and call any Rust function from any Obj-C++ file</li>
-</ul>
-
-<h1 id="binary-size">Binary size</h1>
-
-<p>As mentioned in a previous point, the sizes of compiled Rust binaries can be quite large. Which is a problem when targeting mobile platforms. You need to turn on optimizations to get the binary size down, check out the <a href="https://ospfranco.com/rust-reduce-binary-size/">size optimization guide</a>.</p>
-
-<h1 id="android">Android</h1>
-
-<ul>
-  <li>
-    <p>The <code>ndk</code> crate simplifies the generation of Android Rust modules massively. You need to have the variables set up properly though. Make sure you have the Android NDK properly installed in your system. Then set the following environment variables in your system. Change the NDK version to whatever you have installed or you need:</p>
-
-    <pre><code class="language-bash">export ANDROID_SDK_ROOT=$HOME/Library/Android/sdk
-export ANDROID_HOME=$HOME/Library/Android/sdk
-export ANDROID_NDK_HOME=$ANDROID_HOME/ndk/25.1.8937393
-</code></pre>
-  </li>
-  <li>
-    <p>We need to tell cmake to link the library when compiling our native module, on the <code>CMakeLists.txt</code> file add the following:</p>
-
-    <pre><code class="language-make">make_path(SET MY_SDK_LIB ${CMAKE_CURRENT_SOURCE_DIR}/jniLibs/${ANDROID_ABI}/libmy_sdk.a NORMALIZE)
-add_library(my_sdk STATIC IMPORTED)
-set_target_properties(my_sdk PROPERTIES IMPORTED_LOCATION ${MY_SDK_LIB})
-
-target_link_libraries(tm
-        jsi
-        my_sdk
-        react_nativemodule_core
-        react_codegen_AppSpecs
-)
-</code></pre>
-  </li>
-  <li>We will still not be able to call our Rust code from Java, because we need to go through the JNI and the JNI is very picky regarding names, we need to create specific binding for Android, on the <code>lib.rs</code> and the following block</li>
-  <li>We can finally call <code>make android</code> and the library will be created for us</li>
-  <li>
-    <p><strong>Optional</strong> If you want to call the functions from Java/Kotlin (and not from C++) you need to create another binding using Android’s JNI:</p>
-
-    <pre><code class="language-rust">// On Android function names need to follow the JNI convention
-pub mod android {
-  extern crate jni;
-
-  use self::jni::JNIEnv;
-  use self::jni::objects::JClass;
-  use self::jni::sys::jstring;
-
-  #[no_mangle]
-  pub unsafe extern fn Java_com_samplesdk_BindingsModule_helloWorld(env: JNIEnv, _: JClass) -&gt; jstring {
-    let output = env.new_string("Hello from Rust!").expect("Couldn't create java string!");
-    output.into_inner()
-  }
-}
-</code></pre>
-  </li>
-  <li>
-    <p>We can now create a RN Module (or JSI module) and simply load the library and call it (via JNI of course)</p>
-
-    <pre><code class="language-java">package com.samplesdk;
-
-import com.facebook.react.bridge.NativeModule;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReactMethod;
-import com.facebook.react.util.RNLog;
-import java.util.Map;
-import java.util.HashMap;
-
-public class BindingsModule extends ReactContextBaseJavaModule {
-
-
-    BindingsModule(ReactApplicationContext context) {
-        super(context);
-        // If you are using a Android dylib, you will have to load it now!
-    }
-
-    @Override
-    public String getName() {
-        return "Bindings";
-    }
-
-    @ReactMethod
-    public void init(String apiKey) {
-        RNLog.w(this.getReactApplicationContext(), "BindingsModule.init() called with apiKey: " + apiKey + "calling rust");
-        String result = helloWorld();
-        RNLog.w(this.getReactApplicationContext(), "Rust says: " + result);
-    }
-
-    private static native String helloWorld();
-}
-</code></pre>
-  </li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[This is a tutorial on how I integrate Rust modules, but in the video form I go over the concepts that actually make this work, so you can adjust and understand the tooling behind and you can maintain your integration.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>It’s still worth looking into the <a href="https://reactnative.dev/docs/security#storing-sensitive-info">official RN documentation</a>; however, I hope this guide is a bit more hands-on.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Like any other software development framework, security should be a top priority when developing React Native applications. However, there are a lot of misconceptions, fueled by the existence of packages and the lack of targeted information.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
