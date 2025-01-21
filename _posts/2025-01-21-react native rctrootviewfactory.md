@@ -7,7 +7,9 @@ permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel. There has been a lot of changes with the new architecture of React Native and a class callaed `RCTRootViewFactory` has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation so here are some pointers.
+As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.
+
+There has been a lot of changes with the new architecture of React Native and a class `RCTRootViewFactory` has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.
 
 The base class was contributed by Oskar and announced on twitter, there is also this [callstack article](https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory), but both are a bit incomplete or not indexable:
 
@@ -36,7 +38,7 @@ class AppDelegate: RCTAppDelegate {
     #endif
   }
 
-  // The entry point for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
+  // didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
   override func applicationDidFinishLaunching(_ notification: Notification) {
     self.automaticallyLoadReactNativeWindow = false // Important to prevent RCTAppDelegate from trying to init the default RN View
     super.applicationDidFinishLaunching(notification) // Needs to be called on the latest versions to initialize all the internal RN variables and state
