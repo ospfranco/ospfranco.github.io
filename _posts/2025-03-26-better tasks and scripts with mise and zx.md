@@ -11,14 +11,15 @@ Recently I've been working with repos that have multiple languages and build sys
 
 # Previous Art
 
-From working with other teams, each language/ecosystem seems to have their own way of doing things. Some of the common patterns I've seen are:
+From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I've seen are:
 
-- The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. This was the latest approach that I took, just because I did not know any better tool.
+- The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. This was the latest approach that I took, just because I did not know any better tool. Works for simple flows, but brakes down once you need to start parsing params, setting variables, etc.
 - Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a [crate](https://docs.rs/xtasks/latest/xtasks/) aimed at automating some of this pain.
 - Npm scripts, combined with shell scripts
 - Raw dogging node scripts that spawn processes
+- There are ofc other tools like `make`, `rake`, `jinja`, etc.
 
-You can see the wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. JS is the easiest one, but then it's one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.
+You can see the wild west that this endevaour is. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it's one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.
 
 # Mise
 
