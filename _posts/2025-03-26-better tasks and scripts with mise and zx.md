@@ -17,7 +17,7 @@ From working with other teams, each language/ecosystem have their own way of doi
 - Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a [crate](https://docs.rs/xtasks/latest/xtasks/) aimed at automating some of this pain.
 - Npm scripts, combined with shell scripts
 - Raw dogging node scripts that spawn processes
-- There are ofc other tools like `make`, `rake`, `jinja`, etc.
+- There are ofc other tools like `make`, `rake`, `Ninja`, etc.
 
 You can see the wild west that this endevaour is. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it's one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.
 
@@ -51,11 +51,11 @@ build = "bun zx scripts/build.mjs"
 And a `scripts/build.mjs` that looks like this:
 
 ```js
-import 'zx/globals'
+import "zx/globals";
 
 // You can do more things here, like parse the arguments, import other files, etc
-await $`cargo build --release`
-await $`flutter build ios`
+await $`cargo build --release`;
+await $`flutter build ios`;
 ```
 
 Then on the README for my team it gets simple boils down to:
