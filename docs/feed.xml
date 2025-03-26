@@ -1,8 +1,113 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-03-08T15:34:33+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco Personal Website</title><author><name>Oscar Franco</name></author><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-03-26T12:14:43+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco Personal Website</title><author><name>Oscar Franco</name></author><entry><title type="html">Better repo tasks and scripts with mise and zx</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and zx" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+
+<h1 id="previous-art">Previous Art</h1>
+
+<p>From working with other teams, each language/ecosystem seems to have their own way of doing things. Some of the common patterns I’ve seen are:</p>
+
+<ul>
+  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. This was the latest approach that I took, just because I did not know any better tool.</li>
+  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
+  <li>Npm scripts, combined with shell scripts</li>
+  <li>Raw dogging node scripts that spawn processes</li>
+</ul>
+
+<p>You can see the wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>I’m a big fan of tool managers. Journey started with <code>asdf</code> and I’m now using <code>mise</code>. <code>mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code>mise.toml</code> where you can have per folder tools.</p>
+
+<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
+
+<h1 id="zx">Zx</h1>
+
+<p><a href="https://github.com/google/zx"><code>zx</code></a> is a package from Google that allows to write better scripts in JS. Basically invoke shell commands within a JS file without dealing with the idiosincracies of bash/zsh/whatever shell you are using.</p>
+
+<h1 id="putting-it-all-together">Putting it all together</h1>
+
+<p>At the end, I have a <code>mise.toml</code> that looks like this (this is just an example):</p>
+
+<pre><code class="language-toml">[tools]
+node = "14.18.1"
+bun = "0.1.0"
+rust = "1.58.0"
+
+[hooks]
+postinstall = "bun install"
+
+[tasks]
+build = "bun zx scripts/build.mjs"
+</code></pre>
+
+<p>And a <code>scripts/build.mjs</code> that looks like this:</p>
+
+<pre><code class="language-js">import 'zx/globals'
+
+// You can do more things here, like parse the arguments, import other files, etc
+await $`cargo build --release`
+await $`flutter build ios`
+</code></pre>
+
+<p>Then on the README for my team it gets simple boils down to:</p>
+
+<ul>
+  <li><code>brew install mise</code></li>
+  <li><code>mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
+  <li><code>mise install</code></li>
+  <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
+</ul>
+
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Loading dylibs in iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Loading dylibs in iOS" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
+
+<p>There has been a lot of changes with the new architecture of React Native and a class <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
+
+<p>The base class was contributed by Oskar and <a href="https://x.com/o_kwasniewski/status/1764971481778323529">announced on twitter</a>, there is also this <a href="https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory">callstack article</a>, but both are a bit incomplete or not indexable</p>
+
+<p>I’ll just dump you the code right here (for a Swift entry point)</p>
+
+<pre><code class="language-swift">import Foundation
+import React_RCTAppDelegate
+
+// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject
+@NSApplicationMain
+@objc
+class AppDelegate: RCTAppDelegate {
+  override func sourceURL(for bridge: RCTBridge) -&gt; URL? {
+    self.bundleURL()
+  }
+
+  override func bundleURL() -&gt; URL? {
+    #if DEBUG
+      RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
+    #else
+      Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+    #endif
+  }
+
+  // Use this one to customize the rootview before it is returned
+  override func customize(_ rootView: RCTRootView) {
+    rootView.wantsLayer = true
+    rootView.backgroundColor = .clear
+    rootView.layer?.backgroundColor = .clear
+  }
+
+
+  // didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
+  override func applicationDidFinishLaunching(_ notification: Notification) {
+    self.automaticallyLoadReactNativeWindow = false // Important to prevent RCTAppDelegate from trying to init the default RN View
+    super.applicationDidFinishLaunching(notification) // Needs to be called on the latest versions to initialize all the internal RN variables and state
+
+    let rootView = self.rootViewFactory.view(withModuleName: "[Your bundle name]") // Finally create a RN Hosting View`
+    // add it to your NSWindow or HostingNSView
+  }
+}
+</code></pre>
+
+<p>The beauty of this abstraction is that it should be future proofed whenever the framework changes, preventing weird crashes and errors. If you turn on the flags you can do it programmatically from the constructor.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Loading dylibs in iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Loading dylibs in iOS" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
 
 <h1 id="frameworks">Frameworks</h1>
 
@@ -173,53 +278,7 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
 <pre><code>sqlitevec.framework/sqlitevec:
         @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
         /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
-
-<p>There has been a lot of changes with the new architecture of React Native and a class <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
-
-<p>The base class was contributed by Oskar and <a href="https://x.com/o_kwasniewski/status/1764971481778323529">announced on twitter</a>, there is also this <a href="https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory">callstack article</a>, but both are a bit incomplete or not indexable</p>
-
-<p>I’ll just dump you the code right here (for a Swift entry point)</p>
-
-<pre><code class="language-swift">import Foundation
-import React_RCTAppDelegate
-
-// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject
-@NSApplicationMain
-@objc
-class AppDelegate: RCTAppDelegate {
-  override func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-    self.bundleURL()
-  }
-
-  override func bundleURL() -&gt; URL? {
-    #if DEBUG
-      RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-    #else
-      Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-    #endif
-  }
-
-  // Use this one to customize the rootview before it is returned
-  override func customize(_ rootView: RCTRootView) {
-    rootView.wantsLayer = true
-    rootView.backgroundColor = .clear
-    rootView.layer?.backgroundColor = .clear
-  }
-
-
-  // didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
-  override func applicationDidFinishLaunching(_ notification: Notification) {
-    self.automaticallyLoadReactNativeWindow = false // Important to prevent RCTAppDelegate from trying to init the default RN View
-    super.applicationDidFinishLaunching(notification) // Needs to be called on the latest versions to initialize all the internal RN variables and state
-
-    let rootView = self.rootViewFactory.view(withModuleName: "[Your bundle name]") // Finally create a RN Hosting View`
-    // add it to your NSWindow or HostingNSView
-  }
-}
-</code></pre>
-
-<p>The beauty of this abstraction is that it should be future proofed whenever the framework changes, preventing weird crashes and errors. If you turn on the flags you can do it programmatically from the constructor.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
+</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Use React as a Rendering Layer</title><link href="https://ospfranco.com/use-react-as-a-rendering-layer/" rel="alternate" type="text/html" title="Use React as a Rendering Layer" /><published>2024-11-11T00:00:00+01:00</published><updated>2024-11-11T00:00:00+01:00</updated><id>https://ospfranco.com/use%20react%20as%20a%20rendering%20layer</id><content type="html" xml:base="https://ospfranco.com/use-react-as-a-rendering-layer/"><![CDATA[<p>A couple of tweets caught my eye this week:</p>
 
 <p>[Kitze tweet]</p>
 
@@ -777,64 +836,4 @@ panic = "abort" # when Rust code encounters a situation when it must call panic!
 
 <h1 id="results">Results</h1>
 
-<p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It’s still large but better.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Writting tests for Tauri Rust Commands</title><link href="https://ospfranco.com/writting-tests-for-tauri-rust-commands/" rel="alternate" type="text/html" title="Writting tests for Tauri Rust Commands" /><published>2024-06-05T00:00:00+02:00</published><updated>2024-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/writting%20tests%20for%20tauri%20rust%20commands</id><content type="html" xml:base="https://ospfranco.com/writting-tests-for-tauri-rust-commands/"><![CDATA[<p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
-
-<p>The official documentation says one should write e2e tests with a UI simulation framework to test this functionality but that is way to cumbersome. I wanted unit tests for my Rust code. Also, I did not have stateless Rust functions, but functions where Tauri itself managed the state, so I needed to mock the entire Tauri app stack.</p>
-
-<p>Credit where is due this <a href="https://stackoverflow.com/questions/77524788/writing-tests-for-tauri-commands-how-to-access-and-manage-state-in-test-environ">Stack Overflow answer</a> provided the info I was looking for.</p>
-
-<p>However Tauri <code>1.6.7</code> broke this functionality and <code>1.6.8</code> fixed it by adding a new parameter.</p>
-
-<p>Without further ado, first you need to add the <code>test</code> feature in your Tauri dependency:</p>
-
-<pre><code class="language-toml">tauri = { version = "1.6.8", features = ["api-all", "updater", "test"] }
-</code></pre>
-
-<p>Then you can write your test like so:</p>
-
-<pre><code class="language-rust">#[cfg(test)]
-mod tests {
-    use super::*;
-    use tauri::{
-        test::{mock_context, noop_assets, MockRuntime},
-        App,
-    };
-
-    fn before_each() -&gt; Result&lt;tauri::App&lt;MockRuntime&gt;, std::io::Error&gt; {
-        let app = tauri::test::mock_builder()
-            .plugin(super::init_plugin())
-            .build(mock_context(noop_assets()))
-            .unwrap();
-
-        // Any other setup code you need
-        Ok(app)
-    }
-
-    async fn after_each(app: App&lt;MockRuntime&gt;) {
-        // your clean up code
-    }
-
-    #[tokio::test]
-    async fn should_return_0_with_no_loaded_models() {
-        let app = before_each().unwrap();
-        let window = app.get_window("main").unwrap();
-        let foo = tauri::test::get_ipc_response::&lt;Vec&lt;String&gt;&gt;(
-            &amp;window,
-            tauri::InvokePayload {
-                cmd: "plugin:my_plugin|foo".into(),
-                tauri_module: None,
-                invoke_key: Some(tauri::test::INVOKE_KEY.into()),
-                callback: tauri::api::ipc::CallbackFn(0),
-                error: tauri::api::ipc::CallbackFn(1),
-                inner: serde_json::json!({}),
-            },
-        );
-
-        assert!(foo.is_ok());
-
-        after_each(app).await;
-    }
-
-}
-
-</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>Using all the compile optimizations, I was able to reduce the output of one of my binaries from 66 MB to 24.7 MB. It’s still large but better.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
