@@ -24,9 +24,7 @@ I did all I could think off:
 - Mutiple restarts, with SD card out, letting the drone sit idle, etc.
 - Try a different SD card
 
-I got in touch with DJI support, they pointed me to one tool they have to reflash the firmware:
-
-https://www.dji.com/jp/downloads/softwares/dji-assistant-2-consumer-drones-series
+I got in touch with DJI support, they pointed me to [one tool](https://www.dji.com/jp/downloads/softwares/dji-assistant-2-consumer-drones-series) they have to reflash the firmware
 
 After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.
 
