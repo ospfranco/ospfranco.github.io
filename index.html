@@ -112,7 +112,6 @@ layout: default
   </div>
 
   <div class="mt-4 w-full max-w-4xl px-4">
-    <p class="text-2xl">Articles</p>
     {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
     date: '%B %Y'" %} {% for month in postsByMonthYear %}
     <div class="flex flex-col">
@@ -121,9 +120,14 @@ layout: default
       </div>
       <ul class="flex flex-col gap-2">
         {% for post in month.items %}
+        {% if post.is_spanish_version != true %}
         <li>
           <a href="{{ post.url }}" class="">{{ post.title }}</a>
+          {% if post.spanish_version %}
+          <span>- <a href="{{ post.spanish_version }}">Español</a></span>
+          {% endif %}
         </li>
+        {% endif %}
         {% endfor %}
       </ul>
     </div>

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-04-06T08:54:20+09:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco Personal Website</title><author><name>Oscar Franco</name></author><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+09:00</published><updated>2025-04-06T00:00:00+09:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.3.3">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-04-21T20:41:25+09:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco Personal Website</title><author><name>Oscar Franco</name></author><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+09:00</published><updated>2025-04-06T00:00:00+09:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
 
 <p>First one that seems non-solvable are transfer speeds. The 3 would do 10 to 20 mbits/s transfer. This new one seems to be a lot slower 1 to 3 mbits/second. Scouring online, seems to suggest one needs to turn off celullar data and the issue might go away. Big problem, but nothing I can do about that.</p>
 
@@ -21,21 +21,21 @@
 
 <p>After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.</p>
 
-<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and zx</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and zx" /><published>2025-03-26T00:00:00+09:00</published><updated>2025-03-26T00:00:00+09:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+09:00</published><updated>2025-03-26T00:00:00+09:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
 
 <h1 id="previous-art">Previous Art</h1>
 
 <p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
 
 <ul>
-  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. This was the latest approach that I took, just because I did not know any better tool. Works for simple flows, but brakes down once you need to start parsing params, setting variables, etc.</li>
+  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
   <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
-  <li>Npm scripts, combined with shell scripts</li>
+  <li>Npm tasks that run bash scripts</li>
   <li>Raw dogging node scripts that spawn processes</li>
   <li>There are ofc other tools like <code>make</code>, <code>rake</code>, <code>Ninja</code>, etc.</li>
 </ul>
 
-<p>You can see the wild west that this endevaour is. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
+<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
 
 <h1 id="mise">Mise</h1>
 
@@ -43,9 +43,9 @@
 
 <p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
 
-<h1 id="zx">Zx</h1>
+<h1 id="bun-shell">Bun Shell</h1>
 
-<p><a href="https://github.com/google/zx"><code>zx</code></a> is a package from Google that allows to write better scripts in JS. Basically invoke shell commands within a JS file without dealing with the idiosincracies of bash/zsh/whatever shell you are using.</p>
+<p>The <a href="Bun Shell"><code>Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
 
 <h1 id="putting-it-all-together">Putting it all together</h1>
 
@@ -60,12 +60,12 @@ rust = "1.58.0"
 postinstall = "bun install"
 
 [tasks]
-build = "bun zx scripts/build.mjs"
+build = "bun zx scripts/build.mts"
 </code></pre>
 
-<p>And a <code>scripts/build.mjs</code> that looks like this:</p>
+<p>And a <code>scripts/build.mts</code> that looks like this:</p>
 
-<pre><code class="language-js">import "zx/globals";
+<pre><code class="language-ts">import { $ } from "bun";
 
 // You can do more things here, like parse the arguments, import other files, etc
 await $`cargo build --release`;
@@ -81,7 +81,67 @@ await $`flutter build ios`;
   <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
 </ul>
 
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+09:00</published><updated>2025-02-10T00:00:00+09:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+09:00</published><updated>2025-03-26T00:00:00+09:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+
+<h1 id="herramientas-existentes">Herramientas Existentes</h1>
+
+<p>Cada lenguaje y ecosistema tiene su propia forma de hacer las cosas. Algunos de los patrones que he visto son:</p>
+
+<ul>
+  <li>Cmake y patrones anticuados, creados para compilar proyectos C/C++. Esta mal utilizado para compilar programas en Rust, pero deja de ser útil cuando se tiene que tener variables, parsear parametros, etc.</li>
+  <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
+  <li>Tasks de npm que corren scripts en bash</li>
+  <li>Scripts en Node/JS que llaman commandos directamente</li>
+  <li>Otras herramientas como <code>make</code>, <code>rake</code>, <code>ninja</code>, etc.</li>
+</ul>
+
+<p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>Soy un gran fan de los tool managers. El viaje empezo con <code>asdf</code> y ahora estoy usando <code>mise</code>. <code>mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code>mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
+
+<p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>El Bun Shell es un objecto integrado en bun que permite correr commandos de la terminal dentro de archivos TypeScript. La belleza de este approach es la fácilidad de usar TypeScript para manipular, re-enviar, usar loops, etc. Permitiendo escapar de lo bobo de bash.</p>
+
+<h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
+
+<p>Para este proyecto mi <code>mise.toml</code> parece algo así:</p>
+
+<pre><code class="language-toml">[tools]
+node = "14.18.1"
+bun = "0.1.0"
+rust = "1.58.0"
+
+[hooks]
+postinstall = "bun install"
+
+[tasks]
+build = "bun zx scripts/build.mts"
+</code></pre>
+
+<p>Luego existe un <code>script/build.mts</code> que se ve así:</p>
+
+<pre><code class="language-ts">import { $ } from "bun";
+
+// You can do more things here, like parse the arguments, import other files, etc
+await $`cargo build --release`;
+await $`flutter build ios`;
+</code></pre>
+
+<p>En el README del repositorio tengo los siguiente commandos:</p>
+
+<ul>
+  <li><code>brew install mise</code></li>
+  <li><code>mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
+  <li><code>mise install</code></li>
+  <li><code>mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code>mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
+</ul>
+
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+09:00</published><updated>2025-02-10T00:00:00+09:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 
@@ -688,142 +748,4 @@ AppRegistry.registerComponent("clip", () =&gt; AppClip);
 
 <p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
 
-<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Client guide to React Native modules</title><link href="https://ospfranco.com/client-guide-to-react-native-modules/" rel="alternate" type="text/html" title="Client guide to React Native modules" /><published>2024-06-25T00:00:00+09:00</published><updated>2024-06-25T00:00:00+09:00</updated><id>https://ospfranco.com/client%20guide%20to%20react%20native%20modules</id><content type="html" xml:base="https://ospfranco.com/client-guide-to-react-native-modules/"><![CDATA[<p>Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this <code>JSI</code>/<code>Turbo Module</code>/<code>new arch</code> stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.</p>
-
-<blockquote>
-  <p>If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology</p>
-</blockquote>
-
-<h1 id="old-arch">Old arch</h1>
-
-<p>How do you pass data between JavaScript, a interpreted language that runs on C++ to native runtimes of iOS (Swift/ObjC) and Android (Java/Kotlin)? easy! JSON. You serialize your data and every native function that you need to call can pass through a narrow tube of message passing. This is what we call the <code>old arch</code> (the usage of JSON message passing is also called the <code>bridge</code>) of React Native.</p>
-
-<h2 id="pros">Pros</h2>
-
-<ul>
-  <li>It is easy to create modules with it. Due to the ease of marking methods and the runtime registration, there is not a lot of setup necessary.</li>
-  <li>❗ Old modules are still supported in the <code>new arch</code> (we will talk about it in a bit). In fact there has been a special work put onto them so that they remain compatible at least for extra year while libraries and apps migrate to the new arch.</li>
-  <li>If your SDK sends a small amount of data, actually should be more than enough for your needs.</li>
-  <li>⭐ If you use <code>bridgeless</code> (will talk about it in a second), they are as fast as <code>new arch</code> modules.</li>
-</ul>
-
-<h2 id="cons">Cons</h2>
-
-<ul>
-  <li>It is slow and can get stuck when there is a large amount of data being serialized between the JS code and the native runtimes.</li>
-  <li>It’s being phased out</li>
-</ul>
-
-<h1 id="new-arch">New arch</h1>
-
-<p>React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON bridge. So a bunch of concepts/modules/ideas where introduced. The conjunction of the following terms form what is called <code>new arch</code>:</p>
-
-<h2 id="jsi">JSI</h2>
-
-<p>The first thing to solve is the slow passing data between JS and native. To fix this, the JavaScript Interface = <code>JSI</code>. It’s basically a bunch of C++ functions that allow to interact with JavaScript from C++ without paying for serialization costs of JSON. You can think of it as Node-API (NodeJS protocol to call native code) but a bit shittier since it is not a binary communication protocol but rather a bolt-on with some higher costs.</p>
-
-<p>The problem when interacting with C++ code though is that it introduces a gap between JS and native. Whenever you run JS code it runs on a JavaScript engine (JavaScript Core or Hermes in React Native’s case), but actually one should think about this “context” as a virtual machine (my own words). It is a VM that can be instantiated multiple times, though your UI will run on just one of them. Multiple JS VMs are how <code>Web Workers</code> (though they are not available in RN) and certain level of parallelism in JavaScript is achieved. It reads your JS and keeps a internal state of the code it runs, has it’s own heap and can die out. Most importantly, you cannot just fiddle with it while is interpreting your JS. The functions provided by <code>JSI</code>, allow to do work with this virtual machine/context/runtime by allowing to enqueue callbacks, cast JS values into C++ values, etc.</p>
-
-<p><code>JSI</code> is the corner stone of the new arch.</p>
-
-<h2 id="fabric">Fabric</h2>
-
-<p>Forget about fabric, it’s about how UI components are rendered using the <code>JSI</code> and it’s mostly internal. It will have very little influence on your module, with the exception on how your UI components are registered.</p>
-
-<h2 id="bridgeless">Bridgeless</h2>
-
-<p>It’s just a configuration flag that completely removes the JSON bridge. <code>old arch</code> modules will still work (in fact they will use the JSI too). It’s just part of the migration to kill the old bridge once and for all.</p>
-
-<h1 id="turbo-modules">Turbo Modules</h1>
-
-<p>All the internals of RN started to migrate from JSON to interacting with C++. So we now need a new way to create native modules for React Native. Turbo Modules are a solution to this problem. Is it important to know: <code>Turbo Modules</code> are <strong>built</strong> on top of <code>JSI</code>. You can have <code>new arch</code> modules (that use the JSI) without Turbo Modules, but not the other way around. <code>Turbo Modules</code> take a Typescript or Flow file, and then with a ungodly amount of JavaScript generate a bunch of C++ code, which React Native then includes in your project. They are also a DSL of TypeScript/Flow (😥).</p>
-
-<blockquote>
-  <p><code>Turbo Modules</code> are <strong>built on top</strong> of the <code>JSI</code></p>
-</blockquote>
-
-<h2 id="pros-1">Pros</h2>
-
-<ul>
-  <li>Lazy initialization</li>
-  <li>Much faster runtime performance</li>
-  <li>Synchronized function definitions between JS and native</li>
-</ul>
-
-<h2 id="cons-1">Cons</h2>
-
-<ul>
-  <li>Much more harder to setup</li>
-  <li>Lack of documentation</li>
-  <li>Require C++ knowledge and good knowledge of the internals of RN if you deviate from the golden path</li>
-</ul>
-
-<h1 id="expo-modules">Expo modules</h1>
-
-<p><code>Turbo Modules</code> and the necessary knowledge to make use of <code>JSI</code> is not trivial at all. It requires knowledge of C++, ObjC, Kotlin/Java, Java’s JNI, the build systems and knowledge of the internals of RN. The great guys at expo saw from a mile away that for a company/team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they also applied ungodly amounts of Kotlin/Swift magic and created their own module system.</p>
-
-<h2 id="pros-2">Pros</h2>
-
-<ul>
-  <li>Much more easier to expose native (Swift/Kotlin) functions to JS</li>
-  <li>They still use the JSI, so they are quite fast</li>
-  <li>Much easier to create and move around</li>
-</ul>
-
-<h2 id="cons-2">Cons</h2>
-
-<ul>
-  <li><strong>Only run on expo apps</strong></li>
-  <li>JSI is C++, Expo Modules are Swift/Kotlin, so <strong>there is</strong> a runtime performance cost. It’s not nothing, might or might not be critical depending on your module. I posted benchmarks in my Twitter.</li>
-  <li>The signatures of functions need to be adjusted manually between native and the JS side</li>
-</ul>
-
-<h1 id="c-turbo-modules">C++ Turbo Modules</h1>
-
-<p>It’s notable to mention that there are a lot of cases where you don’t want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like <code>sqlite</code>, <code>libsql</code>, Rust modules. This is what you want. The <code>JSI</code> is C++, your code is C(++). This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. They are also tricky to setup.</p>
-
-<h1 id="which-should-you-pick">Which should you pick?</h1>
-
-<p>It depends.</p>
-
-<p>You have a small team and want to just call some native Swift/Kotlin and are running Expo already: go for Expo Modules.</p>
-
-<p>You have a C/C++/Rust library and require the most amount of performance: Go for C++ Turbo Module or a custom JSI module.</p>
-
-<p>You want JSI, have some expertise, not on expo: go for Turbo Modules, documentation is scant so this is the least option I recommend</p>
-
-<p>You want to get the ball rolling for now: go for an old arch module</p>
-
-<h1 id="qa">QA</h1>
-
-<p><strong>Q</strong>: Is it possible to have a <code>new arch</code> (i.e. Turbo Module) that is compatible with <code>old arch</code>?</p>
-
-<p><strong>A</strong>: Yes, but it’s terrible, it takes a lot of work, copying the generated files and modifying the compilation process so that everything runs on both archs. You will definitely need help from one of the agencies or me to get this working properly and maintain it.</p>
-
-<p><strong>Q</strong>: Do you like Turbo Modules</p>
-
-<p><strong>A</strong>: I don’t, they are tricky to setup with code generation step and cryptic native errors. I would much rather stick to pure C++ modules. Also, codegen sucks, never do codegen.</p>
-
-<p><strong>Q</strong>: But Expo [insert your comment here]</p>
-
-<p><strong>A</strong>: Expo Modules are great if they work for you. Use them. It’s fine. Go ask them for issues.</p>
-
-<p><strong>Q</strong>: You say <code>JSI</code> is C++, how come <code>Turbo Modules</code> are ObjC/Kotlin/Java?</p>
-
-<p><strong>A</strong>: The same way Expo Modules are Swift/Kotlin. Ungodly amount of jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → <code>JNI</code> (which is SLOW) → C++. You might be returning native objects/scalars when writing your code, but there is a lot of work later to cast stuff all the way to the right C++ abstractions.</p>
-
-<p><strong>Q</strong>: Can I write my Turbo Module in Swift?</p>
-
-<p><strong>A</strong>: No (kinda). Latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work but it’s not straightforward.</p>
-
-<p><strong>Q</strong>: When will I be able to write my <code>Turbo Module</code> in Swift?</p>
-
-<p><strong>A</strong>: Some day… maybe never… go ask Meta very nicely to do this :)</p>
-
-<p><strong>Q</strong>: Can I write a native module in Rust?</p>
-
-<p><strong>A</strong>: Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, <a href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/">here is a guide</a>. There is also this <a href="https://github.com/laptou/jsi-rs">repo</a> in case you really want to write everything in rust, but I haven’t managed to get it to run, my Rust-Fu is not advanced enough, but it seems to bridge all the JSI code into Rust so you can call all the functions directly from Rust.</p>
-
-<p><strong>Q</strong>: What are the pitfalls when writing my native module?</p>
-
-<p><strong>A</strong>: There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. It’s complex to get all of the moving parts working nicely.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Let’s play the following scenario: You are my client and I’m me. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI/Turbo Module/new arch stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

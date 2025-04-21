@@ -1,25 +1,26 @@
 ---
 layout: post
-title: Better repo tasks and scripts with mise and zx
+title: Better repo tasks and scripts with mise and bun shell
 date: 2025-03-26
 categories: post
 permalink: /:title/
 image: /assets/oscar.jpg
+spanish_version: /mejores-tasks-y-scripts-con-mise-y-bun-shell
 ---
 
-Recently I've been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.
+Recently I've been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.
 
 # Previous Art
 
 From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I've seen are:
 
-- The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. This was the latest approach that I took, just because I did not know any better tool. Works for simple flows, but brakes down once you need to start parsing params, setting variables, etc.
+- The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.
 - Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a [crate](https://docs.rs/xtasks/latest/xtasks/) aimed at automating some of this pain.
-- Npm scripts, combined with shell scripts
+- Npm tasks that run bash scripts
 - Raw dogging node scripts that spawn processes
 - There are ofc other tools like `make`, `rake`, `Ninja`, etc.
 
-You can see the wild west that this endevaour is. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it's one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.
+It's a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it's one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.
 
 # Mise
 
@@ -27,9 +28,9 @@ I'm a big fan of tool managers. Journey started with `asdf` and I'm now using `m
 
 Let's say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.
 
-# Zx
+# Bun Shell
 
-[`zx`](https://github.com/google/zx) is a package from Google that allows to write better scripts in JS. Basically invoke shell commands within a JS file without dealing with the idiosincracies of bash/zsh/whatever shell you are using.
+The [`Bun Shell`](Bun Shell) is bun's integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.
 
 # Putting it all together
 
@@ -45,13 +46,13 @@ rust = "1.58.0"
 postinstall = "bun install"
 
 [tasks]
-build = "bun zx scripts/build.mjs"
+build = "bun zx scripts/build.mts"
 ```
 
-And a `scripts/build.mjs` that looks like this:
+And a `scripts/build.mts` that looks like this:
 
-```js
-import "zx/globals";
+```ts
+import { $ } from "bun";
 
 // You can do more things here, like parse the arguments, import other files, etc
 await $`cargo build --release`;
