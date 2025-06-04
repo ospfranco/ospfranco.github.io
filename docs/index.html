@@ -53,97 +53,94 @@
 <body class="flex flex-col items-center">
   <div class="max-w-4xl gap-4 p-4 flex flex-col">
     <div class="h-[98vh] flex flex-col justify-end gap-4">
-      <div class="flex-1 flex flex-col items-center justify-center animate-fadeIn gap-4">
-        <div id="nannou-container" class="h-96 w-96 lg:w-[50vh] lg:h-[50vh]"></div>
-        <p class="text-gray-500 text-sm">Nannou Sketch (Rust) compiled to WASM</p>
-        <p>Oscar Pedro Franco</p>
-        <div id="arrow"
-          class="animate-bounce w-6 h-6 bg-gray-800 text-white flex items-center justify-center rounded-full ">
-          ↓
+      <div class="flex-1 flex flex-col items-center justify-center gap-4">
+        <div class="relative group">
+          <div id="nannou-container" class="h-96 w-96 lg:w-[50vh] lg:h-[50vh]" />
+          <p
+            class="text-gray-300 text-xs absolute left-1/2 -translate-x-1/2 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Nannou Sketch → WASM
+          </p>
         </div>
       </div>
-      <img src="/assets/header.jpg" class="w-full h-64 rounded-lg object-cover animate-fadeIn" />
     </div>
-    <p>
-      Bolivian freelance systems engineer. Currently in Barcelona. I like to deep dive into the
-      technical deep end of programming. I have released several open source projects, lead development teams, do
-      content creation and even won a design award.
-    </p>
-
-    <p>Some of my projects:</p>
-    <p>
-      <a class=" hover:no-underline" href="https://github.com/ospfranco/generative_rust">
-        Generative Art
-      </a>
-      — Generative art experiments in Rust.
-    </p>
-
+    <h1 class="font-semibold">Oscar Pedro Franco</h1>
+    <img src="/assets/header.jpg" class="w-full h-64 rounded-lg object-cover animate-fadeIn" />
 
     <p>
-      <a class="hover:no-underline" href="/assets/Ick.zip">
-        Ick
-      </a>
-      — Menu bar app that provides Developer tools, shortcuts and fixes small macOS annoyances.
-    </p>
-
-
-    <p>
-      <a class="hover:no-underline" href="https://sol.ospfranco.com">
-        Sol
-      </a>
-      — An open source macOS launcher
-    </p>
-
-
-    <p>
-      <a class="hover:no-underline" href="https://cidemon.com">
-        CI Demon
-      </a>
-      — Monitor your CI from the menu bar
-    </p>
-
-    <a class="hover:no-underline" href="https://www.newline.co/courses/building-react-native-apps-for-mac">
-      React Native Apps for Mac Online Class
-    </a>
-
-
-    <a class="hover:no-underline" href="https://www.youtube.com/playlist?list=PLanS_SVm5swgrFrqo-NTITZxud4KRmZgB">
-      C++ for JavaScript Devs Youtube Series
-    </a>
-
-    <p>
-      <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-sqlite">
-        OP-SQLite
-      </a>
-      — The fastest embedded SQLite implementation for React Native.
-    </p>
-    <p>
-      <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-s2">
-        OP-S2
-      </a>
-      — Encrypted and hardware backed storage for React Native
-    </p>
-    <p>
-      <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-s2">
-        OP-AWS-LC
-      </a>
-      — AWS LibCrypto with FIPS for React Native
-    </p>
-
-    <p class="mt-4">
-      Find me via <a href="mailto:ospfranco@gmail.com" target="_blank"">Email</a>, <a href=" www.twitter.com/ospfranco"
-        target="_blank"">Twitter</a>, <a href=" https://github.com/ospfranco" target="_blank"">GitHub</a> and <a href="
-        https://youtube.com/ospfranco" target="_blank"">YouTube</a>.
+      Freelance Systems Engineer. Living in Barcelona. Open Source maintainer, led development teams,
+      dable in YouTube. Won the German Design Award 2025 with <a href="https://sol.ospfranco.com">Sol</a>. Follow me on
+      <a href=" https://www.x.com/ospfranco" target="_blank"">X</a> or send me an <a href=" mailto:ospfranco@gmail.com"
+        target="_blank"">e-mail</a>.
     </p>
   </div>
 
   <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
   </div>
 
-  <div class="mt-4 w-full max-w-4xl px-4">
+  <h2 class=" font-semibold">Links</h2>
+
+  <p>
+    <a class="hover:no-underline" href="https://sol.ospfranco.com">
+      Sol
+    </a><br>
+    <span class="text-neutral-500">
+      Open Source macOS Launcher
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://www.newline.co/courses/building-react-native-apps-for-mac">
+      React Native Apps for Mac Online Class
+    </a><br>
+    <span class="text-neutral-500">
+      Online class on how to build React Native apps for macOS
+    </span>
+
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://www.youtube.com/@ospfranco">
+      YouTube
+    </a><br>
+    <span class="text-neutral-500">
+      Tutorials, tips and explanations about React Native, Rust, macOS and more
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-sqlite">
+      op-sqlite
+    </a><br>
+    <span class="text-neutral-500">The fastest SQLite for React Native</span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-s2">
+      op-s2
+    </a><br>
+    <span class="text-neutral-500">
+      Hardware Encrypted Storage for React Native
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-aws-lc">
+      op-aws-lc
+    </a><br>
+    <span class="text-neutral-500">
+      AWS LibCrypto bindings with FIPS for React Native
+    </span>
+  </p>
+
+  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
+  </div>
+
+  <div class="w-full max-w-4xl">
+    <h2 class=" font-semibold">Writing</h2>
+
      
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         April 2025
       </div>
       <ul class="flex flex-col gap-2">
@@ -159,7 +156,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         March 2025
       </div>
       <ul class="flex flex-col gap-2">
@@ -179,7 +176,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         February 2025
       </div>
       <ul class="flex flex-col gap-2">
@@ -195,7 +192,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         January 2025
       </div>
       <ul class="flex flex-col gap-2">
@@ -218,7 +215,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         November 2024
       </div>
       <ul class="flex flex-col gap-2">
@@ -234,7 +231,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         September 2024
       </div>
       <ul class="flex flex-col gap-2">
@@ -257,7 +254,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         June 2024
       </div>
       <ul class="flex flex-col gap-2">
@@ -294,7 +291,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         May 2024
       </div>
       <ul class="flex flex-col gap-2">
@@ -317,7 +314,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         April 2024
       </div>
       <ul class="flex flex-col gap-2">
@@ -333,7 +330,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         December 2023
       </div>
       <ul class="flex flex-col gap-2">
@@ -349,7 +346,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         November 2023
       </div>
       <ul class="flex flex-col gap-2">
@@ -393,7 +390,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         October 2023
       </div>
       <ul class="flex flex-col gap-2">
@@ -416,7 +413,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         August 2023
       </div>
       <ul class="flex flex-col gap-2">
@@ -572,7 +569,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         June 2022
       </div>
       <ul class="flex flex-col gap-2">
@@ -588,7 +585,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         January 2022
       </div>
       <ul class="flex flex-col gap-2">
@@ -604,7 +601,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         December 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -634,7 +631,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         November 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -650,7 +647,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         August 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -666,7 +663,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         July 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -682,7 +679,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         May 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -719,7 +716,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         April 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -749,7 +746,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         February 2021
       </div>
       <ul class="flex flex-col gap-2">
@@ -779,7 +776,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         December 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -795,7 +792,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         September 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -811,7 +808,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         August 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -834,7 +831,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         July 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -850,7 +847,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         June 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -866,7 +863,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         May 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -882,7 +879,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         April 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -898,7 +895,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         February 2020
       </div>
       <ul class="flex flex-col gap-2">
@@ -921,7 +918,7 @@
     </div>
     
     <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2">
+      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
         August 2019
       </div>
       <ul class="flex flex-col gap-2">
@@ -957,7 +954,6 @@
       </ul>
     </div>
     
-  </div>
   </div>
 </body>
 </html>
