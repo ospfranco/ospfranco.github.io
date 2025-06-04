@@ -109,25 +109,25 @@ layout: default
   <div class="w-full max-w-4xl">
     <h2 class=" font-semibold">Writing</h2>
 
-    {% assign postsByMonthYear = site.posts | group_by_exp:"post", "post.date |
-    date: '%B %Y'" %} {% for month in postsByMonthYear %}
-    <div class="flex flex-col">
-      <div class="flex-shrink-0 mt-4 mb-2 text-sm text-neutral-500">
-        {{ month.name }}
-      </div>
-      <ul class="flex flex-col gap-2">
-        {% for post in month.items %}
-        {% if post.is_spanish_version != true %}
-        <li>
-          <a href="{{ post.url }}" class="">{{ post.title }}</a>
+    <ul class="flex flex-col gap-2 mt-4">
+      {% for post in site.posts %}
+      {% if post.is_spanish_version != true %}
+      <li class="flex items-center">
+        <div class="flex items-center">
+          <a href="{{ post.url }}">{{ post.title }}</a>
           {% if post.spanish_version %}
-          <span>- <a href="{{ post.spanish_version }}">Español</a></span>
+          <span class="ml-2">
+            - <a href="{{ post.spanish_version }}">Español</a>
+          </span>
           {% endif %}
-        </li>
-        {% endif %}
-        {% endfor %}
-      </ul>
-    </div>
-    {% endfor %}
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 mx-4"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-24 text-right">
+          {{ post.date | date: "%d %b %Y" }}
+        </span>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
   </div>
 </body>
