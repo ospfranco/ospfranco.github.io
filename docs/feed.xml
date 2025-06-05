@@ -1,4 +1,135 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-06-05T13:30:47+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-06-05T15:59:37+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust tips from a noob</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust tips from a noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use <code>std</code>, etc.</p>
+
+<ul>
+  <li>At least in my experience it’s better to aim for stateless architectures or risk a lot of mutexes, send+sync and hard to understand/easy-to-lock code, if you can avoid global state, the next point is useful ↓</li>
+  <li>
+    <p>Don’t use <code>lazy_static</code> or <code>once_cell</code> crates, their functionality has been incorporated into the standard lib (<code>std</code>) and one can now just use <code>OnceLock</code> and <code>LazyLock</code> to initialize global variables.</p>
+
+    <pre><code class="language-rust">  // ❌ Don't
+  lazy_static! {
+    // your global variables
+  }
+
+  // ✅ Do
+  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
+    LazyLock::new(|| RwLock::new("Hello World!".into()));
+
+</code></pre>
+  </li>
+  <li>
+    <p>Generally speaking <code>RwLock</code> is what you want instead of <code>Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
+
+    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
+// If you don't drop
+drop(my_read_var)
+// This writer will lock
+let mut my_write_var = MY_VAR.write().unwrap();
+</code></pre>
+  </li>
+  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage</li>
+  <li>
+    <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code>, strings must be returned to Rust to be safely de-allocated.</p>
+
+    <pre><code class="language-rust">#[no_mangle]
+unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
+  let data = CString::new("Hello World!".into()).unwrap();
+  data.into_raw() as *mut c_char
+}
+
+// The pointer must be later returned to Rust for safe de-allocation
+#[no_mangle]
+unsafe extern "C" fn free_string(ptr: *mut c_char) {
+    if ptr.is_null() {
+        return;
+    }
+
+    let _ = CString::from_raw(ptr);
+    // Automatically dropped at the end of function
+}
+</code></pre>
+  </li>
+  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code>Result</code> and <code>Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
+  <li>Though Rust is cross-platform compilable, there are many pitfalls which are not obvious.
+    <ul>
+      <li>One that bit me really hard was the lack of access to native TLS certs on Android, which cascaded into OpenSSL being compiled and included in my crate. This then goes down a rabbit hole of <code>nativetls</code> vs <code>rustls</code> crates. If you are targeting multi-platform go with <code>rustls</code> if possible.</li>
+    </ul>
+  </li>
+  <li><code>Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code>aws-lc-rs</code>, so should you.
+    <ul>
+      <li>Migration of community crates is slowly happening towards aws-lc-rs. You might need to toggle features or bump versions to take advantage of this.</li>
+    </ul>
+  </li>
+  <li>Feature flags are great but their real-world usage and behavior is not clear. Scouring the source code might be the only way to get a full understanding of what feature flags are available and what they do. Without this understanding or the by assuming the default features are correct, you might be adding a lot of useless code to your project. This might be tree-shacked during compilation or not. Dangerous. There is no easy way to detect this, except reading through the docs and looking at the source code and see what can you turn off and still get a functioning crate.</li>
+  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing it might be tempting to conditionally compile a lot of code with <code>#[cfg(test)]</code> or <code>#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code>if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones that only float up that might be hiding deeper compilation issues.</li>
+  <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures without a clear flow on how to use the APIs of the crates. Unfortunately scouring the source codes for examples is the best way to understand how to use each crate.</li>
+  <li>Error propagation through <code>?</code> seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to use that with very specific error types.</li>
+  <li>The <code>assert2</code> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
+
+<ul>
+  <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
+  <li>
+    <p>No uses los crates <code>lazy_static</code> o <code>once_cell</code>, su funcionalidad ya está incorporada en la librería estándar (<code>std</code>) y ahora puedes usar <code>OnceLock</code> y <code>LazyLock</code> para inicializar variables globales.</p>
+
+    <pre><code class="language-rust">  // ❌ No hagas esto
+  lazy_static! {
+    // tus variables globales
+  }
+
+  // ✅ Haz esto
+  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
+    LazyLock::new(|| RwLock::new("Hello World!".into()));
+</code></pre>
+  </li>
+  <li>
+    <p>Generalmente, <code>RwLock</code> es lo que quieres en vez de <code>Mutex</code>. Permite múltiples lectores sin bloquear completamente tu proceso. Eso sí, si vas a leer y escribir en la misma función, ¡es muy importante liberar cualquier lock de lectura!</p>
+
+    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
+// Si no haces drop
+drop(my_read_var)
+// Este writer se bloqueará
+let mut my_write_var = MY_VAR.write().unwrap();
+</code></pre>
+  </li>
+  <li>Agregar WASM después puede ser doloroso, ya que WASM no es multi-hilo. El código async podría necesitar ser refactorizado o compilado con <code>cfg</code>s para evitar traits async, uso de send+sync, etc.</li>
+  <li>
+    <p>Si expones una API en C y devuelves <code>std::ffi::Cstring</code>, las cadenas deben ser devueltas a Rust para ser liberadas de forma segura.</p>
+
+    <pre><code class="language-rust">#[no_mangle]
+unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
+  let data = CString::new("Hello World!".into()).unwrap();
+  data.into_raw() as *mut c_char
+}
+
+// El puntero debe ser devuelto a Rust para su liberación segura
+#[no_mangle]
+unsafe extern "C" fn free_string(ptr: *mut c_char) {
+    if ptr.is_null() {
+        return;
+    }
+
+    let _ = CString::from_raw(ptr);
+    // Se libera automáticamente al final de la función
+}
+</code></pre>
+  </li>
+  <li>Puede que tu equipo no esté acostumbrado a ciertos patrones tipo mónada, como <code>Result</code> y <code>Option</code>. Permiten un código Rust muy idiomático y conciso. Fomenta su uso.</li>
+  <li>Aunque Rust es cross-platform, hay muchas trampas no obvias.
+    <ul>
+      <li>Una que me afectó mucho fue la falta de acceso a los certificados TLS nativos en Android, lo que llevó a que OpenSSL se compilara e incluyera en mi crate. Esto lleva a un lío entre los crates <code>nativetls</code> y <code>rustls</code>. Si apuntas a multiplataforma, usa <code>rustls</code> si es posible.</li>
+    </ul>
+  </li>
+  <li><code>Ring</code> está siendo deprecado/abandonado, muchas librerías están migrando a <code>aws-lc-rs</code>, tú también deberías.
+    <ul>
+      <li>La migración de los crates de la comunidad hacia aws-lc-rs está ocurriendo poco a poco. Puede que necesites activar features o subir versiones para aprovechar esto.</li>
+    </ul>
+  </li>
+  <li>Los feature flags son geniales, pero su uso y comportamiento real no siempre es claro. Revisar el código fuente puede ser la única forma de entender qué features hay y qué hacen. Si asumes que los features por defecto son correctos, podrías estar agregando mucho código inútil a tu proyecto. Esto puede ser eliminado en la compilación o no. Peligroso. No hay una forma fácil de detectar esto, salvo leer la documentación y ver el código fuente para ver qué puedes desactivar y seguir teniendo un crate funcional.</li>
+  <li>La compilación condicional es muy poderosa pero también peligrosa. Para facilitar pruebas puede ser tentador compilar condicionalmente mucho código con <code>#[cfg(test)]</code> o <code>#[cfg(debug)]</code>, pero esto puede causar problemas a futuro con errores ocultos que no se detectan durante el desarrollo. He visto que usar <code>if cfg!(test)</code> a veces es mejor, ya que todas las ramas del código se compilan y se evitan zonas muertas de compilación que pueden esconder problemas más profundos.</li>
+  <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
+  <li>Propagar errores con <code>?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
+  <li>El crate <code>assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
 
 <p>First one that seems non-solvable are transfer speeds. The 3 would do 10 to 20 mbits/s transfer. This new one seems to be a lot slower 1 to 3 mbits/second. Scouring online, seems to suggest one needs to turn off celullar data and the issue might go away. Big problem, but nothing I can do about that.</p>
 
@@ -442,310 +573,4 @@ exec "$NODE_BASE_DIR/npx" "$@"%
 <pre><code>sudo chmod a+x /usr/local/bin/npx
 </code></pre>
 
-<p>You might need to restart your program or computer for the binary to be correctly found. This should also work for any other scripts binaries you might have an issue. If you are worried about modifying <code>/usr/local/bin</code> don’t be. It’s a per user folder where symlinks and binaries can be placed. Lots of programs add links to their binaries here to make them globally available to other GUI tools: VSCode, Parallels, etc.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a very big fan of Mise. It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert (even with Homebrew), Mise handles all multiple installations on a per folder level.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Compiling OpenSSL in Rust for Android</title><link href="https://ospfranco.com/compiling-openssl-in-rust-for-android/" rel="alternate" type="text/html" title="Compiling OpenSSL in Rust for Android" /><published>2024-09-21T00:00:00+02:00</published><updated>2024-09-21T00:00:00+02:00</updated><id>https://ospfranco.com/compiling%20openssl%20in%20rust%20for%20android</id><content type="html" xml:base="https://ospfranco.com/compiling-openssl-in-rust-for-android/"><![CDATA[<p>There is now a long standing issue with the latest versions of OpenSSL. <a href="https://github.com/openssl/openssl/pull/22181">The handwritten assembly is incompatible with Position Independent Code</a>. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.</p>
-
-<p>As a side note, the NDK port of <a href="https://github.com/android/ndk/issues/1992">OpenSSL is still on version 1.1.1 which is EOL</a>. This is a huge vunerability for Android but it seems the NDK team has no priority on updating this.</p>
-
-<p>In a client project I’m using Rust which depends on OpenSSL. This has left me no choice other than to patch OpenSSL myself, so I get it to compile to Android platforms.</p>
-
-<h1 id="compiling-openssl">Compiling OpenSSL</h1>
-
-<p>Here is a script that will download and compile OpenSSL for Android directly. It already includes the patching described in the GitHub issue to patch the handcrafted assembly.</p>
-
-<pre><code class="language-bash">#!/bin/bash
-
-# Clone or download the sources (it's done for you at below)
-# You should most definitely read the ANDROID notes to see the exact command. A lot of the scripts online are outdated for the 1.X branches
-# You basically need to set the ANDROID_NDK_HOME variable for this script to work
-# Generating the dylibs was failing for me, so disabled it for now
-
-#set -v
-set -ex
-
-export OPENSSL_VERSION="openssl-3.3.2"
-rm -rf ${OPENSSL_VERSION}
-# Sometimes this link breaks, you can manually download the sources yourself
-# curl -O "https://github.com/openssl/openssl/releases/download/${OPENSSL_VERSION}/${OPENSSL_VERSION}.tar.gz"
-tar xfz "${OPENSSL_VERSION}.tar.gz"
-
-PROJECT_HOME=`pwd`
-PATH_ORG=$PATH
-OUTPUT_DIR="libs"
-
-# Clean output:
-rm -rf $OUTPUT_DIR
-mkdir $OUTPUT_DIR
-
-build_android_clang() {
-
-	echo ""
-	echo "----- Build libcrypto &amp; libssl.so for "$1" -----"
-	echo ""
-
-	ARCHITECTURE=$1
-	TOOLCHAIN=$2
-	stl="libc++"
-
-	# Set toolchain
-	export TOOLCHAIN_ROOT=$ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64
-	export SYSROOT=$TOOLCHAIN_ROOT/sysroot
-	export CC=${TOOLCHAIN}21-clang
-	export CXX=${TOOLCHAIN}21-clang++
-	export CXXFLAGS="-fPIC"
-	export CPPFLAGS="-DANDROID -fPIC"
-
-	export PATH=$TOOLCHAIN_ROOT/bin:$SYSROOT/usr/local/bin:$PATH
-
-	cd "${OPENSSL_VERSION}"
-
-	./Configure $ARCHITECTURE no-asm no-shared -D__ANDROID_API__=21
-
-	make clean
-	# Apply patch that fixes the armcap instruction
-	# Linux version
-	# sed -e '/[.]hidden.*OPENSSL_armcap_P/d; /[.]extern.*OPENSSL_armcap_P/ {p; s/extern/hidden/ }' -i -- crypto/*arm*pl crypto/*/asm/*arm*pl
-	# macOS version
-	sed -E -i '' -e '/[.]hidden.*OPENSSL_armcap_P/d' -e '/[.]extern.*OPENSSL_armcap_P/ {p; s/extern/hidden/; }' crypto/*arm*pl crypto/*/asm/*arm*pl
-
-	make
-
-	mkdir -p ../$OUTPUT_DIR/${ARCHITECTURE}/lib
-	mkdir -p ../$OUTPUT_DIR/${ARCHITECTURE}/include
-
-	cp libcrypto.a ../$OUTPUT_DIR/${ARCHITECTURE}/lib/libcrypto.a
-	cp libssl.a ../$OUTPUT_DIR/${ARCHITECTURE}/lib/libssl.a
-
-	cp -R include/openssl ../$OUTPUT_DIR/${ARCHITECTURE}/include
-
-	cd ..
-}
-
-build_android_clang "android-arm" "armv7a-linux-androideabi"
-build_android_clang "android-x86" "i686-linux-android"
-build_android_clang "android-x86_64" "x86_64-linux-android"
-build_android_clang "android-arm64" "aarch64-linux-android"
-</code></pre>
-
-<p>This script will create a <code>libs</code> folder, which contains all the files in the necessary structure.</p>
-
-<h1 id="compiling-rust-crate">Compiling Rust crate</h1>
-
-<p>In order to compile this in your Rust crate you need to first add the crates:</p>
-
-<pre><code class="language-toml">openssl = "0.10"
-openssl-sys = "0.9.103"
-</code></pre>
-
-<p><code>openssl</code> is a bindings crate for the Rust code, but the openssl-sys takes care of compiling/detecting OpenSSL itself.</p>
-
-<p>With this crates added, we can then invoke the compilation command with an added flag <code>OPENSSL_DIR</code> which <code>openssl-sys</code> will detect and instead of compiling OpenSSL from source will use the precompiled static libraries we generated.</p>
-
-<p>Here I’m using <code>cargo-ndk</code> which is a crate that does the SDK/NDK discovery for you so you can easily compile for android. This is a <code>Makefile</code> version, but you can use whatever you want to point to it to the correct folder that matches the architecture:</p>
-
-<pre><code class="language-make">android-build-release-%:
-	@ if [ "$*" = "aarch64-linux-android" ]; then \
-			OPENSSL_DIR=$(CURDIR)/libs/android-arm64; \
-	  elif [ "$*" = "x86_64-linux-android" ]; then \
-	    OPENSSL_DIR=$(CURDIR)/libs/android-x86_64; \
-	  elif [ "$*" = "armv7-linux-androideabi" ]; then \
-	    OPENSSL_DIR=$(CURDIR)/libs/android-arm; \
-	  elif [ "$*" = "i686-linux-android" ]; then \
-	    OPENSSL_DIR=$(CURDIR)/libs/android-x86; \
-	  else \
-	    echo "Unknown target: $*"; \
-	    exit 1; \
-	  fi; \
-	  OPENSSL_DIR=$$OPENSSL_DIR cargo ndk --target $* --platform 31 build --release --all-features
-</code></pre>
-
-<p>Once everything is ready, will not only the Android binary be correct, you will actually be using the latest version of OpenSSL instead of the outdated NDK ports.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[There is now a long standing issue with the latest versions of OpenSSL. The handwritten assembly is incompatible with Position Independent Code. While this issue is not resolved it means the latest versions of OpenSSL do not run on Android.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">App clip with React Native and New Arch (and Swift)</title><link href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" rel="alternate" type="text/html" title="App clip with React Native and New Arch (and Swift)" /><published>2024-06-30T00:00:00+02:00</published><updated>2024-06-30T00:00:00+02:00</updated><id>https://ospfranco.com/app%20clip%20with%20react%20native%20and%20new%20arch%20(and%20swift)</id><content type="html" xml:base="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"><![CDATA[<p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
-
-<p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
-
-<ul>
-  <li>Add a new target to your project. Select Swift and StoryBoard.</li>
-</ul>
-
-<p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
-
-<ul>
-  <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
-</ul>
-
-<pre><code class="language-sh">yarn add @rnx-kit/react-native-host --dev
-</code></pre>
-
-<ul>
-  <li>Modify your <code>podfile</code></li>
-</ul>
-
-<pre><code class="language-ruby">  # In your main app target add the following
-
-  # Auto linking is broken on this package
-  # https://github.com/microsoft/rnx-kit/issues/3208
-  pod 'ReactNativeHost', :path =&gt; "../node_modules/@rnx-kit/react-native-host"
-
-  target 'Clip' do
-    inherit! :complete
-    # Pods for Clip
-  end
-</code></pre>
-
-<ul>
-  <li>Do a new arch pod install</li>
-</ul>
-
-<pre><code class="language-sh">cd ios &amp;&amp; RCT_NEW_ARCH_ENABLED=1 pod install
-</code></pre>
-
-<ul>
-  <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
-</ul>
-
-<p><img src="https://ospfranco.com/assets/appclip2.jpg" alt="appclip2" /></p>
-
-<pre><code class="language-swift">import Foundation
-import React
-import ReactNativeHost
-
-class BridgeManager: NSObject {
-    static let shared = BridgeManager()
-
-    var host: ReactNativeHost?
-
-    public func loadReactNative(launchOptions: [AnyHashable: Any]?) {
-      host = ReactNativeHost(self)
-    }
-}
-
-extension BridgeManager: RNXHostConfig {
-  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-        #if DEBUG
-          return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index.clip")
-        #else
-            return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-        #endif
-    }
-}
-</code></pre>
-
-<p>In order for the DEBUG preprocessor macro to run, we need to add the DEBUG flag into the build settings of the Clip target</p>
-
-<p><img src="https://ospfranco.com/assets/appclip5.jpg" alt="appclip5" /></p>
-
-<ul>
-  <li>We are going to modify the <code>AppDelegate.m</code> at the Clip target:</li>
-</ul>
-
-<pre><code class="language-swift">import React
-import ReactNativeHost
-import UIKit
-
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
-
-  var window: UIWindow?
-
-  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-    return nil
-  }
-
-  func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -&gt; Bool {
-    BridgeManager.shared.loadReactNative(launchOptions: launchOptions)
-    // Override point for customization after application launch.
-    return true
-  }
-
-  // MARK: UISceneSession Lifecycle
-
-  func application(
-    _ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession,
-    options: UIScene.ConnectionOptions
-  ) -&gt; UISceneConfiguration {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return UISceneConfiguration(
-      name: "Default Configuration", sessionRole: connectingSceneSession.role)
-  }
-
-  func application(
-    _ application: UIApplication, didDiscardSceneSessions sceneSessions: Set&lt;UISceneSession&gt;
-  ) {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-  }
-}
-</code></pre>
-
-<ul>
-  <li>We can the finally load the <code>RCTRootView</code> (the view that holds RN) into the app clip controller</li>
-</ul>
-
-<pre><code class="language-swift">import UIKit
-import ReactNativeHost
-
-class ViewController: UIViewController {
-
-  override func loadView() {
-    if let host = BridgeManager.shared.host {
-          self.view = host.view(
-              moduleName: "clip",
-              initialProperties: nil
-          )
-      }
-
-  }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
-
-
-}
-</code></pre>
-
-<ul>
-  <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
-</ul>
-
-<p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
-
-<pre><code class="language-sh">set -e
-
-WITH_ENVIRONMENT="$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh"
-REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
-
-/bin/sh -c "ENTRY_FILE=index.clip.js $WITH_ENVIRONMENT $REACT_NATIVE_XCODE"
-</code></pre>
-
-<ul>
-  <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
-</ul>
-
-<p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
-
-<ul>
-  <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
-</ul>
-
-<pre><code class="language-js">import React from "react";
-import { AppRegistry, View, Text } from "react-native";
-
-const AppClip = () =&gt; (
-  &lt;View&gt;
-    &lt;Text&gt;Hello,&lt;/Text&gt;
-    &lt;Text&gt;I'm your AppClip!&lt;/Text&gt;
-  &lt;/View&gt;
-);
-
-AppRegistry.registerComponent("clip", () =&gt; AppClip);
-</code></pre>
-
-<p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
-
-<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>You might need to restart your program or computer for the binary to be correctly found. This should also work for any other scripts binaries you might have an issue. If you are worried about modifying <code>/usr/local/bin</code> don’t be. It’s a per user folder where symlinks and binaries can be placed. Lots of programs add links to their binaries here to make them globally available to other GUI tools: VSCode, Parallels, etc.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a very big fan of Mise. It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert (even with Homebrew), Mise handles all multiple installations on a per folder level.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
