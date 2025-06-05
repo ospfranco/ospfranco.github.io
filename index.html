@@ -6,12 +6,24 @@ layout: default
   import init, { main_web } from '/assets/wasm/nannou_web_test.js';
 
   async function startNannouApp() {
+    const container = document.getElementById("nannou-container");
+    const isBrave = navigator.userAgent.includes("Brave") || 
+                  (window.navigator && window.navigator.brave !== undefined);
+    
+    if (isBrave) {
+      const noteDiv = document.createElement('div');
+      noteDiv.className = "absolute top-0 left-0 right-0 bg-neutral-50/10 backdrop-blur p-2 rounded-md text-xs z-10 flex flex-col items-center justify-center text-neutral-400";
+      noteDiv.innerHTML = `
+        If the WASM sketch doesn't appear, please disable Brave Shields for this site
+      `;
+      container.parentNode.insertBefore(noteDiv, container);
+    }
     try {
       // Initialize the WASM module
       await init('/assets/wasm/nannou_web_test_bg.wasm');
 
       // Call your exported function
-      main_web("nannou-container");
+      await main_web("nannou-container");
     } catch (error) {
       console.error("Failed to load Nannou WASM module:", error);
     }
