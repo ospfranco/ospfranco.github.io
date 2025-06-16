@@ -125,16 +125,14 @@ layout: default
       {% for post in site.posts %}
       {% if post.is_spanish_version != true %}
       <li class="flex items-center">
-        <div class="flex items-center">
+        <p>
           <a href="{{ post.url }}">{{ post.title }}</a>
           {% if post.spanish_version %}
-          <span class="ml-2">
-            - <a href="{{ post.spanish_version }}">Español</a>
-          </span>
+          &nbsp;|&nbsp;<a href="{{ post.spanish_version }}">Español</a>
           {% endif %}
-        </div>
-        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 mx-4"></div>
-        <span class="text-sm text-neutral-500 whitespace-nowrap w-24 text-right">
+        </p>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
           {{ post.date | date: "%d %b %Y" }}
         </span>
       </li>
