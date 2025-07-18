@@ -34,7 +34,7 @@ layout: default
 </script>
 
 <body class="flex flex-col items-center">
-  <div class="max-w-4xl gap-4 p-4 flex flex-col">
+  <div class="max-w-4xl w-full gap-4 p-4 flex flex-col">
     <div class="h-[98vh] flex flex-col justify-end gap-4">
       <div class="flex-1 flex flex-col items-center justify-center gap-4">
         <div class="relative group">
@@ -46,7 +46,9 @@ layout: default
         </div>
       </div>
     </div>
-    <h1 class="font-semibold">Oscar Pedro Franco</h1>
+
+    <h1 class="text-xl">Oscar Franco</h1>
+
     <img src="{{site.baseurl}}/assets/header.jpg" class="w-full h-64 rounded-lg object-cover animate-fadeIn" />
 
     <p>
@@ -125,12 +127,16 @@ layout: default
       {% for post in site.posts %}
       {% if post.is_spanish_version != true %}
       <li class="flex items-center">
-        <p>
-          <a href="{{ post.url }}">{{ post.title }}</a>
+        <div>
+          <p>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </p>
           {% if post.spanish_version %}
-          &nbsp;|&nbsp;<a href="{{ post.spanish_version }}">Español</a>
+          <p class="text-xs">
+            <a href="{{ post.spanish_version }}">Español</a>
+          </p>
           {% endif %}
-        </p>
+        </div>
         <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
         <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
           {{ post.date | date: "%d %b %Y" }}
