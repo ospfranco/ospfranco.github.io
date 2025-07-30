@@ -106,7 +106,7 @@ crate-type = ["cdylib"]
 
 <p>That’s the simple version of it. As your library grows and depends on other compilation steps you will need to modify your commands accordingly. Maybe setting a sysroot. Passing header files, setting up compiler files, etc.</p>
 
-<p>If you compile your crate in your <code>target/{arch}</code> directories you should find a <code>.dylib</code> for iOS and a <code>.so</code> for Android. Going to skip some steps here for the sake of brevity, buy you should set <code>cbindgen</code> in your project along with a <code>build.rs</code> that generates a header file <code>.h</code> for your crates C (<code>lib.rs</code>) functions. The <code>rustc-link-arg</code> will be explained later.</p>
+<p>Once compilation is done, in the <code>target/{arch}</code> directories you should find a <code>.dylib</code> for iOS and a <code>.so</code> for Android. Going to skip some steps here for the sake of brevity, buy you should set <code>cbindgen</code> in your project along with a <code>build.rs</code> that generates a header file <code>.h</code> for your crates C (<code>lib.rs</code>) functions.</p>
 
 <pre><code class="language-rust">extern crate cbindgen;
 
@@ -132,6 +132,7 @@ fn main() {
     println!("cargo:rerun-if-changed=src/lib.rs");
 
     // Tell cargo to dynamically link the C function we defined
+    // We will come back to this later
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     match target_os.as_str() {

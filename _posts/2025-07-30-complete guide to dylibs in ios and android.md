@@ -56,7 +56,7 @@ cargo ndk --target aarch64-linux-android --platform=31 build --lib
 
 That's the simple version of it. As your library grows and depends on other compilation steps you will need to modify your commands accordingly. Maybe setting a sysroot. Passing header files, setting up compiler files, etc.
 
-If you compile your crate in your `target/{arch}` directories you should find a `.dylib` for iOS and a `.so` for Android. Going to skip some steps here for the sake of brevity, buy you should set `cbindgen` in your project along with a `build.rs` that generates a header file `.h` for your crates C (`lib.rs`) functions. The `rustc-link-arg` will be explained later.
+Once compilation is done, in the `target/{arch}` directories you should find a `.dylib` for iOS and a `.so` for Android. Going to skip some steps here for the sake of brevity, buy you should set `cbindgen` in your project along with a `build.rs` that generates a header file `.h` for your crates C (`lib.rs`) functions.
 
 ```rust
 extern crate cbindgen;
@@ -83,6 +83,7 @@ fn main() {
     println!("cargo:rerun-if-changed=src/lib.rs");
 
     // Tell cargo to dynamically link the C function we defined
+    // We will come back to this later
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     match target_os.as_str() {

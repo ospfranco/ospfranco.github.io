@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-07-30T15:19:17+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-07-30T15:20:47+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
 
 <h2 id="ios">iOS</h2>
 
@@ -97,7 +97,7 @@ crate-type = ["cdylib"]
 
 <p>That’s the simple version of it. As your library grows and depends on other compilation steps you will need to modify your commands accordingly. Maybe setting a sysroot. Passing header files, setting up compiler files, etc.</p>
 
-<p>If you compile your crate in your <code>target/{arch}</code> directories you should find a <code>.dylib</code> for iOS and a <code>.so</code> for Android. Going to skip some steps here for the sake of brevity, buy you should set <code>cbindgen</code> in your project along with a <code>build.rs</code> that generates a header file <code>.h</code> for your crates C (<code>lib.rs</code>) functions. The <code>rustc-link-arg</code> will be explained later.</p>
+<p>Once compilation is done, in the <code>target/{arch}</code> directories you should find a <code>.dylib</code> for iOS and a <code>.so</code> for Android. Going to skip some steps here for the sake of brevity, buy you should set <code>cbindgen</code> in your project along with a <code>build.rs</code> that generates a header file <code>.h</code> for your crates C (<code>lib.rs</code>) functions.</p>
 
 <pre><code class="language-rust">extern crate cbindgen;
 
@@ -123,6 +123,7 @@ fn main() {
     println!("cargo:rerun-if-changed=src/lib.rs");
 
     // Tell cargo to dynamically link the C function we defined
+    // We will come back to this later
     let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
 
     match target_os.as_str() {
