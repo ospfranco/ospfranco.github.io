@@ -134,7 +134,12 @@ cp generated/simulator_fat/mylib mylib.xcframework/ios-arm64_x86_64-simulator/my
 cp target/aarch64-apple-ios/${profile}/mylib.dylib mylib.xcframework/ios-arm64/mylib.framework/mylib
 ```
 
-3. With the files in the correct places we need to final set the `@rpath`. The runtime path (@rpath) basically tells the OS where to find the canonical path of the file. It's mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don't think too much about it, it has to do with sand-boxing and security of the OS.
+3. With the files in the correct places we need to final set the `@rpath`. The runtime path basically tells the OS where to find the canonical path of the file. It's mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don't think too much about it, it has to do with sand-boxing and security of the OS.
+
+```bash
+install_name_tool -id @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64_x86_64-simulator/sdk.framework/mylib
+install_name_tool -id @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64/sdk.framework/mylib
+```
 
 ## XCFramework
 
