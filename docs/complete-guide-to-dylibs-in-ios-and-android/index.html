@@ -99,7 +99,7 @@ crate-type = ["cdylib"]
 <pre><code class="language-bash">cargo build --lib --release --target aarch64-apple-ios
 </code></pre>
 
-<p>For Android one needs to set up a lot of variables pointing to the correct android libraries, headers and compilers. It’s all a PITA to be honest, so we are not going to bother with that, and instead rely on <code>cargo-ndk</code> a package that handles the correct paths for us. Read the README, set up the necessary variables and you should be able to do:</p>
+<p>For Android one needs to set up a lot of variables pointing to the correct android libraries, headers and compilers. It’s all a PITA to be honest, so we are not going to bother with that, and instead rely on <code>cargo-ndk</code> a package that handles the correct paths for us. Read the <a href="https://github.com/bbqsrc/cargo-ndk">README</a>, set up the necessary variables and you should be able to do:</p>
 
 <pre><code class="language-bash">cargo ndk --target aarch64-linux-android --platform=31 build --lib
 </code></pre>
@@ -311,7 +311,7 @@ cp target/aarch64-apple-ios/${profile}/mylib.dylib mylib.xcframework/ios-arm64/m
 
 <p>In <code>CMakeLists.txt</code>:</p>
 
-<pre><code class="language-cmake">cmake_minimum_required(VERSION 3.22.1)
+<pre><code>cmake_minimum_required(VERSION 3.22.1)
 
 project("MyJNIProject")
 
@@ -407,7 +407,7 @@ EXPORT void ios_prepare_request(const char *url) {
 
 <p>Android is much easier, only adding the <code>IMPORTED_NO_SONAME</code> attribute when declaring our shared library already takes care of exposing the symbols:</p>
 
-<pre><code class="language-cmake">set_target_properties(mylib PROPERTIES
+<pre><code>set_target_properties(mylib PROPERTIES
     IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/mylib.so
     IMPORTED_NO_SONAME ON)
 </code></pre>

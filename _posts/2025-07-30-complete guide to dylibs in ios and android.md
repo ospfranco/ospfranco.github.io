@@ -48,7 +48,7 @@ Now, you will need to compile your crate for both iOS and Android. For iOS is mo
 cargo build --lib --release --target aarch64-apple-ios
 ```
 
-For Android one needs to set up a lot of variables pointing to the correct android libraries, headers and compilers. It's all a PITA to be honest, so we are not going to bother with that, and instead rely on `cargo-ndk` a package that handles the correct paths for us. Read the README, set up the necessary variables and you should be able to do:
+For Android one needs to set up a lot of variables pointing to the correct android libraries, headers and compilers. It's all a PITA to be honest, so we are not going to bother with that, and instead rely on `cargo-ndk` a package that handles the correct paths for us. Read the [README](https://github.com/bbqsrc/cargo-ndk), set up the necessary variables and you should be able to do:
 
 ```bash
 cargo ndk --target aarch64-linux-android --platform=31 build --lib
@@ -262,7 +262,7 @@ The `jniLibs` folder is special and will be automatically picked up by Android i
 
 In `CMakeLists.txt`:
 
-```cmake
+```
 cmake_minimum_required(VERSION 3.22.1)
 
 project("MyJNIProject")
@@ -367,7 +367,7 @@ void force_symbol_registration() {
 
 Android is much easier, only adding the `IMPORTED_NO_SONAME` attribute when declaring our shared library already takes care of exposing the symbols:
 
-```cmake
+```
 set_target_properties(mylib PROPERTIES
     IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/mylib.so
     IMPORTED_NO_SONAME ON)
