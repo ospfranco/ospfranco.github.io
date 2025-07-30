@@ -29,7 +29,7 @@ pub extern "C" fn get_answer() -> i32 {
 }
 ```
 
-Next on the `Cargo.toml`, we will declare the crate type as `cdylib`. the `cdylib` assumes that libc will be available on the target you are compiling to, so it will produce even smaller binaries. We will also add some flags to the release compilation profile to generate even smaller binaries:
+Next on the `Cargo.toml`, we will declare the crate type as `cdylib`. The `cdylib` crate type assumes that libc will be available on the target you are compiling to, so it will produce even smaller binaries. We will also add some flags to the release compilation profile to generate even smaller binaries:
 
 ```toml
 [profile.release]
