@@ -1,4 +1,123 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-07-18T15:53:37+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust tips from a noob</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust tips from a noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use <code>std</code>, etc.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-07-30T13:19:08+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+
+<h2 id="ios">iOS</h2>
+
+<ul>
+  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code>eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
+  <li>Create a push notification key. This key is for ALL of the apps in the organization
+    <ol>
+      <li>Go to https://developer.apple.com/account and log in.</li>
+      <li>Navigate to “keys”</li>
+      <li>Register new key</li>
+      <li>Select Apple Push Notifications service</li>
+      <li>Select BOTH sandbox and production ⚠️</li>
+      <li>Create key, download p8 and copy the key id</li>
+    </ol>
+  </li>
+  <li>Take that p8 file and the key id and upload it to the <code>credentials</code> section of <code>expo.dev</code> in the <code>Push Key</code> section</li>
+  <li>Install the deps</li>
+</ul>
+
+<pre><code class="language-bash">npx expo install expo-notifications expo-device expo-constants
+</code></pre>
+
+<ul>
+  <li>Add <code>expo-notifications</code> to the list of plugins on <code>app.config.ts</code></li>
+  <li>Make sure on <code>app.config.ts</code> this section is set:</li>
+</ul>
+
+<pre><code class="language-json">    extra: {
+      eas: {
+        projectId: "foo-a-uuid-quack",
+      },
+    },
+</code></pre>
+
+<ul>
+  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code>expoPushToken</code>)</li>
+  <li>In the snippet the so called <code>expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
+  <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
+  <li>For production, on app start get the <code>expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
+    <ul>
+      <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="android">Android</h2>
+
+<p>Following the <a href="https://docs.expo.dev/push-notifications/fcm-credentials/">Obtain Google Service Account Keys using FCM v1</a> works. There is, however, things to watch out for:</p>
+
+<ul>
+  <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
+  <li>I was testing with the <code>.jks</code> generated by expo (downloaded via <code>eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code>firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code>prebuild</code> and just left the default generated Keystore notifications worked.</li>
+  <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
+
+<ul>
+  <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
+  <li>
+    <p>No uses los crates <code>lazy_static</code> o <code>once_cell</code>, su funcionalidad ya está incorporada en la librería estándar (<code>std</code>) y ahora puedes usar <code>OnceLock</code> y <code>LazyLock</code> para inicializar variables globales.</p>
+
+    <pre><code class="language-rust">  // ❌ No hagas esto
+  lazy_static! {
+    // tus variables globales
+  }
+
+  // ✅ Haz esto
+  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
+    LazyLock::new(|| RwLock::new("Hello World!".into()));
+</code></pre>
+  </li>
+  <li>
+    <p>Generalmente, <code>RwLock</code> es lo que quieres en vez de <code>Mutex</code>. Permite múltiples lectores sin bloquear completamente tu proceso. Eso sí, si vas a leer y escribir en la misma función, ¡es muy importante liberar cualquier lock de lectura!</p>
+
+    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
+// Si no haces drop
+drop(my_read_var)
+// Este writer se bloqueará
+let mut my_write_var = MY_VAR.write().unwrap();
+</code></pre>
+  </li>
+  <li>Agregar WASM después puede ser doloroso, ya que WASM no es multi-hilo. El código async podría necesitar ser refactorizado o compilado con <code>cfg</code>s para evitar traits async, uso de send+sync, etc.</li>
+  <li>
+    <p>Si expones una API en C y devuelves <code>std::ffi::Cstring</code>, las cadenas deben ser devueltas a Rust para ser liberadas de forma segura.</p>
+
+    <pre><code class="language-rust">#[no_mangle]
+unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
+  let data = CString::new("Hello World!".into()).unwrap();
+  data.into_raw() as *mut c_char
+}
+
+// El puntero debe ser devuelto a Rust para su liberación segura
+#[no_mangle]
+unsafe extern "C" fn free_string(ptr: *mut c_char) {
+    if ptr.is_null() {
+        return;
+    }
+
+    let _ = CString::from_raw(ptr);
+    // Se libera automáticamente al final de la función
+}
+</code></pre>
+  </li>
+  <li>Puede que tu equipo no esté acostumbrado a ciertos patrones tipo mónada, como <code>Result</code> y <code>Option</code>. Permiten un código Rust muy idiomático y conciso. Fomenta su uso.</li>
+  <li>Aunque Rust es cross-platform, hay muchas trampas no obvias.
+    <ul>
+      <li>Una que me afectó mucho fue la falta de acceso a los certificados TLS nativos en Android, lo que llevó a que OpenSSL se compilara e incluyera en mi crate. Esto lleva a un lío entre los crates <code>nativetls</code> y <code>rustls</code>. Si apuntas a multiplataforma, usa <code>rustls</code> si es posible.</li>
+    </ul>
+  </li>
+  <li><code>Ring</code> está siendo deprecado/abandonado, muchas librerías están migrando a <code>aws-lc-rs</code>, tú también deberías.
+    <ul>
+      <li>La migración de los crates de la comunidad hacia aws-lc-rs está ocurriendo poco a poco. Puede que necesites activar features o subir versiones para aprovechar esto.</li>
+    </ul>
+  </li>
+  <li>Los feature flags son geniales, pero su uso y comportamiento real no siempre es claro. Revisar el código fuente puede ser la única forma de entender qué features hay y qué hacen. Si asumes que los features por defecto son correctos, podrías estar agregando mucho código inútil a tu proyecto. Esto puede ser eliminado en la compilación o no. Peligroso. No hay una forma fácil de detectar esto, salvo leer la documentación y ver el código fuente para ver qué puedes desactivar y seguir teniendo un crate funcional.</li>
+  <li>La compilación condicional es muy poderosa pero también peligrosa. Para facilitar pruebas puede ser tentador compilar condicionalmente mucho código con <code>#[cfg(test)]</code> o <code>#[cfg(debug)]</code>, pero esto puede causar problemas a futuro con errores ocultos que no se detectan durante el desarrollo. He visto que usar <code>if cfg!(test)</code> a veces es mejor, ya que todas las ramas del código se compilan y se evitan zonas muertas de compilación que pueden esconder problemas más profundos.</li>
+  <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
+  <li>Propagar errores con <code>?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
+  <li>El crate <code>assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips from a noob</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust tips from a noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use <code>std</code>, etc.</p>
 
 <ul>
   <li>At least in my experience it’s better to aim for stateless architectures than to risk a lot of mutexes, send+sync and hard to understand/easy-to-lock code. If you can avoid global state, the next point is useful ↓</li>
@@ -64,72 +183,7 @@ unsafe extern "C" fn free_string(ptr: *mut c_char) {
   <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures without a clear flow on how to use the APIs of the crates. Unfortunately scouring the source repos for examples is the best way to understand how to use each crate.</li>
   <li>Error propagation through <code>?</code> seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to use that with very specific error types.</li>
   <li>The <code>assert2</code> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
-
-<ul>
-  <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
-  <li>
-    <p>No uses los crates <code>lazy_static</code> o <code>once_cell</code>, su funcionalidad ya está incorporada en la librería estándar (<code>std</code>) y ahora puedes usar <code>OnceLock</code> y <code>LazyLock</code> para inicializar variables globales.</p>
-
-    <pre><code class="language-rust">  // ❌ No hagas esto
-  lazy_static! {
-    // tus variables globales
-  }
-
-  // ✅ Haz esto
-  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
-    LazyLock::new(|| RwLock::new("Hello World!".into()));
-</code></pre>
-  </li>
-  <li>
-    <p>Generalmente, <code>RwLock</code> es lo que quieres en vez de <code>Mutex</code>. Permite múltiples lectores sin bloquear completamente tu proceso. Eso sí, si vas a leer y escribir en la misma función, ¡es muy importante liberar cualquier lock de lectura!</p>
-
-    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
-// Si no haces drop
-drop(my_read_var)
-// Este writer se bloqueará
-let mut my_write_var = MY_VAR.write().unwrap();
-</code></pre>
-  </li>
-  <li>Agregar WASM después puede ser doloroso, ya que WASM no es multi-hilo. El código async podría necesitar ser refactorizado o compilado con <code>cfg</code>s para evitar traits async, uso de send+sync, etc.</li>
-  <li>
-    <p>Si expones una API en C y devuelves <code>std::ffi::Cstring</code>, las cadenas deben ser devueltas a Rust para ser liberadas de forma segura.</p>
-
-    <pre><code class="language-rust">#[no_mangle]
-unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
-  let data = CString::new("Hello World!".into()).unwrap();
-  data.into_raw() as *mut c_char
-}
-
-// El puntero debe ser devuelto a Rust para su liberación segura
-#[no_mangle]
-unsafe extern "C" fn free_string(ptr: *mut c_char) {
-    if ptr.is_null() {
-        return;
-    }
-
-    let _ = CString::from_raw(ptr);
-    // Se libera automáticamente al final de la función
-}
-</code></pre>
-  </li>
-  <li>Puede que tu equipo no esté acostumbrado a ciertos patrones tipo mónada, como <code>Result</code> y <code>Option</code>. Permiten un código Rust muy idiomático y conciso. Fomenta su uso.</li>
-  <li>Aunque Rust es cross-platform, hay muchas trampas no obvias.
-    <ul>
-      <li>Una que me afectó mucho fue la falta de acceso a los certificados TLS nativos en Android, lo que llevó a que OpenSSL se compilara e incluyera en mi crate. Esto lleva a un lío entre los crates <code>nativetls</code> y <code>rustls</code>. Si apuntas a multiplataforma, usa <code>rustls</code> si es posible.</li>
-    </ul>
-  </li>
-  <li><code>Ring</code> está siendo deprecado/abandonado, muchas librerías están migrando a <code>aws-lc-rs</code>, tú también deberías.
-    <ul>
-      <li>La migración de los crates de la comunidad hacia aws-lc-rs está ocurriendo poco a poco. Puede que necesites activar features o subir versiones para aprovechar esto.</li>
-    </ul>
-  </li>
-  <li>Los feature flags son geniales, pero su uso y comportamiento real no siempre es claro. Revisar el código fuente puede ser la única forma de entender qué features hay y qué hacen. Si asumes que los features por defecto son correctos, podrías estar agregando mucho código inútil a tu proyecto. Esto puede ser eliminado en la compilación o no. Peligroso. No hay una forma fácil de detectar esto, salvo leer la documentación y ver el código fuente para ver qué puedes desactivar y seguir teniendo un crate funcional.</li>
-  <li>La compilación condicional es muy poderosa pero también peligrosa. Para facilitar pruebas puede ser tentador compilar condicionalmente mucho código con <code>#[cfg(test)]</code> o <code>#[cfg(debug)]</code>, pero esto puede causar problemas a futuro con errores ocultos que no se detectan durante el desarrollo. He visto que usar <code>if cfg!(test)</code> a veces es mejor, ya que todas las ramas del código se compilan y se evitan zonas muertas de compilación que pueden esconder problemas más profundos.</li>
-  <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
-  <li>Propagar errores con <code>?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
-  <li>El crate <code>assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
 
 <p>First one that seems non-solvable are transfer speeds. The 3 would do 10 to 20 mbits/s transfer. This new one seems to be a lot slower 1 to 3 mbits/second. Scouring online, seems to suggest one needs to turn off celullar data and the issue might go away. Big problem, but nothing I can do about that.</p>
 
@@ -524,53 +578,4 @@ class AppDelegate: RCTAppDelegate {
 
 <p>You can declare model classes once, this contains variables (<code>useState</code>), functions declared once (meaning no more <code>useCallback</code>) and calculated values. Side-effects are no longer a weird <code>useEffect</code> with a list of variables that might affect it, code can just be triggered when variables are set. Some times it might be a more code duplication, but it’s no longer React programming, it’s just programming.</p>
 
-<p>It has some quirks, like having to use <code>runInAction</code> after using <code>await</code> but the trade-off is more than worthy. Your React code is just a rendering layer. NO HOOKS, NO CONTEXT. React excels at manipulating the DOM and giving you a re-usable abstraction, let it do just that.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[A couple of tweets caught my eye this week:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Make MISE installed tools globally available for GUI tools</title><link href="https://ospfranco.com/make-mise-installed-tools-globally-available-for-gui-tools/" rel="alternate" type="text/html" title="Make MISE installed tools globally available for GUI tools" /><published>2024-09-23T00:00:00+02:00</published><updated>2024-09-23T00:00:00+02:00</updated><id>https://ospfranco.com/make%20mise%20installed%20tools%20globally%20available%20for%20gui%20tools</id><content type="html" xml:base="https://ospfranco.com/make-mise-installed-tools-globally-available-for-gui-tools/"><![CDATA[<p>I’m a very big fan of <a href="https://mise.jdx.dev">Mise</a>. It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert (even with Homebrew), Mise handles all multiple installations on a per folder level.</p>
-
-<p>I usually set a global version for the most common tools I use, one of them being Node:</p>
-
-<pre><code>mise global node@20
-</code></pre>
-
-<p>This works perfectly when I run the commands from the terminal. However, the problem comes with GUI apps such as Android Studio or Xcode. This apps do not execute binaries from a terminal session (at least not a sandboxed one). So one has to make the installed tools available to them. One way that works for single binaries (e.g. node) is to create a symlink:</p>
-
-<pre><code>sudo ln -s $(which node) /usr/local/bin
-</code></pre>
-
-<p>However, this breaks down when one has to link a binary that might depend on a relative structure import. One example is npx:</p>
-
-<pre><code>sudo ln -s $(which npx) /usr/local/bin
-</code></pre>
-
-<p>Will throw an error whenever the GUI program tries to execute an <code>npx</code> command. Because <code>npx</code> is just a JS script that calls <code>npm</code> internally, however it relies on a relative import:</p>
-
-<pre><code>#!/usr/bin/env node
-
-const cli = require('../lib/cli.js')
-
-// run the resulting command as `npm exec ...args`
-process.argv[1] = require.resolve('./npm-cli.js')
-process.argv.splice(2, 0, 'exec')
-
-// ... the rest of the npx script
-</code></pre>
-
-<h1 id="create-a-wrapper-script">Create a wrapper script</h1>
-
-<p>In order to solve this issue, create a wrapper script in <code>/usr/local/bin</code>. The reason to place it there is because most apps default to known locations (without the chance for you to modify the PATH, e.g. Xcode).</p>
-
-<pre><code>sudo touch /usr/local/bin/npx
-</code></pre>
-
-<p>then:</p>
-
-<pre><code>#!/bin/bash
-NODE_BASE_DIR="/Users/osp/.local/share/mise/installs/node/20/bin"
-exec "$NODE_BASE_DIR/npx" "$@"%
-</code></pre>
-
-<p>After creating it give it execute permissions:</p>
-
-<pre><code>sudo chmod a+x /usr/local/bin/npx
-</code></pre>
-
-<p>You might need to restart your program or computer for the binary to be correctly found. This should also work for any other scripts binaries you might have an issue. If you are worried about modifying <code>/usr/local/bin</code> don’t be. It’s a per user folder where symlinks and binaries can be placed. Lots of programs add links to their binaries here to make them globally available to other GUI tools: VSCode, Parallels, etc.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a very big fan of Mise. It allows me to quickly swap and install system tools in my macOS machine. Node, Ruby, Python, JDKs, etc. Instead of doing installations that can permanently change the OS and are not easy to revert (even with Homebrew), Mise handles all multiple installations on a per folder level.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>It has some quirks, like having to use <code>runInAction</code> after using <code>await</code> but the trade-off is more than worthy. Your React code is just a rendering layer. NO HOOKS, NO CONTEXT. React excels at manipulating the DOM and giving you a re-usable abstraction, let it do just that.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[A couple of tweets caught my eye this week:]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
