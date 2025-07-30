@@ -7,9 +7,9 @@ permalink: /:title/
 image: /assets/oscar.jpg
 ---
 
-In 2025 setting loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple's side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.
+In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple's side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.
 
-This is a complete guide compiling a Rust library from source all the way into loading it in a running iOS/Android application. All done via C binary, which means on iOS you will need to call if from Obj-C and on Android via JNI.
+This is a complete guide compiling a Rust library from source all the way into loading it in a running iOS/Android application. All done via C compatible dylib, which means on iOS you will need to call if from Obj-C and on Android via JNI.
 
 # Dylib?
 
