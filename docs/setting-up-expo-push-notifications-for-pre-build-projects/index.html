@@ -67,7 +67,7 @@
 
 <ul>
   <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code>eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
-  <li>Create a push notification key. This key is for ALL of the apps in the organization
+  <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
     <ol>
       <li>Go to https://developer.apple.com/account and log in.</li>
       <li>Navigate to “keys”</li>
@@ -81,12 +81,12 @@
   <li>Install the deps</li>
 </ul>
 
-<pre><code class="language-bash">npx expo install expo-notifications expo-device expo-constants
+<pre><code class="language-bash">bunx expo install expo-notifications expo-device expo-constants
 </code></pre>
 
 <ul>
   <li>Add <code>expo-notifications</code> to the list of plugins on <code>app.config.ts</code></li>
-  <li>Make sure on <code>app.config.ts</code> this section is set:</li>
+  <li>Make sure on <code>app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
 </ul>
 
 <pre><code class="language-json">    extra: {

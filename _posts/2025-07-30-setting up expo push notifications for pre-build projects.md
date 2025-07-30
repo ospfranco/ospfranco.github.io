@@ -12,7 +12,7 @@ I recently had to set up Expo Push Notifications. Their tutorial though is mostl
 ## iOS
 
 - I'm using a YubiKey and also doing pre-build. Automatic setup via `eas credentials` does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.
-- Create a push notification key. This key is for ALL of the apps in the organization
+- Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
   1.  Go to https://developer.apple.com/account and log in.
   2.  Navigate to "keys"
   3.  Register new key
@@ -23,11 +23,11 @@ I recently had to set up Expo Push Notifications. Their tutorial though is mostl
 - Install the deps
 
 ```bash
-npx expo install expo-notifications expo-device expo-constants
+bunx expo install expo-notifications expo-device expo-constants
 ```
 
 - Add `expo-notifications` to the list of plugins on `app.config.ts`
-- Make sure on `app.config.ts` this section is set:
+- Make sure on `app.config.ts` this section is set. Your project id you can find in the expo project settings.
 
 ```json
     extra: {

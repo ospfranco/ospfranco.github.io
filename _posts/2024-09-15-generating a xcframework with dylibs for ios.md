@@ -87,7 +87,7 @@ ios: ios_arm64 ios_x86_64 ios_arm64_sim
 
 1. You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).
 2. Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.
-3. Once this files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single "fat" binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same "arch" so they clash and need to be merged into a "fat" binary).
+3. Once these files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single "fat" binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same "arch" so they clash and need to be merged into a "fat" binary).
 4. With the binary merged we can drop everything into a `.xcframework` template. [You can download it here](https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework). You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.
 5. With the files in the correct places we need to final set the `@rpath`. The rpath basically tells the OS where to find the canonical path of the file. It's mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don't think too much about it, it has to do with sandboxing and security of the OS.
 
