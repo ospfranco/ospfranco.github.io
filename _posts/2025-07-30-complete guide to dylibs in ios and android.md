@@ -13,7 +13,7 @@ This is a complete guide compiling a Rust library from source all the way into l
 
 # Dylib?
 
-First a dynamic library is great, unlike a static library, it doesn't package the whole world when it comes to the code it needs to run. In my project, which was using static libraries, the resulting binary went from 32Mbs to 10Mbs on iOS and from 57Mbs to 13Mbs(!) on Android. You can read more on why static linking is, although a very functional solution, [kinda sucks](https://medium.com/@eyal.itkin/the-a-file-is-a-relic-why-static-archives-were-a-bad-idea-all-along-8cd1cf6310c5).
+First a dynamic library is great, unlike a static library, it doesn't package the whole world when it comes to the code it needs to run. In my project, which was using static libraries, the resulting binary went from 32Mbs to 10Mbs on iOS and from 57Mbs to 13Mbs(!) on Android. You can read more on why static linking, although a very functional solution, [kinda sucks](https://medium.com/@eyal.itkin/the-a-file-is-a-relic-why-static-archives-were-a-bad-idea-all-along-8cd1cf6310c5).
 
 # Rust
 
