@@ -39,30 +39,30 @@ I've picked up on some tricks and best practices over the last year. I decided t
 
 - You might need to call code only once on crate initialization or some other event. `tokio::sync::OnceCell` can be abused to achieve this:
 
-```rust
-use tokio::sync::OnceCell
+  ```rust
+  use tokio::sync::OnceCell
 
-static INIT: OnceCell<()> = OnceCell::const_new();
+  static INIT: OnceCell<()> = OnceCell::const_new();
 
-pub fn init() {
-  // Makes sure the code inside is only run once
-  INIT.get_or_init(|| async {
-      my_async_function().await;
-  })
-  .await;
-}
-```
+  pub fn init() {
+    // Makes sure the code inside is only run once
+    INIT.get_or_init(|| async {
+        my_async_function().await;
+    })
+    .await;
+  }
+  ```
 
-- `cargo test` runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it's better to use `cargo-nextest` which starts a separate process per test. Here is the config I use to give better results:
+- `cargo test` runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it's better to use [cargo-nextest](https://nexte.st/) which starts a separate process per test. Here is the config I use to give better results:
 
-```toml
-[profile.default]
-retries = 3
-fail-fast = false
-status-level = "all"
-```
+  ```toml
+  [profile.default]
+  retries = 3
+  fail-fast = false
+  status-level = "all"
+  ```
 
-- The `assert2` crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.
+- The [assert2](https://crates.io/crates/assert2) crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.
 - Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with `cfg`s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.
 - If you are exposing a C-API and returning `std::ffi::Cstring` to the calling C context, strings must be returned to Rust to be safely de-allocated.
 

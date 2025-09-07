@@ -91,10 +91,10 @@ let mut my_write_var = MY_VAR.write().unwrap();
   static MY_STR: LazyLock&lt;RwLock&lt;String&gt;&gt; = LazyLock::new(|| RwLock::new("Hello World!".into()));
 </code></pre>
   </li>
-  <li>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</li>
-</ul>
+  <li>
+    <p>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</p>
 
-<pre><code class="language-rust">use tokio::sync::OnceCell
+    <pre><code class="language-rust">use tokio::sync::OnceCell
 
 static INIT: OnceCell&lt;()&gt; = OnceCell::const_new();
 
@@ -106,19 +106,17 @@ pub fn init() {
   .await;
 }
 </code></pre>
+  </li>
+  <li>
+    <p><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
 
-<ul>
-  <li><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <code>cargo-nextest</code> which starts a separate process per test. Here is the config I use to give better results:</li>
-</ul>
-
-<pre><code class="language-toml">[profile.default]
+    <pre><code class="language-toml">[profile.default]
 retries = 3
 fail-fast = false
 status-level = "all"
 </code></pre>
-
-<ul>
-  <li>The <code>assert2</code> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
+  </li>
+  <li>The <a href="https://crates.io/crates/assert2">assert2</a> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
   <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
   <li>
     <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>

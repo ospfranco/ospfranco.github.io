@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-09-07T16:56:51-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00-04:00</published><updated>2025-09-03T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-09-07T17:05:25-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00-04:00</published><updated>2025-09-03T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
 
 <p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
 
@@ -28,10 +28,10 @@ let mut my_write_var = MY_VAR.write().unwrap();
   static MY_STR: LazyLock&lt;RwLock&lt;String&gt;&gt; = LazyLock::new(|| RwLock::new("Hello World!".into()));
 </code></pre>
   </li>
-  <li>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</li>
-</ul>
+  <li>
+    <p>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</p>
 
-<pre><code class="language-rust">use tokio::sync::OnceCell
+    <pre><code class="language-rust">use tokio::sync::OnceCell
 
 static INIT: OnceCell&lt;()&gt; = OnceCell::const_new();
 
@@ -43,19 +43,17 @@ pub fn init() {
   .await;
 }
 </code></pre>
+  </li>
+  <li>
+    <p><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
 
-<ul>
-  <li><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <code>cargo-nextest</code> which starts a separate process per test. Here is the config I use to give better results:</li>
-</ul>
-
-<pre><code class="language-toml">[profile.default]
+    <pre><code class="language-toml">[profile.default]
 retries = 3
 fail-fast = false
 status-level = "all"
 </code></pre>
-
-<ul>
-  <li>The <code>assert2</code> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
+  </li>
+  <li>The <a href="https://crates.io/crates/assert2">assert2</a> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
   <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
   <li>
     <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
