@@ -1,58 +1,103 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-07-30T15:20:47+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-09-07T16:56:51-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00-04:00</published><updated>2025-09-03T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
 
-<h2 id="ios">iOS</h2>
+<p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
+
+<p>I’ve picked up on some tricks and best practices over the last year. I decided that compiling some of the points might be valuable info.</p>
 
 <ul>
-  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code>eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
-  <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
-    <ol>
-      <li>Go to https://developer.apple.com/account and log in.</li>
-      <li>Navigate to “keys”</li>
-      <li>Register new key</li>
-      <li>Select Apple Push Notifications service</li>
-      <li>Select BOTH sandbox and production ⚠️</li>
-      <li>Create key, download p8 and copy the key id</li>
-    </ol>
+  <li>Stateless architectures might be easier to deal with than a lot of shared state with mutexes and send+sync.</li>
+  <li>
+    <p>Generally speaking <code>RwLock</code> is what you want instead of <code>Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
+
+    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
+// If you don't drop
+drop(my_read_var)
+// This writer will lock
+let mut my_write_var = MY_VAR.write().unwrap();
+</code></pre>
   </li>
-  <li>Take that p8 file and the key id and upload it to the <code>credentials</code> section of <code>expo.dev</code> in the <code>Push Key</code> section</li>
-  <li>Install the deps</li>
+  <li>
+    <p>For global variables, LLMs regurgitate code that uses <code>lazy_static</code> or <code>once_cell</code> crates. Their functionality has been incorporated into the standard lib (<code>std</code>) and one can now just use <code>OnceLock</code> and <code>LazyLock</code> to initialize global variables.</p>
+
+    <pre><code class="language-rust">  // ❌ Don't
+  lazy_static! {
+    // your global variables
+  }
+
+  // ✅ Do
+  static MY_STR: LazyLock&lt;RwLock&lt;String&gt;&gt; = LazyLock::new(|| RwLock::new("Hello World!".into()));
+</code></pre>
+  </li>
+  <li>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</li>
 </ul>
 
-<pre><code class="language-bash">bunx expo install expo-notifications expo-device expo-constants
+<pre><code class="language-rust">use tokio::sync::OnceCell
+
+static INIT: OnceCell&lt;()&gt; = OnceCell::const_new();
+
+pub fn init() {
+  // Makes sure the code inside is only run once
+  INIT.get_or_init(|| async {
+      my_async_function().await;
+  })
+  .await;
+}
 </code></pre>
 
 <ul>
-  <li>Add <code>expo-notifications</code> to the list of plugins on <code>app.config.ts</code></li>
-  <li>Make sure on <code>app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
+  <li><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <code>cargo-nextest</code> which starts a separate process per test. Here is the config I use to give better results:</li>
 </ul>
 
-<pre><code class="language-json">    extra: {
-      eas: {
-        projectId: "foo-a-uuid-quack",
-      },
-    },
+<pre><code class="language-toml">[profile.default]
+retries = 3
+fail-fast = false
+status-level = "all"
 </code></pre>
 
 <ul>
-  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code>expoPushToken</code>)</li>
-  <li>In the snippet the so called <code>expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
-  <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
-  <li>For production, on app start get the <code>expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
+  <li>The <code>assert2</code> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
+  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
+  <li>
+    <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
+
+    <pre><code class="language-rust">#[no_mangle]
+unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
+  let data = CString::new("Hello World!".into()).unwrap();
+  data.into_raw() as *mut c_char
+}
+
+// The pointer must be later returned to Rust for safe de-allocation
+#[no_mangle]
+unsafe extern "C" fn free_string(ptr: *mut c_char) {
+    if ptr.is_null() {
+        return;
+    }
+
+    let _ = CString::from_raw(ptr);
+    // Automatically dropped at the end of function
+}
+</code></pre>
+  </li>
+  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code>Result</code> and <code>Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
+  <li>Though Rust is cross-platform compilable, there are many pitfalls which are not obvious.
     <ul>
-      <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
+      <li>On Android, non-java code cannot access native TLS certs for HTTPs requests. This forces Rust to compiled and included in my crate. This then goes down a rabbit hole of <code>nativetls</code> vs <code>rustls</code> crates. If you are targeting multi-platform go with <code>rustls</code> if possible.</li>
     </ul>
   </li>
-</ul>
-
-<h2 id="android">Android</h2>
-
-<p>Following the <a href="https://docs.expo.dev/push-notifications/fcm-credentials/">Obtain Google Service Account Keys using FCM v1</a> works. There is, however, things to watch out for:</p>
-
-<ul>
-  <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
-  <li>I was testing with the <code>.jks</code> generated by expo (downloaded via <code>eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code>firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code>prebuild</code> and just left the default generated Keystore notifications worked.</li>
-  <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
+  <li><code>Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code>aws-lc-rs</code>, so should you.
+    <ul>
+      <li>Migration of community crates is slowly happening towards <code>aws-lc-rs</code>. You might need to toggle features or bump versions to take advantage of this.</li>
+    </ul>
+  </li>
+  <li>Feature flags are great but their real-world usage and behavior is not always clear. If you assume the default features are what you want, you might be adding a lot of useless code to your project. There is no easy way to detect this, except reading through the docs and looking at the source code and see what can you turn off and still get a functioning crate.
+    <ul>
+      <li>Use <code>cargo-appreaiser</code> extension on vscode. Not only it shows outdated packages but it also shows the crate features on hover.</li>
+    </ul>
+  </li>
+  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code>#[cfg(test)]</code> or <code>#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code>if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
+  <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures plus comments, without a clear flow on how to use the APIs of the crates. I still haven’t found a good way to piece good API usage, seems the community has not cracked this one yet.</li>
+  <li>Error propagation through the <code>try operator</code> (<code>?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
 
 <p>This is a complete guide compiling a Rust library from source all the way into loading it in a running iOS/Android application. All done via C compatible dylib, which means on iOS you will need to call if from Obj-C and on Android via JNI.</p>
 
@@ -470,73 +515,61 @@ EXPORT void ios_prepare_request(const char *url) {
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips from a noob</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust tips from a noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use <code>std</code>, etc.</p>
+<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+
+<h2 id="ios">iOS</h2>
 
 <ul>
-  <li>At least in my experience it’s better to aim for stateless architectures than to risk a lot of mutexes, send+sync and hard to understand/easy-to-lock code. If you can avoid global state, the next point is useful ↓</li>
-  <li>
-    <p>Don’t use <code>lazy_static</code> or <code>once_cell</code> crates, their functionality has been incorporated into the standard lib (<code>std</code>) and one can now just use <code>OnceLock</code> and <code>LazyLock</code> to initialize global variables.</p>
-
-    <pre><code class="language-rust">  // ❌ Don't
-  lazy_static! {
-    // your global variables
-  }
-
-  // ✅ Do
-  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
-    LazyLock::new(|| RwLock::new("Hello World!".into()));
-
-</code></pre>
+  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code>eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
+  <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
+    <ol>
+      <li>Go to https://developer.apple.com/account and log in.</li>
+      <li>Navigate to “keys”</li>
+      <li>Register new key</li>
+      <li>Select Apple Push Notifications service</li>
+      <li>Select BOTH sandbox and production ⚠️</li>
+      <li>Create key, download p8 and copy the key id</li>
+    </ol>
   </li>
-  <li>
-    <p>Generally speaking <code>RwLock</code> is what you want instead of <code>Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
+  <li>Take that p8 file and the key id and upload it to the <code>credentials</code> section of <code>expo.dev</code> in the <code>Push Key</code> section</li>
+  <li>Install the deps</li>
+</ul>
 
-    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
-// If you don't drop
-drop(my_read_var)
-// This writer will lock
-let mut my_write_var = MY_VAR.write().unwrap();
+<pre><code class="language-bash">bunx expo install expo-notifications expo-device expo-constants
 </code></pre>
-  </li>
-  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurre to macros that completely kill IDE analysis.</li>
-  <li>
-    <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
 
-    <pre><code class="language-rust">#[no_mangle]
-unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
-  let data = CString::new("Hello World!".into()).unwrap();
-  data.into_raw() as *mut c_char
-}
+<ul>
+  <li>Add <code>expo-notifications</code> to the list of plugins on <code>app.config.ts</code></li>
+  <li>Make sure on <code>app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
+</ul>
 
-// The pointer must be later returned to Rust for safe de-allocation
-#[no_mangle]
-unsafe extern "C" fn free_string(ptr: *mut c_char) {
-    if ptr.is_null() {
-        return;
-    }
-
-    let _ = CString::from_raw(ptr);
-    // Automatically dropped at the end of function
-}
+<pre><code class="language-json">    extra: {
+      eas: {
+        projectId: "foo-a-uuid-quack",
+      },
+    },
 </code></pre>
-  </li>
-  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code>Result</code> and <code>Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
-  <li>Though Rust is cross-platform compilable, there are many pitfalls which are not obvious.
+
+<ul>
+  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code>expoPushToken</code>)</li>
+  <li>In the snippet the so called <code>expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
+  <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
+  <li>For production, on app start get the <code>expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
     <ul>
-      <li>One that bit me really hard was the lack of access to native TLS certs on Android, which cascaded into OpenSSL being compiled and included in my crate. This then goes down a rabbit hole of <code>nativetls</code> vs <code>rustls</code> crates. If you are targeting multi-platform go with <code>rustls</code> if possible.</li>
+      <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
     </ul>
   </li>
-  <li><code>Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code>aws-lc-rs</code>, so should you.
-    <ul>
-      <li>Migration of community crates is slowly happening towards aws-lc-rs. You might need to toggle features or bump versions to take advantage of this.</li>
-    </ul>
-  </li>
-  <li>Feature flags are great but their real-world usage and behavior is not always clear. Scouring the source code might be the only way to get a full understanding of what feature flags are available and what they do. Without this understanding or the by assuming the default features are correct, you might be adding a lot of useless code to your project. This might be tree-shacked during compilation or not. Dangerous. There is no easy way to detect this, except reading through the docs and looking at the source code and see what can you turn off and still get a functioning crate.</li>
-  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code>#[cfg(test)]</code> or <code>#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code>if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
-  <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures without a clear flow on how to use the APIs of the crates. Unfortunately scouring the source repos for examples is the best way to understand how to use each crate.</li>
-  <li>Error propagation through <code>?</code> seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to use that with very specific error types.</li>
-  <li>The <code>assert2</code> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’m a Rust noobie. Learned because some clients wanted to run Rust in React-Native. Because of that I’ve been learning on the go and relying on co-pilot to teach me the basic concepts. But LLMs are regurgitating machines are not the best at giving the idiomatic code. Here are some of the tips I’ve learned. With caveats of course, assume you can use std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
+</ul>
+
+<h2 id="android">Android</h2>
+
+<p>Following the <a href="https://docs.expo.dev/push-notifications/fcm-credentials/">Obtain Google Service Account Keys using FCM v1</a> works. There is, however, things to watch out for:</p>
+
+<ul>
+  <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
+  <li>I was testing with the <code>.jks</code> generated by expo (downloaded via <code>eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code>firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code>prebuild</code> and just left the default generated Keystore notifications worked.</li>
+  <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00-04:00</published><updated>2025-06-05T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
 
 <ul>
   <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
@@ -601,7 +634,7 @@ unsafe extern "C" fn free_string(ptr: *mut c_char) {
   <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
   <li>Propagar errores con <code>?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
   <li>El crate <code>assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00-04:00</published><updated>2025-04-06T00:00:00-04:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
 
 <p>First one that seems non-solvable are transfer speeds. The 3 would do 10 to 20 mbits/s transfer. This new one seems to be a lot slower 1 to 3 mbits/second. Scouring online, seems to suggest one needs to turn off celullar data and the issue might go away. Big problem, but nothing I can do about that.</p>
 
@@ -624,67 +657,7 @@ unsafe extern "C" fn free_string(ptr: *mut c_char) {
 
 <p>After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.</p>
 
-<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
-
-<h1 id="previous-art">Previous Art</h1>
-
-<p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
-
-<ul>
-  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
-  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
-  <li>Npm tasks that run bash scripts</li>
-  <li>Raw dogging node scripts that spawn processes</li>
-  <li>There are ofc other tools like <code>make</code>, <code>rake</code>, <code>Ninja</code>, etc.</li>
-</ul>
-
-<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
-
-<h1 id="mise">Mise</h1>
-
-<p>I’m a big fan of tool managers. Journey started with <code>asdf</code> and I’m now using <code>mise</code>. <code>mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code>mise.toml</code> where you can have per folder tools.</p>
-
-<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
-
-<h1 id="bun-shell">Bun Shell</h1>
-
-<p>The <a href="Bun Shell"><code>Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
-
-<h1 id="putting-it-all-together">Putting it all together</h1>
-
-<p>At the end, I have a <code>mise.toml</code> that looks like this (this is just an example):</p>
-
-<pre><code class="language-toml">[tools]
-node = "14.18.1"
-bun = "0.1.0"
-rust = "1.58.0"
-
-[hooks]
-postinstall = "bun install"
-
-[tasks]
-build = "bun zx scripts/build.mts"
-</code></pre>
-
-<p>And a <code>scripts/build.mts</code> that looks like this:</p>
-
-<pre><code class="language-ts">import { $ } from "bun";
-
-// You can do more things here, like parse the arguments, import other files, etc
-await $`cargo build --release`;
-await $`flutter build ios`;
-</code></pre>
-
-<p>Then on the README for my team it gets simple boils down to:</p>
-
-<ul>
-  <li><code>brew install mise</code></li>
-  <li><code>mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
-  <li><code>mise install</code></li>
-  <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
-</ul>
-
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00-04:00</published><updated>2025-03-26T00:00:00-04:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
 
 <h1 id="herramientas-existentes">Herramientas Existentes</h1>
 
@@ -744,11 +717,71 @@ await $`flutter build ios`;
   <li><code>mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code>mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
 </ul>
 
-<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00-04:00</published><updated>2025-03-26T00:00:00-04:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+
+<h1 id="previous-art">Previous Art</h1>
+
+<p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
+
+<ul>
+  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
+  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
+  <li>Npm tasks that run bash scripts</li>
+  <li>Raw dogging node scripts that spawn processes</li>
+  <li>There are ofc other tools like <code>make</code>, <code>rake</code>, <code>Ninja</code>, etc.</li>
+</ul>
+
+<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>I’m a big fan of tool managers. Journey started with <code>asdf</code> and I’m now using <code>mise</code>. <code>mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code>mise.toml</code> where you can have per folder tools.</p>
+
+<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>The <a href="Bun Shell"><code>Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
+
+<h1 id="putting-it-all-together">Putting it all together</h1>
+
+<p>At the end, I have a <code>mise.toml</code> that looks like this (this is just an example):</p>
+
+<pre><code class="language-toml">[tools]
+node = "14.18.1"
+bun = "0.1.0"
+rust = "1.58.0"
+
+[hooks]
+postinstall = "bun install"
+
+[tasks]
+build = "bun zx scripts/build.mts"
+</code></pre>
+
+<p>And a <code>scripts/build.mts</code> that looks like this:</p>
+
+<pre><code class="language-ts">import { $ } from "bun";
+
+// You can do more things here, like parse the arguments, import other files, etc
+await $`cargo build --release`;
+await $`flutter build ios`;
+</code></pre>
+
+<p>Then on the README for my team it gets simple boils down to:</p>
+
+<ul>
+  <li><code>brew install mise</code></li>
+  <li><code>mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
+  <li><code>mise install</code></li>
+  <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
+</ul>
+
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00-05:00</published><updated>2025-02-10T00:00:00-05:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Loading dylibs in iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Loading dylibs in iOS" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Loading dylibs in iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Loading dylibs in iOS" /><published>2025-01-21T00:00:00-05:00</published><updated>2025-01-21T00:00:00-05:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
 
 <h1 id="frameworks">Frameworks</h1>
 
@@ -919,7 +952,7 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
 <pre><code>sqlitevec.framework/sqlitevec:
         @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
         /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
+</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00-05:00</published><updated>2025-01-21T00:00:00-05:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
 
 <p>There has been a lot of changes with the new architecture of React Native and a class <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
 
