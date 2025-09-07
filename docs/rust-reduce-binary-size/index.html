@@ -61,7 +61,7 @@
         June 2024
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
+      <div class="pt-4 pb-20 markdown text-justify"><p>I find myself writing a lot of Rust nowadays. I’m by no means an expert, but I need to make do with my limited knowledge. A constant problem I’m facing is that the binaries outputted by Rust are huge. This is especially a problem on mobile, where each megabyte counts.</p>
 
 <p>The documentation is a bit confusing, but here is the configuration I ended up using to get somewhat OK sizes. In the <code>cargo.toml</code> file:</p>
 
@@ -99,10 +99,7 @@ panic = "abort" # when Rust code encounters a situation when it must call panic!
 </div>
     </div>
 
-    <link
-      rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
-    />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>
@@ -110,5 +107,4 @@ panic = "abort" # when Rust code encounters a situation when it must call panic!
     </script>
   </div>
 </body>
-
 </html>

@@ -61,7 +61,7 @@
         June 2024
       </p>
 
-      <div class="pt-4 pb-20 markdown"><p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
+      <div class="pt-4 pb-20 markdown text-justify"><p>I’m now in charge of a Tauri app and there is a lot of native Rust functionality that needs to be exposed to the JS side. Like any principled dev I want to write tests for my code.</p>
 
 <p>The official documentation says one should write e2e tests with a UI simulation framework to test this functionality but that is way to cumbersome. I wanted unit tests for my Rust code. Also, I did not have stateless Rust functions, but functions where Tauri itself managed the state, so I needed to mock the entire Tauri app stack.</p>
 
@@ -125,10 +125,7 @@ mod tests {
 </div>
     </div>
 
-    <link
-      rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css"
-    />
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 
     <script>
@@ -136,5 +133,4 @@ mod tests {
     </script>
   </div>
 </body>
-
 </html>
