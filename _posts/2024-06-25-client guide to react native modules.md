@@ -51,6 +51,10 @@ It's notable to mention that there are a lot of cases where you don't want to in
 
 Nitro Modules were created by Marc Rousavy. Him being a master of raw JSI C++ coding, started abstracting away many of the patterns in pure C++ code to make it easier to create modules. They are faster than either Turbo or Expo Modules. However, it is yet a third-party system supported by a smaller organization (or rather individual) and they do have their own quirks. With regards to speed they are probably on par with pure JSI C++ Modules but they do allow to call Swift/Kotlin far far more easier without the necessity of a lot of hand typed boilerplate. They have their own code generator but seems to work more reliably than the Turbo Modules one.
 
+# Node API Modules
+
+The most experimental of the libraries. Allows to create RN modules using Nodes NAPI interface. The benefits are quite clear, you now can use any module existing for node-js inside of RN. I don't know if they are faster than turbo modules or JSI C++ Modules as they are still experimental and require the upmost latest versions of Hermes to work. The upsides are huge but only time will tell if they gain mainstream adoption. In theory they should allow you to test your native modules in a Node environment plugin a huge gap with the introduction of the JSI which is not being able to test your custom native modules without the whole of a React Native runtime environment.
+
 # Which should you pick?
 
 It depends.
@@ -62,6 +66,8 @@ Require the most amount of performance and have extensive C++/Java/Android/ObjC/
 Require the best performance but afraid of native monsters and ok with the risk of smaller third party module system: Nitro Modules
 
 If you want most of the perfomance without expo or third party packages: Turbo Modules
+
+Risky but with node compatibility: Node API modules
 
 # QA
 
