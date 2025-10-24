@@ -17,7 +17,7 @@ The old arch is dead. Finito. But it was just a way to serialize data via JSON a
 
 # New arch (or now, the arch)
 
-React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON bridge. So a bunch of concepts/modules/ideas where introduced. The conjunction of the JSI, Fabric and Turbo Modules form what is called `new arch`
+React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON bridge. So a bunch of concepts/modules/ideas were introduced. The conjunction of the JSI, Fabric and Turbo Modules form what is called `new arch`
 
 ## JSI
 
