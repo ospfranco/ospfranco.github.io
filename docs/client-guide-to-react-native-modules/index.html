@@ -153,11 +153,12 @@
 
 <p><strong>Can I write a native module in Rust?</strong></p>
 
-<p><strong>A</strong>: Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, <a href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/">here is a guide</a> there are guides in this website and some other packages, but again, smaller orgs/teams, you can take the risk.</p>
+<p>Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, <a href="https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/">here is a guide</a> there are guides in this website and some other packages, but again, smaller orgs/teams, you can take the risk.</p>
 
 <p><strong>What are the pitfalls when writing my native module?</strong></p>
 
-<p><strong>A</strong>: There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. The different modules systems protect you against this, but there is so many details there that you might face dragons every once in a while.</p>
+<p>There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. The different modules systems protect you against this, but there is so many details there that you might face dragons every once in a while.</p>
+
 </div>
     </div>
 

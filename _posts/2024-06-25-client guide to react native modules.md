@@ -96,9 +96,11 @@ No... kinda... The latest versions of Swift (5.9+) improved compatibility with C
 Don't know, go ask Meta very nicely to do this :)
 
 **Can I write a native module in Rust?**
+ 
+Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, [here is a guide](https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/) there are guides in this website and some other packages, but again, smaller orgs/teams, you can take the risk.
 
-**A**: Yes, but not directly. Your Rust code needs to expose a C-ABI compatible API, which will then be called from a C++ turbo module, [here is a guide](https://ospfranco.com/post/2024/05/08/react-native-rust-module-guide/) there are guides in this website and some other packages, but again, smaller orgs/teams, you can take the risk.
 
 **What are the pitfalls when writing my native module?**
+ 
+There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. The different modules systems protect you against this, but there is so many details there that you might face dragons every once in a while.
 
-**A**: There are many, for example you cannot just invoke a JSI/JS function in the middle of your native code. The JS VM might be busy doing something else, if you all of the sudden ask it to allocate memory for a JS object for example, you might corrupt the stack and your entire thing will go kaput. In order to get this you need to schedule a callback using a call invoker, then await on your native code, etc etc. The different modules systems protect you against this, but there is so many details there that you might face dragons every once in a while.
