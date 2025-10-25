@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-10-24T19:09:02+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-10-25T09:50:52+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
 
 <p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
 
@@ -655,67 +655,7 @@ unsafe extern "C" fn free_string(ptr: *mut c_char) {
 
 <p>After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.</p>
 
-<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
-
-<h1 id="herramientas-existentes">Herramientas Existentes</h1>
-
-<p>Cada lenguaje y ecosistema tiene su propia forma de hacer las cosas. Algunos de los patrones que he visto son:</p>
-
-<ul>
-  <li>Cmake y patrones anticuados, creados para compilar proyectos C/C++. Esta mal utilizado para compilar programas en Rust, pero deja de ser útil cuando se tiene que tener variables, parsear parametros, etc.</li>
-  <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
-  <li>Tasks de npm que corren scripts en bash</li>
-  <li>Scripts en Node/JS que llaman commandos directamente</li>
-  <li>Otras herramientas como <code>make</code>, <code>rake</code>, <code>ninja</code>, etc.</li>
-</ul>
-
-<p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
-
-<h1 id="mise">Mise</h1>
-
-<p>Soy un gran fan de los tool managers. El viaje empezo con <code>asdf</code> y ahora estoy usando <code>mise</code>. <code>mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code>mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
-
-<p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
-
-<h1 id="bun-shell">Bun Shell</h1>
-
-<p>El Bun Shell es un objecto integrado en bun que permite correr commandos de la terminal dentro de archivos TypeScript. La belleza de este approach es la fácilidad de usar TypeScript para manipular, re-enviar, usar loops, etc. Permitiendo escapar de lo bobo de bash.</p>
-
-<h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
-
-<p>Para este proyecto mi <code>mise.toml</code> parece algo así:</p>
-
-<pre><code class="language-toml">[tools]
-node = "14.18.1"
-bun = "0.1.0"
-rust = "1.58.0"
-
-[hooks]
-postinstall = "bun install"
-
-[tasks]
-build = "bun zx scripts/build.mts"
-</code></pre>
-
-<p>Luego existe un <code>script/build.mts</code> que se ve así:</p>
-
-<pre><code class="language-ts">import { $ } from "bun";
-
-// You can do more things here, like parse the arguments, import other files, etc
-await $`cargo build --release`;
-await $`flutter build ios`;
-</code></pre>
-
-<p>En el README del repositorio tengo los siguiente commandos:</p>
-
-<ul>
-  <li><code>brew install mise</code></li>
-  <li><code>mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
-  <li><code>mise install</code></li>
-  <li><code>mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code>mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
-</ul>
-
-<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
 
 <h1 id="previous-art">Previous Art</h1>
 
@@ -775,7 +715,67 @@ await $`flutter build ios`;
   <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
 </ul>
 
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+
+<h1 id="herramientas-existentes">Herramientas Existentes</h1>
+
+<p>Cada lenguaje y ecosistema tiene su propia forma de hacer las cosas. Algunos de los patrones que he visto son:</p>
+
+<ul>
+  <li>Cmake y patrones anticuados, creados para compilar proyectos C/C++. Esta mal utilizado para compilar programas en Rust, pero deja de ser útil cuando se tiene que tener variables, parsear parametros, etc.</li>
+  <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
+  <li>Tasks de npm que corren scripts en bash</li>
+  <li>Scripts en Node/JS que llaman commandos directamente</li>
+  <li>Otras herramientas como <code>make</code>, <code>rake</code>, <code>ninja</code>, etc.</li>
+</ul>
+
+<p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>Soy un gran fan de los tool managers. El viaje empezo con <code>asdf</code> y ahora estoy usando <code>mise</code>. <code>mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code>mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
+
+<p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>El Bun Shell es un objecto integrado en bun que permite correr commandos de la terminal dentro de archivos TypeScript. La belleza de este approach es la fácilidad de usar TypeScript para manipular, re-enviar, usar loops, etc. Permitiendo escapar de lo bobo de bash.</p>
+
+<h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
+
+<p>Para este proyecto mi <code>mise.toml</code> parece algo así:</p>
+
+<pre><code class="language-toml">[tools]
+node = "14.18.1"
+bun = "0.1.0"
+rust = "1.58.0"
+
+[hooks]
+postinstall = "bun install"
+
+[tasks]
+build = "bun zx scripts/build.mts"
+</code></pre>
+
+<p>Luego existe un <code>script/build.mts</code> que se ve así:</p>
+
+<pre><code class="language-ts">import { $ } from "bun";
+
+// You can do more things here, like parse the arguments, import other files, etc
+await $`cargo build --release`;
+await $`flutter build ios`;
+</code></pre>
+
+<p>En el README del repositorio tengo los siguiente commandos:</p>
+
+<ul>
+  <li><code>brew install mise</code></li>
+  <li><code>mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
+  <li><code>mise install</code></li>
+  <li><code>mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code>mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
+</ul>
+
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 

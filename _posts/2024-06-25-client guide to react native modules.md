@@ -9,15 +9,13 @@ image: /assets/oscar.jpg
 
 You are my client. You ask "Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module and new arch stuff is confusing, can you help us?" the answer dear client is obviously yes. However, I'm a bit tired of explaining the same concepts again and again, so I will point you to this article.
 
-> If you are a RN dev you can skip this, this is an overview of React Native modules meant for people not in the React Native ecosystem. No new information or in-depth technical knowledge is here, just enough for adjacent people can get a grip of the terminology
-
 # Old arch
 
 The old arch is dead. Finito. But it was just a way to serialize data via JSON and pass it between JS and the native runtimes.
 
 # New arch (or now, the arch)
 
-React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON bridge. So a bunch of concepts/modules/ideas were introduced. The conjunction of the JSI, Fabric and Turbo Modules form what is called `new arch`
+React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON communication. So a bunch of concepts/modules/ideas were introduced. The conjunction of the JSI, Fabric and Turbo Modules form what is called `new arch`
 
 ## JSI
 
@@ -35,7 +33,7 @@ Forget about fabric, it's about how UI components are rendered using the `JSI` a
 
 Turbo Modules are how we create JSI enabled native modules. Turbo Modules are **built** on top of `JSI`. You can have `new arch` modules (that use the JSI) without Turbo Modules, but not the other way around. `Turbo Modules` take a Typescript or Flow file, and then generate a bunch of C++ code, which React Native then includes in your project. They allow for lazy initialization of modules which makes your app start faster. There are many drawbacks though. The codegen system is finicky at best, it has already had many breaking changes between versions. Documentation is scant and confusing.
 
-# Expo modules
+# Expo Modules
 
 `Turbo Modules` and the necessary knowledge to make use of the `JSI` is not trivial. It requires C++, ObjC, Kotlin/Java, Java's JNI, build systems and some of the internals of RN. The guys at expo saw from a mile away that for a team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they baked their own module system into the Expo framework.
 
@@ -43,7 +41,7 @@ They require much less boilerplate. Expo itself holds the necessary code to init
 
 They do have a drawback though, compared to TurboModules they are slow. Compared to Nitro Modules and raw C++ JSI modules they are way way slower. They are good enough for the general use case and expo themselves use their bindings for their native code so it's GOOD ENOUGH for the general use case but if performance is your #1 priority, you probably should not use them.
 
-# JSI C++ Module
+# JSI C++ Modules
 
 It's notable to mention that there are a lot of cases where you don't want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like `sqlite`, `libsql`, Rust modules, some C library you CAN write a pure C++ module that does not go through the Turbo Module sub system. This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. They are also tricky to setup. [op-sqlite] is an example of a library written in (mostly) pure C++. But even though they are super difficult to setup they will almost never break (with the exception of the initialization which requires a stub Turbo Module) because you are directly interacting with the raw C++ code.
 
@@ -59,7 +57,7 @@ The most experimental of the libraries. Allows to create RN modules using Nodes 
 
 It depends.
 
-You want to just call some Swift/Kotlin, on Expo and by leaps and bounds the least painful option: Expo Modules
+You want to just call some Swift/Kotlin, already on Expo and are ok with their performance: Expo Modules
 
 Require the most amount of performance and have extensive C++/Java/Android/ObjC/iOS knowledge: JSI C++ Modules
 
@@ -67,33 +65,33 @@ Require the best performance but afraid of native monsters and ok with the risk 
 
 If you want most of the perfomance without expo or third party packages: Turbo Modules
 
-Risky but with node compatibility: Node API modules
+Risky but with node compatibility: NAPI Modules
 
 # QA
 
 **Is it possible to have a `new arch` (i.e. Turbo Module) that is compatible with `old arch`?**
 
-The old arch is gone :)
+The old arch is gone.
 
 **Do you like Turbo Modules?**
 
-I don't, they are tricky to setup, their codegen generation is brittle and have cryptic native errors. I would much rather stick to pure C++ modules.
+I don't, they are tricky to setup, but most importantly codegen has been very brittle. 
 
 **But Expo [insert your comment here]**
 
-Expo Modules are great if they work for you. Use them and don't bother me :)
+Expo Modules are great if they work for you. For further questions go ask the Expo team.
 
 **You say `JSI` is C++, how come `Turbo Modules` are ObjC/Kotlin/Java?**
 
-The same way Expo Modules are Swift/Kotlin. Ungodly amount of jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → `JNI` (which is SLOW) → C++. Your simple returning functions require a lot of casting stuff all the way to the right C++ abstractions.
+The same way Expo Modules are Swift/Kotlin. Jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → `JNI` (which is SLOW) → C++. Your simple returning functions require a lot of casting stuff all the way to the right C++ abstractions.
 
 **Can I write my Turbo Module in Swift?**
 
-No... kinda... The latest versions of Swift (5.9+) improved compatibility with C++, but it still ways to go. The codegen scripts and all the internal tooling works with ObjC. You can write a very thin ObjC façade that will call your Swift code. So yes, there is a way to make it work but it's not straightforward.
+No... kinda... The latest versions of Swift (5.9+) improved compatibility with C++. Nitro Modules took advantage of this compatibility layer but neither Turbo or Expo Modules take advantage of this (yet) as it is not mature enough.
 
 **When will I be able to write my `Turbo Module` in Swift?**
 
-Don't know, go ask Meta very nicely to do this :)
+Don't know, go ask Meta very nicely to do this.
 
 **Can I write a native module in Rust?**
  
