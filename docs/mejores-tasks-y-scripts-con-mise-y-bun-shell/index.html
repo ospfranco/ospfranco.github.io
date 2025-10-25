@@ -1,0 +1,136 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mejores tasks y scripts con mise y bun shell | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Mejores tasks y scripts con mise y bun shell" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas." />
+<meta property="og:description" content="Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas." />
+<link rel="canonical" href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" />
+<meta property="og:url" content="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-03-26T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="Mejores tasks y scripts con mise y bun shell" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-03-26T00:00:00+01:00","datePublished":"2025-03-26T00:00:00+01:00","description":"Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.","headline":"Mejores tasks y scripts con mise y bun shell","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"},"url":"https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Mejores tasks y scripts con mise y bun shell
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        March 2025
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+
+<h1 id="herramientas-existentes">Herramientas Existentes</h1>
+
+<p>Cada lenguaje y ecosistema tiene su propia forma de hacer las cosas. Algunos de los patrones que he visto son:</p>
+
+<ul>
+  <li>Cmake y patrones anticuados, creados para compilar proyectos C/C++. Esta mal utilizado para compilar programas en Rust, pero deja de ser útil cuando se tiene que tener variables, parsear parametros, etc.</li>
+  <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
+  <li>Tasks de npm que corren scripts en bash</li>
+  <li>Scripts en Node/JS que llaman commandos directamente</li>
+  <li>Otras herramientas como <code>make</code>, <code>rake</code>, <code>ninja</code>, etc.</li>
+</ul>
+
+<p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>Soy un gran fan de los tool managers. El viaje empezo con <code>asdf</code> y ahora estoy usando <code>mise</code>. <code>mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code>mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
+
+<p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>El Bun Shell es un objecto integrado en bun que permite correr commandos de la terminal dentro de archivos TypeScript. La belleza de este approach es la fácilidad de usar TypeScript para manipular, re-enviar, usar loops, etc. Permitiendo escapar de lo bobo de bash.</p>
+
+<h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
+
+<p>Para este proyecto mi <code>mise.toml</code> parece algo así:</p>
+
+<pre><code class="language-toml">[tools]
+node = "14.18.1"
+bun = "0.1.0"
+rust = "1.58.0"
+
+[hooks]
+postinstall = "bun install"
+
+[tasks]
+build = "bun zx scripts/build.mts"
+</code></pre>
+
+<p>Luego existe un <code>script/build.mts</code> que se ve así:</p>
+
+<pre><code class="language-ts">import { $ } from "bun";
+
+// You can do more things here, like parse the arguments, import other files, etc
+await $`cargo build --release`;
+await $`flutter build ios`;
+</code></pre>
+
+<p>En el README del repositorio tengo los siguiente commandos:</p>
+
+<ul>
+  <li><code>brew install mise</code></li>
+  <li><code>mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
+  <li><code>mise install</code></li>
+  <li><code>mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code>mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
+</ul>
+
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

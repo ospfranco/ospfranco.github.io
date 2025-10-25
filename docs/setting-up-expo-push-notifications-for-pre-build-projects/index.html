@@ -1,0 +1,130 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Setting up Expo Push Notifications for Pre-Build Projects | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Setting up Expo Push Notifications for Pre-Build Projects" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily." />
+<meta property="og:description" content="I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily." />
+<link rel="canonical" href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" />
+<meta property="og:url" content="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-07-30T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="Setting up Expo Push Notifications for Pre-Build Projects" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-07-30T00:00:00+02:00","datePublished":"2025-07-30T00:00:00+02:00","description":"I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.","headline":"Setting up Expo Push Notifications for Pre-Build Projects","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"},"url":"https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Setting up Expo Push Notifications for Pre-Build Projects
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        July 2025
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+
+<h2 id="ios">iOS</h2>
+
+<ul>
+  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code>eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
+  <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
+    <ol>
+      <li>Go to https://developer.apple.com/account and log in.</li>
+      <li>Navigate to “keys”</li>
+      <li>Register new key</li>
+      <li>Select Apple Push Notifications service</li>
+      <li>Select BOTH sandbox and production ⚠️</li>
+      <li>Create key, download p8 and copy the key id</li>
+    </ol>
+  </li>
+  <li>Take that p8 file and the key id and upload it to the <code>credentials</code> section of <code>expo.dev</code> in the <code>Push Key</code> section</li>
+  <li>Install the deps</li>
+</ul>
+
+<pre><code class="language-bash">bunx expo install expo-notifications expo-device expo-constants
+</code></pre>
+
+<ul>
+  <li>Add <code>expo-notifications</code> to the list of plugins on <code>app.config.ts</code></li>
+  <li>Make sure on <code>app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
+</ul>
+
+<pre><code class="language-json">    extra: {
+      eas: {
+        projectId: "foo-a-uuid-quack",
+      },
+    },
+</code></pre>
+
+<ul>
+  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code>expoPushToken</code>)</li>
+  <li>In the snippet the so called <code>expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
+  <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
+  <li>For production, on app start get the <code>expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
+    <ul>
+      <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="android">Android</h2>
+
+<p>Following the <a href="https://docs.expo.dev/push-notifications/fcm-credentials/">Obtain Google Service Account Keys using FCM v1</a> works. There is, however, things to watch out for:</p>
+
+<ul>
+  <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
+  <li>I was testing with the <code>.jks</code> generated by expo (downloaded via <code>eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code>firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code>prebuild</code> and just left the default generated Keystore notifications worked.</li>
+  <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
+</ul>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

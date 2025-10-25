@@ -1,0 +1,145 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Email templates with React and Tailwind | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Email templates with React and Tailwind" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack." />
+<meta property="og:description" content="Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack." />
+<link rel="canonical" href="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" />
+<meta property="og:url" content="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2022-01-08T14:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Email templates with React and Tailwind" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2022-01-08T14:00:00+01:00","datePublished":"2022-01-08T14:00:00+01:00","description":"Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.","headline":"Email templates with React and Tailwind","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"},"url":"https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Email templates with React and Tailwind
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        January 2022
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.</p>
+
+<p>I didn’t want to go down that path one more time, so I spend some time trying to answer one question: can I create a email template using only React and Tailwind (with my existing configuration) and the answer is: YES! well, mostly…</p>
+
+<h2 id="render-a-react-component-to-plain-html-markup">Render a React component to plain HTML Markup</h2>
+
+<p>The first part of this question was the easiest to answer, how to turn a React component into raw html string:</p>
+
+<pre><code class="language-ts">// unfortunately no type information for this module
+// @ts-ignore
+import ReactDOMServer from "react-dom/server";
+
+const TestMail = () =&gt; {
+  return (
+    &lt;html&gt;
+      // important to keep the color scheme on some email clients
+      {/* &lt;meta name="color-scheme" content="only"&gt;&lt;/meta&gt; */}
+      &lt;head&gt;// We will use this later&lt;/head&gt;
+      &lt;div className="py-3"&gt;Hi I am a react component&lt;/div&gt;
+    &lt;/html&gt;
+  );
+};
+
+const emailHtml = ReactDOMServer.renderToStaticMarkup(&lt;TestMail /&gt;);
+</code></pre>
+
+<p>This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there <code>py-3</code>, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.</p>
+
+<p>This was the tricky part, there are some frameworks that try to solve this exact problem, like maizzle for example, but just by reading the home page I already see an ocean of complexity, so early in my googling I stumbled upon <a href="https://github.com/soheilpro/mailwind">Mailwind</a>, the instructions were scant, but it was exactly what I wanted, it works based on <a href="https://github.com/Automattic/juice">Juice</a>, not going to bore you with the details, here is the snippet that makes it work:</p>
+
+<pre><code class="language-ts">import juice from "juice";
+
+export async function juicify(html: string): Promise&lt;string&gt; {
+  return new Promise((resolve, reject) =&gt; {
+    juice.juiceResources(
+      html,
+      {
+        webResources: {
+          relativeTo: "public/",
+        },
+      },
+      (err, processed) =&gt; {
+        if (err) {
+          reject(new Error(`Could not juice email${err}`));
+        }
+
+        resolve(processed);
+      }
+    );
+  });
+}
+</code></pre>
+
+<p>You also need to update the email component to include a stylesheet in the head tag:</p>
+
+<pre><code class="language-ts">&lt;head&gt;
+  {/* eslint-disable-next-line @next/next/no-css-tags */}
+  &lt;link href="mailwind.css" rel="stylesheet" data-inline /&gt;
+&lt;/head&gt;
+</code></pre>
+
+<blockquote>
+  <p>You can already see that you need to import mailwind.css file and make it accessible somewhere in your project, on the juicify function the <code>relativeTo</code> path, will allow juice to correctly determine where to fetch the .css file</p>
+</blockquote>
+
+<p>And TA-DA you have working email templates with React and Tailwind, no need for complex framework, configuration files, etc. The juicify function will output a raw string, which you can send to your email distributor and it should work just fine.</p>
+
+<h2 id="the-caveat">The caveat</h2>
+
+<p>Now there is one small caveat here, which is the mailwind.css file, it’s not going to be your application styles, some of the changes are good, for example everything being based on px styles, but you might need your own colors, or paddings, etc.</p>
+
+<p>TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your <code>tailwind.config.js</code> and spit out a <code>.css</code> file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

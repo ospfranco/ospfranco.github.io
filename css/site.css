@@ -1,0 +1,91 @@
+---
+---
+
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+:root {
+  font-family: Inter, sans-serif;
+  font-feature-settings: "liga" 1, "calt" 1; /* fix for Chrome */
+  font-size: 15px;
+}
+
+@supports (font-variation-settings: normal) {
+  :root {
+    font-family: InterVariable, sans-serif;
+  }
+}
+
+body {
+  @apply max-w-full text-neutral-700 dark:text-neutral-200 dark:bg-[#0d1116];
+}
+
+a {
+  @apply hover:underline text-blue-500;
+}
+
+h1 {
+  @apply dark:text-white;
+}
+
+h2 {
+  @apply dark:text-white;
+}
+
+h3 {
+  @apply dark:text-white;
+}
+
+h4 {
+  @apply dark:text-white;
+}
+
+.markdown {
+  /* @apply dark:text-gray-300; */
+}
+
+.markdown a {
+  /* @apply underline text-blue-500; */
+}
+
+.markdown p {
+  @apply py-2;
+}
+
+.markdown h1 {
+  @apply mt-6 text-xl font-semibold;
+}
+
+.markdown h2 {
+  @apply mt-6 text-lg font-semibold;
+}
+
+.markdown h3 {
+  @apply mt-6 font-bold;
+}
+
+.markdown ol {
+  @apply pl-4 list-decimal;
+}
+
+.markdown ul {
+  @apply pl-5 list-disc;
+}
+
+.markdown li {
+  @apply my-2;
+}
+
+.markdown blockquote {
+  @apply pl-4 italic border-l-2 dark:border-neutral-600 my-2;
+}
+
+code {
+  @apply rounded  border dark:border-red-500/10 dark:bg-red-800/15 dark:text-red-500 border-red-500/10 bg-red-800/10 text-red-500 text-sm px-1;
+}
+
+.hljs {
+  @apply rounded-lg text-xs border dark:border-neutral-800;
+  padding: 0.8rem 1rem !important;
+}

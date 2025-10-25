@@ -1,0 +1,139 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>How to resolve duplicated libraries on Android | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="How to resolve duplicated libraries on Android" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you have developed on Android long enough, you might have found an error like this:" />
+<meta property="og:description" content="If you have developed on Android long enough, you might have found an error like this:" />
+<link rel="canonical" href="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/" />
+<meta property="og:url" content="https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-12-07T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="How to resolve duplicated libraries on Android" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-12-07T00:00:00+01:00","datePublished":"2023-12-07T00:00:00+01:00","description":"If you have developed on Android long enough, you might have found an error like this:","headline":"How to resolve duplicated libraries on Android","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/"},"url":"https://ospfranco.com/how-to-resolve-duplicated-libraries-on-android/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        How to resolve duplicated libraries on Android
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        December 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>If you have developed on Android long enough, you might have found an error like this:</p>
+
+<pre><code class="language-sh">A failure occurred while executing com.android.build.gradle.internal.tasks.MergeNativeLibsTask$MergeNativeLibsTaskWorkAction
+2 files found with path 'lib/arm64-v8a/libcrypto.so'
+</code></pre>
+
+<p>This is caused by two libraries/dependencies generating the same artifact (in this case, depending on OpenSSL which generates <code>libcrypto.so</code>). If you haven’t declared your dependency on OpenSSL, then the problem is a transitive dependency (you require A and B, and both require C).</p>
+
+<p>There are a number of workarounds, but they all have potential issues, so here are some short explanations.</p>
+
+<h1 id="exclude">Exclude</h1>
+
+<p>The first solution you might try is the <code>exclude</code> command of gradle. This will only work if you are modifying the sources of one of the conflicting libraries. This basically tells Gradle: whenever you are packaging this library, exclude this files from the final bundle merge.</p>
+
+<pre><code class="language-groovy">packagingOptions {
+      excludes = [
+        // ... other excluded files
+        "**/libcrypto.so"
+      ]
+}
+</code></pre>
+
+<p>This will basically force your final application to contain one <code>libcrypto.so</code> and avoid any potential conflicts. The problem is than, if you remove the other dependency and no one is left to generate the .so, then you are out of luck and you will get an error saying the file is missing.</p>
+
+<h1 id="pick-first">Pick first</h1>
+
+<p>Another possible strategy is using <code>pickFirst</code>, it basically tells Gradle: “whatever you find first, just link against that”. The problem with this however is that it cannot be included in the offending library <code>build.gradle</code> but must be specified in the application’s <code>build.gradle</code> (since that is the parent scope that faces the conflict when compiling the dependencies)</p>
+
+<pre><code class="language-groovy">packagingOptions {
+  pickFirst '**/libcrypto.so'
+}
+</code></pre>
+
+<h1 id="other-strategies">Other strategies</h1>
+
+<p>There are other strategies that work on pure gradle dependencies, which might or might not work on React Native but you can give them a try.</p>
+
+<h2 id="excluding-group">Excluding group</h2>
+
+<p>Change the declared dependency to exclude the internal dependency</p>
+
+<pre><code class="language-groovy">implementation ('junit:junit:4.12'){
+    exclude group: 'org.hamcrest', module:'hamcrest-core' // exclude the transtive dependency
+}
+</code></pre>
+
+<h2 id="explicitely-requiring-the-dependency">Explicitely requiring the dependency</h2>
+
+<pre><code class="language-groovy">implementation 'junit:junit:4.12'
+implementation 'org.hamcrest:hamcrest-core:1.3' // force the shared dependency version
+</code></pre>
+
+<h2 id="force-resolution">Force resolution</h2>
+
+<p>This might force an older version into the dependencies</p>
+
+<pre><code class="language-groovy">android {
+    configurations.all {
+        resolutionStrategy.force 'org.hamcrest:hamcrest-core:1.1'
+    }
+}
+</code></pre>
+
+<h1 id="version-missmatch">Version missmatch</h1>
+
+<p>The problem with this solutions is that you are forcing a single version upon your dependencies, which might break because they might rely on the API of a particular version. I don’t know how to include two versions of the same library unfortunately, so the actual solution is to make sure you are on the latest versions and they all depend on the same transitive dependency version.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

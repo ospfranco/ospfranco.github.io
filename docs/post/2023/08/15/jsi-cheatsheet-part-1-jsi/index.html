@@ -1,0 +1,660 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>JSI Cheatsheet: Part 1 - C++ | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="JSI Cheatsheet: Part 1 - C++" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself." />
+<meta property="og:description" content="With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="JSI Cheatsheet: Part 1 - C++" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.","headline":"JSI Cheatsheet: Part 1 - C++","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        JSI Cheatsheet&#58; Part 1 - C++
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        August 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.</p>
+
+<p>I’m going to try to use small code snippets to show you, because written explanations get convoluted fast.</p>
+
+<h2 id="contents">Contents</h2>
+
+<h2 id="the-basics">The basics</h2>
+
+<p>Not gonna go over the basics, how to declare an int, double, functions, etc. I’m trying to teach you how to run, not how to walk, go to youtube look at any of the basic tutorials, a couple of hours is more than enough</p>
+
+<p>This is what I watched for like 20 mins:</p>
+
+<p>https://www.youtube.com/watch?v=vLnPwxZdW4Y&amp;t=11682s</p>
+
+<p>I can write a lot but at the end of the day you will need to write the code, you can set up the toolchain in your machine or you can just go to <a href="https://replit.com/languages/cpp">replit with c++</a>, you won’t be able to test JSI code, but you can play around with the basics.</p>
+
+<p>Before we start I need to teach your JavaScript brain some of the not so basic yet not so advanced stuff.</p>
+
+<h1 id="not-basic-yet-not-advanced-stuff">Not basic yet not advanced stuff</h1>
+
+<h2 id="namespaces">Namespaces</h2>
+
+<p>TypeScript also has a concept of namespaces, but they are not widely used (unless you wrote them for your library). Therefore it is somewhat confusing seeing them all over the place on C++.</p>
+
+<p>Example without namespace:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+int main() {
+	std::string = "my string!";
+	return 0;
+}
+</code></pre>
+
+<blockquote>
+  <p>🚨 The <code>::</code> operator is similar to a <code>.</code> but is meant to be used with namespaces only</p>
+</blockquote>
+
+<p>You can use a namespace module wide and life becomes prettier:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+using namespace std;
+
+int main() {
+	string = "my string!";
+	return 0;
+}
+</code></pre>
+
+<p>You can use more than one namespace in each file. This (of course) breaks down if you have two namespaces that use the same names.</p>
+
+<h2 id="macros">Macros</h2>
+
+<p>Unlike on JavaScript which is the WYSIWYG equivalent of programming languages, on C++ you can dynamically modify your code before it gets compiled, you do this via macros.</p>
+
+<pre><code class="language-cpp">/**
+ * Portable wrapper for mkdir. Internally used by mkdir()
+ * @param[in] path the full path of the directory to create.
+ * @return zero on success, otherwise -1.
+ */
+int _mkdir(const char *path)
+{
+#if _POSIX_C_SOURCE
+  return mkdir(path);
+#else
+  return mkdir(path, 0755);
+#endif
+}
+</code></pre>
+
+<p>Ignore everything except the stuff with <code>#</code>, here the macro is checking for the <code>_POSIX_C_SOURCE</code> environment variable, if the flag is present when you compile the code, then the code inside the true branch will be inserted and compiled, if not the false branch will be compiled.</p>
+
+<h2 id="auto-type">Auto type</h2>
+
+<p>C++ actually has dynamic allocation type… but be careful! Useful if you are a C++ noob with types or you are quickly testing, but I just try to stay away from it when possible</p>
+
+<pre><code class="language-cpp">auto a = 19; // auto here will take the int type
+</code></pre>
+
+<h2 id="constant-variables">Constant variables</h2>
+
+<p>You can declare a constant variable by using the <code>const</code> type, when you are declaring your functions this will be important to make sure you don’t overwrite the variable (on the direct memory address) for the rest of your code</p>
+
+<pre><code class="language-cpp">// dangerous
+void doSomethingFunny_wrong(int &amp;foo) {
+	foo = 20; // ⚠️ modifies the direct memory address, will mess up your program
+}
+
+// safer(ish)
+void doSomethingFunny(const int &amp;foo) {
+	foo = 20; // doesn't compile, cannot modify const
+}
+
+// to declare a variable as constant
+const int foo = 19;
+</code></pre>
+
+<h2 id="vectors-variable-size-arrays">Vectors (variable size arrays)</h2>
+
+<p>JavaScript makes you think that your arrays are infinitely growable, when in reality the one that needs to grow is you (👊), so now you will have to deal with arrays like a real man (or real woman), arrays are fixed the moment you create them, you cannot just append stuff to them… that is if you are using pure C, C++ gives us the <code>vector</code> class:</p>
+
+<pre><code class="language-cpp">#include &lt;vector&gt;
+#include &lt;iostream&gt;
+
+using namespace std
+
+int main() {
+	vector&lt;string&gt; res;
+	res.push_back("Hello");
+	res.push_back("I miss");
+	res.push_back("Javascript");
+	return 0;
+}
+</code></pre>
+
+<p>Just be careful, the vector will hold a chunk of memory for you to insert stuff, once you go over the reserved space, it will have to reserve a bigger chunk and copy all the data to it</p>
+
+<h2 id="maps">Maps</h2>
+
+<p>Needless to say there is also maps for those among you who cannot even without JavaScript</p>
+
+<pre><code class="language-cpp">#include &lt;map&gt;
+
+map&lt;string, string&gt; myMap = map&lt;string, string&gt;();
+
+myMap["I miss"] = "Javascript";
+</code></pre>
+
+<h2 id="structs">Structs</h2>
+
+<p>The time might come where you need to bundle more data in a more complex structure than maps or vectors, there you need to create a struct. Be orderly and create it in it’s own header file.</p>
+
+<pre><code class="language-cpp">// myStruct.h
+struct MyLittleStruct
+{
+	string message;
+	int age;
+}
+</code></pre>
+
+<p>You can later use it in your other files</p>
+
+<pre><code class="language-cpp">MyLittleStruct createALittleStruct()
+{
+	return MyLittleStruct{
+		"I'm ready to cry",
+		12
+	}
+}
+</code></pre>
+
+<blockquote>
+  <p>⚠️ JavaScript will not understand any of this vector/map/struct mumbo jumbo, you will need to convert it at a later point to the appropriate JSI objects.</p>
+</blockquote>
+
+<h1 id="the-advanced-stuff">The advanced stuff</h1>
+
+<h2 id="a-pointer-is-a-memory-address">A <strong>pointer is a memory address</strong></h2>
+
+<p>Once you go beyond simple functions becomes super important, but only Einstein levels of intellect have the brain power and time to really understand the topic, you and me as mere mortals need to know only this:</p>
+
+<blockquote>
+  <p>🚨 <strong>A pointer is a memory address</strong></p>
+</blockquote>
+
+<p>Get a tattoo of it if you can, whenever you use pointers it will also subtly change the semantics of your functions, but let’s just start with the basics:</p>
+
+<pre><code class="language-cpp">// A regular integer variable
+int age = 19; // 19
+
+// The "&amp;" operator returns the pointer (memory address) of a variable
+cout &lt;&lt; &amp;age; // "0x6ef07b"
+
+// A pointer variable (that points to an integer)
+int *pAge = &amp;age; // 0x6ef07b
+
+// Why does the pointer also have an int?
+// because just a memory address is not useful
+// You need to be able to cast it back into the original data
+// The "*" operator "dereferences" the pointer = reads memory and casts it back to the original data
+cout &lt;&lt; *pAge; // "19"
+</code></pre>
+
+<h2 id="pass-by-value-and-by-reference">Pass by value and by reference</h2>
+
+<p>While Javascript also has pass by value and by reference, there you cannot modify the semantics, but on C++ you can:</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+
+// The "&amp;" operator here does not mean to get the pointer
+// but that the argument passed should not copied but rather "referenced"
+int sumByReference(int &amp;result) {
+	result = 10 + 9;
+	return result;
+}
+
+// A normal function
+int sumByValue(int result) {
+	result = 10 + 9;
+	return result;
+}
+
+int main() {
+	int result = 0;
+
+  std::cout &lt;&lt; "result variable: " &lt;&lt; result &lt;&lt; std::endl; 	// result variable: 0
+  std::cout &lt;&lt; "Sum by value: " &lt;&lt; sumByValue(result) &lt;&lt; std::endl; 	// Sum by value: 19
+  std::cout &lt;&lt; "result variable: " &lt;&lt; result &lt;&lt; std::endl; 	// result variable: 0
+  std::cout &lt;&lt; "Sum by reference: " &lt;&lt; sumByReference(result) &lt;&lt; std::endl; // Sum by reference: 19
+  std::cout &lt;&lt; "result variable: " &lt;&lt; result &lt;&lt; std::endl; 	// result variable: 19
+
+  return 0;
+}
+</code></pre>
+
+<h2 id="strings">Strings</h2>
+
+<p>On C there is no string class, it’s all done with raw bytes and pointers, C++ has <code>std::string</code> which makes it easier, but a lot of APIs still deal with C-like strings, so it’s important to understand them</p>
+
+<pre><code class="language-cpp">// in C++
+std::string hello = "I'm a Javascript princess";
+
+// Create a C-Like string
+char *myString = hello.c_str();
+</code></pre>
+
+<p>This means the <code>*mystring</code> pointer → points to the first byte (ASCII → 1byte = 1char, also UTF-8 but other encodings need more bytes) of the string, you can “reconstruct” your string by walking byte by byte</p>
+
+<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c787b649-7083-43da-929e-5f23165a4127/Frame_1.png" alt="Frame 1.png" /></p>
+
+<p>But how do you know when the string ends? by convention you mark the end of a string by using a null pointer (<code>\0</code>)</p>
+
+<p>So then when you need to pass c_like strings in functions, you pass only the pointer</p>
+
+<pre><code class="language-cpp">std::string takesAString(char* myCString) {
+	return std::string(myCString); // convert to a c++ std::string
+}
+</code></pre>
+
+<blockquote>
+  <p>⚠️ This is not only used for strings, but whenever to pass arrays of stuff in without C++ fancy classes (no vectors, maps, etc). E.g: <code>jsi::Value *args</code> = array of <code>jsi::Values</code>, but unlike strings for other types of arrays you will have to pass/receive the length of the array as an integer (sometimes with a special <code>size_t</code> type).</p>
+</blockquote>
+
+<h2 id="scopecontext-lifecycles--memory-de-allocations-️">Scope/context Lifecycles / Memory de-allocations ⚠️</h2>
+
+<p>This is one <strong>WILL BITE YOU IN THE ASS.</strong> Important topic because unlike JS where you can just pass stuff around and it will (mostly) be fine, on C++ your variables will be de-allocated and you will end up with trash.</p>
+
+<p>But it’s important to note, C++ does not have a garbage collector, it just re-uses memory as the stack/heap get re-used.</p>
+
+<p>It is specially important for JSI since current API operates with lambdas and the context (calling function) were they are created is garbage collected and they need capture semantics.</p>
+
+<p>Let’s say you have an initialization function, that function has some variables declared inside:</p>
+
+<pre><code class="language-cpp">void initMyModule() {
+	// using a char* just to illustrate my point and keep the direct memory reference
+	char *docPath = "/usr/osp/Documents/";
+
+	initDatabaseModule(port, docPath);
+}
+</code></pre>
+
+<p>In order to initialize your module you call another module where you pass such variables, BUT inside that module you have functions that will outlive the original scope of the calling module:</p>
+
+<pre><code class="language-cpp">// ATTENTION: Pseudo-code
+
+// my database module
+
+// remember the pass by reference (&amp;) part?
+// This function takes a pointer via the "*" operator
+void initDatabaseModule(char *docPath) {
+
+	// this is a function with a lambda inside
+	std::function openDatabase(string dbName) {
+		// some code to initialize a database
+		return createDbFile(dbName, docPath);
+	}
+
+	// Then let's say you make this function globally available to the JS context
+	// (Foreshadowing to JSI 😉)
+	exposeToJS(openDatabase());
+}
+</code></pre>
+
+<p>Well… this will compile just fine, but when you try to call <code>openDatabase</code> from JavaScript, the <code>docPath</code> variable (pointer) will no longer contain a string, it will contain random bytes, that is because the context of the <code>initMyModule</code> function has been freed up, and some other piece of code has (could have) re-written that space.</p>
+
+<blockquote>
+  <p>⚠️ <strong>Unlike JS, you need to be really careful on the references you are passing, because they can be moved/garbage collected.</strong></p>
+</blockquote>
+
+<p>This brings us to capture semantics and how to work around this issues, for this type of module level variables one workaround is to declare a module variable:</p>
+
+<pre><code class="language-cpp">// ATTENTION: Pseudo-code
+
+// my database module
+
+// non-deallocatable reference
+std::string myDocPath;
+
+void initDatabaseModule(char *docPath) {
+	// We create a copy
+	myDocPath = std::string(docPath);
+
+	std::function openDatabase(string dbName) {
+		// some code to initialize a database
+		return createDbFile(dbName, myDocPath.c_str());
+	}
+
+	exposeToJS(openDatabase());
+}
+</code></pre>
+
+<p>Another workaround is to use pass by value semantics, but this might not always work, but at least now you know why your strings are garbage characters.</p>
+
+<h2 id="lambdas">Lambdas</h2>
+
+<p><a href="https://en.cppreference.com/w/cpp/language/lambda">Doc Reference</a></p>
+
+<p>A C++ lambda follows the syntax:</p>
+
+<pre><code class="language-cpp">[ captured variables ]( params ) { body }
+</code></pre>
+
+<p>Here is a very simple lambda example of a curried function (<a href="https://javascript.info/currying-partials">currying</a> = fancy word for partially applying functions )</p>
+
+<pre><code class="language-cpp">#include &lt;iostream&gt;
+#include &lt;functional&gt;
+
+std::function&lt;int(int)&gt; createSumN(int n) {
+	return [=](int x) {
+		return x + n;
+	};
+}
+
+int main() {
+	std::function sum4 = createSumN(4);
+
+	std::cout &lt;&lt; "result of sum4: " &lt;&lt; sum4(10) &lt;&lt; std::endl;
+
+  return 0;
+}
+</code></pre>
+
+<h3 id="captured-variables">Captured variables</h3>
+
+<p>In the example I used <code>[=]</code> as my capture value, this basically copies the entire context of the parent function into the lambda function context, you might want to capture specific values, in that case you want to do something like:</p>
+
+<pre><code class="language-cpp">// pass by value/reference still applies here
+
+// pass by value (will create a copy in the lambda context)
+std::function&lt;int(int)&gt; createSumN(int n) {
+	return [n](int x) {
+		return x + n;
+	};
+}
+
+// pass by reference (will use the same memory address) will basically create garbage if you are not careful and call after parent memory has been re-used
+std::function&lt;int(int)&gt; createSumNWrong(int n) {
+	return [&amp;n](int x) {
+		return x + n;
+	};
+}
+
+std::function sum4 = createSumN(4);
+std::function sum4Wrong = createSumNWrong(4);
+
+std::cout &lt;&lt; "result of sum4: " &lt;&lt; sum4(10) &lt;&lt; std::endl // "14"
+std::cout &lt;&lt; "result of sum4: " &lt;&lt; sum4Wrong(10) &lt;&lt; std::endl // who knows, I got "3660"
+</code></pre>
+
+<p>So whatever you are trying to capture by reference make sure that it will be long lived</p>
+
+<h2 id="stdmove">std::move</h2>
+
+<p>There is another trick you need to know that will keep your variables (and lambdas) from being de-allocated: <code>std::move</code> takes a variable or reference and tells the compiler it is safe to move it’s memory space to whatever you are passing it to, JSI (and probably the code you will write) uses this extensively:</p>
+
+<pre><code class="language-cpp">// Assume you are initializing your JSI module, in this case a database module
+// you create a JSI function and now you need to move it to JavaScript global object
+
+auto myOpenFunction = jsi::Function::crea... // creates a JSI (read Javascript) function
+
+rt.global()
+	.setProperty(rt,
+							 "open",
+							 std::move(myOpenFunction)); // This will safely move the memory chunk of "myOpenFunction" from the context of this function to the global object
+</code></pre>
+
+<p>If your library returns anything but basic types (int, doubles, etc) you will also have to std::move their structs to avoid them from being thrashed:</p>
+
+<pre><code class="language-cpp">auto myOpenFunction = jsi::Function::create... // creates a JSI (read Javascript) function
+											// bunch of mumbo jumbo
+											{
+												jsi::Object response = jsi::Object(rt); // creates a JavaScript {} (empty object)
+												response.setProperty(rt, "foo", "bar"); // {foo: "bar"}
+												return std::move(response); // Moves the "response" object from this function scope to the JavaScript runtime to avoid the memory being deleted
+											}
+</code></pre>
+
+<h2 id="void-returns">Void returns</h2>
+
+<p>Unlike Javascript, <strong>you need to return your lambda functions</strong> (not to Javascript, just on the C++ side):</p>
+
+<pre><code class="language-cpp">auto myOpenFunction = jsi::Function::create..
+											// bunch of mumbo jumbo
+											{
+												[]() -&gt; void {
+													cout &lt;&lt; "I did some side-effect" &lt;&lt; endl;
+													return {}; // void return
+												}
+											}
+</code></pre>
+
+<h1 id="advanced-advanced-stuff">Advanced advanced stuff</h1>
+
+<h2 id="bitwise-operations-masks">Bitwise operations (masks)</h2>
+
+<p>While it is possible to do bit level operations on Javascript is not very common, so you might don’t know how it works, it is however a fairly standard trick in the C/C++ world</p>
+
+<pre><code class="language-jsx">int a = 1; // = 0000...01 (binary)
+int b = 2; // = 0000...10 (binary)
+
+// Do an AND on the bits
+cout &lt;&lt; a &amp; b &lt;&lt; endl; // 0 = 0000...00
+
+// Do an OR on the bits
+cout &lt;&lt; a | b &lt;&lt; endl; // 3 = 0000...11
+</code></pre>
+
+<p>What kind of madman would use this beside the magicians… well, a lot of devs use for single flag configurations, here is a theoretical example:</p>
+
+<pre><code class="language-jsx">// Let's say I'm creating a user/role module
+// instead of creating enums, string or w/e
+// I can model my permissions as a series of flags
+int HAS_READ_PERMISSION = 1; // 0000...01
+int HAS_WRITE_PERMISSION = 2; // 0000...10
+int HAS_EXECUTE_PERMISSION = 4; // 000..100
+// ...
+int HAS_CHESEE_WAREHOUSE_PERMISION = 32; // 000...10000
+
+// So then when I want to create permissions for an specific user I can do this cute trick
+int myUserPermissions = HAS_READ_PERMISION | HAS_WRITE_PERMISSION | HAS_CHESEE_WAREHOUSE_PERMISION; // 000...10101
+</code></pre>
+
+<h2 id="revisiting-pointers">Revisiting pointers</h2>
+
+<p>I superficially introduced pointers to you, I did not want to go deeper because it can be super confusing, however it is important to know everything you can do (and be careful of) with pointers.</p>
+
+<p>For your reference here is the <a href="https://www.cplusplus.com/doc/tutorial/pointers/">cplusplus tutorial</a> on pointers.</p>
+
+<p>Here are some patterns that you might encounter, instead of reading you the theory like the bible, I think it is better to plain explain it</p>
+
+<pre><code class="language-jsx">// SQLite example to "open" a database
+
+// Remember bit masks?
+int sqlOpenFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+
+sqlite3 *db; // Declare a pointer to a sqlite3 type variable, currently empty
+
+// Exit code to be used by sqlite
+// 0 is considered by everyone and their grandma to be the code when a program has correctly executed it's function
+int exit = 0;
+
+// Mash everything together! 😮‍💨
+// 1) The success (or failure) of the operation will be saved on the exit variable
+// 2) notice the &amp;db: we are passing a pointer to the pointer! Yes that is possible!
+//    sqlite3 will initialize a sqlite3 object and then cram the memory value into the pointer we passed!
+
+exit = sqlite3_open_v2("my_database_path", &amp;db, sqlOpenFlags, nullptr);
+
+// The code above will not throw a memory exception, but it will return the return code
+// it falls to us to check the function has correctly opened a SQLite database
+// (SQLITE_OK is just 0)
+if (exit != SQLITE_OK) {
+...
+</code></pre>
+
+<h2 id="host-objects">Host Objects</h2>
+
+<p>Host objects are just C++ (class) instances that have methods exposed to the JS context. They do not necessarily have a performance advantage, but rather allow to encapsulate and use most of C++ class semantics easily.</p>
+
+<p>To expose a C++ as a HostObject you need to take care of the following:</p>
+
+<ol>
+  <li>Inherit from jsi::HostObject</li>
+  <li>Override <code>get</code> and <code>set</code> to allow access to methods and properties</li>
+  <li>Register object on the global object</li>
+</ol>
+
+<p>Here is a simple example:</p>
+
+<pre><code class="language-swift">#include &lt;jsi/jsi.h&gt;
+#import &lt;React/RCTBridge+Private.h&gt;
+
+using namespace facebook::jsi;
+using namespace std;
+
+// Store key-value pairs persistently across launches of your app.
+class NativeStorage : public HostObject {
+public:
+  /// Stored property
+  int expirationTime = 60 * 60 * 24; // 1 day
+
+  // Helper function
+  static NSString* stringValue(Runtime &amp;runtime, const Value &amp;value) {
+    return value.isString()
+      ? [NSString stringWithUTF8String:value.getString(runtime).utf8(runtime).c_str()]
+      : nil;
+  }
+
+  Value get(Runtime &amp;runtime, const PropNameID &amp;name) override {
+    auto methodName = name.utf8(runtime);
+
+    // `expirationTime` property getter
+    if (methodName == "expirationTime") {
+      return this-&gt;expirationTime;
+    }
+    // `setObject` method
+    else if (methodName == "setObject") {
+      return Function::createFromHostFunction(runtime, PropNameID::forAscii(runtime, "setObject"), 2,
+                                                        [](Runtime &amp;runtime, const Value &amp;thisValue,const Value *arguments, size_t count) -&gt; Value {
+        NSString* key = stringValue(runtime, arguments[0]);
+        NSString* value = stringValue(runtime, arguments[1]);
+        if (key.length &amp;&amp; value.length) {
+          [NSUserDefaults.standardUserDefaults setObject:value forKey:key];
+          return true;
+        }
+        return false;
+      });
+    }
+    // `object` method
+    else if (methodName == "object") {
+      return Function::createFromHostFunction(runtime, PropNameID::forAscii(runtime, "object"), 1,
+                                                        [](Runtime &amp;runtime, const Value &amp;thisValue,const Value *arguments, size_t count) -&gt; Value {
+        NSString* key = stringValue(runtime, arguments[0]);
+        NSString* value = [NSUserDefaults.standardUserDefaults stringForKey:key];
+        return value.length
+          ? Value(runtime, String::createFromUtf8(runtime, value.UTF8String))
+          : Value::undefined();
+      });
+    }
+    return Value::undefined();
+  }
+
+  void set(Runtime&amp; runtime, const PropNameID&amp; name, const Value&amp; value) override {
+    auto methodName = name.utf8(runtime);
+
+    // ExpirationTime property setter
+    if (methodName == "expirationTime") {
+      if (value.isNumber()) {
+        this-&gt;expirationTime = value.asNumber();
+      }
+    }
+  }
+
+	// You can call this method from the entry point where you install the bindings
+  // or call it in another method, we will take a look later
+  // Install `nativeStorage` globally to the runtime
+  static void install(Runtime&amp; runtime) {
+    NativeStorage nativeStorage;
+    shared_ptr&lt;NativeStorage&gt; binding = make_shared&lt;NativeStorage&gt;(move(nativeStorage));
+    auto object = Object::createFromHostObject(runtime, binding);
+
+    runtime.global().setProperty(runtime, "nativeStorage", object);
+  }
+};
+</code></pre>
+
+<h1 id="references">References</h1>
+
+<p>So most of what you see here I learned from the library I implemented: <a href="https://github.com/ospfranco/react-native-quick-sqlite">react-native-quick-sqlite</a>, it is a new wrapper for SQLite3 using JSI bindings, the code is MIT and open source, so feel free to check it out, there are also many other JSI libraries out there, with varying grades of difficulty for you to understand:</p>
+
+<h3 id="libraries-implemented-using-jsi">Libraries implemented using JSI</h3>
+
+<ul>
+  <li>https://github.com/mrousavy/react-native-vision-camera</li>
+  <li>https://github.com/mrousavy/react-native-mmkv</li>
+  <li>https://github.com/mrousavy/react-native-multithreading</li>
+  <li>https://github.com/software-mansion/react-native-reanimated</li>
+  <li>https://github.com/BabylonJS/BabylonReactNative</li>
+  <li>https://github.com/craftzdog/react-native-quick-base64</li>
+  <li>https://github.com/craftzdog/react-native-quick-md5</li>
+  <li>https://github.com/greentriangle/react-native-leveldb</li>
+  <li>https://github.com/expo/expo/tree/master/packages/expo-gl</li>
+  <li>https://github.com/ospfranco/react-native-quick-sqlite</li>
+  <li>https://github.com/ammarahm-ed/react-native-mmkv-storage</li>
+  <li>https://github.com/Nozbe/WatermelonDB</li>
+</ul>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

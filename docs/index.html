@@ -1,0 +1,1357 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Oscar Franco" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<link rel="canonical" href="https://ospfranco.com/" />
+<meta property="og:url" content="https://ospfranco.com/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="website" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Oscar Franco" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Oscar Franco"},"headline":"Oscar Franco","name":"Oscar Franco","url":"https://ospfranco.com/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <script type="module">
+  // Import the main module that loads the WASM
+  import init, { main_web } from '/assets/wasm/nannou_web_test.js';
+
+  async function startNannouApp() {
+    const container = document.getElementById("nannou-container");
+    const isBrave = navigator.userAgent.includes("Brave") ||
+      (window.navigator && window.navigator.brave !== undefined);
+
+    if (isBrave) {
+      const noteDiv = document.createElement('div');
+      noteDiv.className = "absolute top-0 left-0 right-0 bg-neutral-50/10 backdrop-blur p-2 rounded-md text-xs z-10 flex flex-col items-center justify-center text-neutral-400";
+      noteDiv.innerHTML = `
+        If the WASM sketch doesn't appear, please disable webgl2 blocking in Brave Shields for this site
+      `;
+      container.parentNode.insertBefore(noteDiv, container);
+    }
+    try {
+      // Initialize the WASM module
+      await init('/assets/wasm/nannou_web_test_bg.wasm');
+
+      // Call your exported function
+      await main_web("nannou-container");
+    } catch (error) {
+      console.error("Failed to load Nannou WASM module:", error);
+    }
+  }
+
+  // Start the application when the page loads
+  document.addEventListener('DOMContentLoaded', startNannouApp);
+</script>
+
+<body class="flex flex-col items-center">
+  <div class="max-w-4xl w-full gap-4 p-4 flex flex-col">
+    <div class="h-full flex flex-col justify-end gap-4">
+      <div class="flex-1 flex flex-col items-center justify-center gap-4">
+        <div class="relative group">
+          <div id="nannou-container" class="h-96 w-96" />
+          <p
+            class="text-gray-300 text-xs absolute left-1/2 -translate-x-1/2 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Nannou Sketch → WASM
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="text-xl">Oscar Franco</h1>
+
+    <img src="/assets/header.jpg" class="w-full h-64 rounded-lg object-cover animate-fadeIn" />
+
+    <p>
+      Freelance Systems Engineer. Living in Barcelona. Open Source maintainer, led development teams,
+      dable in YouTube. Won the German Design Award 2025 with <a href="https://sol.ospfranco.com">Sol</a>. Follow me on
+      <a href=" https://www.x.com/ospfranco" target="_blank"">X</a> or send me an <a href=" mailto:ospfranco@gmail.com"
+        target="_blank"">e-mail</a>.
+    </p>
+  </div>
+
+  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
+  </div>
+
+  <h2 class=" font-semibold">Links</h2>
+
+  <p>
+    <a class="hover:no-underline" href="https://sol.ospfranco.com">
+      Sol
+    </a><br>
+    <span class="text-neutral-500">
+      Open Source macOS Launcher
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://www.newline.co/courses/building-react-native-apps-for-mac">
+      React Native Apps for Mac Online Class
+    </a><br>
+    <span class="text-neutral-500">
+      Online class on how to build React Native apps for macOS
+    </span>
+
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://www.youtube.com/@ospfranco">
+      YouTube
+    </a><br>
+    <span class="text-neutral-500">
+      Tutorials, tips and explanations about React Native, Rust, macOS and more
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-sqlite">
+      op-sqlite
+    </a><br>
+    <span class="text-neutral-500">The fastest SQLite for React Native</span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-s2">
+      op-s2
+    </a><br>
+    <span class="text-neutral-500">
+      Hardware Encrypted Storage for React Native
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-aws-lc">
+      op-aws-lc
+    </a><br>
+    <span class="text-neutral-500">
+      AWS LibCrypto bindings (with FIPS) for React Native
+    </span>
+  </p>
+
+  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
+  </div>
+
+  <div class="w-full max-w-4xl">
+    <h2 class=" font-semibold">Writing</h2>
+
+    <ul class="flex flex-col gap-2 mt-4">
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/rust-tips-from-a-noob/">Rust Noobie Best Practices</a>
+          </p>
+          
+          <p class="text-xs">
+            <a href="/rust-tips-de-un-noob">Español</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          03 Sep 2025
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/setting-up-expo-push-notifications-for-pre-build-projects/">Setting up Expo Push Notifications for Pre-Build Projects</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          30 Jul 2025
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/complete-guide-to-dylibs-in-ios-and-android/">Complete guide to (Rust) dylibs in iOS and Android</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          30 Jul 2025
+        </span>
+      </li>
+      
+      
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/">Fixing mini 4 pro, failing to load images in quick transfer</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          06 Apr 2025
+        </span>
+      </li>
+      
+      
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/better-tasks-and-scripts-with-mise-and-zx/">Better repo tasks and scripts with mise and bun shell</a>
+          </p>
+          
+          <p class="text-xs">
+            <a href="/mejores-tasks-y-scripts-con-mise-y-bun-shell">Español</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          26 Mar 2025
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/barcelonajs-talk/">BarcelonaJS Talk</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          10 Feb 2025
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/react-native-rctrootviewfactory/">React Native RCTRootViewFactory (Brownfield apps)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          21 Jan 2025
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/generating-a-xcframework-with-dylibs-for-ios/">Loading dylibs in iOS</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          21 Jan 2025
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/use-react-as-a-rendering-layer/">Use React as a Rendering Layer</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          11 Nov 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/make-mise-installed-tools-globally-available-for-gui-tools/">Make MISE installed tools globally available for GUI tools</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          23 Sep 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/compiling-openssl-in-rust-for-android/">Compiling OpenSSL in Rust for Android</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          21 Sep 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/app-clip-with-react-native-and-new-arch-(and-swift)/">App clip with React Native and New Arch (and Swift)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          30 Jun 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/client-guide-to-react-native-modules/">Client guide to React Native modules</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          25 Jun 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/rust-reduce-binary-size/">Reduce Rust binaries size</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          23 Jun 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/writting-tests-for-tauri-rust-commands/">Writting tests for Tauri Rust Commands</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          05 Jun 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/react-native-security-guide/">React Native Security Guide</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          30 May 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2024/05/08/react-native-rust-module-guide/">Rust modules in React Native</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          08 May 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/why-I-believe-swift-is-better-than-rust/">Why I believe Swift is better than Rust</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          29 Apr 2024
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/how-to-resolve-duplicated-libraries-on-android/">How to resolve duplicated libraries on Android</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          07 Dec 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/swift-5.9-notes/">Swift 5.9 Notes</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          24 Nov 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/">Mix C++, Obj-C and Swift files in a single XCode target</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          24 Nov 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/11/13/get-ios-simulator-local-home-folder-on-macos/">Get iOS simulator local home folder on macOS</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          13 Nov 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/">SQLite for React Native, but 5x faster and 5x less memory</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          09 Nov 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/11/08/advanced-c++-notes/">Advanced C++ notes</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          08 Nov 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/">Cocoapods, use_frameworks with static linking</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Oct 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/">React Native load release bundle in iOS dev app</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          12 Oct 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/21/add-gap-support-to-native-wind-2.x.x/">Add gap support to Native Wind 2.x.x</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          21 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/20/change-macos-dock-animation-time/">Change macOS dock animation time</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          20 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/16/strip-flow-types-to-read-flowtype-file-from-vanilla-js/">Strip flow types to read flowtype file from vanilla JS</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          16 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/16/disambiguate-typescript-union-types/">Disambiguate TypeScript union types</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          16 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/zsh-configuration-files-load-order/">ZSH configuration files load order</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/speed-up-jest-(by-using-multiple-cores)/">Speed up Jest (by using multiple cores)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/react-native,-native-logs-quirks/">React Native, native logs quirks</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/react-native,-file-upload-via-axios/">React Native, file upload via axios</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/react-native,-change-metro-default-terminal/">React Native, change metro default terminal</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/objective-c-cheatsheet/">Objective-C cheatsheet</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/">JSI Cheatsheet&#58; Part 3 - JSI API Reference</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/jsi-cheatsheet-part-2-tooling/">JSI Cheatsheet&#58; Part 2 - Tooling</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/jsi-cheatsheet-part-1-jsi/">JSI Cheatsheet&#58; Part 1 - C++</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/javas-jni-quirks-and-notes/">Javas JNI quirks and notes</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/cmake-notes/">CMake notes</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/c++-and-xcode-notes/">C++ and XCode notes</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/15/c++-and-android-notes/">C++ and Android notes</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/11/react-native,-reduce-sentry's-bundle-size-on-android/">React Native, reduce Sentry's bundle size on Android</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          11 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/">React Native, how to set up fonts with a single canonical name</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          11 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/11/react-native,-android-audio/">React Native, Android emulator prevent janky bluetooth output</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          11 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2023/08/11/react-native-hot-module-hooks/">React Native, hot module hooks</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          11 Aug 2023
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2022/06/05/jsi-pitfalls/">React Native JSI/TurboModules pitfalls</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          05 Jun 2022
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2022/01/08/email-templates-with-react-and-tailwind/">Email templates with React and Tailwind</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          08 Jan 2022
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/12/21/reset-nvram-on-m1-mac/">Reset NVRAM on m1 mac</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          21 Dec 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/12/18/never-use-anything-except-a-pure-uuid/">Never use anything except a pure UUID (Anti REGEX argument)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          18 Dec 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/12/11/how-to-install-m1-(arm)-compatible-jdk/">How to install M1 (arm) compatible JDK</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          11 Dec 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/11/04/startups-latinoamerica/">Startups Latinoamerica</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          04 Nov 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/">How to visualize Flowtype dependency tree</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          25 Aug 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/07/31/migrate-rn-appdelegate-to-swift/">Migrate React Native's AppDelegate to Swift</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          31 Jul 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/05/24/how-to-get-the-wifi-password-on-macos/">Retrieve macOS WiFi password</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          24 May 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/">Problems reading data from Binary store - crashing RN</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          20 May 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/">Github workflows chaining</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          10 May 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/05/04/build-react-native-app-on-github-actions/">Building a react-native app on github actions</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          04 May 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/">Redux as analytics middleware</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          28 Apr 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/04/26/reduce-sentry-android-bundle-size/">Reducing Sentry's android app bundle size</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          26 Apr 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/04/20/how-does-react-i18next-trans-component-work/">React-i18next trans component explained</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          20 Apr 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/02/24/how-to-create-a-javascript-jsi-module/">React-native JSI module tutorial</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          24 Feb 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/02/18/quick-test-a-javascript-library-in-the-browser-console/">Test any JavaScript library in the console</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          18 Feb 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/">Android dynamic icons (Build-time, non-flavor)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          01 Feb 2021
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/12/03/how-to-post-jest-test-results-into-github-prs/">Post Jest results into Github PRs</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          03 Dec 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/">Dynamic iOS icons (build-time)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          17 Sep 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/08/14/ios-14-widgets-and-react-native/">React Native iOS 14 widgets guide</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          14 Aug 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/08/04/use-the-mapbox-sdk-to-render-any-tile-set/">How to use the Mapbox SDK to render custom tiles</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          04 Aug 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/07/15/why-i-stopped-using-redux,-mobx-and-context-(mostly)/">Stop using redux, mobx and/or context</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          15 Jul 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/06/05/personality-and-engineering/">Personality and Engineering</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          05 Jun 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/05/23/how-to-make-a-react-native-menu-bar-app-for-mac-os/">How to build a React-Native macOS menu bar app</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          23 May 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/">Swift tips for JavaScript developers</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          30 Apr 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/02/22/how-to-deploy-a-nestjs-app-on-minikube-with-helm/">How to deploy a NestJS app on Minikube</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          22 Feb 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2020/02/03/sharing-messages-between-springboot-instances/">Sharing state/messages between Springboot servers</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          03 Feb 2020
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2019/08/30/integrating-vscode-in-your-react-native-and-web-workflow/">Better debugging experience with VSCode and React Native</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          30 Aug 2019
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2019/08/27/react-rotating-image/">Rotate React image based on EXIF</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          27 Aug 2019
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/">Monorepo codesharing (with lerna.js and typescript)</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          27 Aug 2019
+        </span>
+      </li>
+      
+      
+      
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="/post/2019/08/24/germany-and-europe-data-analysis/">Germany rental market price visualization</a>
+          </p>
+          
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          24 Aug 2019
+        </span>
+      </li>
+      
+      
+    </ul>
+  </div>
+</body>
+</html>

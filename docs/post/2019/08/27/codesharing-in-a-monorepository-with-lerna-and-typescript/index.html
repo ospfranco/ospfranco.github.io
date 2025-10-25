@@ -1,0 +1,181 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Monorepo codesharing (with lerna.js and typescript) | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Monorepo codesharing (with lerna.js and typescript)" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Reduce code duplication using some tooling and share code between projects" />
+<meta property="og:description" content="Reduce code duplication using some tooling and share code between projects" />
+<link rel="canonical" href="https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/" />
+<meta property="og:url" content="https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2019-08-27T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Monorepo codesharing (with lerna.js and typescript)" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","description":"Reduce code duplication using some tooling and share code between projects","headline":"Monorepo codesharing (with lerna.js and typescript)","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"},"url":"https://ospfranco.com/post/2019/08/27/codesharing-in-a-monorepository-with-lerna-and-typescript/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Monorepo codesharing (with lerna.js and typescript)
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        August 2019
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><h1 id="update-april-2021">Update April 2021</h1>
+<p>The original article below is fairly old, the community is moving away from Lerna due to the complexity it introduces.</p>
+
+<p>If you need to share code between apps I recommend for you to go with <a href="https://www.typescriptlang.org/docs/handbook/project-references.html">TypeScript project references</a>. <a href="https://github.com/RyanCavanaugh/project-references-demo">Check this repo</a> by Ryan Cavanaugh for a working example.</p>
+
+<h1 id="original-article">Original Article</h1>
+
+<p>If you are using javascript in different parts of your platform (mobile app, SPA web app, node server, etc.) at some point you might end up duplicating code between them, sometimes it makes a lot of sense to get rid of duplication, sharing models for example.</p>
+
+<p>The deployments for this example are:</p>
+<ul>
+  <li>React SPA (Redux, Typescript)</li>
+  <li>React-Native App (Redux, Typescript)</li>
+  <li>NestJS Server (Typescript)</li>
+</ul>
+
+<p>All of them reside within a single repository, from which individual docker containers are built and deployed to the cloud.</p>
+
+<h2 id="lernajs">Lernajs</h2>
+
+<p>Lernajs is a tool that shares codes within a monorepo, it handles your package dependencies by hoisting them to the root folder of the repo.</p>
+
+<p>Imagine using <code>ramda</code> in all of your applications but installing it only once at the root. By hoisting, Lernajs does exactly that and symlinks it to the application <code>node_modules</code> folder. Furthermore, it has some nice little utilities that you can use to manage your workflow like adding new packages to applications, running multiple applications in parallel, etc.</p>
+
+<p>Specifically what I wanted to share between the deployments: redux actions, redux reducers and epics, typescript models and some utility code, I crammed all this code into a <code>shared</code> package which is being used by our <code>frontend</code> and <code>mobile</code> packages, declared as a dependency.</p>
+
+<p>So what remains is mostly UI, routing and platform specific code. Below is how our folder structure looks like.</p>
+
+<p><img src="https://ospfranco.com/assets/Codesharing2.png" alt="Codehsaring1" title="Codehsaring1" /></p>
+<blockquote>
+  <p>Our refactored code, shared contains common code</p>
+</blockquote>
+
+<p>These are then imported in the <code>frontend</code> and <code>mobile</code> packages where we create our store (combing all the reducers from <code>shared</code>) and root epic (combining all the epics from <code>shared</code>). The reason for creating the store inside the <code>frontend</code> and <code>mobile</code> packages rather than in <code>shared</code> is simple; we want to have flexibility so that we can add other platforms specific modules or enhance reducers on a per application basis.</p>
+
+<p><img src="https://ospfranco.com/assets/Codesharing3.png" alt="Codehsaring3" title="Codehsaring3" /></p>
+<blockquote>
+  <p>Assuming you have a <code>UserModel</code> class in <code>shared</code> you would simple import it like so_</p>
+</blockquote>
+
+<p>For the redux actions, they are used as you would normally dispatch any action (the only difference being that your actions are now imported from the <code>shared</code> package). You can of course, add more actions inside the <code>frontend</code>/<code>mobile</code> packages and supply your own <code>epic</code> to handle them and it’ll all work seamlessly™.
+You can read more about lerna on their website, but here are a couple of steps that we followed and should get you halfway there:</p>
+
+<ul>
+  <li>Install lerna</li>
+</ul>
+
+<pre><code class="language-bash">npm install -g lerna
+</code></pre>
+
+<ul>
+  <li>
+    <p>Extract your code and place it at the root of your mono repository, you should also add a ‘prepare’ npm script, in our case we do typescript compilation to output to a lib folder</p>
+  </li>
+  <li>
+    <p>Run lerna init in your root folder</p>
+  </li>
+</ul>
+
+<pre><code class="language-bash">lerna init
+</code></pre>
+
+<ul>
+  <li>Modify your lerna.json to hoist your different packages (bonus tip, you can also leverage lerna with yarn), here is our lerna.json file:</li>
+</ul>
+
+<p><img src="https://ospfranco.com/assets/Codesharing4.png" alt="Codesharing4" title="Codesharing4" /></p>
+
+<ul>
+  <li>Link your shared folder</li>
+</ul>
+
+<pre><code>lerna add wa-core — scope=frontend
+lerna add wa-core — scope=mobile
+</code></pre>
+
+<ul>
+  <li>Bootstrap your project</li>
+</ul>
+
+<pre><code>lerna bootstrap
+</code></pre>
+
+<p>There might be some cases where you don’t want some packages to be hoisted e.g. react-native. You can use a nice feature of yarn workspaces called <code>nohoist</code>, which would make lerna not hoist them to the root.</p>
+
+<h2 id="typescript-3">Typescript (3.+)</h2>
+
+<p>The latest release of typescript has what they call <code>project references</code>, this essentially is the same thing that we want, you can read more about it in their announcement post but here are a couple of steps to get you started.</p>
+
+<p>After refactoring and extracting the shared code, your shared folder should contain a <code>tsconfig.json</code> file, now in the package were you want to import this code, you should modify your <code>tsconfig.json</code> to contain the following:</p>
+
+<pre><code class="language-json">{
+  …
+  "composite": true,
+  "declaration": true,
+  "references": [
+    { "path": "../shared" }
+  ],
+  …
+}
+</code></pre>
+
+<p>Once that is done, you can import your code by doing:</p>
+
+<pre><code class="language-ts">import { Foo } from ‘../shared/Foo’;
+</code></pre>
+
+<p>To compile your project you now have to pass the — build flag (or -b) and that should be it, typescript should hoist and transpile the referenced code for you.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

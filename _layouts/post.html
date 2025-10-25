@@ -1,0 +1,28 @@
+---
+layout: default
+---
+
+{%include header.html%}
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        {{ page.title }}
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        {{ page.date | date: "%B %Y" }}
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify">{{ content }}</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>

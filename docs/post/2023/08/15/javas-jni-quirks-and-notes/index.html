@@ -1,0 +1,147 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Javas JNI quirks and notes | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Javas JNI quirks and notes" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions." />
+<meta property="og:description" content="The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Javas JNI quirks and notes" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions.","headline":"Javas JNI quirks and notes","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"},"url":"https://ospfranco.com/post/2023/08/15/javas-jni-quirks-and-notes/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Javas JNI quirks and notes
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        August 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>The JNI is Javas compatibility layer with C. It follows a strict syntax to blindly call the (ABI-compatible) functions. It has however arcane syntax and conventions.</p>
+
+<h1 id="cpp-adapter">Cpp-adapter</h1>
+
+<p>The entry point (at least for React Native modules) is the <code>cpp-adapter</code> file. This file receives a <code>jobject thiz</code> reference, which maps to the Java/Kotlin instance/class that has created it. You can use this reference to call the methods to the class/instance.</p>
+
+<p>Calling the methods however is a bit tedious, since you have to first reference the method via signature using a weird string syntax, then convert any type of C++ integral type to the Java equivalent. Perform the conversion, call, handle any exceptions, etc.</p>
+
+<p>Here is one example</p>
+
+<pre><code class="language-C++">void set(const char* key, const char* value, bool withBiometrics)
+{
+    JNIEnv *jniEnv = GetJniEnv();
+    java_class = jniEnv-&gt;GetObjectClass(java_object);
+    jmethodID mid = jniEnv-&gt;GetMethodID(java_class, "setItem", "(Ljava/lang/String;Ljava/lang/String;Z)V");
+    jstring jKey = string2jstring(jniEnv, key);
+    jstring jVal = string2jstring(jniEnv, value);
+    jvalue params[3];
+    params[0].l = jKey;
+    params[1].l = jVal;
+    params[2].z = withBiometrics;
+
+
+    jniEnv-&gt;CallVoidMethodA(java_object, mid, params);
+
+    jthrowable exObj = jniEnv-&gt;ExceptionOccurred();
+    if(exObj) {
+        jniEnv-&gt;ExceptionClear();
+
+        jclass clazz = jniEnv-&gt;GetObjectClass(exObj);
+        jmethodID getMessage = jniEnv-&gt;GetMethodID(clazz,
+                                                "toString",
+                                                "()Ljava/lang/String;");
+        jstring message = (jstring)jniEnv-&gt;CallObjectMethod(exObj, getMessage);
+        const char *mstr = jniEnv-&gt;GetStringUTFChars(message, NULL);
+        throw std::runtime_error(std::string(mstr));
+    }
+}
+</code></pre>
+
+<p>Here is a convenience method to convert from a CString to a Java String</p>
+
+<pre><code class="language-c++">jstring string2jstring(JNIEnv *env, const char *str)
+{
+    return (*env).NewStringUTF(str);
+}
+</code></pre>
+
+<h1 id="type-conversions">Type conversions</h1>
+
+<p>When declaring a Java JNI function you need to declare the types with single characters that will be mapped to C types. The conversion is as follows:</p>
+
+<p>Z = boolean
+B = byte
+C = char
+I = short
+J = long
+F = float
+D = double</p>
+
+<p>Non scalar types need to be declared by their corresponding package:</p>
+
+<pre><code class="language-java">// Will be passed to the C side as a JString
+Ljava/lang/String;
+</code></pre>
+
+<h1 id="extern-c">Extern C</h1>
+
+<p>C++ code needs to be within a <code>extern "C"</code> to prevent name mangling by the compiler and allow the JNI to call the function blindly.</p>
+
+<h1 id="jniexport--jnicall">JNIEXPORT &amp; JNICALL</h1>
+
+<p><code>JNIEXPORT</code> ensures function is visible on the symbols table
+<code>JNICALL</code> ensures function uses the correct calling convention. On Android JNICALL has a different value based on the architecture where it is running.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

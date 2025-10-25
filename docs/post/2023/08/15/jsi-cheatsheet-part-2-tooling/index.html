@@ -1,0 +1,260 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>JSI Cheatsheet: Part 2 - Tooling | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="JSI Cheatsheet: Part 2 - Tooling" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works." />
+<meta property="og:description" content="Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="JSI Cheatsheet: Part 2 - Tooling" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.","headline":"JSI Cheatsheet: Part 2 - Tooling","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        JSI Cheatsheet&#58; Part 2 - Tooling
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        August 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>Now that you know C++ (<a href="https://www.notion.so/JSI-Cheatsheet-Part-I-C-f1872d77ee4c4dc3b9563fa6cb3005f6?pvs=21">JSI Cheatsheet Part I: C++</a>) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.</p>
+
+<h1 id="contents">Contents</h1>
+
+<h1 id="basics">Basics</h1>
+
+<p>Same as before, there are many resources how basic C++ compilation work, but here are the basics</p>
+
+<p>The compilation of a C++ program involves three steps:</p>
+
+<ol>
+  <li>Preprocessing: the preprocessor takes a C++ source code file and deals with the <code>#include</code>s, <code>#define</code>s and other preprocessor directives. The output of this step is a “pure” C++ file without pre-processor directives.</li>
+  <li>Compilation: the compiler takes the pre-processor’s output and produces an object file from it.</li>
+  <li>Linking: the linker takes the object files produced by the compiler and produces either a library or an executable file.</li>
+</ol>
+
+<h2 id="preprocessing">Preprocessing</h2>
+
+<p>The preprocessor handles the <em>preprocessor directives</em>, like <code>#include</code> and <code>#define</code>. It is agnostic of the syntax of C++, which is why it must be used with care.</p>
+
+<p>It works on one C++ source file at a time by replacing <code>#include</code> directives with the content of the respective files (which is usually just declarations), doing replacement of macros (<code>#define</code>), and selecting different portions of text depending of <code>#if</code>, <code>#ifdef</code> and <code>#ifndef</code> directives.</p>
+
+<p>The preprocessor works on a stream of preprocessing tokens. Macro substitution is defined as replacing tokens with other tokens (the operator <code>##</code> enables merging two tokens when it makes sense).</p>
+
+<p>After all this, the preprocessor produces a single output that is a stream of tokens resulting from the transformations described above. It also adds some special markers that tell the compiler where each line came from so that it can use those to produce sensible error messages.</p>
+
+<p>Some errors can be produced at this stage with clever use of the <code>#if</code> and <code>#error</code> directives.</p>
+
+<h2 id="compilation">Compilation</h2>
+
+<p>The compilation step is performed on each output of the preprocessor.</p>
+
+<p>The compiler parses the pure C++ source code (now without any preprocessor directives) and converts it into assembly code. Then invokes underlying back-end(assembler in toolchain) that assembles that code into machine code producing actual binary file in some format(ELF, COFF, a.out, …). This object file contains the compiled code (in binary form) of the symbols defined in the input. Symbols in object files are referred to by name.</p>
+
+<p>Object files can refer to symbols that are not defined. This is the case when you use a declaration, and don’t provide a definition for it. The compiler doesn’t mind this, and will happily produce the object file as long as the source code is well-formed.</p>
+
+<p>Compilers usually let you stop compilation at this point. This is very useful because with it you can compile each source code file separately. The advantage this provides is that you don’t need to recompile <em>everything</em> if you only change a single file.</p>
+
+<p>The produced object files can be put in special archives called static libraries, for easier reusing later on.</p>
+
+<p>It’s at this stage that “regular” compiler errors, like syntax errors or failed overload resolution errors, are reported.</p>
+
+<h2 id="linking">Linking</h2>
+
+<p>The linker is what produces the final compilation output from the object files the compiler produced. This output can be either a shared (or dynamic) library (and while the name is similar, they haven’t got much in common with static libraries mentioned earlier) or an executable.</p>
+
+<p>It links all the object files by replacing the references to undefined symbols with the correct addresses. Each of these symbols can be defined in other object files or in libraries. If they are defined in libraries other than the standard library, you need to tell the linker
+about them.</p>
+
+<p>At this stage the most common errors are missing definitions or duplicate definitions. The former means that either the definitions don’t exist (i.e. they are not written), or that the object files or
+libraries where they reside were not given to the linker. The latter is obvious: the same symbol was defined in two different object files or libraries.</p>
+
+<h1 id="cmake">CMake</h1>
+
+<p>That’s the theory, by now you probably know how you compile and execute a single C++ file:</p>
+
+<pre><code class="language-jsx">gcc -o hello hello.cpp
+</code></pre>
+
+<p>Now, if you have multiple files you need to compile you need to cram them into a single command and then quickly spin out of control, since the order on which you define your files might produce compilation errors of missing symbols</p>
+
+<p>So, we are going to jump a bit ahead and talk about <a href="https://cmake.org/">CMake</a>.</p>
+
+<p>CMake takes care of many things for you: building, packaging, testing, etc. It’s like some parts of npm for the c++ world. If you want to write C++ for android you will use CMake and more specifically a <code>CMakeLists.txt</code> that will define your compilation process</p>
+
+<p>CMake is not used on iOS.</p>
+
+<p>Since we are trying to be practical, you care about the <code>CMakeList.txt</code> file, here is an example:</p>
+
+<pre><code class="language-jsx">// Tell which version of CMake is required
+// Check your android version, since they come bundled with the build-tools
+cmake_minimum_required(VERSION 3.4.1)
+
+set (CMAKE_VERBOSE_MAKEFILE ON)
+// set the version of C++ you are going to use
+set (CMAKE_CXX_STANDARD 11)
+
+// Include all the directories with .cpp files that will need to be compiled
+include_directories(
+  ../cpp
+  ../../react-native/React
+  ../../react-native/React/Base
+  ../../react-native/ReactCommon/jsi
+)
+
+// create a library "sequel", which needs to compile all the following files
+add_library(sequel
+  SHARED
+  ../../react-native/ReactCommon/jsi/jsi/jsi.cpp
+  ../cpp/sequel.cpp
+  ../cpp/sequel.h
+  ../cpp/SequelResult.h
+  ../cpp/react-native-quick-sqlite.cpp
+  ../cpp/react-native-quick-sqlite.h
+  ../cpp/sqlite3.h
+  ../cpp/sqlite3.c
+  cpp-adapter.cpp
+)
+
+// link the following libraries together
+// in this case I link android specific libraries and logging library
+// so I can log to the android console from my CPP code
+// on iOS this is not necessary (iOS doesn't even use CMakeLists)
+target_link_libraries(sequel android log)
+</code></pre>
+
+<p>CMake is a world on it’s own, <a href="https://en.wikipedia.org/wiki/CMake">the wikipedia article</a> gives a good high level overview, but if you are developing your JSI module this should be more than enough: just include all your header and cpp files in your CMakeLists and link any android libraries as necessary</p>
+
+<h1 id="c-on-">C++ on 📱</h1>
+
+<p>Let’s go back to some of the basic stuff, you now know: how to write C++, how to compile C++, the question is now, how do you run C++ on iOS or Android? Is this some new RN-only feature?</p>
+
+<p>No, the truth of the matter is that, every single computer out there can run C/C++ (as long as there is a compiler for it) but you as a JavaScript developer probably never heard of this, the mechanisms which allow you to run C++ code on each platforms are a bit different though</p>
+
+<h2 id="ios-and-obj-c">iOS and Obj-C</h2>
+
+<p>Obj-C is actually a subset/compatible with C++ code… it’s just kinda weird. You have obj-c files (<code>.m</code>) and if you change their extension (<code>.mm</code>) you can use C++ code inside of the obj-c code, this also means you don’t need to set up any tooling to compile C++ code.</p>
+
+<p>Just put your <code>cpp</code> files in your project and you can include them just fine.</p>
+
+<h2 id="android-jni">Android JNI</h2>
+
+<p>Android is a bit different, since Android works with Java/Kotlin, it does not produce binary code and cannot interact with native code written in C++. Therefore you need a translation/interaction layer called <a href="https://developer.android.com/training/articles/perf-jni">JNI</a>.</p>
+
+<p>It’s super cumbersome and has it’s own syntax, but it’s all we have to expose our functionality to the Java/Kotlin/Javascript side of things.</p>
+
+<p>Here is an example of JNI code that exposes a couple of functions to the Java (which is necessary for you to register your JSI callbacks)</p>
+
+<pre><code class="language-cpp">#include &lt;jni.h&gt;
+#include "react-native-quick-sqlite.h"
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_reactnativequicksqlite_SequelModule_initialize(JNIEnv *env, jclass clazz, jlong jsiPtr, jstring docPath)
+{
+  jboolean isCopy;
+  const char *docPathString = (env)-&gt;GetStringUTFChars(docPath, &amp;isCopy);
+
+  installSequel(*reinterpret_cast&lt;facebook::jsi::Runtime *&gt;(jsiPtr), docPathString);
+}
+
+extern "C" JNIEXPORT void JNICALL
+Java_com_reactnativequicksqlite_SequelModule_destruct(JNIEnv *env, jclass clazz)
+{
+  cleanUpSequel();
+}
+</code></pre>
+
+<p>You can see your function names need to have a defined structure:</p>
+
+<ul>
+  <li><code>java_</code> = expose this to the java side</li>
+  <li><code>com_reactnativequicksqlite</code> = name of the package that will be created for you</li>
+  <li><code>SequelModule</code> = Module name</li>
+  <li><code>initialize</code> = final function name</li>
+</ul>
+
+<p>Like all things Android/Google the documentation is piss poor and written by robots, but if you are only interested in writing JSI module, the two functions above are all you will need</p>
+
+<p>Another interesting pain point, is that you cannot just use any C++ dynamic library on android, android has it’s own flavor of dynamic libraries (.AAR) if you know how to generate them… you are a god, if not you have to rely on the ones published by google… there is 2 of them, I opted for the easy path and completely included the sqlite.c code in my library</p>
+
+<p>To be honest compilation and native toolchains are so f**** complicated I cannot dive deeper without confusing you even more (even I’m confused until this day), however feel free to reach out if you need some other point explained.</p>
+
+<h1 id="ide-support">IDE support</h1>
+
+<p>Now, if you are about to embark into writing your own JSI module I can give you some useful pointers here</p>
+
+<h2 id="vscode-is--for-c">VSCode is 💩 for C++</h2>
+
+<p>I tried to set up code for developing my own JSI module, there is a plugin works well enough, but does not correctly resolve the native dependencies and the compilation chain, so all you will get is errors saying it cannot find the header files.</p>
+
+<p>You could try to manually pass the include paths to vscode somehow to try to guide it into correctly resolving the dependencies… but this was too much work for me because:</p>
+
+<h2 id="xcode-is--but-works">XCode is 💩 but works</h2>
+
+<p>XCode is a terrible code editor, period. But it already knows how iOS/C++ works, if you open your project in it, it will immediately pick up your C++ files, autocompletion works, error detection (before compilation) works… so I just went with this. You can even manually format your code… if that is some consolation.</p>
+
+<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/796e9467-4ab9-4cf5-bddb-2338e3f9612c/Screen_Shot_2021-08-15_at_10.40.41.jpg" alt="Open your cpp files with the quick-open tool (Cmd + Shift + O)" /></p>
+
+<p>Open your cpp files with the quick-open tool (Cmd + Shift + O)</p>
+
+<p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2fc26234-64b9-4b47-a13a-52d09e5acd90/Screen_Shot_2021-08-15_at_10.41.10.jpg" alt="Autocompletion, error detection, etc. works" /></p>
+
+<p>Autocompletion, error detection, etc. works</p>
+
+<h2 id="android-studio-️">Android Studio 🤷🏽‍♂️</h2>
+
+<p>If you are a big android fan you can probably make it work, but once I had the iOS version of my JSI package working, the only code I needed was the glue to compile and link the library to the android side of things, so here you can use whatever you want to write java/kotlin.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,149 @@
+---
+layout: default
+---
+<script type="module">
+  // Import the main module that loads the WASM
+  import init, { main_web } from '/assets/wasm/nannou_web_test.js';
+
+  async function startNannouApp() {
+    const container = document.getElementById("nannou-container");
+    const isBrave = navigator.userAgent.includes("Brave") ||
+      (window.navigator && window.navigator.brave !== undefined);
+
+    if (isBrave) {
+      const noteDiv = document.createElement('div');
+      noteDiv.className = "absolute top-0 left-0 right-0 bg-neutral-50/10 backdrop-blur p-2 rounded-md text-xs z-10 flex flex-col items-center justify-center text-neutral-400";
+      noteDiv.innerHTML = `
+        If the WASM sketch doesn't appear, please disable webgl2 blocking in Brave Shields for this site
+      `;
+      container.parentNode.insertBefore(noteDiv, container);
+    }
+    try {
+      // Initialize the WASM module
+      await init('/assets/wasm/nannou_web_test_bg.wasm');
+
+      // Call your exported function
+      await main_web("nannou-container");
+    } catch (error) {
+      console.error("Failed to load Nannou WASM module:", error);
+    }
+  }
+
+  // Start the application when the page loads
+  document.addEventListener('DOMContentLoaded', startNannouApp);
+</script>
+
+<body class="flex flex-col items-center">
+  <div class="max-w-4xl w-full gap-4 p-4 flex flex-col">
+    <div class="h-full flex flex-col justify-end gap-4">
+      <div class="flex-1 flex flex-col items-center justify-center gap-4">
+        <div class="relative group">
+          <div id="nannou-container" class="h-96 w-96" />
+          <p
+            class="text-gray-300 text-xs absolute left-1/2 -translate-x-1/2 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+            Nannou Sketch → WASM
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h1 class="text-xl">Oscar Franco</h1>
+
+    <img src="{{site.baseurl}}/assets/header.jpg" class="w-full h-64 rounded-lg object-cover animate-fadeIn" />
+
+    <p>
+      Freelance Systems Engineer. Living in Barcelona. Open Source maintainer, led development teams,
+      dable in YouTube. Won the German Design Award 2025 with <a href="https://sol.ospfranco.com">Sol</a>. Follow me on
+      <a href=" https://www.x.com/ospfranco" target="_blank"">X</a> or send me an <a href=" mailto:ospfranco@gmail.com"
+        target="_blank"">e-mail</a>.
+    </p>
+  </div>
+
+  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
+  </div>
+
+  <h2 class=" font-semibold">Links</h2>
+
+  <p>
+    <a class="hover:no-underline" href="https://sol.ospfranco.com">
+      Sol
+    </a><br>
+    <span class="text-neutral-500">
+      Open Source macOS Launcher
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://www.newline.co/courses/building-react-native-apps-for-mac">
+      React Native Apps for Mac Online Class
+    </a><br>
+    <span class="text-neutral-500">
+      Online class on how to build React Native apps for macOS
+    </span>
+
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://www.youtube.com/@ospfranco">
+      YouTube
+    </a><br>
+    <span class="text-neutral-500">
+      Tutorials, tips and explanations about React Native, Rust, macOS and more
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-sqlite">
+      op-sqlite
+    </a><br>
+    <span class="text-neutral-500">The fastest SQLite for React Native</span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-s2">
+      op-s2
+    </a><br>
+    <span class="text-neutral-500">
+      Hardware Encrypted Storage for React Native
+    </span>
+  </p>
+
+  <p>
+    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-aws-lc">
+      op-aws-lc
+    </a><br>
+    <span class="text-neutral-500">
+      AWS LibCrypto bindings (with FIPS) for React Native
+    </span>
+  </p>
+
+  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
+  </div>
+
+  <div class="w-full max-w-4xl">
+    <h2 class=" font-semibold">Writing</h2>
+
+    <ul class="flex flex-col gap-2 mt-4">
+      {% for post in site.posts %}
+      {% if post.is_spanish_version != true %}
+      <li class="flex items-center">
+        <div>
+          <p>
+            <a href="{{ post.url }}">{{ post.title }}</a>
+          </p>
+          {% if post.spanish_version %}
+          <p class="text-xs">
+            <a href="{{ post.spanish_version }}">Español</a>
+          </p>
+          {% endif %}
+        </div>
+        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
+        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
+          {{ post.date | date: "%d %b %Y" }}
+        </span>
+      </li>
+      {% endif %}
+      {% endfor %}
+    </ul>
+  </div>
+</body>

@@ -1,0 +1,88 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Cocoapods, use_frameworks with static linking | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Cocoapods, use_frameworks with static linking" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
+<meta property="og:description" content="use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera)." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-10-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Cocoapods, use_frameworks with static linking" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-15T15:00:00+02:00","datePublished":"2023-10-15T15:00:00+02:00","description":"use_frameworks! tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).","headline":"Cocoapods, use_frameworks with static linking","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"},"url":"https://ospfranco.com/post/2023/10/15/cocoapods,-use_frameworks-with-static-linking/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Cocoapods, use_frameworks with static linking
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        October 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p><code>use_frameworks!</code> tells CocoaPods that you want to use XCFrameworks instead of Static Libraries. However, turning on use_frameworks will try to link all dependencies as dynamic, every once in a while you might need to turn it on and might face compilation error in some other library (e.g. vision-camera).</p>
+
+<p>In this case, you can actually use frameworks, yet still force static compiling. Replace</p>
+
+<pre><code class="language-ruby">use_frameworks!
+</code></pre>
+
+<p>with</p>
+
+<pre><code class="language-ruby">use_frameworks! linkage: :static
+</code></pre>
+
+<h1 id="xcframeworks">XCFrameworks</h1>
+
+<p>In case you didn’t know frameworks are just an Apple concept to package different architectures into a single file. Nothing fancy to it. Inside the <code>.xcframework</code> file you might find folders per architecture and a <code>.plist</code> file.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

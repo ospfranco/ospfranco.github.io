@@ -1,0 +1,266 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>App clip with React Native and New Arch (and Swift) | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="App clip with React Native and New Arch (and Swift)" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide." />
+<meta property="og:description" content="I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide." />
+<link rel="canonical" href="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" />
+<meta property="og:url" content="https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-06-30T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="App clip with React Native and New Arch (and Swift)" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-30T00:00:00+02:00","datePublished":"2024-06-30T00:00:00+02:00","description":"I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.","headline":"App clip with React Native and New Arch (and Swift)","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"},"url":"https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        App clip with React Native and New Arch (and Swift)
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        June 2024
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.</p>
+
+<p>Most of the steps come from this <a href="https://github.com/codibly/app-clip-instant-app-react-native/blob/main/Creating-React-Native-AppClip.md">repo</a> kudos to codibly and also all the amazing people that provide all the packages and guides for integrations between old-arch and new-arch.</p>
+
+<ul>
+  <li>Add a new target to your project. Select Swift and StoryBoard.</li>
+</ul>
+
+<p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
+
+<ul>
+  <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
+</ul>
+
+<pre><code class="language-sh">yarn add @rnx-kit/react-native-host --dev
+</code></pre>
+
+<ul>
+  <li>Modify your <code>podfile</code></li>
+</ul>
+
+<pre><code class="language-ruby">  # In your main app target add the following
+
+  # Auto linking is broken on this package
+  # https://github.com/microsoft/rnx-kit/issues/3208
+  pod 'ReactNativeHost', :path =&gt; "../node_modules/@rnx-kit/react-native-host"
+
+  target 'Clip' do
+    inherit! :complete
+    # Pods for Clip
+  end
+</code></pre>
+
+<ul>
+  <li>Do a new arch pod install</li>
+</ul>
+
+<pre><code class="language-sh">cd ios &amp;&amp; RCT_NEW_ARCH_ENABLED=1 pod install
+</code></pre>
+
+<ul>
+  <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
+</ul>
+
+<p><img src="https://ospfranco.com/assets/appclip2.jpg" alt="appclip2" /></p>
+
+<pre><code class="language-swift">import Foundation
+import React
+import ReactNativeHost
+
+class BridgeManager: NSObject {
+    static let shared = BridgeManager()
+
+    var host: ReactNativeHost?
+
+    public func loadReactNative(launchOptions: [AnyHashable: Any]?) {
+      host = ReactNativeHost(self)
+    }
+}
+
+extension BridgeManager: RNXHostConfig {
+  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
+        #if DEBUG
+          return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index.clip")
+        #else
+            return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
+        #endif
+    }
+}
+</code></pre>
+
+<p>In order for the DEBUG preprocessor macro to run, we need to add the DEBUG flag into the build settings of the Clip target</p>
+
+<p><img src="https://ospfranco.com/assets/appclip5.jpg" alt="appclip5" /></p>
+
+<ul>
+  <li>We are going to modify the <code>AppDelegate.m</code> at the Clip target:</li>
+</ul>
+
+<pre><code class="language-swift">import React
+import ReactNativeHost
+import UIKit
+
+@main
+class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
+
+  var window: UIWindow?
+
+  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
+    return nil
+  }
+
+  func application(
+    _ application: UIApplication,
+    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
+  ) -&gt; Bool {
+    BridgeManager.shared.loadReactNative(launchOptions: launchOptions)
+    // Override point for customization after application launch.
+    return true
+  }
+
+  // MARK: UISceneSession Lifecycle
+
+  func application(
+    _ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession,
+    options: UIScene.ConnectionOptions
+  ) -&gt; UISceneConfiguration {
+    // Called when a new scene session is being created.
+    // Use this method to select a configuration to create the new scene with.
+    return UISceneConfiguration(
+      name: "Default Configuration", sessionRole: connectingSceneSession.role)
+  }
+
+  func application(
+    _ application: UIApplication, didDiscardSceneSessions sceneSessions: Set&lt;UISceneSession&gt;
+  ) {
+    // Called when the user discards a scene session.
+    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
+    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
+  }
+}
+</code></pre>
+
+<ul>
+  <li>We can the finally load the <code>RCTRootView</code> (the view that holds RN) into the app clip controller</li>
+</ul>
+
+<pre><code class="language-swift">import UIKit
+import ReactNativeHost
+
+class ViewController: UIViewController {
+
+  override func loadView() {
+    if let host = BridgeManager.shared.host {
+          self.view = host.view(
+              moduleName: "clip",
+              initialProperties: nil
+          )
+      }
+
+  }
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        // Do any additional setup after loading the view.
+    }
+
+
+}
+</code></pre>
+
+<ul>
+  <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
+</ul>
+
+<p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
+
+<pre><code class="language-sh">set -e
+
+WITH_ENVIRONMENT="$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh"
+REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
+
+/bin/sh -c "ENTRY_FILE=index.clip.js $WITH_ENVIRONMENT $REACT_NATIVE_XCODE"
+</code></pre>
+
+<ul>
+  <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
+</ul>
+
+<p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
+
+<ul>
+  <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
+</ul>
+
+<pre><code class="language-js">import React from "react";
+import { AppRegistry, View, Text } from "react-native";
+
+const AppClip = () =&gt; (
+  &lt;View&gt;
+    &lt;Text&gt;Hello,&lt;/Text&gt;
+    &lt;Text&gt;I'm your AppClip!&lt;/Text&gt;
+  &lt;/View&gt;
+);
+
+AppRegistry.registerComponent("clip", () =&gt; AppClip);
+</code></pre>
+
+<p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
+
+<p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,19 @@
+{
+  "license": "MIT",
+  "scripts": {
+    "postinstall": "husky install",
+    "start": "bundle exec jekyll serve --livereload --drafts --future --port 3000 '$@'",
+    "build": "JEKYLL_ENV=production NODE_ENV=production bundle exec jekyll build -d docs && git add ."
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.4.0",
+    "cssnano": "^5.0.8",
+    "husky": "^5.0.9",
+    "postcss": "^8.4.4",
+    "postcss-cli": "^9.0.2",
+    "postcss-import": "^14.0.2",
+    "tailwind-scrollbar-hide": "^1.0.3",
+    "tailwindcss": "^3.0.0"
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
+}

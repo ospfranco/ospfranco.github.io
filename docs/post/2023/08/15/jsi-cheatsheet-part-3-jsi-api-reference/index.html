@@ -1,0 +1,353 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>JSI Cheatsheet: Part 3 - JSI API Reference | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="JSI Cheatsheet: Part 3 - JSI API Reference" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet." />
+<meta property="og:description" content="JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="JSI Cheatsheet: Part 3 - JSI API Reference" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.","headline":"JSI Cheatsheet: Part 3 - JSI API Reference","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        JSI Cheatsheet&#58; Part 3 - JSI API Reference
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        August 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.</p>
+
+<h1 id="table-of-contents">Table of contents</h1>
+
+<h1 id="jsi-source-code">JSI Source Code</h1>
+
+<p>Due to the lack of serious documentation JSI source code will be your best friend:</p>
+
+<p><a href="https://github.com/facebook/react-native/blob/main/ReactCommon/jsi/jsi/jsi.cpp">JSI.cpp</a></p>
+
+<p><a href="https://github.com/facebook/react-native/blob/main/ReactCommon/jsi/jsi/jsi.h">JSI.h</a></p>
+
+<p>Even if it doesn’t tell you <strong>HOW</strong> to do certain operations, both the header file and the source file are important as some of the functionality is implemented on the header file directly and can be used as a reference.</p>
+
+<h1 id="setting-up-a-jsi-module">Setting up a JSI module</h1>
+
+<p>The tutorial is free and is up on my website, just <a href="https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/">follow the instructions</a> to set up your own module</p>
+
+<h1 id="jsi-runtime">JSI Runtime</h1>
+
+<p>The Runtime object is your direct reference to the JavaScript context, think of it of an object representing a JavaScript Virtual Machine. You create/read/operate values by passing it to functions.</p>
+
+<p>A lot of the operations you use with JSI require you to pass the runtime, you will either get it from your initialization code, or it will be passed to you when executing your JSI functions:</p>
+
+<pre><code class="language-cpp">void initializeMyModule(jsi::Runtime &amp;rt)
+</code></pre>
+
+<p>Whenever you see <code>rt</code> on this cheatsheet, assume you have to pass the <code>rt</code> object from wherever you get it.</p>
+
+<h1 id="jsivalue">jsi::Value</h1>
+
+<p>the jsi::Value struct is the bread and butter of JSI objects, everything you get from the javascript side is a jsi::Value, it’s up to you then to interpret it to the correct C++ variables.</p>
+
+<pre><code class="language-cpp">jsi::Value *args = ... // Pointer to first elem in memory of jsi::Values
+
+if (!args[0].isString()) {
+	cout &lt;&lt; "The first argument needs to be a string!" &lt;&lt; endl;
+	return;
+}
+
+const string dbName = args[0].asString(rt).utf8(rt);
+</code></pre>
+
+<p>jsi::Value has a lot of methods inside of it to help you with a bunch of operations:</p>
+
+<ul>
+  <li>isNull</li>
+  <li>isBool</li>
+  <li>isNumber</li>
+  <li>isString</li>
+  <li>strictEquals</li>
+  <li>asObject</li>
+  <li>asSymbol</li>
+</ul>
+
+<p>and many more, check the header file to know all the available operations, but this cheatsheet should guide you through the most used ones.</p>
+
+<h1 id="numbersfloatsbooleans">Numbers/Floats/Booleans</h1>
+
+<h2 id="from-jsivalue">From jsi::Value</h2>
+
+<pre><code class="language-cpp">// value is a jsi::Value
+if(value.isNumber()) {
+	double doubleVal = value.asNumber();
+}
+
+// All javascript numbers are doubles
+// but sometimes you might want to operate on ints
+// (you will loose precision, be careful)
+int intVal = (int)doubleVal;
+</code></pre>
+
+<h2 id="to-jsivalue">To jsi::Value</h2>
+
+<pre><code class="language-cpp">// Conversion is done implicitly for you
+int age = 19;
+jsi::Value jsAge = jsi::Value(age);
+</code></pre>
+
+<p>This same rules apply for bools and floats</p>
+
+<pre><code class="language-cpp">int doubleAge = 19.0;
+jsi::Value jsDoubleAge = jsi::Value(doubleAge);
+
+bool myBool = true;
+jsi::Value jsMyBool = jsi::Value(myBool);
+</code></pre>
+
+<h1 id="strings">Strings</h1>
+
+<p>Strings are not quite so straight forward because you need to take encoding into consideration</p>
+
+<h2 id="from-jsivalue-1">From jsi::Value</h2>
+
+<pre><code class="language-cpp">jsi::Value value = ... // you will get it from somewhere
+
+// Get a C++ std::string
+string strVal = value.asString(rt).utf8(rt);
+</code></pre>
+
+<h2 id="to-jsivalue-1">To jsi::Value</h2>
+
+<pre><code class="language-cpp">string myString = "hello from C++";
+// Older versions of the JSI library only took C-like strings
+jsi::String::createFromUtf8(rt, myString.c_str());
+// Newer version might accept a std::string directly
+jsi::String::createFromUtf8(rt, myString);
+</code></pre>
+
+<h1 id="null">Null</h1>
+
+<h2 id="to-jsivalue-2">to jsi::Value</h2>
+
+<pre><code class="language-cpp">jsi::Value(nullptr)
+</code></pre>
+
+<h1 id="undefined">Undefined</h1>
+
+<h2 id="create">Create</h2>
+
+<pre><code class="language-cpp">jsi::Value::undefined()
+</code></pre>
+
+<p>You can also return <code>{}</code> on some functions directly and it will act as a shortcut to create a <code>undefined</code> value</p>
+
+<h1 id="arrays">Arrays</h1>
+
+<h2 id="create-1">Create</h2>
+
+<pre><code class="language-cpp">// Your arrays need to be fixed in size... no auto grow for you
+auto array = jsi::Array(rt, 20);
+</code></pre>
+
+<p>Since arrays need to be created with a fixed size, you might want to delay their creation on the C++ until you are ready to return data to Javascript, and use a vector meanwhile:</p>
+
+<pre><code class="language-cpp">std::vector&lt;int&gt; myNumbers = std::Vector&lt;int&gt;();
+myNumbers.push_back(1);
+myNumbers.push_back(2);
+myNumbers.push_back(3);
+
+auto array = jsi::Array(rt, myNumbers);
+for (int i = 0; i &lt; myNumbers.size(); i++)
+{
+  array.setValueAtIndex(rt, i, myNumbers[i]);
+}
+</code></pre>
+
+<h1 id="objects">Objects</h1>
+
+<h2 id="create-2">Create</h2>
+
+<pre><code class="language-cpp">// in javascript this would equal: module = {}
+jsi::Object module = jsi::Object(rt);
+</code></pre>
+
+<h2 id="set-property">Set property</h2>
+
+<pre><code class="language-cpp">jsi::Object module = jsi::Object(rt); // module = {}
+module.setProperty(rt, "age", jsi::Value(19)); // module = {age: 19}
+</code></pre>
+
+<h2 id="global-object">Global object</h2>
+
+<p>JSI exposes the globalThis object for you to register your module</p>
+
+<pre><code class="language-cpp">rt.global().setProperty(rt, "myModule", move(module));
+</code></pre>
+
+<h1 id="functions">Functions</h1>
+
+<p>You create invokable javascript functions using the <code>createFromHostFunction</code> method</p>
+
+<pre><code class="language-cpp">// create a javascript function
+auto getTheAnswerToLifeTheUniverseAndEverything = jsi::Function::createFromHostFunction(
+      rt, // you need to pass the JSI runtime
+      jsi::PropNameID::forAscii(rt, "getTheAnswerToLifeTheUniverseAndEverything"), // internal prop name
+      1, // Number of parameters function takes
+      [](jsi::Runtime &amp;rt, const jsi::Value &amp;thisValue, const jsi::Value *args, size_t count) -&gt; jsi::Value // C++ lambda
+      {
+				// rt: the JSI runtime for you to pass down/use
+				// thisValue: is the function context ("this" value in javascript)
+				// *args: the arguments passed to your function
+				// count: the number of arguments passed
+        return jsi::Value(42);
+      });
+
+// You can later register this function in the globalThis scope (for example)
+rt.global().setProperty(rt, "getTheAnswerToLifeTheUniverseAndEverything", move(getTheAnswerToLifeTheUniverseAndEverything));
+
+// Then in javascript you can call this global.getTheAnswerToLifeTheUniverseAndEverything() and should return 42
+</code></pre>
+
+<h2 id="validation">Validation</h2>
+
+<p>So you can see creating functions is quite raw due to the dynamic nature of javascript, your function could be called with anything, so it’s up to you to make sure you got the correct values.</p>
+
+<p>Here is a sample function that validates that the passed params are strings:</p>
+
+<pre><code class="language-cpp">auto open = jsi::Function::createFromHostFunction(
+      rt,
+      jsi::PropNameID::forAscii(rt, "sequel_open"),
+      1,
+      [](jsi::Runtime &amp;rt, const jsi::Value &amp;thisValue, const jsi::Value *args, size_t count) -&gt; jsi::Value
+      {
+        if(count == 0) {
+          jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database name is required");
+          return {};
+        }
+
+        if (!args[0].isString())
+        {
+          jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database name must be a string");
+          return {};
+        }
+
+        string dbName = args[0].asString(rt).utf8(rt);
+        string tempDocPath = string(docPathStr);
+        if(count &gt; 1) {
+          if(!args[1].isString()) {
+            jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
+            return {};
+          }
+
+          tempDocPath = tempDocPath + "/" + args[1].asString(rt).utf8(rt);
+        }
+
+        SequelResult result = sequel_open(dbName, tempDocPath);
+
+        if (result.type == SequelResultError)
+        {
+          jsi::detail::throwJSError(rt, result.message.c_str());
+          return {};
+        }
+
+        return move(result.value);
+      });
+</code></pre>
+
+<h1 id="throwing-errors">Throwing Errors</h1>
+
+<p>In the previous snippet you probably saw how to throw a Javascript error</p>
+
+<pre><code class="language-cpp">jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
+// You still have to cleanly terminate your lambda
+return {};
+</code></pre>
+
+<pre><code class="language-cpp">jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
+// You still have to cleanly terminate your lambda
+return {};
+</code></pre>
+
+<h1 id="stdmove-️">std::move ⚠️🚨</h1>
+
+<p>I already teased in the <a href="https://www.notion.so/JSI-Cheatsheet-Part-I-C-f1872d77ee4c4dc3b9563fa6cb3005f6?pvs=21">JSI Cheatsheet Part I: C++</a> that moving objects in memory would be important.</p>
+
+<blockquote>
+  <p>🚨 Wherever you create your JSI objects (and specially if you do it inside of lambda functions) the memory can/will be overwritten, therefore it is important to pass your created JSI objects to the JSI runtime to avoid memory being overwritten and your data being lost</p>
+</blockquote>
+
+<pre><code class="language-cpp">// LOOK! move([blah blah])!!! DON'T FORGET IT!
+rt.global().setProperty(rt, "sqlite", move(module));
+</code></pre>
+
+<blockquote>
+  <p>🚨 This is important I’m going to say it again, make sure you std::move your data to avoid memory de-allocation, here is another example</p>
+</blockquote>
+
+<pre><code class="language-cpp">vector&lt;jsi::Object&gt; results = ... // pretend here is a vector of jsi::Objects
+
+auto array = jsi::Array(rt, results.size());
+for (int i = 0; i &lt; results.size(); i++)
+{
+  array.setValueAtIndex(rt, i, move(results[i])); // 🚨 MOVE THEM! JUST MOVE THEM!
+}
+
+jsi::Object rows = jsi::Object(rt);
+rows.setProperty(rt, "length", jsi::Value((int)results.size()));
+rows.setProperty(rt, "_array", move(array));
+</code></pre>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

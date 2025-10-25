@@ -1,0 +1,146 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Mix C++, Obj-C and Swift files in a single XCode target | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Mix C++, Obj-C and Swift files in a single XCode target" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files." />
+<meta property="og:description" content="If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-24T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Mix C++, Obj-C and Swift files in a single XCode target" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-11-24T00:00:00+01:00","datePublished":"2023-11-24T00:00:00+01:00","description":"If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.","headline":"Mix C++, Obj-C and Swift files in a single XCode target","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"},"url":"https://ospfranco.com/post/2023/11/24/mix-c++,-obj-c-and-swift-files-in-a-single-xcode-target/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Mix C++, Obj-C and Swift files in a single XCode target
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        November 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>If you have an XCode project where you are trying to mix C++, Obj-C and Swift, things will not work. If you only deal with Obj-C++ everything compiles fine, but the moment you add Swift into the mix you might start getting a slew of errors on your header files.</p>
+
+<p>The root issue is the <a href="https://stackoverflow.com/questions/47788422/cannot-use-namespace-and-cannot-include-standard-c-library-in-my-h-files">Swift compiler</a>, it doesn’t support C++, yet it still tries to compile C headers on its own. Whenever you have Swift files together with C++ files, it’s the Swift compiler that will kick-in in a first pass (followed by CLang? maybe before? doesn’t matter) and will try to compile the headers as C headers independently of what you tell it, file extensions, etc.</p>
+
+<p>You will then start getting errors based on the C++ syntax (if you used any). For example if you are using namespaces (which don’t exist on C), you will get <a href="https://github.com/CocoaPods/CocoaPods/issues/12105#issuecomment-1824455557">invalid syntax errors</a>.</p>
+
+<p>There are a couple workarounds. First you can wrap every single bit of C++ syntax in your headers around a macro that checks if the compiler supports C++:</p>
+
+<pre><code class="language-C++">#if defined __cplusplus
+extern "C" {
+#endif
+
+#if defiend __cplusplus
+
+class Foo
+{
+    void bar(int c);
+}
+#endif
+struct FooHandle;
+
+void Foo_bar(struct FooHandle* foo, int c);
+
+#if defined __cplusplus
+}
+#endif
+</code></pre>
+
+<p>Every header you create you will have to manually modify to check for syntax errors.</p>
+
+<h1 id="cocoapods">Cocoapods</h1>
+
+<p>Cocoapods has a special problem with this, since it generates an umbrella header that will also get compiled by the Swift compiler and it will fail. Either of the methods described above will workaround the issue for now.</p>
+
+<p>Another alternative is to hide the header files from the XCode file system, yet still provide them via flags that will get passed to the compilers:</p>
+
+<pre><code class="language-ruby">require "json"
+
+package = JSON.parse(File.read(File.join(__dir__, "package.json")))
+
+Pod::Spec.new do |s|
+  s.name           = "matrix"
+  s.version        = package["version"]
+  s.summary        = package["description"]
+  s.homepage       = package["homepage"]
+  s.license        = package["license"]
+  s.authors        = package["author"]
+  s.platforms      = { :ios =&gt; "13.0" }
+
+  s.pod_target_xcconfig = {
+    "DEFINES_MODULE" =&gt; "YES",
+    "SWIFT_COMPILATION_MODE" =&gt; "wholemodule",
+    "CLANG_CXX_LANGUAGE_STANDARD" =&gt; "c++17",
+    # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+    "HEADER_SEARCH_PATHS" =&gt; "\"$(PODS_TARGET_SRCROOT)/cpp/\"/** " # This will link the headers at compile time, flag passed directly to the compiler
+  }
+
+  # ↓↓↓↓↓↓↓↓↓↓↓↓
+  s.source_files = "ios/**/*.{mm,swift}", "cpp/**/*.{cpp,c}" # Do not include the headers in the sources, then XCode won't try to compile them
+
+  # ↓↓↓↓↓↓↓↓↓↓↓↓↓↓
+  s.preserve_paths = [
+    "cpp/**/*.h",
+    "ios/**/*.h"
+  ]
+
+  s.dependency "React"
+  s.dependency "React-Core"
+  s.dependency "React-callinvoker"
+end
+</code></pre>
+
+<p>One side effect is that the headers will not appear on the project explorer view on XCode, which is annoying if you are developing something from scratch, you can still ⌘ + click to open it, but it won’t show navigation side bar.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

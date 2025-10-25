@@ -1,0 +1,141 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Rust tips de un noob | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Rust tips de un noob" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc." />
+<meta property="og:description" content="Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc." />
+<link rel="canonical" href="https://ospfranco.com/rust-tips-de-un-noob/" />
+<meta property="og:url" content="https://ospfranco.com/rust-tips-de-un-noob/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-06-05T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="Rust tips de un noob" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-06-05T00:00:00+02:00","datePublished":"2025-06-05T00:00:00+02:00","description":"Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.","headline":"Rust tips de un noob","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/rust-tips-de-un-noob/"},"url":"https://ospfranco.com/rust-tips-de-un-noob/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Rust tips de un noob
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        June 2025
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
+
+<ul>
+  <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
+  <li>
+    <p>No uses los crates <code>lazy_static</code> o <code>once_cell</code>, su funcionalidad ya está incorporada en la librería estándar (<code>std</code>) y ahora puedes usar <code>OnceLock</code> y <code>LazyLock</code> para inicializar variables globales.</p>
+
+    <pre><code class="language-rust">  // ❌ No hagas esto
+  lazy_static! {
+    // tus variables globales
+  }
+
+  // ✅ Haz esto
+  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
+    LazyLock::new(|| RwLock::new("Hello World!".into()));
+</code></pre>
+  </li>
+  <li>
+    <p>Generalmente, <code>RwLock</code> es lo que quieres en vez de <code>Mutex</code>. Permite múltiples lectores sin bloquear completamente tu proceso. Eso sí, si vas a leer y escribir en la misma función, ¡es muy importante liberar cualquier lock de lectura!</p>
+
+    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
+// Si no haces drop
+drop(my_read_var)
+// Este writer se bloqueará
+let mut my_write_var = MY_VAR.write().unwrap();
+</code></pre>
+  </li>
+  <li>Agregar WASM después puede ser doloroso, ya que WASM no es multi-hilo. El código async podría necesitar ser refactorizado o compilado con <code>cfg</code>s para evitar traits async, uso de send+sync, etc.</li>
+  <li>
+    <p>Si expones una API en C y devuelves <code>std::ffi::Cstring</code>, las cadenas deben ser devueltas a Rust para ser liberadas de forma segura.</p>
+
+    <pre><code class="language-rust">#[no_mangle]
+unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
+  let data = CString::new("Hello World!".into()).unwrap();
+  data.into_raw() as *mut c_char
+}
+
+// El puntero debe ser devuelto a Rust para su liberación segura
+#[no_mangle]
+unsafe extern "C" fn free_string(ptr: *mut c_char) {
+    if ptr.is_null() {
+        return;
+    }
+
+    let _ = CString::from_raw(ptr);
+    // Se libera automáticamente al final de la función
+}
+</code></pre>
+  </li>
+  <li>Puede que tu equipo no esté acostumbrado a ciertos patrones tipo mónada, como <code>Result</code> y <code>Option</code>. Permiten un código Rust muy idiomático y conciso. Fomenta su uso.</li>
+  <li>Aunque Rust es cross-platform, hay muchas trampas no obvias.
+    <ul>
+      <li>Una que me afectó mucho fue la falta de acceso a los certificados TLS nativos en Android, lo que llevó a que OpenSSL se compilara e incluyera en mi crate. Esto lleva a un lío entre los crates <code>nativetls</code> y <code>rustls</code>. Si apuntas a multiplataforma, usa <code>rustls</code> si es posible.</li>
+    </ul>
+  </li>
+  <li><code>Ring</code> está siendo deprecado/abandonado, muchas librerías están migrando a <code>aws-lc-rs</code>, tú también deberías.
+    <ul>
+      <li>La migración de los crates de la comunidad hacia aws-lc-rs está ocurriendo poco a poco. Puede que necesites activar features o subir versiones para aprovechar esto.</li>
+    </ul>
+  </li>
+  <li>Los feature flags son geniales, pero su uso y comportamiento real no siempre es claro. Revisar el código fuente puede ser la única forma de entender qué features hay y qué hacen. Si asumes que los features por defecto son correctos, podrías estar agregando mucho código inútil a tu proyecto. Esto puede ser eliminado en la compilación o no. Peligroso. No hay una forma fácil de detectar esto, salvo leer la documentación y ver el código fuente para ver qué puedes desactivar y seguir teniendo un crate funcional.</li>
+  <li>La compilación condicional es muy poderosa pero también peligrosa. Para facilitar pruebas puede ser tentador compilar condicionalmente mucho código con <code>#[cfg(test)]</code> o <code>#[cfg(debug)]</code>, pero esto puede causar problemas a futuro con errores ocultos que no se detectan durante el desarrollo. He visto que usar <code>if cfg!(test)</code> a veces es mejor, ya que todas las ramas del código se compilan y se evitan zonas muertas de compilación que pueden esconder problemas más profundos.</li>
+  <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
+  <li>Propagar errores con <code>?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
+  <li>El crate <code>assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
+</ul>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

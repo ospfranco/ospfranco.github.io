@@ -1,0 +1,17 @@
+{
+  "grammarly.selectors": [
+    {
+      "language": "markdown",
+      "scheme": "file"
+    }
+  ],
+  "workbench.colorCustomizations": {
+    "sash.hoverBorder": "#fa34b0",
+    "statusBar.background": "#f5069c",
+    "statusBar.foreground": "#e7e7e7",
+    "statusBarItem.hoverBackground": "#fa34b0",
+    "statusBarItem.remoteBackground": "#f5069c",
+    "statusBarItem.remoteForeground": "#e7e7e7"
+  },
+  "peacock.color": "#f5069c"
+}

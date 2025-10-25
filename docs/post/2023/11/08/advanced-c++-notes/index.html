@@ -1,0 +1,450 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Advanced C++ notes | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Advanced C++ notes" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Noteworthy Types" />
+<meta property="og:description" content="Noteworthy Types" />
+<link rel="canonical" href="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/11/08/advanced-c++-notes/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-08T14:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Advanced C++ notes" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-11-08T14:00:00+01:00","datePublished":"2023-11-08T14:00:00+01:00","description":"Noteworthy Types","headline":"Advanced C++ notes","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"},"url":"https://ospfranco.com/post/2023/11/08/advanced-c++-notes/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Advanced C++ notes
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        November 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><h1 id="noteworthy-types">Noteworthy Types</h1>
+
+<p><code>uint8_t</code> = <code>byte</code> = a type of unsigned integer of length 8 bits</p>
+
+<h1 id="references">References</h1>
+
+<h2 id="printf">Printf</h2>
+
+<p><code>printf</code> is legacy C, type unsafe, meaning you should REALLY NOT USE IT. <code>cout</code> seems to be accepted but android logging does not use it.</p>
+
+<blockquote>
+  <p>💡 printing a <code>size_t</code> is done via <code>printf(”%zu”, sizeVar)</code></p>
+</blockquote>
+
+<h2 id="define-pre-processors">DEFINE pre-processors</h2>
+
+<p>In various C code, I see constants defined like this:</p>
+
+<pre><code class="language-c++">#define T 100
+</code></pre>
+
+<p>Whereas in C++ examples, it is almost always:</p>
+
+<pre><code class="language-c++">const int T = 100;
+</code></pre>
+
+<p><strong>THEY ARE BAD PRACTICE IN C++</strong></p>
+
+<p>Because all macros (which are what <code>#define</code>s define) are in a single namespace and they take effect everywhere. Variables, including <code>const</code>-qualified variables, can be encapsulated in classes and namespaces.</p>
+
+<p>Macros are used in C because in C, a <code>const</code>-qualified variable is not actually a constant, it is just a variable that cannot be modified. A <code>const</code>-qualified variable cannot appear in a constant expression, so it can’t be used as an array size, for example.</p>
+
+<p>In C++, a <code>const</code>-qualified object that is initialized with a constant expression (like <code>const int x = 5 * 2;</code>) <em>is</em> a constant and can be used in a constant expression, so you can and should use them.</p>
+
+<h1 id="libraries">Libraries</h1>
+
+<p>After your code is compiled to a static lib (<code>.a</code> on macOS and <code>.so</code> on linux)</p>
+
+<p>One useful tool is <code>nm</code>. Displays the symbol label inside of your so file, which is useful for debugging any missing symbols.</p>
+
+<pre><code class="language-bash">nm -gDC myLibrary.so
+</code></pre>
+
+<blockquote>
+  <p><code>-g</code> Displays only global (external) symbols</p>
+</blockquote>
+
+<p>Each symbol name is preceded by its value, followed by the following description character:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Symbol</th>
+      <th>Object</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>U</td>
+      <td>undefined</td>
+    </tr>
+    <tr>
+      <td>A</td>
+      <td>absolute</td>
+    </tr>
+    <tr>
+      <td>T</td>
+      <td>text section symbol</td>
+    </tr>
+    <tr>
+      <td>D</td>
+      <td>data selection symbol</td>
+    </tr>
+    <tr>
+      <td>B</td>
+      <td>bss section symbol</td>
+    </tr>
+    <tr>
+      <td>C</td>
+      <td>common symbol</td>
+    </tr>
+    <tr>
+      <td>-</td>
+      <td>Debugger symbol entries (only with -a)</td>
+    </tr>
+    <tr>
+      <td>S</td>
+      <td>Symbol in a section other than those above(???)</td>
+    </tr>
+    <tr>
+      <td>I</td>
+      <td>indirect symbol</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>If the symbol is local (non-external), the symbol’s type is instead represented by the corresponding lower case letter. A lowercase <code>u</code> in a dynamic shared library indicates an undefined reference to a private external in another module in the same library. Meaning your symbol is missing in the headers and cannot be linked/called.</p>
+
+<p>If the symbol is a Objective-C method, the symbol name is <code>±[Class_name(category_name) method:name:]</code>, where <code>+</code> is for class methods, <code>-</code> is for instance
+methods, and (category_name) is present only when the method is in a category.</p>
+
+<h1 id="type-aliases">Type aliases</h1>
+
+<p>The old c style of introducing a type-alias is via <code>typedef</code></p>
+
+<pre><code class="language-c++">typedef std::vec&lt;int&gt; vInt;
+</code></pre>
+
+<p>Starting in C++ 11 the <code>using</code> keyword was introduced</p>
+
+<pre><code class="language-c++">using vInt = std::vec&lt;int&gt;;
+</code></pre>
+
+<h1 id="virtual-functions">Virtual functions</h1>
+
+<p>Virtual function is a member function that we expect to redefine in a derived class. It ensures <strong>overriding</strong> even if you cast a pointer to the base class.</p>
+
+<pre><code class="language-c++">#include &lt;iostream&gt;
+
+using namespace std;
+
+class Base {
+public:
+    virtual void print() {
+        cout &lt;&lt; "Base function" &lt;&lt; endl;
+    }
+};
+
+class Derived: public Base {
+public:
+    virtual void print() {
+        cout &lt;&lt; "derived function" &lt;&lt; endl;
+    }
+};
+
+int main() {
+    Derived d;
+
+    Base *b = &amp;derived;
+
+    b-&gt;print(); // prints "derived function"
+
+    return 0;
+}
+</code></pre>
+
+<h1 id="smart-pointers">Smart pointers</h1>
+
+<p>Whenever the context where you create the variables ends, the variables you created will get de-allocated. This is a big problem if you want to keep resources alive. e.g.</p>
+
+<pre><code class="language-c++">function foo() {
+    std::vector&lt;int&gt; a{1, 2, 3};
+    ...
+    // function ends, a gets de-allocated
+}
+</code></pre>
+
+<p>Smart pointers will help you keep things alive depending on how you want to keep those objects alive</p>
+
+<h2 id="unique-pointer">Unique pointer</h2>
+
+<pre><code class="language-c++">unique_ptr&lt;int&gt; p(new int);
+// p &lt;--------&gt;  object
+</code></pre>
+
+<p><code>p</code> owns the object and the object has only one owner, <code>p</code>. A unique pointer cannot be copied or passed by value. However, the ownership of its object can be transferred.</p>
+
+<pre><code class="language-c++">auto q = std::make_unique&lt;int&gt;(); // q created with an int object on the heap
+auto p = std::move(q); // p owns the q's object, q lost it (null pointer).
+</code></pre>
+
+<p>Here is a more complete example</p>
+
+<pre><code class="language-c++">#include&lt;iostream&gt;
+#include&lt;memory&gt;
+using namespace std;
+
+struct A{
+    ~A(){
+        std::cout &lt;&lt; "Deleted.";
+    }
+};
+
+void PassIn(std::unique_ptr&lt;A&gt; a)
+{
+    cout&lt;&lt; "Pointer received."&lt;&lt;'\n';
+
+} // a and its object are deleted.
+
+int main(){
+
+    auto x = std::make_unique&lt;A&gt;();
+    PassIn(std::move(x)) // Pointer received.
+    ; // Deleted.
+
+    if (!x) cout&lt;&lt; "x is empty."; // true: x is empty.
+
+    return 0;
+}
+</code></pre>
+
+<p>A unique pointer is useful if you want to <strong>ensure</strong> only a single copy of your data is kept alive in your code. Once somebody has taken over the pointer (via std::move) the previous reference/owner will completely loose it.</p>
+
+<h2 id="shared-pointer">Shared pointer</h2>
+
+<p>A shared pointer is useful when you want to keep data around as long as any of the owners of the data are alive (e.g. multiple lamdas or multiple objects pointing to a common shared object). The semantics of passing a shared pointer however are subtle and prone to errors.</p>
+
+<h3 id="pass-by-value">Pass by value</h3>
+
+<p>Passing a shared pointer by value will actually add an owner to the pointee (keeping it alive) and is the main use case. In the following code, the vector <code>a</code> will have the count of owners bumped when foo is called and decreased when <code>foo</code> finishes running. So the semantics don’t change.</p>
+
+<pre><code class="language-c++">
+function foo(std::shared_ptr&lt;std::vector&lt;int&gt;&gt; ints) {
+    // Do something with ints
+}
+
+int main() {
+    std::shared_ptr&lt;std::vector&lt;int&gt;&gt; a{1,2,3};
+
+    foo(a);
+}
+</code></pre>
+
+<p>But if you would have a long lived structure and you pass the pointer too it, then the vector will be kept alive as long as the struct is also alive:</p>
+
+<pre><code class="language-c++">class A {
+
+    // You get a shared vector from some external source
+    // as long as the instance of this class is alive then a will also be kept alive
+    A(std::shared_ptr&lt;std::vector&lt;int&gt;&gt; a) {
+        this-&gt;a = a;
+    }
+
+    std::shared_ptr&lt;std::vector&lt;int&gt;&gt; a;
+}
+</code></pre>
+
+<p>There is a small price to performance price to pay when owning the pointer. So if you only need to access it but not copy it you can pass by reference or by passing the underlaying pointer</p>
+
+<h3 id="pass-by-reference">Pass by reference</h3>
+
+<p>Passing by reference does not increase the owner count, you can however create a shared pointer and become an owner. The benefit of not taking ownership is that you don’t pay the price of copying and owning the shared pointer.</p>
+
+<pre><code class="language-c++">// Does not take ownership (copy the std::shared_ptr) only uses it while this function is alive
+function foo(std::shared_ptr&lt;std::vector&lt;int&gt;&gt; &amp;ints) {
+    // Do something with ints
+}
+
+int main() {
+    std::shared_ptr&lt;std::vector&lt;int&gt;&gt; a{1,2,3};
+
+    foo(&amp;a);
+}
+</code></pre>
+
+<h3 id="pass-the-underlaying-pointer">Pass the underlaying pointer</h3>
+
+<p>Similar to passing by reference except you cannot create a shared_ptr (doing so will create a new shared_ptr but will not increase the owner count)</p>
+
+<h3 id="lambdas">Lambdas</h3>
+
+<p>With this the capture semantics of lambdas are much clearer:</p>
+
+<pre><code class="language-c++">std::shared_ptr&lt;std::vector&lt;int&gt;&gt; a{1,2,3};
+
+// Because a is a shared pointer, it will not be de-allocated until myLambda itself is de-allocated, which could be much later down the life of the program
+auto myLambda = [a]() {
+    // Do something with a
+}
+</code></pre>
+
+<h2 id="weak-pointer">Weak pointer</h2>
+
+<p>A weak pointer is a smart pointer that does not take ownership of an object but act as an observer. It’s used to observe the object of a shared pointer. It does not participate in reference counting. Weak pointers are mainly used to break circular dependencies.</p>
+
+<h1 id="type-aliases-1">Type Aliases</h1>
+
+<p>On C++ 11, the keyword is <code>using</code></p>
+
+<pre><code class="language-jsx">// C++11
+using counter = long;
+
+// C++03 equivalent:
+typedef long counter;
+</code></pre>
+
+<h1 id="null-vs-nullptr">NULL vs nullptr</h1>
+
+<p><code>NULL</code> is C legacy, <code>nullptr</code>` is idiomatic C++. Null is convertible to integral types (int, bool, etc) whereas nullptr is not</p>
+
+<pre><code class="language-c++">int x = NULL; ✅
+int y = nullptr; ❌ // it is however castable to bool
+</code></pre>
+
+<p>The reason why NULL is legacy is because it causes ambiguity when functions are overriden.</p>
+
+<pre><code class="language-c++">// this both match calling a(NULL);
+
+function a(int x) ...
+
+function a(char* s) ...
+</code></pre>
+
+<h1 id="stdany-and-stdvariant">std::any and std::variant</h1>
+
+<h2 id="stdany">std::any</h2>
+
+<p>Sometimes you don’t know which object you are going to receive. Starting on C++ you can use <code>std::any</code>. <code>std::any</code> is basically a pointer and a type information, you could do the same yourself but you can type cast to anything and get into trouble, while <code>std::any</code> can prevent you from gunfoot. It is useful to pass data data around to which you don’t know the exact type/size and you don’t care until it is time to cast it and do something useful with it. You can imagine how this is super useful with dealing with JS values that can have anything inside of them.</p>
+
+<pre><code class="language-c++">std::any myAnyInt = 4;
+std::any myAnyStr = std::string("this is a string");
+</code></pre>
+
+<p>The problem with <code>std::any</code> however is you can only run code if you know the type ahead of time (read in your head and not in runtime). You can try to do casting and comparissons but it’s kinda shit.</p>
+
+<pre><code class="language-c++">std::any myAny = 4;
+
+// Later down the line
+if(myAny.type == typeid(int)) {
+    int myInt = std::any_cast&lt;int&gt;(myAny);
+}
+
+// You cannot really check the type of the thing you held if not by raw comparisson
+// and the types you get are implementation dependent
+
+struct A {}
+
+std::any myA = A();
+
+std::cout &lt;&lt; myA.type().name() &lt;&lt; std::endl; // Might output "x"
+</code></pre>
+
+<h2 id="stdvariant">std::variant</h2>
+
+<p>If you already know what your bag of holding will hold you can use std::variant. It is much better because it will only accept a set of types you define. It will also apply compiler optimizations.</p>
+
+<pre><code class="language-c++">using MyBagOfHolding = std::variant&lt;int, double, long long, std::string, nullptr_t&gt;;
+
+MyBagOfHolding bag = 4;
+
+// .. much later down in the code
+
+if(std::holds_alternative&lt;int&gt;(bag)) {
+    return std::get&lt;int&gt;(bag);
+}
+</code></pre>
+
+<p>This example is simple and might look as good as <code>std::any</code>, but the compiler optimizations and the type warnings are worth it on it’s own.</p>
+
+<h1 id="object-initialization">Object initialization</h1>
+
+<p>There is only one way to initialize class consts or reference members, using the the <code>initialization list</code> syntax. It initializes the variables of an instance before the body of the constructor is called</p>
+
+<pre><code class="language-jsx">class Demo
+{
+    Demo(int&amp; val) : m_val(val)
+     {
+     }
+private:
+    const int&amp; m_val;
+};
+</code></pre>
+
+<h2 id="destructor">Destructor</h2>
+
+<p>You can execute code after an object has been destructured</p>
+
+<pre><code class="language-cpp">// dispatch_queue.h
+class dispatch_queue {
+
+public:
+// Explicit constructor (does not allow for argument implicit conversion)
+explicit dispatch_queue(std::string name, size_t thread_cnt = 1);
+// Destructor
+~dispatch_queue();
+}
+</code></pre>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

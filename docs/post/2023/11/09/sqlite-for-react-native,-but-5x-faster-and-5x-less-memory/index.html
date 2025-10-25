@@ -1,0 +1,171 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>SQLite for React Native, but 5x faster and 5x less memory | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="SQLite for React Native, but 5x faster and 5x less memory" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I created a new sqlite module for react-native: op-sqlite. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module." />
+<meta property="og:description" content="I created a new sqlite module for react-native: op-sqlite. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module." />
+<link rel="canonical" href="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" />
+<meta property="og:url" content="https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2023-11-09T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="SQLite for React Native, but 5x faster and 5x less memory" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-11-09T00:00:00+01:00","datePublished":"2023-11-09T00:00:00+01:00","description":"I created a new sqlite module for react-native: op-sqlite. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module.","headline":"SQLite for React Native, but 5x faster and 5x less memory","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"},"url":"https://ospfranco.com/post/2023/11/09/sqlite-for-react-native,-but-5x-faster-and-5x-less-memory/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        SQLite for React Native, but 5x faster and 5x less memory
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        November 2023
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>I created a new sqlite module for react-native: <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>. Although it started as some exploration of possibilities, the performance gains where so large that it turned out to be a entire re-write of the module.</p>
+
+<h1 id="quick-sqlite">quick-sqlite</h1>
+
+<p>I wrote <a href="https://github.com/ospfranco/react-native-quick-sqlite">quick-sqlite</a> last year after I learned about React Native JSI, a way to bridge C++ code to JavaScript. The idea was simple and I took a peek at existing libraries. One basically takes the arguments passed from JavaScript, and then just call the SQLite APIs, then collect the results of the queries and pass them back to JavaScript.</p>
+
+<p>quick-sqlite already produced a major improvement in performance over the old bridge modules, where data had to be serialized to JSON and then passed between native and JavaScript. The flow was pretty simple:</p>
+
+<p><img src="https://ospfranco.com/assets/quick-sqlite-flow.png" alt="quick-sqlite-flow" title="Quick SQLite flow" /></p>
+
+<h1 id="where-quick-sqlite-fell-short">Where quick-sqlite fell short</h1>
+
+<p>There were, however, some issues with quick-sqlite. People complained although it was fast, queries would run out of memory or it would not be fast enough. Given that this was open source work and I already gotten what I wanted I did not pursue further optimizations further. At some point it was not fun and I handed over quick-sqlite to Margelo and went for a long vacation.</p>
+
+<p>I’ve been back at work for a few months and I have seen the value quick-sqlite provides to companies large and small. But people <a href="https://github.com/margelo/react-native-quick-sqlite/pull/30#issuecomment-1801378465">kept asking if it could be made faster</a>. They already had some good ideas: try to reduce the amount of created strings, use HostObjects to reduce memory foot-print, and so on. Just out of curiosity I decided to try a few things.</p>
+
+<p>In order to really see differences, I set up a test of a database of 300k records, mix of strings, ints and doubles. At lower scales the differences might be so tiny that they don’t really matter.</p>
+
+<h1 id="migrate-to-hostobjects">Migrate to HostObjects</h1>
+
+<p>The first obvious idea was migrating to HostObjects (if you don’t know what they are, <a href="https://www.youtube.com/watch?v=_BNinSbzZTE">I made a video about them</a>, but think C++ classes bridged to JS). HostObjects are not a cure to all, but they would immediately provide a big benefit: memory consumption would be reduced. On the old flow, I would get the results from SQLite, store them in a vector, and then when I got access to the JS context again, iterate and recreate all the data again in JSI (read: plain JS) objects. This meant that all the price of converting/transfering data from native to JS, was paid upfront. By using HostObjects one can avoid paying this price of copying strings and other values. They would be created once and then stored in memory, when the JS side reaches inside them then they do the conversion of data at that point in time.</p>
+
+<p>It is not perfect, since I’m shifting the price paid before upfront into some cost when accessing the data. But testing showed that access was just the same, and memory consumption was halved! This meant queries that would OOM before now could be run without problem.</p>
+
+<h1 id="get-rid-of-holding-struct">Get rid of holding struct</h1>
+
+<p>Another issue was I created a Struct to hold different type of data, due to the nature of JS any value you receive can be of these types:</p>
+
+<pre><code class="language-c++">struct QuickValue {
+  int intVal;
+  double doubleVal;
+  std::string strVal;
+  bool boolVal;
+  std::string type; // used to store which type of data this was holding
+}
+</code></pre>
+
+<p>There is no justification for this structure other than: I didn’t knew any better, my c++-fu was weak. I knew that using this struct would allocate too much extra memory and was wasteful, I just didn’t imagine how much. Allocating memory and moving objects around in the heap has a big cost, not only in memory but sometimes in performance!</p>
+
+<p>When browsing the web and other peoples code, I came to learn about <a href="https://en.cppreference.com/w/cpp/utility/any">std::any</a>, which was introduced in C++ 17. It basically functions the same as my struct to hold data (internally it just stores a pointer <code>void *</code>). I got rid of the struct and swapped all references for <code>std::any</code> and the performance gains were amazing, all of the sudden the performance of the module was 3x as fast. It came with a cost however. <code>std::any</code> is awkward to use, it doesn’t really store any type information, and at best you can only run code when you know the type of the thing you put in there.</p>
+
+<p>When reading on how to do certain operations, a lot of answers pointed towards <a href="https://en.cppreference.com/w/cpp/utility/variant">std::variant</a>. After getting the code to compile with <code>std::any</code> I decided to give <code>std::variant</code> a try. Although on the surface it looked the same, it is bounded to types one declared, because it cannot hold any type of data, the compiler can get a little smarter about it. The performance gain was also staggering here, all of the sudden I was almost reaching 6x times the performance.</p>
+
+<pre><code class="language-c++">#include &lt;variant&gt;
+
+struct ArrayBuffer {
+    std::shared_ptr&lt;uint8_t&gt; data;
+    size_t size;
+};
+
+
+using JSVariant = std::variant&lt;nullptr_t, bool, int, double, long, long long, std::string, ArrayBuffer&gt;;
+</code></pre>
+
+<h1 id="turning-the-problem-around">Turning the problem around</h1>
+
+<p>I had a nagging feeling that somehow I was just wasting so much memory by creating HostObjects that are basically maps, therefore store the same keys over and over again (remember, I switched from creating JS objects to keeping them in HostObjects, but each HostObject contained the same keys). Then I realized I could turn the entire thing around. Instead of thinking of each HostObject as a completely stand alone entity, they could all share the same key set, and only store the actual values!</p>
+
+<p>It took a little while for me to wrap my head around shared pointers. How to store the key set in a vector, that by using a shared_pointer in the HostObjects instances would not get de-allocated. The final result is a combination of what I call a <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DumbHostObject.h">DumbHostObject</a> and <a href="https://github.com/OP-Engineering/op-sqlite/blob/main/cpp/DynamicHostObject.cpp">DynamicHostObject</a>, the dumb objects only hold data, and the dynamic objects can hold anything (that can also be accessed from the JS side), but by combining the two, one can save memory by sharing the key set (in a DynamicHostObject) among many results (DumbHostObjects).</p>
+
+<p>As it turns out, this slightly decreased performance (completely unexpected, who would have thought passing shared pointers around was so expensive), but memory allocation was halved again! That in my opinion is a worthy trade. The original query in quick-sqlite took over two seconds and required 1.2 gbs in memory on iOS. This now runs in ~500ms and requires only 250mbs of memory. The Android performance gains are masive as well, reaching almost 8x the speed.</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Library</th>
+      <th>iPhone 15 Pro</th>
+      <th>Galaxy S22</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>quick-sqlite</td>
+      <td>2719ms</td>
+      <td>8851ms</td>
+    </tr>
+    <tr>
+      <td>expo-sqlite</td>
+      <td>2293ms</td>
+      <td>10626ms</td>
+    </tr>
+    <tr>
+      <td>op-sqlite</td>
+      <td>507ms</td>
+      <td>1125ms</td>
+    </tr>
+  </tbody>
+</table>
+
+<h1 id="troubles-in-paradise">Troubles in paradise</h1>
+
+<p>Remember what I said that HostObjects are not perfect? Turns out property access is quite slow, not only because the objects store the keys in a Vector (I tried an <code>std::unordered_map</code>, it’s even slower, hashing functions and memory layout uh?). So in a way I’m bullshitting you a bit. When running a 300k query, this numbers are fantastic, but if you are running something that returns a couple of hundred of results, you might see no difference at all.</p>
+
+<p>As it turns out, this slow access, might not be even related to the HostObject itself, but any object that is created with the <code>jsi::Object()</code> API, when I tested <code>quick-sqlite</code> the numbers accessing data are quite similar. <code>expo-sqlite</code> was super fast on accessing data, but it zips the data on the JS side, so it seems that is the only way to create fast access objects. This means however you will always pay the price upfront for such large queries.</p>
+
+<p>There are a few final optimizations that can be done, such as inserting keys in the shared vector with some sorting, so then accessing can be done via binary search, but I will leave it for later. Other optimizations include trying to inline more functions, but I think I have reached the end of what is possible with the JSI.</p>
+
+<p>The next big step in performance will come from Static Hermes, where we can finally call SQLite code directly from JS without the need of HostObjects, shared pointers and so on. There will be one major difficulty though, static hermes is still single threaded, so getting React Native to call large queries without hanging will require creating a multi-threaded messaging system, AKA web-workers. I would definetely would like to tackle this problem and then create a new version of op-sqlite with that!</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

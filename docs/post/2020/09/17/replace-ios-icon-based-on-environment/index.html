@@ -1,0 +1,152 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Dynamic iOS icons (build-time) | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Dynamic iOS icons (build-time)" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious." />
+<meta property="og:description" content="When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious." />
+<link rel="canonical" href="https://ospfranco.com/post/2020/09/17/replace-ios-icon-based-on-environment/" />
+<meta property="og:url" content="https://ospfranco.com/post/2020/09/17/replace-ios-icon-based-on-environment/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2020-09-17T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Dynamic iOS icons (build-time)" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2020-09-17T15:00:00+02:00","datePublished":"2020-09-17T15:00:00+02:00","description":"When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.","headline":"Dynamic iOS icons (build-time)","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/09/17/replace-ios-icon-based-on-environment/"},"url":"https://ospfranco.com/post/2020/09/17/replace-ios-icon-based-on-environment/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Dynamic iOS icons (build-time)
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        September 2020
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>When you have multiple environments it is hard to track which application you might have installed in your phone, in the not so important scenarios it is annoying, your team might be confused and report bugs on WIP builds, but on more serious scenerios you might publish a development build to production and that is a lot more serious.</p>
+
+<p>This is what happened to us at BodyFast this week and here is just one quick way to prevent it: give your app a different icon based on the configuration, now in the past I’ve done this via app flavors for Android and build configurations for iOS, but that process is technically convoluted and also does not work for our use case, so I needed simpler this time around.</p>
+
+<p>So we are going to highjack the build process of iOS to replace the icons based on some configuration file.</p>
+
+<h2 id="1-get-your-icons-ready">1. Get your icons ready</h2>
+
+<p>Create all the icons you need, usually to do this I would only change the background or icon color and slap a big “Staging” or “debug” text in front to get rid of all ambiguity, you only need to create a 1024x1024 version and there are many scripts out there that do the resizing for you</p>
+
+<h2 id="2-add-a-run-script">2. Add a run script</h2>
+
+<p>Go to xcode -&gt; select your project -&gt; select “Build Phases” -&gt; Add a new “run script”</p>
+
+<p>Here is the content of the script:</p>
+
+<pre><code>IFS=$'\n'
+
+CONFIG=production
+
+function generateIcon () {
+  BASE_IMAGE_NAME=$1
+
+  SOURCE_PATH="${SRCROOT}/../storage/app_icons/${CONFIG}/${BASE_IMAGE_NAME}"
+  TARGET_PATH=$(find "${SRCROOT}/BodyFast/Images.xcassets" -name $BASE_IMAGE_NAME)
+  echo "Copying ${SOURCE_PATH} into: ${TARGET_PATH}"
+  cp $SOURCE_PATH $TARGET_PATH
+}
+
+if grep -q development ../.env; then
+  echo "Found debug config"
+  CONFIG=debug
+fi
+
+if grep -q staging ../.env; then
+echo "Found staging config"
+  CONFIG=staging
+fi
+
+echo "Replacing app icons based on configuration"
+
+generateIcon "AppIcon20x20@2x.png"
+generateIcon "AppIcon20x20@2x~ipad.png"
+generateIcon "AppIcon20x20@3x.png"
+generateIcon "AppIcon20x20~ipad.png"
+generateIcon "AppIcon29x29.png"
+generateIcon "AppIcon29x29@2x.png"
+generateIcon "AppIcon29x29@2x~ipad.png"
+generateIcon "AppIcon29x29@3x.png"
+generateIcon "AppIcon29x29~ipad.png"
+generateIcon "AppIcon40x40@2x.png"
+generateIcon "AppIcon40x40@2x~ipad.png"
+generateIcon "AppIcon40x40@3x.png"
+generateIcon "AppIcon40x40~ipad.png"
+generateIcon "AppIcon50x50@2x~ipad.png"
+generateIcon "AppIcon50x50~ipad.png"
+generateIcon "AppIcon57x57.png"
+generateIcon "AppIcon57x57@2x.png"
+generateIcon "AppIcon60x60@2x.png"
+generateIcon "AppIcon60x60@3x.png"
+generateIcon "AppIcon72x72@2x~ipad.png"
+generateIcon "AppIcon72x72~ipad.png"
+generateIcon "AppIcon76x76@2x~ipad.png"
+generateIcon "AppIcon76x76~ipad.png"
+generateIcon "AppIcon83.5x83.5@2x~ipad.png"
+</code></pre>
+
+<p>let’s break it down:</p>
+
+<ul>
+  <li>First we need to find out which environment is currently being build, for us is fairly simple, we have a <code>.env</code> that get’s symlinked at the beginning of our compilation process, a simple GREP inside of the file to search for a keyword does the trick of detecting which “environment” is the app going to tbe connected to</li>
+  <li>Once we now the environment we can start replacing all the icons, the source path as you can imagine is where you have placed the icons for all the different flavors, you will need to replace it with your own value</li>
+  <li>The target path is where we are going to highjack the process, basically we are going to replace the conents of the <code>.xcassets</code> file via code, now there are some important caveats here; 1. your icons need to have the same name from the moment you generate them to the moment you replace them, in order to make my life easier <a href="https://github.com/ospfranco/ios-icon-generator">I have forked the script I use</a> and just generate all of the files with the final naming xcode uses internally, 2. You might not need all the files I presented, we are using an old xcassets file and depending on which devices you support you might need/want to get rid of some of the lines</li>
+  <li>Once we have all the icons a simple <code>cp</code> command replaces the contents</li>
+</ul>
+
+<p>and there you have it, you should be able to easily tell your different app environments now, if you couple this with your CI/CD it is even more convenient.</p>
+
+<p>Cheers</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

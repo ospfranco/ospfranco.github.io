@@ -1,0 +1,173 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Rust Noobie Best Practices | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Rust Noobie Best Practices" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app." />
+<meta property="og:description" content="I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app." />
+<link rel="canonical" href="https://ospfranco.com/rust-tips-from-a-noob/" />
+<meta property="og:url" content="https://ospfranco.com/rust-tips-from-a-noob/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2025-09-03T00:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="Rust Noobie Best Practices" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-09-03T00:00:00+02:00","datePublished":"2025-09-03T00:00:00+02:00","description":"I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.","headline":"Rust Noobie Best Practices","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/rust-tips-from-a-noob/"},"url":"https://ospfranco.com/rust-tips-from-a-noob/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Rust Noobie Best Practices
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        September 2025
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
+
+<p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
+
+<p>I’ve picked up on some tricks and best practices over the last year. I decided that compiling some of the points might be valuable info.</p>
+
+<ul>
+  <li>Stateless architectures might be easier to deal with than a lot of shared state with mutexes and send+sync.</li>
+  <li>
+    <p>Generally speaking <code>RwLock</code> is what you want instead of <code>Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
+
+    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
+// If you don't drop
+drop(my_read_var)
+// This writer will lock
+let mut my_write_var = MY_VAR.write().unwrap();
+</code></pre>
+  </li>
+  <li>
+    <p>For global variables, LLMs regurgitate code that uses <code>lazy_static</code> or <code>once_cell</code> crates. Their functionality has been incorporated into the standard lib (<code>std</code>) and one can now just use <code>OnceLock</code> and <code>LazyLock</code> to initialize global variables.</p>
+
+    <pre><code class="language-rust">  // ❌ Don't
+  lazy_static! {
+    // your global variables
+  }
+
+  // ✅ Do
+  static MY_STR: LazyLock&lt;RwLock&lt;String&gt;&gt; = LazyLock::new(|| RwLock::new("Hello World!".into()));
+</code></pre>
+  </li>
+  <li>
+    <p>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</p>
+
+    <pre><code class="language-rust">use tokio::sync::OnceCell
+
+static INIT: OnceCell&lt;()&gt; = OnceCell::const_new();
+
+pub fn init() {
+  // Makes sure the code inside is only run once
+  INIT.get_or_init(|| async {
+      my_async_function().await;
+  })
+  .await;
+}
+</code></pre>
+  </li>
+  <li>
+    <p><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
+
+    <pre><code class="language-toml">[profile.default]
+retries = 3
+fail-fast = false
+status-level = "all"
+</code></pre>
+  </li>
+  <li>The <a href="https://crates.io/crates/assert2">assert2</a> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
+  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
+  <li>
+    <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
+
+    <pre><code class="language-rust">#[no_mangle]
+unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
+  let data = CString::new("Hello World!".into()).unwrap();
+  data.into_raw() as *mut c_char
+}
+
+// The pointer must be later returned to Rust for safe de-allocation
+#[no_mangle]
+unsafe extern "C" fn free_string(ptr: *mut c_char) {
+    if ptr.is_null() {
+        return;
+    }
+
+    let _ = CString::from_raw(ptr);
+    // Automatically dropped at the end of function
+}
+</code></pre>
+  </li>
+  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code>Result</code> and <code>Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
+  <li>Though Rust is cross-platform compilable, there are many pitfalls which are not obvious.
+    <ul>
+      <li>On Android, non-java code cannot access native TLS certs for HTTPs requests. This forces Rust to compiled and included in my crate. This then goes down a rabbit hole of <code>nativetls</code> vs <code>rustls</code> crates. If you are targeting multi-platform go with <code>rustls</code> if possible.</li>
+    </ul>
+  </li>
+  <li><code>Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code>aws-lc-rs</code>, so should you.
+    <ul>
+      <li>Migration of community crates is slowly happening towards <code>aws-lc-rs</code>. You might need to toggle features or bump versions to take advantage of this.</li>
+    </ul>
+  </li>
+  <li>Feature flags are great but their real-world usage and behavior is not always clear. If you assume the default features are what you want, you might be adding a lot of useless code to your project. There is no easy way to detect this, except reading through the docs and looking at the source code and see what can you turn off and still get a functioning crate.
+    <ul>
+      <li>Use <code>cargo-appreaiser</code> extension on vscode. Not only it shows outdated packages but it also shows the crate features on hover.</li>
+    </ul>
+  </li>
+  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code>#[cfg(test)]</code> or <code>#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code>if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
+  <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures plus comments, without a clear flow on how to use the APIs of the crates. I still haven’t found a good way to piece good API usage, seems the community has not cracked this one yet.</li>
+  <li>Error propagation through the <code>try operator</code> (<code>?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
+</ul>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

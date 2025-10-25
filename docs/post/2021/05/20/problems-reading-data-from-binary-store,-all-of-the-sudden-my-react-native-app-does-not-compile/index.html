@@ -1,0 +1,96 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Problems reading data from Binary store - crashing RN | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Problems reading data from Binary store - crashing RN" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds)." />
+<meta property="og:description" content="If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds)." />
+<link rel="canonical" href="https://ospfranco.com/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" />
+<meta property="og:url" content="https://ospfranco.com/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-20T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Problems reading data from Binary store - crashing RN" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-05-20T15:00:00+02:00","datePublished":"2021-05-20T15:00:00+02:00","description":"If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).","headline":"Problems reading data from Binary store - crashing RN","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/"},"url":"https://ospfranco.com/post/2021/05/20/problems-reading-data-from-binary-store,-all-of-the-sudden-my-react-native-app-does-not-compile/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Problems reading data from Binary store - crashing RN
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        May 2021
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>If you work with React Native this week has been a lot of fun, your app might have magically stopped compiling all of the sudden (or as in my case when the gradle cache was invalidated in the CI and in my local builds).</p>
+
+<p>Whenever I tried to compile the app for android, I would face a very random error:</p>
+
+<pre><code>* What went wrong:
+Execution failed for task ':app:processGmsDebugResources'.
+&gt; Problems reading data from Binary store in /private/var/folders/qn/vyvn49j90jv9_77vq77wzvw00000gn/T/gradle7617438234756331878.bin offset 0 exists? true
+</code></pre>
+
+<p>It is particularly frustrating because there was absolutely no change from my side. I still haven’t been able to figure out the root cause, but after reading some of the github issues; <a href="https://github.com/gradle/gradle/issues/8489">a gradle issue that has nothing to do with RN</a> and the seemingly related <a href="https://github.com/zo0r/react-native-push-notification/issues/1999#issuecomment-840235222">rn-push-notification issue</a>. From what I gatter the cause seems to be Google pushing an update to their libraries messaging and breaking our precious compilation.</p>
+
+<p>So in order to save you some time here is the solution, update the following dependencies:</p>
+
+<pre><code>project app-level build.gradle file:
+com.google.firebase:firebase-analytics:17.2.2 to com.google.firebase:firebase-analytics:18.0.2
+
+Project-level build.gradle file:
+com.google.gms:google-services:4.3.3 to com.google.gms:google-services:4.3.5
+</code></pre>
+
+<p>If you are using <code>react-native-push-notification</code> (actually seems to be the root of this problem), you also need to update that library to the latest version (<code>7.3.1</code> as of this writing). Bare in mind this might be a major version change, so the API might have changed, in our case we were using a 6.X.X version and we had to update the <code>removeAllDeliveredNotifications</code> method.</p>
+
+<p>Afterwards your app should hopefully compile.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,130 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Github workflows chaining | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Github workflows chaining" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click." />
+<meta property="og:description" content="Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click." />
+<link rel="canonical" href="https://ospfranco.com/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" />
+<meta property="og:url" content="https://ospfranco.com/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/profile.jpeg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2021-05-10T15:00:00+02:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/profile.jpeg" />
+<meta property="twitter:title" content="Github workflows chaining" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-05-10T15:00:00+02:00","datePublished":"2021-05-10T15:00:00+02:00","description":"Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.","headline":"Github workflows chaining","image":"https://ospfranco.com/assets/profile.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/"},"url":"https://ospfranco.com/post/2021/05/10/how-to-trigger-a-github-actions-workflow-from-another-workflow/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Github workflows chaining
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        May 2021
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>Here is another post that has to do with my current company migrating CI systems, from Bitrise into Github Actions. While on Bitrise we had workflows that would trigger (fork) more workflows. This worked well for us to trigger our android, iOS and Huawei builds with a single click.</p>
+
+<p>Unfortunately, after migrating to Github Actions, it’s not quite clear how to achieve the same. There are some posts on the forums that point to old answers using personal tokens. I lost some time googling around, so I thought I might save the next guy time.</p>
+
+<p>In the past Github prevented triggering workflows from other workflows to prevent recursive triggers. However at some point they added another trigger, so instead of dispatching a build from a parent, you declare a dependency on the child workflow.</p>
+
+<p>Here is an example of a parent workflow:</p>
+
+<pre><code class="language-yml">name: Fork production builds
+
+on:
+  workflow_dispatch
+
+jobs:
+  say_hi:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Hi
+        run: echo "Hi"
+</code></pre>
+<blockquote>
+  <p>You need to have jobs with a step, otherwise github complains, but this entire workflow runs in less than a second.</p>
+</blockquote>
+
+<p>and on the child workflow, you just add it to the triggers</p>
+
+<pre><code class="language-yml">name: Android HMS Production
+
+on:
+  # Automatic trigger when pushing tags
+  # push:
+  #   branches:
+  #     - "!*"
+  #   tags:
+  #     - 'v*'
+
+  # Manual trigger from the UI
+  workflow_dispatch:
+    inputs:
+      message:
+        description: 'Build description'
+
+  # Dependency to a forking workflow
+  workflow_run:
+    workflows: ["Fork production builds"]
+    type:
+      - complete
+</code></pre>
+<blockquote>
+  <p>The ‘complete’ type is just so that this workflow triggers after the previous one has been completed.</p>
+</blockquote>
+
+<p>That’s it, now when you trigger the “Fork production builds” (from the github UI), the child (or children) process will run.</p>
+
+<p>If you want even more details about your CI builds and workflows on github, you should check <a href="https://ospfranco.github.io/cidemon">CI Demon</a>, it’s an app that I made that puts your builds right on your mac Desktop.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>

@@ -1,0 +1,107 @@
+<head>
+  <link rel="preconnect" href="https://rsms.me/" />
+  <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="utf-8" />
+  <link
+    rel="shortcut icon"
+    type="image/x-icon"
+    href="/assets/favicon.ico"
+  />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Use React as a Rendering Layer | Oscar Franco</title>
+<meta name="generator" content="Jekyll v4.4.1" />
+<meta property="og:title" content="Use React as a Rendering Layer" />
+<meta name="author" content="Oscar Franco" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="A couple of tweets caught my eye this week:" />
+<meta property="og:description" content="A couple of tweets caught my eye this week:" />
+<link rel="canonical" href="https://ospfranco.com/use-react-as-a-rendering-layer/" />
+<meta property="og:url" content="https://ospfranco.com/use-react-as-a-rendering-layer/" />
+<meta property="og:site_name" content="Oscar Franco" />
+<meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="og:type" content="article" />
+<meta property="article:published_time" content="2024-11-11T00:00:00+01:00" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
+<meta property="twitter:title" content="Use React as a Rendering Layer" />
+<meta name="twitter:site" content="@ospfranco" />
+<meta name="twitter:creator" content="@Oscar Franco" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-11-11T00:00:00+01:00","datePublished":"2024-11-11T00:00:00+01:00","description":"A couple of tweets caught my eye this week:","headline":"Use React as a Rendering Layer","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/use-react-as-a-rendering-layer/"},"url":"https://ospfranco.com/use-react-as-a-rendering-layer/"}</script>
+<!-- End Jekyll SEO tag -->
+
+  <link rel="stylesheet" href="/css/site.css" />
+</head>
+
+<html>
+  <header class="w-full flex flex-col items-center justify-center pt-12 pb-4">
+  <!-- <img src="/assets/bg.png" class="" /> -->
+  <div class="w-full max-w-4xl flex items-center gap-2 px-4">
+    <a href="/" class="flex-1 flex items-center text-black dark:text-white">
+      <img src="/assets/oscar.jpg" class="w-8 h-8 rounded-xl mr-2 object-cover" />
+      Oscar Franco</a>
+
+    <!-- <div class="h-2 w-2 rounded-full bg-green-400 animate-pulse"></div>
+    <a href="mailto:ospfranco@gmail.com"
+    target="_blank" class="text-sm">
+      Available for freelance work
+    </a> -->
+  </div>
+</header>
+
+<body class="flex flex-col items-center">
+  <div class="px-4 pt-8 min-h-screen xl:max-w-4xl w-full">
+    <div class="xl:mx-auto flex flex-col">
+      <h1 class="text-black dark:text-white text-lg font-semibold sm:text-4xl">
+        Use React as a Rendering Layer
+      </h1>
+
+      <p class="mt-2 text-neutral-500 text-sm">
+        November 2024
+      </p>
+
+      <div class="pt-4 pb-20 markdown text-justify"><p>A couple of tweets caught my eye this week:</p>
+
+<p>[Kitze tweet]</p>
+
+<p>[Tweet about dan leaving twitter]</p>
+
+<p>I have tweeted extensively in the past how React state management is too complex and easy to get wrong. The fact that one has to read long threads of tweets to getting some amount of understanding of how to operate it just speaks volumes.</p>
+
+<h1 id="render-cycles-is-a-bad-state-update-mechanism">Render cycles is a bad state update mechanism</h1>
+
+<p>At the core of the problem lies the fact that React is a UI library. Being a UI library it first concern was to render state efficiently. To render state efficiently it came up to render cycles. Change your state, your component re-renders itself (and its children). As the library matured, we’ve migrated from classes to hooks. It’s hard to decompose the problem, but it boils down to state-updates now ticks at the rythm of the render cycles:</p>
+
+<ul>
+  <li>Render</li>
+  <li>Update variable</li>
+  <li>Trigger re-render</li>
+  <li>Trigger useEffect</li>
+  <li>Potentially update variable</li>
+  <li>Trigger re-render</li>
+</ul>
+
+<p>We have fallen in this cycle, where every variable change (state update) is now thought in terms of React renders. And this is a hard, complex and non-sensical way of programming. Because, everything depends on everything. It quickly explodes in complexity. You have to prevent re-renders (useMemo), try to avoid function re-creation (useCallback) while at the same time triggering side-effecty code (useEffect). This also triggers re-renderings on large parts of the UI as the prop comparisson is naive. Comically enough, React doesn’t properly react to changes, at least not smart enough. The so-called React compiler is an implicit acceptance that this model is fundamentally broken and we know need to statically analyse code to get untangle this mess.</p>
+
+<h1 id="way-out">Way out</h1>
+
+<p>I could ramble more and more but there is no point. If you live through the pain of maintaining a mid to large React app with lots of hooks and contexts this problem is self evident. So here is one way out: use mobx.</p>
+
+<p>Mobx bring sanity to state management by using a simple observer pattern. You modify a variable, things that use the variable get re-rendered. As simple as that. Not even entire trees of things get re-render, JUST THE THINGS THAT USE IT. This means no more <code>useMemo</code>.</p>
+
+<p>You can declare model classes once, this contains variables (<code>useState</code>), functions declared once (meaning no more <code>useCallback</code>) and calculated values. Side-effects are no longer a weird <code>useEffect</code> with a list of variables that might affect it, code can just be triggered when variables are set. Some times it might be a more code duplication, but it’s no longer React programming, it’s just programming.</p>
+
+<p>It has some quirks, like having to use <code>runInAction</code> after using <code>await</code> but the trade-off is more than worthy. Your React code is just a rendering layer. NO HOOKS, NO CONTEXT. React excels at manipulating the DOM and giving you a re-usable abstraction, let it do just that.</p>
+</div>
+    </div>
+
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/styles/github-dark.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
+
+    <script>
+      hljs.highlightAll();
+    </script>
+  </div>
+</body>
+</html>
