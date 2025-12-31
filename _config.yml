@@ -1,4 +1,3 @@
-markdown: kramdown
 plugins:
   - jekyll-feed
   - jekyll-seo-tag
@@ -13,8 +12,6 @@ twitter:
   card: "summary"
 image: "/assets/oscar.jpg"
 future: true # Publish posts with future dates
-
-highlighter: none
 
 exclude:
   - Gemfile

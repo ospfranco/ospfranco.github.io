@@ -6,6 +6,7 @@
     "build": "JEKYLL_ENV=production NODE_ENV=production bundle exec jekyll build -d docs && git add ."
   },
   "devDependencies": {
+    "@biomejs/biome": "^2.3.10",
     "autoprefixer": "^10.4.0",
     "cssnano": "^5.0.8",
     "husky": "^5.0.9",
