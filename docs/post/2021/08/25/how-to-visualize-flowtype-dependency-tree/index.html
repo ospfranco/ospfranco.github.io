@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-08-25T09:00:00-04:00" />
+<meta property="article:published_time" content="2021-08-25T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="How to visualize Flowtype dependency tree" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-08-25T09:00:00-04:00","datePublished":"2021-08-25T09:00:00-04:00","description":"At work we use FlowType on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.","headline":"How to visualize Flowtype dependency tree","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/"},"url":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-08-25T15:00:00+02:00","datePublished":"2021-08-25T15:00:00+02:00","description":"At work we use FlowType on our JavaScript application. I’m a fan of JS type checkers, flow is not my favorite, but what is important is that it works.","headline":"How to visualize Flowtype dependency tree","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/"},"url":"https://ospfranco.com/post/2021/08/25/how-to-visualize-flowtype-dependency-tree/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -90,19 +90,19 @@
 
 <p>After many hours ended up figuring out the right command to output the entire dependency graph for the app:</p>
 
-<pre><code class="language-bash">yarn flow graph dep-graph --strip-root --out ./output
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn flow graph dep-graph <span class="nt">--strip-root</span> <span class="nt">--out</span> ./output
+</code></pre></div></div>
 
 <p>This however it only produces the entire app graph… you can imagine this file is hundred thousand of lines of dependencies. In any case, this outputs a DOT file (from graphviz), which in theory you can easily visualize by using the right command:</p>
 
-<pre><code class="language-bash"># install dot via "brew install graphviz"
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># install dot via "brew install graphviz"</span>
 
-# I tried a png first... it just fails
+<span class="c"># I tried a png first... it just fails</span>
 
-dot -Tsvg output -o graph.svg
-</code></pre>
+dot <span class="nt">-Tsvg</span> output <span class="nt">-o</span> graph.svg
+</code></pre></div></div>
 
-<p>This produces an svg so massive and so filled with squigly lines it is effectively useless… so I had to narrow down the output to just an entry file which I’m interested. Unfortunately the <code>graph</code> command does not take an entry point to generate the graph, so I had to manually narrow down the graph that I had. Here is the gist with the script I ended up coming up with:</p>
+<p>This produces an svg so massive and so filled with squigly lines it is effectively useless… so I had to narrow down the output to just an entry file which I’m interested. Unfortunately the <code class="language-plaintext highlighter-rouge">graph</code> command does not take an entry point to generate the graph, so I had to manually narrow down the graph that I had. Here is the gist with the script I ended up coming up with:</p>
 
 <script src="https://gist.github.com/ospfranco/d599a68f1a2fe1f39a457162238fec78.js"></script>
 

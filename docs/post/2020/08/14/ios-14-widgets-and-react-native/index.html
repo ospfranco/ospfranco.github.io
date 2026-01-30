@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2020/08/14/ios-14-widgets-and-react-native/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-08-14T09:00:00-04:00" />
+<meta property="article:published_time" content="2020-08-14T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="React Native iOS 14 widgets guide" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2020-08-14T09:00:00-04:00","datePublished":"2020-08-14T09:00:00-04:00","description":"So you want to make a iOS home screen widget react-native?","headline":"React Native iOS 14 widgets guide","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/08/14/ios-14-widgets-and-react-native/"},"url":"https://ospfranco.com/post/2020/08/14/ios-14-widgets-and-react-native/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2020-08-14T15:00:00+02:00","datePublished":"2020-08-14T15:00:00+02:00","description":"So you want to make a iOS home screen widget react-native?","headline":"React Native iOS 14 widgets guide","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/08/14/ios-14-widgets-and-react-native/"},"url":"https://ospfranco.com/post/2020/08/14/ios-14-widgets-and-react-native/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -82,7 +82,7 @@
   <li>Add the widget to your homescreen</li>
 </ul>
 
-<p>Compile your app first as is to see if works, in my case I got a swift compilation error, as it turns out the widget target build settings was embedding an old version of the swift runtime, it got solved by following <a href="https://github.com/facebook/react-native/issues/29246">this issue</a>, basically remove any swift path from the <code>libraries search paths</code> in the extension’s target <code>Build Settings</code></p>
+<p>Compile your app first as is to see if works, in my case I got a swift compilation error, as it turns out the widget target build settings was embedding an old version of the swift runtime, it got solved by following <a href="https://github.com/facebook/react-native/issues/29246">this issue</a>, basically remove any swift path from the <code class="language-plaintext highlighter-rouge">libraries search paths</code> in the extension’s target <code class="language-plaintext highlighter-rouge">Build Settings</code></p>
 
 <h3 id="2-how-to-connect-the-widget-to-your-apps-js-code">2. How to connect the widget to your app’s JS code</h3>
 
@@ -92,15 +92,15 @@
   <p>Important point to clarify: iOS widgets work with a timeline of data points, based on a timestamp iOS will run <strong>1</strong> render cycle with the appropiatte data point, save a “snapshot” and that’s it, your job is to create the timeline of datapoints and to create the render function which takes one of mentioned datapoints.</p>
 </blockquote>
 
-<p>The problem becomes, how do you create and share the data point timeline for the widget to consume the answer is: <code>AppGroups</code></p>
+<p>The problem becomes, how do you create and share the data point timeline for the widget to consume the answer is: <code class="language-plaintext highlighter-rouge">AppGroups</code></p>
 
-<p>An AppGroup is basically a shared environment between multiple apps or targets, it allows you to share data between the package, you can create one directly from XCode, first add the <code>capability</code> in your <code>project build settings</code> for both targets (the main app and the widget extension).</p>
+<p>An AppGroup is basically a shared environment between multiple apps or targets, it allows you to share data between the package, you can create one directly from XCode, first add the <code class="language-plaintext highlighter-rouge">capability</code> in your <code class="language-plaintext highlighter-rouge">project build settings</code> for both targets (the main app and the widget extension).</p>
 
 <blockquote>
   <p><strong>IMPORTANT</strong> You need to have owner rights in your apple developer portal organization in order to create this group on the app store, this also means you will need to regenerate your provisioning profiles!</p>
 </blockquote>
 
-<p>You can give a custom name to the <code>AppGroup</code>, xcode will prepend <code>group.</code> for you, so you should have something like <code>group.com.yourcompany</code></p>
+<p>You can give a custom name to the <code class="language-plaintext highlighter-rouge">AppGroup</code>, xcode will prepend <code class="language-plaintext highlighter-rouge">group.</code> for you, so you should have something like <code class="language-plaintext highlighter-rouge">group.com.yourcompany</code></p>
 
 <p>You should end-up with something like this:</p>
 
@@ -116,70 +116,70 @@
 
 <p>Here is an example of how you should prepare the timeline data for the widget</p>
 
-<pre><code class="language-javascript">import SharedGroupPreferences from 'react-native-shared-group-preferences'
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">SharedGroupPreferences</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">react-native-shared-group-preferences</span><span class="dl">'</span>
 
-const appGroupIdentifier = 'group.com.yourcompany'
+<span class="kd">const</span> <span class="nx">appGroupIdentifier</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">group.com.yourcompany</span><span class="dl">'</span>
 
-let myData = {
-  datapoints: [
-    {foo: 'bar', baz: 'boo', date: '2020-10-10T12:00:00z'},
-    // ... more data points come here
-  ]
-}
+<span class="kd">let</span> <span class="nx">myData</span> <span class="o">=</span> <span class="p">{</span>
+  <span class="na">datapoints</span><span class="p">:</span> <span class="p">[</span>
+    <span class="p">{</span><span class="na">foo</span><span class="p">:</span> <span class="dl">'</span><span class="s1">bar</span><span class="dl">'</span><span class="p">,</span> <span class="na">baz</span><span class="p">:</span> <span class="dl">'</span><span class="s1">boo</span><span class="dl">'</span><span class="p">,</span> <span class="na">date</span><span class="p">:</span> <span class="dl">'</span><span class="s1">2020-10-10T12:00:00z</span><span class="dl">'</span><span class="p">},</span>
+    <span class="c1">// ... more data points come here</span>
+  <span class="p">]</span>
+<span class="p">}</span>
 
-SharedGroupPreferences.setItem('myAppData', myData, appGroupIdentifier)
-</code></pre>
+<span class="nx">SharedGroupPreferences</span><span class="p">.</span><span class="nf">setItem</span><span class="p">(</span><span class="dl">'</span><span class="s1">myAppData</span><span class="dl">'</span><span class="p">,</span> <span class="nx">myData</span><span class="p">,</span> <span class="nx">appGroupIdentifier</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h3 id="4-reading-data-from-your-widget">4. Reading data from your widget</h3>
 
 <p>Once that is done you can start on the swift side to read the data your app has created.</p>
 
-<p>If you haven’t changed any of the code XCode generated for you, you should be able to modify the <code>getTimeline</code> function:</p>
+<p>If you haven’t changed any of the code XCode generated for you, you should be able to modify the <code class="language-plaintext highlighter-rouge">getTimeline</code> function:</p>
 
-<pre><code class="language-swift">struct MyObject: Decodable {
-  datapoints: DataPoint
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="kt">MyObject</span><span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
+  <span class="nv">datapoints</span><span class="p">:</span> <span class="kt">DataPoint</span>
 
-  struct DataPoint: Decodable {
-    foo: string,
-    baz: string,
-    date: string
-  }
-}
+  <span class="kd">struct</span> <span class="kt">DataPoint</span><span class="p">:</span> <span class="kt">Decodable</span> <span class="p">{</span>
+    <span class="nv">foo</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span>
+    <span class="nv">baz</span><span class="p">:</span> <span class="n">string</span><span class="p">,</span>
+    <span class="nv">date</span><span class="p">:</span> <span class="n">string</span>
+  <span class="p">}</span>
+<span class="p">}</span>
 
-func getTimeline(in context: Context, completion: @escaping (Timeline&lt;Entry&gt;) -&gt; ()) {
-    let sharedDefaults = UserDefaults.init(suiteName: "group.com.yourcompany")
-    var entries: [SimpleEntry] = []
-    if sharedDefaults != nil {
-      let aValue = sharedDefaults!.value(forKey: "myData") as! String
-      if aValue != nil {
-        let decoder = JSONDecoder()
-        let data = aValue.data(using: .utf8)
+<span class="kd">func</span> <span class="nf">getTimeline</span><span class="p">(</span><span class="k">in</span> <span class="nv">context</span><span class="p">:</span> <span class="kt">Context</span><span class="p">,</span> <span class="nv">completion</span><span class="p">:</span> <span class="kd">@escaping</span> <span class="p">(</span><span class="kt">Timeline</span><span class="o">&lt;</span><span class="kt">Entry</span><span class="o">&gt;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="p">())</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">sharedDefaults</span> <span class="o">=</span> <span class="kt">UserDefaults</span><span class="o">.</span><span class="nf">init</span><span class="p">(</span><span class="nv">suiteName</span><span class="p">:</span> <span class="s">"group.com.yourcompany"</span><span class="p">)</span>
+    <span class="k">var</span> <span class="nv">entries</span><span class="p">:</span> <span class="p">[</span><span class="kt">SimpleEntry</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">if</span> <span class="n">sharedDefaults</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+      <span class="k">let</span> <span class="nv">aValue</span> <span class="o">=</span> <span class="n">sharedDefaults</span><span class="o">!.</span><span class="nf">value</span><span class="p">(</span><span class="nv">forKey</span><span class="p">:</span> <span class="s">"myData"</span><span class="p">)</span> <span class="k">as!</span> <span class="kt">String</span>
+      <span class="k">if</span> <span class="n">aValue</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+        <span class="k">let</span> <span class="nv">decoder</span> <span class="o">=</span> <span class="kt">JSONDecoder</span><span class="p">()</span>
+        <span class="k">let</span> <span class="nv">data</span> <span class="o">=</span> <span class="n">aValue</span><span class="o">.</span><span class="nf">data</span><span class="p">(</span><span class="nv">using</span><span class="p">:</span> <span class="o">.</span><span class="n">utf8</span><span class="p">)</span>
 
-        if let parsedData = try? decoder.decode(MyObject.self, from: data!) {
-          let currentDate = Date()
+        <span class="k">if</span> <span class="k">let</span> <span class="nv">parsedData</span> <span class="o">=</span> <span class="k">try</span><span class="p">?</span> <span class="n">decoder</span><span class="o">.</span><span class="nf">decode</span><span class="p">(</span><span class="kt">MyObject</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="o">!</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">let</span> <span class="nv">currentDate</span> <span class="o">=</span> <span class="kt">Date</span><span class="p">()</span>
 
-          parsedData.periods.forEach { period in
-            let entryDate = Calendar.current.date(byAdding: .hour, value: 1, to: currentDate)!
-            entries.append(SimpleEntry(date: entryDate, start: period.start, end: period.end))
-          }
-        } else {
-          print("Could not parse data")
-        }
+          <span class="n">parsedData</span><span class="o">.</span><span class="n">periods</span><span class="o">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">period</span> <span class="k">in</span>
+            <span class="k">let</span> <span class="nv">entryDate</span> <span class="o">=</span> <span class="kt">Calendar</span><span class="o">.</span><span class="n">current</span><span class="o">.</span><span class="nf">date</span><span class="p">(</span><span class="nv">byAdding</span><span class="p">:</span> <span class="o">.</span><span class="n">hour</span><span class="p">,</span> <span class="nv">value</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span> <span class="nv">to</span><span class="p">:</span> <span class="n">currentDate</span><span class="p">)</span><span class="o">!</span>
+            <span class="n">entries</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="kt">SimpleEntry</span><span class="p">(</span><span class="nv">date</span><span class="p">:</span> <span class="n">entryDate</span><span class="p">,</span> <span class="nv">start</span><span class="p">:</span> <span class="n">period</span><span class="o">.</span><span class="n">start</span><span class="p">,</span> <span class="nv">end</span><span class="p">:</span> <span class="n">period</span><span class="o">.</span><span class="n">end</span><span class="p">))</span>
+          <span class="p">}</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+          <span class="nf">print</span><span class="p">(</span><span class="s">"Could not parse data"</span><span class="p">)</span>
+        <span class="p">}</span>
 
-      }
-    }
+      <span class="p">}</span>
+    <span class="p">}</span>
 
 
-    let timeline = Timeline(entries: entries, policy: .atEnd)
-    completion(timeline)
-}
+    <span class="k">let</span> <span class="nv">timeline</span> <span class="o">=</span> <span class="kt">Timeline</span><span class="p">(</span><span class="nv">entries</span><span class="p">:</span> <span class="n">entries</span><span class="p">,</span> <span class="nv">policy</span><span class="p">:</span> <span class="o">.</span><span class="n">atEnd</span><span class="p">)</span>
+    <span class="nf">completion</span><span class="p">(</span><span class="n">timeline</span><span class="p">)</span>
+<span class="p">}</span>
 
-struct SimpleEntry: TimelineEntry {
-    let date: Date
-  let start: String
-  let end: String
-}
-</code></pre>
+<span class="kd">struct</span> <span class="kt">SimpleEntry</span><span class="p">:</span> <span class="kt">TimelineEntry</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="nv">date</span><span class="p">:</span> <span class="kt">Date</span>
+  <span class="k">let</span> <span class="nv">start</span><span class="p">:</span> <span class="kt">String</span>
+  <span class="k">let</span> <span class="nv">end</span><span class="p">:</span> <span class="kt">String</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>NOTE: This is not my actual code nor copy and pastable, use your head, you need to parse the ISO date you wrote into your structure, etc.</p>
@@ -193,7 +193,7 @@ struct SimpleEntry: TimelineEntry {
   <li>Create a timeline of said objects</li>
 </ul>
 
-<p>As a side note and important for you to know, the final objects you put on the <code>Timeline</code> struct, need to comply with the <code>TimelineEntry</code> protocol, basically it needs to have a date field of type <code>Date</code> and that is it.</p>
+<p>As a side note and important for you to know, the final objects you put on the <code class="language-plaintext highlighter-rouge">Timeline</code> struct, need to comply with the <code class="language-plaintext highlighter-rouge">TimelineEntry</code> protocol, basically it needs to have a date field of type <code class="language-plaintext highlighter-rouge">Date</code> and that is it.</p>
 
 <h3 id="5-rendering-your-widget">5. Rendering your widget</h3>
 
@@ -201,32 +201,32 @@ struct SimpleEntry: TimelineEntry {
 
 <p>Here is an example swiftUI code to give you a rough feeling:</p>
 
-<pre><code class="language-swift">struct widgetEntryView : View {
-    var entry: Provider.Entry
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">struct</span> <span class="nv">widgetEntryView</span> <span class="p">:</span> <span class="kt">View</span> <span class="p">{</span>
+    <span class="k">var</span> <span class="nv">entry</span><span class="p">:</span> <span class="kt">Provider</span><span class="o">.</span><span class="kt">Entry</span>
 
-    var body: some View {
-      VStack {
-        Spacer()
-        HStack {
-          Spacer()
-          ZStack {
-            Circle()
-              .fill(Color.white)
-              .frame(width: 110, height: 110)
-            Circle()
-              .fill(Color.green)
-              .frame(width: 80, height: 80)
-          }
-          Text(entry.start)
-          Text(entry.end)
-          Spacer()
-        }
-        Spacer()
-      }
-        .background(Color.green)
-    }
-}
-</code></pre>
+    <span class="k">var</span> <span class="nv">body</span><span class="p">:</span> <span class="kd">some</span> <span class="kt">View</span> <span class="p">{</span>
+      <span class="kt">VStack</span> <span class="p">{</span>
+        <span class="kt">Spacer</span><span class="p">()</span>
+        <span class="kt">HStack</span> <span class="p">{</span>
+          <span class="kt">Spacer</span><span class="p">()</span>
+          <span class="kt">ZStack</span> <span class="p">{</span>
+            <span class="kt">Circle</span><span class="p">()</span>
+              <span class="o">.</span><span class="nf">fill</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">white</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">110</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">110</span><span class="p">)</span>
+            <span class="kt">Circle</span><span class="p">()</span>
+              <span class="o">.</span><span class="nf">fill</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">green</span><span class="p">)</span>
+              <span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">width</span><span class="p">:</span> <span class="mi">80</span><span class="p">,</span> <span class="nv">height</span><span class="p">:</span> <span class="mi">80</span><span class="p">)</span>
+          <span class="p">}</span>
+          <span class="kt">Text</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">start</span><span class="p">)</span>
+          <span class="kt">Text</span><span class="p">(</span><span class="n">entry</span><span class="o">.</span><span class="n">end</span><span class="p">)</span>
+          <span class="kt">Spacer</span><span class="p">()</span>
+        <span class="p">}</span>
+        <span class="kt">Spacer</span><span class="p">()</span>
+      <span class="p">}</span>
+        <span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">green</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>That produces the following widget</p>
 

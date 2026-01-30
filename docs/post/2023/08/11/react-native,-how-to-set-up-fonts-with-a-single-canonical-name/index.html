@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-08-11T09:00:00-04:00" />
+<meta property="article:published_time" content="2023-08-11T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="React Native, how to set up fonts with a single canonical name" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T09:00:00-04:00","datePublished":"2023-08-11T09:00:00-04:00","description":"Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the &lt;Text&gt; component in some custom component that sets the fontFamily style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:","headline":"React Native, how to set up fonts with a single canonical name","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"},"url":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-11T15:00:00+02:00","datePublished":"2023-08-11T15:00:00+02:00","description":"Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the &lt;Text&gt; component in some custom component that sets the fontFamily style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:","headline":"React Native, how to set up fonts with a single canonical name","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"},"url":"https://ospfranco.com/post/2023/08/11/react-native,-how-to-set-up-fonts-with-a-single-canonical-name/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -59,25 +59,25 @@
         August 2023
       </p>
 
-      <div class="pt-4 pb-20 markdown text-justify"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code>&lt;Text&gt;</code> component in some custom component that sets the <code>fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
+      <div class="pt-4 pb-20 markdown text-justify"><p>Dealing with fonts in React Nativeis painful, iOS uses the canonical name, while android uses file names. This leads to most developers wrapping the <code class="language-plaintext highlighter-rouge">&lt;Text&gt;</code> component in some custom component that sets the <code class="language-plaintext highlighter-rouge">fontFamily</code> style in some logic to detect the correct name in iOS and Android. We can however fix this and use a single canonical name. Like this:</p>
 
-<pre><code class="language-tsx">&lt;Text
-  style=\{\{
-    fontFamily: "Raleway",
-    fontWeight: "600",
-  }}
-&gt;
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">&lt;</span><span class="nc">Text</span>
+  <span class="na">style</span><span class="p">=</span><span class="err">\</span><span class="si">{</span><span class="err">\</span><span class="p">{</span>
+    <span class="nl">fontFamily</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Raleway</span><span class="dl">"</span><span class="p">,</span>
+    <span class="nx">fontWeight</span><span class="p">:</span> <span class="dl">"</span><span class="s2">600</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">}</span><span class="si">}</span>
+<span class="p">&gt;</span>
   Hello
-&lt;/Text&gt;
-</code></pre>
+<span class="p">&lt;/</span><span class="nc">Text</span><span class="p">&gt;</span>
+</code></pre></div></div>
 
 <p>iOS already takes the canonical name, but we need to help Android.</p>
 
 <h1 id="download-the-fonts">Download the fonts</h1>
 
-<p>Download your font family, you should get all the files in a folder (we will call ours <code>./raleway</code>):</p>
+<p>Download your font family, you should get all the files in a folder (we will call ours <code class="language-plaintext highlighter-rouge">./raleway</code>):</p>
 
-<pre><code>`Raleway-Thin.ttf` (100)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>`Raleway-Thin.ttf` (100)
 `Raleway-ThinItalic.ttf`
 `Raleway-ExtraLight.ttf` (200)
 `Raleway-ExtraLightItalic.ttf`
@@ -95,18 +95,18 @@
 `Raleway-ExtraBoldItalic.ttf`
 `Raleway-Black.ttf` (900)
 `Raleway-BlackItalic.ttf`
-</code></pre>
+</code></pre></div></div>
 
 <h3 id="find-the-font-family-name">Find the font family name</h3>
 
 <blockquote>
-  <p>You will need otfinfo installed in your system to perform this step. It is shipped with many Linux distributions. On MacOS, install it via <code>lcdf-typetools</code> brew package.</p>
+  <p>You will need otfinfo installed in your system to perform this step. It is shipped with many Linux distributions. On MacOS, install it via <code class="language-plaintext highlighter-rouge">lcdf-typetools</code> brew package.</p>
 </blockquote>
 
-<pre><code class="language-bash">otfinfo --family Raleway-Regular.ttf
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otfinfo <span class="nt">--family</span> Raleway-Regular.ttf
+</code></pre></div></div>
 
-<p>Should print “Raleway”. This value must be retained for the Android setup. This name will be used in React <code>fontFamily</code> style.</p>
+<p>Should print “Raleway”. This value must be retained for the Android setup. This name will be used in React <code class="language-plaintext highlighter-rouge">fontFamily</code> style.</p>
 
 <h1 id="android">Android</h1>
 
@@ -118,40 +118,40 @@
 
 <h3 id="1-copy-and-rename-assets-to-the-resource-font-folder">1. Copy and rename assets to the resource font folder</h3>
 
-<pre><code class="language-bash">mkdir android/app/src/main/res/font
-cp ./raleway/*.ttf android/app/src/main/res/font
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">mkdir </span>android/app/src/main/res/font
+<span class="nb">cp</span> ./raleway/<span class="k">*</span>.ttf android/app/src/main/res/font
+</code></pre></div></div>
 
 <p>We must rename the font files following these rules to comply with Android asset names restrictions:</p>
 
 <ul>
-  <li>Replace <code>-</code> with <code>_</code>;</li>
+  <li>Replace <code class="language-plaintext highlighter-rouge">-</code> with <code class="language-plaintext highlighter-rouge">_</code>;</li>
   <li>Replace any uppercase letter with its lowercase counterpart.</li>
 </ul>
 
 <p>You can use the below bash script (make sure you give the font folder as first argument):</p>
 
-<pre><code class="language-bash">#!/bin/bash
-# fixfonts.sh
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
+<span class="c"># fixfonts.sh</span>
 
-typeset folder="$1"if [[ -d "$folder" &amp;&amp; ! -z "$folder" ]]; then
-  pushd "$folder";
-  for file in *.ttf; do
-    typeset normalized="${file//-/_}";
-    normalized="${normalized,,}";
-    mv "$file" "$normalized"  done
-  popd
-fi
-</code></pre>
+<span class="nb">typeset </span><span class="nv">folder</span><span class="o">=</span><span class="s2">"</span><span class="nv">$1</span><span class="s2">"</span><span class="k">if</span> <span class="o">[[</span> <span class="nt">-d</span> <span class="s2">"</span><span class="nv">$folder</span><span class="s2">"</span> <span class="o">&amp;&amp;</span> <span class="o">!</span> <span class="nt">-z</span> <span class="s2">"</span><span class="nv">$folder</span><span class="s2">"</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nb">pushd</span> <span class="s2">"</span><span class="nv">$folder</span><span class="s2">"</span><span class="p">;</span>
+  <span class="k">for </span>file <span class="k">in</span> <span class="k">*</span>.ttf<span class="p">;</span> <span class="k">do
+    </span><span class="nb">typeset </span><span class="nv">normalized</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">file</span><span class="p">//-/_</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span>
+    <span class="nv">normalized</span><span class="o">=</span><span class="s2">"</span><span class="k">${</span><span class="nv">normalized</span><span class="p">,,</span><span class="k">}</span><span class="s2">"</span><span class="p">;</span>
+    <span class="nb">mv</span> <span class="s2">"</span><span class="nv">$file</span><span class="s2">"</span> <span class="s2">"</span><span class="nv">$normalized</span><span class="s2">"</span>  <span class="k">done
+  </span><span class="nb">popd
+</span><span class="k">fi</span>
+</code></pre></div></div>
 
-<pre><code>./fixfonts.sh /path/to/root/FontDemo/android/app/src/main/res/font
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./fixfonts.sh /path/to/root/FontDemo/android/app/src/main/res/font
+</code></pre></div></div>
 
 <h3 id="2-create-the-definition-file">2. Create the definition file</h3>
 
-<p>Create the <code>android/app/src/main/res/font/raleway.xml</code> file with the below content. Basically, we must create one entry per <code>fontStyle</code> / <code>fontWeight</code> combination we wish to support, and register the corresponding asset name.</p>
+<p>Create the <code class="language-plaintext highlighter-rouge">android/app/src/main/res/font/raleway.xml</code> file with the below content. Basically, we must create one entry per <code class="language-plaintext highlighter-rouge">fontStyle</code> / <code class="language-plaintext highlighter-rouge">fontWeight</code> combination we wish to support, and register the corresponding asset name.</p>
 
-<pre><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;?xml version="1.0" encoding="utf-8"?&gt;
 &lt;font-family xmlns:app="http://schemas.android.com/apk/res-auto"&gt;
     &lt;font app:fontStyle="normal" app:fontWeight="100" app:font="@font/raleway_thin" /&gt;
     &lt;font app:fontStyle="italic" app:fontWeight="100" app:font="@font/raleway_thinitalic"/&gt;
@@ -172,87 +172,87 @@ fi
     &lt;font app:fontStyle="normal" app:fontWeight="900" app:font="@font/raleway_black" /&gt;
     &lt;font app:fontStyle="italic" app:fontWeight="900" app:font="@font/raleway_blackitalic"/&gt;
 &lt;/font-family&gt;
-</code></pre>
+</code></pre></div></div>
 
 <h3 id="3-register-the-new-font">3. Register the new font</h3>
 
-<p>In <code>android/app/src/main/java/com/fontdemo/MainApplication.java</code>, bind the font family name with the asset we just created inside <code>onCreate</code> method.</p>
+<p>In <code class="language-plaintext highlighter-rouge">android/app/src/main/java/com/fontdemo/MainApplication.java</code>, bind the font family name with the asset we just created inside <code class="language-plaintext highlighter-rouge">onCreate</code> method.</p>
 
 <blockquote>
   <p>⚠️ If you are registering a different font, make sure you replace “Raleway” with the name found in the former step (find font family name).</p>
 </blockquote>
 
-<pre><code class="language-diff">import com.facebook.react.ReactApplication;
- import com.facebook.react.ReactInstanceManager;
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">import com.facebook.react.ReactApplication;
+</span> import com.facebook.react.ReactInstanceManager;
  import com.facebook.react.ReactNativeHost;
  import com.facebook.react.ReactPackage;
-+import com.facebook.react.views.text.ReactFontManager;
- import com.facebook.soloader.SoLoader;
+<span class="gi">+import com.facebook.react.views.text.ReactFontManager;
+</span> import com.facebook.soloader.SoLoader;
  import java.lang.reflect.InvocationTargetException;
  import java.util.List;
-
-public class MainApplication extends Application implements ReactApplication {
-   @Override
+<span class="err">
+</span><span class="p">public class MainApplication extends Application implements ReactApplication {
+</span>   @Override
    public void onCreate() {
      super.onCreate();
-+    [ReactFontManager.getInstance().addCustomFont(this, "Raleway", R.font.raleway);](https://www.notion.so/Locio-6a09ff579fbc4cb6aaf5cff020ef8df0?pvs=21)
-     SoLoader.init(this, /* native exopackage */ false);
+<span class="gi">+    [ReactFontManager.getInstance().addCustomFont(this, "Raleway", R.font.raleway);](https://www.notion.so/Locio-6a09ff579fbc4cb6aaf5cff020ef8df0?pvs=21)
+</span>     SoLoader.init(this, /* native exopackage */ false);
      initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
    }
-
-</code></pre>
+<span class="err">
+</span></code></pre></div></div>
 
 <h1 id="ios">iOS</h1>
 
-<p>On iOS, things will get much easier. We will basically just need to use React Native asset link functionality. This method requires that we use the font family name retrieved in the first step as <code>fontFamily</code> style attribute.</p>
+<p>On iOS, things will get much easier. We will basically just need to use React Native asset link functionality. This method requires that we use the font family name retrieved in the first step as <code class="language-plaintext highlighter-rouge">fontFamily</code> style attribute.</p>
 
 <h3 id="copy-font-files-to-assets-folder">Copy font files to assets folder</h3>
 
-<pre><code>mkdir -p assets/fonts
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>mkdir -p assets/fonts
 cp /tmp/raleway/*.ttf assets/fonts
-</code></pre>
+</code></pre></div></div>
 
-<h3 id="addreact-nativeconfigjs">Add <code>react-native.config.js</code></h3>
+<h3 id="addreact-nativeconfigjs">Add <code class="language-plaintext highlighter-rouge">react-native.config.js</code></h3>
 
-<pre><code>module.exports = {
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>module.exports = {
   project: {
     ios: {},
     android: {},
   },
   assets: ['./assets/fonts'],
 };
-</code></pre>
+</code></pre></div></div>
 
 <h3 id="link">Link</h3>
 
-<pre><code>npx react-native-asset
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx react-native-asset
+</code></pre></div></div>
 
 <p>You can remove assets for android generated with this command, since we are using the XML Font method. Otherwise, they would be included twice in the app bundle!</p>
 
-<pre><code class="language-bash">rm -rf android/app/src/main/assets/fonts
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">rm</span> <span class="nt">-rf</span> android/app/src/main/assets/fonts
+</code></pre></div></div>
 
 <h1 id="setting-a-default-global-font">Setting a default global font</h1>
 
-<p>After the fonts are installed one can simply define a global default font by installing <code>react-native-simple-default-props</code>:</p>
+<p>After the fonts are installed one can simply define a global default font by installing <code class="language-plaintext highlighter-rouge">react-native-simple-default-props</code>:</p>
 
-<pre><code class="language-diff">yarn add react-native-simple-default-props
-</code></pre>
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">yarn add react-native-simple-default-props
+</span></code></pre></div></div>
 
 <p>Then on app start:</p>
 
-<pre><code class="language-tsx">import setDefaultProps from "react-native-simple-default-props";
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">setDefaultProps</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-simple-default-props</span><span class="dl">"</span><span class="p">;</span>
 
-setDefaultProps(Text, {
-  style: {
-    fontFamily: "Raleway",
-    color: "#0F0F26",
-  },
-});
-</code></pre>
+<span class="nf">setDefaultProps</span><span class="p">(</span><span class="nx">Text</span><span class="p">,</span> <span class="p">{</span>
+  <span class="na">style</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">fontFamily</span><span class="p">:</span> <span class="dl">"</span><span class="s2">Raleway</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">color</span><span class="p">:</span> <span class="dl">"</span><span class="s2">#0F0F26</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div></div>
 
-<p>Now you can simply use any <code>&lt;Text/&gt;</code>component without the need for any semantic wrapper!</p>
+<p>Now you can simply use any <code class="language-plaintext highlighter-rouge">&lt;Text/&gt;</code>component without the need for any semantic wrapper!</p>
 
 <h1 id="credits">Credits</h1>
 

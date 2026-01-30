@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-02-01T09:00:00-04:00" />
+<meta property="article:published_time" content="2021-02-01T14:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Android dynamic icons (Build-time, non-flavor)" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-02-01T09:00:00-04:00","datePublished":"2021-02-01T09:00:00-04:00","description":"On a previous post I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!","headline":"Android dynamic icons (Build-time, non-flavor)","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/"},"url":"https://ospfranco.com/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-02-01T14:00:00+01:00","datePublished":"2021-02-01T14:00:00+01:00","description":"On a previous post I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!","headline":"Android dynamic icons (Build-time, non-flavor)","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/"},"url":"https://ospfranco.com/post/2021/02/01/dynamic-icons-in-android-based-on-environment-and-not-build-flavors/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -61,7 +61,7 @@
 
       <div class="pt-4 pb-20 markdown text-justify"><p>On a previous <a href="/post/2020/09/17/replace-ios-icon-based-on-environment/">post</a> I described how replace your mobile application’s icon based on environment variables on iOS, now is the turn for android!</p>
 
-<p>Unlike many of the tutorials you will find out there, this is not based on <code>ProductFlavors</code>, because ProductFlavors force you to use different package names, which means you have to change not only your CI but also your distributables on the play store, etc. If you already have your infra set up, this is way too much work for a simple icon replacement.</p>
+<p>Unlike many of the tutorials you will find out there, this is not based on <code class="language-plaintext highlighter-rouge">ProductFlavors</code>, because ProductFlavors force you to use different package names, which means you have to change not only your CI but also your distributables on the play store, etc. If you already have your infra set up, this is way too much work for a simple icon replacement.</p>
 
 <h2 id="gradle">Gradle…</h2>
 
@@ -71,7 +71,7 @@
 
 <h2 id="1-create-the-icon-sets">1. Create the icon sets</h2>
 
-<p>So for this all I did was take the contents of <code>android/app/main/res</code> and create 2 copies in the root folder, one for <code>production</code> (unedited icons, copied as is) and one for <code>staging</code> (change the colors, add a text, use whatever image editing tool you want).</p>
+<p>So for this all I did was take the contents of <code class="language-plaintext highlighter-rouge">android/app/main/res</code> and create 2 copies in the root folder, one for <code class="language-plaintext highlighter-rouge">production</code> (unedited icons, copied as is) and one for <code class="language-plaintext highlighter-rouge">staging</code> (change the colors, add a text, use whatever image editing tool you want).</p>
 
 <p>We will use these icon sets to dumb replace and restore the app icons</p>
 
@@ -81,33 +81,33 @@
 
 <h3 id="replace-script">Replace script</h3>
 
-<pre><code class="language-bash">#!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-if [ $ENVFILE = ".env.staging" ]; then
-  SOURCE_PATH="../storage/app_icons/android/staging/."
-  TARGET_PATH="../android/app/src/main/res"
+<span class="k">if</span> <span class="o">[</span> <span class="nv">$ENVFILE</span> <span class="o">=</span> <span class="s2">".env.staging"</span> <span class="o">]</span><span class="p">;</span> <span class="k">then
+  </span><span class="nv">SOURCE_PATH</span><span class="o">=</span><span class="s2">"../storage/app_icons/android/staging/."</span>
+  <span class="nv">TARGET_PATH</span><span class="o">=</span><span class="s2">"../android/app/src/main/res"</span>
 
-  cp -a "${SOURCE_PATH}" "${TARGET_PATH}"
-  # You have to emit a string at the end for gradle to continue building the app
-  echo "Replaced STAGING icons on android app"
-fi
-</code></pre>
+  <span class="nb">cp</span> <span class="nt">-a</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SOURCE_PATH</span><span class="k">}</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_PATH</span><span class="k">}</span><span class="s2">"</span>
+  <span class="c"># You have to emit a string at the end for gradle to continue building the app</span>
+  <span class="nb">echo</span> <span class="s2">"Replaced STAGING icons on android app"</span>
+<span class="k">fi</span>
+</code></pre></div></div>
 <blockquote>
   <p>So, like all the posts I write, you have to use your head a bit, in my case, the “flavor” of my app is determined by which env file is being used, in you case it could be something else entirely, adjust the scripts as you must</p>
 </blockquote>
 
 <h3 id="restore-script">Restore script</h3>
 
-<pre><code class="language-bash">#!/bin/bash
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c">#!/bin/bash</span>
 
-SOURCE_PATH="../storage/app_icons/android/production/."
-TARGET_PATH="../android/app/src/main/res"
+<span class="nv">SOURCE_PATH</span><span class="o">=</span><span class="s2">"../storage/app_icons/android/production/."</span>
+<span class="nv">TARGET_PATH</span><span class="o">=</span><span class="s2">"../android/app/src/main/res"</span>
 
-cp -a "${SOURCE_PATH}" "${TARGET_PATH}"
-# You have to emit a string at the end for gradle to continue building the app
-echo "Restored PRODUCTION icons on android app"
+<span class="nb">cp</span> <span class="nt">-a</span> <span class="s2">"</span><span class="k">${</span><span class="nv">SOURCE_PATH</span><span class="k">}</span><span class="s2">"</span> <span class="s2">"</span><span class="k">${</span><span class="nv">TARGET_PATH</span><span class="k">}</span><span class="s2">"</span>
+<span class="c"># You have to emit a string at the end for gradle to continue building the app</span>
+<span class="nb">echo</span> <span class="s2">"Restored PRODUCTION icons on android app"</span>
 
-</code></pre>
+</code></pre></div></div>
 
 <p>So done, if you run this files in your own and then build your app you can see clearly it is just dumbly replacing the icon of your app before building the final artifact and the other one will be restoring the original icons</p>
 
@@ -115,49 +115,49 @@ echo "Restored PRODUCTION icons on android app"
 
 <p>Now comes the most fun part if you are not an android dev or know nothing of Gradle (or want to… I sincerely don’t want to learn more of it), we just have to hook up our scripts at the correct points</p>
 
-<p>so in your <code>app/build.gradle</code> file, add the following tasks:</p>
+<p>so in your <code class="language-plaintext highlighter-rouge">app/build.gradle</code> file, add the following tasks:</p>
 
-<pre><code class="language-gradle">// Custom tasks for icon replacement
-task iconReplacement {
-  doLast {
-    def proc = (projectDir.getPath() + "/../../scripts/androidIconEnvReplace.sh").execute()
-    proc.waitForProcessOutput(System.out, System.err)
-  }
-}
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Custom tasks for icon replacement</span>
+<span class="n">task</span> <span class="n">iconReplacement</span> <span class="o">{</span>
+  <span class="n">doLast</span> <span class="o">{</span>
+    <span class="kt">def</span> <span class="n">proc</span> <span class="o">=</span> <span class="o">(</span><span class="n">projectDir</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span> <span class="o">+</span> <span class="s2">"/../../scripts/androidIconEnvReplace.sh"</span><span class="o">).</span><span class="na">execute</span><span class="o">()</span>
+    <span class="n">proc</span><span class="o">.</span><span class="na">waitForProcessOutput</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
 
-task iconRestore {
-  doLast {
-    def proc = (projectDir.getPath() + "/../../scripts/androidIconRestore.sh").execute()
-    proc.waitForProcessOutput(System.out, System.err)
-  }
-}
-</code></pre>
+<span class="n">task</span> <span class="n">iconRestore</span> <span class="o">{</span>
+  <span class="n">doLast</span> <span class="o">{</span>
+    <span class="kt">def</span> <span class="n">proc</span> <span class="o">=</span> <span class="o">(</span><span class="n">projectDir</span><span class="o">.</span><span class="na">getPath</span><span class="o">()</span> <span class="o">+</span> <span class="s2">"/../../scripts/androidIconRestore.sh"</span><span class="o">).</span><span class="na">execute</span><span class="o">()</span>
+    <span class="n">proc</span><span class="o">.</span><span class="na">waitForProcessOutput</span><span class="o">(</span><span class="n">System</span><span class="o">.</span><span class="na">out</span><span class="o">,</span> <span class="n">System</span><span class="o">.</span><span class="na">err</span><span class="o">)</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 <blockquote>
   <p>You can add them anywhere (top of the file, outside of the android main body)</p>
 </blockquote>
 
 <blockquote>
-  <p>Don’t ask me why you need the <code>doLast</code> thing, if you don’t the task automatically runs (why in the name of god…), there is a bunch of weird sintax flowing in the internet (some of it has to do with Groovy? wtf?), just don’t worry about it and use them as is</p>
+  <p>Don’t ask me why you need the <code class="language-plaintext highlighter-rouge">doLast</code> thing, if you don’t the task automatically runs (why in the name of god…), there is a bunch of weird sintax flowing in the internet (some of it has to do with Groovy? wtf?), just don’t worry about it and use them as is</p>
 </blockquote>
 
-<p>And then within the body of the <code>android {</code> thingy, add this:</p>
+<p>And then within the body of the <code class="language-plaintext highlighter-rouge">android {</code> thingy, add this:</p>
 
-<pre><code class="language-gradle">    // preBuild seems to be a pure Gradle step, no android stuff, we just replace the icons
-    preBuild.dependsOn iconReplacement
+<div class="language-gradle highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="c1">// preBuild seems to be a pure Gradle step, no android stuff, we just replace the icons</span>
+    <span class="n">preBuild</span><span class="o">.</span><span class="na">dependsOn</span> <span class="n">iconReplacement</span>
 
-    // For some unholy reason, the android gradle tasks are dynamic (if you used flavors or signing configs you know this)
-    // So basically we have to hook up to the lifecycle methods after they have been created
-    tasks.whenTaskAdded {
-      addedTask -&gt;
-        // if you have a install task means you are running this on your local machine and we need to discard our changes (restore icons)
-        // otherwise Git gets dirty, on the cloud builds we don't care, the build folder gets discarded anyways
-        if(addedTask.name.contains('install')) {
-          addedTask.finalizedBy {
-            iconRestore
-          }
-        }
-    }
-</code></pre>
+    <span class="c1">// For some unholy reason, the android gradle tasks are dynamic (if you used flavors or signing configs you know this)</span>
+    <span class="c1">// So basically we have to hook up to the lifecycle methods after they have been created</span>
+    <span class="n">tasks</span><span class="o">.</span><span class="na">whenTaskAdded</span> <span class="o">{</span>
+      <span class="n">addedTask</span> <span class="o">-&gt;</span>
+        <span class="c1">// if you have a install task means you are running this on your local machine and we need to discard our changes (restore icons)</span>
+        <span class="c1">// otherwise Git gets dirty, on the cloud builds we don't care, the build folder gets discarded anyways</span>
+        <span class="k">if</span><span class="o">(</span><span class="n">addedTask</span><span class="o">.</span><span class="na">name</span><span class="o">.</span><span class="na">contains</span><span class="o">(</span><span class="s1">'install'</span><span class="o">))</span> <span class="o">{</span>
+          <span class="n">addedTask</span><span class="o">.</span><span class="na">finalizedBy</span> <span class="o">{</span>
+            <span class="n">iconRestore</span>
+          <span class="o">}</span>
+        <span class="o">}</span>
+    <span class="o">}</span>
+</code></pre></div></div>
 
 <p>And voila, now your android apps should be reflecting the environment it is running against (according to your own definition 😉)</p>
 </div>

@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-08-15T09:00:00-04:00" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="JSI Cheatsheet: Part 2 - Tooling" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T09:00:00-04:00","datePublished":"2023-08-15T09:00:00-04:00","description":"Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.","headline":"JSI Cheatsheet: Part 2 - Tooling","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"Now that you know C++ (JSI Cheatsheet Part I: C++) you are ready to tackle some of the other delicacies of coding in C++, namely how compilation and linking works.","headline":"JSI Cheatsheet: Part 2 - Tooling","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-2-tooling/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -70,22 +70,22 @@
 <p>The compilation of a C++ program involves three steps:</p>
 
 <ol>
-  <li>Preprocessing: the preprocessor takes a C++ source code file and deals with the <code>#include</code>s, <code>#define</code>s and other preprocessor directives. The output of this step is a “pure” C++ file without pre-processor directives.</li>
+  <li>Preprocessing: the preprocessor takes a C++ source code file and deals with the <code class="language-plaintext highlighter-rouge">#include</code>s, <code class="language-plaintext highlighter-rouge">#define</code>s and other preprocessor directives. The output of this step is a “pure” C++ file without pre-processor directives.</li>
   <li>Compilation: the compiler takes the pre-processor’s output and produces an object file from it.</li>
   <li>Linking: the linker takes the object files produced by the compiler and produces either a library or an executable file.</li>
 </ol>
 
 <h2 id="preprocessing">Preprocessing</h2>
 
-<p>The preprocessor handles the <em>preprocessor directives</em>, like <code>#include</code> and <code>#define</code>. It is agnostic of the syntax of C++, which is why it must be used with care.</p>
+<p>The preprocessor handles the <em>preprocessor directives</em>, like <code class="language-plaintext highlighter-rouge">#include</code> and <code class="language-plaintext highlighter-rouge">#define</code>. It is agnostic of the syntax of C++, which is why it must be used with care.</p>
 
-<p>It works on one C++ source file at a time by replacing <code>#include</code> directives with the content of the respective files (which is usually just declarations), doing replacement of macros (<code>#define</code>), and selecting different portions of text depending of <code>#if</code>, <code>#ifdef</code> and <code>#ifndef</code> directives.</p>
+<p>It works on one C++ source file at a time by replacing <code class="language-plaintext highlighter-rouge">#include</code> directives with the content of the respective files (which is usually just declarations), doing replacement of macros (<code class="language-plaintext highlighter-rouge">#define</code>), and selecting different portions of text depending of <code class="language-plaintext highlighter-rouge">#if</code>, <code class="language-plaintext highlighter-rouge">#ifdef</code> and <code class="language-plaintext highlighter-rouge">#ifndef</code> directives.</p>
 
-<p>The preprocessor works on a stream of preprocessing tokens. Macro substitution is defined as replacing tokens with other tokens (the operator <code>##</code> enables merging two tokens when it makes sense).</p>
+<p>The preprocessor works on a stream of preprocessing tokens. Macro substitution is defined as replacing tokens with other tokens (the operator <code class="language-plaintext highlighter-rouge">##</code> enables merging two tokens when it makes sense).</p>
 
 <p>After all this, the preprocessor produces a single output that is a stream of tokens resulting from the transformations described above. It also adds some special markers that tell the compiler where each line came from so that it can use those to produce sensible error messages.</p>
 
-<p>Some errors can be produced at this stage with clever use of the <code>#if</code> and <code>#error</code> directives.</p>
+<p>Some errors can be produced at this stage with clever use of the <code class="language-plaintext highlighter-rouge">#if</code> and <code class="language-plaintext highlighter-rouge">#error</code> directives.</p>
 
 <h2 id="compilation">Compilation</h2>
 
@@ -115,55 +115,55 @@ libraries where they reside were not given to the linker. The latter is obvious:
 
 <p>That’s the theory, by now you probably know how you compile and execute a single C++ file:</p>
 
-<pre><code class="language-jsx">gcc -o hello hello.cpp
-</code></pre>
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">gcc</span> <span class="o">-</span><span class="nx">o</span> <span class="nx">hello</span> <span class="nx">hello</span><span class="p">.</span><span class="nx">cpp</span>
+</code></pre></div></div>
 
 <p>Now, if you have multiple files you need to compile you need to cram them into a single command and then quickly spin out of control, since the order on which you define your files might produce compilation errors of missing symbols</p>
 
 <p>So, we are going to jump a bit ahead and talk about <a href="https://cmake.org/">CMake</a>.</p>
 
-<p>CMake takes care of many things for you: building, packaging, testing, etc. It’s like some parts of npm for the c++ world. If you want to write C++ for android you will use CMake and more specifically a <code>CMakeLists.txt</code> that will define your compilation process</p>
+<p>CMake takes care of many things for you: building, packaging, testing, etc. It’s like some parts of npm for the c++ world. If you want to write C++ for android you will use CMake and more specifically a <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code> that will define your compilation process</p>
 
 <p>CMake is not used on iOS.</p>
 
-<p>Since we are trying to be practical, you care about the <code>CMakeList.txt</code> file, here is an example:</p>
+<p>Since we are trying to be practical, you care about the <code class="language-plaintext highlighter-rouge">CMakeList.txt</code> file, here is an example:</p>
 
-<pre><code class="language-jsx">// Tell which version of CMake is required
-// Check your android version, since they come bundled with the build-tools
-cmake_minimum_required(VERSION 3.4.1)
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Tell which version of CMake is required</span>
+<span class="c1">// Check your android version, since they come bundled with the build-tools</span>
+<span class="nf">cmake_minimum_required</span><span class="p">(</span><span class="nx">VERSION</span> <span class="mf">3.4</span><span class="p">.</span><span class="mi">1</span><span class="p">)</span>
 
-set (CMAKE_VERBOSE_MAKEFILE ON)
-// set the version of C++ you are going to use
-set (CMAKE_CXX_STANDARD 11)
+<span class="nf">set </span><span class="p">(</span><span class="nx">CMAKE_VERBOSE_MAKEFILE</span> <span class="nx">ON</span><span class="p">)</span>
+<span class="c1">// set the version of C++ you are going to use</span>
+<span class="nf">set </span><span class="p">(</span><span class="nx">CMAKE_CXX_STANDARD</span> <span class="mi">11</span><span class="p">)</span>
 
-// Include all the directories with .cpp files that will need to be compiled
-include_directories(
-  ../cpp
-  ../../react-native/React
-  ../../react-native/React/Base
-  ../../react-native/ReactCommon/jsi
-)
+<span class="c1">// Include all the directories with .cpp files that will need to be compiled</span>
+<span class="nf">include_directories</span><span class="p">(</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span>
+  <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">React</span>
+  <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">React</span><span class="o">/</span><span class="nx">Base</span>
+  <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">ReactCommon</span><span class="o">/</span><span class="nx">jsi</span>
+<span class="p">)</span>
 
-// create a library "sequel", which needs to compile all the following files
-add_library(sequel
-  SHARED
-  ../../react-native/ReactCommon/jsi/jsi/jsi.cpp
-  ../cpp/sequel.cpp
-  ../cpp/sequel.h
-  ../cpp/SequelResult.h
-  ../cpp/react-native-quick-sqlite.cpp
-  ../cpp/react-native-quick-sqlite.h
-  ../cpp/sqlite3.h
-  ../cpp/sqlite3.c
-  cpp-adapter.cpp
-)
+<span class="c1">// create a library "sequel", which needs to compile all the following files</span>
+<span class="nf">add_library</span><span class="p">(</span><span class="nx">sequel</span>
+  <span class="nx">SHARED</span>
+  <span class="p">..</span><span class="o">/</span><span class="p">..</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">/</span><span class="nx">ReactCommon</span><span class="o">/</span><span class="nx">jsi</span><span class="o">/</span><span class="nx">jsi</span><span class="o">/</span><span class="nx">jsi</span><span class="p">.</span><span class="nx">cpp</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">sequel</span><span class="p">.</span><span class="nx">cpp</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">sequel</span><span class="p">.</span><span class="nx">h</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">SequelResult</span><span class="p">.</span><span class="nx">h</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">-</span><span class="nx">quick</span><span class="o">-</span><span class="nx">sqlite</span><span class="p">.</span><span class="nx">cpp</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">react</span><span class="o">-</span><span class="nx">native</span><span class="o">-</span><span class="nx">quick</span><span class="o">-</span><span class="nx">sqlite</span><span class="p">.</span><span class="nx">h</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">sqlite3</span><span class="p">.</span><span class="nx">h</span>
+  <span class="p">..</span><span class="o">/</span><span class="nx">cpp</span><span class="o">/</span><span class="nx">sqlite3</span><span class="p">.</span><span class="nx">c</span>
+  <span class="nx">cpp</span><span class="o">-</span><span class="nx">adapter</span><span class="p">.</span><span class="nx">cpp</span>
+<span class="p">)</span>
 
-// link the following libraries together
-// in this case I link android specific libraries and logging library
-// so I can log to the android console from my CPP code
-// on iOS this is not necessary (iOS doesn't even use CMakeLists)
-target_link_libraries(sequel android log)
-</code></pre>
+<span class="c1">// link the following libraries together</span>
+<span class="c1">// in this case I link android specific libraries and logging library</span>
+<span class="c1">// so I can log to the android console from my CPP code</span>
+<span class="c1">// on iOS this is not necessary (iOS doesn't even use CMakeLists)</span>
+<span class="nf">target_link_libraries</span><span class="p">(</span><span class="nx">sequel</span> <span class="nx">android</span> <span class="nx">log</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>CMake is a world on it’s own, <a href="https://en.wikipedia.org/wiki/CMake">the wikipedia article</a> gives a good high level overview, but if you are developing your JSI module this should be more than enough: just include all your header and cpp files in your CMakeLists and link any android libraries as necessary</p>
 
@@ -175,9 +175,9 @@ target_link_libraries(sequel android log)
 
 <h2 id="ios-and-obj-c">iOS and Obj-C</h2>
 
-<p>Obj-C is actually a subset/compatible with C++ code… it’s just kinda weird. You have obj-c files (<code>.m</code>) and if you change their extension (<code>.mm</code>) you can use C++ code inside of the obj-c code, this also means you don’t need to set up any tooling to compile C++ code.</p>
+<p>Obj-C is actually a subset/compatible with C++ code… it’s just kinda weird. You have obj-c files (<code class="language-plaintext highlighter-rouge">.m</code>) and if you change their extension (<code class="language-plaintext highlighter-rouge">.mm</code>) you can use C++ code inside of the obj-c code, this also means you don’t need to set up any tooling to compile C++ code.</p>
 
-<p>Just put your <code>cpp</code> files in your project and you can include them just fine.</p>
+<p>Just put your <code class="language-plaintext highlighter-rouge">cpp</code> files in your project and you can include them just fine.</p>
 
 <h2 id="android-jni">Android JNI</h2>
 
@@ -187,32 +187,32 @@ target_link_libraries(sequel android log)
 
 <p>Here is an example of JNI code that exposes a couple of functions to the Java (which is necessary for you to register your JSI callbacks)</p>
 
-<pre><code class="language-cpp">#include &lt;jni.h&gt;
-#include "react-native-quick-sqlite.h"
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">"react-native-quick-sqlite.h"</span><span class="cp">
+</span>
+<span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
+<span class="nf">Java_com_reactnativequicksqlite_SequelModule_initialize</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">jsiPtr</span><span class="p">,</span> <span class="n">jstring</span> <span class="n">docPath</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">jboolean</span> <span class="n">isCopy</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">docPathString</span> <span class="o">=</span> <span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStringUTFChars</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">isCopy</span><span class="p">);</span>
 
-extern "C" JNIEXPORT void JNICALL
-Java_com_reactnativequicksqlite_SequelModule_initialize(JNIEnv *env, jclass clazz, jlong jsiPtr, jstring docPath)
-{
-  jboolean isCopy;
-  const char *docPathString = (env)-&gt;GetStringUTFChars(docPath, &amp;isCopy);
+  <span class="n">installSequel</span><span class="p">(</span><span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">jsiPtr</span><span class="p">),</span> <span class="n">docPathString</span><span class="p">);</span>
+<span class="p">}</span>
 
-  installSequel(*reinterpret_cast&lt;facebook::jsi::Runtime *&gt;(jsiPtr), docPathString);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_com_reactnativequicksqlite_SequelModule_destruct(JNIEnv *env, jclass clazz)
-{
-  cleanUpSequel();
-}
-</code></pre>
+<span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
+<span class="nf">Java_com_reactnativequicksqlite_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">cleanUpSequel</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>You can see your function names need to have a defined structure:</p>
 
 <ul>
-  <li><code>java_</code> = expose this to the java side</li>
-  <li><code>com_reactnativequicksqlite</code> = name of the package that will be created for you</li>
-  <li><code>SequelModule</code> = Module name</li>
-  <li><code>initialize</code> = final function name</li>
+  <li><code class="language-plaintext highlighter-rouge">java_</code> = expose this to the java side</li>
+  <li><code class="language-plaintext highlighter-rouge">com_reactnativequicksqlite</code> = name of the package that will be created for you</li>
+  <li><code class="language-plaintext highlighter-rouge">SequelModule</code> = Module name</li>
+  <li><code class="language-plaintext highlighter-rouge">initialize</code> = final function name</li>
 </ul>
 
 <p>Like all things Android/Google the documentation is piss poor and written by robots, but if you are only interested in writing JSI module, the two functions above are all you will need</p>

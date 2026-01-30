@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-08-15T09:00:00-04:00" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="JSI Cheatsheet: Part 1 - C++" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T09:00:00-04:00","datePublished":"2023-08-15T09:00:00-04:00","description":"With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.","headline":"JSI Cheatsheet: Part 1 - C++","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"With JSI bindings RN devs will have to deal with the delicacies of memory management, more specific types and so on. Having written my own JSI library had to learn as I ran, painful process, so here are all the parts where I cut myself.","headline":"JSI Cheatsheet: Part 1 - C++","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-1-jsi/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -85,29 +85,29 @@
 
 <p>Example without namespace:</p>
 
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-
-int main() {
-	std::string = "my string!";
-	return 0;
-}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="o">=</span> <span class="s">"my string!"</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <blockquote>
-  <p>🚨 The <code>::</code> operator is similar to a <code>.</code> but is meant to be used with namespaces only</p>
+  <p>🚨 The <code class="language-plaintext highlighter-rouge">::</code> operator is similar to a <code class="language-plaintext highlighter-rouge">.</code> but is meant to be used with namespaces only</p>
 </blockquote>
 
 <p>You can use a namespace module wide and life becomes prettier:</p>
 
-<pre><code class="language-cpp">#include &lt;iostream&gt;
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
 
-using namespace std;
-
-int main() {
-	string = "my string!";
-	return 0;
-}
-</code></pre>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">string</span> <span class="o">=</span> <span class="s">"my string!"</span><span class="p">;</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>You can use more than one namespace in each file. This (of course) breaks down if you have two namespaces that use the same names.</p>
 
@@ -115,65 +115,65 @@ int main() {
 
 <p>Unlike on JavaScript which is the WYSIWYG equivalent of programming languages, on C++ you can dynamically modify your code before it gets compiled, you do this via macros.</p>
 
-<pre><code class="language-cpp">/**
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/**
  * Portable wrapper for mkdir. Internally used by mkdir()
  * @param[in] path the full path of the directory to create.
  * @return zero on success, otherwise -1.
- */
-int _mkdir(const char *path)
-{
-#if _POSIX_C_SOURCE
-  return mkdir(path);
-#else
-  return mkdir(path, 0755);
-#endif
-}
-</code></pre>
+ */</span>
+<span class="kt">int</span> <span class="nf">_mkdir</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">path</span><span class="p">)</span>
+<span class="p">{</span>
+<span class="cp">#if _POSIX_C_SOURCE
+</span>  <span class="k">return</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">);</span>
+<span class="cp">#else
+</span>  <span class="k">return</span> <span class="n">mkdir</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="mo">0755</span><span class="p">);</span>
+<span class="cp">#endif
+</span><span class="p">}</span>
+</code></pre></div></div>
 
-<p>Ignore everything except the stuff with <code>#</code>, here the macro is checking for the <code>_POSIX_C_SOURCE</code> environment variable, if the flag is present when you compile the code, then the code inside the true branch will be inserted and compiled, if not the false branch will be compiled.</p>
+<p>Ignore everything except the stuff with <code class="language-plaintext highlighter-rouge">#</code>, here the macro is checking for the <code class="language-plaintext highlighter-rouge">_POSIX_C_SOURCE</code> environment variable, if the flag is present when you compile the code, then the code inside the true branch will be inserted and compiled, if not the false branch will be compiled.</p>
 
 <h2 id="auto-type">Auto type</h2>
 
 <p>C++ actually has dynamic allocation type… but be careful! Useful if you are a C++ noob with types or you are quickly testing, but I just try to stay away from it when possible</p>
 
-<pre><code class="language-cpp">auto a = 19; // auto here will take the int type
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">a</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span> <span class="c1">// auto here will take the int type</span>
+</code></pre></div></div>
 
 <h2 id="constant-variables">Constant variables</h2>
 
-<p>You can declare a constant variable by using the <code>const</code> type, when you are declaring your functions this will be important to make sure you don’t overwrite the variable (on the direct memory address) for the rest of your code</p>
+<p>You can declare a constant variable by using the <code class="language-plaintext highlighter-rouge">const</code> type, when you are declaring your functions this will be important to make sure you don’t overwrite the variable (on the direct memory address) for the rest of your code</p>
 
-<pre><code class="language-cpp">// dangerous
-void doSomethingFunny_wrong(int &amp;foo) {
-	foo = 20; // ⚠️ modifies the direct memory address, will mess up your program
-}
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// dangerous</span>
+<span class="kt">void</span> <span class="nf">doSomethingFunny_wrong</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">foo</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">foo</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="c1">// ⚠️ modifies the direct memory address, will mess up your program</span>
+<span class="p">}</span>
 
-// safer(ish)
-void doSomethingFunny(const int &amp;foo) {
-	foo = 20; // doesn't compile, cannot modify const
-}
+<span class="c1">// safer(ish)</span>
+<span class="kt">void</span> <span class="nf">doSomethingFunny</span><span class="p">(</span><span class="k">const</span> <span class="kt">int</span> <span class="o">&amp;</span><span class="n">foo</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">foo</span> <span class="o">=</span> <span class="mi">20</span><span class="p">;</span> <span class="c1">// doesn't compile, cannot modify const</span>
+<span class="p">}</span>
 
-// to declare a variable as constant
-const int foo = 19;
-</code></pre>
+<span class="c1">// to declare a variable as constant</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">foo</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h2 id="vectors-variable-size-arrays">Vectors (variable size arrays)</h2>
 
-<p>JavaScript makes you think that your arrays are infinitely growable, when in reality the one that needs to grow is you (👊), so now you will have to deal with arrays like a real man (or real woman), arrays are fixed the moment you create them, you cannot just append stuff to them… that is if you are using pure C, C++ gives us the <code>vector</code> class:</p>
+<p>JavaScript makes you think that your arrays are infinitely growable, when in reality the one that needs to grow is you (👊), so now you will have to deal with arrays like a real man (or real woman), arrays are fixed the moment you create them, you cannot just append stuff to them… that is if you are using pure C, C++ gives us the <code class="language-plaintext highlighter-rouge">vector</code> class:</p>
 
-<pre><code class="language-cpp">#include &lt;vector&gt;
-#include &lt;iostream&gt;
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;vector&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span>
 
-using namespace std
-
-int main() {
-	vector&lt;string&gt; res;
-	res.push_back("Hello");
-	res.push_back("I miss");
-	res.push_back("Javascript");
-	return 0;
-}
-</code></pre>
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">vector</span><span class="o">&lt;</span><span class="n">string</span><span class="o">&gt;</span> <span class="n">res</span><span class="p">;</span>
+	<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"Hello"</span><span class="p">);</span>
+	<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"I miss"</span><span class="p">);</span>
+	<span class="n">res</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="s">"Javascript"</span><span class="p">);</span>
+	<span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>Just be careful, the vector will hold a chunk of memory for you to insert stuff, once you go over the reserved space, it will have to reserve a bigger chunk and copy all the data to it</p>
 
@@ -181,35 +181,35 @@ int main() {
 
 <p>Needless to say there is also maps for those among you who cannot even without JavaScript</p>
 
-<pre><code class="language-cpp">#include &lt;map&gt;
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;map&gt;</span><span class="cp">
+</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">myMap</span> <span class="o">=</span> <span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span><span class="p">();</span>
 
-map&lt;string, string&gt; myMap = map&lt;string, string&gt;();
-
-myMap["I miss"] = "Javascript";
-</code></pre>
+<span class="n">myMap</span><span class="p">[</span><span class="s">"I miss"</span><span class="p">]</span> <span class="o">=</span> <span class="s">"Javascript"</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h2 id="structs">Structs</h2>
 
 <p>The time might come where you need to bundle more data in a more complex structure than maps or vectors, there you need to create a struct. Be orderly and create it in it’s own header file.</p>
 
-<pre><code class="language-cpp">// myStruct.h
-struct MyLittleStruct
-{
-	string message;
-	int age;
-}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// myStruct.h</span>
+<span class="k">struct</span> <span class="nc">MyLittleStruct</span>
+<span class="p">{</span>
+	<span class="n">string</span> <span class="n">message</span><span class="p">;</span>
+	<span class="kt">int</span> <span class="n">age</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>You can later use it in your other files</p>
 
-<pre><code class="language-cpp">MyLittleStruct createALittleStruct()
-{
-	return MyLittleStruct{
-		"I'm ready to cry",
-		12
-	}
-}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">MyLittleStruct</span> <span class="nf">createALittleStruct</span><span class="p">()</span>
+<span class="p">{</span>
+	<span class="k">return</span> <span class="n">MyLittleStruct</span><span class="p">{</span>
+		<span class="s">"I'm ready to cry"</span><span class="p">,</span>
+		<span class="mi">12</span>
+	<span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>⚠️ JavaScript will not understand any of this vector/map/struct mumbo jumbo, you will need to convert it at a later point to the appropriate JSI objects.</p>
@@ -227,80 +227,80 @@ struct MyLittleStruct
 
 <p>Get a tattoo of it if you can, whenever you use pointers it will also subtly change the semantics of your functions, but let’s just start with the basics:</p>
 
-<pre><code class="language-cpp">// A regular integer variable
-int age = 19; // 19
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// A regular integer variable</span>
+<span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span> <span class="c1">// 19</span>
 
-// The "&amp;" operator returns the pointer (memory address) of a variable
-cout &lt;&lt; &amp;age; // "0x6ef07b"
+<span class="c1">// The "&amp;" operator returns the pointer (memory address) of a variable</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">&amp;</span><span class="n">age</span><span class="p">;</span> <span class="c1">// "0x6ef07b"</span>
 
-// A pointer variable (that points to an integer)
-int *pAge = &amp;age; // 0x6ef07b
+<span class="c1">// A pointer variable (that points to an integer)</span>
+<span class="kt">int</span> <span class="o">*</span><span class="n">pAge</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">age</span><span class="p">;</span> <span class="c1">// 0x6ef07b</span>
 
-// Why does the pointer also have an int?
-// because just a memory address is not useful
-// You need to be able to cast it back into the original data
-// The "*" operator "dereferences" the pointer = reads memory and casts it back to the original data
-cout &lt;&lt; *pAge; // "19"
-</code></pre>
+<span class="c1">// Why does the pointer also have an int?</span>
+<span class="c1">// because just a memory address is not useful</span>
+<span class="c1">// You need to be able to cast it back into the original data</span>
+<span class="c1">// The "*" operator "dereferences" the pointer = reads memory and casts it back to the original data</span>
+<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="o">*</span><span class="n">pAge</span><span class="p">;</span> <span class="c1">// "19"</span>
+</code></pre></div></div>
 
 <h2 id="pass-by-value-and-by-reference">Pass by value and by reference</h2>
 
 <p>While Javascript also has pass by value and by reference, there you cannot modify the semantics, but on C++ you can:</p>
 
-<pre><code class="language-cpp">#include &lt;iostream&gt;
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+</span>
+<span class="c1">// The "&amp;" operator here does not mean to get the pointer</span>
+<span class="c1">// but that the argument passed should not copied but rather "referenced"</span>
+<span class="kt">int</span> <span class="nf">sumByReference</span><span class="p">(</span><span class="kt">int</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">9</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
 
-// The "&amp;" operator here does not mean to get the pointer
-// but that the argument passed should not copied but rather "referenced"
-int sumByReference(int &amp;result) {
-	result = 10 + 9;
-	return result;
-}
+<span class="c1">// A normal function</span>
+<span class="kt">int</span> <span class="nf">sumByValue</span><span class="p">(</span><span class="kt">int</span> <span class="n">result</span><span class="p">)</span> <span class="p">{</span>
+	<span class="n">result</span> <span class="o">=</span> <span class="mi">10</span> <span class="o">+</span> <span class="mi">9</span><span class="p">;</span>
+	<span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
 
-// A normal function
-int sumByValue(int result) {
-	result = 10 + 9;
-	return result;
-}
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-int main() {
-	int result = 0;
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 0</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Sum by value: "</span> <span class="o">&lt;&lt;</span> <span class="n">sumByValue</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// Sum by value: 19</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 0</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"Sum by reference: "</span> <span class="o">&lt;&lt;</span> <span class="n">sumByReference</span><span class="p">(</span><span class="n">result</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> <span class="c1">// Sum by reference: 19</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result variable: "</span> <span class="o">&lt;&lt;</span> <span class="n">result</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span> 	<span class="c1">// result variable: 19</span>
 
-  std::cout &lt;&lt; "result variable: " &lt;&lt; result &lt;&lt; std::endl; 	// result variable: 0
-  std::cout &lt;&lt; "Sum by value: " &lt;&lt; sumByValue(result) &lt;&lt; std::endl; 	// Sum by value: 19
-  std::cout &lt;&lt; "result variable: " &lt;&lt; result &lt;&lt; std::endl; 	// result variable: 0
-  std::cout &lt;&lt; "Sum by reference: " &lt;&lt; sumByReference(result) &lt;&lt; std::endl; // Sum by reference: 19
-  std::cout &lt;&lt; "result variable: " &lt;&lt; result &lt;&lt; std::endl; 	// result variable: 19
-
-  return 0;
-}
-</code></pre>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h2 id="strings">Strings</h2>
 
-<p>On C there is no string class, it’s all done with raw bytes and pointers, C++ has <code>std::string</code> which makes it easier, but a lot of APIs still deal with C-like strings, so it’s important to understand them</p>
+<p>On C there is no string class, it’s all done with raw bytes and pointers, C++ has <code class="language-plaintext highlighter-rouge">std::string</code> which makes it easier, but a lot of APIs still deal with C-like strings, so it’s important to understand them</p>
 
-<pre><code class="language-cpp">// in C++
-std::string hello = "I'm a Javascript princess";
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// in C++</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">hello</span> <span class="o">=</span> <span class="s">"I'm a Javascript princess"</span><span class="p">;</span>
 
-// Create a C-Like string
-char *myString = hello.c_str();
-</code></pre>
+<span class="c1">// Create a C-Like string</span>
+<span class="kt">char</span> <span class="o">*</span><span class="n">myString</span> <span class="o">=</span> <span class="n">hello</span><span class="p">.</span><span class="n">c_str</span><span class="p">();</span>
+</code></pre></div></div>
 
-<p>This means the <code>*mystring</code> pointer → points to the first byte (ASCII → 1byte = 1char, also UTF-8 but other encodings need more bytes) of the string, you can “reconstruct” your string by walking byte by byte</p>
+<p>This means the <code class="language-plaintext highlighter-rouge">*mystring</code> pointer → points to the first byte (ASCII → 1byte = 1char, also UTF-8 but other encodings need more bytes) of the string, you can “reconstruct” your string by walking byte by byte</p>
 
 <p><img src="https://s3-us-west-2.amazonaws.com/secure.notion-static.com/c787b649-7083-43da-929e-5f23165a4127/Frame_1.png" alt="Frame 1.png" /></p>
 
-<p>But how do you know when the string ends? by convention you mark the end of a string by using a null pointer (<code>\0</code>)</p>
+<p>But how do you know when the string ends? by convention you mark the end of a string by using a null pointer (<code class="language-plaintext highlighter-rouge">\0</code>)</p>
 
 <p>So then when you need to pass c_like strings in functions, you pass only the pointer</p>
 
-<pre><code class="language-cpp">std::string takesAString(char* myCString) {
-	return std::string(myCString); // convert to a c++ std::string
-}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="nf">takesAString</span><span class="p">(</span><span class="kt">char</span><span class="o">*</span> <span class="n">myCString</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">myCString</span><span class="p">);</span> <span class="c1">// convert to a c++ std::string</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <blockquote>
-  <p>⚠️ This is not only used for strings, but whenever to pass arrays of stuff in without C++ fancy classes (no vectors, maps, etc). E.g: <code>jsi::Value *args</code> = array of <code>jsi::Values</code>, but unlike strings for other types of arrays you will have to pass/receive the length of the array as an integer (sometimes with a special <code>size_t</code> type).</p>
+  <p>⚠️ This is not only used for strings, but whenever to pass arrays of stuff in without C++ fancy classes (no vectors, maps, etc). E.g: <code class="language-plaintext highlighter-rouge">jsi::Value *args</code> = array of <code class="language-plaintext highlighter-rouge">jsi::Values</code>, but unlike strings for other types of arrays you will have to pass/receive the length of the array as an integer (sometimes with a special <code class="language-plaintext highlighter-rouge">size_t</code> type).</p>
 </blockquote>
 
 <h2 id="scopecontext-lifecycles--memory-de-allocations-️">Scope/context Lifecycles / Memory de-allocations ⚠️</h2>
@@ -313,37 +313,37 @@ char *myString = hello.c_str();
 
 <p>Let’s say you have an initialization function, that function has some variables declared inside:</p>
 
-<pre><code class="language-cpp">void initMyModule() {
-	// using a char* just to illustrate my point and keep the direct memory reference
-	char *docPath = "/usr/osp/Documents/";
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">initMyModule</span><span class="p">()</span> <span class="p">{</span>
+	<span class="c1">// using a char* just to illustrate my point and keep the direct memory reference</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span> <span class="o">=</span> <span class="s">"/usr/osp/Documents/"</span><span class="p">;</span>
 
-	initDatabaseModule(port, docPath);
-}
-</code></pre>
+	<span class="n">initDatabaseModule</span><span class="p">(</span><span class="n">port</span><span class="p">,</span> <span class="n">docPath</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>In order to initialize your module you call another module where you pass such variables, BUT inside that module you have functions that will outlive the original scope of the calling module:</p>
 
-<pre><code class="language-cpp">// ATTENTION: Pseudo-code
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ATTENTION: Pseudo-code</span>
 
-// my database module
+<span class="c1">// my database module</span>
 
-// remember the pass by reference (&amp;) part?
-// This function takes a pointer via the "*" operator
-void initDatabaseModule(char *docPath) {
+<span class="c1">// remember the pass by reference (&amp;) part?</span>
+<span class="c1">// This function takes a pointer via the "*" operator</span>
+<span class="kt">void</span> <span class="nf">initDatabaseModule</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span><span class="p">)</span> <span class="p">{</span>
 
-	// this is a function with a lambda inside
-	std::function openDatabase(string dbName) {
-		// some code to initialize a database
-		return createDbFile(dbName, docPath);
-	}
+	<span class="c1">// this is a function with a lambda inside</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">openDatabase</span><span class="p">(</span><span class="n">string</span> <span class="n">dbName</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// some code to initialize a database</span>
+		<span class="k">return</span> <span class="n">createDbFile</span><span class="p">(</span><span class="n">dbName</span><span class="p">,</span> <span class="n">docPath</span><span class="p">);</span>
+	<span class="p">}</span>
 
-	// Then let's say you make this function globally available to the JS context
-	// (Foreshadowing to JSI 😉)
-	exposeToJS(openDatabase());
-}
-</code></pre>
+	<span class="c1">// Then let's say you make this function globally available to the JS context</span>
+	<span class="c1">// (Foreshadowing to JSI 😉)</span>
+	<span class="n">exposeToJS</span><span class="p">(</span><span class="n">openDatabase</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-<p>Well… this will compile just fine, but when you try to call <code>openDatabase</code> from JavaScript, the <code>docPath</code> variable (pointer) will no longer contain a string, it will contain random bytes, that is because the context of the <code>initMyModule</code> function has been freed up, and some other piece of code has (could have) re-written that space.</p>
+<p>Well… this will compile just fine, but when you try to call <code class="language-plaintext highlighter-rouge">openDatabase</code> from JavaScript, the <code class="language-plaintext highlighter-rouge">docPath</code> variable (pointer) will no longer contain a string, it will contain random bytes, that is because the context of the <code class="language-plaintext highlighter-rouge">initMyModule</code> function has been freed up, and some other piece of code has (could have) re-written that space.</p>
 
 <blockquote>
   <p>⚠️ <strong>Unlike JS, you need to be really careful on the references you are passing, because they can be moved/garbage collected.</strong></p>
@@ -351,25 +351,25 @@ void initDatabaseModule(char *docPath) {
 
 <p>This brings us to capture semantics and how to work around this issues, for this type of module level variables one workaround is to declare a module variable:</p>
 
-<pre><code class="language-cpp">// ATTENTION: Pseudo-code
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// ATTENTION: Pseudo-code</span>
 
-// my database module
+<span class="c1">// my database module</span>
 
-// non-deallocatable reference
-std::string myDocPath;
+<span class="c1">// non-deallocatable reference</span>
+<span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">myDocPath</span><span class="p">;</span>
 
-void initDatabaseModule(char *docPath) {
-	// We create a copy
-	myDocPath = std::string(docPath);
+<span class="kt">void</span> <span class="nf">initDatabaseModule</span><span class="p">(</span><span class="kt">char</span> <span class="o">*</span><span class="n">docPath</span><span class="p">)</span> <span class="p">{</span>
+	<span class="c1">// We create a copy</span>
+	<span class="n">myDocPath</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">string</span><span class="p">(</span><span class="n">docPath</span><span class="p">);</span>
 
-	std::function openDatabase(string dbName) {
-		// some code to initialize a database
-		return createDbFile(dbName, myDocPath.c_str());
-	}
+	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">openDatabase</span><span class="p">(</span><span class="n">string</span> <span class="n">dbName</span><span class="p">)</span> <span class="p">{</span>
+		<span class="c1">// some code to initialize a database</span>
+		<span class="k">return</span> <span class="n">createDbFile</span><span class="p">(</span><span class="n">dbName</span><span class="p">,</span> <span class="n">myDocPath</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+	<span class="p">}</span>
 
-	exposeToJS(openDatabase());
-}
-</code></pre>
+	<span class="n">exposeToJS</span><span class="p">(</span><span class="n">openDatabase</span><span class="p">());</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>Another workaround is to use pass by value semantics, but this might not always work, but at least now you know why your strings are garbage characters.</p>
 
@@ -379,97 +379,97 @@ void initDatabaseModule(char *docPath) {
 
 <p>A C++ lambda follows the syntax:</p>
 
-<pre><code class="language-cpp">[ captured variables ]( params ) { body }
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">[</span> <span class="n">captured</span> <span class="n">variables</span> <span class="p">](</span> <span class="n">params</span> <span class="p">)</span> <span class="p">{</span> <span class="n">body</span> <span class="p">}</span>
+</code></pre></div></div>
 
 <p>Here is a very simple lambda example of a curried function (<a href="https://javascript.info/currying-partials">currying</a> = fancy word for partially applying functions )</p>
 
-<pre><code class="language-cpp">#include &lt;iostream&gt;
-#include &lt;functional&gt;
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;functional&gt;</span><span class="cp">
+</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">createSumN</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[</span><span class="o">=</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="p">}</span>
 
-std::function&lt;int(int)&gt; createSumN(int n) {
-	return [=](int x) {
-		return x + n;
-	};
-}
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+	<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4</span> <span class="o">=</span> <span class="n">createSumN</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 
-int main() {
-	std::function sum4 = createSumN(4);
+	<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
 
-	std::cout &lt;&lt; "result of sum4: " &lt;&lt; sum4(10) &lt;&lt; std::endl;
-
-  return 0;
-}
-</code></pre>
+  <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h3 id="captured-variables">Captured variables</h3>
 
-<p>In the example I used <code>[=]</code> as my capture value, this basically copies the entire context of the parent function into the lambda function context, you might want to capture specific values, in that case you want to do something like:</p>
+<p>In the example I used <code class="language-plaintext highlighter-rouge">[=]</code> as my capture value, this basically copies the entire context of the parent function into the lambda function context, you might want to capture specific values, in that case you want to do something like:</p>
 
-<pre><code class="language-cpp">// pass by value/reference still applies here
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// pass by value/reference still applies here</span>
 
-// pass by value (will create a copy in the lambda context)
-std::function&lt;int(int)&gt; createSumN(int n) {
-	return [n](int x) {
-		return x + n;
-	};
-}
+<span class="c1">// pass by value (will create a copy in the lambda context)</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">createSumN</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[</span><span class="n">n</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="p">}</span>
 
-// pass by reference (will use the same memory address) will basically create garbage if you are not careful and call after parent memory has been re-used
-std::function&lt;int(int)&gt; createSumNWrong(int n) {
-	return [&amp;n](int x) {
-		return x + n;
-	};
-}
+<span class="c1">// pass by reference (will use the same memory address) will basically create garbage if you are not careful and call after parent memory has been re-used</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">int</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">createSumNWrong</span><span class="p">(</span><span class="kt">int</span> <span class="n">n</span><span class="p">)</span> <span class="p">{</span>
+	<span class="k">return</span> <span class="p">[</span><span class="o">&amp;</span><span class="n">n</span><span class="p">](</span><span class="kt">int</span> <span class="n">x</span><span class="p">)</span> <span class="p">{</span>
+		<span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">n</span><span class="p">;</span>
+	<span class="p">};</span>
+<span class="p">}</span>
 
-std::function sum4 = createSumN(4);
-std::function sum4Wrong = createSumNWrong(4);
+<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4</span> <span class="o">=</span> <span class="n">createSumN</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span> <span class="n">sum4Wrong</span> <span class="o">=</span> <span class="n">createSumNWrong</span><span class="p">(</span><span class="mi">4</span><span class="p">);</span>
 
-std::cout &lt;&lt; "result of sum4: " &lt;&lt; sum4(10) &lt;&lt; std::endl // "14"
-std::cout &lt;&lt; "result of sum4: " &lt;&lt; sum4Wrong(10) &lt;&lt; std::endl // who knows, I got "3660"
-</code></pre>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="c1">// "14"</span>
+<span class="n">std</span><span class="o">::</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"result of sum4: "</span> <span class="o">&lt;&lt;</span> <span class="n">sum4Wrong</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span> <span class="c1">// who knows, I got "3660"</span>
+</code></pre></div></div>
 
 <p>So whatever you are trying to capture by reference make sure that it will be long lived</p>
 
 <h2 id="stdmove">std::move</h2>
 
-<p>There is another trick you need to know that will keep your variables (and lambdas) from being de-allocated: <code>std::move</code> takes a variable or reference and tells the compiler it is safe to move it’s memory space to whatever you are passing it to, JSI (and probably the code you will write) uses this extensively:</p>
+<p>There is another trick you need to know that will keep your variables (and lambdas) from being de-allocated: <code class="language-plaintext highlighter-rouge">std::move</code> takes a variable or reference and tells the compiler it is safe to move it’s memory space to whatever you are passing it to, JSI (and probably the code you will write) uses this extensively:</p>
 
-<pre><code class="language-cpp">// Assume you are initializing your JSI module, in this case a database module
-// you create a JSI function and now you need to move it to JavaScript global object
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Assume you are initializing your JSI module, in this case a database module</span>
+<span class="c1">// you create a JSI function and now you need to move it to JavaScript global object</span>
 
-auto myOpenFunction = jsi::Function::crea... // creates a JSI (read Javascript) function
+<span class="k">auto</span> <span class="n">myOpenFunction</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">crea</span><span class="p">...</span> <span class="c1">// creates a JSI (read Javascript) function</span>
 
-rt.global()
-	.setProperty(rt,
-							 "open",
-							 std::move(myOpenFunction)); // This will safely move the memory chunk of "myOpenFunction" from the context of this function to the global object
-</code></pre>
+<span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">()</span>
+	<span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span>
+							 <span class="s">"open"</span><span class="p">,</span>
+							 <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">myOpenFunction</span><span class="p">));</span> <span class="c1">// This will safely move the memory chunk of "myOpenFunction" from the context of this function to the global object</span>
+</code></pre></div></div>
 
 <p>If your library returns anything but basic types (int, doubles, etc) you will also have to std::move their structs to avoid them from being thrashed:</p>
 
-<pre><code class="language-cpp">auto myOpenFunction = jsi::Function::create... // creates a JSI (read Javascript) function
-											// bunch of mumbo jumbo
-											{
-												jsi::Object response = jsi::Object(rt); // creates a JavaScript {} (empty object)
-												response.setProperty(rt, "foo", "bar"); // {foo: "bar"}
-												return std::move(response); // Moves the "response" object from this function scope to the JavaScript runtime to avoid the memory being deleted
-											}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">myOpenFunction</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">create</span><span class="p">...</span> <span class="c1">// creates a JSI (read Javascript) function</span>
+											<span class="c1">// bunch of mumbo jumbo</span>
+											<span class="p">{</span>
+												<span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="n">response</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span> <span class="c1">// creates a JavaScript {} (empty object)</span>
+												<span class="n">response</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"foo"</span><span class="p">,</span> <span class="s">"bar"</span><span class="p">);</span> <span class="c1">// {foo: "bar"}</span>
+												<span class="k">return</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">response</span><span class="p">);</span> <span class="c1">// Moves the "response" object from this function scope to the JavaScript runtime to avoid the memory being deleted</span>
+											<span class="p">}</span>
+</code></pre></div></div>
 
 <h2 id="void-returns">Void returns</h2>
 
 <p>Unlike Javascript, <strong>you need to return your lambda functions</strong> (not to Javascript, just on the C++ side):</p>
 
-<pre><code class="language-cpp">auto myOpenFunction = jsi::Function::create..
-											// bunch of mumbo jumbo
-											{
-												[]() -&gt; void {
-													cout &lt;&lt; "I did some side-effect" &lt;&lt; endl;
-													return {}; // void return
-												}
-											}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">myOpenFunction</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">create</span><span class="p">..</span>
+											<span class="c1">// bunch of mumbo jumbo</span>
+											<span class="p">{</span>
+												<span class="p">[]()</span> <span class="o">-&gt;</span> <span class="kt">void</span> <span class="p">{</span>
+													<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"I did some side-effect"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+													<span class="k">return</span> <span class="p">{};</span> <span class="c1">// void return</span>
+												<span class="p">}</span>
+											<span class="p">}</span>
+</code></pre></div></div>
 
 <h1 id="advanced-advanced-stuff">Advanced advanced stuff</h1>
 
@@ -477,30 +477,30 @@ rt.global()
 
 <p>While it is possible to do bit level operations on Javascript is not very common, so you might don’t know how it works, it is however a fairly standard trick in the C/C++ world</p>
 
-<pre><code class="language-jsx">int a = 1; // = 0000...01 (binary)
-int b = 2; // = 0000...10 (binary)
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nx">int</span> <span class="nx">a</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// = 0000...01 (binary)</span>
+<span class="nx">int</span> <span class="nx">b</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// = 0000...10 (binary)</span>
 
-// Do an AND on the bits
-cout &lt;&lt; a &amp; b &lt;&lt; endl; // 0 = 0000...00
+<span class="c1">// Do an AND on the bits</span>
+<span class="nx">cout</span> <span class="o">&lt;&lt;</span> <span class="nx">a</span> <span class="o">&amp;</span> <span class="nx">b</span> <span class="o">&lt;&lt;</span> <span class="nx">endl</span><span class="p">;</span> <span class="c1">// 0 = 0000...00</span>
 
-// Do an OR on the bits
-cout &lt;&lt; a | b &lt;&lt; endl; // 3 = 0000...11
-</code></pre>
+<span class="c1">// Do an OR on the bits</span>
+<span class="nx">cout</span> <span class="o">&lt;&lt;</span> <span class="nx">a</span> <span class="o">|</span> <span class="nx">b</span> <span class="o">&lt;&lt;</span> <span class="nx">endl</span><span class="p">;</span> <span class="c1">// 3 = 0000...11</span>
+</code></pre></div></div>
 
 <p>What kind of madman would use this beside the magicians… well, a lot of devs use for single flag configurations, here is a theoretical example:</p>
 
-<pre><code class="language-jsx">// Let's say I'm creating a user/role module
-// instead of creating enums, string or w/e
-// I can model my permissions as a series of flags
-int HAS_READ_PERMISSION = 1; // 0000...01
-int HAS_WRITE_PERMISSION = 2; // 0000...10
-int HAS_EXECUTE_PERMISSION = 4; // 000..100
-// ...
-int HAS_CHESEE_WAREHOUSE_PERMISION = 32; // 000...10000
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Let's say I'm creating a user/role module</span>
+<span class="c1">// instead of creating enums, string or w/e</span>
+<span class="c1">// I can model my permissions as a series of flags</span>
+<span class="nx">int</span> <span class="nx">HAS_READ_PERMISSION</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span> <span class="c1">// 0000...01</span>
+<span class="nx">int</span> <span class="nx">HAS_WRITE_PERMISSION</span> <span class="o">=</span> <span class="mi">2</span><span class="p">;</span> <span class="c1">// 0000...10</span>
+<span class="nx">int</span> <span class="nx">HAS_EXECUTE_PERMISSION</span> <span class="o">=</span> <span class="mi">4</span><span class="p">;</span> <span class="c1">// 000..100</span>
+<span class="c1">// ...</span>
+<span class="nx">int</span> <span class="nx">HAS_CHESEE_WAREHOUSE_PERMISION</span> <span class="o">=</span> <span class="mi">32</span><span class="p">;</span> <span class="c1">// 000...10000</span>
 
-// So then when I want to create permissions for an specific user I can do this cute trick
-int myUserPermissions = HAS_READ_PERMISION | HAS_WRITE_PERMISSION | HAS_CHESEE_WAREHOUSE_PERMISION; // 000...10101
-</code></pre>
+<span class="c1">// So then when I want to create permissions for an specific user I can do this cute trick</span>
+<span class="nx">int</span> <span class="nx">myUserPermissions</span> <span class="o">=</span> <span class="nx">HAS_READ_PERMISION</span> <span class="o">|</span> <span class="nx">HAS_WRITE_PERMISSION</span> <span class="o">|</span> <span class="nx">HAS_CHESEE_WAREHOUSE_PERMISION</span><span class="p">;</span> <span class="c1">// 000...10101</span>
+</code></pre></div></div>
 
 <h2 id="revisiting-pointers">Revisiting pointers</h2>
 
@@ -510,30 +510,30 @@ int myUserPermissions = HAS_READ_PERMISION | HAS_WRITE_PERMISSION | HAS_CHESEE_W
 
 <p>Here are some patterns that you might encounter, instead of reading you the theory like the bible, I think it is better to plain explain it</p>
 
-<pre><code class="language-jsx">// SQLite example to "open" a database
+<div class="language-jsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// SQLite example to "open" a database</span>
 
-// Remember bit masks?
-int sqlOpenFlags = SQLITE_OPEN_READWRITE | SQLITE_OPEN_CREATE;
+<span class="c1">// Remember bit masks?</span>
+<span class="nx">int</span> <span class="nx">sqlOpenFlags</span> <span class="o">=</span> <span class="nx">SQLITE_OPEN_READWRITE</span> <span class="o">|</span> <span class="nx">SQLITE_OPEN_CREATE</span><span class="p">;</span>
 
-sqlite3 *db; // Declare a pointer to a sqlite3 type variable, currently empty
+<span class="nx">sqlite3</span> <span class="o">*</span><span class="nx">db</span><span class="p">;</span> <span class="c1">// Declare a pointer to a sqlite3 type variable, currently empty</span>
 
-// Exit code to be used by sqlite
-// 0 is considered by everyone and their grandma to be the code when a program has correctly executed it's function
-int exit = 0;
+<span class="c1">// Exit code to be used by sqlite</span>
+<span class="c1">// 0 is considered by everyone and their grandma to be the code when a program has correctly executed it's function</span>
+<span class="nx">int</span> <span class="nx">exit</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
 
-// Mash everything together! 😮‍💨
-// 1) The success (or failure) of the operation will be saved on the exit variable
-// 2) notice the &amp;db: we are passing a pointer to the pointer! Yes that is possible!
-//    sqlite3 will initialize a sqlite3 object and then cram the memory value into the pointer we passed!
+<span class="c1">// Mash everything together! 😮‍💨</span>
+<span class="c1">// 1) The success (or failure) of the operation will be saved on the exit variable</span>
+<span class="c1">// 2) notice the &amp;db: we are passing a pointer to the pointer! Yes that is possible!</span>
+<span class="c1">//    sqlite3 will initialize a sqlite3 object and then cram the memory value into the pointer we passed!</span>
 
-exit = sqlite3_open_v2("my_database_path", &amp;db, sqlOpenFlags, nullptr);
+<span class="nx">exit</span> <span class="o">=</span> <span class="nf">sqlite3_open_v2</span><span class="p">(</span><span class="dl">"</span><span class="s2">my_database_path</span><span class="dl">"</span><span class="p">,</span> <span class="o">&amp;</span><span class="nx">db</span><span class="p">,</span> <span class="nx">sqlOpenFlags</span><span class="p">,</span> <span class="nx">nullptr</span><span class="p">);</span>
 
-// The code above will not throw a memory exception, but it will return the return code
-// it falls to us to check the function has correctly opened a SQLite database
-// (SQLITE_OK is just 0)
-if (exit != SQLITE_OK) {
-...
-</code></pre>
+<span class="c1">// The code above will not throw a memory exception, but it will return the return code</span>
+<span class="c1">// it falls to us to check the function has correctly opened a SQLite database</span>
+<span class="c1">// (SQLITE_OK is just 0)</span>
+<span class="k">if </span><span class="p">(</span><span class="nx">exit</span> <span class="o">!=</span> <span class="nx">SQLITE_OK</span><span class="p">)</span> <span class="p">{</span>
+<span class="p">...</span>
+</code></pre></div></div>
 
 <h2 id="host-objects">Host Objects</h2>
 
@@ -543,88 +543,88 @@ if (exit != SQLITE_OK) {
 
 <ol>
   <li>Inherit from jsi::HostObject</li>
-  <li>Override <code>get</code> and <code>set</code> to allow access to methods and properties</li>
+  <li>Override <code class="language-plaintext highlighter-rouge">get</code> and <code class="language-plaintext highlighter-rouge">set</code> to allow access to methods and properties</li>
   <li>Register object on the global object</li>
 </ol>
 
 <p>Here is a simple example:</p>
 
-<pre><code class="language-swift">#include &lt;jsi/jsi.h&gt;
-#import &lt;React/RCTBridge+Private.h&gt;
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include &lt;jsi/jsi.h&gt;</span>
+<span class="cp">#import &lt;React/RCTBridge+Private.h&gt;</span>
 
-using namespace facebook::jsi;
-using namespace std;
+<span class="n">using</span> <span class="n">namespace</span> <span class="nv">facebook</span><span class="p">::</span><span class="n">jsi</span><span class="p">;</span>
+<span class="n">using</span> <span class="n">namespace</span> <span class="n">std</span><span class="p">;</span>
 
-// Store key-value pairs persistently across launches of your app.
-class NativeStorage : public HostObject {
-public:
-  /// Stored property
-  int expirationTime = 60 * 60 * 24; // 1 day
+<span class="c1">// Store key-value pairs persistently across launches of your app.</span>
+<span class="kd">class</span> <span class="kt">NativeStorage</span> <span class="p">:</span> <span class="kd">public</span> <span class="kt">HostObject</span> <span class="p">{</span>
+<span class="nv">public</span><span class="p">:</span>
+  <span class="c1">/// Stored property</span>
+  <span class="n">int</span> <span class="n">expirationTime</span> <span class="o">=</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">*</span> <span class="mi">24</span><span class="p">;</span> <span class="c1">// 1 day</span>
 
-  // Helper function
-  static NSString* stringValue(Runtime &amp;runtime, const Value &amp;value) {
-    return value.isString()
-      ? [NSString stringWithUTF8String:value.getString(runtime).utf8(runtime).c_str()]
-      : nil;
-  }
+  <span class="c1">// Helper function</span>
+  <span class="kd">static</span> <span class="kt">NSString</span><span class="o">*</span> <span class="nf">stringValue</span><span class="p">(</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="nf">isString</span><span class="p">()</span>
+      <span class="p">?</span> <span class="p">[</span><span class="kt">NSString</span> <span class="nv">stringWithUTF8String</span><span class="p">:</span><span class="n">value</span><span class="o">.</span><span class="nf">getString</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">)</span><span class="o">.</span><span class="nf">c_str</span><span class="p">()]</span>
+      <span class="p">:</span> <span class="kc">nil</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  Value get(Runtime &amp;runtime, const PropNameID &amp;name) override {
-    auto methodName = name.utf8(runtime);
+  <span class="kt">Value</span> <span class="nf">get</span><span class="p">(</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">PropNameID</span> <span class="o">&amp;</span><span class="n">name</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">auto</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
 
-    // `expirationTime` property getter
-    if (methodName == "expirationTime") {
-      return this-&gt;expirationTime;
-    }
-    // `setObject` method
-    else if (methodName == "setObject") {
-      return Function::createFromHostFunction(runtime, PropNameID::forAscii(runtime, "setObject"), 2,
-                                                        [](Runtime &amp;runtime, const Value &amp;thisValue,const Value *arguments, size_t count) -&gt; Value {
-        NSString* key = stringValue(runtime, arguments[0]);
-        NSString* value = stringValue(runtime, arguments[1]);
-        if (key.length &amp;&amp; value.length) {
-          [NSUserDefaults.standardUserDefaults setObject:value forKey:key];
-          return true;
-        }
-        return false;
-      });
-    }
-    // `object` method
-    else if (methodName == "object") {
-      return Function::createFromHostFunction(runtime, PropNameID::forAscii(runtime, "object"), 1,
-                                                        [](Runtime &amp;runtime, const Value &amp;thisValue,const Value *arguments, size_t count) -&gt; Value {
-        NSString* key = stringValue(runtime, arguments[0]);
-        NSString* value = [NSUserDefaults.standardUserDefaults stringForKey:key];
-        return value.length
-          ? Value(runtime, String::createFromUtf8(runtime, value.UTF8String))
-          : Value::undefined();
-      });
-    }
-    return Value::undefined();
-  }
+    <span class="c1">// `expirationTime` property getter</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"expirationTime"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="n">this</span><span class="o">-&gt;</span><span class="n">expirationTime</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="c1">// `setObject` method</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"setObject"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kt">Function</span><span class="p">::</span><span class="nf">createFromHostFunction</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="kt">PropNameID</span><span class="p">::</span><span class="nf">forAscii</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"setObject"</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span>
+                                                        <span class="p">[](</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">thisValue</span><span class="p">,</span><span class="n">const</span> <span class="kt">Value</span> <span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Value</span> <span class="p">{</span>
+        <span class="kt">NSString</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="nf">stringValue</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="kt">NSString</span><span class="o">*</span> <span class="n">value</span> <span class="o">=</span> <span class="nf">stringValue</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">length</span> <span class="o">&amp;&amp;</span> <span class="n">value</span><span class="o">.</span><span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+          <span class="p">[</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span> <span class="nv">setObject</span><span class="p">:</span><span class="n">value</span> <span class="nv">forKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+          <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="kc">false</span><span class="p">;</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="c1">// `object` method</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"object"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="kt">Function</span><span class="p">::</span><span class="nf">createFromHostFunction</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="kt">PropNameID</span><span class="p">::</span><span class="nf">forAscii</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"object"</span><span class="p">),</span> <span class="mi">1</span><span class="p">,</span>
+                                                        <span class="p">[](</span><span class="kt">Runtime</span> <span class="o">&amp;</span><span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span> <span class="o">&amp;</span><span class="n">thisValue</span><span class="p">,</span><span class="n">const</span> <span class="kt">Value</span> <span class="o">*</span><span class="n">arguments</span><span class="p">,</span> <span class="n">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Value</span> <span class="p">{</span>
+        <span class="kt">NSString</span><span class="o">*</span> <span class="n">key</span> <span class="o">=</span> <span class="nf">stringValue</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">]);</span>
+        <span class="kt">NSString</span><span class="o">*</span> <span class="n">value</span> <span class="o">=</span> <span class="p">[</span><span class="kt">NSUserDefaults</span><span class="o">.</span><span class="n">standardUserDefaults</span> <span class="nv">stringForKey</span><span class="p">:</span><span class="n">key</span><span class="p">];</span>
+        <span class="k">return</span> <span class="n">value</span><span class="o">.</span><span class="n">length</span>
+          <span class="p">?</span> <span class="kt">Value</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="kt">String</span><span class="p">::</span><span class="nf">createFromUtf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">value</span><span class="o">.</span><span class="kt">UTF8String</span><span class="p">))</span>
+          <span class="p">:</span> <span class="kt">Value</span><span class="p">::</span><span class="nf">undefined</span><span class="p">();</span>
+      <span class="p">});</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="kt">Value</span><span class="p">::</span><span class="nf">undefined</span><span class="p">();</span>
+  <span class="p">}</span>
 
-  void set(Runtime&amp; runtime, const PropNameID&amp; name, const Value&amp; value) override {
-    auto methodName = name.utf8(runtime);
+  <span class="n">void</span> <span class="nf">set</span><span class="p">(</span><span class="kt">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="n">const</span> <span class="kt">PropNameID</span><span class="o">&amp;</span> <span class="n">name</span><span class="p">,</span> <span class="n">const</span> <span class="kt">Value</span><span class="o">&amp;</span> <span class="n">value</span><span class="p">)</span> <span class="k">override</span> <span class="p">{</span>
+    <span class="n">auto</span> <span class="n">methodName</span> <span class="o">=</span> <span class="n">name</span><span class="o">.</span><span class="nf">utf8</span><span class="p">(</span><span class="n">runtime</span><span class="p">);</span>
 
-    // ExpirationTime property setter
-    if (methodName == "expirationTime") {
-      if (value.isNumber()) {
-        this-&gt;expirationTime = value.asNumber();
-      }
-    }
-  }
+    <span class="c1">// ExpirationTime property setter</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">methodName</span> <span class="o">==</span> <span class="s">"expirationTime"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="nf">isNumber</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">this</span><span class="o">-&gt;</span><span class="n">expirationTime</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="nf">asNumber</span><span class="p">();</span>
+      <span class="p">}</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
 
-	// You can call this method from the entry point where you install the bindings
-  // or call it in another method, we will take a look later
-  // Install `nativeStorage` globally to the runtime
-  static void install(Runtime&amp; runtime) {
-    NativeStorage nativeStorage;
-    shared_ptr&lt;NativeStorage&gt; binding = make_shared&lt;NativeStorage&gt;(move(nativeStorage));
-    auto object = Object::createFromHostObject(runtime, binding);
+	<span class="c1">// You can call this method from the entry point where you install the bindings</span>
+  <span class="c1">// or call it in another method, we will take a look later</span>
+  <span class="c1">// Install `nativeStorage` globally to the runtime</span>
+  <span class="kd">static</span> <span class="n">void</span> <span class="nf">install</span><span class="p">(</span><span class="kt">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kt">NativeStorage</span> <span class="n">nativeStorage</span><span class="p">;</span>
+    <span class="n">shared_ptr</span><span class="o">&lt;</span><span class="kt">NativeStorage</span><span class="o">&gt;</span> <span class="n">binding</span> <span class="o">=</span> <span class="n">make_shared</span><span class="o">&lt;</span><span class="kt">NativeStorage</span><span class="o">&gt;</span><span class="p">(</span><span class="nf">move</span><span class="p">(</span><span class="n">nativeStorage</span><span class="p">));</span>
+    <span class="n">auto</span> <span class="n">object</span> <span class="o">=</span> <span class="kt">Object</span><span class="p">::</span><span class="nf">createFromHostObject</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="n">binding</span><span class="p">);</span>
 
-    runtime.global().setProperty(runtime, "nativeStorage", object);
-  }
-};
-</code></pre>
+    <span class="n">runtime</span><span class="o">.</span><span class="nf">global</span><span class="p">()</span><span class="o">.</span><span class="nf">setProperty</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"nativeStorage"</span><span class="p">,</span> <span class="n">object</span><span class="p">);</span>
+  <span class="p">}</span>
+<span class="p">};</span>
+</code></pre></div></div>
 
 <h1 id="references">References</h1>
 

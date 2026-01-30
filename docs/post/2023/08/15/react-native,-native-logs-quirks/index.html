@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-08-15T09:00:00-04:00" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="React Native, native logs quirks" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T09:00:00-04:00","datePublished":"2023-08-15T09:00:00-04:00","description":"iOS","headline":"React Native, native logs quirks","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"},"url":"https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"iOS","headline":"React Native, native logs quirks","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"},"url":"https://ospfranco.com/post/2023/08/15/react-native,-native-logs-quirks/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -61,25 +61,25 @@
 
       <div class="pt-4 pb-20 markdown text-justify"><h1 id="ios">iOS</h1>
 
-<p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code>Arguments</code> tab, there you will see a <code>OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
+<p>On iOS the default output (NSLog) is by default disabled on the project. You can re-enable it by editing the scheme you are using, going to the <code class="language-plaintext highlighter-rouge">Arguments</code> tab, there you will see a <code class="language-plaintext highlighter-rouge">OS_ACTIVITY_MODE</code> flag, you can clear the value and you will start seeing all the logs.</p>
 
 <p>If you don’t want to use NSLog (or print on Swift I suppose) you can use the RCTLog functions:</p>
 
-<pre><code class="language-obj-c">#import &lt;React/RCTLog.h&gt;
-
-// Your code
-RCTLogWarn(@"Your message")
-</code></pre>
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTLog.h&gt;
+</span>
+<span class="c1">// Your code</span>
+<span class="n">RCTLogWarn</span><span class="p">(</span><span class="s">@"Your message"</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h1 id="android">Android</h1>
 
 <p>On Android you can resort to the RNLog functions:</p>
 
-<pre><code class="language-java">import com.facebook.react.util.RNLog;
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">com.facebook.react.util.RNLog</span><span class="o">;</span>
 
-// Your code
-RNLog.a("Your message");
-</code></pre>
+<span class="c1">// Your code</span>
+<span class="nc">RNLog</span><span class="o">.</span><span class="na">a</span><span class="o">(</span><span class="s">"Your message"</span><span class="o">);</span>
+</code></pre></div></div>
 </div>
     </div>
 

@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-09-03T00:00:00-04:00" />
+<meta property="article:published_time" content="2025-09-03T00:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="Rust Noobie Best Practices" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-09-03T00:00:00-04:00","datePublished":"2025-09-03T00:00:00-04:00","description":"I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.","headline":"Rust Noobie Best Practices","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/rust-tips-from-a-noob/"},"url":"https://ospfranco.com/rust-tips-from-a-noob/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-09-03T00:00:00+02:00","datePublished":"2025-09-03T00:00:00+02:00","description":"I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.","headline":"Rust Noobie Best Practices","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/rust-tips-from-a-noob/"},"url":"https://ospfranco.com/rust-tips-from-a-noob/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -70,94 +70,94 @@
 <ul>
   <li>Stateless architectures might be easier to deal with than a lot of shared state with mutexes and send+sync.</li>
   <li>
-    <p>Generally speaking <code>RwLock</code> is what you want instead of <code>Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
+    <p>Generally speaking <code class="language-plaintext highlighter-rouge">RwLock</code> is what you want instead of <code class="language-plaintext highlighter-rouge">Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
 
-    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
-// If you don't drop
-drop(my_read_var)
-// This writer will lock
-let mut my_write_var = MY_VAR.write().unwrap();
-</code></pre>
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">my_read_var</span> <span class="o">=</span> <span class="n">MY_VAR</span><span class="nf">.read</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">()</span>
+<span class="c1">// If you don't drop</span>
+<span class="nf">drop</span><span class="p">(</span><span class="n">my_read_var</span><span class="p">)</span>
+<span class="c1">// This writer will lock</span>
+<span class="k">let</span> <span class="k">mut</span> <span class="n">my_write_var</span> <span class="o">=</span> <span class="n">MY_VAR</span><span class="nf">.write</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p>For global variables, LLMs regurgitate code that uses <code>lazy_static</code> or <code>once_cell</code> crates. Their functionality has been incorporated into the standard lib (<code>std</code>) and one can now just use <code>OnceLock</code> and <code>LazyLock</code> to initialize global variables.</p>
+    <p>For global variables, LLMs regurgitate code that uses <code class="language-plaintext highlighter-rouge">lazy_static</code> or <code class="language-plaintext highlighter-rouge">once_cell</code> crates. Their functionality has been incorporated into the standard lib (<code class="language-plaintext highlighter-rouge">std</code>) and one can now just use <code class="language-plaintext highlighter-rouge">OnceLock</code> and <code class="language-plaintext highlighter-rouge">LazyLock</code> to initialize global variables.</p>
 
-    <pre><code class="language-rust">  // ❌ Don't
-  lazy_static! {
-    // your global variables
-  }
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// ❌ Don't</span>
+  <span class="nd">lazy_static!</span> <span class="p">{</span>
+    <span class="c1">// your global variables</span>
+  <span class="p">}</span>
 
-  // ✅ Do
-  static MY_STR: LazyLock&lt;RwLock&lt;String&gt;&gt; = LazyLock::new(|| RwLock::new("Hello World!".into()));
-</code></pre>
+  <span class="c1">// ✅ Do</span>
+  <span class="k">static</span> <span class="n">MY_STR</span><span class="p">:</span> <span class="n">LazyLock</span><span class="o">&lt;</span><span class="n">RwLock</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;&gt;</span> <span class="o">=</span> <span class="nn">LazyLock</span><span class="p">::</span><span class="nf">new</span><span class="p">(||</span> <span class="nn">RwLock</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="nf">.into</span><span class="p">()));</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</p>
+    <p>You might need to call code only once on crate initialization or some other event. <code class="language-plaintext highlighter-rouge">tokio::sync::OnceCell</code> can be abused to achieve this:</p>
 
-    <pre><code class="language-rust">use tokio::sync::OnceCell
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nn">tokio</span><span class="p">::</span><span class="nn">sync</span><span class="p">::</span><span class="n">OnceCell</span>
 
-static INIT: OnceCell&lt;()&gt; = OnceCell::const_new();
+<span class="k">static</span> <span class="n">INIT</span><span class="p">:</span> <span class="n">OnceCell</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nn">OnceCell</span><span class="p">::</span><span class="nf">const_new</span><span class="p">();</span>
 
-pub fn init() {
-  // Makes sure the code inside is only run once
-  INIT.get_or_init(|| async {
-      my_async_function().await;
-  })
-  .await;
-}
-</code></pre>
+<span class="k">pub</span> <span class="k">fn</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Makes sure the code inside is only run once</span>
+  <span class="n">INIT</span><span class="nf">.get_or_init</span><span class="p">(||</span> <span class="k">async</span> <span class="p">{</span>
+      <span class="nf">my_async_function</span><span class="p">()</span><span class="k">.await</span><span class="p">;</span>
+  <span class="p">})</span>
+  <span class="k">.await</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
+    <p><code class="language-plaintext highlighter-rouge">cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
 
-    <pre><code class="language-toml">[profile.default]
-retries = 3
-fail-fast = false
-status-level = "all"
-</code></pre>
+    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">profile</span><span class="k">.</span><span class="n">default</span><span class="k">]</span>
+<span class="n">retries</span> <span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="n">fail-fast</span> <span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="n">status-level</span> <span class="o">=</span><span class="w"> </span><span class="s">"all"</span>
+</code></pre></div>    </div>
   </li>
   <li>The <a href="https://crates.io/crates/assert2">assert2</a> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
-  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
+  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code class="language-plaintext highlighter-rouge">cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
   <li>
-    <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
+    <p>If you are exposing a C-API and returning <code class="language-plaintext highlighter-rouge">std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
 
-    <pre><code class="language-rust">#[no_mangle]
-unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
-  let data = CString::new("Hello World!".into()).unwrap();
-  data.into_raw() as *mut c_char
-}
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
+<span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">get_a_string</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="nn">CString</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="nf">.into</span><span class="p">())</span><span class="nf">.unwrap</span><span class="p">();</span>
+  <span class="n">data</span><span class="nf">.into_raw</span><span class="p">()</span> <span class="k">as</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span>
+<span class="p">}</span>
 
-// The pointer must be later returned to Rust for safe de-allocation
-#[no_mangle]
-unsafe extern "C" fn free_string(ptr: *mut c_char) {
-    if ptr.is_null() {
-        return;
-    }
+<span class="c1">// The pointer must be later returned to Rust for safe de-allocation</span>
+<span class="nd">#[no_mangle]</span>
+<span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">free_string</span><span class="p">(</span><span class="n">ptr</span><span class="p">:</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">ptr</span><span class="nf">.is_null</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    let _ = CString::from_raw(ptr);
-    // Automatically dropped at the end of function
-}
-</code></pre>
+    <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="nn">CString</span><span class="p">::</span><span class="nf">from_raw</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+    <span class="c1">// Automatically dropped at the end of function</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
   </li>
-  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code>Result</code> and <code>Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
+  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code class="language-plaintext highlighter-rouge">Result</code> and <code class="language-plaintext highlighter-rouge">Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
   <li>Though Rust is cross-platform compilable, there are many pitfalls which are not obvious.
     <ul>
-      <li>On Android, non-java code cannot access native TLS certs for HTTPs requests. This forces Rust to compiled and included in my crate. This then goes down a rabbit hole of <code>nativetls</code> vs <code>rustls</code> crates. If you are targeting multi-platform go with <code>rustls</code> if possible.</li>
+      <li>On Android, non-java code cannot access native TLS certs for HTTPs requests. This forces Rust to compiled and included in my crate. This then goes down a rabbit hole of <code class="language-plaintext highlighter-rouge">nativetls</code> vs <code class="language-plaintext highlighter-rouge">rustls</code> crates. If you are targeting multi-platform go with <code class="language-plaintext highlighter-rouge">rustls</code> if possible.</li>
     </ul>
   </li>
-  <li><code>Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code>aws-lc-rs</code>, so should you.
+  <li><code class="language-plaintext highlighter-rouge">Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code class="language-plaintext highlighter-rouge">aws-lc-rs</code>, so should you.
     <ul>
-      <li>Migration of community crates is slowly happening towards <code>aws-lc-rs</code>. You might need to toggle features or bump versions to take advantage of this.</li>
+      <li>Migration of community crates is slowly happening towards <code class="language-plaintext highlighter-rouge">aws-lc-rs</code>. You might need to toggle features or bump versions to take advantage of this.</li>
     </ul>
   </li>
   <li>Feature flags are great but their real-world usage and behavior is not always clear. If you assume the default features are what you want, you might be adding a lot of useless code to your project. There is no easy way to detect this, except reading through the docs and looking at the source code and see what can you turn off and still get a functioning crate.
     <ul>
-      <li>Use <code>cargo-appreaiser</code> extension on vscode. Not only it shows outdated packages but it also shows the crate features on hover.</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">cargo-appreaiser</code> extension on vscode. Not only it shows outdated packages but it also shows the crate features on hover.</li>
     </ul>
   </li>
-  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code>#[cfg(test)]</code> or <code>#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code>if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
+  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code class="language-plaintext highlighter-rouge">#[cfg(test)]</code> or <code class="language-plaintext highlighter-rouge">#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code class="language-plaintext highlighter-rouge">if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
   <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures plus comments, without a clear flow on how to use the APIs of the crates. I still haven’t found a good way to piece good API usage, seems the community has not cracked this one yet.</li>
-  <li>Error propagation through the <code>try operator</code> (<code>?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
+  <li>Error propagation through the <code class="language-plaintext highlighter-rouge">try operator</code> (<code class="language-plaintext highlighter-rouge">?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
 </ul>
 </div>
     </div>

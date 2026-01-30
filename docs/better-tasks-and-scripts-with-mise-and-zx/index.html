@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-03-26T00:00:00-04:00" />
+<meta property="article:published_time" content="2025-03-26T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="Better repo tasks and scripts with mise and bun shell" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-03-26T00:00:00-04:00","datePublished":"2025-03-26T00:00:00-04:00","description":"Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.","headline":"Better repo tasks and scripts with mise and bun shell","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"},"url":"https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-03-26T00:00:00+01:00","datePublished":"2025-03-26T00:00:00+01:00","description":"Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.","headline":"Better repo tasks and scripts with mise and bun shell","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"},"url":"https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -72,53 +72,53 @@
   <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
   <li>Npm tasks that run bash scripts</li>
   <li>Raw dogging node scripts that spawn processes</li>
-  <li>There are ofc other tools like <code>make</code>, <code>rake</code>, <code>Ninja</code>, etc.</li>
+  <li>There are ofc other tools like <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">Ninja</code>, etc.</li>
 </ul>
 
 <p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
 
 <h1 id="mise">Mise</h1>
 
-<p>I’m a big fan of tool managers. Journey started with <code>asdf</code> and I’m now using <code>mise</code>. <code>mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code>mise.toml</code> where you can have per folder tools.</p>
+<p>I’m a big fan of tool managers. Journey started with <code class="language-plaintext highlighter-rouge">asdf</code> and I’m now using <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code class="language-plaintext highlighter-rouge">mise.toml</code> where you can have per folder tools.</p>
 
 <p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
 
 <h1 id="bun-shell">Bun Shell</h1>
 
-<p>The <a href="Bun Shell"><code>Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
+<p>The <a href="Bun Shell"><code class="language-plaintext highlighter-rouge">Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
 
 <h1 id="putting-it-all-together">Putting it all together</h1>
 
-<p>At the end, I have a <code>mise.toml</code> that looks like this (this is just an example):</p>
+<p>At the end, I have a <code class="language-plaintext highlighter-rouge">mise.toml</code> that looks like this (this is just an example):</p>
 
-<pre><code class="language-toml">[tools]
-node = "14.18.1"
-bun = "0.1.0"
-rust = "1.58.0"
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
+<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
+<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
+<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
 
-[hooks]
-postinstall = "bun install"
+<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
+<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
 
-[tasks]
-build = "bun zx scripts/build.mts"
-</code></pre>
+<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
+<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
+</code></pre></div></div>
 
-<p>And a <code>scripts/build.mts</code> that looks like this:</p>
+<p>And a <code class="language-plaintext highlighter-rouge">scripts/build.mts</code> that looks like this:</p>
 
-<pre><code class="language-ts">import { $ } from "bun";
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
 
-// You can do more things here, like parse the arguments, import other files, etc
-await $`cargo build --release`;
-await $`flutter build ios`;
-</code></pre>
+<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>Then on the README for my team it gets simple boils down to:</p>
 
 <ul>
-  <li><code>brew install mise</code></li>
-  <li><code>mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
-  <li><code>mise install</code></li>
-  <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
+  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
+  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise build</code> to build the project. On my project I have extended this with params like <code class="language-plaintext highlighter-rouge">mise build ios debug</code> to build the iOS app in debug mode.</li>
 </ul>
 
 <p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>

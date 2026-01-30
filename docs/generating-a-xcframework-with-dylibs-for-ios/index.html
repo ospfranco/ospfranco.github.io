@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-01-21T00:00:00-04:00" />
+<meta property="article:published_time" content="2025-01-21T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="Loading dylibs in iOS" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-01-21T00:00:00-04:00","datePublished":"2025-01-21T00:00:00-04:00","description":"Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.","headline":"Loading dylibs in iOS","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"},"url":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-01-21T00:00:00+01:00","datePublished":"2025-01-21T00:00:00+01:00","description":"Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.","headline":"Loading dylibs in iOS","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"},"url":"https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -65,144 +65,144 @@
 
 <h1 id="frameworks">Frameworks</h1>
 
-<p>In order to load dynamic libraries in iOS they need to be packaged in a <code>.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code>.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
+<p>In order to load dynamic libraries in iOS they need to be packaged in a <code class="language-plaintext highlighter-rouge">.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code class="language-plaintext highlighter-rouge">.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
 
 <h1 id="compile-your-library">Compile your library</h1>
 
-<p>Here is the <code>Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
+<p>Here is the <code class="language-plaintext highlighter-rouge">Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
 
-<pre><code class="language-make">MIN_IOS_VERSION = 8.0
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">MIN_IOS_VERSION</span> <span class="o">=</span> 8.0
 
-# iOS SDK paths
-IOS_SDK_PATH = $(shell xcrun --sdk iphoneos --show-sdk-path)
-IOS_SIMULATOR_SDK_PATH = $(shell xcrun --sdk iphonesimulator --show-sdk-path)
+<span class="c"># iOS SDK paths
+</span><span class="nv">IOS_SDK_PATH</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphoneos <span class="nt">--show-sdk-path</span><span class="p">)</span>
+<span class="nv">IOS_SIMULATOR_SDK_PATH</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphonesimulator <span class="nt">--show-sdk-path</span><span class="p">)</span>
 
-# iOS cross-compiler toolchains
-CC_ios_arm64 = $(shell xcrun --sdk iphoneos --find clang)
-CC_ios_x86_64 = $(shell xcrun --sdk iphonesimulator --find clang)
+<span class="c"># iOS cross-compiler toolchains
+</span><span class="nv">CC_ios_arm64</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphoneos <span class="nt">--find</span> clang<span class="p">)</span>
+<span class="nv">CC_ios_x86_64</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphonesimulator <span class="nt">--find</span> clang<span class="p">)</span>
 
-# Output directories for iOS
-OUT_DIR_ios_arm64 = dist/ios/arm64
-OUT_DIR_ios_x86_64 = dist/ios/x86_64
-OUT_DIR_ios_arm64_simulator = dist/ios/arm64_simulator
+<span class="c"># Output directories for iOS
+</span><span class="nv">OUT_DIR_ios_arm64</span> <span class="o">=</span> dist/ios/arm64
+<span class="nv">OUT_DIR_ios_x86_64</span> <span class="o">=</span> dist/ios/x86_64
+<span class="nv">OUT_DIR_ios_arm64_simulator</span> <span class="o">=</span> dist/ios/arm64_simulator
 
-# iOS-specific flags
-IOS_CFLAGS = -Ivendor/ -I./ -O3 -fembed-bitcode -fPIC
-IOS_LDFLAGS = -Wl,-ios_version_min,$(MIN_IOS_VERSION)
-IOS_ARM64_FLAGS = -target arm64-apple-ios$(MIN_IOS_VERSION) -miphoneos-version-min=$(MIN_IOS_VERSION)
-IOS_ARM64_SIM_FLAGS = -target arm64-apple-ios-simulator$(MIN_IOS_VERSION) -mios-simulator-version-min=$(MIN_IOS_VERSION)
-IOS_X86_64_FLAGS = -target x86_64-apple-ios-simulator$(MIN_IOS_VERSION) -mios-simulator-version-min=$(MIN_IOS_VERSION)
+<span class="c"># iOS-specific flags
+</span><span class="nv">IOS_CFLAGS</span> <span class="o">=</span> <span class="nt">-Ivendor</span>/ <span class="nt">-I</span>./ <span class="nt">-O3</span> <span class="nt">-fembed-bitcode</span> <span class="nt">-fPIC</span>
+<span class="nv">IOS_LDFLAGS</span> <span class="o">=</span> <span class="nt">-Wl</span>,-ios_version_min,<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
+<span class="nv">IOS_ARM64_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> arm64-apple-ios<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-miphoneos-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
+<span class="nv">IOS_ARM64_SIM_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> arm64-apple-ios-simulator<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-mios-simulator-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
+<span class="nv">IOS_X86_64_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> x86_64-apple-ios-simulator<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-mios-simulator-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
 
-# Create folders per iOS architecture
-$(OUT_DIR_ios_arm64):
-	mkdir -p $@
+<span class="c"># Create folders per iOS architecture
+</span><span class="nl">$(OUT_DIR_ios_arm64)</span><span class="o">:</span>
+	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
 
-$(OUT_DIR_ios_x86_64):
-	mkdir -p $@
+<span class="nl">$(OUT_DIR_ios_x86_64)</span><span class="o">:</span>
+	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
 
-$(OUT_DIR_ios_arm64_simulator):
-	mkdir -p $@
+<span class="nl">$(OUT_DIR_ios_arm64_simulator)</span><span class="o">:</span>
+	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
 
-# Rule for compiling for iOS arm64 (device)
-ios_arm64: $(OUT_DIR_ios_arm64)
-	$(CC_ios_arm64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_ARM64_FLAGS) -isysroot $(IOS_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_arm64)/sqlite-vec.o
-	$(CC_ios_arm64) -dynamiclib -o $(OUT_DIR_ios_arm64)/sqlitevec $(OUT_DIR_ios_arm64)/sqlite-vec.o -isysroot $(IOS_SDK_PATH) $(IOS_LDFLAGS)
+<span class="c"># Rule for compiling for iOS arm64 (device)
+</span><span class="nl">ios_arm64</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_arm64)</span>
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_ARM64_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlite-vec.o
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SDK_PATH<span class="p">)</span> <span class="p">$(</span>IOS_LDFLAGS<span class="p">)</span>
 
-# Rule for compiling for iOS x86_64 (simulator)
-ios_x86_64: $(OUT_DIR_ios_x86_64)
-	$(CC_ios_x86_64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_X86_64_FLAGS) -isysroot $(IOS_SIMULATOR_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_x86_64)/sqlite-vec.o
-	$(CC_ios_x86_64) $(IOS_X86_64_FLAGS) -dynamiclib -o $(OUT_DIR_ios_x86_64)/sqlitevec $(OUT_DIR_ios_x86_64)/sqlite-vec.o -isysroot $(IOS_SIMULATOR_SDK_PATH)
+<span class="c"># Rule for compiling for iOS x86_64 (simulator)
+</span><span class="nl">ios_x86_64</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_x86_64)</span>
+	<span class="p">$(</span>CC_ios_x86_64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_X86_64_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlite-vec.o
+	<span class="p">$(</span>CC_ios_x86_64<span class="p">)</span> <span class="p">$(</span>IOS_X86_64_FLAGS<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span>
 
-# Rule for compiling for iOS arm64 (simulator)
-ios_arm64_sim: $(OUT_DIR_ios_arm64_simulator)
-	$(CC_ios_arm64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_ARM64_SIM_FLAGS) -isysroot $(IOS_SIMULATOR_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_arm64_simulator)/sqlite-vec.o
-	$(CC_ios_arm64) -dynamiclib -o $(OUT_DIR_ios_arm64_simulator)/sqlitevec $(OUT_DIR_ios_arm64_simulator)/sqlite-vec.o -isysroot $(IOS_SIMULATOR_SDK_PATH)
+<span class="c"># Rule for compiling for iOS arm64 (simulator)
+</span><span class="nl">ios_arm64_sim</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_arm64_simulator)</span>
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_ARM64_SIM_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlite-vec.o
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span>
 
-# Rule to compile for all iOS architectures
-ios: ios_arm64 ios_x86_64 ios_arm64_sim
-  # Create a single fat for simulators
-	lipo -create ./dist/ios/x86_64/sqlitevec ./dist/ios/arm64_simulator/sqlitevec -output dist/ios/sim_fat/sqlitevec
+<span class="c"># Rule to compile for all iOS architectures
+</span><span class="nl">ios</span><span class="o">:</span> <span class="nf">ios_arm64 ios_x86_64 ios_arm64_sim</span>
+  <span class="c"># Create a single fat for simulators
+</span>	<span class="err">lipo</span> <span class="err">-create</span> <span class="err">./dist/ios/x86_64/sqlitevec</span> <span class="err">./dist/ios/arm64_simulator/sqlitevec</span> <span class="err">-output</span> <span class="err">dist/ios/sim_fat/sqlitevec</span>
 
-  # Move generated binary to the template xcframework folder
-	cp ./dist/ios/arm64/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/
+  <span class="c"># Move generated binary to the template xcframework folder
+</span>	<span class="err">cp</span> <span class="err">./dist/ios/arm64/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/</span>
 
-  # Set @rpath
-	install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/sqlitevec
+  <span class="c"># Set @rpath
+</span>	<span class="err">install_name_tool</span> <span class="err">-id</span> <span class="err">@rpath/sqlitevec.framework/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/sqlitevec</span>
 
-  # Move generated binary to the template xcframework folder
-	cp ./dist/ios/sim_fat/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/
+  <span class="c"># Move generated binary to the template xcframework folder
+</span>	<span class="err">cp</span> <span class="err">./dist/ios/sim_fat/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/</span>
 
-  # Set @rpath
-	install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec
+  <span class="c"># Set @rpath
+</span>	<span class="err">install_name_tool</span> <span class="err">-id</span> <span class="err">@rpath/sqlitevec.framework/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec</span>
 
-.PHONY: ios ios_arm64 ios_x86_64 ios_arm64_sim
-</code></pre>
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">ios ios_arm64 ios_x86_64 ios_arm64_sim</span>
+</code></pre></div></div>
 
 <ol>
   <li>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).</li>
   <li>Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.</li>
   <li>Once these files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same “arch” so they clash and need to be merged into a “fat” binary).</li>
-  <li>With the binary merged we can drop everything into a <code>.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
-  <li>With the files in the correct places we need to final set the <code>@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
+  <li>With the binary merged we can drop everything into a <code class="language-plaintext highlighter-rouge">.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
+  <li>With the files in the correct places we need to final set the <code class="language-plaintext highlighter-rouge">@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
 </ol>
 
 <h1 id="xcframework">XCFramework</h1>
 
-<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
+<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code class="language-plaintext highlighter-rouge">.xcframework</code> which basically is a folder that contains an <code class="language-plaintext highlighter-rouge">Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code class="language-plaintext highlighter-rouge">xcframework</code> via command, but it will not create the internal <code class="language-plaintext highlighter-rouge">frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
 
-<pre><code class="language-sh">xcodebuild -create-xcframework -library ./sim_fat/libsqlite_vec.a -headers ../../ -library ./arm64/libsqlite_vec.a -include ../../ -output libsqlite_vec.xcframework
-</code></pre>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild <span class="nt">-create-xcframework</span> <span class="nt">-library</span> ./sim_fat/libsqlite_vec.a <span class="nt">-headers</span> ../../ <span class="nt">-library</span> ./arm64/libsqlite_vec.a <span class="nt">-include</span> ../../ <span class="nt">-output</span> libsqlite_vec.xcframework
+</code></pre></div></div>
 
 <blockquote>
   <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you. No need to mess with the rpath and frameworks</p>
 </blockquote>
 
-<p>The <code>Info.plist</code> also contains entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs.</p>
+<p>The <code class="language-plaintext highlighter-rouge">Info.plist</code> also contains entries to the folders which contain the <code class="language-plaintext highlighter-rouge">frameworks</code> that actually contain the dylibs.</p>
 
 <h1 id="each-framework-infoplist">Each framework Info.plist</h1>
 
-<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code>CFBundleExecutable</code> tells the name of the binary, <code>CFBundleIdentifier</code> is needed to load the dylibs):</p>
+<p>Each <code class="language-plaintext highlighter-rouge">.framework</code> inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> contains it’s own <code class="language-plaintext highlighter-rouge">Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code class="language-plaintext highlighter-rouge">CFBundleExecutable</code> tells the name of the binary, <code class="language-plaintext highlighter-rouge">CFBundleIdentifier</code> is needed to load the dylibs):</p>
 
-<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
-&lt;plist version="1.0"&gt;
-&lt;dict&gt;
-  &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;
-  &lt;string&gt;en&lt;/string&gt;
-  &lt;key&gt;CFBundleExecutable&lt;/key&gt;
-  &lt;string&gt;sqlitevec&lt;/string&gt;
-  &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
-  &lt;string&gt;com.ospfranco.sqlitevec&lt;/string&gt;
-  &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;
-  &lt;string&gt;6.0&lt;/string&gt;
-  &lt;key&gt;CFBundlePackageType&lt;/key&gt;
-  &lt;string&gt;FMWK&lt;/string&gt;
-  &lt;key&gt;CFBundleSignature&lt;/key&gt;
-  &lt;string&gt;????&lt;/string&gt;
-  &lt;key&gt;CFBundleVersion&lt;/key&gt;
-  &lt;string&gt;1.0.0&lt;/string&gt;
-  &lt;key&gt;CFBundleShortVersionString&lt;/key&gt;
-  &lt;string&gt;1.0.0&lt;/string&gt;
-	&lt;key&gt;MinimumOSVersion&lt;/key&gt;
-  &lt;string&gt;8.0&lt;/string&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleDevelopmentRegion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>en<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleExecutable<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>sqlitevec<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleIdentifier<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>com.ospfranco.sqlitevec<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleInfoDictionaryVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>6.0<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundlePackageType<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>FMWK<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleSignature<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>????<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleShortVersionString<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
+	<span class="nt">&lt;key&gt;</span>MinimumOSVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>8.0<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
+</code></pre></div></div>
 
 <h1 id="loading-it-in-runtime">Loading it in runtime</h1>
 
-<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
+<p>After you have correctly created the <code class="language-plaintext highlighter-rouge">xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
 
-<pre><code class="language-ruby">s.vendored_frameworks = "sqlitevec.xcframework"
-</code></pre>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">vendored_frameworks</span> <span class="o">=</span> <span class="s2">"sqlitevec.xcframework"</span>
+</code></pre></div></div>
 
-<p>This just takes care of packaging into your app once you do <code>pod install</code>. Once the app starts you actually have load the dylib. Here is a snippet to do this:</p>
+<p>This just takes care of packaging into your app once you do <code class="language-plaintext highlighter-rouge">pod install</code>. Once the app starts you actually have load the dylib. Here is a snippet to do this:</p>
 
-<pre><code class="language-objc">NSBundle *libsqlitevec_bundle = [NSBundle bundleWithIdentifier:@"com.ospfranco.sqlitevec"];
-NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" ofType:@""];
-</code></pre>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSBundle</span> <span class="o">*</span><span class="n">libsqlitevec_bundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBundle</span> <span class="nf">bundleWithIdentifier</span><span class="p">:</span><span class="s">@"com.ospfranco.sqlitevec"</span><span class="p">];</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">sqlite_vec_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">libsqlitevec_bundle</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"sqlitevec"</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@""</span><span class="p">];</span>
+</code></pre></div></div>
 
-<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code>dlopen</code> I guess, or some other system call).</p>
+<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code class="language-plaintext highlighter-rouge">dlopen</code> I guess, or some other system call).</p>
 
 <h1 id="debugging">Debugging</h1>
 
@@ -210,29 +210,29 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
 
 <p>Verify the min OS version is set correctly by running:</p>
 
-<pre><code>otool -l sqlitevec.framework/sqlitevec | grep -A 3 LC_VERSION_MIN_IPHONEOS
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otool -l sqlitevec.framework/sqlitevec | grep -A 3 LC_VERSION_MIN_IPHONEOS
+</code></pre></div></div>
 
 <p>If the key is there you should see the set version. This is mandatory for the iOS device arm64 version. If not set then Apple will reject your embedded framework when you send the submission to the app store. It should look something like this:</p>
 
-<pre><code>Load command 8
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Load command 8
       cmd LC_VERSION_MIN_IPHONEOS
   cmdsize 16
   version 8.0
       sdk 8.0
-</code></pre>
+</code></pre></div></div>
 
-<p>The <code>@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
+<p>The <code class="language-plaintext highlighter-rouge">@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
 
-<pre><code>otool -L sqlitevec.framework/sqlitevec
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otool -L sqlitevec.framework/sqlitevec
+</code></pre></div></div>
 
-<p>You should see an entry with <code>@rpath</code> like this:</p>
+<p>You should see an entry with <code class="language-plaintext highlighter-rouge">@rpath</code> like this:</p>
 
-<pre><code>sqlitevec.framework/sqlitevec:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlitevec.framework/sqlitevec:
         @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
         /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre>
+</code></pre></div></div>
 </div>
     </div>
 

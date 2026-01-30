@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/profile.jpeg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-02-24T09:00:00-04:00" />
+<meta property="article:published_time" content="2021-02-24T14:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/profile.jpeg" />
 <meta property="twitter:title" content="React-native JSI module tutorial" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-02-24T09:00:00-04:00","datePublished":"2021-02-24T09:00:00-04:00","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.","headline":"React-native JSI module tutorial","image":"https://ospfranco.com/assets/profile.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-02-24T14:00:00+01:00","datePublished":"2021-02-24T14:00:00+01:00","description":"JSI is a new translation layer between the JavaScript and C++, it’s implemented on the JS engine itself and it’s a lot faster than the React-Native bridge. This is step-by-step guide to creating a basic JSI module.","headline":"React-native JSI module tutorial","image":"https://ospfranco.com/assets/profile.jpeg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"},"url":"https://ospfranco.com/post/2021/02/24/how-to-create-a-javascript-jsi-module/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -75,14 +75,14 @@
 
 <p>Start by initializing:</p>
 
-<pre><code class="language-bash">npx react-native-builder-bob create react-native-sequel
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>npx react-native-builder-bob create react-native-sequel
+</code></pre></div></div>
 
 <p>After a bunch of questions, it will also ask you which type of project you want, select the <strong>C++</strong> option, this won’t create a JSI module, but it will set up the necessary compilation for C++.</p>
 
 <h1 id="start-with-ios">Start with iOS</h1>
 
-<p>Go to the <code>iOS</code> folder and modify the created <strong>header file</strong> (.h) and <strong>obj-c file</strong> (.mm).</p>
+<p>Go to the <code class="language-plaintext highlighter-rouge">iOS</code> folder and modify the created <strong>header file</strong> (.h) and <strong>obj-c file</strong> (.mm).</p>
 
 <blockquote>
   <p>Note: Wherever you see “react-native-sequel” just replace your package name.</p>
@@ -90,74 +90,74 @@
 
 <p>You should have something like this:</p>
 
-<p>Header file, <code>react-native-sequel.h</code>:</p>
+<p>Header file, <code class="language-plaintext highlighter-rouge">react-native-sequel.h</code>:</p>
 
-<pre><code class="language-c++">#import &lt;React/RCTBridgeModule.h&gt;
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import &lt;React/RCTBridgeModule.h&gt;
 #import "react-native-sequel.h"
+</span>
+<span class="err">@</span><span class="n">interface</span> <span class="n">Sequel</span> <span class="o">:</span> <span class="n">NSObject</span> <span class="o">&lt;</span><span class="n">RCTBridgeModule</span><span class="o">&gt;</span>
 
-@interface Sequel : NSObject &lt;RCTBridgeModule&gt;
+<span class="err">@</span><span class="n">property</span> <span class="p">(</span><span class="n">nonatomic</span><span class="p">,</span> <span class="n">assign</span><span class="p">)</span> <span class="n">BOOL</span> <span class="n">setBridgeOnMainQueue</span><span class="p">;</span>
 
-@property (nonatomic, assign) BOOL setBridgeOnMainQueue;
+<span class="err">@</span><span class="n">end</span>
+</code></pre></div></div>
 
-@end
-</code></pre>
+<p>Implementation file, <code class="language-plaintext highlighter-rouge">react-native-sequel.mm</code>:</p>
 
-<p>Implementation file, <code>react-native-sequel.mm</code>:</p>
-
-<pre><code class="language-obj-c">#import "Sequel.h"
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "Sequel.h"
 #import &lt;React/RCTBridge+Private.h&gt;
 #import &lt;React/RCTUtils.h&gt;
 #import "react-native-sequel.h"
+</span>
+<span class="k">@implementation</span> <span class="nc">Sequel</span>
 
-@implementation Sequel
+<span class="k">@synthesize</span> <span class="n">bridge</span><span class="o">=</span><span class="n">_bridge</span><span class="p">;</span>
+<span class="k">@synthesize</span> <span class="n">methodQueue</span> <span class="o">=</span> <span class="n">_methodQueue</span><span class="p">;</span>
 
-@synthesize bridge=_bridge;
-@synthesize methodQueue = _methodQueue;
+<span class="n">RCT_EXPORT_MODULE</span><span class="p">()</span>
 
-RCT_EXPORT_MODULE()
+<span class="k">+</span> <span class="p">(</span><span class="n">BOOL</span><span class="p">)</span><span class="n">requiresMainQueueSetup</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nb">YES</span><span class="p">;</span>
+<span class="p">}</span>
 
-+ (BOOL)requiresMainQueueSetup {
-  return YES;
-}
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">setBridge</span><span class="p">:(</span><span class="n">RCTBridge</span> <span class="o">*</span><span class="p">)</span><span class="nv">bridge</span> <span class="p">{</span>
+  <span class="n">_bridge</span> <span class="o">=</span> <span class="n">bridge</span><span class="p">;</span>
+  <span class="n">_setBridgeOnMainQueue</span> <span class="o">=</span> <span class="n">RCTIsMainQueue</span><span class="p">();</span>
 
-- (void)setBridge:(RCTBridge *)bridge {
-  _bridge = bridge;
-  _setBridgeOnMainQueue = RCTIsMainQueue();
+  <span class="n">RCTCxxBridge</span> <span class="o">*</span><span class="n">cxxBridge</span> <span class="o">=</span> <span class="p">(</span><span class="n">RCTCxxBridge</span> <span class="o">*</span><span class="p">)</span><span class="n">self</span><span class="p">.</span><span class="n">bridge</span><span class="p">;</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">cxxBridge</span><span class="p">.</span><span class="n">runtime</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span><span class="p">;</span>
+  <span class="p">}</span>
 
-  RCTCxxBridge *cxxBridge = (RCTCxxBridge *)self.bridge;
-  if (!cxxBridge.runtime) {
-    return;
-  }
+  <span class="n">installSequel</span><span class="p">(</span><span class="o">*</span><span class="p">(</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">*</span><span class="p">)</span><span class="n">cxxBridge</span><span class="p">.</span><span class="n">runtime</span><span class="p">);</span>
+<span class="p">}</span>
 
-  installSequel(*(facebook::jsi::Runtime *)cxxBridge.runtime);
-}
+<span class="k">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">invalidate</span> <span class="p">{</span>
+  <span class="n">cleanUpSequel</span><span class="p">();</span>
+<span class="p">}</span>
 
-- (void)invalidate {
-  cleanUpSequel();
-}
-
-@end
-</code></pre>
+<span class="k">@end</span>
+</code></pre></div></div>
 
 <p>Without going into detail, a couple of things to notice:</p>
 
 <ul>
   <li>We are importing the <strong>React/RCTBridge+Private</strong> header file, which is the one that exposes the jsi bindings.</li>
-  <li>The important work is done on the <strong>setBridge</strong> function, here we get a reference to the <code>cxxBridge.runtime</code>, this is a <strong>runtime</strong> object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a <code>installSequel</code> (you can rename it later) function where we will create the JSI bindings.</li>
+  <li>The important work is done on the <strong>setBridge</strong> function, here we get a reference to the <code class="language-plaintext highlighter-rouge">cxxBridge.runtime</code>, this is a <strong>runtime</strong> object that is necessary for all the manipulations in the C++ code to create JavaScript values. We pass this runtime into a <code class="language-plaintext highlighter-rouge">installSequel</code> (you can rename it later) function where we will create the JSI bindings.</li>
 </ul>
 
 <h3 id="actual-bindings">Actual bindings</h3>
 
-<p>You can now go to the <code>cpp</code> folder in the root of the project, there builder-bob should have created some basic c++ for you to use, you can delete it and create a header file (react-native-sequel.h in my case) and it’s implementation (react-native-sequel.cpp).</p>
+<p>You can now go to the <code class="language-plaintext highlighter-rouge">cpp</code> folder in the root of the project, there builder-bob should have created some basic c++ for you to use, you can delete it and create a header file (react-native-sequel.h in my case) and it’s implementation (react-native-sequel.cpp).</p>
 
 <p>For our header file:</p>
 
-<pre><code class="language-c++">#include &lt;jsi/jsilib.h&gt;
-#include &lt;jsi/jsi.h&gt;
-
-void installSequel(facebook::jsi::Runtime&amp; jsiRuntime);
-void cleanUpSequel();
-</code></pre>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;jsi/jsilib.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">&lt;jsi/jsi.h&gt;</span><span class="cp">
+</span>
+<span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">);</span>
+<span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">();</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>We are basically exposing the two functions we used in the bridging code inside the iOS folder</p>
@@ -165,44 +165,44 @@ void cleanUpSequel();
 
 <p>For our implementation:</p>
 
-<pre><code class="language-c++">// Import our header file to implement the `installSequel` and `cleanUpSequel` functions
-#include "react-native-sequel.h"
-// sstream contains functions to manipulate strings in C++
-#include &lt;sstream&gt;
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Import our header file to implement the `installSequel` and `cleanUpSequel` functions</span>
+<span class="cp">#include</span> <span class="cpf">"react-native-sequel.h"</span><span class="cp">
+</span><span class="c1">// sstream contains functions to manipulate strings in C++</span>
+<span class="cp">#include</span> <span class="cpf">&lt;sstream&gt;</span><span class="cp">
+</span>
+<span class="c1">// The namespace allows for syntactic sugar around the JSI objects. ex. call: jsi::Function instead of facebook::jsi::Function</span>
+<span class="k">using</span> <span class="k">namespace</span> <span class="n">facebook</span><span class="p">;</span>
 
-// The namespace allows for syntactic sugar around the JSI objects. ex. call: jsi::Function instead of facebook::jsi::Function
-using namespace facebook;
+<span class="c1">// We get the runtime from the obj-c code and we create our native functions here</span>
+<span class="kt">void</span> <span class="nf">installSequel</span><span class="p">(</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">jsiRuntime</span><span class="p">)</span> <span class="p">{</span>
+  <span class="c1">// jsi::Function::createFromHostFunction will create a JavaScript function based on a "host" (read C++) function</span>
+  <span class="k">auto</span> <span class="n">multiply</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">createFromHostFunction</span><span class="p">(</span>
+    <span class="n">jsiRuntime</span><span class="p">,</span> <span class="c1">// JSI runtime instance</span>
+    <span class="n">jsi</span><span class="o">::</span><span class="n">PropNameID</span><span class="o">::</span><span class="n">forAscii</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">),</span> <span class="c1">// Internal function name</span>
+    <span class="mi">1</span><span class="p">,</span> <span class="c1">// Number of arguments in function</span>
+    <span class="c1">// This is a C++ lambda function, the empty [] at the beginning is used to capture pointer/references so that they don't get de-allocated</span>
+    <span class="c1">// Then you get another instance of the runtime to use inside the function, a "this" value from the javascript world, a pointer to the arguments (you can treat it as an array) and finally a count for the number of arguments</span>
+    <span class="c1">// Finally the function needs to return a jsi::Value (read JavaScript value)</span>
+    <span class="p">[](</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span><span class="o">&amp;</span> <span class="n">runtime</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">&amp;</span> <span class="n">thisValue</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">*</span> <span class="n">arguments</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="p">{</span>
 
-// We get the runtime from the obj-c code and we create our native functions here
-void installSequel(jsi::Runtime&amp; jsiRuntime) {
-  // jsi::Function::createFromHostFunction will create a JavaScript function based on a "host" (read C++) function
-  auto multiply = jsi::Function::createFromHostFunction(
-    jsiRuntime, // JSI runtime instance
-    jsi::PropNameID::forAscii(jsiRuntime, "multiply"), // Internal function name
-    1, // Number of arguments in function
-    // This is a C++ lambda function, the empty [] at the beginning is used to capture pointer/references so that they don't get de-allocated
-    // Then you get another instance of the runtime to use inside the function, a "this" value from the javascript world, a pointer to the arguments (you can treat it as an array) and finally a count for the number of arguments
-    // Finally the function needs to return a jsi::Value (read JavaScript value)
-    [](jsi::Runtime&amp; runtime, const jsi::Value&amp; thisValue, const jsi::Value* arguments, size_t count) -&gt; jsi::Value {
+      <span class="c1">// the jsi::Value has a lot of helper methods for you to manipulate the data</span>
+      <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">arguments</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">isNumber</span><span class="p">()</span> <span class="o">||</span> <span class="o">!</span><span class="n">arguments</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">isNumber</span><span class="p">())</span> <span class="p">{</span>
+        <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">runtime</span><span class="p">,</span> <span class="s">"Non number arguments passed to sequel"</span><span class="p">);</span>
+      <span class="p">}</span>
 
-      // the jsi::Value has a lot of helper methods for you to manipulate the data
-      if(!arguments[0].isNumber() || !arguments[1].isNumber()) {
-        jsi::detail::throwJSError(runtime, "Non number arguments passed to sequel");
-      }
+      <span class="kt">double</span> <span class="n">res</span> <span class="o">=</span> <span class="mi">42</span><span class="p">;</span>
+      <span class="k">return</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="n">res</span><span class="p">);</span>
+    <span class="p">}</span>
+  <span class="p">);</span>
 
-      double res = 42;
-      return jsi::Value(res);
-    }
-  );
+  <span class="c1">// Registers the function on the global object</span>
+  <span class="n">jsiRuntime</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">jsiRuntime</span><span class="p">,</span> <span class="s">"multiply"</span><span class="p">,</span> <span class="n">std</span><span class="o">::</span><span class="n">move</span><span class="p">(</span><span class="n">multiply</span><span class="p">));</span>
+<span class="p">}</span>
 
-  // Registers the function on the global object
-  jsiRuntime.global().setProperty(jsiRuntime, "multiply", std::move(multiply));
-}
-
-void cleanUpSequel() {
-  // intentionally left blank
-}
-</code></pre>
+<span class="kt">void</span> <span class="nf">cleanUpSequel</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// intentionally left blank</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>As of this writing there is little documentation for the JSI bridge and it’s bindings, the <a href="https://github.com/facebook/react-native/blob/master/ReactCommon/jsi/jsi/jsi.cpp">JSI source code</a> is the best source of information, but some descriptions:</p>
 
@@ -216,62 +216,62 @@ void cleanUpSequel() {
 
 <h3 id="careful-with-c-and-memory-management">Careful with C++ and memory management</h3>
 
-<p>There are other convenience methods for dealing with JSIValues such as <code>isNumber</code>, <code>isString</code> (do note that javascript numbers are always doubles). Once you start dealing with objects things get more complicated, you need to be able to move (<code>std::move</code>) values around, so that they don’t get wiped from memory once your function ends.</p>
+<p>There are other convenience methods for dealing with JSIValues such as <code class="language-plaintext highlighter-rouge">isNumber</code>, <code class="language-plaintext highlighter-rouge">isString</code> (do note that javascript numbers are always doubles). Once you start dealing with objects things get more complicated, you need to be able to move (<code class="language-plaintext highlighter-rouge">std::move</code>) values around, so that they don’t get wiped from memory once your function ends.</p>
 
 <h3 id="exposing-a-sensible-api">Exposing a sensible API</h3>
 
 <p>Finally, on our index.ts file we can create bindings for this function (I’m not sure if they also get exposed to the wrapper app, for now I created a dumb wrapper), having typescript also allows for type checking on the JS level</p>
 
-<pre><code class="language-ts">// /src/index.tsx
-declare function multiply(a: number, b: number): number;
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// /src/index.tsx</span>
+<span class="kr">declare</span> <span class="kd">function</span> <span class="nf">multiply</span><span class="p">(</span><span class="nx">a</span><span class="p">:</span> <span class="kr">number</span><span class="p">,</span> <span class="nx">b</span><span class="p">:</span> <span class="kr">number</span><span class="p">):</span> <span class="kr">number</span><span class="p">;</span>
 
-export function multiplyA(): number {
-  return multiply(2, 2);
-}
-</code></pre>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">multiplyA</span><span class="p">():</span> <span class="kr">number</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="nf">multiply</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>and finally on the react-native app that uses this module:</p>
 
-<pre><code class="language-tsx">import * as React from "react";
+<div class="language-tsx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="kd">as </span><span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
 
-import { StyleSheet, View, Text } from "react-native";
-import { multiplyA } from "react-native-sequel";
+<span class="k">import</span> <span class="p">{</span> <span class="nx">StyleSheet</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Text</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">multiplyA</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native-sequel</span><span class="dl">"</span><span class="p">;</span>
 
-export default function App() {
-  const [result, setResult] = React.useState&lt;number | undefined&gt;();
+<span class="k">export</span> <span class="k">default</span> <span class="kd">function</span> <span class="nf">App</span><span class="p">()</span> <span class="p">{</span>
+  <span class="kd">const</span> <span class="p">[</span><span class="nx">result</span><span class="p">,</span> <span class="nx">setResult</span><span class="p">]</span> <span class="o">=</span> <span class="nx">React</span><span class="p">.</span><span class="nx">useState</span><span class="o">&lt;</span><span class="kr">number</span> <span class="o">|</span> <span class="kc">undefined</span><span class="o">&gt;</span><span class="p">();</span>
 
-  React.useEffect(() =&gt; {
-    setResult(multiplyA());
-  }, []);
+  <span class="nx">React</span><span class="p">.</span><span class="nf">useEffect</span><span class="p">(()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nf">setResult</span><span class="p">(</span><span class="nf">multiplyA</span><span class="p">());</span>
+  <span class="p">},</span> <span class="p">[]);</span>
 
-  return (
-    &lt;View style={styles.container}&gt;
-      &lt;Text&gt;Result: {result}&lt;/Text&gt;
-    &lt;/View&gt;
-  );
-}
+  <span class="k">return </span><span class="p">(</span>
+    <span class="p">&lt;</span><span class="nc">View</span> <span class="na">style</span><span class="p">=</span><span class="si">{</span><span class="nx">styles</span><span class="p">.</span><span class="nx">container</span><span class="si">}</span><span class="p">&gt;</span>
+      <span class="p">&lt;</span><span class="nc">Text</span><span class="p">&gt;</span>Result: <span class="si">{</span><span class="nx">result</span><span class="si">}</span><span class="p">&lt;/</span><span class="nc">Text</span><span class="p">&gt;</span>
+    <span class="p">&lt;/</span><span class="nc">View</span><span class="p">&gt;</span>
+  <span class="p">);</span>
+<span class="p">}</span>
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  box: {
-    width: 60,
-    height: 60,
-    marginVertical: 20,
-  },
-});
-</code></pre>
+<span class="kd">const</span> <span class="nx">styles</span> <span class="o">=</span> <span class="nx">StyleSheet</span><span class="p">.</span><span class="nf">create</span><span class="p">({</span>
+  <span class="na">container</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">flex</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="na">alignItems</span><span class="p">:</span> <span class="dl">"</span><span class="s2">center</span><span class="dl">"</span><span class="p">,</span>
+    <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">"</span><span class="s2">center</span><span class="dl">"</span><span class="p">,</span>
+  <span class="p">},</span>
+  <span class="na">box</span><span class="p">:</span> <span class="p">{</span>
+    <span class="na">width</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="na">height</span><span class="p">:</span> <span class="mi">60</span><span class="p">,</span>
+    <span class="na">marginVertical</span><span class="p">:</span> <span class="mi">20</span><span class="p">,</span>
+  <span class="p">},</span>
+<span class="p">});</span>
+</code></pre></div></div>
 
 <h1 id="android-side">Android side</h1>
 
 <p>Now that we have a working iOS implementation, we can take a look into android.</p>
 
-<p>We are going to start by modifying the file inside <code>android/CMakeLists.txt</code>, this file tells the android compilation process which c++ files to compile, you should have something like this:</p>
+<p>We are going to start by modifying the file inside <code class="language-plaintext highlighter-rouge">android/CMakeLists.txt</code>, this file tells the android compilation process which c++ files to compile, you should have something like this:</p>
 
-<pre><code>cmake_minimum_required(VERSION 3.4.1)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake_minimum_required(VERSION 3.4.1)
 
 set (CMAKE_VERBOSE_MAKEFILE ON)
 set (CMAKE_CXX_STANDARD 11)
@@ -294,32 +294,32 @@ add_library(sequel
 )
 
 target_link_libraries(sequel)
-</code></pre>
+</code></pre></div></div>
 
 <blockquote>
   <p>Basically, I upgraded C++ to version 14, the include directories needs to contain the folder where your .cpp files are, then declare a ‘library’ with the exact files that need to be compiled and finally, link that library.</p>
 </blockquote>
 
-<p>Then we can move on to the <code>android/cpp-adapter.cpp</code> file, this is similar to <code>react-native-sequel.mm</code> file we created for iOS, it’s the entry point to register the bindings. Modify it to include the <code>react-native-sequel.h</code> header file (or whatever you will call your package), and you should have something like this:</p>
+<p>Then we can move on to the <code class="language-plaintext highlighter-rouge">android/cpp-adapter.cpp</code> file, this is similar to <code class="language-plaintext highlighter-rouge">react-native-sequel.mm</code> file we created for iOS, it’s the entry point to register the bindings. Modify it to include the <code class="language-plaintext highlighter-rouge">react-native-sequel.h</code> header file (or whatever you will call your package), and you should have something like this:</p>
 
-<pre><code class="language-cpp">#include &lt;jni.h&gt;
-#include "react-native-quick-sqlite.h"
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#include</span> <span class="cpf">&lt;jni.h&gt;</span><span class="cp">
+#include</span> <span class="cpf">"react-native-quick-sqlite.h"</span><span class="cp">
+</span>
+<span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
+<span class="nf">Java_com_reactnativesequel_SequelModule_initialize</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">,</span> <span class="n">jlong</span> <span class="n">jsiPtr</span><span class="p">,</span> <span class="n">jstring</span> <span class="n">docPath</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">jboolean</span> <span class="n">isCopy</span><span class="p">;</span>
+  <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">docPathString</span> <span class="o">=</span> <span class="p">(</span><span class="n">env</span><span class="p">)</span><span class="o">-&gt;</span><span class="n">GetStringUTFChars</span><span class="p">(</span><span class="n">docPath</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">isCopy</span><span class="p">);</span> <span class="c1">// This is might not be necessary, but my library moves files in the android file system, so this is just how to pass an android variable to the C++ size</span>
 
-extern "C" JNIEXPORT void JNICALL
-Java_com_reactnativesequel_SequelModule_initialize(JNIEnv *env, jclass clazz, jlong jsiPtr, jstring docPath)
-{
-  jboolean isCopy;
-  const char *docPathString = (env)-&gt;GetStringUTFChars(docPath, &amp;isCopy); // This is might not be necessary, but my library moves files in the android file system, so this is just how to pass an android variable to the C++ size
+  <span class="n">installSequel</span><span class="p">(</span><span class="o">*</span><span class="k">reinterpret_cast</span><span class="o">&lt;</span><span class="n">facebook</span><span class="o">::</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">*&gt;</span><span class="p">(</span><span class="n">jsiPtr</span><span class="p">),</span> <span class="n">docPathString</span><span class="p">);</span>
+<span class="p">}</span>
 
-  installSequel(*reinterpret_cast&lt;facebook::jsi::Runtime *&gt;(jsiPtr), docPathString);
-}
-
-extern "C" JNIEXPORT void JNICALL
-Java_com_reactnativesequel_SequelModule_destruct(JNIEnv *env, jclass clazz)
-{
-  cleanUpSequel();
-}
-</code></pre>
+<span class="k">extern</span> <span class="s">"C"</span> <span class="n">JNIEXPORT</span> <span class="kt">void</span> <span class="n">JNICALL</span>
+<span class="nf">Java_com_reactnativesequel_SequelModule_destruct</span><span class="p">(</span><span class="n">JNIEnv</span> <span class="o">*</span><span class="n">env</span><span class="p">,</span> <span class="n">jclass</span> <span class="n">clazz</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">cleanUpSequel</span><span class="p">();</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>You can see we get an instance of the JSI bridge and again we have two functions that install and clean up the bindings, I won’t bore you with the details, the only detail you need to be careful is that the functions names will be converted into the Java package name to be imported later on (Java_com_reactnativesequel_SequelModule_initialize -&gt; com.reactnativesequel)</p>
@@ -327,85 +327,85 @@ Java_com_reactnativesequel_SequelModule_destruct(JNIEnv *env, jclass clazz)
 
 <h3 id="initialize-the-c">Initialize the C++</h3>
 
-<p>The previous file initializes the C++ as a callable Java module, but unlike on iOS, it’s not automatically registered, create a new file <code>android/src/main/java/com/reactnativesequel/SequelModule.java</code> and put this inside of it:</p>
+<p>The previous file initializes the C++ as a callable Java module, but unlike on iOS, it’s not automatically registered, create a new file <code class="language-plaintext highlighter-rouge">android/src/main/java/com/reactnativesequel/SequelModule.java</code> and put this inside of it:</p>
 
-<pre><code class="language-java">package com.reactnativesequel;
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.reactnativesequel</span><span class="o">;</span>
 
-import androidx.annotation.NonNull;
+<span class="kn">import</span> <span class="nn">androidx.annotation.NonNull</span><span class="o">;</span>
 
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContextBaseJavaModule;
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactContextBaseJavaModule</span><span class="o">;</span>
 
-class SequelModule extends ReactContextBaseJavaModule {
-  static {
-    System.loadLibrary("sequel");
-  }
+<span class="kd">class</span> <span class="nc">SequelModule</span> <span class="kd">extends</span> <span class="nc">ReactContextBaseJavaModule</span> <span class="o">{</span>
+  <span class="kd">static</span> <span class="o">{</span>
+    <span class="nc">System</span><span class="o">.</span><span class="na">loadLibrary</span><span class="o">(</span><span class="s">"sequel"</span><span class="o">);</span>
+  <span class="o">}</span>
 
-  private static native void initialize(long jsiPtr, String docDir);
-  private static native void destruct();
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">(</span><span class="kt">long</span> <span class="n">jsiPtr</span><span class="o">,</span> <span class="nc">String</span> <span class="n">docDir</span><span class="o">);</span>
+  <span class="kd">private</span> <span class="kd">static</span> <span class="kd">native</span> <span class="kt">void</span> <span class="nf">destruct</span><span class="o">();</span>
 
-  public SequelModule(ReactApplicationContext reactContext) {
-    super(reactContext);
-  }
+  <span class="kd">public</span> <span class="nf">SequelModule</span><span class="o">(</span><span class="nc">ReactApplicationContext</span> <span class="n">reactContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">(</span><span class="n">reactContext</span><span class="o">);</span>
+  <span class="o">}</span>
 
-  @NonNull
-  @Override
-  public String getName() {
-    return "Sequel";
-  }
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">String</span> <span class="nf">getName</span><span class="o">()</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="s">"Sequel"</span><span class="o">;</span>
+  <span class="o">}</span>
 
 
-  @NonNull
-  @Override
-  public void initialize() {
-    super.initialize();
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">initialize</span><span class="o">()</span> <span class="o">{</span>
+    <span class="kd">super</span><span class="o">.</span><span class="na">initialize</span><span class="o">();</span>
 
-    SequelModule.initialize(
-      this.getReactApplicationContext().getJavaScriptContextHolder().get(),
-      this.getReactApplicationContext().getFilesDir().getAbsolutePath()
-    );
-  }
+    <span class="nc">SequelModule</span><span class="o">.</span><span class="na">initialize</span><span class="o">(</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">().</span><span class="na">getJavaScriptContextHolder</span><span class="o">().</span><span class="na">get</span><span class="o">(),</span>
+      <span class="k">this</span><span class="o">.</span><span class="na">getReactApplicationContext</span><span class="o">().</span><span class="na">getFilesDir</span><span class="o">().</span><span class="na">getAbsolutePath</span><span class="o">()</span>
+    <span class="o">);</span>
+  <span class="o">}</span>
 
-  @Override
-  public void onCatalystInstanceDestroy() {
-    SequelModule.destruct();
-  }
-}
-</code></pre>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="kt">void</span> <span class="nf">onCatalystInstanceDestroy</span><span class="o">()</span> <span class="o">{</span>
+    <span class="nc">SequelModule</span><span class="o">.</span><span class="na">destruct</span><span class="o">();</span>
+  <span class="o">}</span>
+<span class="o">}</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>builder-bob probably created a kotlin version of this file, you can delete that one (or make it work if you like kotlin)</p>
 </blockquote>
 
-<p>Android being android will also require an additional <code>Package</code> file, <code>android/src/main/java/com/reactnativesequel/SequelPackage.java</code>:</p>
+<p>Android being android will also require an additional <code class="language-plaintext highlighter-rouge">Package</code> file, <code class="language-plaintext highlighter-rouge">android/src/main/java/com/reactnativesequel/SequelPackage.java</code>:</p>
 
-<pre><code class="language-java">package com.reactnativesequel;
+<div class="language-java highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">package</span> <span class="nn">com.reactnativesequel</span><span class="o">;</span>
 
-import androidx.annotation.NonNull;
+<span class="kn">import</span> <span class="nn">androidx.annotation.NonNull</span><span class="o">;</span>
 
-import com.facebook.react.ReactPackage;
-import com.facebook.react.bridge.NativeModule;
-import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.uimanager.ViewManager;
+<span class="kn">import</span> <span class="nn">com.facebook.react.ReactPackage</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.NativeModule</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.bridge.ReactApplicationContext</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">com.facebook.react.uimanager.ViewManager</span><span class="o">;</span>
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+<span class="kn">import</span> <span class="nn">java.util.Arrays</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.Collections</span><span class="o">;</span>
+<span class="kn">import</span> <span class="nn">java.util.List</span><span class="o">;</span>
 
 
-public class SequelPackage implements ReactPackage {
-  @NonNull
-  @Override
-  public List&lt;NativeModule&gt; createNativeModules(@NonNull ReactApplicationContext reactContext) {
-    return Arrays.&lt;NativeModule&gt;asList(new SequelModule(reactContext));
-  }
+<span class="kd">public</span> <span class="kd">class</span> <span class="nc">SequelPackage</span> <span class="kd">implements</span> <span class="nc">ReactPackage</span> <span class="o">{</span>
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">NativeModule</span><span class="o">&gt;</span> <span class="nf">createNativeModules</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="nc">ReactApplicationContext</span> <span class="n">reactContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Arrays</span><span class="o">.&lt;</span><span class="nc">NativeModule</span><span class="o">&gt;</span><span class="n">asList</span><span class="o">(</span><span class="k">new</span> <span class="nc">SequelModule</span><span class="o">(</span><span class="n">reactContext</span><span class="o">));</span>
+  <span class="o">}</span>
 
-  @NonNull
-  @Override
-  public List&lt;ViewManager&gt; createViewManagers(@NonNull ReactApplicationContext reactContext) {
-    return Collections.emptyList();
-  }
-</code></pre>
+  <span class="nd">@NonNull</span>
+  <span class="nd">@Override</span>
+  <span class="kd">public</span> <span class="nc">List</span><span class="o">&lt;</span><span class="nc">ViewManager</span><span class="o">&gt;</span> <span class="nf">createViewManagers</span><span class="o">(</span><span class="nd">@NonNull</span> <span class="nc">ReactApplicationContext</span> <span class="n">reactContext</span><span class="o">)</span> <span class="o">{</span>
+    <span class="k">return</span> <span class="nc">Collections</span><span class="o">.</span><span class="na">emptyList</span><span class="o">();</span>
+  <span class="o">}</span>
+</code></pre></div></div>
 
 <h2 id="and-voila">And voila!</h2>
 

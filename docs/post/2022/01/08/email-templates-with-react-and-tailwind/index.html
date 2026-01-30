@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2022-01-08T09:00:00-04:00" />
+<meta property="article:published_time" content="2022-01-08T14:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Email templates with React and Tailwind" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2022-01-08T09:00:00-04:00","datePublished":"2022-01-08T09:00:00-04:00","description":"Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.","headline":"Email templates with React and Tailwind","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"},"url":"https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2022-01-08T14:00:00+01:00","datePublished":"2022-01-08T14:00:00+01:00","description":"Sending emails is basic SaaS 101, however it always feel broken to me. Instead of using the same tools I used to develop my apps, I always ended up importing a different framework, we used to use one many years ago with Java, on Node we used handlebars, this is just one more link of complexity in the modern tech stack.","headline":"Email templates with React and Tailwind","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"},"url":"https://ospfranco.com/post/2022/01/08/email-templates-with-react-and-tailwind/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -67,61 +67,61 @@
 
 <p>The first part of this question was the easiest to answer, how to turn a React component into raw html string:</p>
 
-<pre><code class="language-ts">// unfortunately no type information for this module
-// @ts-ignore
-import ReactDOMServer from "react-dom/server";
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// unfortunately no type information for this module</span>
+<span class="c1">// @ts-ignore</span>
+<span class="k">import</span> <span class="nx">ReactDOMServer</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-dom/server</span><span class="dl">"</span><span class="p">;</span>
 
-const TestMail = () =&gt; {
-  return (
-    &lt;html&gt;
-      // important to keep the color scheme on some email clients
-      {/* &lt;meta name="color-scheme" content="only"&gt;&lt;/meta&gt; */}
-      &lt;head&gt;// We will use this later&lt;/head&gt;
-      &lt;div className="py-3"&gt;Hi I am a react component&lt;/div&gt;
-    &lt;/html&gt;
-  );
-};
+<span class="kd">const</span> <span class="nx">TestMail</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">return </span><span class="p">(</span>
+    <span class="o">&lt;</span><span class="nx">html</span><span class="o">&gt;</span>
+      <span class="c1">// important to keep the color scheme on some email clients</span>
+      <span class="p">{</span><span class="cm">/* &lt;meta name="color-scheme" content="only"&gt;&lt;/meta&gt; */</span><span class="p">}</span>
+      <span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span><span class="c1">// We will use this later&lt;/head&gt;</span>
+      <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">className</span><span class="o">=</span><span class="dl">"</span><span class="s2">py-3</span><span class="dl">"</span><span class="o">&gt;</span><span class="nx">Hi</span> <span class="nx">I</span> <span class="nx">am</span> <span class="nx">a</span> <span class="nx">react</span> <span class="nx">component</span><span class="o">&lt;</span><span class="sr">/div</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="sr">/html</span><span class="err">&gt;
+</span>  <span class="p">);</span>
+<span class="p">};</span>
 
-const emailHtml = ReactDOMServer.renderToStaticMarkup(&lt;TestMail /&gt;);
-</code></pre>
+<span class="kd">const</span> <span class="nx">emailHtml</span> <span class="o">=</span> <span class="nx">ReactDOMServer</span><span class="p">.</span><span class="nf">renderToStaticMarkup</span><span class="p">(</span><span class="o">&lt;</span><span class="nx">TestMail</span> <span class="o">/&gt;</span><span class="p">);</span>
+</code></pre></div></div>
 
-<p>This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there <code>py-3</code>, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.</p>
+<p>This will take a React component and render it as a plain HTML markup, you can see I have a tailwind class in there <code class="language-plaintext highlighter-rouge">py-3</code>, unfortunately if you take a look inside the html, you will see it has not been transpiled, so we need to run this html through an inliner to it inlines all the classes as embedded style props in the html.</p>
 
 <p>This was the tricky part, there are some frameworks that try to solve this exact problem, like maizzle for example, but just by reading the home page I already see an ocean of complexity, so early in my googling I stumbled upon <a href="https://github.com/soheilpro/mailwind">Mailwind</a>, the instructions were scant, but it was exactly what I wanted, it works based on <a href="https://github.com/Automattic/juice">Juice</a>, not going to bore you with the details, here is the snippet that makes it work:</p>
 
-<pre><code class="language-ts">import juice from "juice";
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">juice</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">juice</span><span class="dl">"</span><span class="p">;</span>
 
-export async function juicify(html: string): Promise&lt;string&gt; {
-  return new Promise((resolve, reject) =&gt; {
-    juice.juiceResources(
-      html,
-      {
-        webResources: {
-          relativeTo: "public/",
-        },
-      },
-      (err, processed) =&gt; {
-        if (err) {
-          reject(new Error(`Could not juice email${err}`));
-        }
+<span class="k">export</span> <span class="k">async</span> <span class="kd">function</span> <span class="nf">juicify</span><span class="p">(</span><span class="nx">html</span><span class="p">:</span> <span class="kr">string</span><span class="p">):</span> <span class="nb">Promise</span><span class="o">&lt;</span><span class="kr">string</span><span class="o">&gt;</span> <span class="p">{</span>
+  <span class="k">return</span> <span class="k">new</span> <span class="nc">Promise</span><span class="p">((</span><span class="nx">resolve</span><span class="p">,</span> <span class="nx">reject</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="nx">juice</span><span class="p">.</span><span class="nf">juiceResources</span><span class="p">(</span>
+      <span class="nx">html</span><span class="p">,</span>
+      <span class="p">{</span>
+        <span class="na">webResources</span><span class="p">:</span> <span class="p">{</span>
+          <span class="na">relativeTo</span><span class="p">:</span> <span class="dl">"</span><span class="s2">public/</span><span class="dl">"</span><span class="p">,</span>
+        <span class="p">},</span>
+      <span class="p">},</span>
+      <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">processed</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+        <span class="k">if </span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+          <span class="nf">reject</span><span class="p">(</span><span class="k">new</span> <span class="nc">Error</span><span class="p">(</span><span class="s2">`Could not juice email</span><span class="p">${</span><span class="nx">err</span><span class="p">}</span><span class="s2">`</span><span class="p">));</span>
+        <span class="p">}</span>
 
-        resolve(processed);
-      }
-    );
-  });
-}
-</code></pre>
+        <span class="nf">resolve</span><span class="p">(</span><span class="nx">processed</span><span class="p">);</span>
+      <span class="p">}</span>
+    <span class="p">);</span>
+  <span class="p">});</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>You also need to update the email component to include a stylesheet in the head tag:</p>
 
-<pre><code class="language-ts">&lt;head&gt;
-  {/* eslint-disable-next-line @next/next/no-css-tags */}
-  &lt;link href="mailwind.css" rel="stylesheet" data-inline /&gt;
-&lt;/head&gt;
-</code></pre>
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="o">&lt;</span><span class="nx">head</span><span class="o">&gt;</span>
+  <span class="p">{</span><span class="cm">/* eslint-disable-next-line @next/next/no-css-tags */</span><span class="p">}</span>
+  <span class="o">&lt;</span><span class="nx">link</span> <span class="nx">href</span><span class="o">=</span><span class="dl">"</span><span class="s2">mailwind.css</span><span class="dl">"</span> <span class="nx">rel</span><span class="o">=</span><span class="dl">"</span><span class="s2">stylesheet</span><span class="dl">"</span> <span class="nx">data</span><span class="o">-</span><span class="nx">inline</span> <span class="o">/&gt;</span>
+<span class="o">&lt;</span><span class="sr">/head</span><span class="err">&gt;
+</span></code></pre></div></div>
 
 <blockquote>
-  <p>You can already see that you need to import mailwind.css file and make it accessible somewhere in your project, on the juicify function the <code>relativeTo</code> path, will allow juice to correctly determine where to fetch the .css file</p>
+  <p>You can already see that you need to import mailwind.css file and make it accessible somewhere in your project, on the juicify function the <code class="language-plaintext highlighter-rouge">relativeTo</code> path, will allow juice to correctly determine where to fetch the .css file</p>
 </blockquote>
 
 <p>And TA-DA you have working email templates with React and Tailwind, no need for complex framework, configuration files, etc. The juicify function will output a raw string, which you can send to your email distributor and it should work just fine.</p>
@@ -130,7 +130,7 @@ export async function juicify(html: string): Promise&lt;string&gt; {
 
 <p>Now there is one small caveat here, which is the mailwind.css file, it’s not going to be your application styles, some of the changes are good, for example everything being based on px styles, but you might need your own colors, or paddings, etc.</p>
 
-<p>TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your <code>tailwind.config.js</code> and spit out a <code>.css</code> file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.</p>
+<p>TBH this is where I stopped because this is good enough for me, but if you really need your own styles, I figure this is not too hard to achieve, you basically need to tell tailwind to process your <code class="language-plaintext highlighter-rouge">tailwind.config.js</code> and spit out a <code class="language-plaintext highlighter-rouge">.css</code> file, shouldn’t be too hard, the small details of PX units I have not tried, but I think that should also be fixable. For me I only had to add 2 - 3 classes with some extra fill colors, and I can live with that.</p>
 </div>
     </div>
 

@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2019/08/27/react-rotating-image/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2019-08-27T09:00:00-04:00" />
+<meta property="article:published_time" content="2019-08-27T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Rotate React image based on EXIF" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2019-08-27T09:00:00-04:00","datePublished":"2019-08-27T09:00:00-04:00","description":"Web browsers do not automatically rotate images based on their EXIF data, hack around it!","headline":"Rotate React image based on EXIF","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2019/08/27/react-rotating-image/"},"url":"https://ospfranco.com/post/2019/08/27/react-rotating-image/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2019-08-27T15:00:00+02:00","datePublished":"2019-08-27T15:00:00+02:00","description":"Web browsers do not automatically rotate images based on their EXIF data, hack around it!","headline":"Rotate React image based on EXIF","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2019/08/27/react-rotating-image/"},"url":"https://ospfranco.com/post/2019/08/27/react-rotating-image/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -75,19 +75,19 @@
 
 <h3 id="how-about-a-library-well-not-really">How about a library? well… not really</h3>
 
-<p>Living in the wild west that is the JavaScript world I’m sure somebody else must have done it before, so I looked for libraries, there are two options <code>react-exif-orientation-img</code> which is a drop in component that replaces the img tag and <code>blueimp-load-image</code>, which you use to load the url (or blob or file) and returns a DOM node.</p>
+<p>Living in the wild west that is the JavaScript world I’m sure somebody else must have done it before, so I looked for libraries, there are two options <code class="language-plaintext highlighter-rouge">react-exif-orientation-img</code> which is a drop in component that replaces the img tag and <code class="language-plaintext highlighter-rouge">blueimp-load-image</code>, which you use to load the url (or blob or file) and returns a DOM node.</p>
 
-<p><code>react-exif-orientation-img</code> works very well and is very easy to use, however the problem came when we tried to fill a parent container with the image, since all it does is a rotate transform, it never swapped the dimensions, so applying 100% width and 100% height caused the image to overflow the parent container.</p>
+<p><code class="language-plaintext highlighter-rouge">react-exif-orientation-img</code> works very well and is very easy to use, however the problem came when we tried to fill a parent container with the image, since all it does is a rotate transform, it never swapped the dimensions, so applying 100% width and 100% height caused the image to overflow the parent container.</p>
 
 <p>The following snippet:</p>
 
-<pre><code class="language-javascript">public render() {
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kr">public</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
   
-  &lt;ExifOrientationImg markdown="span" src={img} style={{ height: '100%', width: '100%', objectFit: 'cover' }} /&gt;
-  
-}
+  <span class="o">&lt;</span><span class="nx">ExifOrientationImg</span> <span class="nx">markdown</span><span class="o">=</span><span class="dl">"</span><span class="s2">span</span><span class="dl">"</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="nx">img</span><span class="p">}</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span> <span class="na">height</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">objectFit</span><span class="p">:</span> <span class="dl">'</span><span class="s1">cover</span><span class="dl">'</span> <span class="p">}}</span> <span class="sr">/</span><span class="err">&gt;
+</span>  
+<span class="p">}</span>
 
-</code></pre>
+</code></pre></div></div>
 
 <p>Produces:</p>
 
@@ -95,7 +95,7 @@
 
 <p>Maybe this is good enough for your use case, somebody replied to me at some point it has to do with transformations being applied after css or something like that, in any case, doesn’t work.</p>
 
-<p>I gave <code>blueimp-load-image</code> a go, again getting the image was simple, however the problem came this time with react, since the library is a pure js solution, it doesn’t know anything about react and the virtual DOM, so when I tried to insert it in our component, we got a nice runtime exception.</p>
+<p>I gave <code class="language-plaintext highlighter-rouge">blueimp-load-image</code> a go, again getting the image was simple, however the problem came this time with react, since the library is a pure js solution, it doesn’t know anything about react and the virtual DOM, so when I tried to insert it in our component, we got a nice runtime exception.</p>
 
 <h3 id="sorta-works">Sorta works?</h3>
 
@@ -107,25 +107,25 @@
 
 <p>Final code (without base64 conversion)</p>
 
-<pre><code class="language-javascript">import * as loadImage from 'blueimp-load-image';
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">loadImage</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">blueimp-load-image</span><span class="dl">'</span><span class="p">;</span>
 
-private onPressImage = (myImage) =&gt; {
-  loadImage(myImage, (img) =&gt; {
-    this.setState({
-      imageModalVisible: true,
-      selectedImage: attachment,
-    });
-    img.className = 'fit_to_parent';
-    Reactdom.findDOMNode(this.imageCanvas).appendChild(img);
-  }, {orientation: true});
-}
+<span class="kr">private</span> <span class="nx">onPressImage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">myImage</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nf">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">img</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+    <span class="k">this</span><span class="p">.</span><span class="nf">setState</span><span class="p">({</span>
+      <span class="na">imageModalVisible</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+      <span class="na">selectedImage</span><span class="p">:</span> <span class="nx">attachment</span><span class="p">,</span>
+    <span class="p">});</span>
+    <span class="nx">img</span><span class="p">.</span><span class="nx">className</span> <span class="o">=</span> <span class="dl">'</span><span class="s1">fit_to_parent</span><span class="dl">'</span><span class="p">;</span>
+    <span class="nx">Reactdom</span><span class="p">.</span><span class="nf">findDOMNode</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span><span class="p">).</span><span class="nf">appendChild</span><span class="p">(</span><span class="nx">img</span><span class="p">);</span>
+  <span class="p">},</span> <span class="p">{</span><span class="na">orientation</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
 
-public render() {
+<span class="kr">public</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
   
-  &lt;div markdown="0" style={{width: '100%', height: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center'}} ref={(ref) =&gt; this.imageCanvas = ref} /&gt;
-  
-}
-</code></pre>
+  <span class="o">&lt;</span><span class="nx">div</span> <span class="nx">markdown</span><span class="o">=</span><span class="dl">"</span><span class="s2">0</span><span class="dl">"</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="na">width</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">height</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">display</span><span class="p">:</span> <span class="dl">'</span><span class="s1">flex</span><span class="dl">'</span><span class="p">,</span> <span class="na">alignItems</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">,</span> <span class="na">justifyContent</span><span class="p">:</span> <span class="dl">'</span><span class="s1">center</span><span class="dl">'</span><span class="p">}}</span> <span class="nx">ref</span><span class="o">=</span><span class="p">{(</span><span class="nx">ref</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="k">this</span><span class="p">.</span><span class="nx">imageCanvas</span> <span class="o">=</span> <span class="nx">ref</span><span class="p">}</span> <span class="sr">/</span><span class="err">&gt;
+</span>  
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h3 id="a-little-improvement">A little improvement</h3>
 
@@ -135,21 +135,21 @@ public render() {
 
 <p>Final code with base64 conversion</p>
 
-<pre><code class="language-javascript">import * as loadImage from 'blueimp-load-image';
-...
-private onPressImage = (myImage) =&gt; {
-  loadImage(myImage, (canvas) =&gt; {
-  this.setState({
-    selectedImageBase64: canvas.toDataURL()
-  });
-  }, {orientation: true});
-}
-public render() {
+<div class="language-javascript highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="o">*</span> <span class="nx">as</span> <span class="nx">loadImage</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">blueimp-load-image</span><span class="dl">'</span><span class="p">;</span>
+<span class="p">...</span>
+<span class="kr">private</span> <span class="nx">onPressImage</span> <span class="o">=</span> <span class="p">(</span><span class="nx">myImage</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="nf">loadImage</span><span class="p">(</span><span class="nx">myImage</span><span class="p">,</span> <span class="p">(</span><span class="nx">canvas</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nf">setState</span><span class="p">({</span>
+    <span class="na">selectedImageBase64</span><span class="p">:</span> <span class="nx">canvas</span><span class="p">.</span><span class="nf">toDataURL</span><span class="p">()</span>
+  <span class="p">});</span>
+  <span class="p">},</span> <span class="p">{</span><span class="na">orientation</span><span class="p">:</span> <span class="kc">true</span><span class="p">});</span>
+<span class="p">}</span>
+<span class="kr">public</span> <span class="nf">render</span><span class="p">()</span> <span class="p">{</span>
   
-  &lt;img style={{maxWidth: '100%', maxHeight: '100%'}} src={this.state.selectedImageBase64}/&gt;
-  
-}
-</code></pre>
+  <span class="o">&lt;</span><span class="nx">img</span> <span class="nx">style</span><span class="o">=</span><span class="p">{{</span><span class="na">maxWidth</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">,</span> <span class="na">maxHeight</span><span class="p">:</span> <span class="dl">'</span><span class="s1">100%</span><span class="dl">'</span><span class="p">}}</span> <span class="nx">src</span><span class="o">=</span><span class="p">{</span><span class="k">this</span><span class="p">.</span><span class="nx">state</span><span class="p">.</span><span class="nx">selectedImageBase64</span><span class="p">}</span><span class="sr">/</span><span class="err">&gt;
+</span>  
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h2 id="conclusion">Conclusion</h2>
 

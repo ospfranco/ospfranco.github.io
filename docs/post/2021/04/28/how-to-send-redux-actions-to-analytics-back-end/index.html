@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2021-04-28T09:00:00-04:00" />
+<meta property="article:published_time" content="2021-04-28T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Redux as analytics middleware" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-04-28T09:00:00-04:00","datePublished":"2021-04-28T09:00:00-04:00","description":"Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.","headline":"Redux as analytics middleware","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/"},"url":"https://ospfranco.com/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2021-04-28T15:00:00+02:00","datePublished":"2021-04-28T15:00:00+02:00","description":"Analytics are commonplace (even a requirement) and, despite time passing by, Redux is still widely used. So here is a small concept that might super charge your analytics game. Instead of sending custom analytic events to create your user funnels, directly hook up your redux actions to your analytics service.","headline":"Redux as analytics middleware","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/"},"url":"https://ospfranco.com/post/2021/04/28/how-to-send-redux-actions-to-analytics-back-end/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -67,45 +67,45 @@
 
 <p>Achieving this is super easy, all you need is to create a custom Redux middleware. In this case I’m using Sentry to put breadcrumbs to better trace errors, but you can apply this to any back-end whatsoever.</p>
 
-<pre><code class="language-ts">// Sentry.middleware.ts
-import * as Sentry from '@sentry/react-native'
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Sentry.middleware.ts</span>
+<span class="k">import</span> <span class="o">*</span> <span class="kd">as </span><span class="nx">Sentry</span> <span class="k">from</span> <span class="dl">'</span><span class="s1">@sentry/react-native</span><span class="dl">'</span>
 
-const ACTION_BLACK_LIST = ['timer/TICK']
+<span class="kd">const</span> <span class="nx">ACTION_BLACK_LIST</span> <span class="o">=</span> <span class="p">[</span><span class="dl">'</span><span class="s1">timer/TICK</span><span class="dl">'</span><span class="p">]</span>
 
-const handleAction = (next: any, action: any) =&gt; {
-  if (!ACTION_BLACK_LIST.includes(action.type)) {
-    // Careful here not to send entire actions, it chokes the react-native bridge and might not even reach sentry due to the amount of data
-    Sentry.addBreadcrumb({
-      category: 'redux_action',
-      message: action.type,
-      level: Sentry.Severity.info
-    })
-  }
+<span class="kd">const</span> <span class="nx">handleAction</span> <span class="o">=</span> <span class="p">(</span><span class="nx">next</span><span class="p">:</span> <span class="kr">any</span><span class="p">,</span> <span class="nx">action</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">{</span>
+  <span class="k">if </span><span class="p">(</span><span class="o">!</span><span class="nx">ACTION_BLACK_LIST</span><span class="p">.</span><span class="nf">includes</span><span class="p">(</span><span class="nx">action</span><span class="p">.</span><span class="kd">type</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// Careful here not to send entire actions, it chokes the react-native bridge and might not even reach sentry due to the amount of data</span>
+    <span class="nx">Sentry</span><span class="p">.</span><span class="nf">addBreadcrumb</span><span class="p">({</span>
+      <span class="na">category</span><span class="p">:</span> <span class="dl">'</span><span class="s1">redux_action</span><span class="dl">'</span><span class="p">,</span>
+      <span class="na">message</span><span class="p">:</span> <span class="nx">action</span><span class="p">.</span><span class="kd">type</span><span class="p">,</span>
+      <span class="na">level</span><span class="p">:</span> <span class="nx">Sentry</span><span class="p">.</span><span class="nx">Severity</span><span class="p">.</span><span class="nx">info</span>
+    <span class="p">})</span>
+  <span class="p">}</span>
 
-  return next(action)
-}
+  <span class="k">return</span> <span class="nf">next</span><span class="p">(</span><span class="nx">action</span><span class="p">)</span>
+<span class="p">}</span>
 
-export function createSentryMiddleware () {
-  return (store:any) =&gt; (next: any) =&gt; (action: any) =&gt; handleAction(next, action)
-}
-</code></pre>
+<span class="k">export</span> <span class="kd">function</span> <span class="nf">createSentryMiddleware</span> <span class="p">()</span> <span class="p">{</span>
+  <span class="k">return </span><span class="p">(</span><span class="nx">store</span><span class="p">:</span><span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">next</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="p">(</span><span class="nx">action</span><span class="p">:</span> <span class="kr">any</span><span class="p">)</span> <span class="o">=&gt;</span> <span class="nf">handleAction</span><span class="p">(</span><span class="nx">next</span><span class="p">,</span> <span class="nx">action</span><span class="p">)</span>
+<span class="p">}</span>
+</code></pre></div></div>
 <blockquote>
   <p>In the code you can see I’m only sending the action type, that is because at work our actions are super huge and they kill the react-native bridge, but here you can customize the sending function to your needs and only send the necessary data</p>
 </blockquote>
 
-<pre><code class="language-ts">// On your store creation code
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// On your store creation code</span>
 
-const middlewares = []
+<span class="kd">const</span> <span class="nx">middlewares</span> <span class="o">=</span> <span class="p">[]</span>
 
-...
+<span class="p">...</span>
 
-const sentryMiddleware = createSentryMiddleware()
-middlewares.push(sentryMiddleware)
+<span class="kd">const</span> <span class="nx">sentryMiddleware</span> <span class="o">=</span> <span class="nf">createSentryMiddleware</span><span class="p">()</span>
+<span class="nx">middlewares</span><span class="p">.</span><span class="nf">push</span><span class="p">(</span><span class="nx">sentryMiddleware</span><span class="p">)</span>
 
-...
+<span class="p">...</span>
 
-const store: Store = createStore(rootReducer, compose(applyMiddleware(...middlewares)))
-</code></pre>
+<span class="kd">const</span> <span class="nx">store</span><span class="p">:</span> <span class="nx">Store</span> <span class="o">=</span> <span class="nf">createStore</span><span class="p">(</span><span class="nx">rootReducer</span><span class="p">,</span> <span class="nf">compose</span><span class="p">(</span><span class="nf">applyMiddleware</span><span class="p">(...</span><span class="nx">middlewares</span><span class="p">)))</span>
+</code></pre></div></div>
 
 <p>The code is super simple, but the concept is truly powerful, it could save you a lot of time by not manually having to add data points and also retroactively collect data from the moment you develop a new feature.</p>
 

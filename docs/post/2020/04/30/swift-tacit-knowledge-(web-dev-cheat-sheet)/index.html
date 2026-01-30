@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2020-04-30T09:00:00-04:00" />
+<meta property="article:published_time" content="2020-04-30T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="Swift tips for JavaScript developers" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2020-04-30T09:00:00-04:00","datePublished":"2020-04-30T09:00:00-04:00","description":"Web dev to native dev cheat sheet","headline":"Swift tips for JavaScript developers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"},"url":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2020-04-30T15:00:00+02:00","datePublished":"2020-04-30T15:00:00+02:00","description":"Web dev to native dev cheat sheet","headline":"Swift tips for JavaScript developers","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"},"url":"https://ospfranco.com/post/2020/04/30/swift-tacit-knowledge-(web-dev-cheat-sheet)/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -65,53 +65,53 @@
 
 <p>So this is more a problem in older languages (i.e. Java) where doing stuff like a “simple” http request takes a myriad of objects and configurations and so on, from a web development perspective it feels archaic, in Swift there are some network libraries that can help with it (i.e. AlamoFire) but I did not want to learn more than absolutely necessary, on Swift one creates several objects, first a URL object, which parses the String you pass on it (and can fail), then if you need to send anything but a simple GET request, you need to create a Request Object, finally you wrap everything into a data task… I’m not sure why or if it is the only way to do things, but that is how I got it working, now unfortunately the data task only works with callbacks, and a lesson Javascript learned years ago is the pain of callback hell, how to fix this then? I went for a middle of the road approach and used PromiseKit (it is from the same guy that created Brew), having promises massively simplifies this task, though be aware they are not quite the same as JS Promises, because the type system is a lot more strict on Swift, there are many caveats with them, here is a code snippet of how the code looks:</p>
 
-<pre><code class="language-swift">func fetchRepos(token: Token) -&gt; Promise&lt;[Repo]&gt; {
-    return Promise { seal in
-        guard let url = URL(string: "https://api.appcenter.ms/v0.1/apps") else {
-            print("Could not parse fetchRepos appcenter url")
-            seal.reject(ApiAdapterError.urlError)
-            return
-        }
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">func</span> <span class="nf">fetchRepos</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="kt">Token</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Repo</span><span class="p">]</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kt">Promise</span> <span class="p">{</span> <span class="n">seal</span> <span class="k">in</span>
+        <span class="k">guard</span> <span class="k">let</span> <span class="nv">url</span> <span class="o">=</span> <span class="kt">URL</span><span class="p">(</span><span class="nv">string</span><span class="p">:</span> <span class="s">"https://api.appcenter.ms/v0.1/apps"</span><span class="p">)</span> <span class="k">else</span> <span class="p">{</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s">"Could not parse fetchRepos appcenter url"</span><span class="p">)</span>
+            <span class="n">seal</span><span class="o">.</span><span class="nf">reject</span><span class="p">(</span><span class="kt">ApiAdapterError</span><span class="o">.</span><span class="n">urlError</span><span class="p">)</span>
+            <span class="k">return</span>
+        <span class="p">}</span>
 
-        var request = URLRequest(url: url)
-        request.addValue(token.token, forHTTPHeaderField: "X-API-Token")
-        request.addValue("application/json", forHTTPHeaderField: "accept")
+        <span class="k">var</span> <span class="nv">request</span> <span class="o">=</span> <span class="kt">URLRequest</span><span class="p">(</span><span class="nv">url</span><span class="p">:</span> <span class="n">url</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="nf">addValue</span><span class="p">(</span><span class="n">token</span><span class="o">.</span><span class="n">token</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"X-API-Token"</span><span class="p">)</span>
+        <span class="n">request</span><span class="o">.</span><span class="nf">addValue</span><span class="p">(</span><span class="s">"application/json"</span><span class="p">,</span> <span class="nv">forHTTPHeaderField</span><span class="p">:</span> <span class="s">"accept"</span><span class="p">)</span>
 
-        URLSession.shared.dataTask(with: request) { (data, _, error) in
-            if error == nil {
-                do {
-                    let repos = try self.decoder.decode([ACAppDto].self, from: data!)
+        <span class="kt">URLSession</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">dataTask</span><span class="p">(</span><span class="nv">with</span><span class="p">:</span> <span class="n">request</span><span class="p">)</span> <span class="p">{</span> <span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">error</span><span class="p">)</span> <span class="k">in</span>
+            <span class="k">if</span> <span class="n">error</span> <span class="o">==</span> <span class="kc">nil</span> <span class="p">{</span>
+                <span class="k">do</span> <span class="p">{</span>
+                    <span class="k">let</span> <span class="nv">repos</span> <span class="o">=</span> <span class="k">try</span> <span class="k">self</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="nf">decode</span><span class="p">([</span><span class="kt">ACAppDto</span><span class="p">]</span><span class="o">.</span><span class="k">self</span><span class="p">,</span> <span class="nv">from</span><span class="p">:</span> <span class="n">data</span><span class="o">!</span><span class="p">)</span>
 
-                    let repos = repos.map { DtoMapper.mapACAppToRepo($0, token: token) }
+                    <span class="k">let</span> <span class="nv">repos</span> <span class="o">=</span> <span class="n">repos</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="kt">DtoMapper</span><span class="o">.</span><span class="nf">mapACAppToRepo</span><span class="p">(</span><span class="nv">$0</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="n">token</span><span class="p">)</span> <span class="p">}</span>
 
-                    firstly {
-                        when(resolved: repos.map { self.fetchBranches(token: token, repo: $0) })
-                    }.done { branchMatrix in
-                        var newRepos = [Repo]()
-                        for (repo, result) in zip(repos, branchMatrix) {
-                            var repo = repo
-                            switch result {
-                            case .fulfilled(let branches):
-                                repo.branches = branches
-                                newRepos.append(repo)
-                            case .rejected:
-                                print("Repo branches could not be inserted")
-                            }
-                        }
+                    <span class="n">firstly</span> <span class="p">{</span>
+                        <span class="nf">when</span><span class="p">(</span><span class="nv">resolved</span><span class="p">:</span> <span class="n">repos</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="k">self</span><span class="o">.</span><span class="nf">fetchBranches</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="n">token</span><span class="p">,</span> <span class="nv">repo</span><span class="p">:</span> <span class="nv">$0</span><span class="p">)</span> <span class="p">})</span>
+                    <span class="p">}</span><span class="o">.</span><span class="n">done</span> <span class="p">{</span> <span class="n">branchMatrix</span> <span class="k">in</span>
+                        <span class="k">var</span> <span class="nv">newRepos</span> <span class="o">=</span> <span class="p">[</span><span class="kt">Repo</span><span class="p">]()</span>
+                        <span class="k">for</span> <span class="p">(</span><span class="n">repo</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span> <span class="k">in</span> <span class="nf">zip</span><span class="p">(</span><span class="n">repos</span><span class="p">,</span> <span class="n">branchMatrix</span><span class="p">)</span> <span class="p">{</span>
+                            <span class="k">var</span> <span class="nv">repo</span> <span class="o">=</span> <span class="n">repo</span>
+                            <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+                            <span class="k">case</span> <span class="o">.</span><span class="nf">fulfilled</span><span class="p">(</span><span class="k">let</span> <span class="nv">branches</span><span class="p">):</span>
+                                <span class="n">repo</span><span class="o">.</span><span class="n">branches</span> <span class="o">=</span> <span class="n">branches</span>
+                                <span class="n">newRepos</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="n">repo</span><span class="p">)</span>
+                            <span class="k">case</span> <span class="o">.</span><span class="nv">rejected</span><span class="p">:</span>
+                                <span class="nf">print</span><span class="p">(</span><span class="s">"Repo branches could not be inserted"</span><span class="p">)</span>
+                            <span class="p">}</span>
+                        <span class="p">}</span>
 
-                        seal.fulfill(newRepos)
-                    }
-                } catch {
-                    print("Error parsing AppCenter Repos")
-                    seal.reject(error)
-                }
-            } else {
-                seal.reject(error!)
-            }
-        }.resume()
-    }
-}
-</code></pre>
+                        <span class="n">seal</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">(</span><span class="n">newRepos</span><span class="p">)</span>
+                    <span class="p">}</span>
+                <span class="p">}</span> <span class="k">catch</span> <span class="p">{</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s">"Error parsing AppCenter Repos"</span><span class="p">)</span>
+                    <span class="n">seal</span><span class="o">.</span><span class="nf">reject</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+                <span class="p">}</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="n">seal</span><span class="o">.</span><span class="nf">reject</span><span class="p">(</span><span class="n">error</span><span class="o">!</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span><span class="o">.</span><span class="nf">resume</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>Not too pretty to look at, but it does achieve a few things, it has chained requests and correctly encompases the ugly dataTask code so higher levels of the application don’t have to deal with it.</p>
 
@@ -119,65 +119,65 @@
 
 <p>Some edge cases I found along the way, after firing a request that gets offloaded to a different thread, you cannot just update certain variables, you need to dispatch the queues from the Main thread:</p>
 
-<pre><code class="language-swift">return firstly {
-    when(resolved: tokens.map { token -&gt; Promise&lt;[Repo]&gt; in
-        api.fetchRepos(token: token)
-}
-.done { repos in
-    DispatchQueue.main.async {
-        self.isFetchingData = false
-        self.failedFetchingData = false
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="n">firstly</span> <span class="p">{</span>
+    <span class="nf">when</span><span class="p">(</span><span class="nv">resolved</span><span class="p">:</span> <span class="n">tokens</span><span class="o">.</span><span class="n">map</span> <span class="p">{</span> <span class="n">token</span> <span class="o">-&gt;</span> <span class="kt">Promise</span><span class="o">&lt;</span><span class="p">[</span><span class="kt">Repo</span><span class="p">]</span><span class="o">&gt;</span> <span class="k">in</span>
+        <span class="n">api</span><span class="o">.</span><span class="nf">fetchRepos</span><span class="p">(</span><span class="nv">token</span><span class="p">:</span> <span class="n">token</span><span class="p">)</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="n">done</span> <span class="p">{</span> <span class="n">repos</span> <span class="k">in</span>
+    <span class="kt">DispatchQueue</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="k">async</span> <span class="p">{</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">isFetchingData</span> <span class="o">=</span> <span class="kc">false</span>
+        <span class="k">self</span><span class="o">.</span><span class="n">failedFetchingData</span> <span class="o">=</span> <span class="kc">false</span>
 
-        repos.forEach { result in
-            switch result {
-            case .fulfilled(let repos):
-                self.repos.append(contentsOf: repos)
-            case .rejected:
-                self.failedFetchingData = true
-                print("One of the token's repos could not be fetched")
-            }
-        }
-    }
-}.catch { e in
-    self.failedFetchingData = true
-    self.isFetchingData = false
-}
-</code></pre>
+        <span class="n">repos</span><span class="o">.</span><span class="n">forEach</span> <span class="p">{</span> <span class="n">result</span> <span class="k">in</span>
+            <span class="k">switch</span> <span class="n">result</span> <span class="p">{</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nf">fulfilled</span><span class="p">(</span><span class="k">let</span> <span class="nv">repos</span><span class="p">):</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">repos</span><span class="o">.</span><span class="nf">append</span><span class="p">(</span><span class="nv">contentsOf</span><span class="p">:</span> <span class="n">repos</span><span class="p">)</span>
+            <span class="k">case</span> <span class="o">.</span><span class="nv">rejected</span><span class="p">:</span>
+                <span class="k">self</span><span class="o">.</span><span class="n">failedFetchingData</span> <span class="o">=</span> <span class="kc">true</span>
+                <span class="nf">print</span><span class="p">(</span><span class="s">"One of the token's repos could not be fetched"</span><span class="p">)</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span><span class="o">.</span><span class="k">catch</span> <span class="p">{</span> <span class="n">e</span> <span class="k">in</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">failedFetchingData</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">isFetchingData</span> <span class="o">=</span> <span class="kc">false</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>Everything is done with enums! and get used to using switches (and pattern matching) a lot:</p>
 
-<pre><code class="language-swift">enum TokenError: Error {
-    case missingName
-    case missingToken
-    case repeatedName
-    case invalidToken
-}
-</code></pre>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">TokenError</span><span class="p">:</span> <span class="kt">Error</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">missingName</span>
+    <span class="k">case</span> <span class="n">missingToken</span>
+    <span class="k">case</span> <span class="n">repeatedName</span>
+    <span class="k">case</span> <span class="n">invalidToken</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-<pre><code class="language-swift">enum Sort: String {
-    case name = "NAME"
-    case status = "STATUS"
-}
-</code></pre>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">enum</span> <span class="kt">Sort</span><span class="p">:</span> <span class="kt">String</span> <span class="p">{</span>
+    <span class="k">case</span> <span class="n">name</span> <span class="o">=</span> <span class="s">"NAME"</span>
+    <span class="k">case</span> <span class="n">status</span> <span class="o">=</span> <span class="s">"STATUS"</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>and 20 more enums all over the app</p>
 
 <h2 id="swift-ui-is-good-but-also-very-quirky">Swift UI is good, but also very quirky</h2>
 
-<p>Here there are many good things, but one can also tell, the time of swiftUI applications is not quite here, for example, there is no way to handle <code>Enter</code> key presses when you are focused on a textfield, or when there is an error deep in some swiftUI code, the compiler kinda throws it hands in the air simply says that it cannot infer the correct types, this has lead me to wasting minutes reading the component code line by line trying to see where the error is because some variable changed.</p>
+<p>Here there are many good things, but one can also tell, the time of swiftUI applications is not quite here, for example, there is no way to handle <code class="language-plaintext highlighter-rouge">Enter</code> key presses when you are focused on a textfield, or when there is an error deep in some swiftUI code, the compiler kinda throws it hands in the air simply says that it cannot infer the correct types, this has lead me to wasting minutes reading the component code line by line trying to see where the error is because some variable changed.</p>
 
 <p>Also the list component is utterly broken, if you have some animation in there, it completely jumps all over the place, one cannot add a background to it, because it has layers and layers of rendering components behind it, at the end in order to get a working list implementation I had to use a scrollView with a forEach inside of it, I don’t really know how good is performance with this though:</p>
 
-<pre><code class="language-swift">ScrollView {
-    ForEach(branchList) { branch in
-        BranchRow(branch: branch)
-            .animation(.easeInOut)
-    }
-}
-.padding(8)
-.background(Color.clear)
-.frame(maxHeight: .infinity)
-</code></pre>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">ScrollView</span> <span class="p">{</span>
+    <span class="kt">ForEach</span><span class="p">(</span><span class="n">branchList</span><span class="p">)</span> <span class="p">{</span> <span class="n">branch</span> <span class="k">in</span>
+        <span class="kt">BranchRow</span><span class="p">(</span><span class="nv">branch</span><span class="p">:</span> <span class="n">branch</span><span class="p">)</span>
+            <span class="o">.</span><span class="nf">animation</span><span class="p">(</span><span class="o">.</span><span class="n">easeInOut</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="o">.</span><span class="nf">padding</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+<span class="o">.</span><span class="nf">background</span><span class="p">(</span><span class="kt">Color</span><span class="o">.</span><span class="n">clear</span><span class="p">)</span>
+<span class="o">.</span><span class="nf">frame</span><span class="p">(</span><span class="nv">maxHeight</span><span class="p">:</span> <span class="o">.</span><span class="n">infinity</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>This also has many quirks, indexes? you can forget about them, you can create an iterator but you are only making your life harder.</p>
 
@@ -185,35 +185,35 @@
 
 <p>You can tell not a lot of love has been placed in the macOS version of swiftUI, while on iOS you can use the system icons for free, they straight up don’t work on macOS, either you create your own icon sets by hand OR you scour the internet for ours, until you find <a href="https://hetima.github.io/fucking_nsimage_syntax/">Fucking nsimage syntax</a>, a generated list of system icons you can use in your application, I later found a more official looking <a href="https://developer.apple.com/design/human-interface-guidelines/macos/icons-and-images/system-icons/">documentation page</a>, still… waste of time:</p>
 
-<pre><code class="language-swift">Image(nsImage: NSImage(named: NSImage.pathTemplateName)!)
-</code></pre>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">Image</span><span class="p">(</span><span class="nv">nsImage</span><span class="p">:</span> <span class="kt">NSImage</span><span class="p">(</span><span class="nv">named</span><span class="p">:</span> <span class="kt">NSImage</span><span class="o">.</span><span class="n">pathTemplateName</span><span class="p">)</span><span class="o">!</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h2 id="i-was-wrong-about-cocoapods">I was wrong about cocoapods</h2>
 
-<p>For the last few years I thought cocoapods was a plague unleashed specifically designed to torture me, I did not want to learn the xcode toolchain, but now that I’ve used I can definitely see the value in it, here is one quirky thing that never got mentioned though, my bundle size kinda exploted after adding a couple of libraries, mind you this is still a 2mb app compared to the monsters apps are nowadays, but still, I did not like this explotion, mostly because my app is really simple, however removing the <code>use_frameworks!</code> from the podfile, linked the libraries statically and reduced my app size by over a 1mb (~50% or so).</p>
+<p>For the last few years I thought cocoapods was a plague unleashed specifically designed to torture me, I did not want to learn the xcode toolchain, but now that I’ve used I can definitely see the value in it, here is one quirky thing that never got mentioned though, my bundle size kinda exploted after adding a couple of libraries, mind you this is still a 2mb app compared to the monsters apps are nowadays, but still, I did not like this explotion, mostly because my app is really simple, however removing the <code class="language-plaintext highlighter-rouge">use_frameworks!</code> from the podfile, linked the libraries statically and reduced my app size by over a 1mb (~50% or so).</p>
 
 <h2 id="for-unit-tests-expectations">For unit tests, expectations</h2>
 
 <p>One aspect were thing really fall short is unit testing, jest is just such a pleasurable experience that I don’t believe it is easily matched, on swift/xcode on the other hand… things get complicated, there is no straightforward way for you tests to return a promise and halt execution until all async code has finished so you have to resort to expectations:</p>
 
-<pre><code class="language-swift">let tokenRes = badStore.addToken(name: "test", token: "test", provider: CIProvider.circleci)
-  switch tokenRes {
-  case .failure:
-    XCTFail("token could not be added")
-  case .success(let t):
-    XCTAssertEqual(t.name, "test")
-  }
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="nv">tokenRes</span> <span class="o">=</span> <span class="n">badStore</span><span class="o">.</span><span class="nf">addToken</span><span class="p">(</span><span class="nv">name</span><span class="p">:</span> <span class="s">"test"</span><span class="p">,</span> <span class="nv">token</span><span class="p">:</span> <span class="s">"test"</span><span class="p">,</span> <span class="nv">provider</span><span class="p">:</span> <span class="kt">CIProvider</span><span class="o">.</span><span class="n">circleci</span><span class="p">)</span>
+  <span class="k">switch</span> <span class="n">tokenRes</span> <span class="p">{</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nv">failure</span><span class="p">:</span>
+    <span class="kt">XCTFail</span><span class="p">(</span><span class="s">"token could not be added"</span><span class="p">)</span>
+  <span class="k">case</span> <span class="o">.</span><span class="nf">success</span><span class="p">(</span><span class="k">let</span> <span class="nv">t</span><span class="p">):</span>
+    <span class="kt">XCTAssertEqual</span><span class="p">(</span><span class="n">t</span><span class="o">.</span><span class="n">name</span><span class="p">,</span> <span class="s">"test"</span><span class="p">)</span>
+  <span class="p">}</span>
 
-  // bad repo is expected to fail
-  let exp = expectation(description: "ApiAdapter was called")
-  badStore.fetchData()
-      .finally {
-          XCTAssert(self.badStore.failedFetchingData)
-          exp.fulfill()
-  }
+  <span class="c1">// bad repo is expected to fail</span>
+  <span class="k">let</span> <span class="nv">exp</span> <span class="o">=</span> <span class="nf">expectation</span><span class="p">(</span><span class="nv">description</span><span class="p">:</span> <span class="s">"ApiAdapter was called"</span><span class="p">)</span>
+  <span class="n">badStore</span><span class="o">.</span><span class="nf">fetchData</span><span class="p">()</span>
+      <span class="o">.</span><span class="n">finally</span> <span class="p">{</span>
+          <span class="kt">XCTAssert</span><span class="p">(</span><span class="k">self</span><span class="o">.</span><span class="n">badStore</span><span class="o">.</span><span class="n">failedFetchingData</span><span class="p">)</span>
+          <span class="n">exp</span><span class="o">.</span><span class="nf">fulfill</span><span class="p">()</span>
+  <span class="p">}</span>
 
-  waitForExpectations(timeout: 10)
-</code></pre>
+  <span class="nf">waitForExpectations</span><span class="p">(</span><span class="nv">timeout</span><span class="p">:</span> <span class="mi">10</span><span class="p">)</span>
+</code></pre></div></div>
 
 <p>There are many more quirks that wasted my time one way or another, but as stated before I really enjoyed developing this native app, I would still like to optmize it like crazy, but a 1.4 mb app that does it job is not bad at all, tempomat is also super helpful for developers with a lot of build jobs that always need to be on top of things.</p>
 </div>

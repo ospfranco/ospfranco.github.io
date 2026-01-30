@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-06-25T00:00:00-04:00" />
+<meta property="article:published_time" content="2024-06-25T00:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="Client guide to React Native modules" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-25T00:00:00-04:00","datePublished":"2024-06-25T00:00:00-04:00","description":"You are my client. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module and new arch stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.","headline":"Client guide to React Native modules","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/client-guide-to-react-native-modules/"},"url":"https://ospfranco.com/client-guide-to-react-native-modules/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-25T00:00:00+02:00","datePublished":"2024-06-25T00:00:00+02:00","description":"You are my client. You ask “Oscar, we want to port our SDK/Library/module to React Native, but all this JSI, Turbo Module and new arch stuff is confusing, can you help us?” the answer dear client is obviously yes. However, I’m a bit tired of explaining the same concepts again and again, so I will point you to this article.","headline":"Client guide to React Native modules","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/client-guide-to-react-native-modules/"},"url":"https://ospfranco.com/client-guide-to-react-native-modules/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -69,27 +69,27 @@
 
 <h1 id="new-arch-or-now-the-arch">New arch (or now, the arch)</h1>
 
-<p>React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON communication. So a bunch of concepts/modules/ideas were introduced. The conjunction of the JSI, Fabric and Turbo Modules form what is called <code>new arch</code></p>
+<p>React Native used to have a bad reputation for having bad performance. In order to solve this, one of the key problems was the JSON communication. So a bunch of concepts/modules/ideas were introduced. The conjunction of the JSI, Fabric and Turbo Modules form what is called <code class="language-plaintext highlighter-rouge">new arch</code></p>
 
 <h2 id="jsi">JSI</h2>
 
-<p>The first thing to solve is the slow passing data between JS and native. To fix this, the JavaScript Interface = <code>JSI</code> was introduced. It’s basically a bunch of C++ functions that allow to interact with JavaScript from C++ without paying for serialization costs of JSON. You can think of it as Node-API (NodeJS protocol to call native code) but a bit slower/custom, since it’s not a binary communication protocol but rather a bolt-on. JSI is not exclusive to RN but needs to be implemented per engine.</p>
+<p>The first thing to solve is the slow passing data between JS and native. To fix this, the JavaScript Interface = <code class="language-plaintext highlighter-rouge">JSI</code> was introduced. It’s basically a bunch of C++ functions that allow to interact with JavaScript from C++ without paying for serialization costs of JSON. You can think of it as Node-API (NodeJS protocol to call native code) but a bit slower/custom, since it’s not a binary communication protocol but rather a bolt-on. JSI is not exclusive to RN but needs to be implemented per engine.</p>
 
-<p>The problem when interacting with C++ code though is that it there is a non-abstracted gap between the runtime behavior of the JS engine and your code. Your JS code runs on a JS engine (JSC or Hermes in React Native’s case), but actually one should think about this JS “context” as a virtual machine. It’s a VM that can be instantiated multiple times (though your UI will run on just one of them) which is a trick used to achieve “parallelism” in JS. Each VM/engine instace reads your JS and internal state, has it’s own heap and can die out. Most importantly, you cannot just fiddle with it while is interpreting your JS. The functions provided by <code>JSI</code>, allow to do work with this virtual machine/context/runtime by allowing to enqueue callbacks, cast JS values into C++ values, etc.</p>
+<p>The problem when interacting with C++ code though is that it there is a non-abstracted gap between the runtime behavior of the JS engine and your code. Your JS code runs on a JS engine (JSC or Hermes in React Native’s case), but actually one should think about this JS “context” as a virtual machine. It’s a VM that can be instantiated multiple times (though your UI will run on just one of them) which is a trick used to achieve “parallelism” in JS. Each VM/engine instace reads your JS and internal state, has it’s own heap and can die out. Most importantly, you cannot just fiddle with it while is interpreting your JS. The functions provided by <code class="language-plaintext highlighter-rouge">JSI</code>, allow to do work with this virtual machine/context/runtime by allowing to enqueue callbacks, cast JS values into C++ values, etc.</p>
 
-<p><code>JSI</code> is the corner stone of the new arch.</p>
+<p><code class="language-plaintext highlighter-rouge">JSI</code> is the corner stone of the new arch.</p>
 
 <h2 id="fabric">Fabric</h2>
 
-<p>Forget about fabric, it’s about how UI components are rendered using the <code>JSI</code> and it’s mostly internal. It will have very little influence on your module, with the exception on how your UI components are registered.</p>
+<p>Forget about fabric, it’s about how UI components are rendered using the <code class="language-plaintext highlighter-rouge">JSI</code> and it’s mostly internal. It will have very little influence on your module, with the exception on how your UI components are registered.</p>
 
 <h1 id="turbo-modules">Turbo Modules</h1>
 
-<p>Turbo Modules are how we create JSI enabled native modules. Turbo Modules are <strong>built</strong> on top of <code>JSI</code>. You can have <code>new arch</code> modules (that use the JSI) without Turbo Modules, but not the other way around. <code>Turbo Modules</code> take a Typescript or Flow file, and then generate a bunch of C++ code, which React Native then includes in your project. They allow for lazy initialization of modules which makes your app start faster. There are many drawbacks though. The codegen system is finicky at best, it has already had many breaking changes between versions. Documentation is scant and confusing.</p>
+<p>Turbo Modules are how we create JSI enabled native modules. Turbo Modules are <strong>built</strong> on top of <code class="language-plaintext highlighter-rouge">JSI</code>. You can have <code class="language-plaintext highlighter-rouge">new arch</code> modules (that use the JSI) without Turbo Modules, but not the other way around. <code class="language-plaintext highlighter-rouge">Turbo Modules</code> take a Typescript or Flow file, and then generate a bunch of C++ code, which React Native then includes in your project. They allow for lazy initialization of modules which makes your app start faster. There are many drawbacks though. The codegen system is finicky at best, it has already had many breaking changes between versions. Documentation is scant and confusing.</p>
 
 <h1 id="expo-modules">Expo Modules</h1>
 
-<p><code>Turbo Modules</code> and the necessary knowledge to make use of the <code>JSI</code> is not trivial. It requires C++, ObjC, Kotlin/Java, Java’s JNI, build systems and some of the internals of RN. The guys at expo saw from a mile away that for a team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they baked their own module system into the Expo framework.</p>
+<p><code class="language-plaintext highlighter-rouge">Turbo Modules</code> and the necessary knowledge to make use of the <code class="language-plaintext highlighter-rouge">JSI</code> is not trivial. It requires C++, ObjC, Kotlin/Java, Java’s JNI, build systems and some of the internals of RN. The guys at expo saw from a mile away that for a team building an app in React Native, it is pretty much an impossible task to learn how to code all of these by themselves. Therefore they baked their own module system into the Expo framework.</p>
 
 <p>They require much less boilerplate. Expo itself holds the necessary code to initialize and run the modules so the code you write is pretty minimal. They do not contain any codegen step so that’s a bit of a drawback, but given the frequency to which codegeneration fails, it can actually be a good thing. Expo really tried to make the DX of them as easy as posible.</p>
 
@@ -97,7 +97,7 @@
 
 <h1 id="jsi-c-modules">JSI C++ Modules</h1>
 
-<p>It’s notable to mention that there are a lot of cases where you don’t want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like <code>sqlite</code>, <code>libsql</code>, Rust modules, some C library you CAN write a pure C++ module that does not go through the Turbo Module sub system. This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. They are also tricky to setup. [op-sqlite] is an example of a library written in (mostly) pure C++. But even though they are super difficult to setup they will almost never break (with the exception of the initialization which requires a stub Turbo Module) because you are directly interacting with the raw C++ code.</p>
+<p>It’s notable to mention that there are a lot of cases where you don’t want to interact with the native languages (Swift/Kotlin) but you might want to do pure C++ bindings. For some libraries like <code class="language-plaintext highlighter-rouge">sqlite</code>, <code class="language-plaintext highlighter-rouge">libsql</code>, Rust modules, some C library you CAN write a pure C++ module that does not go through the Turbo Module sub system. This will be the fastest option in terms of runtime cost, but documentation is super scant, outdated. They are also tricky to setup. [op-sqlite] is an example of a library written in (mostly) pure C++. But even though they are super difficult to setup they will almost never break (with the exception of the initialization which requires a stub Turbo Module) because you are directly interacting with the raw C++ code.</p>
 
 <h1 id="nitro-modules">Nitro Modules</h1>
 
@@ -123,7 +123,7 @@
 
 <h1 id="qa">QA</h1>
 
-<p><strong>Is it possible to have a <code>new arch</code> (i.e. Turbo Module) that is compatible with <code>old arch</code>?</strong></p>
+<p><strong>Is it possible to have a <code class="language-plaintext highlighter-rouge">new arch</code> (i.e. Turbo Module) that is compatible with <code class="language-plaintext highlighter-rouge">old arch</code>?</strong></p>
 
 <p>The old arch is gone.</p>
 
@@ -135,15 +135,15 @@
 
 <p>Expo Modules are great if they work for you. For further questions go ask the Expo team.</p>
 
-<p><strong>You say <code>JSI</code> is C++, how come <code>Turbo Modules</code> are ObjC/Kotlin/Java?</strong></p>
+<p><strong>You say <code class="language-plaintext highlighter-rouge">JSI</code> is C++, how come <code class="language-plaintext highlighter-rouge">Turbo Modules</code> are ObjC/Kotlin/Java?</strong></p>
 
-<p>The same way Expo Modules are Swift/Kotlin. Jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → <code>JNI</code> (which is SLOW) → C++. Your simple returning functions require a lot of casting stuff all the way to the right C++ abstractions.</p>
+<p>The same way Expo Modules are Swift/Kotlin. Jumping between languages. Swift → ObjC++ → C++. Kotlin/Java → <code class="language-plaintext highlighter-rouge">JNI</code> (which is SLOW) → C++. Your simple returning functions require a lot of casting stuff all the way to the right C++ abstractions.</p>
 
 <p><strong>Can I write my Turbo Module in Swift?</strong></p>
 
 <p>No… kinda… The latest versions of Swift (5.9+) improved compatibility with C++. Nitro Modules took advantage of this compatibility layer but neither Turbo or Expo Modules take advantage of this (yet) as it is not mature enough.</p>
 
-<p><strong>When will I be able to write my <code>Turbo Module</code> in Swift?</strong></p>
+<p><strong>When will I be able to write my <code class="language-plaintext highlighter-rouge">Turbo Module</code> in Swift?</strong></p>
 
 <p>Don’t know, go ask Meta very nicely to do this.</p>
 

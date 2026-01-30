@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2025-10-25T09:50:52+02:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-01-30T14:08:08+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
 
 <p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
 
@@ -7,94 +7,94 @@
 <ul>
   <li>Stateless architectures might be easier to deal with than a lot of shared state with mutexes and send+sync.</li>
   <li>
-    <p>Generally speaking <code>RwLock</code> is what you want instead of <code>Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
+    <p>Generally speaking <code class="language-plaintext highlighter-rouge">RwLock</code> is what you want instead of <code class="language-plaintext highlighter-rouge">Mutex</code>. It allows for multiple readers without fully locking your process. That being said, if you will read and write within the same function it’s very important to free any reader lock!</p>
 
-    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
-// If you don't drop
-drop(my_read_var)
-// This writer will lock
-let mut my_write_var = MY_VAR.write().unwrap();
-</code></pre>
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">my_read_var</span> <span class="o">=</span> <span class="n">MY_VAR</span><span class="nf">.read</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">()</span>
+<span class="c1">// If you don't drop</span>
+<span class="nf">drop</span><span class="p">(</span><span class="n">my_read_var</span><span class="p">)</span>
+<span class="c1">// This writer will lock</span>
+<span class="k">let</span> <span class="k">mut</span> <span class="n">my_write_var</span> <span class="o">=</span> <span class="n">MY_VAR</span><span class="nf">.write</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p>For global variables, LLMs regurgitate code that uses <code>lazy_static</code> or <code>once_cell</code> crates. Their functionality has been incorporated into the standard lib (<code>std</code>) and one can now just use <code>OnceLock</code> and <code>LazyLock</code> to initialize global variables.</p>
+    <p>For global variables, LLMs regurgitate code that uses <code class="language-plaintext highlighter-rouge">lazy_static</code> or <code class="language-plaintext highlighter-rouge">once_cell</code> crates. Their functionality has been incorporated into the standard lib (<code class="language-plaintext highlighter-rouge">std</code>) and one can now just use <code class="language-plaintext highlighter-rouge">OnceLock</code> and <code class="language-plaintext highlighter-rouge">LazyLock</code> to initialize global variables.</p>
 
-    <pre><code class="language-rust">  // ❌ Don't
-  lazy_static! {
-    // your global variables
-  }
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// ❌ Don't</span>
+  <span class="nd">lazy_static!</span> <span class="p">{</span>
+    <span class="c1">// your global variables</span>
+  <span class="p">}</span>
 
-  // ✅ Do
-  static MY_STR: LazyLock&lt;RwLock&lt;String&gt;&gt; = LazyLock::new(|| RwLock::new("Hello World!".into()));
-</code></pre>
+  <span class="c1">// ✅ Do</span>
+  <span class="k">static</span> <span class="n">MY_STR</span><span class="p">:</span> <span class="n">LazyLock</span><span class="o">&lt;</span><span class="n">RwLock</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;&gt;</span> <span class="o">=</span> <span class="nn">LazyLock</span><span class="p">::</span><span class="nf">new</span><span class="p">(||</span> <span class="nn">RwLock</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="nf">.into</span><span class="p">()));</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p>You might need to call code only once on crate initialization or some other event. <code>tokio::sync::OnceCell</code> can be abused to achieve this:</p>
+    <p>You might need to call code only once on crate initialization or some other event. <code class="language-plaintext highlighter-rouge">tokio::sync::OnceCell</code> can be abused to achieve this:</p>
 
-    <pre><code class="language-rust">use tokio::sync::OnceCell
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">use</span> <span class="nn">tokio</span><span class="p">::</span><span class="nn">sync</span><span class="p">::</span><span class="n">OnceCell</span>
 
-static INIT: OnceCell&lt;()&gt; = OnceCell::const_new();
+<span class="k">static</span> <span class="n">INIT</span><span class="p">:</span> <span class="n">OnceCell</span><span class="o">&lt;</span><span class="p">()</span><span class="o">&gt;</span> <span class="o">=</span> <span class="nn">OnceCell</span><span class="p">::</span><span class="nf">const_new</span><span class="p">();</span>
 
-pub fn init() {
-  // Makes sure the code inside is only run once
-  INIT.get_or_init(|| async {
-      my_async_function().await;
-  })
-  .await;
-}
-</code></pre>
+<span class="k">pub</span> <span class="k">fn</span> <span class="nf">init</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Makes sure the code inside is only run once</span>
+  <span class="n">INIT</span><span class="nf">.get_or_init</span><span class="p">(||</span> <span class="k">async</span> <span class="p">{</span>
+      <span class="nf">my_async_function</span><span class="p">()</span><span class="k">.await</span><span class="p">;</span>
+  <span class="p">})</span>
+  <span class="k">.await</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p><code>cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
+    <p><code class="language-plaintext highlighter-rouge">cargo test</code> runs tests in parallel but within a single instance. This is a pain in the ass for encapsulating state between the tests. IMO it’s better to use <a href="https://nexte.st/">cargo-nextest</a> which starts a separate process per test. Here is the config I use to give better results:</p>
 
-    <pre><code class="language-toml">[profile.default]
-retries = 3
-fail-fast = false
-status-level = "all"
-</code></pre>
+    <div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">profile</span><span class="k">.</span><span class="n">default</span><span class="k">]</span>
+<span class="n">retries</span> <span class="o">=</span><span class="w"> </span><span class="mi">3</span>
+<span class="n">fail-fast</span> <span class="o">=</span><span class="w"> </span><span class="kc">false</span>
+<span class="n">status-level</span> <span class="o">=</span><span class="w"> </span><span class="s">"all"</span>
+</code></pre></div>    </div>
   </li>
   <li>The <a href="https://crates.io/crates/assert2">assert2</a> crate is awesome and it will make your tests easier to debug by outputting the values with colors, instead of just opaque errors.</li>
-  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code>cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
+  <li>Adding WASM after-the-fact will be pain as WASM is not multi-threaded. Async code might need to be refactored or compiled with <code class="language-plaintext highlighter-rouge">cfg</code>s to avoid async traits, send+sync usage. Worse case you might have to recurse to macros that completely kill IDE analysis.</li>
   <li>
-    <p>If you are exposing a C-API and returning <code>std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
+    <p>If you are exposing a C-API and returning <code class="language-plaintext highlighter-rouge">std::ffi::Cstring</code> to the calling C context, strings must be returned to Rust to be safely de-allocated.</p>
 
-    <pre><code class="language-rust">#[no_mangle]
-unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
-  let data = CString::new("Hello World!".into()).unwrap();
-  data.into_raw() as *mut c_char
-}
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
+<span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">get_a_string</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="nn">CString</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="nf">.into</span><span class="p">())</span><span class="nf">.unwrap</span><span class="p">();</span>
+  <span class="n">data</span><span class="nf">.into_raw</span><span class="p">()</span> <span class="k">as</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span>
+<span class="p">}</span>
 
-// The pointer must be later returned to Rust for safe de-allocation
-#[no_mangle]
-unsafe extern "C" fn free_string(ptr: *mut c_char) {
-    if ptr.is_null() {
-        return;
-    }
+<span class="c1">// The pointer must be later returned to Rust for safe de-allocation</span>
+<span class="nd">#[no_mangle]</span>
+<span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">free_string</span><span class="p">(</span><span class="n">ptr</span><span class="p">:</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">ptr</span><span class="nf">.is_null</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    let _ = CString::from_raw(ptr);
-    // Automatically dropped at the end of function
-}
-</code></pre>
+    <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="nn">CString</span><span class="p">::</span><span class="nf">from_raw</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+    <span class="c1">// Automatically dropped at the end of function</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
   </li>
-  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code>Result</code> and <code>Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
+  <li>Your team might not be used to the usage of certain monad-like patterns, such as <code class="language-plaintext highlighter-rouge">Result</code> and <code class="language-plaintext highlighter-rouge">Option</code>. They allow for very idiomatic and terse Rust code. Enforce their usage.</li>
   <li>Though Rust is cross-platform compilable, there are many pitfalls which are not obvious.
     <ul>
-      <li>On Android, non-java code cannot access native TLS certs for HTTPs requests. This forces Rust to compiled and included in my crate. This then goes down a rabbit hole of <code>nativetls</code> vs <code>rustls</code> crates. If you are targeting multi-platform go with <code>rustls</code> if possible.</li>
+      <li>On Android, non-java code cannot access native TLS certs for HTTPs requests. This forces Rust to compiled and included in my crate. This then goes down a rabbit hole of <code class="language-plaintext highlighter-rouge">nativetls</code> vs <code class="language-plaintext highlighter-rouge">rustls</code> crates. If you are targeting multi-platform go with <code class="language-plaintext highlighter-rouge">rustls</code> if possible.</li>
     </ul>
   </li>
-  <li><code>Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code>aws-lc-rs</code>, so should you.
+  <li><code class="language-plaintext highlighter-rouge">Ring</code> is being deprecated/on-hold/abandoned, a lot of libraries are migrating to <code class="language-plaintext highlighter-rouge">aws-lc-rs</code>, so should you.
     <ul>
-      <li>Migration of community crates is slowly happening towards <code>aws-lc-rs</code>. You might need to toggle features or bump versions to take advantage of this.</li>
+      <li>Migration of community crates is slowly happening towards <code class="language-plaintext highlighter-rouge">aws-lc-rs</code>. You might need to toggle features or bump versions to take advantage of this.</li>
     </ul>
   </li>
   <li>Feature flags are great but their real-world usage and behavior is not always clear. If you assume the default features are what you want, you might be adding a lot of useless code to your project. There is no easy way to detect this, except reading through the docs and looking at the source code and see what can you turn off and still get a functioning crate.
     <ul>
-      <li>Use <code>cargo-appreaiser</code> extension on vscode. Not only it shows outdated packages but it also shows the crate features on hover.</li>
+      <li>Use <code class="language-plaintext highlighter-rouge">cargo-appreaiser</code> extension on vscode. Not only it shows outdated packages but it also shows the crate features on hover.</li>
     </ul>
   </li>
-  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code>#[cfg(test)]</code> or <code>#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code>if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
+  <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code class="language-plaintext highlighter-rouge">#[cfg(test)]</code> or <code class="language-plaintext highlighter-rouge">#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code class="language-plaintext highlighter-rouge">if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
   <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures plus comments, without a clear flow on how to use the APIs of the crates. I still haven’t found a good way to piece good API usage, seems the community has not cracked this one yet.</li>
-  <li>Error propagation through the <code>try operator</code> (<code>?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
+  <li>Error propagation through the <code class="language-plaintext highlighter-rouge">try operator</code> (<code class="language-plaintext highlighter-rouge">?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
 </ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
 
 <p>This is a complete guide compiling a Rust library from source all the way into loading it in a running iOS/Android application. All done via C compatible dylib, which means on iOS you will need to call if from Obj-C and on Android via JNI.</p>
@@ -109,97 +109,97 @@ unsafe extern "C" fn free_string(ptr: *mut c_char) {
 
 <p>Init a basic create with the –lib template. You can then expose a C function that you will be able to call from your iOS Obj-C/Kotlin via JNI code.</p>
 
-<pre><code class="language-rust">// lib.rs
-#[no_mangle]
-pub extern "C" fn get_answer() -&gt; i32 {
-  42
-}
-</code></pre>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// lib.rs</span>
+<span class="nd">#[no_mangle]</span>
+<span class="k">pub</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">get_answer</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="nb">i32</span> <span class="p">{</span>
+  <span class="mi">42</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
-<p>Next on the <code>Cargo.toml</code>, we will declare the crate type as <code>cdylib</code>. The <code>cdylib</code> crate type assumes that libc will be available on the target you are compiling to, so it will produce even smaller binaries. We will also add some flags to the release compilation profile to generate even smaller binaries:</p>
+<p>Next on the <code class="language-plaintext highlighter-rouge">Cargo.toml</code>, we will declare the crate type as <code class="language-plaintext highlighter-rouge">cdylib</code>. The <code class="language-plaintext highlighter-rouge">cdylib</code> crate type assumes that libc will be available on the target you are compiling to, so it will produce even smaller binaries. We will also add some flags to the release compilation profile to generate even smaller binaries:</p>
 
-<pre><code class="language-toml">[profile.release]
-strip = "symbols"
-lto = true
-opt-level = "z"
-codegen-units = 1
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">profile</span><span class="k">.</span><span class="n">release</span><span class="k">]</span>
+<span class="n">strip</span> <span class="o">=</span><span class="w"> </span><span class="s">"symbols"</span>
+<span class="n">lto</span> <span class="o">=</span><span class="w"> </span><span class="kc">true</span>
+<span class="n">opt-level</span> <span class="o">=</span><span class="w"> </span><span class="s">"z"</span>
+<span class="n">codegen-units</span> <span class="o">=</span><span class="w"> </span><span class="mi">1</span>
 
-[lib]
-crate-type = ["cdylib"]
-</code></pre>
+<span class="k">[</span><span class="n">lib</span><span class="k">]</span>
+<span class="n">crate-type</span> <span class="o">=</span><span class="w"> </span><span class="p">[</span><span class="s">"cdylib"</span><span class="p">]</span>
+</code></pre></div></div>
 
 <p>Now, you will need to compile your crate for both iOS and Android. For iOS is mostly straight forward since you are compiling on a Mac (you need a mac anyways to compile iOS apps):</p>
 
-<pre><code class="language-bash">cargo build --lib --release --target aarch64-apple-ios
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo build <span class="nt">--lib</span> <span class="nt">--release</span> <span class="nt">--target</span> aarch64-apple-ios
+</code></pre></div></div>
 
-<p>For Android one needs to set up a lot of variables pointing to the correct android libraries, headers and compilers. It’s all a PITA to be honest, so we are not going to bother with that, and instead rely on <code>cargo-ndk</code> a package that handles the correct paths for us. Read the <a href="https://github.com/bbqsrc/cargo-ndk">README</a>, set up the necessary variables and you should be able to do:</p>
+<p>For Android one needs to set up a lot of variables pointing to the correct android libraries, headers and compilers. It’s all a PITA to be honest, so we are not going to bother with that, and instead rely on <code class="language-plaintext highlighter-rouge">cargo-ndk</code> a package that handles the correct paths for us. Read the <a href="https://github.com/bbqsrc/cargo-ndk">README</a>, set up the necessary variables and you should be able to do:</p>
 
-<pre><code class="language-bash">cargo ndk --target aarch64-linux-android --platform=31 build --lib
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cargo ndk <span class="nt">--target</span> aarch64-linux-android <span class="nt">--platform</span><span class="o">=</span>31 build <span class="nt">--lib</span>
+</code></pre></div></div>
 
 <p>That’s the simple version of it. As your library grows and depends on other compilation steps you will need to modify your commands accordingly. Maybe setting a sysroot. Passing header files, setting up compiler files, etc.</p>
 
-<p>Once compilation is done, in the <code>target/{arch}</code> directories you should find a <code>.dylib</code> for iOS and a <code>.so</code> for Android. Going to skip some steps here for the sake of brevity, buy you should set <code>cbindgen</code> in your project along with a <code>build.rs</code> that generates a header file <code>.h</code> for your crates C (<code>lib.rs</code>) functions.</p>
+<p>Once compilation is done, in the <code class="language-plaintext highlighter-rouge">target/{arch}</code> directories you should find a <code class="language-plaintext highlighter-rouge">.dylib</code> for iOS and a <code class="language-plaintext highlighter-rouge">.so</code> for Android. Going to skip some steps here for the sake of brevity, buy you should set <code class="language-plaintext highlighter-rouge">cbindgen</code> in your project along with a <code class="language-plaintext highlighter-rouge">build.rs</code> that generates a header file <code class="language-plaintext highlighter-rouge">.h</code> for your crates C (<code class="language-plaintext highlighter-rouge">lib.rs</code>) functions.</p>
 
-<pre><code class="language-rust">extern crate cbindgen;
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extern</span> <span class="k">crate</span> <span class="n">cbindgen</span><span class="p">;</span>
 
-use std::env;
+<span class="k">use</span> <span class="nn">std</span><span class="p">::</span><span class="n">env</span><span class="p">;</span>
 
-fn generate_c_headers() {
-    let crate_dir = env::var("CARGO_MANIFEST_DIR").unwrap();
-    let header_path = "../generated/include/mylib.h";
+<span class="k">fn</span> <span class="nf">generate_c_headers</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">let</span> <span class="n">crate_dir</span> <span class="o">=</span> <span class="nn">env</span><span class="p">::</span><span class="nf">var</span><span class="p">(</span><span class="s">"CARGO_MANIFEST_DIR"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">();</span>
+    <span class="k">let</span> <span class="n">header_path</span> <span class="o">=</span> <span class="s">"../generated/include/mylib.h"</span><span class="p">;</span>
 
-    cbindgen::Builder::new()
-        .with_crate(crate_dir)
-        .with_language(cbindgen::Language::C)
-        .with_autogen_warning(
-            "/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */",
-        )
-        .generate()
-        .expect("Unable to generate bindings")
-        .write_to_file(header_path);
-}
+    <span class="nn">cbindgen</span><span class="p">::</span><span class="nn">Builder</span><span class="p">::</span><span class="nf">new</span><span class="p">()</span>
+        <span class="nf">.with_crate</span><span class="p">(</span><span class="n">crate_dir</span><span class="p">)</span>
+        <span class="nf">.with_language</span><span class="p">(</span><span class="nn">cbindgen</span><span class="p">::</span><span class="nn">Language</span><span class="p">::</span><span class="n">C</span><span class="p">)</span>
+        <span class="nf">.with_autogen_warning</span><span class="p">(</span>
+            <span class="s">"/* Warning, this file is autogenerated by cbindgen. Don't modify this manually. */"</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="nf">.generate</span><span class="p">()</span>
+        <span class="nf">.expect</span><span class="p">(</span><span class="s">"Unable to generate bindings"</span><span class="p">)</span>
+        <span class="nf">.write_to_file</span><span class="p">(</span><span class="n">header_path</span><span class="p">);</span>
+<span class="p">}</span>
 
-fn main() {
-    // Tell Cargo that if the given file changes, to rerun this build script.
-    println!("cargo:rerun-if-changed=src/lib.rs");
+<span class="k">fn</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+    <span class="c1">// Tell Cargo that if the given file changes, to rerun this build script.</span>
+    <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rerun-if-changed=src/lib.rs"</span><span class="p">);</span>
 
-    // Tell cargo to dynamically link the C function we defined
-    // We will come back to this later
-    let target_os = env::var("CARGO_CFG_TARGET_OS").unwrap();
+    <span class="c1">// Tell cargo to dynamically link the C function we defined</span>
+    <span class="c1">// We will come back to this later</span>
+    <span class="k">let</span> <span class="n">target_os</span> <span class="o">=</span> <span class="nn">env</span><span class="p">::</span><span class="nf">var</span><span class="p">(</span><span class="s">"CARGO_CFG_TARGET_OS"</span><span class="p">)</span><span class="nf">.unwrap</span><span class="p">();</span>
 
-    match target_os.as_str() {
-        "ios" =&gt; {
-            println!("cargo:rustc-link-arg=-undefined");
-            println!("cargo:rustc-link-arg=dynamic_lookup");
-        }
-        "android" =&gt; {
-            println!("cargo:rustc-link-arg=-Wl,--allow-shlib-undefined");
-        }
-        _ =&gt; {}
-    }
+    <span class="k">match</span> <span class="n">target_os</span><span class="nf">.as_str</span><span class="p">()</span> <span class="p">{</span>
+        <span class="s">"ios"</span> <span class="k">=&gt;</span> <span class="p">{</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rustc-link-arg=-undefined"</span><span class="p">);</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rustc-link-arg=dynamic_lookup"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="s">"android"</span> <span class="k">=&gt;</span> <span class="p">{</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rustc-link-arg=-Wl,--allow-shlib-undefined"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">_</span> <span class="k">=&gt;</span> <span class="p">{}</span>
+    <span class="p">}</span>
 
-    generate_c_headers();
-}
+    <span class="nf">generate_c_headers</span><span class="p">();</span>
+<span class="p">}</span>
 
-</code></pre>
+</code></pre></div></div>
 
 <p>You will need to compile this binary for all the architectures your app supports, typical for mobiles will be:</p>
 
-<p><code>aarch64-apple-ios</code>
-<code>aarch64-apple-ios-sim</code>
-<code>x86_64-apple-ios-sim</code>
-<code>aarch64-linux-android</code>
-<code>armv7-linux-androideabi</code>
-<code>x86_64-linux-android</code>
-<code>i686-linux-android</code></p>
+<p><code class="language-plaintext highlighter-rouge">aarch64-apple-ios</code>
+<code class="language-plaintext highlighter-rouge">aarch64-apple-ios-sim</code>
+<code class="language-plaintext highlighter-rouge">x86_64-apple-ios-sim</code>
+<code class="language-plaintext highlighter-rouge">aarch64-linux-android</code>
+<code class="language-plaintext highlighter-rouge">armv7-linux-androideabi</code>
+<code class="language-plaintext highlighter-rouge">x86_64-linux-android</code>
+<code class="language-plaintext highlighter-rouge">i686-linux-android</code></p>
 
 <p>That’s it for the native side of things, even if you are using other language like C, once you have those files correctly compiled plus your header file, it’s time to move to the OS specific setup.</p>
 
 <h1 id="ios">iOS</h1>
 
-<p>Going to start with iOS as it is the most PITA out of the platforms. There is very little information out on how to load dylibs, not only that, unlike macOS and other unix derivations, it is not possible to just load them but they need to be packaged in a <code>.xcframework</code> that contains several <code>.framework</code>s… it’s confusing and unnecessary.</p>
+<p>Going to start with iOS as it is the most PITA out of the platforms. There is very little information out on how to load dylibs, not only that, unlike macOS and other unix derivations, it is not possible to just load them but they need to be packaged in a <code class="language-plaintext highlighter-rouge">.xcframework</code> that contains several <code class="language-plaintext highlighter-rouge">.framework</code>s… it’s confusing and unnecessary.</p>
 
 <p><a href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/">This part is taken from a previous article about package dylibs for iOS</a></p>
 
@@ -207,170 +207,170 @@ fn main() {
   <li>Once these files are generated we need to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same “arch” so they clash and need to be merged into a “fat” binary). iOS dylibs <strong>HAVE NO EXTENSION</strong>.</li>
 </ol>
 
-<pre><code class="language-bash"># Where ${profile} is the profile you are compiling
-lipo -create target/x86_64-apple-ios/${profile}/mylib.dylib target/aarch64-apple-ios-sim/${profile}/mylib.dylib -output generated/simulator_fat/mylib
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c"># Where ${profile} is the profile you are compiling</span>
+lipo <span class="nt">-create</span> target/x86_64-apple-ios/<span class="k">${</span><span class="nv">profile</span><span class="k">}</span>/mylib.dylib target/aarch64-apple-ios-sim/<span class="k">${</span><span class="nv">profile</span><span class="k">}</span>/mylib.dylib <span class="nt">-output</span> generated/simulator_fat/mylib
+</code></pre></div></div>
 
 <ol>
-  <li>With the binary merged we can drop everything into a <code>.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.
-Copy the fat binary you just created into the <code>mylib.xcframework/ios-arm64_x86_64-simulator/mylib.framework</code> (after you have renamed the folders ofc, mylib is just a placeholder). Copy the <code>aarch64-apple-sim</code> version to the correct folder as well:</li>
+  <li>With the binary merged we can drop everything into a <code class="language-plaintext highlighter-rouge">.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.
+Copy the fat binary you just created into the <code class="language-plaintext highlighter-rouge">mylib.xcframework/ios-arm64_x86_64-simulator/mylib.framework</code> (after you have renamed the folders ofc, mylib is just a placeholder). Copy the <code class="language-plaintext highlighter-rouge">aarch64-apple-sim</code> version to the correct folder as well:</li>
 </ol>
 
-<pre><code class="language-bash">cp generated/simulator_fat/mylib mylib.xcframework/ios-arm64_x86_64-simulator/mylib.framework/
-cp target/aarch64-apple-ios/${profile}/mylib.dylib mylib.xcframework/ios-arm64/mylib.framework/mylib
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cp </span>generated/simulator_fat/mylib mylib.xcframework/ios-arm64_x86_64-simulator/mylib.framework/
+<span class="nb">cp </span>target/aarch64-apple-ios/<span class="k">${</span><span class="nv">profile</span><span class="k">}</span>/mylib.dylib mylib.xcframework/ios-arm64/mylib.framework/mylib
+</code></pre></div></div>
 
 <ol>
-  <li>With the files in the correct places we need to final set the <code>@rpath</code>. The runtime path basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sand-boxing and security of the OS.</li>
+  <li>With the files in the correct places we need to final set the <code class="language-plaintext highlighter-rouge">@rpath</code>. The runtime path basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sand-boxing and security of the OS.</li>
 </ol>
 
-<pre><code class="language-bash">install_name_tool -id @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64_x86_64-simulator/sdk.framework/mylib
-install_name_tool -id @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64/sdk.framework/mylib
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>install_name_tool <span class="nt">-id</span> @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64_x86_64-simulator/sdk.framework/mylib
+install_name_tool <span class="nt">-id</span> @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64/sdk.framework/mylib
+</code></pre></div></div>
 
 <h2 id="xcframework">XCFramework</h2>
 
-<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, tells Xcode/iOS which framework to load based on your computer arch and target. The <code>Info.plist</code> also contains entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs.</p>
+<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code class="language-plaintext highlighter-rouge">.xcframework</code> which basically is a folder that contains an <code class="language-plaintext highlighter-rouge">Info.plist</code>, tells Xcode/iOS which framework to load based on your computer arch and target. The <code class="language-plaintext highlighter-rouge">Info.plist</code> also contains entries to the folders which contain the <code class="language-plaintext highlighter-rouge">frameworks</code> that actually contain the dylibs.</p>
 
 <h2 id="each-framework-infoplist">Each framework Info.plist</h2>
 
-<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the <code>CFBundleIdentifier</code> and <code>CFBundleExecutable</code>. These are important because they will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier, modify both <code>Info.plist</code> files in the <code>.framework</code> folders:</p>
+<p>Each <code class="language-plaintext highlighter-rouge">.framework</code> inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> contains it’s own <code class="language-plaintext highlighter-rouge">Info.plist</code>. You can ignore most of this except the <code class="language-plaintext highlighter-rouge">CFBundleIdentifier</code> and <code class="language-plaintext highlighter-rouge">CFBundleExecutable</code>. These are important because they will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier, modify both <code class="language-plaintext highlighter-rouge">Info.plist</code> files in the <code class="language-plaintext highlighter-rouge">.framework</code> folders:</p>
 
-<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
-&lt;plist version="1.0"&gt;
-&lt;dict&gt;
-  &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;
-  &lt;string&gt;en&lt;/string&gt;
-  &lt;key&gt;CFBundleExecutable&lt;/key&gt;
-  &lt;string&gt;mylib&lt;/string&gt; // MODIFY THIS
-  &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
-  &lt;string&gt;com.ospfranco.mylib&lt;/string&gt; // MODIFY THIS
-  &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;
-  &lt;string&gt;6.0&lt;/string&gt;
-  &lt;key&gt;CFBundlePackageType&lt;/key&gt;
-  &lt;string&gt;FMWK&lt;/string&gt;
-  &lt;key&gt;CFBundleSignature&lt;/key&gt;
-  &lt;string&gt;????&lt;/string&gt;
-  &lt;key&gt;CFBundleVersion&lt;/key&gt;
-  &lt;string&gt;1.0.0&lt;/string&gt;
-  &lt;key&gt;CFBundleShortVersionString&lt;/key&gt;
-  &lt;string&gt;1.0.0&lt;/string&gt;
-	&lt;key&gt;MinimumOSVersion&lt;/key&gt;
-  &lt;string&gt;8.0&lt;/string&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleDevelopmentRegion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>en<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleExecutable<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>mylib<span class="nt">&lt;/string&gt;</span> // MODIFY THIS
+  <span class="nt">&lt;key&gt;</span>CFBundleIdentifier<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>com.ospfranco.mylib<span class="nt">&lt;/string&gt;</span> // MODIFY THIS
+  <span class="nt">&lt;key&gt;</span>CFBundleInfoDictionaryVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>6.0<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundlePackageType<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>FMWK<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleSignature<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>????<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleShortVersionString<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
+	<span class="nt">&lt;key&gt;</span>MinimumOSVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>8.0<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
+</code></pre></div></div>
 
 <h2 id="including-the-files-in-the-build">Including the files in the build</h2>
 
-<p>Here things will change a bit if you are directly adding the <code>.xcframework</code> into your project or if you are creating a library via cocoapods or SPM. In any case, you need to add your <code>mylib.h</code> header file (generated via <code>build.rs</code> and <code>cbindgen</code> remember?) and the <code>.xcframework</code> with the binaries.</p>
+<p>Here things will change a bit if you are directly adding the <code class="language-plaintext highlighter-rouge">.xcframework</code> into your project or if you are creating a library via cocoapods or SPM. In any case, you need to add your <code class="language-plaintext highlighter-rouge">mylib.h</code> header file (generated via <code class="language-plaintext highlighter-rouge">build.rs</code> and <code class="language-plaintext highlighter-rouge">cbindgen</code> remember?) and the <code class="language-plaintext highlighter-rouge">.xcframework</code> with the binaries.</p>
 
 <h3 id="directly-into-project">Directly into project</h3>
 
-<p>If you are integrating this dylib directly into your project. You can just drop the header file somewhere and import it directly in your <code>obj-c</code> code. The <code>.xcframework</code> you also add via Xcode UI and then add it as a dependency it via the UI in the general tab of your main target.</p>
+<p>If you are integrating this dylib directly into your project. You can just drop the header file somewhere and import it directly in your <code class="language-plaintext highlighter-rouge">obj-c</code> code. The <code class="language-plaintext highlighter-rouge">.xcframework</code> you also add via Xcode UI and then add it as a dependency it via the UI in the general tab of your main target.</p>
 
 <h3 id="via-cocoapods">Via Cocoapods</h3>
 
-<p>If you are using cocoapods you need to drop the header file and modify the paths cocoapods uses to include headers into the Pods, as well as specifying the <code>.xcframework</code>, in my case, I created a <code>include</code> folder in my source folder and dropped the header there:</p>
+<p>If you are using cocoapods you need to drop the header file and modify the paths cocoapods uses to include headers into the Pods, as well as specifying the <code class="language-plaintext highlighter-rouge">.xcframework</code>, in my case, I created a <code class="language-plaintext highlighter-rouge">include</code> folder in my source folder and dropped the header there:</p>
 
-<pre><code class="language-ruby">  # In the .podspec of your library
-  s.public_header_files = 'include/**/*.h', 'src/objc/*.h'
-  s.source_files = 'src/**/*', 'include/**/*.h'
-  s.vendored_frameworks = 'mylib.xcframework'
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1"># In the .podspec of your library</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">public_header_files</span> <span class="o">=</span> <span class="s1">'include/**/*.h'</span><span class="p">,</span> <span class="s1">'src/objc/*.h'</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">source_files</span> <span class="o">=</span> <span class="s1">'src/**/*'</span><span class="p">,</span> <span class="s1">'include/**/*.h'</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">vendored_frameworks</span> <span class="o">=</span> <span class="s1">'mylib.xcframework'</span>
 
-  # Configure for dynamic library
-  s.pod_target_xcconfig = {
-    'OTHER_LDFLAGS' =&gt; '-undefined dynamic_lookup'
-  }
-</code></pre>
+  <span class="c1"># Configure for dynamic library</span>
+  <span class="n">s</span><span class="p">.</span><span class="nf">pod_target_xcconfig</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s1">'OTHER_LDFLAGS'</span> <span class="o">=&gt;</span> <span class="s1">'-undefined dynamic_lookup'</span>
+  <span class="p">}</span>
+</code></pre></div></div>
 
-<p>Ignore the <code>OTHER_LDFLAGS</code> we will come back to them later.</p>
+<p>Ignore the <code class="language-plaintext highlighter-rouge">OTHER_LDFLAGS</code> we will come back to them later.</p>
 
 <h3 id="via-spm">Via SPM</h3>
 
-<p>In SPM is a bit more obscure so something like this should work in your <code>Package.swift</code>:</p>
+<p>In SPM is a bit more obscure so something like this should work in your <code class="language-plaintext highlighter-rouge">Package.swift</code>:</p>
 
-<pre><code class="language-swift"> targets: [
-    .binaryTarget(
-      name: "mylib",
-      path: "mylib.xcframework"
-    ),
-    .target(
-      name: "MyWrapperLib",
-      dependencies: ["mylib"],
-      path: "src/objc",
-      publicHeadersPath: ".",
-      cSettings: [
-        .headerSearchPath("../../include")
-      ],
-    ),
-</code></pre>
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code> <span class="nv">targets</span><span class="p">:</span> <span class="p">[</span>
+    <span class="o">.</span><span class="nf">binaryTarget</span><span class="p">(</span>
+      <span class="nv">name</span><span class="p">:</span> <span class="s">"mylib"</span><span class="p">,</span>
+      <span class="nv">path</span><span class="p">:</span> <span class="s">"mylib.xcframework"</span>
+    <span class="p">),</span>
+    <span class="o">.</span><span class="nf">target</span><span class="p">(</span>
+      <span class="nv">name</span><span class="p">:</span> <span class="s">"MyWrapperLib"</span><span class="p">,</span>
+      <span class="nv">dependencies</span><span class="p">:</span> <span class="p">[</span><span class="s">"mylib"</span><span class="p">],</span>
+      <span class="nv">path</span><span class="p">:</span> <span class="s">"src/objc"</span><span class="p">,</span>
+      <span class="nv">publicHeadersPath</span><span class="p">:</span> <span class="s">"."</span><span class="p">,</span>
+      <span class="nv">cSettings</span><span class="p">:</span> <span class="p">[</span>
+        <span class="o">.</span><span class="nf">headerSearchPath</span><span class="p">(</span><span class="s">"../../include"</span><span class="p">)</span>
+      <span class="p">],</span>
+    <span class="p">),</span>
+</code></pre></div></div>
 
 <h2 id="loading-the-dylib">Loading the dylib</h2>
 
-<p>Let’s assume we are using Cocoapods. After doing a <code>pod install</code> the <code>.xcframework</code> should be included in our app, as well as our header file. In your Obj-C code you should be able to import the header file:</p>
+<p>Let’s assume we are using Cocoapods. After doing a <code class="language-plaintext highlighter-rouge">pod install</code> the <code class="language-plaintext highlighter-rouge">.xcframework</code> should be included in our app, as well as our header file. In your Obj-C code you should be able to import the header file:</p>
 
-<pre><code class="language-objc">#import "mylib.h"
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "mylib.h"
 #import &lt;dlfcn.h&gt; // contains dlopen to load the dylib
-</code></pre>
+</span></code></pre></div></div>
 
-<p>But despite including the header file, it does not mean our library is loaded into the runtime. We need to use the <code>dlopen</code> function to do this. <code>dlopen</code> comes from the ancient times of unix, which basically tells iOS to load a dylib. Place this wherever you want to load your dylib:</p>
+<p>But despite including the header file, it does not mean our library is loaded into the runtime. We need to use the <code class="language-plaintext highlighter-rouge">dlopen</code> function to do this. <code class="language-plaintext highlighter-rouge">dlopen</code> comes from the ancient times of unix, which basically tells iOS to load a dylib. Place this wherever you want to load your dylib:</p>
 
-<pre><code class="language-obj-c">  force_symbol_registration();
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">force_symbol_registration</span><span class="p">();</span>
 
-  NSBundle *dylib_bundle =
-      [NSBundle bundleWithIdentifier:@"com.ospfranco.mylib"];
-  NSString *dylib_path = [dylib_bundle pathForResource:@"mylib" ofType:@""];
+  <span class="n">NSBundle</span> <span class="o">*</span><span class="n">dylib_bundle</span> <span class="o">=</span>
+      <span class="p">[</span><span class="n">NSBundle</span> <span class="nf">bundleWithIdentifier</span><span class="p">:</span><span class="s">@"com.ospfranco.mylib"</span><span class="p">];</span>
+  <span class="n">NSString</span> <span class="o">*</span><span class="n">dylib_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">dylib_bundle</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"mylib"</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@""</span><span class="p">];</span>
 
-  // Load the dynamic library
-  void *handle = dlopen([dylib_path UTF8String], RTLD_NOW | RTLD_GLOBAL);
-  if (!handle) {
-    NSString *errorMessage = [NSString stringWithUTF8String:dlerror()];
-  }
-</code></pre>
+  <span class="c1">// Load the dynamic library</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">handle</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">([</span><span class="n">dylib_path</span> <span class="nf">UTF8String</span><span class="p">],</span> <span class="n">RTLD_NOW</span> <span class="o">|</span> <span class="n">RTLD_GLOBAL</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">handle</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">errorMessage</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithUTF8String</span><span class="p">:</span><span class="n">dlerror</span><span class="p">()];</span>
+  <span class="p">}</span>
+</code></pre></div></div>
 
 <p>Broken down:</p>
 
 <ul>
-  <li>dylib_bundle and dylib_path gets the runtime path of the appropriate binary for our arch. This is why we needed to set @rpath and modify the Info.plist in the <code>.framework</code> files</li>
-  <li>We then call <code>dlopen</code> to load the library</li>
-  <li>The <code>force_symbol_registration()</code> and <code>RTDL_GLOBAL</code> give the loaded library access to the global symbol table. Meaning your library can call C functions exposed by your iOS code. We will come back to this later.</li>
+  <li>dylib_bundle and dylib_path gets the runtime path of the appropriate binary for our arch. This is why we needed to set @rpath and modify the Info.plist in the <code class="language-plaintext highlighter-rouge">.framework</code> files</li>
+  <li>We then call <code class="language-plaintext highlighter-rouge">dlopen</code> to load the library</li>
+  <li>The <code class="language-plaintext highlighter-rouge">force_symbol_registration()</code> and <code class="language-plaintext highlighter-rouge">RTDL_GLOBAL</code> give the loaded library access to the global symbol table. Meaning your library can call C functions exposed by your iOS code. We will come back to this later.</li>
 </ul>
 
-<p>In theory that’s it, you should now be able to call the <code>get_answer</code> function from your Rust dylib!</p>
+<p>In theory that’s it, you should now be able to call the <code class="language-plaintext highlighter-rouge">get_answer</code> function from your Rust dylib!</p>
 
-<pre><code class="language-obj-c">#import "mylib.h"
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#import "mylib.h"
 #import &lt;dlfcn.h&gt;
+</span>
+<span class="c1">// ...main()</span>
+<span class="p">{</span>
+  <span class="n">force_symbol_registration</span><span class="p">();</span>
 
-// ...main()
-{
-  force_symbol_registration();
+  <span class="n">NSBundle</span> <span class="o">*</span><span class="n">dylib_bundle</span> <span class="o">=</span>
+      <span class="p">[</span><span class="n">NSBundle</span> <span class="nf">bundleWithIdentifier</span><span class="p">:</span><span class="s">@"com.ospfranco.mylib"</span><span class="p">];</span>
+  <span class="n">NSString</span> <span class="o">*</span><span class="n">dylib_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">dylib_bundle</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"mylib"</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@""</span><span class="p">];</span>
 
-  NSBundle *dylib_bundle =
-      [NSBundle bundleWithIdentifier:@"com.ospfranco.mylib"];
-  NSString *dylib_path = [dylib_bundle pathForResource:@"mylib" ofType:@""];
+  <span class="c1">// Load the dynamic library</span>
+  <span class="kt">void</span> <span class="o">*</span><span class="n">handle</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">([</span><span class="n">dylib_path</span> <span class="nf">UTF8String</span><span class="p">],</span> <span class="n">RTLD_NOW</span> <span class="o">|</span> <span class="n">RTLD_GLOBAL</span><span class="p">);</span>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">handle</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">NSString</span> <span class="o">*</span><span class="n">errorMessage</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithUTF8String</span><span class="p">:</span><span class="n">dlerror</span><span class="p">()];</span>
+  <span class="p">}</span>
 
-  // Load the dynamic library
-  void *handle = dlopen([dylib_path UTF8String], RTLD_NOW | RTLD_GLOBAL);
-  if (!handle) {
-    NSString *errorMessage = [NSString stringWithUTF8String:dlerror()];
-  }
+  <span class="kt">int</span> <span class="n">the_answer</span> <span class="o">=</span> <span class="n">get_answer</span><span class="p">();</span>
+<span class="p">}</span>
 
-  int the_answer = get_answer();
-}
-
-</code></pre>
+</code></pre></div></div>
 
 <h1 id="android">Android</h1>
 
-<p>Android luckily is basically just linux underneath, it’s just <code>CMakeList</code> that is ancient technology and one needs to correct arcane commands to load a dylib.</p>
+<p>Android luckily is basically just linux underneath, it’s just <code class="language-plaintext highlighter-rouge">CMakeList</code> that is ancient technology and one needs to correct arcane commands to load a dylib.</p>
 
 <h2 id="place-the-files-in-the-correct-place">Place the files in the correct place</h2>
 
-<p>I’m going to skip certain parts as this post is long enough, but you basically need to drop the <code>.so</code> files you generated into <code>src/main/jniLibs</code> on per architecture folders if you are doing this as a library or <code>app/src/main/jniLibs</code> if doing it directly into your app. The header file you can drop in <code>src/main/jni/include</code> or <code>app/src/main/jni/include</code> respectively.</p>
+<p>I’m going to skip certain parts as this post is long enough, but you basically need to drop the <code class="language-plaintext highlighter-rouge">.so</code> files you generated into <code class="language-plaintext highlighter-rouge">src/main/jniLibs</code> on per architecture folders if you are doing this as a library or <code class="language-plaintext highlighter-rouge">app/src/main/jniLibs</code> if doing it directly into your app. The header file you can drop in <code class="language-plaintext highlighter-rouge">src/main/jni/include</code> or <code class="language-plaintext highlighter-rouge">app/src/main/jni/include</code> respectively.</p>
 
-<pre><code>src
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>src
   main
     jni
       include
@@ -384,15 +384,15 @@ install_name_tool -id @rpath/mylib.framework/mylib mylib.xcframework/ios-arm64/s
         mylib.so
       x86_64
         mylib.so
-</code></pre>
+</code></pre></div></div>
 
-<p>The <code>jniLibs</code> folder is special and will be automatically picked up by Android in the compilation of the application. You can then follow any tutorial to set up JNI C++ code in your app/library. The only important point is linking our binary to the lib/app C++ code.</p>
+<p>The <code class="language-plaintext highlighter-rouge">jniLibs</code> folder is special and will be automatically picked up by Android in the compilation of the application. You can then follow any tutorial to set up JNI C++ code in your app/library. The only important point is linking our binary to the lib/app C++ code.</p>
 
 <h2 id="making-cmake-load-the-so">Making CMake load the .so</h2>
 
-<p>In <code>CMakeLists.txt</code>:</p>
+<p>In <code class="language-plaintext highlighter-rouge">CMakeLists.txt</code>:</p>
 
-<pre><code>cmake_minimum_required(VERSION 3.22.1)
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cmake_minimum_required(VERSION 3.22.1)
 
 project("MyJNIProject")
 
@@ -410,14 +410,14 @@ set_target_properties(mylib PROPERTIES
 target_link_libraries(${CMAKE_PROJECT_NAME}
     mylib
     android)
-</code></pre>
+</code></pre></div></div>
 
-<p>Then in your Java/Kotlin code you just load the library created by CMakeLists which will in turn already have the <code>mylib.so</code> linked internally:</p>
+<p>Then in your Java/Kotlin code you just load the library created by CMakeLists which will in turn already have the <code class="language-plaintext highlighter-rouge">mylib.so</code> linked internally:</p>
 
-<pre><code class="language-kotlin">    init {
-        System.loadLibrary("MyJNIProject")
-    }
-</code></pre>
+<div class="language-kotlin highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="nf">init</span> <span class="p">{</span>
+        <span class="nc">System</span><span class="p">.</span><span class="nf">loadLibrary</span><span class="p">(</span><span class="s">"MyJNIProject"</span><span class="p">)</span>
+    <span class="p">}</span>
+</code></pre></div></div>
 
 <h2 id="calling-the-code-from-jni-code">Calling the code from JNI code</h2>
 
@@ -436,89 +436,89 @@ void main() {
 
 <h2 id="rust-1">Rust</h2>
 
-<p>In rust we already added some <code>rustc</code> linker flags via <code>build.rs</code> that basically tell the Rust compiler to not panic if it cannot find a symbol. Since we are creating a dylib. The symbols will be there on runtime</p>
+<p>In rust we already added some <code class="language-plaintext highlighter-rouge">rustc</code> linker flags via <code class="language-plaintext highlighter-rouge">build.rs</code> that basically tell the Rust compiler to not panic if it cannot find a symbol. Since we are creating a dylib. The symbols will be there on runtime</p>
 
-<pre><code class="language-rust">    match target_os.as_str() {
-        "ios" =&gt; {
-            println!("cargo:rustc-link-arg=-undefined");
-            println!("cargo:rustc-link-arg=dynamic_lookup");
-        }
-        "android" =&gt; {
-            println!("cargo:rustc-link-arg=-Wl,--allow-shlib-undefined");
-        }
-        _ =&gt; {}
-    }
-</code></pre>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    <span class="k">match</span> <span class="n">target_os</span><span class="nf">.as_str</span><span class="p">()</span> <span class="p">{</span>
+        <span class="s">"ios"</span> <span class="k">=&gt;</span> <span class="p">{</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rustc-link-arg=-undefined"</span><span class="p">);</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rustc-link-arg=dynamic_lookup"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="s">"android"</span> <span class="k">=&gt;</span> <span class="p">{</span>
+            <span class="nd">println!</span><span class="p">(</span><span class="s">"cargo:rustc-link-arg=-Wl,--allow-shlib-undefined"</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="n">_</span> <span class="k">=&gt;</span> <span class="p">{}</span>
+    <span class="p">}</span>
+</code></pre></div></div>
 
 <h2 id="ios-1">iOS</h2>
 
 <p>Let’s define some C function:</p>
 
-<pre><code class="language-obj-c">// in the header file
-OBJC_EXTERN void ios_prepare_request(const char *url);
-</code></pre>
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// in the header file</span>
+<span class="n">OBJC_EXTERN</span> <span class="kt">void</span> <span class="nf">ios_prepare_request</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">url</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>The definition:</p>
 
-<pre><code class="language-obj-c">#define EXPORT __attribute__((visibility("default"), used)
-
-EXPORT void ios_prepare_request(const char *url) {
-  NSString *urlString = [NSString stringWithUTF8String:url];
-  request =
-      [NSMutableURLRequest requestWithURL:[NSURL URLWithString:urlString]];
-}
-</code></pre>
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">#define EXPORT __attribute__((visibility("default"), used)
+</span>
+<span class="n">EXPORT</span> <span class="kt">void</span> <span class="nf">ios_prepare_request</span><span class="p">(</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">url</span><span class="p">)</span> <span class="p">{</span>
+  <span class="n">NSString</span> <span class="o">*</span><span class="n">urlString</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSString</span> <span class="nf">stringWithUTF8String</span><span class="p">:</span><span class="n">url</span><span class="p">];</span>
+  <span class="n">request</span> <span class="o">=</span>
+      <span class="p">[</span><span class="n">NSMutableURLRequest</span> <span class="nf">requestWithURL</span><span class="p">:[</span><span class="n">NSURL</span> <span class="nf">URLWithString</span><span class="p">:</span><span class="n">urlString</span><span class="p">]];</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>In our Rust code, for iOS one can have in one (cfg’ed) file:</p>
 
-<pre><code class="language-rust">unsafe extern "C" {
-    fn ios_prepare_request(url: *const c_char);
-}
-</code></pre>
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">ios_prepare_request</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="o">*</span><span class="k">const</span> <span class="nb">c_char</span><span class="p">);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>For android the equivalent:</p>
 
-<pre><code class="language-rust">unsafe extern "C" {
-    fn android_prepare_request(url: *const c_char);
-}
+<div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="p">{</span>
+    <span class="k">fn</span> <span class="nf">android_prepare_request</span><span class="p">(</span><span class="n">url</span><span class="p">:</span> <span class="o">*</span><span class="k">const</span> <span class="nb">c_char</span><span class="p">);</span>
+<span class="p">}</span>
 
-</code></pre>
+</code></pre></div></div>
 
-<p>You can see this is super useful to expose functionality to our Rust code. In order to expose global symbols when using <code>dlopen</code> one passes the <code>RTDL_GLOBAL</code> flag:</p>
+<p>You can see this is super useful to expose functionality to our Rust code. In order to expose global symbols when using <code class="language-plaintext highlighter-rouge">dlopen</code> one passes the <code class="language-plaintext highlighter-rouge">RTDL_GLOBAL</code> flag:</p>
 
-<pre><code class="language-obj-c">void *handle = dlopen([dylib_path UTF8String], RTLD_NOW | RTLD_GLOBAL);
-</code></pre>
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="o">*</span><span class="n">handle</span> <span class="o">=</span> <span class="n">dlopen</span><span class="p">([</span><span class="n">dylib_path</span> <span class="nf">UTF8String</span><span class="p">],</span> <span class="n">RTLD_NOW</span> <span class="o">|</span> <span class="n">RTLD_GLOBAL</span><span class="p">);</span>
+</code></pre></div></div>
 
-<p>However, there is a problem, is that clang deletes away our function, since we are not using it in our native code, so code analysis just deletes since it cannot now that the dylib depends on that function, that’s were the <code>force_symbol_registration</code> comes into play. It forces the compiler to keep our functions alive:</p>
+<p>However, there is a problem, is that clang deletes away our function, since we are not using it in our native code, so code analysis just deletes since it cannot now that the dylib depends on that function, that’s were the <code class="language-plaintext highlighter-rouge">force_symbol_registration</code> comes into play. It forces the compiler to keep our functions alive:</p>
 
-<pre><code class="language-obj-c">void force_symbol_registration() {
-  // Force these symbols to be included in the binary by referencing them
-  volatile void *ptrs[] = {(void *)ios_prepare_request};
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">force_symbol_registration</span><span class="p">()</span> <span class="p">{</span>
+  <span class="c1">// Force these symbols to be included in the binary by referencing them</span>
+  <span class="k">volatile</span> <span class="kt">void</span> <span class="o">*</span><span class="n">ptrs</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">ios_prepare_request</span><span class="p">};</span>
 
-  // Prevent compiler from optimizing away the array
-  (void)ptrs;
-}
-</code></pre>
+  <span class="c1">// Prevent compiler from optimizing away the array</span>
+  <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="n">ptrs</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h2 id="android-1">Android</h2>
 
-<p>Android is much easier, only adding the <code>IMPORTED_NO_SONAME</code> attribute when declaring our shared library already takes care of exposing the symbols:</p>
+<p>Android is much easier, only adding the <code class="language-plaintext highlighter-rouge">IMPORTED_NO_SONAME</code> attribute when declaring our shared library already takes care of exposing the symbols:</p>
 
-<pre><code>set_target_properties(mylib PROPERTIES
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>set_target_properties(mylib PROPERTIES
     IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../jniLibs/${ANDROID_ABI}/mylib.so
     IMPORTED_NO_SONAME ON)
-</code></pre>
+</code></pre></div></div>
 
 <p>Whatever is declared in your C++/JNI code should be made available automatically to the Rust code.</p>
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code>prebuild</code>. I also could not use <code>eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code class="language-plaintext highlighter-rouge">prebuild</code>. I also could not use <code class="language-plaintext highlighter-rouge">eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
 
 <h2 id="ios">iOS</h2>
 
 <ul>
-  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code>eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
+  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code class="language-plaintext highlighter-rouge">eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
   <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
     <ol>
       <li>Go to https://developer.apple.com/account and log in.</li>
@@ -529,30 +529,30 @@ EXPORT void ios_prepare_request(const char *url) {
       <li>Create key, download p8 and copy the key id</li>
     </ol>
   </li>
-  <li>Take that p8 file and the key id and upload it to the <code>credentials</code> section of <code>expo.dev</code> in the <code>Push Key</code> section</li>
+  <li>Take that p8 file and the key id and upload it to the <code class="language-plaintext highlighter-rouge">credentials</code> section of <code class="language-plaintext highlighter-rouge">expo.dev</code> in the <code class="language-plaintext highlighter-rouge">Push Key</code> section</li>
   <li>Install the deps</li>
 </ul>
 
-<pre><code class="language-bash">bunx expo install expo-notifications expo-device expo-constants
-</code></pre>
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bunx expo <span class="nb">install </span>expo-notifications expo-device expo-constants
+</code></pre></div></div>
 
 <ul>
-  <li>Add <code>expo-notifications</code> to the list of plugins on <code>app.config.ts</code></li>
-  <li>Make sure on <code>app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
+  <li>Add <code class="language-plaintext highlighter-rouge">expo-notifications</code> to the list of plugins on <code class="language-plaintext highlighter-rouge">app.config.ts</code></li>
+  <li>Make sure on <code class="language-plaintext highlighter-rouge">app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
 </ul>
 
-<pre><code class="language-json">    extra: {
-      eas: {
-        projectId: "foo-a-uuid-quack",
-      },
-    },
-</code></pre>
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="err">extra:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="err">eas:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="err">projectId:</span><span class="w"> </span><span class="s2">"foo-a-uuid-quack"</span><span class="p">,</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+    </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span></code></pre></div></div>
 
 <ul>
-  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code>expoPushToken</code>)</li>
-  <li>In the snippet the so called <code>expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
+  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code class="language-plaintext highlighter-rouge">expoPushToken</code>)</li>
+  <li>In the snippet the so called <code class="language-plaintext highlighter-rouge">expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
   <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
-  <li>For production, on app start get the <code>expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
+  <li>For production, on app start get the <code class="language-plaintext highlighter-rouge">expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
     <ul>
       <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
     </ul>
@@ -565,73 +565,73 @@ EXPORT void ios_prepare_request(const char *url) {
 
 <ul>
   <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
-  <li>I was testing with the <code>.jks</code> generated by expo (downloaded via <code>eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code>firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code>prebuild</code> and just left the default generated Keystore notifications worked.</li>
+  <li>I was testing with the <code class="language-plaintext highlighter-rouge">.jks</code> generated by expo (downloaded via <code class="language-plaintext highlighter-rouge">eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code class="language-plaintext highlighter-rouge">firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code class="language-plaintext highlighter-rouge">prebuild</code> and just left the default generated Keystore notifications worked.</li>
   <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code>std</code>, etc.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code class="language-plaintext highlighter-rouge">std</code>, etc.</p>
 
 <ul>
   <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
   <li>
-    <p>No uses los crates <code>lazy_static</code> o <code>once_cell</code>, su funcionalidad ya está incorporada en la librería estándar (<code>std</code>) y ahora puedes usar <code>OnceLock</code> y <code>LazyLock</code> para inicializar variables globales.</p>
+    <p>No uses los crates <code class="language-plaintext highlighter-rouge">lazy_static</code> o <code class="language-plaintext highlighter-rouge">once_cell</code>, su funcionalidad ya está incorporada en la librería estándar (<code class="language-plaintext highlighter-rouge">std</code>) y ahora puedes usar <code class="language-plaintext highlighter-rouge">OnceLock</code> y <code class="language-plaintext highlighter-rouge">LazyLock</code> para inicializar variables globales.</p>
 
-    <pre><code class="language-rust">  // ❌ No hagas esto
-  lazy_static! {
-    // tus variables globales
-  }
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1">// ❌ No hagas esto</span>
+  <span class="nd">lazy_static!</span> <span class="p">{</span>
+    <span class="c1">// tus variables globales</span>
+  <span class="p">}</span>
 
-  // ✅ Haz esto
-  static MY_GLOBAL_STRING: LazyLock&lt;RwLock&lt;String&gt;&gt; =
-    LazyLock::new(|| RwLock::new("Hello World!".into()));
-</code></pre>
+  <span class="c1">// ✅ Haz esto</span>
+  <span class="k">static</span> <span class="n">MY_GLOBAL_STRING</span><span class="p">:</span> <span class="n">LazyLock</span><span class="o">&lt;</span><span class="n">RwLock</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;&gt;</span> <span class="o">=</span>
+    <span class="nn">LazyLock</span><span class="p">::</span><span class="nf">new</span><span class="p">(||</span> <span class="nn">RwLock</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="nf">.into</span><span class="p">()));</span>
+</code></pre></div>    </div>
   </li>
   <li>
-    <p>Generalmente, <code>RwLock</code> es lo que quieres en vez de <code>Mutex</code>. Permite múltiples lectores sin bloquear completamente tu proceso. Eso sí, si vas a leer y escribir en la misma función, ¡es muy importante liberar cualquier lock de lectura!</p>
+    <p>Generalmente, <code class="language-plaintext highlighter-rouge">RwLock</code> es lo que quieres en vez de <code class="language-plaintext highlighter-rouge">Mutex</code>. Permite múltiples lectores sin bloquear completamente tu proceso. Eso sí, si vas a leer y escribir en la misma función, ¡es muy importante liberar cualquier lock de lectura!</p>
 
-    <pre><code class="language-rust">let my_read_var = MY_VAR.read().unwrap()
-// Si no haces drop
-drop(my_read_var)
-// Este writer se bloqueará
-let mut my_write_var = MY_VAR.write().unwrap();
-</code></pre>
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">let</span> <span class="n">my_read_var</span> <span class="o">=</span> <span class="n">MY_VAR</span><span class="nf">.read</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">()</span>
+<span class="c1">// Si no haces drop</span>
+<span class="nf">drop</span><span class="p">(</span><span class="n">my_read_var</span><span class="p">)</span>
+<span class="c1">// Este writer se bloqueará</span>
+<span class="k">let</span> <span class="k">mut</span> <span class="n">my_write_var</span> <span class="o">=</span> <span class="n">MY_VAR</span><span class="nf">.write</span><span class="p">()</span><span class="nf">.unwrap</span><span class="p">();</span>
+</code></pre></div>    </div>
   </li>
-  <li>Agregar WASM después puede ser doloroso, ya que WASM no es multi-hilo. El código async podría necesitar ser refactorizado o compilado con <code>cfg</code>s para evitar traits async, uso de send+sync, etc.</li>
+  <li>Agregar WASM después puede ser doloroso, ya que WASM no es multi-hilo. El código async podría necesitar ser refactorizado o compilado con <code class="language-plaintext highlighter-rouge">cfg</code>s para evitar traits async, uso de send+sync, etc.</li>
   <li>
-    <p>Si expones una API en C y devuelves <code>std::ffi::Cstring</code>, las cadenas deben ser devueltas a Rust para ser liberadas de forma segura.</p>
+    <p>Si expones una API en C y devuelves <code class="language-plaintext highlighter-rouge">std::ffi::Cstring</code>, las cadenas deben ser devueltas a Rust para ser liberadas de forma segura.</p>
 
-    <pre><code class="language-rust">#[no_mangle]
-unsafe extern "C" fn get_a_string() -&gt; *mut c_char {
-  let data = CString::new("Hello World!".into()).unwrap();
-  data.into_raw() as *mut c_char
-}
+    <div class="language-rust highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nd">#[no_mangle]</span>
+<span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">get_a_string</span><span class="p">()</span> <span class="k">-&gt;</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span> <span class="p">{</span>
+  <span class="k">let</span> <span class="n">data</span> <span class="o">=</span> <span class="nn">CString</span><span class="p">::</span><span class="nf">new</span><span class="p">(</span><span class="s">"Hello World!"</span><span class="nf">.into</span><span class="p">())</span><span class="nf">.unwrap</span><span class="p">();</span>
+  <span class="n">data</span><span class="nf">.into_raw</span><span class="p">()</span> <span class="k">as</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span>
+<span class="p">}</span>
 
-// El puntero debe ser devuelto a Rust para su liberación segura
-#[no_mangle]
-unsafe extern "C" fn free_string(ptr: *mut c_char) {
-    if ptr.is_null() {
-        return;
-    }
+<span class="c1">// El puntero debe ser devuelto a Rust para su liberación segura</span>
+<span class="nd">#[no_mangle]</span>
+<span class="k">unsafe</span> <span class="k">extern</span> <span class="s">"C"</span> <span class="k">fn</span> <span class="nf">free_string</span><span class="p">(</span><span class="n">ptr</span><span class="p">:</span> <span class="o">*</span><span class="k">mut</span> <span class="nb">c_char</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="n">ptr</span><span class="nf">.is_null</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
 
-    let _ = CString::from_raw(ptr);
-    // Se libera automáticamente al final de la función
-}
-</code></pre>
+    <span class="k">let</span> <span class="n">_</span> <span class="o">=</span> <span class="nn">CString</span><span class="p">::</span><span class="nf">from_raw</span><span class="p">(</span><span class="n">ptr</span><span class="p">);</span>
+    <span class="c1">// Se libera automáticamente al final de la función</span>
+<span class="p">}</span>
+</code></pre></div>    </div>
   </li>
-  <li>Puede que tu equipo no esté acostumbrado a ciertos patrones tipo mónada, como <code>Result</code> y <code>Option</code>. Permiten un código Rust muy idiomático y conciso. Fomenta su uso.</li>
+  <li>Puede que tu equipo no esté acostumbrado a ciertos patrones tipo mónada, como <code class="language-plaintext highlighter-rouge">Result</code> y <code class="language-plaintext highlighter-rouge">Option</code>. Permiten un código Rust muy idiomático y conciso. Fomenta su uso.</li>
   <li>Aunque Rust es cross-platform, hay muchas trampas no obvias.
     <ul>
-      <li>Una que me afectó mucho fue la falta de acceso a los certificados TLS nativos en Android, lo que llevó a que OpenSSL se compilara e incluyera en mi crate. Esto lleva a un lío entre los crates <code>nativetls</code> y <code>rustls</code>. Si apuntas a multiplataforma, usa <code>rustls</code> si es posible.</li>
+      <li>Una que me afectó mucho fue la falta de acceso a los certificados TLS nativos en Android, lo que llevó a que OpenSSL se compilara e incluyera en mi crate. Esto lleva a un lío entre los crates <code class="language-plaintext highlighter-rouge">nativetls</code> y <code class="language-plaintext highlighter-rouge">rustls</code>. Si apuntas a multiplataforma, usa <code class="language-plaintext highlighter-rouge">rustls</code> si es posible.</li>
     </ul>
   </li>
-  <li><code>Ring</code> está siendo deprecado/abandonado, muchas librerías están migrando a <code>aws-lc-rs</code>, tú también deberías.
+  <li><code class="language-plaintext highlighter-rouge">Ring</code> está siendo deprecado/abandonado, muchas librerías están migrando a <code class="language-plaintext highlighter-rouge">aws-lc-rs</code>, tú también deberías.
     <ul>
       <li>La migración de los crates de la comunidad hacia aws-lc-rs está ocurriendo poco a poco. Puede que necesites activar features o subir versiones para aprovechar esto.</li>
     </ul>
   </li>
   <li>Los feature flags son geniales, pero su uso y comportamiento real no siempre es claro. Revisar el código fuente puede ser la única forma de entender qué features hay y qué hacen. Si asumes que los features por defecto son correctos, podrías estar agregando mucho código inútil a tu proyecto. Esto puede ser eliminado en la compilación o no. Peligroso. No hay una forma fácil de detectar esto, salvo leer la documentación y ver el código fuente para ver qué puedes desactivar y seguir teniendo un crate funcional.</li>
-  <li>La compilación condicional es muy poderosa pero también peligrosa. Para facilitar pruebas puede ser tentador compilar condicionalmente mucho código con <code>#[cfg(test)]</code> o <code>#[cfg(debug)]</code>, pero esto puede causar problemas a futuro con errores ocultos que no se detectan durante el desarrollo. He visto que usar <code>if cfg!(test)</code> a veces es mejor, ya que todas las ramas del código se compilan y se evitan zonas muertas de compilación que pueden esconder problemas más profundos.</li>
+  <li>La compilación condicional es muy poderosa pero también peligrosa. Para facilitar pruebas puede ser tentador compilar condicionalmente mucho código con <code class="language-plaintext highlighter-rouge">#[cfg(test)]</code> o <code class="language-plaintext highlighter-rouge">#[cfg(debug)]</code>, pero esto puede causar problemas a futuro con errores ocultos que no se detectan durante el desarrollo. He visto que usar <code class="language-plaintext highlighter-rouge">if cfg!(test)</code> a veces es mejor, ya que todas las ramas del código se compilan y se evitan zonas muertas de compilación que pueden esconder problemas más profundos.</li>
   <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
-  <li>Propagar errores con <code>?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
-  <li>El crate <code>assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
+  <li>Propagar errores con <code class="language-plaintext highlighter-rouge">?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
+  <li>El crate <code class="language-plaintext highlighter-rouge">assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
 </ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
 
 <p>First one that seems non-solvable are transfer speeds. The 3 would do 10 to 20 mbits/s transfer. This new one seems to be a lot slower 1 to 3 mbits/second. Scouring online, seems to suggest one needs to turn off celullar data and the issue might go away. Big problem, but nothing I can do about that.</p>
@@ -655,67 +655,7 @@ unsafe extern "C" fn free_string(ptr: *mut c_char) {
 
 <p>After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.</p>
 
-<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
-
-<h1 id="previous-art">Previous Art</h1>
-
-<p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
-
-<ul>
-  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
-  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
-  <li>Npm tasks that run bash scripts</li>
-  <li>Raw dogging node scripts that spawn processes</li>
-  <li>There are ofc other tools like <code>make</code>, <code>rake</code>, <code>Ninja</code>, etc.</li>
-</ul>
-
-<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
-
-<h1 id="mise">Mise</h1>
-
-<p>I’m a big fan of tool managers. Journey started with <code>asdf</code> and I’m now using <code>mise</code>. <code>mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code>mise.toml</code> where you can have per folder tools.</p>
-
-<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
-
-<h1 id="bun-shell">Bun Shell</h1>
-
-<p>The <a href="Bun Shell"><code>Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
-
-<h1 id="putting-it-all-together">Putting it all together</h1>
-
-<p>At the end, I have a <code>mise.toml</code> that looks like this (this is just an example):</p>
-
-<pre><code class="language-toml">[tools]
-node = "14.18.1"
-bun = "0.1.0"
-rust = "1.58.0"
-
-[hooks]
-postinstall = "bun install"
-
-[tasks]
-build = "bun zx scripts/build.mts"
-</code></pre>
-
-<p>And a <code>scripts/build.mts</code> that looks like this:</p>
-
-<pre><code class="language-ts">import { $ } from "bun";
-
-// You can do more things here, like parse the arguments, import other files, etc
-await $`cargo build --release`;
-await $`flutter build ios`;
-</code></pre>
-
-<p>Then on the README for my team it gets simple boils down to:</p>
-
-<ul>
-  <li><code>brew install mise</code></li>
-  <li><code>mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
-  <li><code>mise install</code></li>
-  <li><code>mise build</code> to build the project. On my project I have extended this with params like <code>mise build ios debug</code> to build the iOS app in debug mode.</li>
-</ul>
-
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
 
 <h1 id="herramientas-existentes">Herramientas Existentes</h1>
 
@@ -726,14 +666,14 @@ await $`flutter build ios`;
   <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
   <li>Tasks de npm que corren scripts en bash</li>
   <li>Scripts en Node/JS que llaman commandos directamente</li>
-  <li>Otras herramientas como <code>make</code>, <code>rake</code>, <code>ninja</code>, etc.</li>
+  <li>Otras herramientas como <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">ninja</code>, etc.</li>
 </ul>
 
 <p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
 
 <h1 id="mise">Mise</h1>
 
-<p>Soy un gran fan de los tool managers. El viaje empezo con <code>asdf</code> y ahora estoy usando <code>mise</code>. <code>mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code>mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
+<p>Soy un gran fan de los tool managers. El viaje empezo con <code class="language-plaintext highlighter-rouge">asdf</code> y ahora estoy usando <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code class="language-plaintext highlighter-rouge">mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
 
 <p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
 
@@ -743,39 +683,99 @@ await $`flutter build ios`;
 
 <h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
 
-<p>Para este proyecto mi <code>mise.toml</code> parece algo así:</p>
+<p>Para este proyecto mi <code class="language-plaintext highlighter-rouge">mise.toml</code> parece algo así:</p>
 
-<pre><code class="language-toml">[tools]
-node = "14.18.1"
-bun = "0.1.0"
-rust = "1.58.0"
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
+<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
+<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
+<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
 
-[hooks]
-postinstall = "bun install"
+<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
+<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
 
-[tasks]
-build = "bun zx scripts/build.mts"
-</code></pre>
+<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
+<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
+</code></pre></div></div>
 
-<p>Luego existe un <code>script/build.mts</code> que se ve así:</p>
+<p>Luego existe un <code class="language-plaintext highlighter-rouge">script/build.mts</code> que se ve así:</p>
 
-<pre><code class="language-ts">import { $ } from "bun";
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
 
-// You can do more things here, like parse the arguments, import other files, etc
-await $`cargo build --release`;
-await $`flutter build ios`;
-</code></pre>
+<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>En el README del repositorio tengo los siguiente commandos:</p>
 
 <ul>
-  <li><code>brew install mise</code></li>
-  <li><code>mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
-  <li><code>mise install</code></li>
-  <li><code>mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code>mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
+  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
+  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code class="language-plaintext highlighter-rouge">mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
 </ul>
 
-<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+
+<h1 id="previous-art">Previous Art</h1>
+
+<p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
+
+<ul>
+  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
+  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
+  <li>Npm tasks that run bash scripts</li>
+  <li>Raw dogging node scripts that spawn processes</li>
+  <li>There are ofc other tools like <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">Ninja</code>, etc.</li>
+</ul>
+
+<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>I’m a big fan of tool managers. Journey started with <code class="language-plaintext highlighter-rouge">asdf</code> and I’m now using <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code class="language-plaintext highlighter-rouge">mise.toml</code> where you can have per folder tools.</p>
+
+<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>The <a href="Bun Shell"><code class="language-plaintext highlighter-rouge">Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
+
+<h1 id="putting-it-all-together">Putting it all together</h1>
+
+<p>At the end, I have a <code class="language-plaintext highlighter-rouge">mise.toml</code> that looks like this (this is just an example):</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
+<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
+<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
+<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
+
+<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
+<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
+
+<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
+<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
+</code></pre></div></div>
+
+<p>And a <code class="language-plaintext highlighter-rouge">scripts/build.mts</code> that looks like this:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Then on the README for my team it gets simple boils down to:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
+  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise build</code> to build the project. On my project I have extended this with params like <code class="language-plaintext highlighter-rouge">mise build ios debug</code> to build the iOS app in debug mode.</li>
+</ul>
+
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 
@@ -783,144 +783,144 @@ await $`flutter build ios`;
 
 <h1 id="frameworks">Frameworks</h1>
 
-<p>In order to load dynamic libraries in iOS they need to be packaged in a <code>.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code>.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
+<p>In order to load dynamic libraries in iOS they need to be packaged in a <code class="language-plaintext highlighter-rouge">.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code class="language-plaintext highlighter-rouge">.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
 
 <h1 id="compile-your-library">Compile your library</h1>
 
-<p>Here is the <code>Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
+<p>Here is the <code class="language-plaintext highlighter-rouge">Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
 
-<pre><code class="language-make">MIN_IOS_VERSION = 8.0
+<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">MIN_IOS_VERSION</span> <span class="o">=</span> 8.0
 
-# iOS SDK paths
-IOS_SDK_PATH = $(shell xcrun --sdk iphoneos --show-sdk-path)
-IOS_SIMULATOR_SDK_PATH = $(shell xcrun --sdk iphonesimulator --show-sdk-path)
+<span class="c"># iOS SDK paths
+</span><span class="nv">IOS_SDK_PATH</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphoneos <span class="nt">--show-sdk-path</span><span class="p">)</span>
+<span class="nv">IOS_SIMULATOR_SDK_PATH</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphonesimulator <span class="nt">--show-sdk-path</span><span class="p">)</span>
 
-# iOS cross-compiler toolchains
-CC_ios_arm64 = $(shell xcrun --sdk iphoneos --find clang)
-CC_ios_x86_64 = $(shell xcrun --sdk iphonesimulator --find clang)
+<span class="c"># iOS cross-compiler toolchains
+</span><span class="nv">CC_ios_arm64</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphoneos <span class="nt">--find</span> clang<span class="p">)</span>
+<span class="nv">CC_ios_x86_64</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphonesimulator <span class="nt">--find</span> clang<span class="p">)</span>
 
-# Output directories for iOS
-OUT_DIR_ios_arm64 = dist/ios/arm64
-OUT_DIR_ios_x86_64 = dist/ios/x86_64
-OUT_DIR_ios_arm64_simulator = dist/ios/arm64_simulator
+<span class="c"># Output directories for iOS
+</span><span class="nv">OUT_DIR_ios_arm64</span> <span class="o">=</span> dist/ios/arm64
+<span class="nv">OUT_DIR_ios_x86_64</span> <span class="o">=</span> dist/ios/x86_64
+<span class="nv">OUT_DIR_ios_arm64_simulator</span> <span class="o">=</span> dist/ios/arm64_simulator
 
-# iOS-specific flags
-IOS_CFLAGS = -Ivendor/ -I./ -O3 -fembed-bitcode -fPIC
-IOS_LDFLAGS = -Wl,-ios_version_min,$(MIN_IOS_VERSION)
-IOS_ARM64_FLAGS = -target arm64-apple-ios$(MIN_IOS_VERSION) -miphoneos-version-min=$(MIN_IOS_VERSION)
-IOS_ARM64_SIM_FLAGS = -target arm64-apple-ios-simulator$(MIN_IOS_VERSION) -mios-simulator-version-min=$(MIN_IOS_VERSION)
-IOS_X86_64_FLAGS = -target x86_64-apple-ios-simulator$(MIN_IOS_VERSION) -mios-simulator-version-min=$(MIN_IOS_VERSION)
+<span class="c"># iOS-specific flags
+</span><span class="nv">IOS_CFLAGS</span> <span class="o">=</span> <span class="nt">-Ivendor</span>/ <span class="nt">-I</span>./ <span class="nt">-O3</span> <span class="nt">-fembed-bitcode</span> <span class="nt">-fPIC</span>
+<span class="nv">IOS_LDFLAGS</span> <span class="o">=</span> <span class="nt">-Wl</span>,-ios_version_min,<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
+<span class="nv">IOS_ARM64_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> arm64-apple-ios<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-miphoneos-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
+<span class="nv">IOS_ARM64_SIM_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> arm64-apple-ios-simulator<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-mios-simulator-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
+<span class="nv">IOS_X86_64_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> x86_64-apple-ios-simulator<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-mios-simulator-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
 
-# Create folders per iOS architecture
-$(OUT_DIR_ios_arm64):
-	mkdir -p $@
+<span class="c"># Create folders per iOS architecture
+</span><span class="nl">$(OUT_DIR_ios_arm64)</span><span class="o">:</span>
+	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
 
-$(OUT_DIR_ios_x86_64):
-	mkdir -p $@
+<span class="nl">$(OUT_DIR_ios_x86_64)</span><span class="o">:</span>
+	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
 
-$(OUT_DIR_ios_arm64_simulator):
-	mkdir -p $@
+<span class="nl">$(OUT_DIR_ios_arm64_simulator)</span><span class="o">:</span>
+	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
 
-# Rule for compiling for iOS arm64 (device)
-ios_arm64: $(OUT_DIR_ios_arm64)
-	$(CC_ios_arm64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_ARM64_FLAGS) -isysroot $(IOS_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_arm64)/sqlite-vec.o
-	$(CC_ios_arm64) -dynamiclib -o $(OUT_DIR_ios_arm64)/sqlitevec $(OUT_DIR_ios_arm64)/sqlite-vec.o -isysroot $(IOS_SDK_PATH) $(IOS_LDFLAGS)
+<span class="c"># Rule for compiling for iOS arm64 (device)
+</span><span class="nl">ios_arm64</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_arm64)</span>
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_ARM64_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlite-vec.o
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SDK_PATH<span class="p">)</span> <span class="p">$(</span>IOS_LDFLAGS<span class="p">)</span>
 
-# Rule for compiling for iOS x86_64 (simulator)
-ios_x86_64: $(OUT_DIR_ios_x86_64)
-	$(CC_ios_x86_64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_X86_64_FLAGS) -isysroot $(IOS_SIMULATOR_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_x86_64)/sqlite-vec.o
-	$(CC_ios_x86_64) $(IOS_X86_64_FLAGS) -dynamiclib -o $(OUT_DIR_ios_x86_64)/sqlitevec $(OUT_DIR_ios_x86_64)/sqlite-vec.o -isysroot $(IOS_SIMULATOR_SDK_PATH)
+<span class="c"># Rule for compiling for iOS x86_64 (simulator)
+</span><span class="nl">ios_x86_64</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_x86_64)</span>
+	<span class="p">$(</span>CC_ios_x86_64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_X86_64_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlite-vec.o
+	<span class="p">$(</span>CC_ios_x86_64<span class="p">)</span> <span class="p">$(</span>IOS_X86_64_FLAGS<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span>
 
-# Rule for compiling for iOS arm64 (simulator)
-ios_arm64_sim: $(OUT_DIR_ios_arm64_simulator)
-	$(CC_ios_arm64) $(CFLAGS) $(IOS_CFLAGS) $(IOS_ARM64_SIM_FLAGS) -isysroot $(IOS_SIMULATOR_SDK_PATH) -c sqlite-vec.c -o $(OUT_DIR_ios_arm64_simulator)/sqlite-vec.o
-	$(CC_ios_arm64) -dynamiclib -o $(OUT_DIR_ios_arm64_simulator)/sqlitevec $(OUT_DIR_ios_arm64_simulator)/sqlite-vec.o -isysroot $(IOS_SIMULATOR_SDK_PATH)
+<span class="c"># Rule for compiling for iOS arm64 (simulator)
+</span><span class="nl">ios_arm64_sim</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_arm64_simulator)</span>
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_ARM64_SIM_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlite-vec.o
+	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span>
 
-# Rule to compile for all iOS architectures
-ios: ios_arm64 ios_x86_64 ios_arm64_sim
-  # Create a single fat for simulators
-	lipo -create ./dist/ios/x86_64/sqlitevec ./dist/ios/arm64_simulator/sqlitevec -output dist/ios/sim_fat/sqlitevec
+<span class="c"># Rule to compile for all iOS architectures
+</span><span class="nl">ios</span><span class="o">:</span> <span class="nf">ios_arm64 ios_x86_64 ios_arm64_sim</span>
+  <span class="c"># Create a single fat for simulators
+</span>	<span class="err">lipo</span> <span class="err">-create</span> <span class="err">./dist/ios/x86_64/sqlitevec</span> <span class="err">./dist/ios/arm64_simulator/sqlitevec</span> <span class="err">-output</span> <span class="err">dist/ios/sim_fat/sqlitevec</span>
 
-  # Move generated binary to the template xcframework folder
-	cp ./dist/ios/arm64/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/
+  <span class="c"># Move generated binary to the template xcframework folder
+</span>	<span class="err">cp</span> <span class="err">./dist/ios/arm64/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/</span>
 
-  # Set @rpath
-	install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/sqlitevec
+  <span class="c"># Set @rpath
+</span>	<span class="err">install_name_tool</span> <span class="err">-id</span> <span class="err">@rpath/sqlitevec.framework/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/sqlitevec</span>
 
-  # Move generated binary to the template xcframework folder
-	cp ./dist/ios/sim_fat/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/
+  <span class="c"># Move generated binary to the template xcframework folder
+</span>	<span class="err">cp</span> <span class="err">./dist/ios/sim_fat/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/</span>
 
-  # Set @rpath
-	install_name_tool -id @rpath/sqlitevec.framework/sqlitevec ./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec
+  <span class="c"># Set @rpath
+</span>	<span class="err">install_name_tool</span> <span class="err">-id</span> <span class="err">@rpath/sqlitevec.framework/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec</span>
 
-.PHONY: ios ios_arm64 ios_x86_64 ios_arm64_sim
-</code></pre>
+<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">ios ios_arm64 ios_x86_64 ios_arm64_sim</span>
+</code></pre></div></div>
 
 <ol>
   <li>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).</li>
   <li>Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.</li>
   <li>Once these files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same “arch” so they clash and need to be merged into a “fat” binary).</li>
-  <li>With the binary merged we can drop everything into a <code>.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
-  <li>With the files in the correct places we need to final set the <code>@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
+  <li>With the binary merged we can drop everything into a <code class="language-plaintext highlighter-rouge">.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
+  <li>With the files in the correct places we need to final set the <code class="language-plaintext highlighter-rouge">@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
 </ol>
 
 <h1 id="xcframework">XCFramework</h1>
 
-<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code>.xcframework</code> which basically is a folder that contains an <code>Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code>xcframework</code> via command, but it will not create the internal <code>frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
+<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code class="language-plaintext highlighter-rouge">.xcframework</code> which basically is a folder that contains an <code class="language-plaintext highlighter-rouge">Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code class="language-plaintext highlighter-rouge">xcframework</code> via command, but it will not create the internal <code class="language-plaintext highlighter-rouge">frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
 
-<pre><code class="language-sh">xcodebuild -create-xcframework -library ./sim_fat/libsqlite_vec.a -headers ../../ -library ./arm64/libsqlite_vec.a -include ../../ -output libsqlite_vec.xcframework
-</code></pre>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild <span class="nt">-create-xcframework</span> <span class="nt">-library</span> ./sim_fat/libsqlite_vec.a <span class="nt">-headers</span> ../../ <span class="nt">-library</span> ./arm64/libsqlite_vec.a <span class="nt">-include</span> ../../ <span class="nt">-output</span> libsqlite_vec.xcframework
+</code></pre></div></div>
 
 <blockquote>
   <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you. No need to mess with the rpath and frameworks</p>
 </blockquote>
 
-<p>The <code>Info.plist</code> also contains entries to the folders which contain the <code>frameworks</code> that actually contain the dylibs.</p>
+<p>The <code class="language-plaintext highlighter-rouge">Info.plist</code> also contains entries to the folders which contain the <code class="language-plaintext highlighter-rouge">frameworks</code> that actually contain the dylibs.</p>
 
 <h1 id="each-framework-infoplist">Each framework Info.plist</h1>
 
-<p>Each <code>.framework</code> inside the <code>.xcframework</code> contains it’s own <code>Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code>CFBundleExecutable</code> tells the name of the binary, <code>CFBundleIdentifier</code> is needed to load the dylibs):</p>
+<p>Each <code class="language-plaintext highlighter-rouge">.framework</code> inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> contains it’s own <code class="language-plaintext highlighter-rouge">Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code class="language-plaintext highlighter-rouge">CFBundleExecutable</code> tells the name of the binary, <code class="language-plaintext highlighter-rouge">CFBundleIdentifier</code> is needed to load the dylibs):</p>
 
-<pre><code class="language-xml">&lt;?xml version="1.0" encoding="UTF-8"?&gt;
-&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;
-&lt;plist version="1.0"&gt;
-&lt;dict&gt;
-  &lt;key&gt;CFBundleDevelopmentRegion&lt;/key&gt;
-  &lt;string&gt;en&lt;/string&gt;
-  &lt;key&gt;CFBundleExecutable&lt;/key&gt;
-  &lt;string&gt;sqlitevec&lt;/string&gt;
-  &lt;key&gt;CFBundleIdentifier&lt;/key&gt;
-  &lt;string&gt;com.ospfranco.sqlitevec&lt;/string&gt;
-  &lt;key&gt;CFBundleInfoDictionaryVersion&lt;/key&gt;
-  &lt;string&gt;6.0&lt;/string&gt;
-  &lt;key&gt;CFBundlePackageType&lt;/key&gt;
-  &lt;string&gt;FMWK&lt;/string&gt;
-  &lt;key&gt;CFBundleSignature&lt;/key&gt;
-  &lt;string&gt;????&lt;/string&gt;
-  &lt;key&gt;CFBundleVersion&lt;/key&gt;
-  &lt;string&gt;1.0.0&lt;/string&gt;
-  &lt;key&gt;CFBundleShortVersionString&lt;/key&gt;
-  &lt;string&gt;1.0.0&lt;/string&gt;
-	&lt;key&gt;MinimumOSVersion&lt;/key&gt;
-  &lt;string&gt;8.0&lt;/string&gt;
-&lt;/dict&gt;
-&lt;/plist&gt;
-</code></pre>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleDevelopmentRegion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>en<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleExecutable<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>sqlitevec<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleIdentifier<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>com.ospfranco.sqlitevec<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleInfoDictionaryVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>6.0<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundlePackageType<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>FMWK<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleSignature<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>????<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>CFBundleShortVersionString<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
+	<span class="nt">&lt;key&gt;</span>MinimumOSVersion<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;string&gt;</span>8.0<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
+</code></pre></div></div>
 
 <h1 id="loading-it-in-runtime">Loading it in runtime</h1>
 
-<p>After you have correctly created the <code>xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
+<p>After you have correctly created the <code class="language-plaintext highlighter-rouge">xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
 
-<pre><code class="language-ruby">s.vendored_frameworks = "sqlitevec.xcframework"
-</code></pre>
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">vendored_frameworks</span> <span class="o">=</span> <span class="s2">"sqlitevec.xcframework"</span>
+</code></pre></div></div>
 
-<p>This just takes care of packaging into your app once you do <code>pod install</code>. Once the app starts you actually have load the dylib. Here is a snippet to do this:</p>
+<p>This just takes care of packaging into your app once you do <code class="language-plaintext highlighter-rouge">pod install</code>. Once the app starts you actually have load the dylib. Here is a snippet to do this:</p>
 
-<pre><code class="language-objc">NSBundle *libsqlitevec_bundle = [NSBundle bundleWithIdentifier:@"com.ospfranco.sqlitevec"];
-NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" ofType:@""];
-</code></pre>
+<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSBundle</span> <span class="o">*</span><span class="n">libsqlitevec_bundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBundle</span> <span class="nf">bundleWithIdentifier</span><span class="p">:</span><span class="s">@"com.ospfranco.sqlitevec"</span><span class="p">];</span>
+<span class="n">NSString</span> <span class="o">*</span><span class="n">sqlite_vec_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">libsqlitevec_bundle</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"sqlitevec"</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@""</span><span class="p">];</span>
+</code></pre></div></div>
 
-<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code>dlopen</code> I guess, or some other system call).</p>
+<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code class="language-plaintext highlighter-rouge">dlopen</code> I guess, or some other system call).</p>
 
 <h1 id="debugging">Debugging</h1>
 
@@ -928,72 +928,72 @@ NSString *sqlite_vec_path = [libsqlitevec_bundle pathForResource:@"sqlitevec" of
 
 <p>Verify the min OS version is set correctly by running:</p>
 
-<pre><code>otool -l sqlitevec.framework/sqlitevec | grep -A 3 LC_VERSION_MIN_IPHONEOS
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otool -l sqlitevec.framework/sqlitevec | grep -A 3 LC_VERSION_MIN_IPHONEOS
+</code></pre></div></div>
 
 <p>If the key is there you should see the set version. This is mandatory for the iOS device arm64 version. If not set then Apple will reject your embedded framework when you send the submission to the app store. It should look something like this:</p>
 
-<pre><code>Load command 8
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Load command 8
       cmd LC_VERSION_MIN_IPHONEOS
   cmdsize 16
   version 8.0
       sdk 8.0
-</code></pre>
+</code></pre></div></div>
 
-<p>The <code>@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
+<p>The <code class="language-plaintext highlighter-rouge">@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
 
-<pre><code>otool -L sqlitevec.framework/sqlitevec
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otool -L sqlitevec.framework/sqlitevec
+</code></pre></div></div>
 
-<p>You should see an entry with <code>@rpath</code> like this:</p>
+<p>You should see an entry with <code class="language-plaintext highlighter-rouge">@rpath</code> like this:</p>
 
-<pre><code>sqlitevec.framework/sqlitevec:
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlitevec.framework/sqlitevec:
         @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
         /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
 
-<p>There has been a lot of changes with the new architecture of React Native and a class <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
+<p>There has been a lot of changes with the new architecture of React Native and a class <code class="language-plaintext highlighter-rouge">RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
 
 <p>The base class was contributed by Oskar and <a href="https://x.com/o_kwasniewski/status/1764971481778323529">announced on twitter</a>, there is also this <a href="https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory">callstack article</a>, but both are a bit incomplete or not indexable</p>
 
 <p>I’ll just dump you the code right here (for a Swift entry point)</p>
 
-<pre><code class="language-swift">import Foundation
-import React_RCTAppDelegate
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
+<span class="kd">import</span> <span class="kt">React_RCTAppDelegate</span>
 
-// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject
-@NSApplicationMain
-@objc
-class AppDelegate: RCTAppDelegate {
-  override func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-    self.bundleURL()
-  }
+<span class="c1">// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject</span>
+<span class="kd">@NSApplicationMain</span>
+<span class="kd">@objc</span>
+<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">RCTAppDelegate</span> <span class="p">{</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">sourceURL</span><span class="p">(</span><span class="k">for</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">bundleURL</span><span class="p">()</span>
+  <span class="p">}</span>
 
-  override func bundleURL() -&gt; URL? {
-    #if DEBUG
-      RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-    #else
-      Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-    #endif
-  }
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">bundleURL</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
+    <span class="cp">#if DEBUG</span>
+      <span class="kt">RCTBundleURLProvider</span><span class="o">.</span><span class="nf">sharedSettings</span><span class="p">()</span><span class="o">.</span><span class="nf">jsBundleURL</span><span class="p">(</span><span class="nv">forBundleRoot</span><span class="p">:</span> <span class="s">"index"</span><span class="p">)</span>
+    <span class="cp">#else</span>
+      <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">forResource</span><span class="p">:</span> <span class="s">"main"</span><span class="p">,</span> <span class="nv">withExtension</span><span class="p">:</span> <span class="s">"jsbundle"</span><span class="p">)</span>
+    <span class="cp">#endif</span>
+  <span class="p">}</span>
 
-  // Use this one to customize the rootview before it is returned
-  override func customize(_ rootView: RCTRootView) {
-    rootView.wantsLayer = true
-    rootView.backgroundColor = .clear
-    rootView.layer?.backgroundColor = .clear
-  }
+  <span class="c1">// Use this one to customize the rootview before it is returned</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">customize</span><span class="p">(</span><span class="n">_</span> <span class="nv">rootView</span><span class="p">:</span> <span class="kt">RCTRootView</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">rootView</span><span class="o">.</span><span class="n">wantsLayer</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">rootView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">clear</span>
+    <span class="n">rootView</span><span class="o">.</span><span class="n">layer</span><span class="p">?</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">clear</span>
+  <span class="p">}</span>
 
 
-  // didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
-  override func applicationDidFinishLaunching(_ notification: Notification) {
-    self.automaticallyLoadReactNativeWindow = false // Important to prevent RCTAppDelegate from trying to init the default RN View
-    super.applicationDidFinishLaunching(notification) // Needs to be called on the latest versions to initialize all the internal RN variables and state
+  <span class="c1">// didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">_</span> <span class="nv">notification</span><span class="p">:</span> <span class="kt">Notification</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">automaticallyLoadReactNativeWindow</span> <span class="o">=</span> <span class="kc">false</span> <span class="c1">// Important to prevent RCTAppDelegate from trying to init the default RN View</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">notification</span><span class="p">)</span> <span class="c1">// Needs to be called on the latest versions to initialize all the internal RN variables and state</span>
 
-    let rootView = self.rootViewFactory.view(withModuleName: "[Your bundle name]") // Finally create a RN Hosting View`
-    // add it to your NSWindow or HostingNSView
-  }
-}
-</code></pre>
+    <span class="k">let</span> <span class="nv">rootView</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">rootViewFactory</span><span class="o">.</span><span class="nf">view</span><span class="p">(</span><span class="nv">withModuleName</span><span class="p">:</span> <span class="s">"[Your bundle name]"</span><span class="p">)</span> <span class="c1">// Finally create a RN Hosting View`</span>
+    <span class="c1">// add it to your NSWindow or HostingNSView</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>The beauty of this abstraction is that it should be future proofed whenever the framework changes, preventing weird crashes and errors. If you turn on the flags you can do it programmatically from the constructor.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>

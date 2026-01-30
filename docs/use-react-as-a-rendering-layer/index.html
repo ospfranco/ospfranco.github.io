@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-11-11T00:00:00-04:00" />
+<meta property="article:published_time" content="2024-11-11T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="Use React as a Rendering Layer" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-11-11T00:00:00-04:00","datePublished":"2024-11-11T00:00:00-04:00","description":"A couple of tweets caught my eye this week:","headline":"Use React as a Rendering Layer","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/use-react-as-a-rendering-layer/"},"url":"https://ospfranco.com/use-react-as-a-rendering-layer/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-11-11T00:00:00+01:00","datePublished":"2024-11-11T00:00:00+01:00","description":"A couple of tweets caught my eye this week:","headline":"Use React as a Rendering Layer","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/use-react-as-a-rendering-layer/"},"url":"https://ospfranco.com/use-react-as-a-rendering-layer/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -88,11 +88,11 @@
 
 <p>I could ramble more and more but there is no point. If you live through the pain of maintaining a mid to large React app with lots of hooks and contexts this problem is self evident. So here is one way out: use mobx.</p>
 
-<p>Mobx bring sanity to state management by using a simple observer pattern. You modify a variable, things that use the variable get re-rendered. As simple as that. Not even entire trees of things get re-render, JUST THE THINGS THAT USE IT. This means no more <code>useMemo</code>.</p>
+<p>Mobx bring sanity to state management by using a simple observer pattern. You modify a variable, things that use the variable get re-rendered. As simple as that. Not even entire trees of things get re-render, JUST THE THINGS THAT USE IT. This means no more <code class="language-plaintext highlighter-rouge">useMemo</code>.</p>
 
-<p>You can declare model classes once, this contains variables (<code>useState</code>), functions declared once (meaning no more <code>useCallback</code>) and calculated values. Side-effects are no longer a weird <code>useEffect</code> with a list of variables that might affect it, code can just be triggered when variables are set. Some times it might be a more code duplication, but it’s no longer React programming, it’s just programming.</p>
+<p>You can declare model classes once, this contains variables (<code class="language-plaintext highlighter-rouge">useState</code>), functions declared once (meaning no more <code class="language-plaintext highlighter-rouge">useCallback</code>) and calculated values. Side-effects are no longer a weird <code class="language-plaintext highlighter-rouge">useEffect</code> with a list of variables that might affect it, code can just be triggered when variables are set. Some times it might be a more code duplication, but it’s no longer React programming, it’s just programming.</p>
 
-<p>It has some quirks, like having to use <code>runInAction</code> after using <code>await</code> but the trade-off is more than worthy. Your React code is just a rendering layer. NO HOOKS, NO CONTEXT. React excels at manipulating the DOM and giving you a re-usable abstraction, let it do just that.</p>
+<p>It has some quirks, like having to use <code class="language-plaintext highlighter-rouge">runInAction</code> after using <code class="language-plaintext highlighter-rouge">await</code> but the trade-off is more than worthy. Your React code is just a rendering layer. NO HOOKS, NO CONTEXT. React excels at manipulating the DOM and giving you a re-usable abstraction, let it do just that.</p>
 </div>
     </div>
 

@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2025-01-21T00:00:00-04:00" />
+<meta property="article:published_time" content="2025-01-21T00:00:00+01:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="React Native RCTRootViewFactory (Brownfield apps)" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-01-21T00:00:00-04:00","datePublished":"2025-01-21T00:00:00-04:00","description":"As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.","headline":"React Native RCTRootViewFactory (Brownfield apps)","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/react-native-rctrootviewfactory/"},"url":"https://ospfranco.com/react-native-rctrootviewfactory/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2025-01-21T00:00:00+01:00","datePublished":"2025-01-21T00:00:00+01:00","description":"As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.","headline":"React Native RCTRootViewFactory (Brownfield apps)","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/react-native-rctrootviewfactory/"},"url":"https://ospfranco.com/react-native-rctrootviewfactory/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -63,49 +63,49 @@
 
       <div class="pt-4 pb-20 markdown text-justify"><p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
 
-<p>There has been a lot of changes with the new architecture of React Native and a class <code>RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
+<p>There has been a lot of changes with the new architecture of React Native and a class <code class="language-plaintext highlighter-rouge">RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
 
 <p>The base class was contributed by Oskar and <a href="https://x.com/o_kwasniewski/status/1764971481778323529">announced on twitter</a>, there is also this <a href="https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory">callstack article</a>, but both are a bit incomplete or not indexable</p>
 
 <p>I’ll just dump you the code right here (for a Swift entry point)</p>
 
-<pre><code class="language-swift">import Foundation
-import React_RCTAppDelegate
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
+<span class="kd">import</span> <span class="kt">React_RCTAppDelegate</span>
 
-// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject
-@NSApplicationMain
-@objc
-class AppDelegate: RCTAppDelegate {
-  override func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-    self.bundleURL()
-  }
+<span class="c1">// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject</span>
+<span class="kd">@NSApplicationMain</span>
+<span class="kd">@objc</span>
+<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">RCTAppDelegate</span> <span class="p">{</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">sourceURL</span><span class="p">(</span><span class="k">for</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="nf">bundleURL</span><span class="p">()</span>
+  <span class="p">}</span>
 
-  override func bundleURL() -&gt; URL? {
-    #if DEBUG
-      RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index")
-    #else
-      Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-    #endif
-  }
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">bundleURL</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
+    <span class="cp">#if DEBUG</span>
+      <span class="kt">RCTBundleURLProvider</span><span class="o">.</span><span class="nf">sharedSettings</span><span class="p">()</span><span class="o">.</span><span class="nf">jsBundleURL</span><span class="p">(</span><span class="nv">forBundleRoot</span><span class="p">:</span> <span class="s">"index"</span><span class="p">)</span>
+    <span class="cp">#else</span>
+      <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">forResource</span><span class="p">:</span> <span class="s">"main"</span><span class="p">,</span> <span class="nv">withExtension</span><span class="p">:</span> <span class="s">"jsbundle"</span><span class="p">)</span>
+    <span class="cp">#endif</span>
+  <span class="p">}</span>
 
-  // Use this one to customize the rootview before it is returned
-  override func customize(_ rootView: RCTRootView) {
-    rootView.wantsLayer = true
-    rootView.backgroundColor = .clear
-    rootView.layer?.backgroundColor = .clear
-  }
+  <span class="c1">// Use this one to customize the rootview before it is returned</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">customize</span><span class="p">(</span><span class="n">_</span> <span class="nv">rootView</span><span class="p">:</span> <span class="kt">RCTRootView</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">rootView</span><span class="o">.</span><span class="n">wantsLayer</span> <span class="o">=</span> <span class="kc">true</span>
+    <span class="n">rootView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">clear</span>
+    <span class="n">rootView</span><span class="o">.</span><span class="n">layer</span><span class="p">?</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">clear</span>
+  <span class="p">}</span>
 
 
-  // didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one
-  override func applicationDidFinishLaunching(_ notification: Notification) {
-    self.automaticallyLoadReactNativeWindow = false // Important to prevent RCTAppDelegate from trying to init the default RN View
-    super.applicationDidFinishLaunching(notification) // Needs to be called on the latest versions to initialize all the internal RN variables and state
+  <span class="c1">// didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one</span>
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">_</span> <span class="nv">notification</span><span class="p">:</span> <span class="kt">Notification</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">self</span><span class="o">.</span><span class="n">automaticallyLoadReactNativeWindow</span> <span class="o">=</span> <span class="kc">false</span> <span class="c1">// Important to prevent RCTAppDelegate from trying to init the default RN View</span>
+    <span class="k">super</span><span class="o">.</span><span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">notification</span><span class="p">)</span> <span class="c1">// Needs to be called on the latest versions to initialize all the internal RN variables and state</span>
 
-    let rootView = self.rootViewFactory.view(withModuleName: "[Your bundle name]") // Finally create a RN Hosting View`
-    // add it to your NSWindow or HostingNSView
-  }
-}
-</code></pre>
+    <span class="k">let</span> <span class="nv">rootView</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">rootViewFactory</span><span class="o">.</span><span class="nf">view</span><span class="p">(</span><span class="nv">withModuleName</span><span class="p">:</span> <span class="s">"[Your bundle name]"</span><span class="p">)</span> <span class="c1">// Finally create a RN Hosting View`</span>
+    <span class="c1">// add it to your NSWindow or HostingNSView</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>The beauty of this abstraction is that it should be future proofed whenever the framework changes, preventing weird crashes and errors. If you turn on the flags you can do it programmatically from the constructor.</p>
 </div>

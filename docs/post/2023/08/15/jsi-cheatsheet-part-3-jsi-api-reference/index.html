@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-08-15T09:00:00-04:00" />
+<meta property="article:published_time" content="2023-08-15T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="JSI Cheatsheet: Part 3 - JSI API Reference" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T09:00:00-04:00","datePublished":"2023-08-15T09:00:00-04:00","description":"JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.","headline":"JSI Cheatsheet: Part 3 - JSI API Reference","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-08-15T15:00:00+02:00","datePublished":"2023-08-15T15:00:00+02:00","description":"JSI Documentation is lacking, I already learned quite a bit of tricks to achieve the most common operations, so here is cheatsheet.","headline":"JSI Cheatsheet: Part 3 - JSI API Reference","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"},"url":"https://ospfranco.com/post/2023/08/15/jsi-cheatsheet-part-3-jsi-api-reference/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -83,24 +83,24 @@
 
 <p>A lot of the operations you use with JSI require you to pass the runtime, you will either get it from your initialization code, or it will be passed to you when executing your JSI functions:</p>
 
-<pre><code class="language-cpp">void initializeMyModule(jsi::Runtime &amp;rt)
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">initializeMyModule</span><span class="p">(</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">&amp;</span><span class="n">rt</span><span class="p">)</span>
+</code></pre></div></div>
 
-<p>Whenever you see <code>rt</code> on this cheatsheet, assume you have to pass the <code>rt</code> object from wherever you get it.</p>
+<p>Whenever you see <code class="language-plaintext highlighter-rouge">rt</code> on this cheatsheet, assume you have to pass the <code class="language-plaintext highlighter-rouge">rt</code> object from wherever you get it.</p>
 
 <h1 id="jsivalue">jsi::Value</h1>
 
 <p>the jsi::Value struct is the bread and butter of JSI objects, everything you get from the javascript side is a jsi::Value, it’s up to you then to interpret it to the correct C++ variables.</p>
 
-<pre><code class="language-cpp">jsi::Value *args = ... // Pointer to first elem in memory of jsi::Values
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="o">*</span><span class="n">args</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// Pointer to first elem in memory of jsi::Values</span>
 
-if (!args[0].isString()) {
-	cout &lt;&lt; "The first argument needs to be a string!" &lt;&lt; endl;
-	return;
-}
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">isString</span><span class="p">())</span> <span class="p">{</span>
+	<span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">"The first argument needs to be a string!"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+	<span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
 
-const string dbName = args[0].asString(rt).utf8(rt);
-</code></pre>
+<span class="k">const</span> <span class="n">string</span> <span class="n">dbName</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">asString</span><span class="p">(</span><span class="n">rt</span><span class="p">).</span><span class="n">utf8</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>jsi::Value has a lot of methods inside of it to help you with a bunch of operations:</p>
 
@@ -120,32 +120,32 @@ const string dbName = args[0].asString(rt).utf8(rt);
 
 <h2 id="from-jsivalue">From jsi::Value</h2>
 
-<pre><code class="language-cpp">// value is a jsi::Value
-if(value.isNumber()) {
-	double doubleVal = value.asNumber();
-}
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// value is a jsi::Value</span>
+<span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="n">isNumber</span><span class="p">())</span> <span class="p">{</span>
+	<span class="kt">double</span> <span class="n">doubleVal</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="n">asNumber</span><span class="p">();</span>
+<span class="p">}</span>
 
-// All javascript numbers are doubles
-// but sometimes you might want to operate on ints
-// (you will loose precision, be careful)
-int intVal = (int)doubleVal;
-</code></pre>
+<span class="c1">// All javascript numbers are doubles</span>
+<span class="c1">// but sometimes you might want to operate on ints</span>
+<span class="c1">// (you will loose precision, be careful)</span>
+<span class="kt">int</span> <span class="n">intVal</span> <span class="o">=</span> <span class="p">(</span><span class="kt">int</span><span class="p">)</span><span class="n">doubleVal</span><span class="p">;</span>
+</code></pre></div></div>
 
 <h2 id="to-jsivalue">To jsi::Value</h2>
 
-<pre><code class="language-cpp">// Conversion is done implicitly for you
-int age = 19;
-jsi::Value jsAge = jsi::Value(age);
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Conversion is done implicitly for you</span>
+<span class="kt">int</span> <span class="n">age</span> <span class="o">=</span> <span class="mi">19</span><span class="p">;</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="n">jsAge</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="n">age</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>This same rules apply for bools and floats</p>
 
-<pre><code class="language-cpp">int doubleAge = 19.0;
-jsi::Value jsDoubleAge = jsi::Value(doubleAge);
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">doubleAge</span> <span class="o">=</span> <span class="mf">19.0</span><span class="p">;</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="n">jsDoubleAge</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="n">doubleAge</span><span class="p">);</span>
 
-bool myBool = true;
-jsi::Value jsMyBool = jsi::Value(myBool);
-</code></pre>
+<span class="kt">bool</span> <span class="n">myBool</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="n">jsMyBool</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="n">myBool</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h1 id="strings">Strings</h1>
 
@@ -153,103 +153,103 @@ jsi::Value jsMyBool = jsi::Value(myBool);
 
 <h2 id="from-jsivalue-1">From jsi::Value</h2>
 
-<pre><code class="language-cpp">jsi::Value value = ... // you will get it from somewhere
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="n">value</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// you will get it from somewhere</span>
 
-// Get a C++ std::string
-string strVal = value.asString(rt).utf8(rt);
-</code></pre>
+<span class="c1">// Get a C++ std::string</span>
+<span class="n">string</span> <span class="n">strVal</span> <span class="o">=</span> <span class="n">value</span><span class="p">.</span><span class="n">asString</span><span class="p">(</span><span class="n">rt</span><span class="p">).</span><span class="n">utf8</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="to-jsivalue-1">To jsi::Value</h2>
 
-<pre><code class="language-cpp">string myString = "hello from C++";
-// Older versions of the JSI library only took C-like strings
-jsi::String::createFromUtf8(rt, myString.c_str());
-// Newer version might accept a std::string directly
-jsi::String::createFromUtf8(rt, myString);
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">string</span> <span class="n">myString</span> <span class="o">=</span> <span class="s">"hello from C++"</span><span class="p">;</span>
+<span class="c1">// Older versions of the JSI library only took C-like strings</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">createFromUtf8</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">myString</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+<span class="c1">// Newer version might accept a std::string directly</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">String</span><span class="o">::</span><span class="n">createFromUtf8</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">myString</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h1 id="null">Null</h1>
 
 <h2 id="to-jsivalue-2">to jsi::Value</h2>
 
-<pre><code class="language-cpp">jsi::Value(nullptr)
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="nb">nullptr</span><span class="p">)</span>
+</code></pre></div></div>
 
 <h1 id="undefined">Undefined</h1>
 
 <h2 id="create">Create</h2>
 
-<pre><code class="language-cpp">jsi::Value::undefined()
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="o">::</span><span class="n">undefined</span><span class="p">()</span>
+</code></pre></div></div>
 
-<p>You can also return <code>{}</code> on some functions directly and it will act as a shortcut to create a <code>undefined</code> value</p>
+<p>You can also return <code class="language-plaintext highlighter-rouge">{}</code> on some functions directly and it will act as a shortcut to create a <code class="language-plaintext highlighter-rouge">undefined</code> value</p>
 
 <h1 id="arrays">Arrays</h1>
 
 <h2 id="create-1">Create</h2>
 
-<pre><code class="language-cpp">// Your arrays need to be fixed in size... no auto grow for you
-auto array = jsi::Array(rt, 20);
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// Your arrays need to be fixed in size... no auto grow for you</span>
+<span class="k">auto</span> <span class="n">array</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Array</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="mi">20</span><span class="p">);</span>
+</code></pre></div></div>
 
 <p>Since arrays need to be created with a fixed size, you might want to delay their creation on the C++ until you are ready to return data to Javascript, and use a vector meanwhile:</p>
 
-<pre><code class="language-cpp">std::vector&lt;int&gt; myNumbers = std::Vector&lt;int&gt;();
-myNumbers.push_back(1);
-myNumbers.push_back(2);
-myNumbers.push_back(3);
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span> <span class="n">myNumbers</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">Vector</span><span class="o">&lt;</span><span class="kt">int</span><span class="o">&gt;</span><span class="p">();</span>
+<span class="n">myNumbers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="n">myNumbers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">2</span><span class="p">);</span>
+<span class="n">myNumbers</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="mi">3</span><span class="p">);</span>
 
-auto array = jsi::Array(rt, myNumbers);
-for (int i = 0; i &lt; myNumbers.size(); i++)
-{
-  array.setValueAtIndex(rt, i, myNumbers[i]);
-}
-</code></pre>
+<span class="k">auto</span> <span class="n">array</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Array</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">myNumbers</span><span class="p">);</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">myNumbers</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">array</span><span class="p">.</span><span class="n">setValueAtIndex</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">myNumbers</span><span class="p">[</span><span class="n">i</span><span class="p">]);</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <h1 id="objects">Objects</h1>
 
 <h2 id="create-2">Create</h2>
 
-<pre><code class="language-cpp">// in javascript this would equal: module = {}
-jsi::Object module = jsi::Object(rt);
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// in javascript this would equal: module = {}</span>
+<span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="k">module</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+</code></pre></div></div>
 
 <h2 id="set-property">Set property</h2>
 
-<pre><code class="language-cpp">jsi::Object module = jsi::Object(rt); // module = {}
-module.setProperty(rt, "age", jsi::Value(19)); // module = {age: 19}
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="k">module</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span> <span class="c1">// module = {}</span>
+<span class="k">module</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"age"</span><span class="p">,</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="mi">19</span><span class="p">));</span> <span class="c1">// module = {age: 19}</span>
+</code></pre></div></div>
 
 <h2 id="global-object">Global object</h2>
 
 <p>JSI exposes the globalThis object for you to register your module</p>
 
-<pre><code class="language-cpp">rt.global().setProperty(rt, "myModule", move(module));
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"myModule"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="k">module</span><span class="p">));</span>
+</code></pre></div></div>
 
 <h1 id="functions">Functions</h1>
 
-<p>You create invokable javascript functions using the <code>createFromHostFunction</code> method</p>
+<p>You create invokable javascript functions using the <code class="language-plaintext highlighter-rouge">createFromHostFunction</code> method</p>
 
-<pre><code class="language-cpp">// create a javascript function
-auto getTheAnswerToLifeTheUniverseAndEverything = jsi::Function::createFromHostFunction(
-      rt, // you need to pass the JSI runtime
-      jsi::PropNameID::forAscii(rt, "getTheAnswerToLifeTheUniverseAndEverything"), // internal prop name
-      1, // Number of parameters function takes
-      [](jsi::Runtime &amp;rt, const jsi::Value &amp;thisValue, const jsi::Value *args, size_t count) -&gt; jsi::Value // C++ lambda
-      {
-				// rt: the JSI runtime for you to pass down/use
-				// thisValue: is the function context ("this" value in javascript)
-				// *args: the arguments passed to your function
-				// count: the number of arguments passed
-        return jsi::Value(42);
-      });
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// create a javascript function</span>
+<span class="k">auto</span> <span class="n">getTheAnswerToLifeTheUniverseAndEverything</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">createFromHostFunction</span><span class="p">(</span>
+      <span class="n">rt</span><span class="p">,</span> <span class="c1">// you need to pass the JSI runtime</span>
+      <span class="n">jsi</span><span class="o">::</span><span class="n">PropNameID</span><span class="o">::</span><span class="n">forAscii</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"getTheAnswerToLifeTheUniverseAndEverything"</span><span class="p">),</span> <span class="c1">// internal prop name</span>
+      <span class="mi">1</span><span class="p">,</span> <span class="c1">// Number of parameters function takes</span>
+      <span class="p">[](</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">&amp;</span><span class="n">rt</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">thisValue</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="c1">// C++ lambda</span>
+      <span class="p">{</span>
+				<span class="c1">// rt: the JSI runtime for you to pass down/use</span>
+				<span class="c1">// thisValue: is the function context ("this" value in javascript)</span>
+				<span class="c1">// *args: the arguments passed to your function</span>
+				<span class="c1">// count: the number of arguments passed</span>
+        <span class="k">return</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">(</span><span class="mi">42</span><span class="p">);</span>
+      <span class="p">});</span>
 
-// You can later register this function in the globalThis scope (for example)
-rt.global().setProperty(rt, "getTheAnswerToLifeTheUniverseAndEverything", move(getTheAnswerToLifeTheUniverseAndEverything));
+<span class="c1">// You can later register this function in the globalThis scope (for example)</span>
+<span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"getTheAnswerToLifeTheUniverseAndEverything"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="n">getTheAnswerToLifeTheUniverseAndEverything</span><span class="p">));</span>
 
-// Then in javascript you can call this global.getTheAnswerToLifeTheUniverseAndEverything() and should return 42
-</code></pre>
+<span class="c1">// Then in javascript you can call this global.getTheAnswerToLifeTheUniverseAndEverything() and should return 42</span>
+</code></pre></div></div>
 
 <h2 id="validation">Validation</h2>
 
@@ -257,59 +257,59 @@ rt.global().setProperty(rt, "getTheAnswerToLifeTheUniverseAndEverything", move(g
 
 <p>Here is a sample function that validates that the passed params are strings:</p>
 
-<pre><code class="language-cpp">auto open = jsi::Function::createFromHostFunction(
-      rt,
-      jsi::PropNameID::forAscii(rt, "sequel_open"),
-      1,
-      [](jsi::Runtime &amp;rt, const jsi::Value &amp;thisValue, const jsi::Value *args, size_t count) -&gt; jsi::Value
-      {
-        if(count == 0) {
-          jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database name is required");
-          return {};
-        }
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">auto</span> <span class="n">open</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Function</span><span class="o">::</span><span class="n">createFromHostFunction</span><span class="p">(</span>
+      <span class="n">rt</span><span class="p">,</span>
+      <span class="n">jsi</span><span class="o">::</span><span class="n">PropNameID</span><span class="o">::</span><span class="n">forAscii</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"sequel_open"</span><span class="p">),</span>
+      <span class="mi">1</span><span class="p">,</span>
+      <span class="p">[](</span><span class="n">jsi</span><span class="o">::</span><span class="n">Runtime</span> <span class="o">&amp;</span><span class="n">rt</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="o">&amp;</span><span class="n">thisValue</span><span class="p">,</span> <span class="k">const</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="kt">size_t</span> <span class="n">count</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span>
+      <span class="p">{</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"[react-native-quick-sqlite] database name is required"</span><span class="p">);</span>
+          <span class="k">return</span> <span class="p">{};</span>
+        <span class="p">}</span>
 
-        if (!args[0].isString())
-        {
-          jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database name must be a string");
-          return {};
-        }
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">isString</span><span class="p">())</span>
+        <span class="p">{</span>
+          <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"[react-native-quick-sqlite] database name must be a string"</span><span class="p">);</span>
+          <span class="k">return</span> <span class="p">{};</span>
+        <span class="p">}</span>
 
-        string dbName = args[0].asString(rt).utf8(rt);
-        string tempDocPath = string(docPathStr);
-        if(count &gt; 1) {
-          if(!args[1].isString()) {
-            jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
-            return {};
-          }
+        <span class="n">string</span> <span class="n">dbName</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">asString</span><span class="p">(</span><span class="n">rt</span><span class="p">).</span><span class="n">utf8</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+        <span class="n">string</span> <span class="n">tempDocPath</span> <span class="o">=</span> <span class="n">string</span><span class="p">(</span><span class="n">docPathStr</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">count</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+          <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">isString</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"[react-native-quick-sqlite] database location must be a string"</span><span class="p">);</span>
+            <span class="k">return</span> <span class="p">{};</span>
+          <span class="p">}</span>
 
-          tempDocPath = tempDocPath + "/" + args[1].asString(rt).utf8(rt);
-        }
+          <span class="n">tempDocPath</span> <span class="o">=</span> <span class="n">tempDocPath</span> <span class="o">+</span> <span class="s">"/"</span> <span class="o">+</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">].</span><span class="n">asString</span><span class="p">(</span><span class="n">rt</span><span class="p">).</span><span class="n">utf8</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+        <span class="p">}</span>
 
-        SequelResult result = sequel_open(dbName, tempDocPath);
+        <span class="n">SequelResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">sequel_open</span><span class="p">(</span><span class="n">dbName</span><span class="p">,</span> <span class="n">tempDocPath</span><span class="p">);</span>
 
-        if (result.type == SequelResultError)
-        {
-          jsi::detail::throwJSError(rt, result.message.c_str());
-          return {};
-        }
+        <span class="k">if</span> <span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">SequelResultError</span><span class="p">)</span>
+        <span class="p">{</span>
+          <span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">result</span><span class="p">.</span><span class="n">message</span><span class="p">.</span><span class="n">c_str</span><span class="p">());</span>
+          <span class="k">return</span> <span class="p">{};</span>
+        <span class="p">}</span>
 
-        return move(result.value);
-      });
-</code></pre>
+        <span class="k">return</span> <span class="nf">move</span><span class="p">(</span><span class="n">result</span><span class="p">.</span><span class="n">value</span><span class="p">);</span>
+      <span class="p">});</span>
+</code></pre></div></div>
 
 <h1 id="throwing-errors">Throwing Errors</h1>
 
 <p>In the previous snippet you probably saw how to throw a Javascript error</p>
 
-<pre><code class="language-cpp">jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
-// You still have to cleanly terminate your lambda
-return {};
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"[react-native-quick-sqlite] database location must be a string"</span><span class="p">);</span>
+<span class="c1">// You still have to cleanly terminate your lambda</span>
+<span class="k">return</span> <span class="p">{};</span>
+</code></pre></div></div>
 
-<pre><code class="language-cpp">jsi::detail::throwJSError(rt, "[react-native-quick-sqlite] database location must be a string");
-// You still have to cleanly terminate your lambda
-return {};
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">jsi</span><span class="o">::</span><span class="n">detail</span><span class="o">::</span><span class="n">throwJSError</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"[react-native-quick-sqlite] database location must be a string"</span><span class="p">);</span>
+<span class="c1">// You still have to cleanly terminate your lambda</span>
+<span class="k">return</span> <span class="p">{};</span>
+</code></pre></div></div>
 
 <h1 id="stdmove-️">std::move ⚠️🚨</h1>
 
@@ -319,26 +319,26 @@ return {};
   <p>🚨 Wherever you create your JSI objects (and specially if you do it inside of lambda functions) the memory can/will be overwritten, therefore it is important to pass your created JSI objects to the JSI runtime to avoid memory being overwritten and your data being lost</p>
 </blockquote>
 
-<pre><code class="language-cpp">// LOOK! move([blah blah])!!! DON'T FORGET IT!
-rt.global().setProperty(rt, "sqlite", move(module));
-</code></pre>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// LOOK! move([blah blah])!!! DON'T FORGET IT!</span>
+<span class="n">rt</span><span class="p">.</span><span class="n">global</span><span class="p">().</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"sqlite"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="k">module</span><span class="p">));</span>
+</code></pre></div></div>
 
 <blockquote>
   <p>🚨 This is important I’m going to say it again, make sure you std::move your data to avoid memory de-allocation, here is another example</p>
 </blockquote>
 
-<pre><code class="language-cpp">vector&lt;jsi::Object&gt; results = ... // pretend here is a vector of jsi::Objects
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">vector</span><span class="o">&lt;</span><span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="o">&gt;</span> <span class="n">results</span> <span class="o">=</span> <span class="p">...</span> <span class="c1">// pretend here is a vector of jsi::Objects</span>
 
-auto array = jsi::Array(rt, results.size());
-for (int i = 0; i &lt; results.size(); i++)
-{
-  array.setValueAtIndex(rt, i, move(results[i])); // 🚨 MOVE THEM! JUST MOVE THEM!
-}
+<span class="k">auto</span> <span class="n">array</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Array</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">());</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">();</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+  <span class="n">array</span><span class="p">.</span><span class="n">setValueAtIndex</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="n">i</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="n">i</span><span class="p">]));</span> <span class="c1">// 🚨 MOVE THEM! JUST MOVE THEM!</span>
+<span class="p">}</span>
 
-jsi::Object rows = jsi::Object(rt);
-rows.setProperty(rt, "length", jsi::Value((int)results.size()));
-rows.setProperty(rt, "_array", move(array));
-</code></pre>
+<span class="n">jsi</span><span class="o">::</span><span class="n">Object</span> <span class="n">rows</span> <span class="o">=</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Object</span><span class="p">(</span><span class="n">rt</span><span class="p">);</span>
+<span class="n">rows</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"length"</span><span class="p">,</span> <span class="n">jsi</span><span class="o">::</span><span class="n">Value</span><span class="p">((</span><span class="kt">int</span><span class="p">)</span><span class="n">results</span><span class="p">.</span><span class="n">size</span><span class="p">()));</span>
+<span class="n">rows</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="n">rt</span><span class="p">,</span> <span class="s">"_array"</span><span class="p">,</span> <span class="n">move</span><span class="p">(</span><span class="n">array</span><span class="p">));</span>
+</code></pre></div></div>
 </div>
     </div>
 

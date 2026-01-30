@@ -20,13 +20,13 @@
 <meta property="og:url" content="https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/" />
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2023-10-12T09:00:00-04:00" />
+<meta property="article:published_time" content="2023-10-12T15:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:title" content="React Native load release bundle in iOS dev app" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-12T09:00:00-04:00","datePublished":"2023-10-12T09:00:00-04:00","description":"When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.","headline":"React Native load release bundle in iOS dev app","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"},"url":"https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2023-10-12T15:00:00+02:00","datePublished":"2023-10-12T15:00:00+02:00","description":"When using React Native on Android you can enter the dev menu and choose not to use a development JS bundle. Usually useful to catch performance regressions in your JS code. For iOS this option is not present on the dev menu, but you can still achieve it if you hack around the native code.","headline":"React Native load release bundle in iOS dev app","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"},"url":"https://ospfranco.com/post/2023/10/12/react-native-load-release-bundle-in-ios-dev-app/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -63,17 +63,17 @@
 
 <p>In your AppDelegate, replace</p>
 
-<pre><code class="language-obj-c">return [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index"];
-</code></pre>
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">return</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span><span class="p">];</span>
+</code></pre></div></div>
 
 <p>with</p>
 
-<pre><code class="language-obj-c">NSString *packagerServerHostPort = [[RCTBundleURLProvider sharedSettings] packagerServerHostPort];
-return [RCTBundleURLProvider jsBundleURLForBundleRoot:@"index"
-                                         packagerHost:packagerServerHostPort
-                                            enableDev:NO
-                                   enableMinification:NO];
-</code></pre>
+<div class="language-obj-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSString</span> <span class="o">*</span><span class="n">packagerServerHostPort</span> <span class="o">=</span> <span class="p">[[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">sharedSettings</span><span class="p">]</span> <span class="nf">packagerServerHostPort</span><span class="p">];</span>
+<span class="k">return</span> <span class="p">[</span><span class="n">RCTBundleURLProvider</span> <span class="nf">jsBundleURLForBundleRoot</span><span class="p">:</span><span class="s">@"index"</span>
+                                         <span class="nl">packagerHost:</span><span class="n">packagerServerHostPort</span>
+                                            <span class="nl">enableDev:</span><span class="nb">NO</span>
+                                   <span class="nl">enableMinification:</span><span class="nb">NO</span><span class="p">];</span>
+</code></pre></div></div>
 </div>
     </div>
 

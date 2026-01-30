@@ -21,14 +21,14 @@
 <meta property="og:site_name" content="Oscar Franco" />
 <meta property="og:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="og:type" content="article" />
-<meta property="article:published_time" content="2024-06-30T00:00:00-04:00" />
+<meta property="article:published_time" content="2024-06-30T00:00:00+02:00" />
 <meta name="twitter:card" content="summary" />
 <meta property="twitter:image" content="https://ospfranco.com/assets/oscar.jpg" />
 <meta property="twitter:title" content="App clip with React Native and New Arch (and Swift)" />
 <meta name="twitter:site" content="@ospfranco" />
 <meta name="twitter:creator" content="@Oscar Franco" />
 <script type="application/ld+json">
-{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-30T00:00:00-04:00","datePublished":"2024-06-30T00:00:00-04:00","description":"I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.","headline":"App clip with React Native and New Arch (and Swift)","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"},"url":"https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"}</script>
+{"@context":"https://schema.org","@type":"BlogPosting","author":{"@type":"Person","name":"Oscar Franco"},"dateModified":"2024-06-30T00:00:00+02:00","datePublished":"2024-06-30T00:00:00+02:00","description":"I had to create an App Clip for a project using React Native. There are people who have done it before, but info is now outdated so posting an updated guide.","headline":"App clip with React Native and New Arch (and Swift)","image":"https://ospfranco.com/assets/oscar.jpg","mainEntityOfPage":{"@type":"WebPage","@id":"https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"},"url":"https://ospfranco.com/app-clip-with-react-native-and-new-arch-(and-swift)/"}</script>
 <!-- End Jekyll SEO tag -->
 
   <link rel="stylesheet" href="/css/site.css" />
@@ -72,184 +72,184 @@
 <p><img src="https://ospfranco.com/assets/appclip1.jpg" alt="appclip1" /></p>
 
 <ul>
-  <li>Add the <code>@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
+  <li>Add the <code class="language-plaintext highlighter-rouge">@rnx-kit/react-native-host</code>. It’s a package that allows to hoist a RCTRootView in the different architectures</li>
 </ul>
 
-<pre><code class="language-sh">yarn add @rnx-kit/react-native-host --dev
-</code></pre>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yarn add @rnx-kit/react-native-host <span class="nt">--dev</span>
+</code></pre></div></div>
 
 <ul>
-  <li>Modify your <code>podfile</code></li>
+  <li>Modify your <code class="language-plaintext highlighter-rouge">podfile</code></li>
 </ul>
 
-<pre><code class="language-ruby">  # In your main app target add the following
+<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="c1"># In your main app target add the following</span>
 
-  # Auto linking is broken on this package
-  # https://github.com/microsoft/rnx-kit/issues/3208
-  pod 'ReactNativeHost', :path =&gt; "../node_modules/@rnx-kit/react-native-host"
+  <span class="c1"># Auto linking is broken on this package</span>
+  <span class="c1"># https://github.com/microsoft/rnx-kit/issues/3208</span>
+  <span class="n">pod</span> <span class="s1">'ReactNativeHost'</span><span class="p">,</span> <span class="ss">:path</span> <span class="o">=&gt;</span> <span class="s2">"../node_modules/@rnx-kit/react-native-host"</span>
 
-  target 'Clip' do
-    inherit! :complete
-    # Pods for Clip
-  end
-</code></pre>
+  <span class="n">target</span> <span class="s1">'Clip'</span> <span class="k">do</span>
+    <span class="n">inherit!</span> <span class="ss">:complete</span>
+    <span class="c1"># Pods for Clip</span>
+  <span class="k">end</span>
+</code></pre></div></div>
 
 <ul>
   <li>Do a new arch pod install</li>
 </ul>
 
-<pre><code class="language-sh">cd ios &amp;&amp; RCT_NEW_ARCH_ENABLED=1 pod install
-</code></pre>
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">cd </span>ios <span class="o">&amp;&amp;</span> <span class="nv">RCT_NEW_ARCH_ENABLED</span><span class="o">=</span>1 pod <span class="nb">install</span>
+</code></pre></div></div>
 
 <ul>
-  <li>Create a <code>BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
+  <li>Create a <code class="language-plaintext highlighter-rouge">BridgeManager.swift</code> class in the Clip target. Make sure it is added to the correct target! This class will help us instantiate a “host” which is compatible with the old arch and new arch.</li>
 </ul>
 
 <p><img src="https://ospfranco.com/assets/appclip2.jpg" alt="appclip2" /></p>
 
-<pre><code class="language-swift">import Foundation
-import React
-import ReactNativeHost
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
+<span class="kd">import</span> <span class="kt">React</span>
+<span class="kd">import</span> <span class="kt">ReactNativeHost</span>
 
-class BridgeManager: NSObject {
-    static let shared = BridgeManager()
+<span class="kd">class</span> <span class="kt">BridgeManager</span><span class="p">:</span> <span class="kt">NSObject</span> <span class="p">{</span>
+    <span class="kd">static</span> <span class="k">let</span> <span class="nv">shared</span> <span class="o">=</span> <span class="kt">BridgeManager</span><span class="p">()</span>
 
-    var host: ReactNativeHost?
+    <span class="k">var</span> <span class="nv">host</span><span class="p">:</span> <span class="kt">ReactNativeHost</span><span class="p">?</span>
 
-    public func loadReactNative(launchOptions: [AnyHashable: Any]?) {
-      host = ReactNativeHost(self)
-    }
-}
+    <span class="kd">public</span> <span class="kd">func</span> <span class="nf">loadReactNative</span><span class="p">(</span><span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">AnyHashable</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?)</span> <span class="p">{</span>
+      <span class="n">host</span> <span class="o">=</span> <span class="kt">ReactNativeHost</span><span class="p">(</span><span class="k">self</span><span class="p">)</span>
+    <span class="p">}</span>
+<span class="p">}</span>
 
-extension BridgeManager: RNXHostConfig {
-  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-        #if DEBUG
-          return RCTBundleURLProvider.sharedSettings().jsBundleURL(forBundleRoot: "index.clip")
-        #else
-            return Bundle.main.url(forResource: "main", withExtension: "jsbundle")
-        #endif
-    }
-}
-</code></pre>
+<span class="kd">extension</span> <span class="kt">BridgeManager</span><span class="p">:</span> <span class="kt">RNXHostConfig</span> <span class="p">{</span>
+  <span class="kd">func</span> <span class="nf">sourceURL</span><span class="p">(</span><span class="k">for</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
+        <span class="cp">#if DEBUG</span>
+          <span class="k">return</span> <span class="kt">RCTBundleURLProvider</span><span class="o">.</span><span class="nf">sharedSettings</span><span class="p">()</span><span class="o">.</span><span class="nf">jsBundleURL</span><span class="p">(</span><span class="nv">forBundleRoot</span><span class="p">:</span> <span class="s">"index.clip"</span><span class="p">)</span>
+        <span class="cp">#else</span>
+            <span class="k">return</span> <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">forResource</span><span class="p">:</span> <span class="s">"main"</span><span class="p">,</span> <span class="nv">withExtension</span><span class="p">:</span> <span class="s">"jsbundle"</span><span class="p">)</span>
+        <span class="cp">#endif</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <p>In order for the DEBUG preprocessor macro to run, we need to add the DEBUG flag into the build settings of the Clip target</p>
 
 <p><img src="https://ospfranco.com/assets/appclip5.jpg" alt="appclip5" /></p>
 
 <ul>
-  <li>We are going to modify the <code>AppDelegate.m</code> at the Clip target:</li>
+  <li>We are going to modify the <code class="language-plaintext highlighter-rouge">AppDelegate.m</code> at the Clip target:</li>
 </ul>
 
-<pre><code class="language-swift">import React
-import ReactNativeHost
-import UIKit
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">React</span>
+<span class="kd">import</span> <span class="kt">ReactNativeHost</span>
+<span class="kd">import</span> <span class="kt">UIKit</span>
 
-@main
-class AppDelegate: UIResponder, UIApplicationDelegate, RNXHostConfig {
+<span class="kd">@main</span>
+<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">UIResponder</span><span class="p">,</span> <span class="kt">UIApplicationDelegate</span><span class="p">,</span> <span class="kt">RNXHostConfig</span> <span class="p">{</span>
 
-  var window: UIWindow?
+  <span class="k">var</span> <span class="nv">window</span><span class="p">:</span> <span class="kt">UIWindow</span><span class="p">?</span>
 
-  func sourceURL(for bridge: RCTBridge) -&gt; URL? {
-    return nil
-  }
+  <span class="kd">func</span> <span class="nf">sourceURL</span><span class="p">(</span><span class="k">for</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="kc">nil</span>
+  <span class="p">}</span>
 
-  func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -&gt; Bool {
-    BridgeManager.shared.loadReactNative(launchOptions: launchOptions)
-    // Override point for customization after application launch.
-    return true
-  }
+  <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span>
+    <span class="n">didFinishLaunchingWithOptions</span> <span class="nv">launchOptions</span><span class="p">:</span> <span class="p">[</span><span class="kt">UIApplication</span><span class="o">.</span><span class="kt">LaunchOptionsKey</span><span class="p">:</span> <span class="kt">Any</span><span class="p">]?</span>
+  <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">Bool</span> <span class="p">{</span>
+    <span class="kt">BridgeManager</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="nf">loadReactNative</span><span class="p">(</span><span class="nv">launchOptions</span><span class="p">:</span> <span class="n">launchOptions</span><span class="p">)</span>
+    <span class="c1">// Override point for customization after application launch.</span>
+    <span class="k">return</span> <span class="kc">true</span>
+  <span class="p">}</span>
 
-  // MARK: UISceneSession Lifecycle
+  <span class="c1">// MARK: UISceneSession Lifecycle</span>
 
-  func application(
-    _ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession,
-    options: UIScene.ConnectionOptions
-  ) -&gt; UISceneConfiguration {
-    // Called when a new scene session is being created.
-    // Use this method to select a configuration to create the new scene with.
-    return UISceneConfiguration(
-      name: "Default Configuration", sessionRole: connectingSceneSession.role)
-  }
+  <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">configurationForConnecting</span> <span class="nv">connectingSceneSession</span><span class="p">:</span> <span class="kt">UISceneSession</span><span class="p">,</span>
+    <span class="nv">options</span><span class="p">:</span> <span class="kt">UIScene</span><span class="o">.</span><span class="kt">ConnectionOptions</span>
+  <span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">UISceneConfiguration</span> <span class="p">{</span>
+    <span class="c1">// Called when a new scene session is being created.</span>
+    <span class="c1">// Use this method to select a configuration to create the new scene with.</span>
+    <span class="k">return</span> <span class="kt">UISceneConfiguration</span><span class="p">(</span>
+      <span class="nv">name</span><span class="p">:</span> <span class="s">"Default Configuration"</span><span class="p">,</span> <span class="nv">sessionRole</span><span class="p">:</span> <span class="n">connectingSceneSession</span><span class="o">.</span><span class="n">role</span><span class="p">)</span>
+  <span class="p">}</span>
 
-  func application(
-    _ application: UIApplication, didDiscardSceneSessions sceneSessions: Set&lt;UISceneSession&gt;
-  ) {
-    // Called when the user discards a scene session.
-    // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
-    // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
-  }
-}
-</code></pre>
+  <span class="kd">func</span> <span class="nf">application</span><span class="p">(</span>
+    <span class="n">_</span> <span class="nv">application</span><span class="p">:</span> <span class="kt">UIApplication</span><span class="p">,</span> <span class="n">didDiscardSceneSessions</span> <span class="nv">sceneSessions</span><span class="p">:</span> <span class="kt">Set</span><span class="o">&lt;</span><span class="kt">UISceneSession</span><span class="o">&gt;</span>
+  <span class="p">)</span> <span class="p">{</span>
+    <span class="c1">// Called when the user discards a scene session.</span>
+    <span class="c1">// If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.</span>
+    <span class="c1">// Use this method to release any resources that were specific to the discarded scenes, as they will not return.</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <ul>
-  <li>We can the finally load the <code>RCTRootView</code> (the view that holds RN) into the app clip controller</li>
+  <li>We can the finally load the <code class="language-plaintext highlighter-rouge">RCTRootView</code> (the view that holds RN) into the app clip controller</li>
 </ul>
 
-<pre><code class="language-swift">import UIKit
-import ReactNativeHost
+<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">UIKit</span>
+<span class="kd">import</span> <span class="kt">ReactNativeHost</span>
 
-class ViewController: UIViewController {
+<span class="kd">class</span> <span class="kt">ViewController</span><span class="p">:</span> <span class="kt">UIViewController</span> <span class="p">{</span>
 
-  override func loadView() {
-    if let host = BridgeManager.shared.host {
-          self.view = host.view(
-              moduleName: "clip",
-              initialProperties: nil
-          )
-      }
+  <span class="k">override</span> <span class="kd">func</span> <span class="nf">loadView</span><span class="p">()</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="k">let</span> <span class="nv">host</span> <span class="o">=</span> <span class="kt">BridgeManager</span><span class="o">.</span><span class="n">shared</span><span class="o">.</span><span class="n">host</span> <span class="p">{</span>
+          <span class="k">self</span><span class="o">.</span><span class="n">view</span> <span class="o">=</span> <span class="n">host</span><span class="o">.</span><span class="nf">view</span><span class="p">(</span>
+              <span class="nv">moduleName</span><span class="p">:</span> <span class="s">"clip"</span><span class="p">,</span>
+              <span class="nv">initialProperties</span><span class="p">:</span> <span class="kc">nil</span>
+          <span class="p">)</span>
+      <span class="p">}</span>
 
-  }
+  <span class="p">}</span>
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        // Do any additional setup after loading the view.
-    }
+    <span class="k">override</span> <span class="kd">func</span> <span class="nf">viewDidLoad</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">super</span><span class="o">.</span><span class="nf">viewDidLoad</span><span class="p">()</span>
+        <span class="c1">// Do any additional setup after loading the view.</span>
+    <span class="p">}</span>
 
 
-}
-</code></pre>
+<span class="p">}</span>
+</code></pre></div></div>
 
 <ul>
-  <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code>Bundle React Native code and images</code> but modify it so that instead of loading the <code>index.js</code> file it loads <code>index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
+  <li>At this point you should get the gist of what we are trying to do. Start a RN instance inside the App Clip. However, we now need to take care of a bunch of minutia that is annoying. We are going to copy the contents of the main target <code class="language-plaintext highlighter-rouge">Bundle React Native code and images</code> but modify it so that instead of loading the <code class="language-plaintext highlighter-rouge">index.js</code> file it loads <code class="language-plaintext highlighter-rouge">index.clip.js</code>. Go to build phases, add new script and copy the contents of the script:</li>
 </ul>
 
 <p><img src="https://ospfranco.com/assets/appclip3.jpg" alt="appclip3" /></p>
 
-<pre><code class="language-sh">set -e
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nb">set</span> <span class="nt">-e</span>
 
-WITH_ENVIRONMENT="$REACT_NATIVE_PATH/scripts/xcode/with-environment.sh"
-REACT_NATIVE_XCODE="$REACT_NATIVE_PATH/scripts/react-native-xcode.sh"
+<span class="nv">WITH_ENVIRONMENT</span><span class="o">=</span><span class="s2">"</span><span class="nv">$REACT_NATIVE_PATH</span><span class="s2">/scripts/xcode/with-environment.sh"</span>
+<span class="nv">REACT_NATIVE_XCODE</span><span class="o">=</span><span class="s2">"</span><span class="nv">$REACT_NATIVE_PATH</span><span class="s2">/scripts/react-native-xcode.sh"</span>
 
-/bin/sh -c "ENTRY_FILE=index.clip.js $WITH_ENVIRONMENT $REACT_NATIVE_XCODE"
-</code></pre>
+/bin/sh <span class="nt">-c</span> <span class="s2">"ENTRY_FILE=index.clip.js </span><span class="nv">$WITH_ENVIRONMENT</span><span class="s2"> </span><span class="nv">$REACT_NATIVE_XCODE</span><span class="s2">"</span>
+</code></pre></div></div>
 
 <ul>
-  <li>We are going to run into a hermes error. You need to disable <code>User Script Sandboxing</code> on the build settings of the clip target:</li>
+  <li>We are going to run into a hermes error. You need to disable <code class="language-plaintext highlighter-rouge">User Script Sandboxing</code> on the build settings of the clip target:</li>
 </ul>
 
 <p><img src="https://ospfranco.com/assets/appclip4.jpg" alt="appclip4" /></p>
 
 <ul>
-  <li>We can finally create our <code>index.clip.js</code> at the root of the project</li>
+  <li>We can finally create our <code class="language-plaintext highlighter-rouge">index.clip.js</code> at the root of the project</li>
 </ul>
 
-<pre><code class="language-js">import React from "react";
-import { AppRegistry, View, Text } from "react-native";
+<div class="language-js highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="nx">React</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react</span><span class="dl">"</span><span class="p">;</span>
+<span class="k">import</span> <span class="p">{</span> <span class="nx">AppRegistry</span><span class="p">,</span> <span class="nx">View</span><span class="p">,</span> <span class="nx">Text</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">react-native</span><span class="dl">"</span><span class="p">;</span>
 
-const AppClip = () =&gt; (
-  &lt;View&gt;
-    &lt;Text&gt;Hello,&lt;/Text&gt;
-    &lt;Text&gt;I'm your AppClip!&lt;/Text&gt;
+<span class="kd">const</span> <span class="nx">AppClip</span> <span class="o">=</span> <span class="p">()</span> <span class="o">=&gt;</span> <span class="p">(</span>
+  <span class="o">&lt;</span><span class="nx">View</span><span class="o">&gt;</span>
+    <span class="o">&lt;</span><span class="nx">Text</span><span class="o">&gt;</span><span class="nx">Hello</span><span class="p">,</span><span class="o">&lt;</span><span class="sr">/Text</span><span class="err">&gt;
+</span>    <span class="o">&lt;</span><span class="nx">Text</span><span class="o">&gt;</span><span class="nx">I</span><span class="dl">'</span><span class="s1">m your AppClip!&lt;/Text&gt;
   &lt;/View&gt;
 );
 
 AppRegistry.registerComponent("clip", () =&gt; AppClip);
-</code></pre>
+</span></code></pre></div></div>
 
-<p>Notice we are registering the component as <code>clip</code> which matches the component being loaded at the ViewController.</p>
+<p>Notice we are registering the component as <code class="language-plaintext highlighter-rouge">clip</code> which matches the component being loaded at the ViewController.</p>
 
 <p>That’s it, if everything is configured correctly you should be able to see your app clip loaded. You can find the repo of this app <a href="https://github.com/ospfranco/RNAppClip">here</a></p>
 </div>
