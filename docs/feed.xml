@@ -1,4 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-01-30T14:08:08+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-02-01T17:14:22+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">The Maintenance of Everything &amp;amp; Software</title><link href="https://ospfranco.com/the-maintenance-of-everything-&-software/" rel="alternate" type="text/html" title="The Maintenance of Everything &amp;amp; Software" /><published>2026-02-01T00:00:00+01:00</published><updated>2026-02-01T00:00:00+01:00</updated><id>https://ospfranco.com/the%20maintenance%20of%20everything%20&amp;%20software</id><content type="html" xml:base="https://ospfranco.com/the-maintenance-of-everything-&amp;-software/"><![CDATA[<p>I’ve recently finished reading <a href="https://press.stripe.com/maintenance-part-one">Maintenance: Of Everything, Part One</a>. It’s a great book on how we constantly overlook maintaining the things we have already built. While it doesn’t speak of software, the chapter on Ford’s Model T vs the Rolls Royce “Silver Ghost” did spark an idea in my brain.</p>
+
+<p>The first Roll Royce, dubbed the “Silver Ghost”, was hand-crafted to the point of filing individual bolts so they fit perfectly. It ran as silently and vibration free possible as a vehicle of the time could run. It was a marvel of its time, while also costing as much as a work of art can cost. The model T in the other hand was barely held together. Meant to be simple, replaceable and modifiable. There were barely roads at the time, so Ford expected owners to adapt the car and constantly repair it. The pieces and the car would run successfully even if the parts would not fit perfectly. It was a rackety car that basically functioned but nothing more. But because it could be modified and repaired somewhat easily it gained mass adoption and allowed many more people to gain access to a motor-vehicle, one they could own and adapt to their own situations. This also brought a cascade of innovation and wealth.</p>
+
+<p>I despise LLMs. It’s not that they are not useful but people are completely surrendering their brains to the machine with all that that entails. It’s however hard to miss the connection here. We are moving into a time where software is loosely held-together with pieces that barely fit, yet allows for rapid iteration, customization and innovation via LLMs. I now consider myself from the time where software was a “Silver Ghost”, every bolt hand crafted in attempt to make the perfect machine (although reality is messy and software always ends-ups somewhat duct taped together). LLMs are still very flawed tools but they certainly allow the average-joe (dev or non-dev) to produce running software. Is it maintainable, secure and well-written software? of course not, but certainly opens new doors for people to modify their software.</p>
+
+<p>There forces of history cannot be beaten and I’m curious where will all this leads (after the current hype and market bubbles pop). Will we have a model-T for building software or be doomed to eternally broken software from now-on?</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve recently finished reading Maintenance: Of Everything, Part One. It’s a great book on how we constantly overlook maintaining the things we have already built. While it doesn’t speak of software, the chapter on Ford’s Model T vs the Rolls Royce “Silver Ghost” did spark an idea in my brain.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
 
 <p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
 
@@ -655,67 +661,7 @@ void main() {
 
 <p>After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.</p>
 
-<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
-
-<h1 id="herramientas-existentes">Herramientas Existentes</h1>
-
-<p>Cada lenguaje y ecosistema tiene su propia forma de hacer las cosas. Algunos de los patrones que he visto son:</p>
-
-<ul>
-  <li>Cmake y patrones anticuados, creados para compilar proyectos C/C++. Esta mal utilizado para compilar programas en Rust, pero deja de ser útil cuando se tiene que tener variables, parsear parametros, etc.</li>
-  <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
-  <li>Tasks de npm que corren scripts en bash</li>
-  <li>Scripts en Node/JS que llaman commandos directamente</li>
-  <li>Otras herramientas como <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">ninja</code>, etc.</li>
-</ul>
-
-<p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
-
-<h1 id="mise">Mise</h1>
-
-<p>Soy un gran fan de los tool managers. El viaje empezo con <code class="language-plaintext highlighter-rouge">asdf</code> y ahora estoy usando <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code class="language-plaintext highlighter-rouge">mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
-
-<p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
-
-<h1 id="bun-shell">Bun Shell</h1>
-
-<p>El Bun Shell es un objecto integrado en bun que permite correr commandos de la terminal dentro de archivos TypeScript. La belleza de este approach es la fácilidad de usar TypeScript para manipular, re-enviar, usar loops, etc. Permitiendo escapar de lo bobo de bash.</p>
-
-<h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
-
-<p>Para este proyecto mi <code class="language-plaintext highlighter-rouge">mise.toml</code> parece algo así:</p>
-
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
-<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
-<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
-<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
-
-<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
-<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
-
-<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
-<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
-</code></pre></div></div>
-
-<p>Luego existe un <code class="language-plaintext highlighter-rouge">script/build.mts</code> que se ve así:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
-<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
-<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p>En el README del repositorio tengo los siguiente commandos:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
-  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
-  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
-  <li><code class="language-plaintext highlighter-rouge">mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code class="language-plaintext highlighter-rouge">mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
-</ul>
-
-<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
 
 <h1 id="previous-art">Previous Art</h1>
 
@@ -775,7 +721,67 @@ void main() {
   <li><code class="language-plaintext highlighter-rouge">mise build</code> to build the project. On my project I have extended this with params like <code class="language-plaintext highlighter-rouge">mise build ios debug</code> to build the iOS app in debug mode.</li>
 </ul>
 
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+
+<h1 id="herramientas-existentes">Herramientas Existentes</h1>
+
+<p>Cada lenguaje y ecosistema tiene su propia forma de hacer las cosas. Algunos de los patrones que he visto son:</p>
+
+<ul>
+  <li>Cmake y patrones anticuados, creados para compilar proyectos C/C++. Esta mal utilizado para compilar programas en Rust, pero deja de ser útil cuando se tiene que tener variables, parsear parametros, etc.</li>
+  <li>Escribir aún más Rust para tener un herramienta de CLI. Pero es muy engorroso y verboso. Uno tiene que escribir mucho código para hacer tasks sencillos funcionar. Hay un crate llamado <a href="https://docs.rs/xtasks/latest/xtasks/">xtask</a> que permite automatizar algo de este dolor.</li>
+  <li>Tasks de npm que corren scripts en bash</li>
+  <li>Scripts en Node/JS que llaman commandos directamente</li>
+  <li>Otras herramientas como <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">ninja</code>, etc.</li>
+</ul>
+
+<p>Es un salvaje oeste. Todas estos approachs funcionan pero necesitan mucho cuidado para que funcionen bien. Quería algo sencillo, fácil de leer y de escribir. Preferiblemente en un lenguaje y ecosistema que conozca bien. JavaScript se ajusta bien a todos estos requerimientos, el problema es tener las versiones correctas instaladas en las maquinas de los miembros del equipo, sin embargo, encontre un par de herramientas que solucionan el primer problema, con unos cuantos comandos.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>Soy un gran fan de los tool managers. El viaje empezo con <code class="language-plaintext highlighter-rouge">asdf</code> y ahora estoy usando <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> es un tool manager que permite instalar todo tipo de herramientas con un solo archivo. Hay que pensar que es un package manager pero para todo incluido como lenguajes, sdks, runtime,s, etc. Basicamente permite tener un solo archive <code class="language-plaintext highlighter-rouge">mise.toml</code> que define todas las herramientas necesarias para un proyecto.</p>
+
+<p>Podemos definir la versión exacta de bun/node que el proyecto requiere, sin la necesidad de seguir diferentes pasos de instalación. No hay necesidar de instalar node, después nvm, después Rust, etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>El Bun Shell es un objecto integrado en bun que permite correr commandos de la terminal dentro de archivos TypeScript. La belleza de este approach es la fácilidad de usar TypeScript para manipular, re-enviar, usar loops, etc. Permitiendo escapar de lo bobo de bash.</p>
+
+<h1 id="poniendolo-todo-junto">Poniendolo todo junto</h1>
+
+<p>Para este proyecto mi <code class="language-plaintext highlighter-rouge">mise.toml</code> parece algo así:</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
+<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
+<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
+<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
+
+<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
+<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
+
+<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
+<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
+</code></pre></div></div>
+
+<p>Luego existe un <code class="language-plaintext highlighter-rouge">script/build.mts</code> que se ve así:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>En el README del repositorio tengo los siguiente commandos:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, Necesario para habilitar los hooks, que son experimentales por ahora.</li>
+  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code class="language-plaintext highlighter-rouge">mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
+</ul>
+
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 
@@ -950,50 +956,4 @@ void main() {
 <div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlitevec.framework/sqlitevec:
         @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
         /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">React Native RCTRootViewFactory (Brownfield apps)</title><link href="https://ospfranco.com/react-native-rctrootviewfactory/" rel="alternate" type="text/html" title="React Native RCTRootViewFactory (Brownfield apps)" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/react%20native%20rctrootviewfactory</id><content type="html" xml:base="https://ospfranco.com/react-native-rctrootviewfactory/"><![CDATA[<p>As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.</p>
-
-<p>There has been a lot of changes with the new architecture of React Native and a class <code class="language-plaintext highlighter-rouge">RCTRootViewFactory</code> has been introduced to help brownfield apps having to initialize a bunch of internal objects. However, there is a lack of documentation.</p>
-
-<p>The base class was contributed by Oskar and <a href="https://x.com/o_kwasniewski/status/1764971481778323529">announced on twitter</a>, there is also this <a href="https://www.callstack.com/blog/simplify-your-ios-brownfield-integration-with-rootviewfactory">callstack article</a>, but both are a bit incomplete or not indexable</p>
-
-<p>I’ll just dump you the code right here (for a Swift entry point)</p>
-
-<div class="language-swift highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kd">import</span> <span class="kt">Foundation</span>
-<span class="kd">import</span> <span class="kt">React_RCTAppDelegate</span>
-
-<span class="c1">// Inhering from RCTAppDelegate instead of NSAppDelegate and/or NSObject</span>
-<span class="kd">@NSApplicationMain</span>
-<span class="kd">@objc</span>
-<span class="kd">class</span> <span class="kt">AppDelegate</span><span class="p">:</span> <span class="kt">RCTAppDelegate</span> <span class="p">{</span>
-  <span class="k">override</span> <span class="kd">func</span> <span class="nf">sourceURL</span><span class="p">(</span><span class="k">for</span> <span class="nv">bridge</span><span class="p">:</span> <span class="kt">RCTBridge</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
-    <span class="k">self</span><span class="o">.</span><span class="nf">bundleURL</span><span class="p">()</span>
-  <span class="p">}</span>
-
-  <span class="k">override</span> <span class="kd">func</span> <span class="nf">bundleURL</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kt">URL</span><span class="p">?</span> <span class="p">{</span>
-    <span class="cp">#if DEBUG</span>
-      <span class="kt">RCTBundleURLProvider</span><span class="o">.</span><span class="nf">sharedSettings</span><span class="p">()</span><span class="o">.</span><span class="nf">jsBundleURL</span><span class="p">(</span><span class="nv">forBundleRoot</span><span class="p">:</span> <span class="s">"index"</span><span class="p">)</span>
-    <span class="cp">#else</span>
-      <span class="kt">Bundle</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="nf">url</span><span class="p">(</span><span class="nv">forResource</span><span class="p">:</span> <span class="s">"main"</span><span class="p">,</span> <span class="nv">withExtension</span><span class="p">:</span> <span class="s">"jsbundle"</span><span class="p">)</span>
-    <span class="cp">#endif</span>
-  <span class="p">}</span>
-
-  <span class="c1">// Use this one to customize the rootview before it is returned</span>
-  <span class="k">override</span> <span class="kd">func</span> <span class="nf">customize</span><span class="p">(</span><span class="n">_</span> <span class="nv">rootView</span><span class="p">:</span> <span class="kt">RCTRootView</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">rootView</span><span class="o">.</span><span class="n">wantsLayer</span> <span class="o">=</span> <span class="kc">true</span>
-    <span class="n">rootView</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">clear</span>
-    <span class="n">rootView</span><span class="o">.</span><span class="n">layer</span><span class="p">?</span><span class="o">.</span><span class="n">backgroundColor</span> <span class="o">=</span> <span class="o">.</span><span class="n">clear</span>
-  <span class="p">}</span>
-
-
-  <span class="c1">// didFinishLaunching for macOS apps, for iOS it is slightly different (returns a BOOL) just overload the correct one</span>
-  <span class="k">override</span> <span class="kd">func</span> <span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">_</span> <span class="nv">notification</span><span class="p">:</span> <span class="kt">Notification</span><span class="p">)</span> <span class="p">{</span>
-    <span class="k">self</span><span class="o">.</span><span class="n">automaticallyLoadReactNativeWindow</span> <span class="o">=</span> <span class="kc">false</span> <span class="c1">// Important to prevent RCTAppDelegate from trying to init the default RN View</span>
-    <span class="k">super</span><span class="o">.</span><span class="nf">applicationDidFinishLaunching</span><span class="p">(</span><span class="n">notification</span><span class="p">)</span> <span class="c1">// Needs to be called on the latest versions to initialize all the internal RN variables and state</span>
-
-    <span class="k">let</span> <span class="nv">rootView</span> <span class="o">=</span> <span class="k">self</span><span class="o">.</span><span class="n">rootViewFactory</span><span class="o">.</span><span class="nf">view</span><span class="p">(</span><span class="nv">withModuleName</span><span class="p">:</span> <span class="s">"[Your bundle name]"</span><span class="p">)</span> <span class="c1">// Finally create a RN Hosting View`</span>
-    <span class="c1">// add it to your NSWindow or HostingNSView</span>
-  <span class="p">}</span>
-<span class="p">}</span>
-</code></pre></div></div>
-
-<p>The beauty of this abstraction is that it should be future proofed whenever the framework changes, preventing weird crashes and errors. If you turn on the flags you can do it programmatically from the constructor.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[As I was upgrading one of my RN macOS projects I was having crashes when bumping to the latest version of RN. My app is heavily customized and uses a brownfield approach. The view which hosts React Native is not the entry point of the app, but rather I manually create it an load it into an NSPanel.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
