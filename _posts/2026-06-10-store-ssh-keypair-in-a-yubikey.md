@@ -97,4 +97,4 @@ git config --global user.signingkey /Users/osp/.ssh/my-ssh-key
 git config --global commit.gpgsign true
 ```
 
-Then on the GitHub web UI, go to SSH keys and create a new signing SSH key and paste the same public key (`~/.ssh/my-ssh-key.pub`)
+Then on the GitHub web UI, go to SSH keys and create a new signing SSH key and paste the same public key (`~/.ssh/my-ssh-key.pub`).

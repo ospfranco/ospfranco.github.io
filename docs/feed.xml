@@ -1,10 +1,97 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-02-01T21:27:23+01:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">The Maintenance of Everything &amp;amp; Software</title><link href="https://ospfranco.com/the-maintenance-of-everything-&-software/" rel="alternate" type="text/html" title="The Maintenance of Everything &amp;amp; Software" /><published>2026-02-01T00:00:00+01:00</published><updated>2026-02-01T00:00:00+01:00</updated><id>https://ospfranco.com/the%20maintenance%20of%20everything%20&amp;%20software</id><content type="html" xml:base="https://ospfranco.com/the-maintenance-of-everything-&amp;-software/"><![CDATA[<p>I’ve recently finished reading <a href="https://press.stripe.com/maintenance-part-one">Maintenance: Of Everything, Part One</a>. It’s a great book on how we constantly overlook maintaining the things we have already built. While it doesn’t speak of software, there is a chapter on Ford’s Model T vs the Rolls Royce “Silver Ghost”, that I found interesting.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-06-10T11:08:51-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Store SSH Keypair in a Yubikey</title><link href="https://ospfranco.com/store-ssh-keypair-in-a-yubikey/" rel="alternate" type="text/html" title="Store SSH Keypair in a Yubikey" /><published>2026-06-10T00:00:00-04:00</published><updated>2026-06-10T00:00:00-04:00</updated><id>https://ospfranco.com/store-ssh-keypair-in-a-yubikey</id><content type="html" xml:base="https://ospfranco.com/store-ssh-keypair-in-a-yubikey/"><![CDATA[<p>In the world of cyber-security you can never be too paranoid.</p>
+
+<p>SSH Keypairs are the standard way to authenticate yourself to important systems: remote machines, github, signing commits. Yet storing your keypair on disk introduces the attack vector of your machine being compromised. To prevent that attack vector, you <strong>must</strong> be using a passphrase to unlock your keypair (if you are not using a passphrase you deserve a wrist slap). This introduces friction, as it is annoying to put your passphrase everytime you want to unlock your keypair. Therefore mechanisms like <code class="language-plaintext highlighter-rouge">ssh-agent</code> exist, such agent, allows you to transparently use your ssh-key by keeping your passphrase in the OS vault and unlocking it transparently. Yet this is still another attack vector.</p>
+
+<h1 id="upen-your-ssh-game-with-a-yubikey">Upen your SSH game with a Yubikey</h1>
+
+<p>You can mitigate this frictions and attack vectors by storing your SSH private key in a YubiKey:</p>
+
+<ul>
+  <li>The private part of your SSH key no longer lives in your disk and is no longer always in-memory (via <code class="language-plaintext highlighter-rouge">ssh-agent</code>), it now lives in the FIDO module of the Yubikey. It can no longer be exfiltrated. Period.</li>
+  <li>You no longer need a passphrase (if you are using a ssh key without a passphrase you deserve a slap in the wrist) because the key requires physical interaction with the yubikey</li>
+  <li>It’s a bit annoying because now on every ssh operation (fetch, push, commit sign) you need to touch your yubikey but…</li>
+  <li>You can commit the both the “private” file (it’s no longer the actual private key, it’s only pointing to the yubikey) and public file (.pub) keypair into your dotfiles and just pull on new machines as you need. You can just plugin your key into a new machine as you need.</li>
+</ul>
+
+<h1 id="setting-things-up-on-macos">Setting things up (on MacOS)</h1>
+
+<h2 id="install-latest-openssh">Install latest openssh</h2>
+
+<p>First you need to install the latest version of openssh:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>brew <span class="nb">install </span>openssh
+</code></pre></div></div>
+
+<p>This is because the Apple modified version does not support creating ssh keys in the yubikey hardware.</p>
+
+<p>Installing <code class="language-plaintext highlighter-rouge">openssh</code> means some of the Apple-only commands no longer will work (such as <code class="language-plaintext highlighter-rouge">UseKeychain</code>). Therefore if you had already a <code class="language-plaintext highlighter-rouge">~/.ssh/config</code> you will need to update it. In my case I just added:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code># Existing ssh config
+IgnoreUnknown UseKeychain
+</code></pre></div></div>
+
+<h2 id="generate-a-new-yubikey-resident-keypair">Generate a new yubikey-resident keypair</h2>
+
+<p>Generate a new keypair:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> ed25519-sk <span class="nt">-O</span> resident <span class="nt">-O</span> <span class="nv">application</span><span class="o">=</span>ssh:[ENTER YOUR ALIAS HERE] <span class="nt">-C</span> <span class="s2">"MyKey"</span> <span class="nt">-f</span> ~/.ssh/my-ssh-sk
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">-t ed255190-sk</code>: the <code class="language-plaintext highlighter-rouge">-sk</code> means “secure key” and is the required type for hardware backed keypairs</li>
+  <li><code class="language-plaintext highlighter-rouge">-O resident</code>: tells openssh to store the key in the yubikey</li>
+  <li><code class="language-plaintext highlighter-rouge">-O application=ssh:[ALIAS]</code>: is just a label for you to identify different keypairs if needed</li>
+  <li><code class="language-plaintext highlighter-rouge">-C "MyKey"</code>: Another alias that will go inside the generated files</li>
+  <li><code class="language-plaintext highlighter-rouge">-f ...</code>: name of the output files</li>
+</ul>
+
+<p>If you are really paranoid you can also add pin authentication, which means besides having to touch your yubikey you will have to input your pin everytime you require your SSH keypair:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> ed25519-sk <span class="nt">-O</span> verify-required <span class="nt">-O</span> resident <span class="nt">-O</span> <span class="nv">application</span><span class="o">=</span>ssh:[ENTER YOUR ALIAS HERE] <span class="nt">-C</span> <span class="s2">"MyKey"</span> <span class="nt">-f</span> ~/.ssh/opacity-sk
+</code></pre></div></div>
+
+<p>Afterwards you can verify your keypair has been correctly stored, either via the Yubico Authenticator app or via command line via the <code class="language-plaintext highlighter-rouge">ykman</code> CLI tool:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ykman fido credentials list
+
+Enter your PIN:
+Credential ID  RP ID               Username               Display name
+55825ba3...    ssh:my-alias        openssh                openssh
+</code></pre></div></div>
+
+<h2 id="configure-your-git">Configure your git</h2>
+
+<p>After your key is properly configured you need to configure your <code class="language-plaintext highlighter-rouge">~/.ssh/config</code> to use the key:</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">$cat</span> ~/.ssh/config
+
+IgnoreUnknown UseKeychain
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile ~/.ssh/my-ssh-sk
+    IdentitiesOnly <span class="nb">yes
+    </span>ServerAliveInterval 60
+    ServerAliveCountMax 30%
+</code></pre></div></div>
+
+<p>Add your pub SSH key (<code class="language-plaintext highlighter-rouge">~/.ssh/my-ssh-key.pub</code>) in GitHub web UI and now you should be prompted for your Yubikey everytime you pull &amp; push to GitHub. You should however go one step further and use the same SSH key to sign your commits.</p>
+
+<p>First set your signing configuration, remove the <code class="language-plaintext highlighter-rouge">--global</code> if you want it to only apply to the current repository you are configuring.</p>
+
+<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git config <span class="nt">--global</span> gpg.format ssh
+git config <span class="nt">--global</span> user.signingkey /Users/osp/.ssh/my-ssh-key
+git config <span class="nt">--global</span> commit.gpgsign <span class="nb">true</span>
+</code></pre></div></div>
+
+<p>Then on the GitHub web UI, go to SSH keys and create a new signing SSH key and paste the same public key (<code class="language-plaintext highlighter-rouge">~/.ssh/my-ssh-key.pub</code>).</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In the world of cyber-security you can never be too paranoid.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">The Maintenance of Everything &amp;amp; Software</title><link href="https://ospfranco.com/the-maintenance-of-everything-&-software/" rel="alternate" type="text/html" title="The Maintenance of Everything &amp;amp; Software" /><published>2026-02-01T00:00:00-04:00</published><updated>2026-02-01T00:00:00-04:00</updated><id>https://ospfranco.com/the%20maintenance%20of%20everything%20&amp;%20software</id><content type="html" xml:base="https://ospfranco.com/the-maintenance-of-everything-&amp;-software/"><![CDATA[<p>I’ve recently finished reading <a href="https://press.stripe.com/maintenance-part-one">Maintenance: Of Everything, Part One</a>. It’s a great book on how we constantly overlook maintaining the things we have already built. While it doesn’t speak of software, there is a chapter on Ford’s Model T vs the Rolls Royce “Silver Ghost”, that I found interesting.</p>
 
 <p>The first Roll Royce, dubbed the “Silver Ghost”, was hand-crafted to the point of filing individual bolts so they fit perfectly. It ran as silently and vibration free as a vehicle of the time could run. It was a marvel of its time, while also costing as much as a work of art can cost. The model T in the other hand was barely held together. Meant to be simple, replaceable and modifiable. There were barely roads at the time, so Ford expected owners to adapt the car and constantly having to repair it. The car would run successfully even if the parts would not fit perfectly. It was a rackety machine that basically functioned but nothing more. But because it could be modified and repaired easily it gained mass adoption, one they could own and adapt to their own situations.</p>
 
 <p>I despise LLMs. It’s not that they are not useful but people are completely surrendering their brains to the machine with all that that entails. It is, however, hard to miss the resemblance here. We are moving into a time where software is loosely held-together with pieces that barely fit, yet allows for rapid iteration, customization and innovation via LLMs. I feel like I belong to the time where software was a “Silver Ghost”, every bolt hand crafted in attempt to make the perfect machine (although reality is messy and software always ends-ups somewhat duct taped together). LLMs are still very flawed tools but they certainly allow the average-joe (dev or non-dev) to produce running code. Is it maintainable, secure and well-written software? of course not, but certainly opens new doors for tinkering and customization.</p>
 
-<p>The forces of history cannot be beaten and I’m curious where all of this leads (after the current hype and market bubbles pop). Will we have a model-T for building software or be doomed to eternally broken software from now-on?</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve recently finished reading Maintenance: Of Everything, Part One. It’s a great book on how we constantly overlook maintaining the things we have already built. While it doesn’t speak of software, there is a chapter on Ford’s Model T vs the Rolls Royce “Silver Ghost”, that I found interesting.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00+02:00</published><updated>2025-09-03T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
+<p>The forces of history cannot be beaten and I’m curious where all of this leads (after the current hype and market bubbles pop). Will we have a model-T for building software or be doomed to eternally broken software from now-on?</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve recently finished reading Maintenance: Of Everything, Part One. It’s a great book on how we constantly overlook maintaining the things we have already built. While it doesn’t speak of software, there is a chapter on Ford’s Model T vs the Rolls Royce “Silver Ghost”, that I found interesting.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust Noobie Best Practices</title><link href="https://ospfranco.com/rust-tips-from-a-noob/" rel="alternate" type="text/html" title="Rust Noobie Best Practices" /><published>2025-09-03T00:00:00-04:00</published><updated>2025-09-03T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20from%20a%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-from-a-noob/"><![CDATA[<p>I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.</p>
 
 <p>As many others have pointed out before me, Rust has a steep learning curve once you go beyond the basics. You might be relying on an LLM to write some code for you but the quality of the code LLMs spit out is dubious.</p>
 
@@ -101,7 +188,7 @@
   <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code class="language-plaintext highlighter-rouge">#[cfg(test)]</code> or <code class="language-plaintext highlighter-rouge">#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code class="language-plaintext highlighter-rouge">if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
   <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures plus comments, without a clear flow on how to use the APIs of the crates. I still haven’t found a good way to piece good API usage, seems the community has not cracked this one yet.</li>
   <li>Error propagation through the <code class="language-plaintext highlighter-rouge">try operator</code> (<code class="language-plaintext highlighter-rouge">?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
 
 <p>This is a complete guide compiling a Rust library from source all the way into loading it in a running iOS/Android application. All done via C compatible dylib, which means on iOS you will need to call if from Obj-C and on Android via JNI.</p>
 
@@ -519,7 +606,7 @@ void main() {
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00+02:00</published><updated>2025-07-30T00:00:00+02:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code class="language-plaintext highlighter-rouge">prebuild</code>. I also could not use <code class="language-plaintext highlighter-rouge">eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code class="language-plaintext highlighter-rouge">prebuild</code>. I also could not use <code class="language-plaintext highlighter-rouge">eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
 
 <h2 id="ios">iOS</h2>
 
@@ -573,7 +660,7 @@ void main() {
   <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
   <li>I was testing with the <code class="language-plaintext highlighter-rouge">.jks</code> generated by expo (downloaded via <code class="language-plaintext highlighter-rouge">eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code class="language-plaintext highlighter-rouge">firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code class="language-plaintext highlighter-rouge">prebuild</code> and just left the default generated Keystore notifications worked.</li>
   <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00+02:00</published><updated>2025-06-05T00:00:00+02:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code class="language-plaintext highlighter-rouge">std</code>, etc.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00-04:00</published><updated>2025-06-05T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code class="language-plaintext highlighter-rouge">std</code>, etc.</p>
 
 <ul>
   <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
@@ -638,7 +725,7 @@ void main() {
   <li>Por alguna razón la comunidad de Rust parece estar enamorada de la documentación auto-generada desde el código fuente. Esta documentación es muy mala. Básicamente solo muestra las firmas de las funciones sin un flujo claro de cómo usar las APIs de los crates. Lamentablemente, revisar el código fuente en busca de ejemplos es la mejor forma de entender cómo usar cada crate.</li>
   <li>Propagar errores con <code class="language-plaintext highlighter-rouge">?</code> parece ser la forma recomendada, pero ¿se pierde la línea exacta donde ocurrió el error? No estoy seguro si lo estoy haciendo mal. En todo caso, es mejor usarlo con tipos de error muy específicos.</li>
   <li>El crate <code class="language-plaintext highlighter-rouge">assert2</code> es genial y hará que tus tests sean más fáciles de depurar mostrando los valores con colores, en vez de solo errores opacos.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00+02:00</published><updated>2025-04-06T00:00:00+02:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar std, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Fixing mini 4 pro, failing to load images in quick transfer</title><link href="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/" rel="alternate" type="text/html" title="Fixing mini 4 pro, failing to load images in quick transfer" /><published>2025-04-06T00:00:00-04:00</published><updated>2025-04-06T00:00:00-04:00</updated><id>https://ospfranco.com/fixing%20mini%204%20pro,%20failing%20to%20load%20images%20in%20quick%20transfer</id><content type="html" xml:base="https://ospfranco.com/fixing-mini-4-pro,-failing-to-load-images-in-quick-transfer/"><![CDATA[<p>I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.</p>
 
 <p>First one that seems non-solvable are transfer speeds. The 3 would do 10 to 20 mbits/s transfer. This new one seems to be a lot slower 1 to 3 mbits/second. Scouring online, seems to suggest one needs to turn off celullar data and the issue might go away. Big problem, but nothing I can do about that.</p>
 
@@ -661,67 +748,7 @@ void main() {
 
 <p>After multiple reflashes and a downgrade, it was still not working. I was about to give up when just clicking through the settings I noticed the internal storage had 0 free space (should have 2 gb). Knowning what I know about computers, this was a desperate last attempt to get it working. I formated the internal storage and voila! All of the sudden the gallery started working again.</p>
 
-<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
-
-<h1 id="previous-art">Previous Art</h1>
-
-<p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
-
-<ul>
-  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
-  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
-  <li>Npm tasks that run bash scripts</li>
-  <li>Raw dogging node scripts that spawn processes</li>
-  <li>There are ofc other tools like <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">Ninja</code>, etc.</li>
-</ul>
-
-<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
-
-<h1 id="mise">Mise</h1>
-
-<p>I’m a big fan of tool managers. Journey started with <code class="language-plaintext highlighter-rouge">asdf</code> and I’m now using <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code class="language-plaintext highlighter-rouge">mise.toml</code> where you can have per folder tools.</p>
-
-<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
-
-<h1 id="bun-shell">Bun Shell</h1>
-
-<p>The <a href="Bun Shell"><code class="language-plaintext highlighter-rouge">Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
-
-<h1 id="putting-it-all-together">Putting it all together</h1>
-
-<p>At the end, I have a <code class="language-plaintext highlighter-rouge">mise.toml</code> that looks like this (this is just an example):</p>
-
-<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
-<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
-<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
-<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
-
-<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
-<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
-
-<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
-<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
-</code></pre></div></div>
-
-<p>And a <code class="language-plaintext highlighter-rouge">scripts/build.mts</code> that looks like this:</p>
-
-<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
-
-<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
-<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
-<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
-</code></pre></div></div>
-
-<p>Then on the README for my team it gets simple boils down to:</p>
-
-<ul>
-  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
-  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
-  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
-  <li><code class="language-plaintext highlighter-rouge">mise build</code> to build the project. On my project I have extended this with params like <code class="language-plaintext highlighter-rouge">mise build ios debug</code> to build the iOS app in debug mode.</li>
-</ul>
-
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00+01:00</published><updated>2025-03-26T00:00:00+01:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
+<p>This is clearly an oversight on DJI’s firmware. Lack of error messages/user feedback to debug the issue. Etc. At least I got the drone back in working order, so hopefully this will be useful to others.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I have a DJI Mini Pro drone (had the 3 two times and lost them, and now a 4). I love this little thing. However, I have a few issues with this delicate piece of technology.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Mejores tasks y scripts con mise y bun shell</title><link href="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/" rel="alternate" type="text/html" title="Mejores tasks y scripts con mise y bun shell" /><published>2025-03-26T00:00:00-04:00</published><updated>2025-03-26T00:00:00-04:00</updated><id>https://ospfranco.com/mejores%20tasks%20y%20scripts%20con%20mise%20y%20bun%20shell</id><content type="html" xml:base="https://ospfranco.com/mejores-tasks-y-scripts-con-mise-y-bun-shell/"><![CDATA[<p>Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.</p>
 
 <h1 id="herramientas-existentes">Herramientas Existentes</h1>
 
@@ -781,179 +808,68 @@ void main() {
   <li><code class="language-plaintext highlighter-rouge">mise build</code> Finalmente, compila el proyecto. En mi versión final, incluye parametros por ejemplo: <code class="language-plaintext highlighter-rouge">mise build ios debug</code> para compilar la versión para iOS en modo Debug</li>
 </ul>
 
-<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00+01:00</published><updated>2025-02-10T00:00:00+01:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
+<p>De esta manera ya no hay más conflictos de versiones, instalaciones incorrectas y todos los comandos siguen un solo patrón.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recientemente estoy trabajando con repositorios con multiples lenguajes and sistemas de compilación. Para ser más especificos iOS/Android/Rust/Node/React Native/Flutter. Trabajar con diferentes y multiples sistemas, trae mucha complejidad, especialmente cuando uno trabaja en equipo, cuando todos necesitan correr los mismos comandos para construir, correr lost tests, lints y tener las versiones correctas instaladas.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Better repo tasks and scripts with mise and bun shell</title><link href="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/" rel="alternate" type="text/html" title="Better repo tasks and scripts with mise and bun shell" /><published>2025-03-26T00:00:00-04:00</published><updated>2025-03-26T00:00:00-04:00</updated><id>https://ospfranco.com/better%20tasks%20and%20scripts%20with%20mise%20and%20zx</id><content type="html" xml:base="https://ospfranco.com/better-tasks-and-scripts-with-mise-and-zx/"><![CDATA[<p>Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.</p>
+
+<h1 id="previous-art">Previous Art</h1>
+
+<p>From working with other teams, each language/ecosystem have their own way of doing things. Some of the common patterns I’ve seen are:</p>
+
+<ul>
+  <li>The god awfulness that is cmake, frankensteined to work with modern tools, such as Rust. Works for simple flows, but breaks-down once you need to start parsing params, setting variables, etc.</li>
+  <li>Writing lots of Rust to perform as a shell scripting tool. Hard to read/write as one is creating a DSL on top of Rust. Usually, takes the name of xtask, there is even a <a href="https://docs.rs/xtasks/latest/xtasks/">crate</a> aimed at automating some of this pain.</li>
+  <li>Npm tasks that run bash scripts</li>
+  <li>Raw dogging node scripts that spawn processes</li>
+  <li>There are ofc other tools like <code class="language-plaintext highlighter-rouge">make</code>, <code class="language-plaintext highlighter-rouge">rake</code>, <code class="language-plaintext highlighter-rouge">Ninja</code>, etc.</li>
+</ul>
+
+<p>It’s a wild west. These all work but require too much finagling to get right. I wanted something that was simple, easy to read, and easy to write. Preferible in a language/ecosystem that I know. JS is the easiest one, but then it’s one more tool in the chain that my team needs to install, but then found a tooling pair that allows for one install command that takes care of everything.</p>
+
+<h1 id="mise">Mise</h1>
+
+<p>I’m a big fan of tool managers. Journey started with <code class="language-plaintext highlighter-rouge">asdf</code> and I’m now using <code class="language-plaintext highlighter-rouge">mise</code>. <code class="language-plaintext highlighter-rouge">mise</code> is a tool manager that allows you to install tools from a single file. It’s like a package manager for languages/runtimes/tasks/etc. It basically allows you to define a single <code class="language-plaintext highlighter-rouge">mise.toml</code> where you can have per folder tools.</p>
+
+<p>Let’s say, I can have the specific bun/node version that I need my team to have. Without having to seat down with them to uninstall their manual node installation, install nvm, then update their Rust version. etc etc.</p>
+
+<h1 id="bun-shell">Bun Shell</h1>
+
+<p>The <a href="Bun Shell"><code class="language-plaintext highlighter-rouge">Bun Shell</code></a> is bun’s integrated way of running terminal commands within TypeScript. The beauty of this, is the easyness of using TypeScript to manipulate and pipe the output of commands, rather than the clunkyness of bash.</p>
+
+<h1 id="putting-it-all-together">Putting it all together</h1>
+
+<p>At the end, I have a <code class="language-plaintext highlighter-rouge">mise.toml</code> that looks like this (this is just an example):</p>
+
+<div class="language-toml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">[</span><span class="n">tools</span><span class="k">]</span>
+<span class="n">node</span> <span class="o">=</span><span class="w"> </span><span class="s">"14.18.1"</span>
+<span class="n">bun</span> <span class="o">=</span><span class="w"> </span><span class="s">"0.1.0"</span>
+<span class="n">rust</span> <span class="o">=</span><span class="w"> </span><span class="s">"1.58.0"</span>
+
+<span class="k">[</span><span class="n">hooks</span><span class="k">]</span>
+<span class="n">postinstall</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun install"</span>
+
+<span class="k">[</span><span class="n">tasks</span><span class="k">]</span>
+<span class="n">build</span> <span class="o">=</span><span class="w"> </span><span class="s">"bun zx scripts/build.mts"</span>
+</code></pre></div></div>
+
+<p>And a <code class="language-plaintext highlighter-rouge">scripts/build.mts</code> that looks like this:</p>
+
+<div class="language-ts highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">import</span> <span class="p">{</span> <span class="nx">$</span> <span class="p">}</span> <span class="k">from</span> <span class="dl">"</span><span class="s2">bun</span><span class="dl">"</span><span class="p">;</span>
+
+<span class="c1">// You can do more things here, like parse the arguments, import other files, etc</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`cargo build --release`</span><span class="p">;</span>
+<span class="k">await</span> <span class="nx">$</span><span class="s2">`flutter build ios`</span><span class="p">;</span>
+</code></pre></div></div>
+
+<p>Then on the README for my team it gets simple boils down to:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">brew install mise</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise settings experimental=true</code>, this is needed to enable the hooks, will go away in the future</li>
+  <li><code class="language-plaintext highlighter-rouge">mise install</code></li>
+  <li><code class="language-plaintext highlighter-rouge">mise build</code> to build the project. On my project I have extended this with params like <code class="language-plaintext highlighter-rouge">mise build ios debug</code> to build the iOS app in debug mode.</li>
+</ul>
+
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00-04:00</published><updated>2025-02-10T00:00:00-04:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
 
 <p>Here is the video recording:</p>
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Loading dylibs in iOS</title><link href="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/" rel="alternate" type="text/html" title="Loading dylibs in iOS" /><published>2025-01-21T00:00:00+01:00</published><updated>2025-01-21T00:00:00+01:00</updated><id>https://ospfranco.com/generating%20a%20xcframework%20with%20dylibs%20for%20ios</id><content type="html" xml:base="https://ospfranco.com/generating-a-xcframework-with-dylibs-for-ios/"><![CDATA[<p>Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.</p>
-
-<h1 id="frameworks">Frameworks</h1>
-
-<p>In order to load dynamic libraries in iOS they need to be packaged in a <code class="language-plaintext highlighter-rouge">.framework</code>. Let’s skip most of the explanation and just give you a template you can use. These frameworks need to be embbeded in a <code class="language-plaintext highlighter-rouge">.xcframework</code> that will load the correct version for the architecture (arm, arm-simulator, intel-simulator).</p>
-
-<h1 id="compile-your-library">Compile your library</h1>
-
-<p>Here is the <code class="language-plaintext highlighter-rouge">Makefile</code> you need, it’s for sqlitevec an sqlite extension but you can easily figure out how to compile your own project:</p>
-
-<div class="language-make highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nv">MIN_IOS_VERSION</span> <span class="o">=</span> 8.0
-
-<span class="c"># iOS SDK paths
-</span><span class="nv">IOS_SDK_PATH</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphoneos <span class="nt">--show-sdk-path</span><span class="p">)</span>
-<span class="nv">IOS_SIMULATOR_SDK_PATH</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphonesimulator <span class="nt">--show-sdk-path</span><span class="p">)</span>
-
-<span class="c"># iOS cross-compiler toolchains
-</span><span class="nv">CC_ios_arm64</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphoneos <span class="nt">--find</span> clang<span class="p">)</span>
-<span class="nv">CC_ios_x86_64</span> <span class="o">=</span> <span class="p">$(</span>shell xcrun <span class="nt">--sdk</span> iphonesimulator <span class="nt">--find</span> clang<span class="p">)</span>
-
-<span class="c"># Output directories for iOS
-</span><span class="nv">OUT_DIR_ios_arm64</span> <span class="o">=</span> dist/ios/arm64
-<span class="nv">OUT_DIR_ios_x86_64</span> <span class="o">=</span> dist/ios/x86_64
-<span class="nv">OUT_DIR_ios_arm64_simulator</span> <span class="o">=</span> dist/ios/arm64_simulator
-
-<span class="c"># iOS-specific flags
-</span><span class="nv">IOS_CFLAGS</span> <span class="o">=</span> <span class="nt">-Ivendor</span>/ <span class="nt">-I</span>./ <span class="nt">-O3</span> <span class="nt">-fembed-bitcode</span> <span class="nt">-fPIC</span>
-<span class="nv">IOS_LDFLAGS</span> <span class="o">=</span> <span class="nt">-Wl</span>,-ios_version_min,<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
-<span class="nv">IOS_ARM64_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> arm64-apple-ios<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-miphoneos-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
-<span class="nv">IOS_ARM64_SIM_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> arm64-apple-ios-simulator<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-mios-simulator-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
-<span class="nv">IOS_X86_64_FLAGS</span> <span class="o">=</span> <span class="nt">-target</span> x86_64-apple-ios-simulator<span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span> <span class="nt">-mios-simulator-version-min</span><span class="o">=</span><span class="p">$(</span>MIN_IOS_VERSION<span class="p">)</span>
-
-<span class="c"># Create folders per iOS architecture
-</span><span class="nl">$(OUT_DIR_ios_arm64)</span><span class="o">:</span>
-	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
-
-<span class="nl">$(OUT_DIR_ios_x86_64)</span><span class="o">:</span>
-	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
-
-<span class="nl">$(OUT_DIR_ios_arm64_simulator)</span><span class="o">:</span>
-	<span class="nb">mkdir</span> <span class="nt">-p</span> <span class="nv">$@</span>
-
-<span class="c"># Rule for compiling for iOS arm64 (device)
-</span><span class="nl">ios_arm64</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_arm64)</span>
-	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_ARM64_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlite-vec.o
-	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_arm64<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SDK_PATH<span class="p">)</span> <span class="p">$(</span>IOS_LDFLAGS<span class="p">)</span>
-
-<span class="c"># Rule for compiling for iOS x86_64 (simulator)
-</span><span class="nl">ios_x86_64</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_x86_64)</span>
-	<span class="p">$(</span>CC_ios_x86_64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_X86_64_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlite-vec.o
-	<span class="p">$(</span>CC_ios_x86_64<span class="p">)</span> <span class="p">$(</span>IOS_X86_64_FLAGS<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_x86_64<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span>
-
-<span class="c"># Rule for compiling for iOS arm64 (simulator)
-</span><span class="nl">ios_arm64_sim</span><span class="o">:</span> <span class="nf">$(OUT_DIR_ios_arm64_simulator)</span>
-	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="p">$(</span>CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_CFLAGS<span class="p">)</span> <span class="p">$(</span>IOS_ARM64_SIM_FLAGS<span class="p">)</span> <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span> <span class="nt">-c</span> sqlite-vec.c <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlite-vec.o
-	<span class="p">$(</span>CC_ios_arm64<span class="p">)</span> <span class="nt">-dynamiclib</span> <span class="nt">-o</span> <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlitevec <span class="p">$(</span>OUT_DIR_ios_arm64_simulator<span class="p">)</span>/sqlite-vec.o <span class="nt">-isysroot</span> <span class="p">$(</span>IOS_SIMULATOR_SDK_PATH<span class="p">)</span>
-
-<span class="c"># Rule to compile for all iOS architectures
-</span><span class="nl">ios</span><span class="o">:</span> <span class="nf">ios_arm64 ios_x86_64 ios_arm64_sim</span>
-  <span class="c"># Create a single fat for simulators
-</span>	<span class="err">lipo</span> <span class="err">-create</span> <span class="err">./dist/ios/x86_64/sqlitevec</span> <span class="err">./dist/ios/arm64_simulator/sqlitevec</span> <span class="err">-output</span> <span class="err">dist/ios/sim_fat/sqlitevec</span>
-
-  <span class="c"># Move generated binary to the template xcframework folder
-</span>	<span class="err">cp</span> <span class="err">./dist/ios/arm64/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/</span>
-
-  <span class="c"># Set @rpath
-</span>	<span class="err">install_name_tool</span> <span class="err">-id</span> <span class="err">@rpath/sqlitevec.framework/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64/sqlitevec.framework/sqlitevec</span>
-
-  <span class="c"># Move generated binary to the template xcframework folder
-</span>	<span class="err">cp</span> <span class="err">./dist/ios/sim_fat/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/</span>
-
-  <span class="c"># Set @rpath
-</span>	<span class="err">install_name_tool</span> <span class="err">-id</span> <span class="err">@rpath/sqlitevec.framework/sqlitevec</span> <span class="err">./templates/sqlitevec.xcframework/ios-arm64_x86_64-simulator/sqlitevec.framework/sqlitevec</span>
-
-<span class="nl">.PHONY</span><span class="o">:</span> <span class="nf">ios ios_arm64 ios_x86_64 ios_arm64_sim</span>
-</code></pre></div></div>
-
-<ol>
-  <li>You first need to compile your library for iOS. There are a lot of things to take care here. Detecting the correct compiler chain. You NEED to make sure you are setting the correct min iPhone OS version (dylib support was added in iOS 8).</li>
-  <li>Then compiling the library into an .o and then linking it as a dylib. Dynamic libraries in iOS have no extension. The make file creates a folder structure and drops the generated files in the correct places.</li>
-  <li>Once these files are generated the makefile will try to merge the arm-simulator and intel-simulator binaries into a single “fat” binary. The reason is clashing of architectures (both arm-sim and intel-sim target the same “arch” so they clash and need to be merged into a “fat” binary).</li>
-  <li>With the binary merged we can drop everything into a <code class="language-plaintext highlighter-rouge">.xcframework</code> template. <a href="https://github.com/OP-Engineering/op-sqlite/tree/main/ios/sqlitevec.xcframework">You can download it here</a>. You need of course rename it properly and modify the paths but by using a template we skip more not-so-important steps.</li>
-  <li>With the files in the correct places we need to final set the <code class="language-plaintext highlighter-rouge">@rpath</code>. The rpath basically tells the OS where to find the canonical path of the file. It’s mean for the runtime linker to find the correct file from a memory safe location when the app is compiled in hardened mode. This is confusing, don’t think too much about it, it has to do with sandboxing and security of the OS.</li>
-</ol>
-
-<h1 id="xcframework">XCFramework</h1>
-
-<p>After you got your library compiled correctly, it’s not enough to just drop them somewhere on iOS and call it a day. The <code class="language-plaintext highlighter-rouge">.xcframework</code> which basically is a folder that contains an <code class="language-plaintext highlighter-rouge">Info.plist</code>, tells Xcode which framework to load based on your computer arch and target. You <strong>could</strong> also create the <code class="language-plaintext highlighter-rouge">xcframework</code> via command, but it will not create the internal <code class="language-plaintext highlighter-rouge">frameworks</code> inside for you. Still useful command if you are compiling static libs:</p>
-
-<div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>xcodebuild <span class="nt">-create-xcframework</span> <span class="nt">-library</span> ./sim_fat/libsqlite_vec.a <span class="nt">-headers</span> ../../ <span class="nt">-library</span> ./arm64/libsqlite_vec.a <span class="nt">-include</span> ../../ <span class="nt">-output</span> libsqlite_vec.xcframework
-</code></pre></div></div>
-
-<blockquote>
-  <p>This is a sample command, won’t work for this particular dylib case. But if you just need static libs, this is it. Once you have everything packaged in an .xcframework your static libs (.a) are automatically loaded for you. No need to mess with the rpath and frameworks</p>
-</blockquote>
-
-<p>The <code class="language-plaintext highlighter-rouge">Info.plist</code> also contains entries to the folders which contain the <code class="language-plaintext highlighter-rouge">frameworks</code> that actually contain the dylibs.</p>
-
-<h1 id="each-framework-infoplist">Each framework Info.plist</h1>
-
-<p>Each <code class="language-plaintext highlighter-rouge">.framework</code> inside the <code class="language-plaintext highlighter-rouge">.xcframework</code> contains it’s own <code class="language-plaintext highlighter-rouge">Info.plist</code>. You can ignore most of this except the bundle identifier. This value is important because it will be used on runtime to load the binary. You should modify them to match your library name and bundle identifier (<code class="language-plaintext highlighter-rouge">CFBundleExecutable</code> tells the name of the binary, <code class="language-plaintext highlighter-rouge">CFBundleIdentifier</code> is needed to load the dylibs):</p>
-
-<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
-<span class="cp">&lt;!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd"&gt;</span>
-<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">"1.0"</span><span class="nt">&gt;</span>
-<span class="nt">&lt;dict&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleDevelopmentRegion<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>en<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleExecutable<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>sqlitevec<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleIdentifier<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>com.ospfranco.sqlitevec<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleInfoDictionaryVersion<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>6.0<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundlePackageType<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>FMWK<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleSignature<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>????<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleVersion<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
-  <span class="nt">&lt;key&gt;</span>CFBundleShortVersionString<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>1.0.0<span class="nt">&lt;/string&gt;</span>
-	<span class="nt">&lt;key&gt;</span>MinimumOSVersion<span class="nt">&lt;/key&gt;</span>
-  <span class="nt">&lt;string&gt;</span>8.0<span class="nt">&lt;/string&gt;</span>
-<span class="nt">&lt;/dict&gt;</span>
-<span class="nt">&lt;/plist&gt;</span>
-</code></pre></div></div>
-
-<h1 id="loading-it-in-runtime">Loading it in runtime</h1>
-
-<p>After you have correctly created the <code class="language-plaintext highlighter-rouge">xcframework</code> you can then add it as a dependency in your project. Directly drop it into Xcode, or if you are using cocoapods declare as:</p>
-
-<div class="language-ruby highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">s</span><span class="p">.</span><span class="nf">vendored_frameworks</span> <span class="o">=</span> <span class="s2">"sqlitevec.xcframework"</span>
-</code></pre></div></div>
-
-<p>This just takes care of packaging into your app once you do <code class="language-plaintext highlighter-rouge">pod install</code>. Once the app starts you actually have load the dylib. Here is a snippet to do this:</p>
-
-<div class="language-objc highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">NSBundle</span> <span class="o">*</span><span class="n">libsqlitevec_bundle</span> <span class="o">=</span> <span class="p">[</span><span class="n">NSBundle</span> <span class="nf">bundleWithIdentifier</span><span class="p">:</span><span class="s">@"com.ospfranco.sqlitevec"</span><span class="p">];</span>
-<span class="n">NSString</span> <span class="o">*</span><span class="n">sqlite_vec_path</span> <span class="o">=</span> <span class="p">[</span><span class="n">libsqlitevec_bundle</span> <span class="nf">pathForResource</span><span class="p">:</span><span class="s">@"sqlitevec"</span> <span class="nf">ofType</span><span class="p">:</span><span class="s">@""</span><span class="p">];</span>
-</code></pre></div></div>
-
-<p>This is not how you LOAD it, but rather how you find it in the file system. At least for my use case that is all I needed. I can then pass it to sqlite and it takes care of loading it on memory (via <code class="language-plaintext highlighter-rouge">dlopen</code> I guess, or some other system call).</p>
-
-<h1 id="debugging">Debugging</h1>
-
-<p>If you are unsure any of the steps above is not correctly applied you can verify them.</p>
-
-<p>Verify the min OS version is set correctly by running:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otool -l sqlitevec.framework/sqlitevec | grep -A 3 LC_VERSION_MIN_IPHONEOS
-</code></pre></div></div>
-
-<p>If the key is there you should see the set version. This is mandatory for the iOS device arm64 version. If not set then Apple will reject your embedded framework when you send the submission to the app store. It should look something like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Load command 8
-      cmd LC_VERSION_MIN_IPHONEOS
-  cmdsize 16
-  version 8.0
-      sdk 8.0
-</code></pre></div></div>
-
-<p>The <code class="language-plaintext highlighter-rouge">@rpath also needs to be correct</code>, although it is done for you in the Makefile you can verify is properly set by running:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>otool -L sqlitevec.framework/sqlitevec
-</code></pre></div></div>
-
-<p>You should see an entry with <code class="language-plaintext highlighter-rouge">@rpath</code> like this:</p>
-
-<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sqlitevec.framework/sqlitevec:
-        @rpath/sqlitevec.framework/sqlitevec (compatibility version 0.0.0, current version 0.0.0)
-        /usr/lib/libSystem.B.dylib (compatibility version 1.0.0, current version 1351.0.0)
-</code></pre></div></div>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Apple has terribly messed with dynamic library loading in iOS, has diverged from the unix standard. This was an absolute pain to get right, so I hope I will save someone some time in case you ever need to compile a dylib for iOS.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
