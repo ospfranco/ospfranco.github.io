@@ -53,7 +53,7 @@ ssh-keygen -t ed25519-sk -O resident -O application=ssh:[ENTER YOUR ALIAS HERE] 
 - `-C "MyKey"`: Another alias that will go inside the generated files
 - `-f ...`: name of the output files
 
-If you are really paranoid you can also add pin authentication, which means besides having to touch your yubikey you will have to input your pin everytime you require your SSH keypair:
+When asked for a passphrase you can leave it empty, unlocking your key will now require physical interaction with the YubiKey. If you are really paranoid you can also add pin authentication, which means besides having to touch your yubikey you will have to input your pin everytime you require your SSH keypair:
 
 ```sh
 ssh-keygen -t ed25519-sk -O verify-required -O resident -O application=ssh:[ENTER YOUR ALIAS HERE] -C "MyKey" -f ~/.ssh/opacity-sk

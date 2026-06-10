@@ -108,7 +108,7 @@ IgnoreUnknown UseKeychain
   <li><code class="language-plaintext highlighter-rouge">-f ...</code>: name of the output files</li>
 </ul>
 
-<p>If you are really paranoid you can also add pin authentication, which means besides having to touch your yubikey you will have to input your pin everytime you require your SSH keypair:</p>
+<p>When asked for a passphrase you can leave it empty, unlocking your key will now require physical interaction with the YubiKey. If you are really paranoid you can also add pin authentication, which means besides having to touch your yubikey you will have to input your pin everytime you require your SSH keypair:</p>
 
 <div class="language-sh highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen <span class="nt">-t</span> ed25519-sk <span class="nt">-O</span> verify-required <span class="nt">-O</span> resident <span class="nt">-O</span> <span class="nv">application</span><span class="o">=</span>ssh:[ENTER YOUR ALIAS HERE] <span class="nt">-C</span> <span class="s2">"MyKey"</span> <span class="nt">-f</span> ~/.ssh/opacity-sk
 </code></pre></div></div>
