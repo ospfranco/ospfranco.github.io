@@ -149,6 +149,10 @@ git config <span class="nt">--global</span> commit.gpgsign <span class="nb">true
 </code></pre></div></div>
 
 <p>Then on the GitHub web UI, go to SSH keys and create a new signing SSH key and paste the same public key (<code class="language-plaintext highlighter-rouge">~/.ssh/my-ssh-key.pub</code>).</p>
+
+<h2 id="your-keypair-is-now-portable">Your keypair is now portable</h2>
+
+<p>One added benefit of this approach is you can now commit your key pair (<code class="language-plaintext highlighter-rouge">~/.ssh/my-ssh-key</code> and <code class="language-plaintext highlighter-rouge">~/.ssh/my-key-pair.pub</code>) into your dotfiles and just move between machines. They “private” file now only points to the YubiKey so there is no need to be paranoid about this files</p>
 </div>
     </div>
 
