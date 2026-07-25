@@ -1,149 +1,452 @@
 ---
 layout: default
 ---
-<script type="module">
-  // Import the main module that loads the WASM
-  import init, { main_web } from '/assets/wasm/nannou_web_test.js';
 
-  async function startNannouApp() {
-    const container = document.getElementById("nannou-container");
-    const isBrave = navigator.userAgent.includes("Brave") ||
-      (window.navigator && window.navigator.brave !== undefined);
-
-    if (isBrave) {
-      const noteDiv = document.createElement('div');
-      noteDiv.className = "absolute top-0 left-0 right-0 bg-neutral-50/10 backdrop-blur p-2 rounded-md text-xs z-10 flex flex-col items-center justify-center text-neutral-400";
-      noteDiv.innerHTML = `
-        If the WASM sketch doesn't appear, please disable webgl2 blocking in Brave Shields for this site
-      `;
-      container.parentNode.insertBefore(noteDiv, container);
-    }
-    try {
-      // Initialize the WASM module
-      await init('/assets/wasm/nannou_web_test_bg.wasm');
-
-      // Call your exported function
-      await main_web("nannou-container");
-    } catch (error) {
-      console.error("Failed to load Nannou WASM module:", error);
-    }
-  }
-
-  // Start the application when the page loads
-  document.addEventListener('DOMContentLoaded', startNannouApp);
-</script>
-
-<body class="flex flex-col items-center">
-  <div class="max-w-4xl w-full gap-4 p-4 flex flex-col">
-    <div class="h-full flex flex-col justify-end gap-4">
-      <div class="flex-1 flex flex-col items-center justify-center gap-4">
-        <div class="relative group">
-          <div id="nannou-container" class="h-96 w-96" />
-          <p
-            class="text-gray-300 text-xs absolute left-1/2 -translate-x-1/2 bottom-0 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-            Nannou Sketch → WASM
-          </p>
+<body class="flex flex-col items-center gap-10 py-10">
+    <div class="max-w-4xl w-full gap-6 flex flex-col">
+        <div class="flex items-center gap-5">
+            <img
+                src="{{site.baseurl}}/assets/osp.jpeg"
+                alt="Oscar Franco"
+                class="w-20 h-20 md:w-24 md:h-24 rounded-full object-cover shrink-0"
+            />
+            <div class="flex flex-col gap-1">
+                <h1 class="text-3xl md:text-4xl font-bold tracking-tight">
+                    Oscar Franco
+                </h1>
+                <p class="text-neutral-500 dark:text-neutral-400">
+                    Freelance Software Engineer
+                </p>
+            </div>
         </div>
-      </div>
+
+        <p class="leading-relaxed">
+            I like pushing the boundaries of technology. I was among the first
+            developers writing JSI modules for React Native, worked in deeply
+            technical projects like porting Nodes Crypto into
+            react-native-quick-crypto, then porting aws-lc-rs to RN, made
+            Prismas Rust engine work on React Native and since then I've
+            maintained several open source projects and led engineering teams —
+            though I still enjoy digging into novel, under-documented
+            techniques: dynamic linking on iOS, hacking the Mapbox SDK to render
+            custom tile sets, storing SSH keys on a YubiKey. You'll find some of
+            that writing below.
+        </p>
+
+        <p class="leading-relaxed">
+            Currently based in South America, nowadays spending most of my time
+            on Rust these days, particularly around verifiable computing with
+            Intel SGX. Won the German Design Award 2025 with
+            <a href="https://sol.ospfranco.com">Sol</a>. Send me an
+            <a href="mailto:ospfranco@gmail.com" target="_blank">e-mail</a> if
+            you are interested in contract work.
+        </p>
     </div>
 
-    <h1 class="text-xl">Oscar Franco</h1>
+    <div class="border-b w-full max-w-4xl dark:border-neutral-800"></div>
 
-    <img src="{{site.baseurl}}/assets/header.jpg" class="w-full h-64 rounded-lg object-cover animate-fadeIn" />
-
-    <p>
-      Freelance Systems Engineer. Living in Barcelona. Open Source maintainer, led development teams,
-      dable in YouTube. Won the German Design Award 2025 with <a href="https://sol.ospfranco.com">Sol</a>. Follow me on
-      <a href=" https://www.x.com/ospfranco" target="_blank"">X</a> or send me an <a href=" mailto:ospfranco@gmail.com"
-        target="_blank"">e-mail</a>.
-    </p>
-  </div>
-
-  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
-  </div>
-
-  <h2 class=" font-semibold">Links</h2>
-
-  <p>
-    <a class="hover:no-underline" href="https://sol.ospfranco.com">
-      Sol
-    </a><br>
-    <span class="text-neutral-500">
-      Open Source macOS Launcher
-    </span>
-  </p>
-
-  <p>
-    <a class="hover:no-underline" href="https://www.newline.co/courses/building-react-native-apps-for-mac">
-      React Native Apps for Mac Online Class
-    </a><br>
-    <span class="text-neutral-500">
-      Online class on how to build React Native apps for macOS
-    </span>
-
-  </p>
-
-  <p>
-    <a class="hover:no-underline" href="https://www.youtube.com/@ospfranco">
-      YouTube
-    </a><br>
-    <span class="text-neutral-500">
-      Tutorials, tips and explanations about React Native, Rust, macOS and more
-    </span>
-  </p>
-
-  <p>
-    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-sqlite">
-      op-sqlite
-    </a><br>
-    <span class="text-neutral-500">The fastest SQLite for React Native</span>
-  </p>
-
-  <p>
-    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-s2">
-      op-s2
-    </a><br>
-    <span class="text-neutral-500">
-      Hardware Encrypted Storage for React Native
-    </span>
-  </p>
-
-  <p>
-    <a class="hover:no-underline" href="https://github.com/OP-Engineering/op-aws-lc">
-      op-aws-lc
-    </a><br>
-    <span class="text-neutral-500">
-      AWS LibCrypto bindings (with FIPS) for React Native
-    </span>
-  </p>
-
-  <div class=" border-b w-full max-w-4xl dark:border-neutral-800">
-  </div>
-
-  <div class="w-full max-w-4xl">
-    <h2 class=" font-semibold">Writing</h2>
-
-    <ul class="flex flex-col gap-2 mt-4">
-      {% for post in site.posts %}
-      {% if post.is_spanish_version != true %}
-      <li class="flex items-center">
-        <div>
-          <p>
-            <a href="{{ post.url }}">{{ post.title }}</a>
-          </p>
-          {% if post.spanish_version %}
-          <p class="text-xs">
-            <a href="{{ post.spanish_version }}">Español</a>
-          </p>
-          {% endif %}
+    <div class="w-full max-w-4xl">
+        <h2 class="text-lg font-semibold tracking-tight">
+            Companies I've worked with
+        </h2>
+        <div class="grid grid-cols-3 sm:grid-cols-4 gap-x-6 gap-y-10 mt-4">
+            <a
+                href="https://www.mozilla.org"
+                target="_blank"
+                title="Mozilla"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/mozilla.webp"
+                        alt="Mozilla"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Mozilla</span
+                >
+            </a>
+            <a
+                href="https://opacitylabs.com"
+                target="_blank"
+                title="Opacity Labs"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/opacitylabs.webp"
+                        alt="Opacity Labs"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Opacity Labs</span
+                >
+            </a>
+            <a
+                href="https://lucrasports.com"
+                target="_blank"
+                title="Lucra Sports"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/lucrasports.webp"
+                        alt="Lucra Sports"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Lucra Sports</span
+                >
+            </a>
+            <a
+                href="https://journeyapps.com"
+                target="_blank"
+                title="JourneyApps"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/journeyapps.webp"
+                        alt="JourneyApps"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 dark:invert hover:opacity-100 hover:grayscale-0 dark:hover:invert-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >JourneyApps</span
+                >
+            </a>
+            <a
+                href="https://turso.tech"
+                target="_blank"
+                title="Turso"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/turso.webp"
+                        alt="Turso"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Turso</span
+                >
+            </a>
+            <a
+                href="https://www.prisma.io"
+                target="_blank"
+                title="Prisma"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/prisma.webp"
+                        alt="Prisma"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 dark:invert hover:opacity-100 hover:grayscale-0 dark:hover:invert-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Prisma</span
+                >
+            </a>
+            <a
+                href="https://www.abl.de"
+                target="_blank"
+                title="ABL GmbH"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/abl.webp"
+                        alt="ABL GmbH"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 dark:invert hover:opacity-100 hover:grayscale-0 dark:hover:invert-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >ABL GmbH</span
+                >
+            </a>
+            <a
+                href="https://www.locio.de"
+                target="_blank"
+                title="LOCIO"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/locio.webp"
+                        alt="LOCIO"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >LOCIO</span
+                >
+            </a>
+            <a
+                href="https://www.getraise.app"
+                target="_blank"
+                title="RAISE GmbH"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <span
+                        class="text-sm font-semibold tracking-wide text-neutral-500 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white transition"
+                        >RAISE</span
+                    >
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >RAISE GmbH</span
+                >
+            </a>
+            <a
+                href="https://hypercal.app"
+                target="_blank"
+                title="Hypercal"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/hypercal.webp"
+                        alt="Hypercal"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Hypercal</span
+                >
+            </a>
+            <a
+                href="https://margelo.com"
+                target="_blank"
+                title="Margelo"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/margelo.webp"
+                        alt="Margelo"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Margelo</span
+                >
+            </a>
+            <a
+                href="https://onomy.io"
+                target="_blank"
+                title="Onomy Protocol"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/onomy.webp"
+                        alt="Onomy Protocol"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Onomy Protocol</span
+                >
+            </a>
+            <a
+                href="https://www.bodyfast.app"
+                target="_blank"
+                title="BodyFast"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/bodyfast.webp"
+                        alt="BodyFast"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >BodyFast</span
+                >
+            </a>
+            <a
+                href="https://productlane.com"
+                target="_blank"
+                title="Productlane"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/productlane.webp"
+                        alt="Productlane"
+                        class="h-full w-auto max-w-full object-contain rounded grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >Productlane</span
+                >
+            </a>
+            <a
+                href="https://www.capmo.com"
+                target="_blank"
+                title="CAPMO"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/capmo.webp"
+                        alt="CAPMO"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 dark:invert hover:opacity-100 hover:grayscale-0 dark:hover:invert-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >CAPMO</span
+                >
+            </a>
+            <a
+                href="https://www.mantro.net"
+                target="_blank"
+                title="mantro GmbH"
+                class="flex flex-col items-center justify-center gap-2"
+            >
+                <div class="h-8 flex items-center justify-center">
+                    <img
+                        src="{{site.baseurl}}/assets/logos/mantro.webp"
+                        alt="mantro GmbH"
+                        class="h-full w-auto max-w-full object-contain grayscale contrast-125 opacity-60 hover:opacity-100 hover:grayscale-0 transition"
+                    />
+                </div>
+                <span
+                    class="text-xs text-neutral-500 dark:text-neutral-400 text-center"
+                    >mantro GmbH</span
+                >
+            </a>
         </div>
-        <div class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"></div>
-        <span class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right">
-          {{ post.date | date: "%d %b %Y" }}
-        </span>
-      </li>
-      {% endif %}
-      {% endfor %}
-    </ul>
-  </div>
+    </div>
+
+    <div class="border-b w-full max-w-4xl dark:border-neutral-800"></div>
+
+    <div class="w-full max-w-4xl">
+        <h2 class="text-lg font-semibold tracking-tight">Links</h2>
+
+        <div class="flex flex-col gap-4 mt-4">
+            <p>
+                <a class="hover:no-underline" href="https://sol.ospfranco.com">
+                    Sol </a
+                ><br />
+                <span class="text-neutral-500">
+                    Open Source macOS Launcher
+                </span>
+            </p>
+
+            <p>
+                <a
+                    class="hover:no-underline"
+                    href="https://www.newline.co/courses/building-react-native-apps-for-mac"
+                >
+                    React Native Apps for Mac Online Class </a
+                ><br />
+                <span class="text-neutral-500">
+                    Online class on how to build React Native apps for macOS
+                </span>
+            </p>
+
+            <p>
+                <a
+                    class="hover:no-underline"
+                    href="https://www.youtube.com/@ospfranco"
+                >
+                    YouTube </a
+                ><br />
+                <span class="text-neutral-500">
+                    Tutorials, tips and explanations about React Native, Rust,
+                    macOS and more
+                </span>
+            </p>
+
+            <p>
+                <a
+                    class="hover:no-underline"
+                    href="https://github.com/OP-Engineering/op-sqlite"
+                >
+                    op-sqlite </a
+                ><br />
+                <span class="text-neutral-500"
+                    >The fastest SQLite for React Native</span
+                >
+            </p>
+
+            <p>
+                <a
+                    class="hover:no-underline"
+                    href="https://github.com/OP-Engineering/op-s2"
+                >
+                    op-s2 </a
+                ><br />
+                <span class="text-neutral-500">
+                    Hardware Encrypted Storage for React Native
+                </span>
+            </p>
+
+            <p>
+                <a
+                    class="hover:no-underline"
+                    href="https://github.com/OP-Engineering/op-aws-lc"
+                >
+                    op-aws-lc </a
+                ><br />
+                <span class="text-neutral-500">
+                    AWS LibCrypto bindings (with FIPS) for React Native
+                </span>
+            </p>
+        </div>
+    </div>
+
+    <div class="border-b w-full max-w-4xl dark:border-neutral-800"></div>
+
+    <div class="w-full max-w-4xl">
+        <h2 class="text-lg font-semibold tracking-tight">Writing</h2>
+
+        <ul class="flex flex-col gap-2 mt-4">
+            {% for post in site.posts %} {% if post.is_spanish_version != true
+            %}
+            <li class="flex items-center">
+                <div>
+                    <p>
+                        <a href="{{ post.url }}">{{ post.title }}</a>
+                    </p>
+                    {% if post.spanish_version %}
+                    <p class="text-xs">
+                        <a href="{{ post.spanish_version }}">Español</a>
+                    </p>
+                    {% endif %}
+                </div>
+                <div
+                    class="flex-1 border-t border-neutral-100 dark:border-neutral-800 min-w-4 mx-2"
+                ></div>
+                <span
+                    class="text-sm text-neutral-500 whitespace-nowrap w-22 text-right"
+                >
+                    {{ post.date | date: "%d %b %Y" }}
+                </span>
+            </li>
+            {% endif %} {% endfor %}
+        </ul>
+    </div>
 </body>
