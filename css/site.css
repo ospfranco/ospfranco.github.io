@@ -18,7 +18,7 @@
 }
 
 body {
-  @apply max-w-full text-neutral-700 dark:text-neutral-200 dark:bg-[#0d1116];
+  @apply max-w-full text-neutral-700 dark:text-[#d0d6e0] dark:bg-[#08090a];
 }
 
 a {
@@ -26,23 +26,23 @@ a {
 }
 
 h1 {
-  @apply dark:text-white;
+  @apply dark:text-[#d0d6e0];
 }
 
 h2 {
-  @apply dark:text-white;
+  @apply dark:text-[#d0d6e0];
 }
 
 h3 {
-  @apply dark:text-white;
+  @apply dark:text-[#d0d6e0];
 }
 
 h4 {
-  @apply dark:text-white;
+  @apply dark:text-[#d0d6e0];
 }
 
 .markdown {
-  /* @apply dark:text-gray-300; */
+  @apply leading-relaxed;
 }
 
 .markdown a {
@@ -54,15 +54,15 @@ h4 {
 }
 
 .markdown h1 {
-  @apply mt-6 text-xl font-semibold;
+  @apply mt-6 text-xl font-medium;
 }
 
 .markdown h2 {
-  @apply mt-6 text-lg font-semibold;
+  @apply mt-6 text-lg font-medium;
 }
 
 .markdown h3 {
-  @apply mt-6 font-bold;
+  @apply mt-6 font-semibold;
 }
 
 .markdown ol {
@@ -82,7 +82,7 @@ h4 {
 }
 
 code {
-  @apply rounded  border dark:border-red-500/10 dark:bg-red-800/15 dark:text-red-500 border-red-500/10 bg-red-800/10 text-red-500 text-sm px-1;
+  @apply rounded border dark:border-red-500/10 dark:bg-red-900/10 dark:text-red-400/80 border-red-500/10 bg-red-500/5 text-red-500/70 text-sm px-1;
 }
 
 .hljs {

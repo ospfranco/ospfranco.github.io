@@ -1,4 +1,241 @@
-<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-07-25T10:57:17-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">Store SSH Keypair in a Yubikey</title><link href="https://ospfranco.com/store-ssh-keypair-in-a-yubikey/" rel="alternate" type="text/html" title="Store SSH Keypair in a Yubikey" /><published>2026-06-10T00:00:00-04:00</published><updated>2026-06-10T00:00:00-04:00</updated><id>https://ospfranco.com/store-ssh-keypair-in-a-yubikey</id><content type="html" xml:base="https://ospfranco.com/store-ssh-keypair-in-a-yubikey/"><![CDATA[<p>In the world of cyber-security you can never be too paranoid.</p>
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.4.1">Jekyll</generator><link href="https://ospfranco.com/feed.xml" rel="self" type="application/atom+xml" /><link href="https://ospfranco.com/" rel="alternate" type="text/html" /><updated>2026-08-19T08:56:23-04:00</updated><id>https://ospfranco.com/feed.xml</id><title type="html">Oscar Franco</title><author><name>Oscar Franco</name></author><entry><title type="html">React Native Bridgeless, race conditions with concurrent JS runtimes</title><link href="https://ospfranco.com/concurrent-engines-crash/" rel="alternate" type="text/html" title="React Native Bridgeless, race conditions with concurrent JS runtimes" /><published>2026-08-19T00:00:00-04:00</published><updated>2026-08-19T00:00:00-04:00</updated><id>https://ospfranco.com/concurrent-engines-crash</id><content type="html" xml:base="https://ospfranco.com/concurrent-engines-crash/"><![CDATA[<p>Recently a bug was reported to <a href="https://github.com/OP-Engineering/op-sqlite">op-sqlite</a>, it was a crash that only reproduced on hot reload or a CodePush/OTA update. Never on cold launch. The stack trace pointed at <code class="language-plaintext highlighter-rouge">~jsi::Value()</code> inside <code class="language-plaintext highlighter-rouge">ThreadPool::doWork()</code> — a destructor running on a background thread, tearing down a JSI value that belonged to a JS runtime which, no longer existed.</p>
+
+<p>If you don’t know how op-sqlite works, it’s a pure JSI C++ module. It uses the entry point of a TurboModule, but then creates it’s own JSI functions and injects them into the JS runtime (using <code class="language-plaintext highlighter-rouge">opsqlite::install</code>) . When a reload happens, React Native calls each Turbo Module destructor function (which in turn calls <code class="language-plaintext highlighter-rouge">opsqlite::invalidate</code>). However, since it’s a C++ module, it has some global state, independent of how the JS runtime initializes it, via shared pointers and global (module scoped) variables.</p>
+
+<h1 id="one-runtime-at-a-time-then-two">One runtime at a time, then two</h1>
+
+<p>Under the old bridge, a reload was strictly sequential: tear the old runtime all the way down, <em>then</em> boot the new one. <code class="language-plaintext highlighter-rouge">invalidate()</code> finished before <code class="language-plaintext highlighter-rouge">install()</code> for the next generation ever ran. Any process-global state — a static pointer, a shared flag — was safe by construction, because only one generation was ever alive to touch it.</p>
+
+<p>Bridgeless changed that ordering. The new <code class="language-plaintext highlighter-rouge">RCTInstance</code> starts before the old one has finished invalidating. The old instance gets a budget of a few seconds to clean up and then gets torn down regardless of whether it’s done. In between, there’s a real window — not a hypothetical one — where two runtime generations are alive at the same time, both touching the same native module state.</p>
+
+<div class="my-8 rounded-xl border border-neutral-800 bg-[#0d0d0d] p-4">
+<svg viewBox="0 0 760 210" style="width:100%;height:auto;display:block">
+<style>
+  text{font-family:ui-sans-serif,-apple-system,"Inter",sans-serif}
+  .lane{fill:#8f8f8f;font-size:11px;font-weight:600;letter-spacing:.04em}
+  .bar-label{fill:#e6e6e6;font-size:11px}
+  .note{fill:#8f8f8f;font-size:10.5px}
+</style>
+<text x="16" y="60" class="lane">OLD BRIDGE</text>
+<rect x="130" y="45" width="250" height="22" rx="6" fill="#1a1a1a" stroke="#b0b0b0" stroke-width="1.3" />
+<text x="255" y="60" text-anchor="middle" class="bar-label">Old · invalidate()</text>
+<rect x="410" y="45" width="250" height="22" rx="6" fill="#1c1c1c" stroke="#707070" stroke-width="1.3" />
+<text x="535" y="60" text-anchor="middle" class="bar-label">New · install()</text>
+<text x="395" y="94" text-anchor="middle" class="note">no overlap — one runtime alive at a time</text>
+<circle r="4" fill="#b0b0b0">
+  <animateMotion path="M140,56 L650,56" dur="4s" repeatCount="indefinite" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" dur="4s" repeatCount="indefinite" />
+</circle>
+
+<line x1="16" x2="744" y1="112" y2="112" stroke="#262626" stroke-width="1" />
+
+<text x="16" y="160" class="lane">BRIDGELESS</text>
+<rect x="130" y="145" width="330" height="22" rx="6" fill="#1a1a1a" stroke="#b0b0b0" stroke-width="1.3" />
+<text x="295" y="160" text-anchor="middle" class="bar-label">Old · invalidate()</text>
+<rect x="330" y="145" width="330" height="22" rx="6" fill="#1c1c1c" stroke="#707070" stroke-width="1.3" />
+<text x="495" y="160" text-anchor="middle" class="bar-label">New · install()</text>
+<rect x="330" y="138" width="130" height="36" rx="6" fill="#8a8a8a" fill-opacity="0.12" stroke="#8a8a8a" stroke-width="1" stroke-dasharray="4 3">
+  <animate attributeName="fill-opacity" values="0.06;0.22;0.06" dur="2.4s" repeatCount="indefinite" />
+</rect>
+<text x="395" y="196" text-anchor="middle" class="note" fill="#8a8a8a">both alive</text>
+<circle r="4" fill="#b0b0b0">
+  <animateMotion path="M140,156 L450,156" dur="3.4s" repeatCount="indefinite" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.9;1" dur="3.4s" repeatCount="indefinite" />
+</circle>
+<circle r="4" fill="#707070">
+  <animateMotion path="M340,156 L650,156" dur="3.4s" repeatCount="indefinite" begin="1.1s" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.9;1" dur="3.4s" repeatCount="indefinite" begin="1.1s" />
+</circle>
+</svg>
+<p class="mt-3 text-center text-xs text-neutral-500">Bridgeless overlaps two generations for a few seconds — long enough for global state to be touched by both.</p>
+</div>
+
+<h1 id="op-sqlites-global-state">op-sqlite’s global state</h1>
+
+<p>op-sqlite kept its cross-DB bookkeeping as plain process-global state:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">namespace</span> <span class="n">opsqlite</span> <span class="p">{</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">DBHostObject</span><span class="o">&gt;&gt;</span> <span class="n">dbs</span><span class="p">;</span>
+  <span class="kt">bool</span> <span class="n">invalidated</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span>
+  <span class="c1">// The CallInvoker allows to queue work back into the JS thread</span>
+  <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">react</span><span class="o">::</span><span class="n">CallInvoker</span><span class="o">&gt;</span> <span class="n">invoker</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Databases where kept for cleanup on invalidation, the invalidated flag was to stop queueing work if the module was already invalidated, and the invoker was used to queue off-thread work back into the JS thread — per process, not per generation. That was fine under the old bridge: <code class="language-plaintext highlighter-rouge">install()</code> for a new generation could never run while an old generation was still draining, so there was never more than one “current” runtime to be confused about. Under bridgeless, <code class="language-plaintext highlighter-rouge">install()</code> for the new generation can run <em>while</em> the old generation’s <code class="language-plaintext highlighter-rouge">invalidate()</code> is still in flight.</p>
+
+<h1 id="the-failure-concretely">The failure, concretely</h1>
+
+<p>Here’s the actual sequence that crashed:</p>
+
+<ul>
+  <li>The outgoing runtime has queued, or is actively running, a long-running SQLite query on a background thread.</li>
+  <li>A reload or OTA update fires. The outgoing runtime starts tearing down.</li>
+  <li>SQLite interrupts the in-flight query and tries to schedule the resulting error back onto the JS thread — the same thread that’s in the middle of being torn down.</li>
+  <li>By the time that happens, the new runtime has already replaced the shared state with its own pointers.</li>
+  <li>op-sqlite isn’t generation-aware, so it either schedules that callback on the wrong invoker, or tries to destroy JS objects from a thread that isn’t the JS thread — neither of which is valid.</li>
+</ul>
+
+<div class="my-8 rounded-xl border border-neutral-800 bg-[#0d0d0d] p-4">
+<svg viewBox="0 0 760 300" style="width:100%;height:auto;display:block">
+<style>
+  text{font-family:ui-sans-serif,-apple-system,"Inter",sans-serif}
+  .lbl{fill:#e6e6e6;font-size:12.5px;font-weight:600}
+  .sub{fill:#8f8f8f;font-size:10.5px}
+  .warn{fill:#c9c9c9;font-size:10.5px}
+</style>
+<defs>
+  <marker id="arrB" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#383838" />
+  </marker>
+  <marker id="arrBRed" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#c9c9c9" />
+  </marker>
+</defs>
+
+<rect x="20" y="30" width="200" height="64" rx="8" fill="#161616" stroke="#383838" stroke-width="1.4" />
+<text x="120" y="56" text-anchor="middle" class="lbl">Background thread</text>
+<text x="120" y="74" text-anchor="middle" class="sub">long-running SQLite query</text>
+
+<rect x="290" y="30" width="190" height="64" rx="8" fill="#161616" stroke="#383838" stroke-width="1.4" />
+<text x="385" y="56" text-anchor="middle" class="lbl">sqlite3_interrupt()</text>
+<text x="385" y="74" text-anchor="middle" class="sub">schedules result via invoker</text>
+
+<rect x="550" y="30" width="190" height="64" rx="8" fill="#161616" stroke="#383838" stroke-width="1.4" />
+<text x="645" y="56" text-anchor="middle" class="lbl">…or should run</text>
+<text x="645" y="74" text-anchor="middle" class="sub">on the JS thread</text>
+
+<rect x="290" y="210" width="190" height="64" rx="8" fill="#1c1c1c" stroke="#707070" stroke-width="1.4" />
+<text x="385" y="236" text-anchor="middle" class="lbl" fill="#cfcfcf">install()</text>
+<text x="385" y="254" text-anchor="middle" class="sub">new generation starts</text>
+
+<rect x="550" y="210" width="190" height="64" rx="8" fill="#242424" stroke="#c9c9c9" stroke-width="1.6">
+  <animate attributeName="stroke-opacity" values="0.5;1;0.5" dur="1.6s" repeatCount="indefinite" />
+</rect>
+<text x="645" y="236" text-anchor="middle" class="lbl" fill="#e8e8e8">wrong thread, stale invoker</text>
+<text x="645" y="254" text-anchor="middle" class="warn">crash</text>
+
+<path d="M220,62 H290" stroke="#383838" stroke-width="1.4" marker-end="url(#arrB)" />
+<path d="M480,62 H550" stroke="#383838" stroke-width="1.4" marker-end="url(#arrB)" />
+<path d="M645,94 V210" stroke="#383838" stroke-width="1.4" marker-end="url(#arrB)" />
+<path d="M385,210 V94" stroke="#c9c9c9" stroke-width="1.4" stroke-dasharray="4 3" marker-end="url(#arrBRed)" />
+<text x="398" y="155" class="warn">swaps the shared pointers</text>
+
+<circle r="4" fill="#b0b0b0">
+  <animateMotion path="M40,62 H645" dur="3s" repeatCount="indefinite" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.06;0.85;1" dur="3s" repeatCount="indefinite" />
+</circle>
+<circle r="4" fill="#c9c9c9">
+  <animateMotion path="M645,62 V242" dur="3s" repeatCount="indefinite" begin="2.55s" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.7;1" dur="3s" repeatCount="indefinite" begin="2.55s" />
+  <animate attributeName="r" values="4;4;7;3" keyTimes="0;0.7;0.85;1" dur="3s" repeatCount="indefinite" begin="2.55s" />
+</circle>
+<circle r="3.5" fill="#c9c9c9">
+  <animateMotion path="M385,205 V96" dur="2.2s" repeatCount="indefinite" begin="0.6s" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.1;0.85;1" dur="2.2s" repeatCount="indefinite" begin="0.6s" />
+</circle>
+</svg>
+<p class="mt-3 text-center text-xs text-neutral-500">The interrupted query still has to report back — by the time it does, the shared pointers it relies on may already point at a different generation.</p>
+</div>
+
+<p>Nothing here is exotic. It’s the standard shape of a race: two independent sequences of events, running on different threads at different rates, mutating one shared variable between them. Bridgeless just made the window real.</p>
+
+<h1 id="a-liveness-flag-per-generation">A liveness flag per generation</h1>
+
+<p>The fix is to stop treating “current runtime” as a single global fact and make it something each generation owns:</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">extern</span> <span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">generation_alive</span><span class="p">;</span>
+</code></pre></div></div>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">install()</code> allocates a fresh <code class="language-plaintext highlighter-rouge">atomic&lt;bool&gt;(true)</code> for the new runtime.</li>
+  <li><code class="language-plaintext highlighter-rouge">invalidate()</code> flips <em>that specific</em> shared pointer to <code class="language-plaintext highlighter-rouge">false</code> — it doesn’t touch the new generation’s flag, because it doesn’t have one.</li>
+  <li>Any work that gets queued copies the shared pointer at <strong>queue time</strong>, not at run time, so it’s always checking the liveness of the generation that actually created the work, regardless of what <code class="language-plaintext highlighter-rouge">generation_alive</code> points to globally by the time it runs.</li>
+</ul>
+
+<h1 id="bind-at-construction-not-at-use">Bind at construction, not at use</h1>
+
+<p>The concrete change is small: instead of reading the process-global <code class="language-plaintext highlighter-rouge">invoker</code> and <code class="language-plaintext highlighter-rouge">generation_alive</code> inside a callback, each <code class="language-plaintext highlighter-rouge">DBHostObject</code> copies them into member variables the moment it’s constructed — which happens during that object’s generation, not whenever some later callback happens to fire.</p>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">// DBHostObject.hpp — shadows the globals</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">react</span><span class="o">::</span><span class="n">CallInvoker</span><span class="o">&gt;</span> <span class="n">invoker</span> <span class="o">=</span> <span class="n">opsqlite</span><span class="o">::</span><span class="n">invoker</span><span class="p">;</span>
+<span class="n">std</span><span class="o">::</span><span class="n">shared_ptr</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">atomic</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;&gt;</span> <span class="n">alive</span>    <span class="o">=</span> <span class="n">opsqlite</span><span class="o">::</span><span class="n">generation_alive</span><span class="p">;</span>
+</code></pre></div></div>
+
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="n">DBHostObject</span><span class="o">::</span><span class="n">on_update</span><span class="p">(...)</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="n">alive</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">alive</span><span class="o">-&gt;</span><span class="n">load</span><span class="p">())</span> <span class="k">return</span><span class="p">;</span>
+  <span class="n">invoker</span><span class="o">-&gt;</span><span class="n">invokeAsync</span><span class="p">(...);</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>Every update hook is fixed by this at once, with no call-site changes — the check is local to the object that captured its own generation’s identity, so it can’t be fooled by whatever the global pointers have since become.</p>
+
+<div class="my-8 rounded-xl border border-neutral-800 bg-[#0d0d0d] p-4">
+<svg viewBox="0 0 760 260" style="width:100%;height:auto;display:block">
+<style>
+  text{font-family:ui-sans-serif,-apple-system,"Inter",sans-serif}
+  .lbl{fill:#e6e6e6;font-size:12.5px;font-weight:600}
+  .sub{fill:#8f8f8f;font-size:10.5px}
+  .tag{font-size:10.5px;font-weight:600}
+</style>
+<defs>
+  <marker id="arrCg" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#a0a0a0" />
+  </marker>
+  <marker id="arrCgray" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#6e6e6e" />
+  </marker>
+  <marker id="arrCd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6.5" markerHeight="6.5" orient="auto-start-reverse">
+    <path d="M0,0 L10,5 L0,10 z" fill="#383838" />
+  </marker>
+</defs>
+
+<rect x="20" y="98" width="220" height="64" rx="8" fill="#161616" stroke="#383838" stroke-width="1.4" />
+<text x="130" y="124" text-anchor="middle" class="lbl">work queued</text>
+<text x="130" y="142" text-anchor="middle" class="sub">captures invoker + alive</text>
+
+<rect x="330" y="98" width="170" height="64" rx="8" fill="#161616" stroke="#383838" stroke-width="1.4" />
+<text x="415" y="124" text-anchor="middle" class="lbl">alive-&gt;load()</text>
+<text x="415" y="142" text-anchor="middle" class="sub">checked at run time</text>
+
+<rect x="560" y="16" width="180" height="64" rx="8" fill="#181818" stroke="#a0a0a0" stroke-width="1.4" />
+<text x="650" y="42" text-anchor="middle" class="lbl" fill="#d6d6d6">invokeAsync()</text>
+<text x="650" y="60" text-anchor="middle" class="sub">same generation → delivered</text>
+
+<rect x="560" y="180" width="180" height="64" rx="8" fill="#161616" stroke="#4a4a4a" stroke-width="1.4" />
+<text x="650" y="206" text-anchor="middle" class="lbl" fill="#cccccc">return</text>
+<text x="650" y="224" text-anchor="middle" class="sub">stale generation → skipped</text>
+
+<path d="M240,130 H330" stroke="#383838" stroke-width="1.4" marker-end="url(#arrCd)" />
+<path d="M500,130 H520" fill="none" stroke="#383838" stroke-width="1.4" />
+<circle cx="520" cy="130" r="2.5" fill="#383838" />
+<path d="M520,130 V48 H560" fill="none" stroke="#a0a0a0" stroke-width="1.4" marker-end="url(#arrCg)" />
+<path d="M520,130 V212 H560" fill="none" stroke="#6e6e6e" stroke-width="1.4" marker-end="url(#arrCgray)" />
+<text x="528" y="76" class="tag" fill="#a0a0a0">true</text>
+<text x="524" y="196" class="tag" fill="#6e6e6e">false</text>
+
+<circle r="4" fill="#a0a0a0">
+  <animateMotion path="M40,130 H520 V48 H560" dur="3.2s" repeatCount="indefinite" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" dur="3.2s" repeatCount="indefinite" />
+</circle>
+<circle r="4" fill="#8f8f8f">
+  <animateMotion path="M40,130 H520 V212 H560" dur="3.2s" repeatCount="indefinite" begin="1.6s" />
+  <animate attributeName="opacity" values="0;1;1;0" keyTimes="0;0.05;0.9;1" dur="3.2s" repeatCount="indefinite" begin="1.6s" />
+</circle>
+</svg>
+<p class="mt-3 text-center text-xs text-neutral-500">Same queued work, two possible outcomes — the generation it was bound to at creation decides which one, checked when it actually runs.</p>
+</div>
+
+<h1 id="takeaways">Takeaways</h1>
+
+<ul>
+  <li>Bridgeless means two engines can be alive at once, for a few real seconds — not a theoretical race.</li>
+  <li>Never trust a global “current runtime” read from inside a callback; by the time it runs, it may not be current anymore.</li>
+  <li>Capture generation identity at creation time, not at resolution time — bind at construction/queue time, check at run time.</li>
+  <li><code class="language-plaintext highlighter-rouge">invalidate()</code> means <em>this instance</em> is dying, not the module — global module state needs to stop assuming there’s only ever one instance.</li>
+  <li>Shared native registries need real locks once two generations can exist concurrently.</li>
+  <li>Waiting isn’t enough for teardown — actively interrupt in-flight work so the drain can actually finish inside its budget.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently a bug was reported to op-sqlite, it was a crash that only reproduced on hot reload or a CodePush/OTA update. Never on cold launch. The stack trace pointed at ~jsi::Value() inside ThreadPool::doWork() — a destructor running on a background thread, tearing down a JSI value that belonged to a JS runtime which, no longer existed.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Store SSH Keypair in a Yubikey</title><link href="https://ospfranco.com/store-ssh-keypair-in-a-yubikey/" rel="alternate" type="text/html" title="Store SSH Keypair in a Yubikey" /><published>2026-06-10T00:00:00-04:00</published><updated>2026-06-10T00:00:00-04:00</updated><id>https://ospfranco.com/store-ssh-keypair-in-a-yubikey</id><content type="html" xml:base="https://ospfranco.com/store-ssh-keypair-in-a-yubikey/"><![CDATA[<p>In the world of cyber-security you can never be too paranoid.</p>
 
 <p>SSH Keypairs are the standard way to authenticate yourself to important systems: remote machines, github, signing commits. Yet storing your keypair on disk introduces the attack vector of your machine being compromised. To prevent that attack vector, you <strong>must</strong> be using a passphrase to unlock your keypair (if you are not using a passphrase you deserve a wrist slap). This introduces friction, as it is annoying to put your passphrase everytime you want to unlock your keypair. Therefore mechanisms like <code class="language-plaintext highlighter-rouge">ssh-agent</code> exist, such agent, allows you to transparently use your ssh-key by keeping your passphrase in the OS vault and unlocking it transparently. Yet this is still another attack vector.</p>
 
@@ -192,7 +429,61 @@ git config <span class="nt">--global</span> commit.gpgsign <span class="nb">true
   <li>Conditional compilation is very powerful but can also be dangerous. For easier testing or debugging, it might be tempting to conditionally compile a lot of code with <code class="language-plaintext highlighter-rouge">#[cfg(test)]</code> or <code class="language-plaintext highlighter-rouge">#[cfg(debug)]</code> but this can have issues down the road with hidden errors that are not detected while developing. I’ve found using a <code class="language-plaintext highlighter-rouge">if cfg!(test)</code> is sometimes better as all the branches of your code are compiled and avoid a lot of dead compilation zones. Zones that be hiding deeper compilation issues or might throw errors/warnings when compiled in release mode.</li>
   <li>For some reason the Rust community seems to be enamored with auto-generated docs from the source code. This documentation sucks balls. It basically just outputs the same info as function signatures plus comments, without a clear flow on how to use the APIs of the crates. I still haven’t found a good way to piece good API usage, seems the community has not cracked this one yet.</li>
   <li>Error propagation through the <code class="language-plaintext highlighter-rouge">try operator</code> (<code class="language-plaintext highlighter-rouge">?</code>) seems to be the recommended way of doing things, but one looses the exact line where the error was thrown? I’m not sure if I’m doing things wrong. In any case, it’s better to always use it in combination with your own custom Error enum.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I’ve been learning Rust by doing, sponsored directly by clients who needed Rust code in a React Native app.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code class="language-plaintext highlighter-rouge">prebuild</code>. I also could not use <code class="language-plaintext highlighter-rouge">eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
+
+<h2 id="ios">iOS</h2>
+
+<ul>
+  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code class="language-plaintext highlighter-rouge">eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
+  <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
+    <ol>
+      <li>Go to https://developer.apple.com/account and log in.</li>
+      <li>Navigate to “keys”</li>
+      <li>Register new key</li>
+      <li>Select Apple Push Notifications service</li>
+      <li>Select BOTH sandbox and production ⚠️</li>
+      <li>Create key, download p8 and copy the key id</li>
+    </ol>
+  </li>
+  <li>Take that p8 file and the key id and upload it to the <code class="language-plaintext highlighter-rouge">credentials</code> section of <code class="language-plaintext highlighter-rouge">expo.dev</code> in the <code class="language-plaintext highlighter-rouge">Push Key</code> section</li>
+  <li>Install the deps</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bunx expo <span class="nb">install </span>expo-notifications expo-device expo-constants
+</code></pre></div></div>
+
+<ul>
+  <li>Add <code class="language-plaintext highlighter-rouge">expo-notifications</code> to the list of plugins on <code class="language-plaintext highlighter-rouge">app.config.ts</code></li>
+  <li>Make sure on <code class="language-plaintext highlighter-rouge">app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
+</ul>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="err">extra:</span><span class="w"> </span><span class="p">{</span><span class="w">
+      </span><span class="err">eas:</span><span class="w"> </span><span class="p">{</span><span class="w">
+        </span><span class="err">projectId:</span><span class="w"> </span><span class="s2">"foo-a-uuid-quack"</span><span class="p">,</span><span class="w">
+      </span><span class="p">},</span><span class="w">
+    </span><span class="p">}</span><span class="err">,</span><span class="w">
+</span></code></pre></div></div>
+
+<ul>
+  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code class="language-plaintext highlighter-rouge">expoPushToken</code>)</li>
+  <li>In the snippet the so called <code class="language-plaintext highlighter-rouge">expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
+  <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
+  <li>For production, on app start get the <code class="language-plaintext highlighter-rouge">expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
+    <ul>
+      <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
+    </ul>
+  </li>
+</ul>
+
+<h2 id="android">Android</h2>
+
+<p>Following the <a href="https://docs.expo.dev/push-notifications/fcm-credentials/">Obtain Google Service Account Keys using FCM v1</a> works. There is, however, things to watch out for:</p>
+
+<ul>
+  <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
+  <li>I was testing with the <code class="language-plaintext highlighter-rouge">.jks</code> generated by expo (downloaded via <code class="language-plaintext highlighter-rouge">eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code class="language-plaintext highlighter-rouge">firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code class="language-plaintext highlighter-rouge">prebuild</code> and just left the default generated Keystore notifications worked.</li>
+  <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
+</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Complete guide to (Rust) dylibs in iOS and Android</title><link href="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/" rel="alternate" type="text/html" title="Complete guide to (Rust) dylibs in iOS and Android" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/complete%20guide%20to%20dylibs%20in%20ios%20and%20android</id><content type="html" xml:base="https://ospfranco.com/complete-guide-to-dylibs-in-ios-and-android/"><![CDATA[<p>In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.</p>
 
 <p>This is a complete guide compiling a Rust library from source all the way into loading it in a running iOS/Android application. All done via C compatible dylib, which means on iOS you will need to call if from Obj-C and on Android via JNI.</p>
 
@@ -610,61 +901,7 @@ void main() {
 
 <h1 id="conclusion">Conclusion</h1>
 
-<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Setting up Expo Push Notifications for Pre-Build Projects</title><link href="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/" rel="alternate" type="text/html" title="Setting up Expo Push Notifications for Pre-Build Projects" /><published>2025-07-30T00:00:00-04:00</published><updated>2025-07-30T00:00:00-04:00</updated><id>https://ospfranco.com/setting%20up%20expo%20push%20notifications%20for%20pre-build%20projects</id><content type="html" xml:base="https://ospfranco.com/setting-up-expo-push-notifications-for-pre-build-projects/"><![CDATA[<p>I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use <code class="language-plaintext highlighter-rouge">prebuild</code>. I also could not use <code class="language-plaintext highlighter-rouge">eas credentials</code> because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.</p>
-
-<h2 id="ios">iOS</h2>
-
-<ul>
-  <li>I’m using a YubiKey and also doing pre-build. Automatic setup via <code class="language-plaintext highlighter-rouge">eas credentials</code> does not work because of the YubiKey and pre-build (AFAIK) does not work with EAS Build.</li>
-  <li>Create an Apple Push Notification Service key. This key is for ALL of the apps in the organization
-    <ol>
-      <li>Go to https://developer.apple.com/account and log in.</li>
-      <li>Navigate to “keys”</li>
-      <li>Register new key</li>
-      <li>Select Apple Push Notifications service</li>
-      <li>Select BOTH sandbox and production ⚠️</li>
-      <li>Create key, download p8 and copy the key id</li>
-    </ol>
-  </li>
-  <li>Take that p8 file and the key id and upload it to the <code class="language-plaintext highlighter-rouge">credentials</code> section of <code class="language-plaintext highlighter-rouge">expo.dev</code> in the <code class="language-plaintext highlighter-rouge">Push Key</code> section</li>
-  <li>Install the deps</li>
-</ul>
-
-<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bunx expo <span class="nb">install </span>expo-notifications expo-device expo-constants
-</code></pre></div></div>
-
-<ul>
-  <li>Add <code class="language-plaintext highlighter-rouge">expo-notifications</code> to the list of plugins on <code class="language-plaintext highlighter-rouge">app.config.ts</code></li>
-  <li>Make sure on <code class="language-plaintext highlighter-rouge">app.config.ts</code> this section is set. Your project id you can find in the expo project settings.</li>
-</ul>
-
-<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="w">    </span><span class="err">extra:</span><span class="w"> </span><span class="p">{</span><span class="w">
-      </span><span class="err">eas:</span><span class="w"> </span><span class="p">{</span><span class="w">
-        </span><span class="err">projectId:</span><span class="w"> </span><span class="s2">"foo-a-uuid-quack"</span><span class="p">,</span><span class="w">
-      </span><span class="p">},</span><span class="w">
-    </span><span class="p">}</span><span class="err">,</span><span class="w">
-</span></code></pre></div></div>
-
-<ul>
-  <li>You can copy the <a href="https://docs.expo.dev/push-notifications/push-notifications-setup/#add-a-minimal-working-example">minimal reproduction snippet</a>. The most important part is getting the device token (<code class="language-plaintext highlighter-rouge">expoPushToken</code>)</li>
-  <li>In the snippet the so called <code class="language-plaintext highlighter-rouge">expoPushToken</code> is, confusingly, an device push token. The token that identifies the device to send push notifications. You will need to use that to send notification to device</li>
-  <li>Test via their <a href="https://expo.dev/notifications">online tool</a></li>
-  <li>For production, on app start get the <code class="language-plaintext highlighter-rouge">expoPushToken</code> and send it to your backend to be stored on the user entity. Then you can configure their library to send notifications to particular devices.
-    <ul>
-      <li>How to handle device de-registration? I guess there might be some on-uninstall hook?</li>
-    </ul>
-  </li>
-</ul>
-
-<h2 id="android">Android</h2>
-
-<p>Following the <a href="https://docs.expo.dev/push-notifications/fcm-credentials/">Obtain Google Service Account Keys using FCM v1</a> works. There is, however, things to watch out for:</p>
-
-<ul>
-  <li>Adding the expo dependencies with a pre-build generation adds all the native code.</li>
-  <li>I was testing with the <code class="language-plaintext highlighter-rouge">.jks</code> generated by expo (downloaded via <code class="language-plaintext highlighter-rouge">eas credentials</code>, I was just testing other stuff) and when the app started I got an error saying that <code class="language-plaintext highlighter-rouge">firebase was not initialized</code>, confusing as I did not add any firebase code to the app. Once I did a new <code class="language-plaintext highlighter-rouge">prebuild</code> and just left the default generated Keystore notifications worked.</li>
-  <li>The expo docs say <strong>not to commit the google-services.json</strong> and there are <a href="https://github.com/expo/eas-cli/issues/228">lenghty workarounds</a> by putting it in a EAS secret and then generating the file on the build steps or using a new file upload as secrets. However, on Google Groups a <a href="https://groups.google.com/g/firebase-talk/c/bamCgTDajkw/m/uVEJXjtiBwAJ%29">Firebase Mantainer</a> has confirmed it’s not necessary to keep it secret. As long as the rules are set up correctly everything will be fine. ALSO, the fact that it is embedded in the APK means any <del>idiot</del> bad actor can decompile the APK and extract it anyways, so you might as well just commit it and save yourself the trouble.</li>
-</ul>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently had to set up Expo Push Notifications. Their tutorial though is mostly aimed to be used with EAS Build, which I don’t use, I use prebuild. I also could not use eas credentials because I use a YubiKey, which kills the integration with the apple account. So here are some manual steps that should get it to work easily.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00-04:00</published><updated>2025-06-05T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code class="language-plaintext highlighter-rouge">std</code>, etc.</p>
+<p>After all is done, not only have we loaded a dylib rust crate into iOS/Android, but also given the Rust code the ability to interact with native code (via wrapper C functions), which opens a world of possibilities.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[In 2025 loading a dynamic library in iOS and Android is black magic. Documentation is scarce (specially on Apple’s side) yet a dylib is great for reducing file sizes of our binaries, which is a priority for mobile apps.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">Rust tips de un noob</title><link href="https://ospfranco.com/rust-tips-de-un-noob/" rel="alternate" type="text/html" title="Rust tips de un noob" /><published>2025-06-05T00:00:00-04:00</published><updated>2025-06-05T00:00:00-04:00</updated><id>https://ospfranco.com/rust%20tips%20de%20un%20noob</id><content type="html" xml:base="https://ospfranco.com/rust-tips-de-un-noob/"><![CDATA[<p>Soy un novato en Rust. Aprendí porque algunos clientes querían ejecutar Rust en React-Native. Por eso he estado aprendiendo sobre la marcha y confiando en copilot para enseñarme los conceptos básicos. Pero los LLMs son máquinas de regurgitar y no siempre dan el código más idiomático. Aquí algunos consejos que he aprendido. Con sus matices, claro: asume que puedes usar <code class="language-plaintext highlighter-rouge">std</code>, etc.</p>
 
 <ul>
   <li>Al menos en mi experiencia, es mejor apuntar a arquitecturas sin estado o te arriesgas a tener muchos mutexes, send+sync y código difícil de entender/fácil de bloquear. Si puedes evitar el estado global, el siguiente punto te será útil ↓</li>
@@ -872,8 +1109,4 @@ void main() {
   <li><code class="language-plaintext highlighter-rouge">mise build</code> to build the project. On my project I have extended this with params like <code class="language-plaintext highlighter-rouge">mise build ios debug</code> to build the iOS app in debug mode.</li>
 </ul>
 
-<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry><entry><title type="html">BarcelonaJS Talk</title><link href="https://ospfranco.com/barcelonajs-talk/" rel="alternate" type="text/html" title="BarcelonaJS Talk" /><published>2025-02-10T00:00:00-04:00</published><updated>2025-02-10T00:00:00-04:00</updated><id>https://ospfranco.com/barcelonajs%20talk</id><content type="html" xml:base="https://ospfranco.com/barcelonajs-talk/"><![CDATA[<p>I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.</p>
-
-<p>Here is the video recording:</p>
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/2SsmFFMsLCo?start=711" frameborder="0" allowfullscreen=""></iframe>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[I recently gave a talk in BarcelonaJS MeetUp group regarding React Native and the new arch.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
+<p>No more fighting with tool versions, no more fighting with build systems. Everyone is on the same versions, with a reproducible yet native environment, with a single entry point for scripts and the scripts themselves written in a non-retarded language.</p>]]></content><author><name>Oscar Franco</name></author><category term="post" /><summary type="html"><![CDATA[Recently I’ve been working with repos that have multiple languages and build systems rolled into one. Talking about iOS/Android/Rust/Node/React Native/Flutter. The plethora of build systems, tools and quirks brings a lot of complexity, specially when working within a team, where every one needs to be able to run the same commands to build, test, lint, etc.]]></summary><media:thumbnail xmlns:media="http://search.yahoo.com/mrss/" url="https://ospfranco.com/assets/oscar.jpg" /><media:content medium="image" url="https://ospfranco.com/assets/oscar.jpg" xmlns:media="http://search.yahoo.com/mrss/" /></entry></feed>
